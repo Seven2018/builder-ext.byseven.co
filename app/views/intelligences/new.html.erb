@@ -1,0 +1,9 @@
+<div class="container">
+  <h1>Ajouter une intelligence</h1>
+
+  <%= simple_form_for @intelligence do |f| %>
+    <%= f.input :name %>
+    <%= f.input :description, :input_html => {:rows => 10} %>
+    <p class="center-button"> <%= f.submit class: 'btn-edit' %> </p>
+  <% end %>
+</div>

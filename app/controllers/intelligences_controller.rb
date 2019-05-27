@@ -3,17 +3,21 @@ class IntelligencesController < ApplicationController
 
   def index
     @intelligences = Intelligence.all
+    @intelligences = policy_scope(Intelligence)
   end
 
   def show
+    authorize @intelligence
   end
 
   def new
     @intelligence = Intelligence.new
+    authorize @intelligence
   end
 
   def create
     @intelligence = Intelligence.new(intelligence_params)
+    authorize @intelligence
     if @intelligence.save
       redirect_to intelligence_path(@intelligence)
     else
@@ -22,19 +26,22 @@ class IntelligencesController < ApplicationController
   end
 
   def edit
+    authorize @intelligence
   end
 
   def update
+    authorize @intelligence
     @intelligence.update(intelligence_params)
     if @intelligence.save
       redirect_to intelligence_path(@intelligence)
     else
-      render :edit
+      render "_edit"
     end
   end
 
   def destroy
     @intelligence.destroy
+    authorize @intelligence
     redirect_to intelligences_path
   end
 

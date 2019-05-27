@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
     t.text "description"
     t.string "logistic"
     t.string "chapter"
+    t.string "intel1"
+    t.string "intel2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

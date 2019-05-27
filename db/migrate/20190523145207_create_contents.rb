@@ -7,6 +7,8 @@ class CreateContents < ActiveRecord::Migration[5.2]
       t.text :description
       t.string :logistic
       t.string :chapter
+      t.string :intel1
+      t.string :intel2
 
       t.timestamps
     end
