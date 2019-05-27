@@ -988,3 +988,669 @@ FOREIGN KEY ("content_id")
   ↳ bin/rails:9
   [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
   ↳ bin/rails:9
+Started GET "/" for ::1 at 2019-05-23 16:59:51 +0200
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ /Users/brice/.rbenv/versions/2.5.3/lib/ruby/gems/2.5.0/gems/activerecord-5.2.2/lib/active_record/log_subscriber.rb:98
+Processing by PagesController#home as HTML
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (0.3ms)
+  Rendered shared/_navbar.html.erb (1.2ms)
+  Rendered shared/_flashes.html.erb (0.3ms)
+Completed 200 OK in 31ms (Views: 29.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for ::1 at 2019-05-23 16:59:53 +0200
+Processing by PagesController#home as HTML
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (0.3ms)
+  Rendered shared/_navbar.html.erb (0.7ms)
+  Rendered shared/_flashes.html.erb (0.2ms)
+Completed 200 OK in 26ms (Views: 24.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-05-23 17:00:03 +0200
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (0.8ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (95.6ms)
+  Rendered shared/_navbar.html.erb (1.0ms)
+  Rendered shared/_flashes.html.erb (0.3ms)
+Completed 200 OK in 147ms (Views: 128.1ms | ActiveRecord: 6.3ms)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-05-23 17:00:07 +0200
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (0.7ms)
+  Rendered devise/registrations/new.html.erb within layouts/application (9.5ms)
+  Rendered shared/_navbar.html.erb (0.7ms)
+  Rendered shared/_flashes.html.erb (0.3ms)
+Completed 200 OK in 39ms (Views: 38.1ms | ActiveRecord: 0.0ms)
+
+
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  ↳ bin/rails:9
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  ↳ bin/rails:9
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  ↳ bin/rails:9
+  [1m[35m (216.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "builder_byseven_co_development"[0m
+  ↳ bin/rails:9
+  [1m[35m (208.5ms)[0m  [1m[35mDROP DATABASE IF EXISTS "builder_byseven_co_test"[0m
+  ↳ bin/rails:9
+  [1m[35m (486.3ms)[0m  [1m[35mCREATE DATABASE "builder_byseven_co_development" ENCODING = 'unicode'[0m
+  ↳ bin/rails:9
+  [1m[35m (421.3ms)[0m  [1m[35mCREATE DATABASE "builder_byseven_co_test" ENCODING = 'unicode'[0m
+  ↳ bin/rails:9
+  [1m[35mSQL (0.4ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  ↳ db/schema.rb:16
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "client_companies" CASCADE[0m
+  ↳ db/schema.rb:18
+  [1m[35m (6.9ms)[0m  [1m[35mCREATE TABLE "client_companies" ("id" bigserial primary key, "name" character varying, "address" character varying, "description" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:18
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "client_contacts" CASCADE[0m
+  ↳ db/schema.rb:26
+  [1m[35m (5.0ms)[0m  [1m[35mCREATE TABLE "client_contacts" ("id" bigserial primary key, "name" character varying, "email" character varying, "title" character varying, "role_description" text, "client_company_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:26
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_client_contacts_on_client_company_id" ON "client_contacts"  ("client_company_id")[0m
+  ↳ db/schema.rb:26
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "comments" CASCADE[0m
+  ↳ db/schema.rb:37
+  [1m[35m (4.3ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "object" character varying, "content" text, "user_id" bigint, "session_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:37
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_comments_on_session_id" ON "comments"  ("session_id")[0m
+  ↳ db/schema.rb:37
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX  "index_comments_on_user_id" ON "comments"  ("user_id")[0m
+  ↳ db/schema.rb:37
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "content_modules" CASCADE[0m
+  ↳ db/schema.rb:48
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE TABLE "content_modules" ("id" bigserial primary key, "title" character varying, "format" character varying, "duration" integer, "description" text, "user_id" bigint, "logistic" character varying, "chapter" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:48
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE  INDEX  "index_content_modules_on_user_id" ON "content_modules"  ("user_id")[0m
+  ↳ db/schema.rb:48
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "contents" CASCADE[0m
+  ↳ db/schema.rb:61
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE TABLE "contents" ("id" bigserial primary key, "title" character varying, "format" character varying, "duration" integer, "description" text, "logistic" character varying, "chapter" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:61
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "intelligence_contents" CASCADE[0m
+  ↳ db/schema.rb:72
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "intelligence_contents" ("id" bigserial primary key, "intelligence_id" bigint, "content_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:72
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_intelligence_contents_on_content_id" ON "intelligence_contents"  ("content_id")[0m
+  ↳ db/schema.rb:72
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_intelligence_contents_on_intelligence_id" ON "intelligence_contents"  ("intelligence_id")[0m
+  ↳ db/schema.rb:72
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "intelligences" CASCADE[0m
+  ↳ db/schema.rb:81
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE TABLE "intelligences" ("id" bigserial primary key, "name" character varying, "description" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:81
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "project_ownerships" CASCADE[0m
+  ↳ db/schema.rb:88
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "project_ownerships" ("id" bigserial primary key, "user_id" bigint, "project_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:88
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE  INDEX  "index_project_ownerships_on_project_id" ON "project_ownerships"  ("project_id")[0m
+  ↳ db/schema.rb:88
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_project_ownerships_on_user_id" ON "project_ownerships"  ("user_id")[0m
+  ↳ db/schema.rb:88
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "projects" CASCADE[0m
+  ↳ db/schema.rb:97
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "projects" ("id" bigserial primary key, "title" character varying, "start_date" date, "end_date" date, "participant_number" integer, "client_contact_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:97
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_projects_on_client_contact_id" ON "projects"  ("client_contact_id")[0m
+  ↳ db/schema.rb:97
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "session_trainers" CASCADE[0m
+  ↳ db/schema.rb:108
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "session_trainers" ("id" bigserial primary key, "user_id" bigint, "session_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:108
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_session_trainers_on_session_id" ON "session_trainers"  ("session_id")[0m
+  ↳ db/schema.rb:108
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_session_trainers_on_user_id" ON "session_trainers"  ("user_id")[0m
+  ↳ db/schema.rb:108
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "sessions" CASCADE[0m
+  ↳ db/schema.rb:117
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE TABLE "sessions" ("id" bigserial primary key, "title" character varying, "date" date, "start_time" time, "end_time" time, "project_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:117
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX  "index_sessions_on_project_id" ON "sessions"  ("project_id")[0m
+  ↳ db/schema.rb:117
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "theories" CASCADE[0m
+  ↳ db/schema.rb:128
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "theories" ("id" bigserial primary key, "name" character varying, "description" text, "links" text, "references" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:128
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "theory_contents" CASCADE[0m
+  ↳ db/schema.rb:137
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "theory_contents" ("id" bigserial primary key, "theory_id" bigint, "content_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:137
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_theory_contents_on_content_id" ON "theory_contents"  ("content_id")[0m
+  ↳ db/schema.rb:137
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_theory_contents_on_theory_id" ON "theory_contents"  ("theory_id")[0m
+  ↳ db/schema.rb:137
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  ↳ db/schema.rb:146
+  [1m[35m (4.8ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "name" character varying DEFAULT '' NOT NULL, "access_level" character varying DEFAULT 'sevener' NOT NULL, "picture" character varying, "linkedin" character varying, "description" text, "rating" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:146
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_email" ON "users"  ("email")[0m
+  ↳ db/schema.rb:146
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")[0m
+  ↳ db/schema.rb:146
+  [1m[35m (3.7ms)[0m  [1m[35mALTER TABLE "client_contacts" ADD CONSTRAINT "fk_rails_2ab4eca008"
+FOREIGN KEY ("client_company_id")
+  REFERENCES "client_companies" ("id")
+[0m
+  ↳ db/schema.rb:164
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_a48b01d5d3"
+FOREIGN KEY ("session_id")
+  REFERENCES "sessions" ("id")
+[0m
+  ↳ db/schema.rb:165
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_03de2dc08c"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  ↳ db/schema.rb:166
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "content_modules" ADD CONSTRAINT "fk_rails_095bc6d019"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  ↳ db/schema.rb:167
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "intelligence_contents" ADD CONSTRAINT "fk_rails_82c0720bd7"
+FOREIGN KEY ("content_id")
+  REFERENCES "contents" ("id")
+[0m
+  ↳ db/schema.rb:168
+  [1m[35m (1.6ms)[0m  [1m[35mALTER TABLE "intelligence_contents" ADD CONSTRAINT "fk_rails_2bb8f5db8c"
+FOREIGN KEY ("intelligence_id")
+  REFERENCES "intelligences" ("id")
+[0m
+  ↳ db/schema.rb:169
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "project_ownerships" ADD CONSTRAINT "fk_rails_b347f29aa6"
+FOREIGN KEY ("project_id")
+  REFERENCES "projects" ("id")
+[0m
+  ↳ db/schema.rb:170
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "project_ownerships" ADD CONSTRAINT "fk_rails_d4d3907a72"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  ↳ db/schema.rb:171
+  [1m[35m (1.4ms)[0m  [1m[35mALTER TABLE "projects" ADD CONSTRAINT "fk_rails_7037d0437e"
+FOREIGN KEY ("client_contact_id")
+  REFERENCES "client_contacts" ("id")
+[0m
+  ↳ db/schema.rb:172
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "session_trainers" ADD CONSTRAINT "fk_rails_c7890765b6"
+FOREIGN KEY ("session_id")
+  REFERENCES "sessions" ("id")
+[0m
+  ↳ db/schema.rb:173
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "session_trainers" ADD CONSTRAINT "fk_rails_61fcc87960"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  ↳ db/schema.rb:174
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "sessions" ADD CONSTRAINT "fk_rails_788eded806"
+FOREIGN KEY ("project_id")
+  REFERENCES "projects" ("id")
+[0m
+  ↳ db/schema.rb:175
+  [1m[35m (1.6ms)[0m  [1m[35mALTER TABLE "theory_contents" ADD CONSTRAINT "fk_rails_d97aeb95ba"
+FOREIGN KEY ("content_id")
+  REFERENCES "contents" ("id")
+[0m
+  ↳ db/schema.rb:176
+  [1m[35m (1.3ms)[0m  [1m[35mALTER TABLE "theory_contents" ADD CONSTRAINT "fk_rails_0ff3a32a77"
+FOREIGN KEY ("theory_id")
+  REFERENCES "theories" ("id")
+[0m
+  ↳ db/schema.rb:177
+  [1m[35m (3.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  ↳ db/schema.rb:13
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ db/schema.rb:13
+  [1m[35m (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20190523145735)[0m
+  ↳ db/schema.rb:13
+  [1m[35m (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20190523141906),
+(20190523123840),
+(20190523144122),
+(20190523124131),
+(20190523142208),
+(20190523133146),
+(20190523144346),
+(20190523145309),
+(20190523143139),
+(20190523120233),
+(20190523144223),
+(20190523133711),
+(20190523145207);
+
+[0m
+  ↳ db/schema.rb:13
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:13
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  ↳ db/schema.rb:13
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/schema.rb:13
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-05-23 15:11:35.313657"], ["updated_at", "2019-05-23 15:11:35.313657"]]
+  ↳ db/schema.rb:13
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/schema.rb:13
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  ↳ bin/rails:9
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+  [1m[35mSQL (0.4ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  ↳ db/schema.rb:16
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "client_companies" CASCADE[0m
+  ↳ db/schema.rb:18
+  [1m[35m (12.0ms)[0m  [1m[35mCREATE TABLE "client_companies" ("id" bigserial primary key, "name" character varying, "address" character varying, "description" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:18
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "client_contacts" CASCADE[0m
+  ↳ db/schema.rb:26
+  [1m[35m (3.8ms)[0m  [1m[35mCREATE TABLE "client_contacts" ("id" bigserial primary key, "name" character varying, "email" character varying, "title" character varying, "role_description" text, "client_company_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:26
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_client_contacts_on_client_company_id" ON "client_contacts"  ("client_company_id")[0m
+  ↳ db/schema.rb:26
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "comments" CASCADE[0m
+  ↳ db/schema.rb:37
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "object" character varying, "content" text, "user_id" bigint, "session_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:37
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_comments_on_session_id" ON "comments"  ("session_id")[0m
+  ↳ db/schema.rb:37
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE  INDEX  "index_comments_on_user_id" ON "comments"  ("user_id")[0m
+  ↳ db/schema.rb:37
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "content_modules" CASCADE[0m
+  ↳ db/schema.rb:48
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE TABLE "content_modules" ("id" bigserial primary key, "title" character varying, "format" character varying, "duration" integer, "description" text, "user_id" bigint, "logistic" character varying, "chapter" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:48
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE  INDEX  "index_content_modules_on_user_id" ON "content_modules"  ("user_id")[0m
+  ↳ db/schema.rb:48
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "contents" CASCADE[0m
+  ↳ db/schema.rb:61
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "contents" ("id" bigserial primary key, "title" character varying, "format" character varying, "duration" integer, "description" text, "logistic" character varying, "chapter" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:61
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "intelligence_contents" CASCADE[0m
+  ↳ db/schema.rb:72
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "intelligence_contents" ("id" bigserial primary key, "intelligence_id" bigint, "content_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:72
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE  INDEX  "index_intelligence_contents_on_content_id" ON "intelligence_contents"  ("content_id")[0m
+  ↳ db/schema.rb:72
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE  INDEX  "index_intelligence_contents_on_intelligence_id" ON "intelligence_contents"  ("intelligence_id")[0m
+  ↳ db/schema.rb:72
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "intelligences" CASCADE[0m
+  ↳ db/schema.rb:81
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "intelligences" ("id" bigserial primary key, "name" character varying, "description" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:81
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "project_ownerships" CASCADE[0m
+  ↳ db/schema.rb:88
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "project_ownerships" ("id" bigserial primary key, "user_id" bigint, "project_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:88
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_project_ownerships_on_project_id" ON "project_ownerships"  ("project_id")[0m
+  ↳ db/schema.rb:88
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_project_ownerships_on_user_id" ON "project_ownerships"  ("user_id")[0m
+  ↳ db/schema.rb:88
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "projects" CASCADE[0m
+  ↳ db/schema.rb:97
+  [1m[35m (4.4ms)[0m  [1m[35mCREATE TABLE "projects" ("id" bigserial primary key, "title" character varying, "start_date" date, "end_date" date, "participant_number" integer, "client_contact_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:97
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_projects_on_client_contact_id" ON "projects"  ("client_contact_id")[0m
+  ↳ db/schema.rb:97
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "session_trainers" CASCADE[0m
+  ↳ db/schema.rb:108
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "session_trainers" ("id" bigserial primary key, "user_id" bigint, "session_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:108
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_session_trainers_on_session_id" ON "session_trainers"  ("session_id")[0m
+  ↳ db/schema.rb:108
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE  INDEX  "index_session_trainers_on_user_id" ON "session_trainers"  ("user_id")[0m
+  ↳ db/schema.rb:108
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "sessions" CASCADE[0m
+  ↳ db/schema.rb:117
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "sessions" ("id" bigserial primary key, "title" character varying, "date" date, "start_time" time, "end_time" time, "project_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:117
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE  INDEX  "index_sessions_on_project_id" ON "sessions"  ("project_id")[0m
+  ↳ db/schema.rb:117
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "theories" CASCADE[0m
+  ↳ db/schema.rb:128
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "theories" ("id" bigserial primary key, "name" character varying, "description" text, "links" text, "references" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:128
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "theory_contents" CASCADE[0m
+  ↳ db/schema.rb:137
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "theory_contents" ("id" bigserial primary key, "theory_id" bigint, "content_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:137
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE  INDEX  "index_theory_contents_on_content_id" ON "theory_contents"  ("content_id")[0m
+  ↳ db/schema.rb:137
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE  INDEX  "index_theory_contents_on_theory_id" ON "theory_contents"  ("theory_id")[0m
+  ↳ db/schema.rb:137
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  ↳ db/schema.rb:146
+  [1m[35m (3.6ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "name" character varying DEFAULT '' NOT NULL, "access_level" character varying DEFAULT 'sevener' NOT NULL, "picture" character varying, "linkedin" character varying, "description" text, "rating" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:146
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_email" ON "users"  ("email")[0m
+  ↳ db/schema.rb:146
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")[0m
+  ↳ db/schema.rb:146
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "client_contacts" ADD CONSTRAINT "fk_rails_2ab4eca008"
+FOREIGN KEY ("client_company_id")
+  REFERENCES "client_companies" ("id")
+[0m
+  ↳ db/schema.rb:164
+  [1m[35m (1.5ms)[0m  [1m[35mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_a48b01d5d3"
+FOREIGN KEY ("session_id")
+  REFERENCES "sessions" ("id")
+[0m
+  ↳ db/schema.rb:165
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_03de2dc08c"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  ↳ db/schema.rb:166
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "content_modules" ADD CONSTRAINT "fk_rails_095bc6d019"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  ↳ db/schema.rb:167
+  [1m[35m (1.4ms)[0m  [1m[35mALTER TABLE "intelligence_contents" ADD CONSTRAINT "fk_rails_82c0720bd7"
+FOREIGN KEY ("content_id")
+  REFERENCES "contents" ("id")
+[0m
+  ↳ db/schema.rb:168
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "intelligence_contents" ADD CONSTRAINT "fk_rails_2bb8f5db8c"
+FOREIGN KEY ("intelligence_id")
+  REFERENCES "intelligences" ("id")
+[0m
+  ↳ db/schema.rb:169
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "project_ownerships" ADD CONSTRAINT "fk_rails_b347f29aa6"
+FOREIGN KEY ("project_id")
+  REFERENCES "projects" ("id")
+[0m
+  ↳ db/schema.rb:170
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "project_ownerships" ADD CONSTRAINT "fk_rails_d4d3907a72"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  ↳ db/schema.rb:171
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "projects" ADD CONSTRAINT "fk_rails_7037d0437e"
+FOREIGN KEY ("client_contact_id")
+  REFERENCES "client_contacts" ("id")
+[0m
+  ↳ db/schema.rb:172
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "session_trainers" ADD CONSTRAINT "fk_rails_c7890765b6"
+FOREIGN KEY ("session_id")
+  REFERENCES "sessions" ("id")
+[0m
+  ↳ db/schema.rb:173
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "session_trainers" ADD CONSTRAINT "fk_rails_61fcc87960"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  ↳ db/schema.rb:174
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "sessions" ADD CONSTRAINT "fk_rails_788eded806"
+FOREIGN KEY ("project_id")
+  REFERENCES "projects" ("id")
+[0m
+  ↳ db/schema.rb:175
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "theory_contents" ADD CONSTRAINT "fk_rails_d97aeb95ba"
+FOREIGN KEY ("content_id")
+  REFERENCES "contents" ("id")
+[0m
+  ↳ db/schema.rb:176
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "theory_contents" ADD CONSTRAINT "fk_rails_0ff3a32a77"
+FOREIGN KEY ("theory_id")
+  REFERENCES "theories" ("id")
+[0m
+  ↳ db/schema.rb:177
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  ↳ db/schema.rb:13
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ db/schema.rb:13
+  [1m[35m (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20190523145735)[0m
+  ↳ db/schema.rb:13
+  [1m[35m (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20190523141906),
+(20190523123840),
+(20190523144122),
+(20190523124131),
+(20190523142208),
+(20190523133146),
+(20190523144346),
+(20190523145309),
+(20190523143139),
+(20190523120233),
+(20190523144223),
+(20190523133711),
+(20190523145207);
+
+[0m
+  ↳ db/schema.rb:13
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/schema.rb:13
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  ↳ db/schema.rb:13
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/schema.rb:13
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-05-23 15:11:35.480458"], ["updated_at", "2019-05-23 15:11:35.480458"]]
+  ↳ db/schema.rb:13
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/schema.rb:13
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  ↳ bin/rails:9
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[36mActiveRecord::InternalMetadata Update (0.3ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = $1, "updated_at" = $2 WHERE "ar_internal_metadata"."key" = $3[0m  [["value", "test"], ["updated_at", "2019-05-23 15:11:35.484501"], ["key", "environment"]]
+  ↳ bin/rails:9
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[36mClientCompany Load (0.4ms)[0m  [1m[34mSELECT "client_companies".* FROM "client_companies"[0m
+  ↳ db/seeds.rb:2
+  [1m[36mClientContact Load (0.4ms)[0m  [1m[34mSELECT "client_contacts".* FROM "client_contacts"[0m
+  ↳ db/seeds.rb:3
+  [1m[36mComment Load (0.4ms)[0m  [1m[34mSELECT "comments".* FROM "comments"[0m
+  ↳ db/seeds.rb:4
+  [1m[36mContent Load (0.3ms)[0m  [1m[34mSELECT "contents".* FROM "contents"[0m
+  ↳ db/seeds.rb:5
+  [1m[36mContentModule Load (0.3ms)[0m  [1m[34mSELECT "content_modules".* FROM "content_modules"[0m
+  ↳ db/seeds.rb:6
+  [1m[36mIntelligence Load (0.3ms)[0m  [1m[34mSELECT "intelligences".* FROM "intelligences"[0m
+  ↳ db/seeds.rb:7
+  [1m[36mIntelligenceContent Load (0.5ms)[0m  [1m[34mSELECT "intelligence_contents".* FROM "intelligence_contents"[0m
+  ↳ db/seeds.rb:8
+  [1m[36mProject Load (0.7ms)[0m  [1m[34mSELECT "projects".* FROM "projects"[0m
+  ↳ db/seeds.rb:9
+  [1m[36mProjectOwnership Load (0.4ms)[0m  [1m[34mSELECT "project_ownerships".* FROM "project_ownerships"[0m
+  ↳ db/seeds.rb:10
+  [1m[36mSession Load (0.4ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions"[0m
+  ↳ db/seeds.rb:11
+  [1m[36mSessionTrainer Load (0.4ms)[0m  [1m[34mSELECT "session_trainers".* FROM "session_trainers"[0m
+  ↳ db/seeds.rb:12
+  [1m[36mTheory Load (0.3ms)[0m  [1m[34mSELECT "theories".* FROM "theories"[0m
+  ↳ db/seeds.rb:13
+  [1m[36mTheoryContent Load (0.4ms)[0m  [1m[34mSELECT "theory_contents".* FROM "theory_contents"[0m
+  ↳ db/seeds.rb:14
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ db/seeds.rb:15
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "yahya@2080.co"], ["LIMIT", 1]]
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "name", "access_level", "picture", "linkedin", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["email", "yahya@2080.co"], ["encrypted_password", "$2a$11$lkGbgwgD63TFkeHco6owT.1rE0dLJzet9Jxeihy0pCuQyq6ASfrfu"], ["name", "Yahya"], ["access_level", "admin"], ["picture", "https://avatars1.githubusercontent.com/u/45921830?s=460&v=4"], ["linkedin", "https://www.linkedin.com/in/yahya-fallah/?originalSubdomain=fr"], ["description", "Co-founder"], ["created_at", "2019-05-23 15:11:35.701039"], ["updated_at", "2019-05-23 15:11:35.701039"]]
+  ↳ db/seeds.rb:21
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:22
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "brice@2080.co"], ["LIMIT", 1]]
+  ↳ db/seeds.rb:22
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "name", "access_level", "picture", "linkedin", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["email", "brice@2080.co"], ["encrypted_password", "$2a$11$isBgoSj7wOodSPusl/PFZ.mF/Pr1UEqn1IAflZgewq2bgF84UEbWe"], ["name", "Brice"], ["access_level", "admin"], ["picture", "https://avatars1.githubusercontent.com/u/45003333?s=460&v=4"], ["linkedin", "https://www.linkedin.com/in/brice-chapuis-b8744b181/?originalSubdomain=fr"], ["description", "CTO"], ["created_at", "2019-05-23 15:11:35.807590"], ["updated_at", "2019-05-23 15:11:35.807590"]]
+  ↳ db/seeds.rb:22
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:22
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:23
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "user@2080.co"], ["LIMIT", 1]]
+  ↳ db/seeds.rb:23
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "name", "access_level", "picture", "linkedin", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["email", "user@2080.co"], ["encrypted_password", "$2a$11$vkjw4RzjsM/L3NYPZ7.NGOqAE.zGpATYr9xJT4x97mNTfFq1A9pCG"], ["name", "Project Manager"], ["access_level", "project_manager"], ["picture", "https://i.pinimg.com/originals/d1/58/cc/d158ccef5dc0cadde05bdd0b7521a34d.jpg"], ["linkedin", ""], ["description", "Project Manager"], ["created_at", "2019-05-23 15:11:35.910437"], ["updated_at", "2019-05-23 15:11:35.910437"]]
+  ↳ db/seeds.rb:23
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:23
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:24
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "sevener@2080.co"], ["LIMIT", 1]]
+  ↳ db/seeds.rb:24
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "name", "picture", "linkedin", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["email", "sevener@2080.co"], ["encrypted_password", "$2a$11$IR7f6kn6HvzKTQgiF8fpFetpuCSxHmePVhQqXKcwm/QMyzTGE0ZRK"], ["name", "Sevener"], ["picture", "https://bloody-disgusting.com/wp-content/uploads/2017/05/Screen-Shot-2017-05-01-at-11.17.09-AM.jpg"], ["linkedin", ""], ["description", "Sevener Lambda"], ["created_at", "2019-05-23 15:11:36.011170"], ["updated_at", "2019-05-23 15:11:36.011170"]]
+  ↳ db/seeds.rb:24
+  [1m[35m (1.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:24
+Started GET "/" for ::1 at 2019-05-23 17:11:49 +0200
+Processing by PagesController#home as HTML
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (0.3ms)
+  Rendered shared/_navbar.html.erb (0.7ms)
+  Rendered shared/_flashes.html.erb (0.3ms)
+Completed 200 OK in 26ms (Views: 24.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-05-23 17:11:51 +0200
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (0.7ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (11.1ms)
+  Rendered shared/_navbar.html.erb (0.6ms)
+  Rendered shared/_flashes.html.erb (0.3ms)
+Completed 200 OK in 38ms (Views: 37.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-05-23 17:12:02 +0200
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"EqyNMKRMRFN0IyQoyMuBDlK75toljp0kGnxhQ8VO7Fs8OnYg6X7H1Rf5Rzj1ftjWp9iKALJ22tOC73lnKEYFYw==", "user"=>{"email"=>"brice@2080.co", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (4.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "brice@2080.co"], ["LIMIT", 1]]
+  ↳ /Users/brice/.rbenv/versions/2.5.3/lib/ruby/gems/2.5.0/gems/activerecord-5.2.2/lib/active_record/log_subscriber.rb:98
+Redirected to http://localhost:3000/
+Completed 302 Found in 133ms (ActiveRecord: 8.2ms)
+
+
+Started GET "/" for ::1 at 2019-05-23 17:12:03 +0200
+Processing by PagesController#home as HTML
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (0.4ms)
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/shared/_navbar.html.erb:13
+  Rendered shared/_navbar.html.erb (2.3ms)
+  Rendered shared/_flashes.html.erb (0.3ms)
+Completed 200 OK in 28ms (Views: 25.6ms | ActiveRecord: 0.5ms)
+
+
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[36mClientCompany Load (0.4ms)[0m  [1m[34mSELECT "client_companies".* FROM "client_companies"[0m
+  ↳ db/seeds.rb:2
+  [1m[36mClientContact Load (0.4ms)[0m  [1m[34mSELECT "client_contacts".* FROM "client_contacts"[0m
+  ↳ db/seeds.rb:3
+  [1m[36mComment Load (0.4ms)[0m  [1m[34mSELECT "comments".* FROM "comments"[0m
+  ↳ db/seeds.rb:4
+  [1m[36mContent Load (0.6ms)[0m  [1m[34mSELECT "contents".* FROM "contents"[0m
+  ↳ db/seeds.rb:5
+  [1m[36mContentModule Load (0.5ms)[0m  [1m[34mSELECT "content_modules".* FROM "content_modules"[0m
+  ↳ db/seeds.rb:6
+  [1m[36mIntelligence Load (0.3ms)[0m  [1m[34mSELECT "intelligences".* FROM "intelligences"[0m
+  ↳ db/seeds.rb:7
+  [1m[36mIntelligenceContent Load (0.5ms)[0m  [1m[34mSELECT "intelligence_contents".* FROM "intelligence_contents"[0m
+  ↳ db/seeds.rb:8
+  [1m[36mProject Load (0.4ms)[0m  [1m[34mSELECT "projects".* FROM "projects"[0m
+  ↳ db/seeds.rb:9
+  [1m[36mProjectOwnership Load (0.6ms)[0m  [1m[34mSELECT "project_ownerships".* FROM "project_ownerships"[0m
+  ↳ db/seeds.rb:10
+  [1m[36mSession Load (0.3ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions"[0m
+  ↳ db/seeds.rb:11
+  [1m[36mSessionTrainer Load (0.4ms)[0m  [1m[34mSELECT "session_trainers".* FROM "session_trainers"[0m
+  ↳ db/seeds.rb:12
+  [1m[36mTheory Load (0.3ms)[0m  [1m[34mSELECT "theories".* FROM "theories"[0m
+  ↳ db/seeds.rb:13
+  [1m[36mTheoryContent Load (0.4ms)[0m  [1m[34mSELECT "theory_contents".* FROM "theory_contents"[0m
+  ↳ db/seeds.rb:14
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ db/seeds.rb:15
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:15
+  [1m[36mUser Destroy (1.7ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 1]]
+  ↳ db/seeds.rb:15
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:15
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:15
+  [1m[36mUser Destroy (0.4ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 2]]
+  ↳ db/seeds.rb:15
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:15
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:15
+  [1m[36mUser Destroy (0.4ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 3]]
+  ↳ db/seeds.rb:15
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:15
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:15
+  [1m[36mUser Destroy (0.4ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 4]]
+  ↳ db/seeds.rb:15
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:15
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mIntelligence Create (0.6ms)[0m  [1m[32mINSERT INTO "intelligences" ("name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Intelligence linguistique"], ["description", "L'intelligence linguistique est définie par Gardner comme la « capacité à utiliser et à comprendre les mots et les nuances de sens ». Elle est appliquée en écriture, en édition et en traduction en particulier. Elle concerne l'entrée (input) des stimuli linguistiques (écouter ou lire), et la production (output) de langage (parler, écrire). L'intelligence linguistique est aussi la capacité à comprendre comment le langage affecte les émotions dans le cas des rhétoriciens, écrivains et poètes, par exemple.\nL'intelligence linguistique consiste à utiliser le langage pour comprendre les autres et pour exprimer ce que l'on pense. Elle permet l'utilisation de la langue maternelle, mais aussi d'autres langues.\nC'est l'intelligence la plus mise en avant et utilisée à l'école avec l'intelligence logico-mathématique.\nOn la retrouve chez les écrivains et les poètes, les traducteurs et les interprètes. Tous les individus qui manipulent le langage à l'écrit ou à l'oral utilisent l'intelligence linguistique : orateurs, avocats, poètes, écrivains, mais aussi les personnes qui ont à lire et à parler dans leur domaine respectif pour résoudre des problèmes, créer et comprendre."], ["created_at", "2019-05-23 15:55:57.239127"], ["updated_at", "2019-05-23 15:55:57.239127"]]
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:25
+  [1m[36mIntelligence Create (0.2ms)[0m  [1m[32mINSERT INTO "intelligences" ("name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Intelligence logico-mathématique"], ["description", "L'intelligence logico-mathématique permet de résoudre des problèmes abstraits de nature logique ou mathématique. C'est la capacité de manipuler les nombres et de résoudre des problèmes logiques. Gardner souligne que « mathematics involves more than logic, such as the capacity to entertain long chains of logical relations expressed in symbolic form » (les mathématiques ne font pas appel seulement à la logique mais également à la capacité de manipuler de longues chaînes de relations logiques exprimées sous des formes symboliques).\nLes personnes qui ont une intelligence logico-mathématique développée possèdent la capacité de calculer, de mesurer, de faire preuve de logique et de résoudre des problèmes mathématiques et scientifiques. Elles analysent les causes et les conséquences d'un phénomène ou d'une action. Elles peuvent catégoriser et ordonner les objets.\nL'intelligence logico-mathématique est, selon Gardner, particulièrement utile dans les sciences, les affaires ou encore en médecine."], ["created_at", "2019-05-23 15:55:57.241197"], ["updated_at", "2019-05-23 15:55:57.241197"]]
+  ↳ db/seeds.rb:25
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:25
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:31
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "yahya@2080.co"], ["LIMIT", 1]]
+  ↳ db/seeds.rb:31
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "name", "access_level", "picture", "linkedin", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["email", "yahya@2080.co"], ["encrypted_password", "$2a$11$3vRDDaQHM9qRWMLxftPA6.iAB0.WKTh3rd7fWJAk/Aw4yN1TKz1Nm"], ["name", "Yahya"], ["access_level", "admin"], ["picture", "https://avatars1.githubusercontent.com/u/45921830?s=460&v=4"], ["linkedin", "https://www.linkedin.com/in/yahya-fallah/?originalSubdomain=fr"], ["description", "Co-founder"], ["created_at", "2019-05-23 15:55:57.349582"], ["updated_at", "2019-05-23 15:55:57.349582"]]
+  ↳ db/seeds.rb:31
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:31
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:32
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "brice@2080.co"], ["LIMIT", 1]]
+  ↳ db/seeds.rb:32
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "name", "access_level", "picture", "linkedin", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["email", "brice@2080.co"], ["encrypted_password", "$2a$11$qcGk1gJD64H20fyTIE2MZOom49f7G3qaAG4.UXNcVTZUPmzQOoIny"], ["name", "Brice"], ["access_level", "admin"], ["picture", "https://avatars1.githubusercontent.com/u/45003333?s=460&v=4"], ["linkedin", "https://www.linkedin.com/in/brice-chapuis-b8744b181/?originalSubdomain=fr"], ["description", "CTO"], ["created_at", "2019-05-23 15:55:57.452175"], ["updated_at", "2019-05-23 15:55:57.452175"]]
+  ↳ db/seeds.rb:32
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:32
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:33
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "user@2080.co"], ["LIMIT", 1]]
+  ↳ db/seeds.rb:33
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "name", "access_level", "picture", "linkedin", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["email", "user@2080.co"], ["encrypted_password", "$2a$11$4DiCi52YlEuDtZao7.3j7es3MkB7wHaqm2kSSeGP8naTHkQRT3ETu"], ["name", "Project Manager"], ["access_level", "project_manager"], ["picture", "https://i.pinimg.com/originals/d1/58/cc/d158ccef5dc0cadde05bdd0b7521a34d.jpg"], ["linkedin", ""], ["description", "Project Manager"], ["created_at", "2019-05-23 15:55:57.554520"], ["updated_at", "2019-05-23 15:55:57.554520"]]
+  ↳ db/seeds.rb:33
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:33
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:34
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "sevener@2080.co"], ["LIMIT", 1]]
+  ↳ db/seeds.rb:34
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "name", "picture", "linkedin", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["email", "sevener@2080.co"], ["encrypted_password", "$2a$11$RRkzbWkK.2nuIA575nrZ.u7zIgmy7zPc/92/9HuHVjmbITI4pjbcC"], ["name", "Sevener"], ["picture", "https://bloody-disgusting.com/wp-content/uploads/2017/05/Screen-Shot-2017-05-01-at-11.17.09-AM.jpg"], ["linkedin", ""], ["description", "Sevener Lambda"], ["created_at", "2019-05-23 15:55:57.656572"], ["updated_at", "2019-05-23 15:55:57.656572"]]
+  ↳ db/seeds.rb:34
+  [1m[35m (1.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:34
+Started GET "/" for ::1 at 2019-05-23 17:56:02 +0200
+  
+ActionController::RoutingError (uninitialized constant ApplicationController::Pundit):
+  
+app/controllers/application_controller.rb:4:in `<class:ApplicationController>'
+app/controllers/application_controller.rb:1:in `<main>'
+app/controllers/pages_controller.rb:1:in `<main>'
