@@ -1,0 +1,26 @@
+<div class="container">
+  <%= link_to client_contacts_path do %><i class="fas fa-arrow-left"></i><% end %>
+  <div class="client-contact-card-show">
+    <div>
+      <img src='<%= @client_contact.client_company.logo %>' alt="" class='client-company-logo-show'>
+      <div>
+        <p>Nom: <%=  @client_contact.name %></p>
+        <div class="show-control-links">
+          <% if current_user.access_level == 'admin' %>
+            <a class="edit-fafa" data-toggle='modal' data-target='#editClientContact'><i class="fas fa-edit"></i></a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <p>Email: <%= @client_contact.email %></p>
+    <p>Poste: <%= @client_contact.title %></p>
+    <p>Description: <%= @client_contact.role_description %></p>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editClientContact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+    <%= render 'edit', client_contact: @client_contact %>
+  </div>
+</div>

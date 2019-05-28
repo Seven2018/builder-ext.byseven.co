@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :intelligences
   resources :contents
+  resources :client_companies
+  resources :client_contacts
 end

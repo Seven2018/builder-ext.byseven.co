@@ -48,3 +48,55 @@ User.create(name: "Project Manager", email: "user@2080.co", password: "tititoto"
 User.create(name: "Sevener", email: "sevener@2080.co", password: "tititoto", access_level: "sevener", linkedin: "", picture: "https://bloody-disgusting.com/wp-content/uploads/2017/05/Screen-Shot-2017-05-01-at-11.17.09-AM.jpg", description: "Sevener Lambda")
 
 puts "Done!"
+
+puts "Generating Client Companies..."
+ClientCompany.create(
+ name: "Deliveroo",
+ address: "14 rue de la livraison, 75001 Paris",
+ logo: "https://i0.wp.com/www.grapheine.com/wp-content/uploads/2016/09/new-logo-deliveroo.gif?fit=1950%2C1200&quality=90&strip=all&ssl=1")
+ClientCompany.create(
+ name: "IBM",
+ address: "224 rue des Américains, 75016 Paris",
+ logo: "https://pbs.twimg.com/profile_images/1013563961633959936/X5epMthl_400x400.jpg")
+ClientCompany.create(
+ name: "Le Wagon",
+ address: "16 Villa Gaudelet, 75011 Paris",
+ logo: "https://uikit.lewagon.com/assets/logo-0c157df32d93155001ae8d8b1b7740b3082e698b4ad0cc91792e8725deb68d85.png")
+ClientCompany.create(
+ name: "NASA",
+ address: "300 E. Street SW, Suite 5R30, Washington, DC 20546",
+ logo: "https://www.nasa.gov/sites/all/themes/custom/nasatwo/images/nasa-logo.svg")
+ClientCompany.create(
+ name: "McDonald's France",
+ address: "1 rue Gustave Eiffel, 78045 Guyancourt Cedex",
+ logo: "https://www.mcdonalds.fr/mcdo-mcdofr-front-theme/image/img-logo-head.gif")
+ClientCompany.create(
+ name: "Twitter France",
+ address: "10 rue de la Paix, 75002 Paris",
+ logo: "http://www.twitterpourlesnuls.com/img/Twitterl.png")
+ClientCompany.create(
+ name: "Tesla",
+ address: "3 boulevard Malesherbes, 75008 Paris",
+ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Tesla_T_symbol.svg/771px-Tesla_T_symbol.svg.png")
+ClientCompany.create(
+ name: "PSG",
+ address: "24 Rue du Commandant Guilbaud, 75016 Paris",
+ logo: "https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/1024px-Paris_Saint-Germain_Logo.svg.png")
+ClientCompany.create(
+ name: "Coca-Cola",
+ address: "9 Chemin de Bretagne, 92130 Issy-les-Moulineaux",
+ logo: "https://www.multigp.com/wp-content/uploads/2018/08/Coca-Cola-Logo.png")
+ClientCompany.create(
+ name: "Goldman Sachs",
+ address: "5 Avenue Kléber, 75016 Paris",
+ logo: "https://www.nasuni.com/wp-content/uploads/2017/04/goldman-sachs.png")
+ClientCompany.create(
+ name: "Société Générale",
+ address: "29 Boulevard Haussmann, 75009 Paris",
+ logo: "http://www.happyhourescapegame.com/wp-content/uploads/2014/10/soci%C3%A9t%C3%A9-gal.png")
+ClientCompany.create(
+ name: "M6 Groupe",
+ address: "89 Avenue Charles-de-gaulle, 92200 Neuilly-sur-seine",
+ logo: "https://upload.wikimedia.org/wikipedia/fr/thumb/2/22/M6_2009.svg/1200px-M6_2009.svg.png")
+
+puts "Done!"

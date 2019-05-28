@@ -1,0 +1,10 @@
+<div class="container">
+  <h2>Ajouter une entreprise client</h2>
+  <%= simple_form_for @client_company do |f| %>
+    <%= f.input :name %>
+    <%= f.input :address %>
+    <%= f.input :description, :input_html => {:rows => 10} %>
+    <%= f.input :logo, label: 'Logo URL' %>
+    <p class="center-button"> <%= f.submit class: 'btn-edit' %> </p>
+  <% end %>
+</div>

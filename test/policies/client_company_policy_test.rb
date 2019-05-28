@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class IntelligenceContentPolicyTest < ActiveSupport::TestCase
+class ClientCompanyPolicyTest < ActiveSupport::TestCase
   def test_scope
   end
 

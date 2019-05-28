@@ -1,0 +1,28 @@
+<div class="container">
+  <ul class='client-company-list'>
+    <li>
+      <%= link_to new_client_company_path do %>
+        <div class="client-company-card">
+          <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
+          <div>
+            <p>Add a new company</p>
+            <p></p>
+          </div>
+        </div>
+      <% end %>
+    </li>
+    <% @client_companies.each do |company| %>
+      <li>
+        <%= link_to client_company_path(company) do %>
+          <div class="client-company-card">
+            <img class='client-company-logo-index' src='<%= "#{company.logo}" %>'>
+            <div>
+              <p><%= company.name %></p>
+              <p><%= company.address %></p>
+            </div>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

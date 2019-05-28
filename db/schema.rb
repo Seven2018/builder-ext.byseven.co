@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
     t.string "name"
     t.string "address"
     t.text "description"
+    t.string "logo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
