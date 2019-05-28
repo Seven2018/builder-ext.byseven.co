@@ -5,7 +5,7 @@ Comment.destroy_all
 Content.destroy_all
 ContentModule.destroy_all
 Intelligence.destroy_all
-IntelligenceContent.destroy_all
+# IntelligenceContent.destroy_all
 Project.destroy_all
 ProjectOwnership.destroy_all
 Session.destroy_all

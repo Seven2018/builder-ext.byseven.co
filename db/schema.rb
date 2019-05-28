@@ -65,19 +65,10 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
     t.text "description"
     t.string "logistic"
     t.string "chapter"
-    t.string "intel1"
-    t.string "intel2"
+    t.bigint "intel1_id"
+    t.bigint "intel2_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "intelligence_contents", force: :cascade do |t|
-    t.bigint "intelligence_id"
-    t.bigint "content_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["content_id"], name: "index_intelligence_contents_on_content_id"
-    t.index ["intelligence_id"], name: "index_intelligence_contents_on_intelligence_id"
   end
 
   create_table "intelligences", force: :cascade do |t|
@@ -167,8 +158,6 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
   add_foreign_key "comments", "sessions"
   add_foreign_key "comments", "users"
   add_foreign_key "content_modules", "users"
-  add_foreign_key "intelligence_contents", "contents"
-  add_foreign_key "intelligence_contents", "intelligences"
   add_foreign_key "project_ownerships", "projects"
   add_foreign_key "project_ownerships", "users"
   add_foreign_key "projects", "client_contacts"
