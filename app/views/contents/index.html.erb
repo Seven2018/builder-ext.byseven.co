@@ -1,0 +1,11 @@
+<div class="container">
+  <h2>Liste des contenus</h2>
+  <%= link_to new_content_path do %>
+    <i class="fas fa-plus"></i>
+  <% end %>
+  <ul>
+    <% @contents.each do |content| %>
+      <li><%= link_to content.title, content_path(content) %></li>
+    <% end %>
+  </ul>
+</div>

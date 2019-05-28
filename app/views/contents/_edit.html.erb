@@ -1,0 +1,31 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= @content.title %></h3>
+    </div>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="modal-body">
+    <%= simple_form_for @content do |f| %>
+          <%= f.input :title %>
+    <%= f.input :format %>
+    <%= f.input :duration, input_html: { min: '0' } %>
+    <%= f.input :description, :input_html => {:rows => 10} %>
+    <%= f.input :logistic %>
+    <%= f.input :chapter, collection: ["Leadership", "Gestion d'équipe", "Communication", "Business Development", "Gestion de Projet", "Intelligence Economique", "Team Building"] %>
+  </div>
+  <div class="modal-footer">
+    <div>
+      <%= f.button :submit, class: 'btn btn-edit' %>
+      <% end %>
+      <button class="btn btn-edit">
+        <%= link_to content_path(@content), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <i class="fas fa-trash-alt"></i>
+        <% end %>
+      </button>
+    </div>
+  </div>
+
+    </div>
+  </div>
+</div>
