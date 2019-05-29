@@ -1,0 +1,60 @@
+<div class="container-session-show">
+  <div class="container session-container">
+        <div class="project-info-headers">
+          <%= link_to project_path(@session.project) do %>
+            <i class="fas fa-arrow-left" style="font-size: 30px";></i>
+          <% end %>
+          <div>
+            <%= link_to project_session_path(@session.project, @session, format: :pdf) do %>
+              <button class="btn btn-edit" id='export-btn'>
+                  Export as <i class="fas fa-file-pdf"></i>
+              </button>
+            <% end %>
+          </div>
+        </div>
+      <div class="top-mods">
+        <h3><%= @session.title %>
+          <button class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-edit"></i></button>
+        <h4><%= @session.date.strftime("%A %e %B %Y") %>
+        <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
+        <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
+        <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
+        <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.start_time.min.to_s.length == 2 %>
+        </h4>
+      </div>
+      <div id="mods" style="min-height: 70vh;">
+        <%= render 'content_modules/index', session: @session %>
+      </div>
+
+      <%# link_to 'Select content', new_project_session_mods_path(@session.project, @session) %>
+  </div>
+  <div class="nav-side-menu-container">
+    <div class="nav-side-menu">
+      <div class="brand">Content Manager</div>
+      <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+      <div class="menu-list">
+          <ul id="menu-content" class="menu-content collapse out">
+              <li id='click-to-add'><p><em><--Click to add--></em></p></li>
+            <% @chapter.uniq.each do |chapter| %>
+              <li data-toggle="collapse" data-target="#<%= chapter %>" class="collapsed">
+                <a><%= chapter %><span class="arrow"></span></a>
+              </li>
+                <ul class="sub-menu collapse" id="<%= chapter %>">
+                  <% @contents.where(chapter: chapter).each do |content| %>
+                      <li class="content-chapter"><%= link_to "+ #{content.title}", project_session_content_modules_path(@session.project, @session, content_id: content.id), method: :post, remote: true %></li>
+                    <% end %>
+                </ul>
+            <% end %>
+          </ul>
+       </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'edit', session: @session %>
+  </div>
+</div>

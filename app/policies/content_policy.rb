@@ -5,8 +5,8 @@ class ContentPolicy < ApplicationPolicy
     end
   end
 
-    def create?
-    user.access_level == "admin"
+  def create?
+    check_access
   end
 
   def show?
@@ -14,14 +14,20 @@ class ContentPolicy < ApplicationPolicy
   end
 
   def edit?
-    user.access_level == "admin"
+    check_access
   end
 
   def update?
-    user.access_level == "admin"
+    check_access
   end
 
   def destroy?
-    user.access_level == "admin"
+    check_access
+  end
+
+  private
+
+  def check_access
+    ['super admin', 'admin', 'project manager'].include? user.access_level
   end
 end

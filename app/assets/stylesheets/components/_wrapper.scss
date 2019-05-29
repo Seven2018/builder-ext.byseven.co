@@ -1,0 +1,36 @@
+.wrapper {
+  .container {
+    width: auto;
+    min-height: 100vh;
+    padding-top: 35px;
+    padding-bottom: 80px;
+    padding-left: 95px;
+    padding-right: 95px;
+    background-color: white;
+    .session-container {
+      padding: 30px 10px;
+      min-height: 100vh;
+    }
+  }
+}
+
+.container-new-form {
+  padding: 85px 500px;
+  background-color: white;
+  height: 100vh;
+}
+
+.tab-pane .row {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+}
+

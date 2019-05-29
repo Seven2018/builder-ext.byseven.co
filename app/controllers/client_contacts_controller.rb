@@ -18,7 +18,6 @@ class ClientContactsController < ApplicationController
 
   def create
     @client_contact = ClientContact.new(clientcontact_params)
-    @companies = ClientCompany.all
     authorize @client_contact
     if @client_contact.save
       redirect_to client_contact_path(@client_contact)

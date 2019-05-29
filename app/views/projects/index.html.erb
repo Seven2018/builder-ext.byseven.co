@@ -1,0 +1,26 @@
+<div class="container" style="background-color: white">
+    <h3 style="text-align: left;"><%= "Dashboard" %></h3>
+  <div class="projects-title">
+    <ul class="nav nav-tabs">
+      <li role="presentation" class="active"><a href="#ongoing" data-toggle="tab">Ongoing Projects</a></li>
+      <li role="presentation"><a href="#coming" data-toggle="tab">Coming Projects</a></li>
+      <li role="presentation"><a href="#completed" data-toggle="tab">Completed Projects</a></li>
+    </ul>
+    <div class="new-project">
+      <%= link_to 'New project', new_project_path, id: "new-project", class: "btn btn-edit" %>
+    </div>
+  </div>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="ongoing">
+      <%= render 'ongoing', projects: @projects %>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="coming">
+      <%= render 'coming', projects: @projects %>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="completed">
+      <%= render 'completed', projects: @projects %>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="settings">
+    </div>
+  </div>
+</div>

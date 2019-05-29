@@ -1,0 +1,99 @@
+.container-session-show {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.session-container {
+  padding: 20px;
+  flex: 1 0;
+  width: calc(100% - 220px - 15vw) !important;
+}
+
+.session-controls {
+  position: absolute;
+  right: 13vw;
+}
+
+#export-btn {
+
+}
+
+.mods-list {
+  text-align: left;
+  ul {
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 0.6px;
+    line-height: 1.6;
+    list-style: none;
+  }
+}
+
+.session-header {
+  padding-top: 25px;
+  width: 131%;
+}
+
+.session-header, .project-info-headers {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.user-fafa {
+  border: none;
+  padding-left: 0;
+  .fa-user-plus {
+  font-size: 32px;
+  margin-top: 5px;
+  }
+}
+
+.logs-message {
+  text-align: left;
+}
+
+.error {
+  color: #004A7F;
+  -webkit-border-radius: 10px;
+  border: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 20px;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  -webkit-animation: glowing 1500ms infinite;
+  -moz-animation: glowing 1500ms infinite;
+  -o-animation: glowing 1500ms infinite;
+  animation: glowing 1500ms infinite;
+}
+@-webkit-keyframes glowing {
+  0% { color: #B20000; -webkit-text-shadow: 0 0 3px #B20000; }
+  50% { color: #FF0000; -webkit-text-shadow: 0 0 20px #FF0000; }
+  100% { color: #B20000; -webkit-text-shadow: 0 0 3px #B20000; }
+}
+
+@-moz-keyframes glowing {
+  0% { color: #B20000; -moz-text-shadow: 0 0 3px #B20000; }
+  50% { color: #FF0000; -moz-text-shadow: 0 0 20px #FF0000; }
+  100% { color: #B20000; -moz-text-shadow: 0 0 3px #B20000; }
+}
+
+@-o-keyframes glowing {
+  0% { color: #B20000; text-shadow: 0 0 3px #B20000; }
+  50% { color: #FF0000; text-shadow: 0 0 20px #FF0000; }
+  100% { color: #B20000; text-shadow: 0 0 3px #B20000; }
+}
+
+@keyframes glowing {
+  0% { color: #B20000; text-shadow: 0 0 3px #B20000; }
+  50% { color: #FF0000; text-shadow: 0 0 20px #FF0000; }
+  100% { color: #B20000; text-shadow: 0 0 3px #B20000; }
+}
+
+.mod-container {
+  text-align: justify;
+}

@@ -18,7 +18,6 @@ class ContentsController < ApplicationController
 
   def create
     @content = Content.new(content_params)
-    @intelligences = Intelligence.all
     authorize @content
     if @content.save
       redirect_to content_path(@content)
@@ -54,6 +53,6 @@ class ContentsController < ApplicationController
   end
 
   def content_params
-    params.require(:content).permit(:title, :format, :duration, :description, :logistic, :chapter, :intelligence, :intel1_id, :intel2_id)
+    params.require(:content).permit(:title, :format, :duration, :description, :logistic, :chapter, :intel1_id, :intel2_id)
   end
 end

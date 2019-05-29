@@ -1,0 +1,28 @@
+.mod-date {
+  display: flex;
+  justify-content: space-between;
+}
+
+#modal-title {
+  display: flex;
+  align-items: center;
+}
+
+#modal-title button {
+  border: none;
+  font-size: 24px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: row-reverse;
+}
+
+.fa-user-plus {
+  color: black;
+  margin-left: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}

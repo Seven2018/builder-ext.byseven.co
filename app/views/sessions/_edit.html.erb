@@ -1,0 +1,31 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= session.title %></h3>
+    </div>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for [session.project, session] do |f| %>
+      <%= f.input :title %>
+      <div class="mod-date">
+        <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
+        <%= f.input :start_time, as: :string, input_html: { class: 'timepicker'} %>
+        <%= f.input :end_time, as: :string, input_html: { class: 'timepicker'} %>
+      </div>
+  </div>
+  <div class="modal-footer" id="modalNewBookingFooter">
+    <div>
+      <%= f.button :submit, class: 'btn btn-edit' %>
+      <button class="btn btn-edit">
+        <%= link_to project_session_path(session.project, session), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <i class="fas fa-trash-alt"></i>
+        <% end %>
+      </button>
+      <% end %>
+    </div>
+  </div>
+
+    </div>
+  </div>
+</div>

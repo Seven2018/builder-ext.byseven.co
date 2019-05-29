@@ -1,0 +1,31 @@
+.nav-tabs {
+  border-bottom: none;
+}
+
+.nav-tabs > li > a {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 15px;
+  margin-right: 15px;
+  color: black;
+  font-size: 20px;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  border: none;
+  background-color: transparent;
+  border-bottom: 4px solid #ffc15c;
+  font-weight: 500;
+}
+
+.nav-tabs > li > a:hover {
+  border-color: transparent;
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+  background-color: transparent;
+}
+
+.nav-tabs > li > a {
+  border: 1px solid transparent;
+}
