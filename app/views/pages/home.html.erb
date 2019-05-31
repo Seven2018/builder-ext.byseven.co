@@ -1,10 +1,11 @@
-<h1>Pages#home</h1>
-
-<ul>
-  <li><%= link_to "User List", users_path %></li>
-  <li><%= link_to "Project List", projects_path %></li>
-  <li><%= link_to "Intel List", intelligences_path %></li>
-  <li><%= link_to "Content List", contents_path %></li>
-  <li><%= link_to "Client Companies List", client_companies_path %></li>
-  <li><%= link_to "Client Contacts List", client_contacts_path %></li>
-</ul>
+<div class="banner">
+  <div class="banner-content">
+    <%= image_tag("logo-home.png", class: "logo-home") %>
+    <h1>Welcome to your Sevener's training builder</h1>
+    <p>Please log in to enter the Seven's dimension</p>
+    <%= link_to "Log in", new_user_session_path, class: "btn-lg btn-edit" %>
+    <br>
+    <br>
+    <a href="mailto:contact@twenty-eighty.pro" style="color: white">ASK FOR ACCESS</a>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="left-navbar">
+  <div class="dropdown">
+    <div class="left-navbar-top">
+      <% if user_signed_in? %>
+        <img src='<%= "#{current_user.picture}" %>' class="avatar dropdown-toggle" id="navbar-wagon-menu" data-toggle="dropdown">
+      <% end %>
+      <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
+        <li>
+          <%= link_to destroy_user_session_path, method: :delete do %>
+            <%= t(".sign_out", default: "Log out") %>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="left-navbar-middle">
+    <%= link_to projects_path, style: 'color: white', class: 'left-buttons' do %>
+      <div class="left-menu-list">
+        <i class="fas fa-tasks"></i> <div class="left-menu-title"><p>Projets</p></div>
+      </div>
+    <% end %>
+    <%= link_to contents_path, style: 'color: white', class: 'left-buttons' do %>
+      <div class="left-menu-list">
+        <i class="fas fa-book"></i> <div class="left-menu-title"><p>Contenus</p></div>
+      </div>
+    <% end %>
+    <%= link_to client_contacts_path, style: 'color: white', class: 'left-buttons' do %>
+      <div class="left-menu-list">
+        <i class="fas fa-users"></i> <div class="left-menu-title"><p>Clients</p></div>
+      </div>
+    <% end %>
+    <%= link_to client_companies_path, style: 'color: white', class: 'left-buttons' do %>
+      <div class="left-menu-list">
+        <i class="far fa-copyright"></i> <div class="left-menu-title"><p>Entreprises</p></div>
+      </div>
+    <% end %>
+    <%= link_to users_path, style: 'color: white', class: 'left-buttons' do %>
+      <div class="left-menu-list">
+        <i class="fas fa-user-tie"></i></i> <div class="left-menu-title"><p>Utilisateurs</p></div>
+      </div>
+    <% end %>
+  </div>
+  <div class="left-navbar-bottom">
+    <%= link_to root_path, class: "left-navbar-logo" do %>
+      <%= image_tag "logo-seven-navbar.png" %>
+    <% end %>
+  </div>
+</div>

@@ -13,5 +13,5 @@ Rails.application.routes.draw do
     end
     resources :project_ownerships, only: [:create, :destroy]
   end
-
+  post 'content_module/:id', to: "content_modules#move", as: "move_mod"
 end

@@ -24,4 +24,8 @@ class ContentModulePolicy < ApplicationPolicy
   def destroy?
     true
   end
+
+  def move?
+    true
+  end
 end

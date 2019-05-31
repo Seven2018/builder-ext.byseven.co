@@ -6,17 +6,18 @@ class ContentModulesController < ApplicationController
   end
 
   def create
-    raise
     @content = Content.find(params[:content_id])
     @session = Session.find(params[:session_id])
     @module = ContentModule.new(@content.attributes.except("id", "created_at", "updated_at"))
     authorize @module
     @module.session = @session
-    @module.save
-    raise
-    respond_to do |format|
-      format.html {redirect_to project_session_path(@session.project, @session)}
-      format.js
+    if @module.save
+      respond_to do |format|
+        format.html {redirect_to project_session_path(@session.project, @session)}
+        format.js
+      end
+    else
+      raise
     end
     # Comment.create(message: "Log | Module #{@module.title} added |", user_id: current_user.id, session_id: @module.session.id)
   end
@@ -48,7 +49,10 @@ class ContentModulesController < ApplicationController
   def move
     authorize @module
     @session = @module.session
-    @module.insert_at(params[:position].to_i)
+    if @module.insert_at(params[:position].to_i)
+    else
+      raise
+    end
   end
 
   private

@@ -9,6 +9,8 @@ class CreateContentModules < ActiveRecord::Migration[5.2]
       t.string :logistic
       t.string :chapter
       t.integer :position
+      t.integer :intel1_id
+      t.integer :intel2_id
 
       t.timestamps
     end

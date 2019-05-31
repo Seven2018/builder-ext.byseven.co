@@ -8,6 +8,7 @@ before_action :set_clientcompany, only: [:show, :edit, :update, :destroy]
 
   def show
     authorize @client_company
+    @client_contacts = ClientContact.where(client_company: @client_company)
   end
 
   def new

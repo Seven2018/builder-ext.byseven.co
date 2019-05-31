@@ -52,9 +52,11 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    @session.destroy
+    @project = Project.find(params[:project_id])
+    @session = Session.find(params[:id])
     authorize @session
-    redirect_to sessions_path
+    @session.destroy
+    redirect_to project_path(@project)
   end
 
   private

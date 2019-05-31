@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
     t.string "logistic"
     t.string "chapter"
     t.integer "position"
+    t.integer "intel1_id"
+    t.integer "intel2_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["session_id"], name: "index_content_modules_on_session_id"

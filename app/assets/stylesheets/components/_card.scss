@@ -344,10 +344,11 @@ duration {
     opacity: 1;
     font-weight: 600;
     color: white;
+    text-decoration: none !important;
   }
-  a {
-      text-decoration: none;
-  }
+  // a {
+  //     text-decoration: none !important;
+  // }
 }
 
 .edit-btn {

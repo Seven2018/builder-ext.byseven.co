@@ -6,7 +6,7 @@
       <div>
         <p><%=  @client_company.name %></p>
         <div class="show-control-links">
-          <% if current_user.access_level == 'admin' %>
+          <% if ['super admin', 'admin', 'project manager'].include? current_user.access_level %>
             <a class="edit-fafa" data-toggle='modal' data-target='#editClientCompany'><i class="fas fa-edit"></i></a>
           <% end %>
         </div>
@@ -15,7 +15,25 @@
     <p><%= @client_company.address %></p>
     <p><%= @client_company.description %></p>
   </div>
+  <h2>Client Contacts List</h2>
+  <ul class="client-contact-list">
+    <% @client_contacts.each do |contact| %>
+      <li>
+        <%= link_to client_contact_path(contact) do %>
+          <div class="client-contact-card">
+            <img class='client-company-logo-index' src='<%= "#{contact.client_company.logo}" %>'>
+            <div>
+              <p><%= contact.name %></p>
+              <p><%= contact.title %></p>
+              <p><%= contact.email %></p>
+            </div>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
 </div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="editClientCompany" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
