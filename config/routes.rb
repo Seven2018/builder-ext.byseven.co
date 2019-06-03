@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'session_trainers/new'
   devise_for :users
   resources :users
   root to: 'pages#home'
@@ -10,6 +11,7 @@ Rails.application.routes.draw do
   resources :projects do
     resources :sessions do
       resources :content_modules, only: [:show, :create, :edit, :update, :destroy]
+      resources :session_trainers, only: [:create, :destroy]
     end
     resources :project_ownerships, only: [:create, :destroy]
   end

@@ -2,7 +2,7 @@
   <div class="container session-container">
         <div class="project-info-headers">
           <%= link_to project_path(@session.project) do %>
-            <i class="fas fa-arrow-left" style="font-size: 30px";></i>
+            <i class="fas fa-arrow-left"></i>
           <% end %>
           <div>
             <%= link_to project_session_path(@session.project, @session, format: :pdf) do %>
@@ -12,15 +12,31 @@
             <% end %>
           </div>
         </div>
-      <div class="top-mods">
-        <h3><%= @session.title %>
-          <button class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-edit"></i></button>
-        <h4><%= @session.date.strftime("%A %e %B %Y") %>
-        <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
-        <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
-        <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
-        <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.start_time.min.to_s.length == 2 %>
-        </h4>
+      <div class="middle-info">
+        <div class="middle-info-main">
+          <h3><%= @session.title %>
+            <button class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-edit"></i></button>
+          <h4><%= @session.date.strftime("%A %e %B %Y") %>
+          <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
+          <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
+          <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
+          <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.start_time.min.to_s.length == 2 %>
+          </h4>
+        </div>
+        <div style="display: flex;align-items: center;justify-content: space-between;">
+            <ul id="owner">
+              <% @session.users.each do |user| %>
+              <li>
+                <%= link_to user_path(user) do %>
+                  <img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'>
+                <% end %>
+              </li>
+              <% end %>
+            </ul>
+            <% if (['super admin', 'admin'].include? current_user.access_level) || (@session.project.users.include? current_user) %>
+              <button class='user-fafa' data-toggle='modal' data-target='#newUser'><i class="fas fa-user-plus"></i></button>
+            <% end %>
+          </div>
       </div>
       <div id="mods" style="min-height: 70vh;">
         <%= render 'content_modules/index', session: @session %>
@@ -52,9 +68,15 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modals -->
 <div class="modal fade" id="editSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'edit', session: @session %>
+  </div>
+</div>
+
+<div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'session_trainers/new', session: @session, session_trainer: @session_trainer %>
   </div>
 </div>

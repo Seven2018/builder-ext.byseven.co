@@ -1,0 +1,43 @@
+.title-pdf {
+  font-family: "Roboto", sans-serif;
+  padding-top: 3px;
+  border: 2px solid black;
+  text-align: center;
+  color: black;
+}
+
+.session-details-list-pdf {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.session-details-pdf {
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+}
+.project-details-pdf {
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  font-style: italic;
+  margin-top: -15px
+}
+.content-details-pdf {
+  font-family: "Roboto", sans-serif;
+  border-bottom: 1px solid #000;
+  border-bottom-width: 1px;
+  em {
+    color: red;
+  }
+}
+.content-description-pdf {
+  line-height: 30px;
+  font-size: 20px;
+  margin-top: -20px;
+  text-align: justify;
+}
+.content-intel-pdf {
+  font-family: "Roboto", sans-serif;
+  font-style: italic;
+  margin-top: -15px;
+}
