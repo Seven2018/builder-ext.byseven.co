@@ -4,6 +4,7 @@ class CreateClientCompanies < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :address
       t.text :description
+      t.string :logo
 
       t.timestamps
     end

@@ -1,0 +1,33 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= @user.name %></h3>
+    </div>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="modal-body">
+    <%= simple_form_for @user do |f| %>
+    <%= f.input :name %>
+    <%= f.input :email %>
+    <%# f.input :password, input_html: { value: @user.password }, :required => false, placeholder: @user.password %>
+    <%= f.input :linkedin %>
+    <%= f.input :picture, label: 'Photo URL' %>
+    <%= f.input :description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
+    <%= f.input :access_level, collection: ['super admin', 'admin', 'project manager', 'sevener'], include_blank: false %>
+    <%= f.input :rating, input_html: { min: '0', max: '5' }  %>
+  </div>
+  <div class="modal-footer">
+    <div>
+      <%= f.button :submit, class: 'btn btn-edit' %>
+      <% end %>
+      <button class="btn btn-edit">
+        <%= link_to user_path(@user), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <i class="fas fa-trash-alt"></i>
+        <% end %>
+      </button>
+    </div>
+  </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>Client Contacts List</h2>
+  <ul class="client-contact-list">
+    <li>
+      <%= link_to new_client_contact_path do %>
+        <div class="client-company-card">
+          <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
+          <div>
+            <p>Add a new client contact</p>
+            <p></p>
+          </div>
+        </div>
+      <% end %>
+    </li>
+    <% @client_contacts.each do |contact| %>
+      <li>
+        <%= link_to client_contact_path(contact) do %>
+          <div class="client-contact-card">
+            <img class='client-company-logo-index' src='<%= "#{contact.client_company.logo}" %>'>
+            <div>
+              <p><%= contact.name %></p>
+              <p><%= contact.title %></p>
+              <p><%= contact.email %></p>
+            </div>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

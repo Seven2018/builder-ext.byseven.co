@@ -1,0 +1,76 @@
+<div class="container" style="padding-right: 110px;">
+      <div class="project-info-headers">
+        <%= link_to projects_path do %>
+          <i class="fas fa-arrow-left" style="font-size: 30px";></i>
+        <% end %>
+        <div>
+          <%= link_to new_project_session_path(@project) do %>
+          <button class="btn btn-edit">Add a session</button>
+          <% end %>
+        </div>
+      </div>
+      <div class="middle-info">
+        <div class='middle-info-main'>
+          <h3><%= @project.title %>    <a class="edit-fafa" data-toggle='modal' data-target='#editProject'><i class="fas fa-edit"></i></a></h3>
+          <h4><%="From #{@project.start_date.strftime('%d/%m/%y')} to #{@project.end_date.strftime('%d/%m/%y')}" %> - <i class="fas fa-user"> </i> <%= "#{@project.participant_number}"%> </h4>
+        </div>
+          <div style="display: flex;
+    align-items: center;
+    justify-content: space-between;">
+            <ul id="owner">
+              <% @project.users.each do |user| %>
+              <li>
+                <%= link_to user_path(user) do %>
+                  <img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'>
+                <% end %>
+              </li>
+              <% end %>
+            </ul>
+            <button class='user-fafa' data-toggle='modal' data-target='#newOwner'><i class="fas fa-user-plus"></i></button>
+          </div>
+      </div>
+
+  <div class="project-info">
+    <div class="sessions-cards">
+      <% @project.sessions.each do |session| %>
+      <%= link_to project_session_path(session.project, session) do %>
+      <div class="card-lg">
+        <div class="card-main-lg">
+          <h3><%= session.title %></h3>
+          <div class="mods-list">
+            <ul>
+              <% list = session.content_modules %>
+              <% list.sort_by { |mod| mod[:position]} %>
+              <% list.each do |mod| %>
+                <li>
+                  <%= "#{mod.title} - #{mod.duration} min" %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+        <div class="card-footer-lg">
+          <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p><div><i class="far fa-hourglass"></i><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %>
+          <p><%=   %></p>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    <% end %>
+  </div>
+
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editProject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'edit', project: @project %>
+  </div>
+</div>
+
+<div class="modal fade" id="newOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'project_ownerships/new', project_owner: @ownership %>
+  </div>
+</div>

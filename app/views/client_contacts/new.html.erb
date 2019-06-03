@@ -1,0 +1,12 @@
+<div class="container">
+  <h2>Ajouter un contact client</h2>
+
+  <%= simple_form_for @client_contact do |f| %>
+    <%= f.input :name %>
+    <%= f.input :email %>
+    <%= f.input :title %>
+    <%= f.input :role_description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
+    <%= f.input :client_company_id, collection: @companies.order(:name), include_blank: false %>
+    <p class="center-button"> <%= f.submit class: 'btn-edit' %> </p>
+  <% end %>
+</div>

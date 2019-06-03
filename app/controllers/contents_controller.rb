@@ -13,17 +13,13 @@ class ContentsController < ApplicationController
   def new
     @content = Content.new
     @intelligences = Intelligence.all
-    @intelligence_content1 = IntelligenceContent.new
-    @intelligence_content2 = IntelligenceContent.new
     authorize @content
   end
 
   def create
     @content = Content.new(content_params)
-    @intelligence_content1 = IntelligenceContent.new(intelligence_id: @content.intel1, content: @content)
-    @intelligence_content2 = IntelligenceContent.new(intelligence_id: @content.intel2, content: @content)
     authorize @content
-    if @content.save && @intelligence_content1.save && @intelligence_content2.save
+    if @content.save
       redirect_to content_path(@content)
     else
       render :new
@@ -57,6 +53,6 @@ class ContentsController < ApplicationController
   end
 
   def content_params
-    params.require(:content).permit(:title, :format, :duration, :description, :logistic, :chapter, :intelligence, :intel1, :intel2)
+    params.require(:content).permit(:title, :format, :duration, :description, :logistic, :chapter, :intel1_id, :intel2_id, :session_id,)
   end
 end

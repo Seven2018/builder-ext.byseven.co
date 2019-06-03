@@ -1,0 +1,82 @@
+.user-controls {
+  // width: 280px;
+  // position: relative;
+}
+
+.control-button {
+  border-radius: 50%;
+  // border: 1px solid rgba(115, 133, 152, 0.6);
+  height: 48px;
+  width: 48px;
+  font-size: 16px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  opacity: 0.6;
+  transition: all 0.8s ease;
+  color: white;
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  &:hover {
+    opacity: 1;
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.control-button-warning {
+  background-color: $orange;
+}
+
+.warning-project {
+  position: absolute;
+  top: 15px;
+  left: 42px;
+}
+
+.warning-client {
+  position: absolute;
+  top: 15px;
+  left: 17px;
+}
+
+.control-button-danger {
+  background-color: $red;
+}
+
+.control-button-add {
+  background-color: $green;
+}
+
+.client-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h3 {
+    margin: 0;
+  }
+  .btn {
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+.text {
+  border-radius: 10px;
+  width: auto;
+}
+
+.edit-fafa {
+  border: none;
+  font-size: 20px;
+  outline: none;
+  color: black;
+  &:hover {
+    color: black;
+    cursor: pointer;
+  }
+}

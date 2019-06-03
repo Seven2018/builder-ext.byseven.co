@@ -1,0 +1,11 @@
+<div class="container">
+  <h1>Sessions for <%= @project.title %></h1>
+
+  <ul>
+    <% @sessions.each do |session| %>
+    <li>
+      <%= link_to "#{session.title}", project_session_path(@project, session) %> <%= session.date %>
+    </li>
+    <% end %>
+  </ul>
+</div>

@@ -1,0 +1,35 @@
+.banner {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), image-url('background-home.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index : 100000;
+  h1 {
+    color: $light-gray;
+    font-weight: bold;
+    font-size: 45px;
+  }
+  p {
+    color: $light-gray;
+    opacity: .8;
+    font-size: 25px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
+  .btn {
+    padding: 15px 50px;
+    background-color: $green;
+    color: $light-gray;
+  }
+}
+.logo-home {
+  position: relative;
+  bottom: 80px;
+  max-width: 100%;
+  height: auto;
+}

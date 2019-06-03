@@ -1,0 +1,35 @@
+<div class="container">
+  <%= link_to users_path do %><i class="fas fa-arrow-left"></i><% end %>
+  <div class="client-contact-card-show">
+    <div>
+      <img src='<%= @user.picture %>' alt="" class='client-company-logo-show'>
+      <div>
+        <p>Nom: <%=  @user.name %></p>
+        <div class="show-control-links">
+          <% if current_user.access_level == 'super admin' %>
+            <a class="edit-fafa" data-toggle='modal' data-target='#editUser'><i class="fas fa-edit"></i></a>
+            <a class="edit-fafa" data-toggle='modal' data-target='#editPassword'><i class="fas fa-unlock-alt"></i></a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <p>Email: <%= @user.email %></p>
+    <p>Level: <%= @user.access_level.capitalize %></p>
+    <p>Description: <%= @user.description %></p>
+    <p>Note: <%= @user.rating %></p>
+    <p>LinkedIn: <%= link_to @user.linkedin do %><i class="fab fa-linkedin-in"></i><% end %></p>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+    <%= render 'edit', user: @user %>
+  </div>
+</div>
+
+<div class="modal fade" id="editPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+    <%= render 'changepassword', user: @user %>
+  </div>
+</div>

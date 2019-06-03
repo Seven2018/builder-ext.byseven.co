@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
     t.string "name"
     t.string "address"
     t.text "description"
+    t.string "logo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -50,12 +51,15 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
     t.string "format"
     t.integer "duration"
     t.text "description"
-    t.bigint "user_id"
+    t.bigint "session_id"
     t.string "logistic"
     t.string "chapter"
+    t.integer "position"
+    t.integer "intel1_id"
+    t.integer "intel2_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_content_modules_on_user_id"
+    t.index ["session_id"], name: "index_content_modules_on_session_id"
   end
 
   create_table "contents", force: :cascade do |t|
@@ -65,19 +69,10 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
     t.text "description"
     t.string "logistic"
     t.string "chapter"
-    t.string "intel1"
-    t.string "intel2"
+    t.integer "intel1_id"
+    t.integer "intel2_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "intelligence_contents", force: :cascade do |t|
-    t.bigint "intelligence_id"
-    t.bigint "content_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["content_id"], name: "index_intelligence_contents_on_content_id"
-    t.index ["intelligence_id"], name: "index_intelligence_contents_on_intelligence_id"
   end
 
   create_table "intelligences", force: :cascade do |t|
@@ -166,9 +161,7 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
   add_foreign_key "client_contacts", "client_companies"
   add_foreign_key "comments", "sessions"
   add_foreign_key "comments", "users"
-  add_foreign_key "content_modules", "users"
-  add_foreign_key "intelligence_contents", "contents"
-  add_foreign_key "intelligence_contents", "intelligences"
+  add_foreign_key "content_modules", "sessions"
   add_foreign_key "project_ownerships", "projects"
   add_foreign_key "project_ownerships", "users"
   add_foreign_key "projects", "client_contacts"

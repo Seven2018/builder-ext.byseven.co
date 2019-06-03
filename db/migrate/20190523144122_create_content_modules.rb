@@ -5,9 +5,12 @@ class CreateContentModules < ActiveRecord::Migration[5.2]
       t.string :format
       t.integer :duration
       t.text :description
-      t.references :user, foreign_key: true
+      t.references :session, foreign_key: true
       t.string :logistic
       t.string :chapter
+      t.integer :position
+      t.integer :intel1_id
+      t.integer :intel2_id
 
       t.timestamps
     end

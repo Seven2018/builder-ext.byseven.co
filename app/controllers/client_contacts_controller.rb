@@ -1,0 +1,60 @@
+class ClientContactsController < ApplicationController
+  before_action :set_clientcontact, only: [:show, :edit, :update, :destroy]
+
+  def index
+    @client_contacts = ClientContact.all
+    @client_contacts = policy_scope(ClientContact).order(name: :asc)
+  end
+
+  def show
+    authorize @client_contact
+  end
+
+  def new
+    @client_contact = ClientContact.new
+    @companies = ClientCompany.all
+    authorize @client_contact
+  end
+
+  def create
+    @client_contact = ClientContact.new(clientcontact_params)
+    authorize @client_contact
+    if @client_contact.save
+      redirect_to client_contact_path(@client_contact)
+    else
+      render :new
+    end
+  end
+
+  def edit
+    @companies = ClientCompany.all
+    authorize @client_contact
+  end
+
+  def update
+    @companies = ClientCompany.all
+    authorize @client_contact
+    @client_contact.update(clientcontact_params)
+    if @client_contact.save
+      redirect_to client_contact_path(@client_contact)
+    else
+      render "_edit"
+    end
+  end
+
+  def destroy
+    @client_contact.destroy
+    authorize @client_contact
+    redirect_to client_contacts_path
+  end
+
+  private
+
+  def set_clientcontact
+    @client_contact = ClientContact.find(params[:id])
+  end
+
+  def clientcontact_params
+    params.require(:client_contact).permit(:name, :email, :title, :role_description, :client_company_id)
+  end
+end
