@@ -28,4 +28,8 @@ class ContentModulePolicy < ApplicationPolicy
   def move?
     true
   end
+
+  def save?
+    true
+  end
 end

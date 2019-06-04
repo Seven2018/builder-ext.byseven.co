@@ -47,7 +47,7 @@ class SessionsController < ApplicationController
     @session = Session.new(session_params)
     authorize @session
     @session.project = @project
-    if @session.save
+    if @session.save && (@session.date < @project.start_date || @session.date > @project.end_date)
       redirect_to project_session_path(@project, @session)
     else
       render :new
@@ -59,10 +59,11 @@ class SessionsController < ApplicationController
   end
 
   def update
+    @project = Project.find(params[:project_id])
     authorize @session
     @session.update(session_params)
     if @session.save
-      redirect_to session_path(@session)
+      redirect_to project_session_path(@project, @session)
     else
       render "_edit"
     end

@@ -1,5 +1,5 @@
 class ContentModulesController < ApplicationController
-  before_action :set_module, only: [:show, :edit, :update, :destroy, :move]
+  before_action :set_module, only: [:show, :edit, :update, :destroy, :move, :save]
 
   def show
     authorize @module
@@ -46,6 +46,17 @@ class ContentModulesController < ApplicationController
     redirect_to project_session_path(@module.session.project, @module.session)
   end
 
+  def save
+    @content = Content.new(@module.attributes.except("id", "position", "session_id", "created_at", "updated_at"))
+    authorize @module
+    if @content.save
+      redirect_to project_session_content_module_path(@module.session.project, @module.session, @module)
+      @success = true
+    else
+      raise
+    end
+  end
+
   def move
     authorize @module
     @session = @module.session
@@ -62,6 +73,6 @@ class ContentModulesController < ApplicationController
   end
 
   def mod_params
-    params.require(:mod).permit(:session_id, :title, :duration, :format, :description, :intel1, :intel2, :chapter)
+    params.require(:content_module).permit(:session_id, :title, :duration, :format, :description, :intel1, :intel2, :chapter)
   end
 end
