@@ -3,6 +3,7 @@ class Session < ApplicationRecord
   has_many :content_modules, -> { order(position: :asc) }, dependent: :destroy
   has_many :session_trainers, dependent: :destroy
   has_many :users, through: :session_trainers
+  has_many :comments
   validate :date_included_in_project_dates?
 
   def date_included_in_project_dates?

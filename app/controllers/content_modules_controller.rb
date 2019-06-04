@@ -19,7 +19,7 @@ class ContentModulesController < ApplicationController
     else
       raise
     end
-    # Comment.create(message: "Log | Module #{@module.title} added |", user_id: current_user.id, session_id: @module.session.id)
+    Comment.create(object: 'Log', content: "Module #{@module.title} added |", user_id: current_user.id, session_id: @module.session.id)
   end
 
   def edit
@@ -31,8 +31,8 @@ class ContentModulesController < ApplicationController
     authorize @module
     @module.update(mod_params)
     if @module.save
-      # comment = Comment.create(message: "Log | Module #{@module.title} updated | from #{params.except('id', 'created_at', 'updated_at', 'session_id')} to #{@module.attributes.except('id', 'created_at', 'updated_at', 'session_id')}",
-      #                user_id: current_user.id, session_id: @module.session.id)
+      comment = Comment.create(object: 'Log', content: "Module #{@module.title} updated | from #{params.except('id', 'created_at', 'updated_at', 'session_id')} to #{@module.attributes.except('id', 'created_at', 'updated_at', 'session_id')}",
+                     user_id: current_user.id, session_id: @module.session.id)
       redirect_to project_session_path(@module.session.project, @module.session)
     else
       render :edit
@@ -40,7 +40,7 @@ class ContentModulesController < ApplicationController
   end
 
   def destroy
-    # Comment.create(message: "Log | Module #{@module.title} removed |", user_id: current_user.id, session_id: @module.session.id)
+    Comment.create(object: 'Log', content: "Module #{@module.title} removed |", user_id: current_user.id, session_id: @module.session.id)
     authorize @module
     @module.destroy
     redirect_to project_session_path(@module.session.project, @module.session)

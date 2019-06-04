@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :sessions do
       resources :content_modules, only: [:show, :create, :edit, :update, :destroy], path: '/modules'
       resources :session_trainers, only: [:create, :destroy], path: '/trainers'
+      resources :comments
     end
     resources :project_ownerships, only: [:create, :destroy], path: '/owner'
   end
