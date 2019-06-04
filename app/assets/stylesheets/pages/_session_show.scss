@@ -1,6 +1,5 @@
 .container-session-show {
   position: relative;
-  display: flex;
   width: 100%;
 }
 
@@ -49,6 +48,12 @@
   margin-top: 5px;
   }
 }
+
+.comment-box {
+  min-height: 0 !important;
+  height: auto;
+}
+
 
 .logs-message {
   text-align: left;

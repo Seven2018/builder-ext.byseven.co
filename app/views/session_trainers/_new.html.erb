@@ -1,0 +1,21 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= "Ajouter un formateur" %></h3>
+    </div>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for [@session.project, @session, @session_trainer] do |f| %>
+        <%= f.input :user, :collection => User.all, label: false, include_blank: false %>
+  </div>
+  <div class="modal-footer" id="modalNewBookingFooter">
+    <div>
+      <%= f.button :submit, "Invite", class: 'btn btn-edit' %>
+      <% end %>
+    </div>
+  </div>
+
+    </div>
+  </div>
+</div>

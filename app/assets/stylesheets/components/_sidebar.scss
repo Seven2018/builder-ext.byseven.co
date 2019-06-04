@@ -1,13 +1,13 @@
 .nav-side-menu-container {
-  position: sticky;
+  position: fixed;
   top: 0;
   right: 0;
   height: 100vh;
-  width: auto;
+  width: 15vw;
 }
 
 .nav-side-menu {
-  position: sticky;
+  position: fixed;
   flex-shrink: 0;
   font-family: verdana;
   font-size: 12px;

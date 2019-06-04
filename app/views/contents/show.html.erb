@@ -2,7 +2,7 @@
   <%= link_to contents_path do %><i class="fas fa-arrow-left"></i><% end %>
   <h2><%= @content.title %></h2>
   <div class="show-control-links">
-    <% if current_user.access_level == 'admin' %>
+    <% if ['super admin', 'admin', 'project manager'].include? current_user.access_level %>
       <a class="edit-fafa" data-toggle='modal' data-target='#editContent'><i class="fas fa-edit"></i></a>
     <% end %>
   </div>

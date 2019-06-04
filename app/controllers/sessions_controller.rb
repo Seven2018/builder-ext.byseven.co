@@ -11,10 +11,27 @@ class SessionsController < ApplicationController
     @session = Session.find(params[:id])
     authorize @session
     @contents = Content.all
+    @session_trainer = SessionTrainer.new
     @comment = Comment.new
     @chapter = []
     @contents.each do |content|
       @chapter << content.chapter
+    end
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render(
+          pdf: "#{@session.title}",
+          layout: 'pdf.pdf.erb',
+          template: 'sessions/show',
+          # title: "#{@session.title}",
+          show_as_html: params.key?('debug'),
+          page_size: 'A4',
+          encoding: 'utf8',
+          dpi: 300,
+          zoom: 1,
+        )
+      end
     end
   end
 
@@ -30,7 +47,7 @@ class SessionsController < ApplicationController
     @session = Session.new(session_params)
     authorize @session
     @session.project = @project
-    if @session.save
+    if @session.save && (@session.date < @project.start_date || @session.date > @project.end_date)
       redirect_to project_session_path(@project, @session)
     else
       render :new
@@ -42,10 +59,11 @@ class SessionsController < ApplicationController
   end
 
   def update
+    @project = Project.find(params[:project_id])
     authorize @session
     @session.update(session_params)
     if @session.save
-      redirect_to session_path(@session)
+      redirect_to project_session_path(@project, @session)
     else
       render "_edit"
     end

@@ -1,7 +1,7 @@
 <div class="container" style="padding-right: 110px;">
       <div class="project-info-headers">
         <%= link_to projects_path do %>
-          <i class="fas fa-arrow-left" style="font-size: 30px";></i>
+          <i class="fas fa-arrow-left"></i>
         <% end %>
         <div>
           <%= link_to new_project_session_path(@project) do %>
@@ -14,9 +14,7 @@
           <h3><%= @project.title %>    <a class="edit-fafa" data-toggle='modal' data-target='#editProject'><i class="fas fa-edit"></i></a></h3>
           <h4><%="From #{@project.start_date.strftime('%d/%m/%y')} to #{@project.end_date.strftime('%d/%m/%y')}" %> - <i class="fas fa-user"> </i> <%= "#{@project.participant_number}"%> </h4>
         </div>
-          <div style="display: flex;
-    align-items: center;
-    justify-content: space-between;">
+          <div style="display: flex;align-items: center;justify-content: space-between;">
             <ul id="owner">
               <% @project.users.each do |user| %>
               <li>

@@ -9,23 +9,20 @@
   margin-right: 15px;
   color: black;
   font-size: 20px;
+  text-decoration: none;
 }
 
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-  border: none;
+.nav-tabs > li > a.active {
   background-color: transparent;
   border-bottom: 4px solid #ffc15c;
   font-weight: 500;
 }
 
+// .nav-tabs > li > a:hover {
+//   border-color: transparent;
+// }
+
 .nav-tabs > li > a:hover {
-  border-color: transparent;
+  border-bottom: 4px solid rgba(255, 193, 92, 0.7);
 }
 
-.nav > li > a:hover, .nav > li > a:focus {
-  background-color: transparent;
-}
-
-.nav-tabs > li > a {
-  border: 1px solid transparent;
-}
