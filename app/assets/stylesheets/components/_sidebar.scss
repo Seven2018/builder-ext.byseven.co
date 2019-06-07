@@ -1,22 +1,18 @@
 .nav-side-menu-container {
-  position: fixed;
-  top: 0;
-  right: 0;
   height: 100vh;
-  width: 15vw;
+  min-width: 220px;
 }
 
 .nav-side-menu {
   position: fixed;
-  flex-shrink: 0;
   font-family: verdana;
   font-size: 12px;
   font-weight: 200;
   background-color: #2e353d;
-  width: 15vw;
-  height: 100%;
   color: white;
-  box-shadow: 3px 3px 5px rgba(0,0,0,0.7);
+  box-shadow: -3px 3px 5px rgba(0,0,0,0.7);
+  height: 100%;
+  width: 220px;
 }
 .nav-side-menu .brand {
   background-color: #23282e;
@@ -148,8 +144,8 @@
   }
 }
 
-.menu-content > #click-to-add {
-  padding: 0;
+.menu-content > li {
+  padding: 0 9px;
   p {
     font-size: 15px;
     margin: 0;
