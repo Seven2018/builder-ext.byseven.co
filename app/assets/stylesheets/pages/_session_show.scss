@@ -1,12 +1,13 @@
 .container-session-show {
   position: relative;
-  width: 100%;
+  width: 100vw;
+  padding-left: 220px;
+  display: flex;
 }
 
 .session-container {
-  padding: 20px;
+  padding: 50px;
   flex: 1 0;
-  width: calc(100% - 220px - 15vw) !important;
 }
 
 .session-controls {

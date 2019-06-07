@@ -1,0 +1,71 @@
+/**
+ * Mediaqueries following the mobile-first method
+ * CSS are set from mobile first, then rules are extented to:
+ * - small devices (e.g. tablets in portrait orientation) : 600 to 799px
+ * - medium devices (e.g. low cost laptops) : 800px to 1023px
+ * - classic resolutions (superior tablets, computers, etc.) : 1024px and above
+ */
+
+/* ====== SETTINGS ====== */
+$width-bp-small: 37.5em;            // = 600px
+$width-bp-medium-low: 50em;         // = 800px
+$width-bp-medium-high: 64em;        // = 1024px
+$width-bp-large: 80em;              // = 1280px
+$width-bp-xlarge: 90em;             // = 1440px
+
+
+/* ====== QUERIES ====== */
+
+/* --- medium screens, from 600px --- */
+@mixin from-medium {
+    @media only screen and (min-width: $width-bp-small) {
+        @content;
+    }
+}
+
+/* --- only medium-low screens, from 600px to 799px --- */
+@mixin medium-low {
+    @media only screen and (min-width: $width-bp-small) and (max-width: #{$width-bp-medium-low - 0.01em}) {
+        @content;
+    }
+}
+
+/* --- only medium-high screens, from 800px to 1023px --- */
+@mixin medium-high {
+    @media only screen and (min-width: $width-bp-medium-low) and (max-width: #{$width-bp-medium-high - 0.01em}) {
+        @content;
+    }
+}
+
+@mixin from-medium-low {
+  @media only screen and (min-width: $width-bp-medium-low) {
+    @content;
+  }
+}
+
+@mixin from-medium-high {
+  @media only screen and (min-width: $width-bp-medium-high) {
+    @content;
+  }
+}
+
+/* --- large screens, from 1024px --- */
+@mixin from-large {
+    @media only screen and (min-width: $width-bp-medium-high) {
+        @content;
+    }
+}
+
+/* --- wider screens, from 1280px --- */
+@mixin from-xlarge {
+    @media only screen and (min-width: $width-bp-large) {
+        @content;
+    }
+}
+
+/* --- super wide screens, from 1440px --- */
+@mixin from-xxlarge {
+    @media only screen and (min-width: $width-bp-xlarge) {
+        @content;
+    }
+}
