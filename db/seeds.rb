@@ -275,7 +275,7 @@ Il existe cinq catégories d’adoptants : innovators, early adopters, early maj
 
 puts "Generating Users..."
 
-User.create(name: "Yahya", email: "yahya.fallah@byseven.co", password: "tititoto", access_level: " super admin", linkedin: "https://www.linkedin.com/in/yahya-fallah/?originalSubdomain=fr", picture: "https://avatars1.githubusercontent.com/u/45921830?s=460&v=4", description: "Co-founder")
+User.create(name: "Yahya", email: "yahya.fallah@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/yahya-fallah/?originalSubdomain=fr", picture: "https://avatars1.githubusercontent.com/u/45921830?s=460&v=4", description: "Co-founder")
 User.create(name: "Brice", email: "brice.chapuis@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/brice-chapuis-b8744b181/?originalSubdomain=fr", picture: "https://avatars1.githubusercontent.com/u/45003333?s=460&v=4", description: "CTO")
 User.create(name: "Project Manager", email: "user@2080.co", password: "tititoto", access_level: "project_manager", linkedin: "", picture: "https://i.pinimg.com/originals/d1/58/cc/d158ccef5dc0cadde05bdd0b7521a34d.jpg", description: "Project Manager")
 User.create(name: "Sevener", email: "sevener@2080.co", password: "tititoto", access_level: "sevener", linkedin: "", picture: "https://bloody-disgusting.com/wp-content/uploads/2017/05/Screen-Shot-2017-05-01-at-11.17.09-AM.jpg", description: "Sevener Lambda")
