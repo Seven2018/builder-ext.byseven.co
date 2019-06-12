@@ -61,14 +61,11 @@
 
 .left-menu-list {
   display: flex;
-  justify-content: space-around;
   align-items: center;
   padding: 24px;
+  width: 220px;
   &:hover {
     background-color: #FFC552;
-  }
-  p {
-    margin: 0;
   }
 }
 
@@ -101,11 +98,12 @@
 }
 
 .left-menu-title {
-  width: 70px;
   text-align: left;
+  margin-left: 20px;
   p {
     font-size: 20px;
     font-weight: 400;
+    margin: 0;
   }
 }
 

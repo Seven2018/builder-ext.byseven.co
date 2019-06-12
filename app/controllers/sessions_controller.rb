@@ -47,14 +47,15 @@ class SessionsController < ApplicationController
     @session = Session.new(session_params)
     authorize @session
     @session.project = @project
-    if @session.save && (@session.date < @project.start_date || @session.date > @project.end_date)
-      redirect_to project_session_path(@project, @session)
+    if @session.save
+      redirect_to project_path(@project)
     else
       render :new
     end
   end
 
   def edit
+    @project = Project.find(params[:project_id])
     authorize @session
   end
 
@@ -63,7 +64,7 @@ class SessionsController < ApplicationController
     authorize @session
     @session.update(session_params)
     if @session.save
-      redirect_to project_session_path(@project, @session)
+      redirect_to project_path(@project)
     else
       render "_edit"
     end
@@ -71,7 +72,6 @@ class SessionsController < ApplicationController
 
   def destroy
     @project = Project.find(params[:project_id])
-    @session = Session.find(params[:id])
     authorize @session
     @session.destroy
     redirect_to project_path(@project)

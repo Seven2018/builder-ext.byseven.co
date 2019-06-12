@@ -7,21 +7,20 @@
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
+    <script src="/assets/jquery.js" type="text/javascript"></script>
     <%= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
   </head>
     <div class="body-wrapper">
-<!--       <div id="right-side" style="<%#= 'padding: 0;' if params[:controller] == 'pages' && params[:action] == 'home' %>">
- -->        <div class='<%= "wrapper" unless params[:controller] == "pages" && params[:action] == "home" %>'>
-          <% unless params[:controller] == "pages" && params[:action] == "home" %>
-            <%= render 'shared/left-navbar' %>
-          <% end %>
-          <%#= render 'shared/navbar' %>
-          <%= render 'shared/flashes' %>
-          <%= yield %>
-          <%= javascript_include_tag 'application' %>
-          <%= javascript_pack_tag 'application' %>
-          <%#= render 'shared/footer' %>
-        </div>
-<!--       </div> -->
+     <div class='<%= "wrapper" unless params[:controller] == "pages" && params[:action] == "home" %>'>
+        <% unless params[:controller] == "pages" && params[:action] == "home" %>
+          <%= render 'shared/left-navbar' %>
+        <% end %>
+        <%#= render 'shared/navbar' %>
+        <%= render 'shared/flashes' %>
+        <%= yield %>
+        <%= javascript_include_tag 'application' %>
+        <%= javascript_pack_tag 'application' %>
+        <%#= render 'shared/footer' %>
+      </div>
     </div>
 </html>
