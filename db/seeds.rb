@@ -289,7 +289,7 @@ ClientCompany.create(
 ClientCompany.create(
  name: "IBM",
  address: "224 rue des Américains, 75016 Paris",
- logo: "https://pbs.twimg.com/profile_images/1013563961633959936/X5epMthl_400x400.jpg")
+ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/1200px-IBM_logo.svg.png")
 ClientCompany.create(
  name: "Le Wagon",
  address: "16 Villa Gaudelet, 75011 Paris",

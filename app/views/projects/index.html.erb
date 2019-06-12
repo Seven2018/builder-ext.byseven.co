@@ -23,4 +23,11 @@
     <div role="tabpanel" class="tab-pane" id="settings">
     </div>
   </div>
+
+  <%= week_calendar events: @projects do |date, projects| %>
+    <%= date.day %>
+    <% projects.each do |project| %>
+      <div><%= project.client_company.name %></div>
+    <% end %>
+  <% end %>
 </div>

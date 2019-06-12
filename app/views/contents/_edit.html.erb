@@ -18,11 +18,11 @@
     <div>
       <%= f.button :submit, class: 'btn btn-edit' %>
       <% end %>
-      <button class="btn btn-edit">
-        <%= link_to content_path(@content), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-          <i class="fas fa-trash-alt"></i>
+      <%= link_to content_path(content), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <button class="btn btn-edit">
+            <i class="fas fa-trash-alt"></i>
+          </button>
         <% end %>
-      </button>
     </div>
   </div>
 </div>

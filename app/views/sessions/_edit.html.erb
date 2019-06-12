@@ -10,18 +10,18 @@
       <%= f.input :title %>
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
-        <%= f.input :start_time, as: :time, input_html: { class: 'timepicker'} %>
-        <%= f.input :end_time, as: :time, input_html: { class: 'timepicker'} %>
+        <%= f.input :start_time, as: :string, input_html: { class: 'timepicker'} %>
+        <%= f.input :end_time, as: :string, input_html: { class: 'timepicker'} %>
       </div>
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">
     <div>
       <%= f.button :submit, class: 'btn btn-edit' %>
-      <button class="btn btn-edit">
         <%= link_to project_session_path(session.project, session), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-          <i class="fas fa-trash-alt"></i>
+          <button class="btn btn-edit">
+            <i class="fas fa-trash-alt"></i>
+          </button>
         <% end %>
-      </button>
       <% end %>
     </div>
   </div>
