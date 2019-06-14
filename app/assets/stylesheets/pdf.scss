@@ -1,3 +1,9 @@
+#pdf-logo {
+  padding: 20px;
+  margin-bottom: 50px;
+}
+
+
 .title-pdf {
   font-family: "Roboto", sans-serif;
   padding-top: 3px;
@@ -32,12 +38,14 @@
 }
 .content-description-pdf {
   line-height: 30px;
-  font-size: 20px;
-  margin-top: -20px;
+  font-size: 16px;
   text-align: justify;
+  margin-bottom: 50px;
 }
+
+
 .content-intel-pdf {
   font-family: "Roboto", sans-serif;
   font-style: italic;
-  margin-top: -15px;
+  // margin-top: -15px;
 }

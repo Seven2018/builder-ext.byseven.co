@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     end
     resources :project_ownerships, only: [:create, :destroy], path: '/owner'
   end
+  get 'projects_week', to: 'projects#index_week', as: "index_week"
+  get 'projects_month', to: 'projects#index_month', as: "index_month"
   post 'content_module/:id', to: "content_modules#move", as: "move_mod"
   get 'content_module/:id', to: 'content_modules#save', as: "save_mod"
 end

@@ -1,0 +1,30 @@
+<%= month_calendar events: @projects do |date, projects| %>
+  <%= date.day %>
+  <% projects.each do |project| %>
+    <% project.sessions.each do |session| %>
+      <div style="display: flex; justify-content: center;">
+        <%= link_to project_session_path(session.project, session) do %>
+        <div class="card-sm" id="card-index">
+          <div class="card-main-sm">
+            <div class='client-logo' style="background-image: url(<%= session.project.client_contact.client_company.logo %>); background-size: 50px 50px; background-repeat: no-repeat;"></div>
+            <h5><%= session.title %></h5>
+            <div class="card-infos">
+              <div class='card-infos-elements'><i class="fas fa-user"></i><%= " #{session.project.participant_number} participants" %></div>
+              <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= " De #{session.start_time.strftime('%H:%M')} à #{session.end_time.strftime('%H:%M')}" %>
+              </div>
+            </div>
+            <div class="card-trainers">
+              <% session.session_trainers.each do |trainer| %>
+
+                <%= link_to user_path(trainer.user) do %>
+                  <img src="<%= trainer.user.picture %>" class='card-trainer' alt="">
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

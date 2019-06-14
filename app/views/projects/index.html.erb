@@ -1,10 +1,13 @@
 <div class="container-seven" style="background-color: white">
-    <h3 style="text-align: left;"><%= "Dashboard" %></h3>
+  <h3 style="text-align: left;"><%= "Dashboard" %></h3>
   <div class="projects-title">
     <ul class="nav nav-tabs">
       <li role="presentation"><a href="#ongoing" data-toggle="tab" class="active">Ongoing Projects</a></li>
       <li role="presentation"><a href="#coming" data-toggle="tab">Coming Projects</a></li>
       <li role="presentation"><a href="#completed" data-toggle="tab">Completed Projects</a></li>
+      <li></li>
+      <li><%= link_to "Semaine", index_week_path %></li>
+      <li><%= link_to "Mois", index_month_path %></li>
     </ul>
     <div class="new-project">
       <%= link_to 'New project', new_project_path, id: "new-project", class: "btn btn-edit" %>
@@ -24,10 +27,3 @@
     </div>
   </div>
 
-  <%= week_calendar events: @projects do |date, projects| %>
-    <%= date.day %>
-    <% projects.each do |project| %>
-      <div><%= project.client_company.name %></div>
-    <% end %>
-  <% end %>
-</div>

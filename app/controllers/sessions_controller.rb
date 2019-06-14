@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
       format.pdf do
         render(
           pdf: "#{@session.title}",
-          layout: 'pdf.pdf.erb',
+          layout: 'pdf.html.erb',
           template: 'sessions/show',
           # title: "#{@session.title}",
           show_as_html: params.key?('debug'),
