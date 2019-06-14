@@ -4,15 +4,17 @@
     <div>
       <img src='<%= @user.picture %>' alt="" class='client-company-logo-show'>
       <div>
-        <p>Nom: <%=  @user.name %></p>
-        <div class="show-control-links">
-          <% if current_user.access_level == 'super admin' %>
-            <a class="edit-fafa" data-toggle='modal' data-target='#editUser'><i class="fas fa-edit"></i></a>
-            <a class="edit-fafa" data-toggle='modal' data-target='#editPassword'><i class="fas fa-unlock-alt"></i></a>
+        <div class="show-control-links" style='display:flex;flex-direction:row;'>
+          <% if current_user.access_level == 'super admin' || @user == current_user %>
+            <a class="button" data-toggle='modal' data-target='#editUser'><button class='btn'>Edit Profile</button></a>
+            <a class="button" data-toggle='modal' data-target='#editPassword'><button class='btn'>Change Password</button></a>
+            <!-- <a class="button" data-toggle='modal' data-target='#editUser'><i class="fas fa-edit"></i></a>
+            <a class="edit-fafa" data-toggle='modal' data-target='#editPassword'><i class="fas fa-unlock-alt"></i></a> -->
           <% end %>
         </div>
       </div>
     </div>
+    <p>Nom: <strong><%=  @user.name %></strong></p>
     <p>Email: <%= @user.email %></p>
     <p>Level: <%= @user.access_level.capitalize %></p>
     <p>Description: <%= @user.description %></p>

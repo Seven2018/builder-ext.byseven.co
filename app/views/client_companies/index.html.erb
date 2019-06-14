@@ -1,16 +1,18 @@
 <div class="container-seven">
   <ul class='client-company-list'>
-    <li>
-      <%= link_to new_client_company_path do %>
-        <div class="client-company-card">
-          <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
-          <div>
-            <p>Add a new company</p>
-            <p></p>
+    <% if ['super admin', 'admin', 'project manager'].include? current_user.access_level %>
+      <li>
+        <%= link_to new_client_company_path do %>
+          <div class="client-company-card">
+            <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
+            <div>
+              <p>Add a new company</p>
+              <p></p>
+            </div>
           </div>
-        </div>
-      <% end %>
-    </li>
+        <% end %>
+      </li>
+    <% end %>
     <% @client_companies.each do |company| %>
       <li>
         <%= link_to client_company_path(company) do %>

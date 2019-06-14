@@ -10,7 +10,8 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    ['super admin', 'admin', 'project manager'].include? user.access_level
+    true
+    # ['super admin', 'admin', 'project manager'].include? user.access_level
   end
 
   def edit?
