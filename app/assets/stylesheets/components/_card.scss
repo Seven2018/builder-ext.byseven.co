@@ -33,6 +33,39 @@ $timeline: #115173;
   }
 }
 
+.card-sm {
+  height: 200px;
+  width: 200px;
+  margin: 10px 0;
+  position: relative;
+  background-color: rgb(244, 244, 244);
+  border: 1px solid #e0e0e0;
+  font-family: 'Roboto';
+  font-weight: lighter;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  transition: all 0.8s ease;
+  a {
+    text-decoration: none;
+    color: black;
+    height: 100%;
+  }
+  .card-main-sm {
+    height: 100%;
+    width: 100%;
+    text-align: left;
+    padding: 15px;
+    // border: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    h6 {
+      margin: 15px 0;
+    }
+  }
+}
+
 .sessions-cards {
   a {
     text-decoration: none;
@@ -46,6 +79,16 @@ $timeline: #115173;
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.card-trainers {
+  margin-top: 30px;
+}
+
+.card-trainer {
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
 }
 
 .card-infos {
@@ -161,7 +204,7 @@ $timeline: #115173;
     align-items: center;
     position: absolute;
     top: 40%;
-    left: 71px;
+    left: 54px;
     color: $blue;
     font-weight: 600;
     font-size: 23px;

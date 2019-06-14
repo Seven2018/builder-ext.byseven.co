@@ -25,6 +25,14 @@ class ProjectPolicy < ApplicationPolicy
     check_access
   end
 
+  def index_week?
+    true
+  end
+
+  def index_month?
+    true
+  end
+
   private
 
   def check_access
