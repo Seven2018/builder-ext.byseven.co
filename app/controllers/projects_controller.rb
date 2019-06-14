@@ -3,7 +3,20 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Project.all
+    @sessions = Session.all
     @projects = policy_scope(Project)
+  end
+
+  def index_week
+    @projects = Project.all
+    @sessions = Session.all
+    authorize @projects
+  end
+
+  def index_month
+    @projects = Project.all
+    @sessions = Session.all
+    authorize @projects
   end
 
   def show
