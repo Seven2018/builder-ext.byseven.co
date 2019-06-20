@@ -4,10 +4,14 @@ class ProjectOwnershipsController < ApplicationController
     @project = Project.find(params[:project_id])
     @ownership = ProjectOwnership.new(user: @user, project: @project)
     skip_authorization
-    if @ownership.save
-      redirect_to project_path(@project)
+    unless @project.users.include?(@user)
+      if @ownership.save
+        redirect_to project_path(@project)
+      else
+        raise
+      end
     else
-      raise
+      redirect_to project_path(@project)
     end
   end
 end

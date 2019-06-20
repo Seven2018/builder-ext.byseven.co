@@ -149,9 +149,6 @@ $timeline: #115173;
       color: inherit;
       text-align: left;
       margin: 0;
-      margin-bottom: 20px;
-      padding-left: 39px;
-      padding-top: 10px;
     }
   }
   .card-footer-lg {
@@ -165,6 +162,18 @@ $timeline: #115173;
     }
   }
 }
+
+.card-session-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+    h3 {
+      margin: 0;
+      padding: 0;
+  }
+}
+
 .card-link {
   position: absolute;
   top: 0px;

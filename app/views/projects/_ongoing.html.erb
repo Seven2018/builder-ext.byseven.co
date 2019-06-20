@@ -2,7 +2,7 @@
   <% result_cours = [] %>
   <% projects.each do |project| %>
     <% if project.start_date <= Date.today && project.end_date >= Date.today %>
-      <div class="col-md-4" style="display: flex; justify-content: center;">
+      <div class="col-xs-4" style="display: flex; justify-content: center;">
         <%= link_to project_path(project) do %>
         <div class="card" id="card-index">
           <div class="card-main">
@@ -25,7 +25,7 @@
     <% end %>
   <% end %>
     <% if result_cours.empty? %>
-      <div class="col-xs-12 col-md-4" style="display: flex; justify-content: center;">
+      <div class="col-xs-4" style="display: flex; justify-content: center;">
         <div class="card">
           <div class="card-main">
             <%= "Empty" %>

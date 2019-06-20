@@ -27,10 +27,13 @@
         <ul id="owner">
           <% @session.users.each do |user| %>
             <li>
-              <%= link_to user_path(user) do %>
-                <img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'>
-              <% end %>
+              <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
             </li>
+            <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document" style="border-radius: 20px">
+                <%= render 'users/consult', user: user %>
+              </div>
+            </div>
           <% end %>
         </ul>
           <% if (['super admin', 'admin'].include? current_user.access_level) || (@session.project.users.include? current_user) %>
@@ -83,10 +86,10 @@
         <ul id="menu-content" class="menu-content collapse out">
           <li id='click-to-add'><p><em><--Click to add--></em></p></li>
           <% @chapter.uniq.each do |chapter| %>
-            <li data-toggle="collapse" data-target="#<%= chapter %>" class="collapsed">
-              <a><%= chapter %><span class="arrow"></span></a>
+            <li data-toggle="collapse" data-target="#<%= chapter.name %>" class="collapsed">
+              <a><%= chapter.name %><span class="arrow"></span></a>
             </li>
-            <ul class="sub-menu collapse" id="<%= chapter %>">
+            <ul class="sub-menu collapse" id="<%= chapter.name %>">
               <% @contents.where(chapter: chapter).each do |content| %>
                 <li class="content-chapter"><%= link_to "+ #{content.title}", project_session_content_modules_path(@session.project, @session, content_id: content.id), method: :post, remote: true %></li>
               <% end %>
@@ -101,7 +104,7 @@
 
 <!-- Modals -->
 <div class="modal fade" id="editSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
     <%= render 'edit', session: @session %>
   </div>
 </div>
@@ -111,3 +114,5 @@
     <%= render 'session_trainers/new', session: @session, session_trainer: @session_trainer %>
   </div>
 </div>
+
+

@@ -7,11 +7,11 @@
     <%= f.input :duration, input_html: { min: '0' } %>
     <%= f.input :description, :input_html => {:rows => 10} %>
     <%= f.input :logistic %>
-    <%= f.input :chapter, collection: ["Leadership", "Gestion d'équipe", "Communication", "Business Development", "Gestion de Projet", "Intelligence Economique", "Team Building"] %>
+    <%= f.association :chapter, collection: Chapter.order('name ASC') %>
     <%# f.input :intel1, label: 'Intelligence 1', collection: Intelligence.all.each { |intel| intel.name } %>
     <%# f.input :intel2, label: 'Intelligence 2', collection: Intelligence.all.each { |intel| intel.name } %>
-    <%= f.input :intel1_id, collection: @intelligences %>
-    <%= f.input :intel2_id, collection: @intelligences %>
+    <%= f.input :intel1_id, collection: Intelligence.all %>
+    <%= f.input :intel2_id, collection: Intelligence.all %>
     <p class="center-button"> <%= f.submit class: 'btn-edit' %> </p>
   <% end %>
 </div>

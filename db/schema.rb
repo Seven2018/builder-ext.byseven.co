@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_23_145735) do
+ActiveRecord::Schema.define(version: 2019_06_14_175735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chapters", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "client_companies", force: :cascade do |t|
     t.string "name"
@@ -68,11 +76,12 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
     t.integer "duration"
     t.text "description"
     t.string "logistic"
-    t.string "chapter"
+    t.bigint "chapter_id"
     t.integer "intel1_id"
     t.integer "intel2_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["chapter_id"], name: "index_contents_on_chapter_id"
   end
 
   create_table "intelligences", force: :cascade do |t|
@@ -162,6 +171,7 @@ ActiveRecord::Schema.define(version: 2019_05_23_145735) do
   add_foreign_key "comments", "sessions"
   add_foreign_key "comments", "users"
   add_foreign_key "content_modules", "sessions"
+  add_foreign_key "contents", "chapters"
   add_foreign_key "project_ownerships", "projects"
   add_foreign_key "project_ownerships", "users"
   add_foreign_key "projects", "client_contacts"

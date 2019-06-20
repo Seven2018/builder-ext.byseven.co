@@ -64,7 +64,7 @@ class SessionsController < ApplicationController
     authorize @session
     @session.update(session_params)
     if @session.save
-      redirect_to project_path(@project)
+      redirect_to project_session_path(@project, @session)
     else
       render "_edit"
     end

@@ -40,9 +40,18 @@ Elle est particulièrement utilisée par les professions de danseur, d'athlète,
 Intelligence.create(name: "Intelligence musicale", description: "L’intelligence musicale constitue l’aptitude à percevoir et créer des rythmes et mélodies, de reconnaître des modèles musicaux, de les interpréter et d'en créer. Cette intelligence engage des processus actifs et passifs : jouer d'un instrument, chanter ou composer (actif) mais également apprécier la musique écoutée (passif).
 Cette intelligence est développée et nécessaire chez les musiciens et compositeurs.")
 
+puts "Generating Chapters..."
+
+Chapter.create(name: 'Innovation')
+Chapter.create(name: 'Négociation')
+Chapter.create(name: 'Management')
+Chapter.create(name: 'Développement Personnel')
+Chapter.create(name: 'Communication')
+Chapter.create(name: 'Stratégie')
+
 puts "Generating Contents..."
 
-Content.create(intel1_id: 6, intel2_id: 5, title: 'Design Thinking', chapter: 'Innovation', format: 'Pratique', duration: 45, description: "« Quelle que soit la forme pour laquelle on opte il s’agit de penser avec les mains » — David Kelley (fondateur d’IDEO)
+Content.create(intel1_id: 6, intel2_id: 5, title: 'Design Thinking', chapter_id: 1, format: 'Pratique', duration: 45, description: "« Quelle que soit la forme pour laquelle on opte il s’agit de penser avec les mains » — David Kelley (fondateur d’IDEO)
 Le Design Thinking est une méthode innovante de conduite de projet et de management qui utilise, entre autres, la génération d’idées créatives et le prototypage comme moyens concrets de réalisation de produits et de services.
 Développée dans les années 80 à l’Université de Stanford par Rolf Faste, designer américain, cette approche méthodologique offre une vision non pas linéaire de la marche à suivre pour créer un produit ou service, mais est plutôt basée sur un rythme de cycles itératifs, répétés autant de fois que nécessaire jusqu’à l’obtention du résultat optimal souhaité.
 
@@ -50,7 +59,7 @@ Ce qui différencie le Design Thinking d’autres outils d’aide à la créativ
 
 « Déjà essayé. Déjà échoué. Peu importe. Essaie encore. Échoue encore. Échoue mieux. » — Samuel Beckett")
 
-Content.create(intel1_id: 4, intel2_id: 6, title: 'Les 6 chapeaux de la créativité', chapter: 'Innovation', format: 'Discussion', duration: 45, description: "Quelle est la plus formidable invention de l’humanité ?
+Content.create(intel1_id: 4, intel2_id: 6, title: 'Les 6 chapeaux de la créativité', chapter_id: 1, format: 'Discussion', duration: 45, description: "Quelle est la plus formidable invention de l’humanité ?
 Presque instantanément, nous serions tentés de répondre l’ordinateur ou bien internet.
 Cependant, les meilleures inventions, depuis l’aube de l’humanité sont celles qui nous permettent de s’affranchir des contraintes imposées par notre corps.
 L’échelle par exemple, pour aller d’un point A à un point d’altitude B. La roue et la charrette pour transporter des charges plus importantes plus loin et plus vite.
@@ -85,21 +94,21 @@ La créativité : lorsqu’il porte le chapeau vert, le penseur provoque, recher
 Chapeau bleu
 L’organisation : c’est le meneur de jeu, l’animateur de la réunion qui canalise les idées et les échanges entre les autres chapeaux. C’est le bleu du ciel qui englobe tout.")
 
-Content.create(intel1_id: 2, intel2_id: 1, title: 'Conditionnements et conscience', chapter: 'Négociation', format: 'Top-down', duration: 30, description: "La plupart de nos actions se font inconsciemment et sont en réalité des réponses automatiques, stéréotypées et irréfléchies aux stimulations quotidiennes qui nous parviennent par nos sens.
+Content.create(intel1_id: 2, intel2_id: 1, title: 'Conditionnements et conscience', chapter_id: 2, format: 'Top-down', duration: 30, description: "La plupart de nos actions se font inconsciemment et sont en réalité des réponses automatiques, stéréotypées et irréfléchies aux stimulations quotidiennes qui nous parviennent par nos sens.
 Il est indispensable de nous appuyer dessus étant donné la masse d’information toujours plus importante que nous, humains, avons à gérer au fur et à mesures que nos civilisations avancent et que les technologies se développent
 
 « Le niveau d’une civilisation est donné par la quantité de prestations que les gens réussissent à accomplir inconsciemment. » — Alfred North Whitehead
 La grande majorité de nos réactions inconscientes proviennent des conditionnements que nous avons intégrés au cours de notre vie.
 Stephen R. Covey s’est rendu mondialement célèbre avec son livre “les 7 habitudes de ceux qui réussissent tout ce qu’ils entreprennent” dans lequel il insiste sur l’idée que ce qui fait la différence entre une personne qui réussit et une personne qui a des difficultés tient essentiellement aux habitudes prises. En management, il est reconnu que ce sont les actions du quotidien, tout ce qu’un manager fait de façon habituelle et non-réfléchie qui fait la différence. Et ces habitudes s’acquièrent par l’expérience, via des “renforcements”, des répétitions. Dans ces conditions, plus une habitude a été renforcée, plus elle est difficile à modifier. En cela, l’obstacle à l’apprentissage est souvent une mauvaise habitude renforcée par des années de pratique et qui empêche l’assimilation d’une nouvelle habitude et pas la capacité à apprendre un nouveau comportement.")
 
-Content.create(intel1_id: 1, intel2_id: 2, title: "Contrôler l'histoire", chapter: 'Négociation', format: 'Top-down', duration: 30, description: "Dans le très célèbre livre de George Orwell, 1984, le pouvoir totalitaire, collectiviste et autoritaire de Big Brother réécrit constamment l’Histoire. Même la plus récente: jusqu’aux chiffres de la production de chocolat de la semaine précédent.
+Content.create(intel1_id: 1, intel2_id: 2, title: "Contrôler l'histoire", chapter_id: 2, format: 'Top-down', duration: 30, description: "Dans le très célèbre livre de George Orwell, 1984, le pouvoir totalitaire, collectiviste et autoritaire de Big Brother réécrit constamment l’Histoire. Même la plus récente: jusqu’aux chiffres de la production de chocolat de la semaine précédent.
 Avoir la capacité d’orienter l’histoire dans une lumière favorable à son idéologie ou son pouvoir est critique dans les guerres d’influences. Et cela a été le cas continuellement dans l’Histoire de l’humanité.
 
 On peut remonter jusqu’à Akhenaton, en Égypte ancienne: vers 1350 avant Jésus Christ qui a essayé de faire de l’Egypte un pays monothéiste. Il a tenté de retirer, mutiler ou détruire tous les noms (dans des cartouches), tous les symboles et toutes les statuts des autres dieux présents dans les temples. Heureusement, la plupart de ses tentatives d’effacer l’Histoire ont échouées et il reste possible de retrouver des traces de ce qui existait avant. Dans le cas d’Akhenaton, ces changements brutaux ont été si mal vécus qu’il a lui-même finalement été renversé et la majorité de ses propres statuts et cartouches ont été détruits, effacés ou retirés.
 
 De la même façon, après la proclamation de la chrétienté comme religion officielle de l’Empire Romain par l’Empereur Constantin, les Chrétiens ont vandalisés, détruits ou marqués d’une croix au front un grand nombre de statuts ou symboles des dieux païens.")
 
-Content.create(intel1_id: 3, intel2_id: 4, title: 'Burning Plateform', chapter: 'Management', format: 'Discussion', duration: 25, description: "Voici un petit exercice d’imagination :
+Content.create(intel1_id: 3, intel2_id: 4, title: 'Burning Plateform', chapter_id: 3, format: 'Discussion', duration: 25, description: "Voici un petit exercice d’imagination :
 Vous vivez et travaillez sur une plateforme pétrolière. Vous vous réveillez au beau milieu de la nuit, un soir d’été, après avoir entendu un bruit sourd. Vous sortez de votre chambre pour vous rendre compte qu’une explosion a eu lieu et que les flammes recouvrent toute la plateforme…
 Vous analysez la situation autour de vous, vos sens sont exacerbés et votre capacité à prendre des décisions n’aura jamais été aussi rapide. Un couloir vous apparaît entre les flammes, vous le traversez à toute vitesse manquant de finir asphyxié par l’épaisse fumée noire qui a rapidement envahi les lieux. Vous vous trouvez à présent sur le rebord de la plateforme. Vous vous penchez en avant pour essayer de repérer une échappatoire mais tout ce que vous parvenez à discerner, ce sont les eaux sombres et froides de l’océan.
 
@@ -116,7 +125,7 @@ La plate-forme en feu sur laquelle se trouvait Andy Mochan l’a poussé à modi
 De la plate-forme en feu à l’ambition ardente
 Si Daryl Connor a popularisé le concept de « burning-platform », celui-ci a néanmoins subit des déformations dans son interprétation et certains peuvent y voir un moyen de générer la peur et la panique. Qu’on ne se méprenne pas, la « burning-platform » est avant tout porteuse d’un message sur l’importance de l’engagement. Le point critique à atteindre pour une entreprise, une équipe ou même un manager, se situe dans le glissement opéré d’une « burning platform » vers une « burning ambition » : créer l’engagement d’un groupe plutôt que la peur et la panique, cela suppose de catalyser les externalités négatives et de les internaliser sous forme d’énergie créatrice et de passion ! Plus facile à dire qu’à faire, mais une personne avertie en vaut deux : vous êtes presque prêts à faire le plongeon !")
 
-Content.create(intel1_id: 5, intel2_id: 7, title: 'Management Situationnel', chapter: 'Management', format: 'Top-down', duration: 30, description: "« Tout le monde est un génie. Mais si vous jugez un poisson à ses capacités à grimper aux arbres, il passera sa vie à croire qu’il est stupide. » — Albert Einstein.
+Content.create(intel1_id: 5, intel2_id: 7, title: 'Management Situationnel', chapter_id: 3, format: 'Top-down', duration: 30, description: "« Tout le monde est un génie. Mais si vous jugez un poisson à ses capacités à grimper aux arbres, il passera sa vie à croire qu’il est stupide. » — Albert Einstein.
 Les meilleurs leaders sont ceux qui s’adaptent au niveau de maturité de l’individu ou du groupe qu’ils dirigent. Le style de management doit être adapté non seulement aux personnes/groupes, mais également à la tâche/fonction qui doit être réalisée.
 Hersey & Blanchard ont développé vers la fin des années 70, un modèle de leadership situationnel basé sur deux axes : la relation et l’encadrement.
 
@@ -137,11 +146,11 @@ Management délégatif ou « laisser-faire »
 Pertinent pour un collaborateur parfaitement compétent et autonome. Il gère voire crée ses propres missions et a besoin de considération.
 Mode de communication adapté : l’email de suivi.")
 
-Content.create(intel1_id: 2, intel2_id: 3, title: "Matrice d'Eisenhower", chapter: 'Management', format: 'Discussion', duration: 20, description: "« Ce qui est important est rarement urgent et ce qui est urgent rarement important » — Dwight D. Eisenhower
+Content.create(intel1_id: 2, intel2_id: 3, title: "Matrice d'Eisenhower", chapter_id: 3, format: 'Discussion', duration: 20, description: "« Ce qui est important est rarement urgent et ce qui est urgent rarement important » — Dwight D. Eisenhower
 La matrice a été développée pour aider à donner un ordre de priorité aux tâches à réaliser et apprendre ainsi à travailler de façon plus efficace. Elle est basée sur deux paramètres : l’urgence et l’importance.
 Utiliser cette classification permettra simplement d’identifier ce qui est important et/ou urgent, suivant la matrice ci-dessous :")
 
-Content.create(intel1_id: 4, intel2_id: 6, title: 'Mastery', chapter: 'Développement-Personnel', format: 'Top-down', duration: 30, description: "N’importe qui peut devenir un génie dans un domaine.
+Content.create(intel1_id: 4, intel2_id: 6, title: 'Mastery', chapter_id: 4, format: 'Top-down', duration: 30, description: "N’importe qui peut devenir un génie dans un domaine.
 N’importe qui peut devenir un génie.
 N’importe qui peut.
 N’importe qui.
@@ -166,7 +175,7 @@ Pour Robert Greene, atteindre l’excellence suppose de passer par plusieurs pha
 Il s’agit ici de se poser des questions sur la manière dont le système fonctionne et de ce qui fait la réussite des plus grands.
 L’acquisition de savoir-faire, à savoir les 500, 1 000, 10 000 heures de travail nécessaires à la maîtrise d’un sujet. Cette étape nécessite, dans un souci de progression et de motivation, de trouver un mentor capable de vous assister dans votre progression et vous guider en déterminant les points critiques, dont la compréhension est cruciale pour atteindre l’expertise.")
 
-Content.create(intel1_id: 4, intel2_id: 5, title: 'Analyse transactionnelle', chapter: 'Développement-Personnel', format: 'Top-down', duration: 30, description: "Le concept de base de l’analyse transactionnelle est celui des 3 états du moi, formés au cours de la petite enfance et qui constituent la structure de toute personnalité : ce sont le Parent, l’Adulte et l’Enfant.
+Content.create(intel1_id: 4, intel2_id: 5, title: 'Analyse transactionnelle', chapter_id: 4, format: 'Top-down', duration: 30, description: "Le concept de base de l’analyse transactionnelle est celui des 3 états du moi, formés au cours de la petite enfance et qui constituent la structure de toute personnalité : ce sont le Parent, l’Adulte et l’Enfant.
 On les représente généralement par 3 cercles superposés. Tous les 3 sont aussi importants l’un que l’autre. Ce qui se passe dans nos rapports interpersonnels et dans nos vies dépend en grande partie de l’état du moi à partir duquel nous agissons, dans telle ou telle situation.
 L’état Enfant est celui d’où provient notamment la créativité, le jeu, l’intuition, les pulsions et les sentiments. S’il peut être spontané, intuitif et créateur, l’Enfant peut aussi être capricieux, rebelle ou soumis.
 
@@ -189,9 +198,9 @@ Si l’on a des prédispositions pour l’état Enfant, en prendre conscience pe
 
 ")
 
-Content.create(intel1_id: 2, intel2_id: 4, title: 'Prise de parole en public', chapter: 'Communication', format: 'Top-down', duration: 45, description: "Monter sur scène pour prendre la parole en public est un exercice difficile qui demande de la préparation. Les conférences TED (Technology, Entertainment & Design) sont devenues des standards de prise de parole. Il s’agit d’un cycle de conférences crée à Monterey (Californie) en 1984 qui rassemble des esprits brillants dans leur domaine pour partager des idées avec le monde. C’est un événement annuel où les plus grands talents internationaux sont invités à partager leur passion.")
+Content.create(intel1_id: 2, intel2_id: 4, title: 'Prise de parole en public', chapter_id: 5, format: 'Top-down', duration: 45, description: "Monter sur scène pour prendre la parole en public est un exercice difficile qui demande de la préparation. Les conférences TED (Technology, Entertainment & Design) sont devenues des standards de prise de parole. Il s’agit d’un cycle de conférences crée à Monterey (Californie) en 1984 qui rassemble des esprits brillants dans leur domaine pour partager des idées avec le monde. C’est un événement annuel où les plus grands talents internationaux sont invités à partager leur passion.")
 
-Content.create(intel1_id: 5, intel2_id: 1, title: "Les 5 types d'écoute", chapter: 'Communication', format: 'Mise en situation', duration: 45, description: "« L’écoute est notre arme », devise du groupe de négociation du RAID.
+Content.create(intel1_id: 5, intel2_id: 1, title: "Les 5 types d'écoute", chapter_id: 5, format: 'Mise en situation', duration: 45, description: "« L’écoute est notre arme », devise du groupe de négociation du RAID.
 La qualité première des négociateurs est l’écoute. Savoir déceler le type d’écoute chez son interlocuteur permet de s’assurer que le message que l’on envoie sera bien reçu. Le type d’écoute que vous utilisez en dit beaucoup sur vous.
 
 Les 5 formes d’écoute les plus fréquentes sont :
@@ -216,7 +225,7 @@ Comment réagir face à ces types d’écoute ?
 
 Le groupe négociation du RAID a choisi comme devise : « L’écoute est notre arme ». L’emblème du Groupe est une représentation d’un vase grec antique présentant Œdipe assis face au Sphinx.")
 
-Content.create(intel1_id: 6, intel2_id: 1, title: "Les 6 lois de la persuasion", chapter: 'Négociation', format: 'Top-down', duration: 30, description: "De 0 à 6 ans, nous découvrons le monde qui nous entoure et nous apprenons à y vivre. Notre cerveau crée des raccourcis pour que nous puissions continuer à apprendre.
+Content.create(intel1_id: 6, intel2_id: 1, title: "Les 6 lois de la persuasion", chapter_id: 1, format: 'Top-down', duration: 30, description: "De 0 à 6 ans, nous découvrons le monde qui nous entoure et nous apprenons à y vivre. Notre cerveau crée des raccourcis pour que nous puissions continuer à apprendre.
 EXEMPLE
 Plus besoin de se demander ce qu’il se passe quand on appuie sur un interrupteur: notre cerveau a créé un raccourci entre l’interrupteur et le fait que la lumière s’allume si on appuie dessus.
 
@@ -245,7 +254,7 @@ Content.create(
  intel1_id: 4,
  intel2_id: 1,
  title: 'Golden Circles',
- chapter: 'Stratégie',
+ chapter_id: 6,
  format: 'Top-down',
  duration: 30,
  description: "Chaque personne, chaque organisation cherche à motiver les gens à agir pour une raison ou pour une autre.
@@ -262,7 +271,7 @@ Content.create(
  intel1_id: 2,
  intel2_id: 5,
  title: "Loi de Diffusion de l'innovation",
- chapter: 'Stratégie',
+ chapter_id: 6,
  format: 'Pratique',
  duration: 30,
  description: "Les nouvelles idées, innovations ou produits sont initialement perçus par les gens comme incertains, risqués ou encore inutiles.
