@@ -2,8 +2,8 @@ class SessionsController < ApplicationController
   before_action :set_session, only: [:show, :edit, :update, :destroy]
 
   def index
-    @project = Project.find(params[:project_id])
-    @sessions = Session.where(project: @project)
+    @training = Training.find(params[:training_id])
+    @sessions = Session.where(training: @training)
     @sessions = policy_scope(Session).order(:date)
   end
 
@@ -13,10 +13,10 @@ class SessionsController < ApplicationController
     @contents = Content.all
     @session_trainer = SessionTrainer.new
     @comment = Comment.new
-    @chapter = []
-    @contents.each do |content|
-      @chapter << content.chapter
-    end
+    @chapters = Chapter.all
+    # @contents.each do |content|
+    #   @chapter << content.chapter
+    # end
     respond_to do |format|
       format.html
       format.pdf do
@@ -38,43 +38,43 @@ class SessionsController < ApplicationController
   def new
     @session = Session.new
     # @clients = ClientContact.all
-    @project = Project.find(params[:project_id])
+    @training = Training.find(params[:training_id])
     authorize @session
   end
 
   def create
-    @project = Project.find(params[:project_id])
+    @training = Training.find(params[:training_id])
     @session = Session.new(session_params)
     authorize @session
-    @session.project = @project
+    @session.training = @training
     if @session.save
-      redirect_to project_path(@project)
+      redirect_to training_path(@training)
     else
       render :new
     end
   end
 
   def edit
-    @project = Project.find(params[:project_id])
+    @training = Training.find(params[:training_id])
     authorize @session
   end
 
   def update
-    @project = Project.find(params[:project_id])
+    @training = Training.find(params[:training_id])
     authorize @session
     @session.update(session_params)
     if @session.save
-      redirect_to project_session_path(@project, @session)
+      redirect_to training_session_path(@training, @session)
     else
       render "_edit"
     end
   end
 
   def destroy
-    @project = Project.find(params[:project_id])
+    @training = Training.find(params[:training_id])
     authorize @session
     @session.destroy
-    redirect_to project_path(@project)
+    redirect_to training_path(@training)
   end
 
   private
@@ -84,6 +84,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:title, :date, :start_time, :end_time, :project_id)
+    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id)
   end
 end

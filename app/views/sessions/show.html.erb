@@ -1,11 +1,11 @@
 <div class="container-session-show">
   <div class="session-container">
-    <div class="project-info-headers">
-      <%= link_to project_path(@session.project) do %>
+    <div class="training-info-headers">
+      <%= link_to training_path(@session.training) do %>
         <i class="fas fa-arrow-left"></i>
       <% end %>
       <div>
-        <%= link_to project_session_path(@session.project, @session, format: :pdf) do %>
+        <%= link_to training_session_path(@session.training, @session, format: :pdf) do %>
           <button class="btn btn-edit" id='export-btn'>
             Export as <i class="fas fa-file-pdf"></i>
           </button>
@@ -36,7 +36,7 @@
             </div>
           <% end %>
         </ul>
-          <% if (['super admin', 'admin'].include? current_user.access_level) || (@session.project.users.include? current_user) %>
+          <% if (['super admin', 'admin'].include? current_user.access_level) || (@session.training.users.include? current_user) %>
             <button class='user-fafa' data-toggle='modal' data-target='#newUser'><i class="fas fa-user-plus"></i></button>
           <% end %>
       </div>
@@ -47,7 +47,7 @@
     <div class="comment-box">
       <div class="message-box">
         <h4>Add a message</h4>
-        <%= simple_form_for [@session.project, @session, @comment] do |f| %>
+        <%= simple_form_for [@session.training, @session, @comment] do |f| %>
           <%= f.input :object, placeholder: "Objet", input_html: { style: "width: 600px; margin-right: 20px; heigth: 50px;"}, label: false %>
           <%= f.input :content, placeholder: "Message", input_html: { style: "width: 600px; margin-right: 20px; heigth: 50px;"}, label: false %>
           <div> <%= f.submit class: 'btn btn-edit'%> </div>
@@ -83,20 +83,35 @@
       <div class="brand">Content Manager</div>
       <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
       <div class="menu-list">
-        <ul id="menu-content" class="menu-content collapse out">
-          <li id='click-to-add'><p><em><--Click to add--></em></p></li>
-          <% @chapter.uniq.each do |chapter| %>
-            <li data-toggle="collapse" data-target="#<%= chapter.name %>" class="collapsed">
-              <a><%= chapter.name %><span class="arrow"></span></a>
-            </li>
-            <ul class="sub-menu collapse" id="<%= chapter.name %>">
-              <% @contents.where(chapter: chapter).each do |content| %>
-                <li class="content-chapter"><%= link_to "+ #{content.title}", project_session_content_modules_path(@session.project, @session, content_id: content.id), method: :post, remote: true %></li>
-              <% end %>
-            </ul>
+        <ul id='myUL'>
+          <% Chapter.walk_tree do |chapter, level| %>
+            <% if chapter.children.empty? && chapter.level == 0 %>
+              <li><span class="caret"><%= chapter.name %></span>
+                <ul class="nested">
+                  <% chapter.contents.each do |content| %>
+                    <li><%= link_to "+ #{content.title}", training_session_content_modules_path(@session.training, @session, content_id: content.id), method: :post, remote: true %></li>
+                  <% end %>
+                </ul>
+              </li>
+            <% elsif chapter.level == 0 && chapter.children != [] %>
+              <li><span class="caret"><%= chapter.name %></span>
+                <ul class="nested">
+                  <% chapter.children.each do |subchapter| %>
+                    <li><span class="caret"><%= subchapter.name %></span>
+                      <ul class="nested">
+                        <% subchapter.contents.each do |content| %>
+                          <li><%= link_to "+ #{content.title}", training_session_content_modules_path(@session.training, @session, content_id: content.id), method: :post, remote: true %></li>
+                        <% end %>
+                      </ul>
+                    </li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
           <% end %>
         </ul>
-       </div>
+      </div>
+      <script src="/javascript/plugins/tree.js" type="text/javascript"></script>
     </div>
   </div>
 </div>

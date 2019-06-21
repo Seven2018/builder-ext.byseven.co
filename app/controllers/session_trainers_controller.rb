@@ -6,12 +6,12 @@ class SessionTrainersController < ApplicationController
     authorize @session_trainer
     unless @session.users.include?(@user)
       if @session_trainer.save
-        redirect_to project_session_path(@session.project, @session)
+        redirect_to training_session_path(@session.training, @session)
       else
         raise
       end
     else
-      redirect_to project_session_path(@session.project, @session)
+      redirect_to training_session_path(@session.training, @session)
     end
   end
 end

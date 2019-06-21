@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_14_175735) do
+ActiveRecord::Schema.define(version: 2019_06_23_144122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,12 +61,13 @@ ActiveRecord::Schema.define(version: 2019_06_14_175735) do
     t.text "description"
     t.bigint "session_id"
     t.string "logistic"
-    t.string "chapter"
+    t.bigint "chapter_id"
     t.integer "position"
     t.integer "intel1_id"
     t.integer "intel2_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["chapter_id"], name: "index_content_modules_on_chapter_id"
     t.index ["session_id"], name: "index_content_modules_on_session_id"
   end
 
@@ -91,26 +92,6 @@ ActiveRecord::Schema.define(version: 2019_06_14_175735) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "project_ownerships", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "project_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_project_ownerships_on_project_id"
-    t.index ["user_id"], name: "index_project_ownerships_on_user_id"
-  end
-
-  create_table "projects", force: :cascade do |t|
-    t.string "title"
-    t.date "start_date"
-    t.date "end_date"
-    t.integer "participant_number"
-    t.bigint "client_contact_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["client_contact_id"], name: "index_projects_on_client_contact_id"
-  end
-
   create_table "session_trainers", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "session_id"
@@ -125,10 +106,10 @@ ActiveRecord::Schema.define(version: 2019_06_14_175735) do
     t.date "date"
     t.time "start_time"
     t.time "end_time"
-    t.bigint "project_id"
+    t.bigint "training_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_sessions_on_project_id"
+    t.index ["training_id"], name: "index_sessions_on_training_id"
   end
 
   create_table "theories", force: :cascade do |t|
@@ -147,6 +128,26 @@ ActiveRecord::Schema.define(version: 2019_06_14_175735) do
     t.datetime "updated_at", null: false
     t.index ["content_id"], name: "index_theory_contents_on_content_id"
     t.index ["theory_id"], name: "index_theory_contents_on_theory_id"
+  end
+
+  create_table "training_ownerships", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "training_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["training_id"], name: "index_training_ownerships_on_training_id"
+    t.index ["user_id"], name: "index_training_ownerships_on_user_id"
+  end
+
+  create_table "trainings", force: :cascade do |t|
+    t.string "title"
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "participant_number"
+    t.bigint "client_contact_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_contact_id"], name: "index_trainings_on_client_contact_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -170,14 +171,15 @@ ActiveRecord::Schema.define(version: 2019_06_14_175735) do
   add_foreign_key "client_contacts", "client_companies"
   add_foreign_key "comments", "sessions"
   add_foreign_key "comments", "users"
+  add_foreign_key "content_modules", "chapters"
   add_foreign_key "content_modules", "sessions"
   add_foreign_key "contents", "chapters"
-  add_foreign_key "project_ownerships", "projects"
-  add_foreign_key "project_ownerships", "users"
-  add_foreign_key "projects", "client_contacts"
   add_foreign_key "session_trainers", "sessions"
   add_foreign_key "session_trainers", "users"
-  add_foreign_key "sessions", "projects"
+  add_foreign_key "sessions", "trainings"
   add_foreign_key "theory_contents", "contents"
   add_foreign_key "theory_contents", "theories"
+  add_foreign_key "training_ownerships", "trainings"
+  add_foreign_key "training_ownerships", "users"
+  add_foreign_key "trainings", "client_contacts"
 end

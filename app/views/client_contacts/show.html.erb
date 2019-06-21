@@ -5,7 +5,7 @@
       <img src='<%= @client_contact.client_company.logo %>' alt="" class='client-company-logo-show'>
       <div>
         <div class="show-control-links">
-          <% if ['super admin', 'admin', 'project manager'].include? current_user.access_level %>
+          <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
             <a class="edit-fafa" data-toggle='modal' data-target='#editClientContact'><i class="fas fa-edit"></i></a>
           <% end %>
         </div>
