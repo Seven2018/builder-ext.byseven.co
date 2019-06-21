@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ProjectOwnershipTest < ActiveSupport::TestCase
+class TrainingOwnershipTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

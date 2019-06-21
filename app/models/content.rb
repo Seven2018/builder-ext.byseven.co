@@ -3,6 +3,7 @@ class Content < ApplicationRecord
   # has_many :intelligence, through: :intelligence_contents
   belongs_to :intel1, class_name: "Intelligence", foreign_key: 'intel1_id'
   belongs_to :intel2, class_name: "Intelligence", foreign_key: 'intel2_id'
+  belongs_to :chapter
   has_many :theory_contents, :dependent => :destroy
   has_many :theories, through: :theory_contents
   validates :title, :format, :duration, :description, :chapter, presence: true, allow_blank: false

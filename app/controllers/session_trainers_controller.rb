@@ -4,10 +4,14 @@ class SessionTrainersController < ApplicationController
     @session = Session.find(params[:session_id])
     @session_trainer = SessionTrainer.new(user: @user, session: @session)
     authorize @session_trainer
-    if @session_trainer.save
-      redirect_to project_session_path(@session.project, @session)
+    unless @session.users.include?(@user)
+      if @session_trainer.save
+        redirect_to training_session_path(@session.training, @session)
+      else
+        raise
+      end
     else
-      raise
+      redirect_to training_session_path(@session.training, @session)
     end
   end
 end

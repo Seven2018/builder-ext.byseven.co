@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
     @comment.session = Session.find(params[:session_id])
     @comment.user = current_user
     if @comment.save
-      redirect_to project_session_path(@comment.session.project, @comment.session)
+      redirect_to training_session_path(@comment.session.training, @comment.session)
     end
   end
 
@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     authorize @comment
     @comment.destroy
-    redirect_to project_session_path(@comment.session.project, @comment.session)
+    redirect_to training_session_path(@comment.session.training, @comment.session)
   end
 
   private

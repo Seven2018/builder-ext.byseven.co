@@ -1,11 +1,37 @@
 <div class="container-seven">
-  <h2>Liste des contenus</h2>
-  <%= link_to new_content_path do %>
-    <i class="fas fa-plus"></i>
-  <% end %>
-  <ul>
-    <% @contents.each do |content| %>
-      <li><%= link_to content.title, content_path(content) %></li>
+  <div class="training-info-headers">
+    <div>
+      <%= link_to new_content_path do %>
+      <button class="btn btn-edit">Nouveau Contenu</button>
+      <% end %>
+    </div>
+  </div>
+  <ul id='myUL'>
+    <% Chapter.walk_tree do |chapter, level| %>
+      <% if chapter.children.empty? && chapter.level == 0 %>
+        <li><span class="caret"><%= chapter.name %></span>
+          <ul class="nested">
+            <% chapter.contents.each do |content| %>
+              <li><%= link_to content.title, content_path(content) %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% elsif chapter.level == 0 && chapter.children != [] %>
+        <li><span class="caret"><%= chapter.name %></span>
+          <ul class="nested">
+            <% chapter.children.each do |subchapter| %>
+              <li><span class="caret"><%= subchapter.name %></span>
+                <ul class="nested">
+                  <% subchapter.contents.each do |content| %>
+                    <li><%= link_to content.title, content_path(content) %></li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
     <% end %>
   </ul>
 </div>
+<script src="/javascript/plugins/tree.js" type="text/javascript"></script>

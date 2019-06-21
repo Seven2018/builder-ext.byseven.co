@@ -13,7 +13,7 @@ class ContentModulesController < ApplicationController
     @module.session = @session
     if @module.save
       respond_to do |format|
-        format.html {redirect_to project_session_path(@session.project, @session)}
+        format.html {redirect_to training_session_path(@session.training, @session)}
         format.js
       end
     else
@@ -33,7 +33,7 @@ class ContentModulesController < ApplicationController
     if @module.save
       comment = Comment.create(object: 'Log', content: "Module #{@module.title} updated | from #{params.except('id', 'created_at', 'updated_at', 'session_id')} to #{@module.attributes.except('id', 'created_at', 'updated_at', 'session_id')}",
                      user_id: current_user.id, session_id: @module.session.id)
-      redirect_to project_session_path(@module.session.project, @module.session)
+      redirect_to training_session_path(@module.session.training, @module.session)
     else
       render :edit
     end
@@ -43,14 +43,14 @@ class ContentModulesController < ApplicationController
     Comment.create(object: 'Log', content: "Module #{@module.title} removed |", user_id: current_user.id, session_id: @module.session.id)
     authorize @module
     @module.destroy
-    redirect_to project_session_path(@module.session.project, @module.session)
+    redirect_to training_session_path(@module.session.training, @module.session)
   end
 
   def save
     @content = Content.new(@module.attributes.except("id", "position", "session_id", "created_at", "updated_at"))
     authorize @module
     if @content.save
-      redirect_to project_session_content_module_path(@module.session.project, @module.session, @module)
+      redirect_to training_session_content_module_path(@module.session.training, @module.session, @module)
       @success = true
     else
       raise
@@ -73,6 +73,6 @@ class ContentModulesController < ApplicationController
   end
 
   def mod_params
-    params.require(:content_module).permit(:session_id, :title, :duration, :format, :description, :intel1, :intel2, :chapter)
+    params.require(:content_module).permit(:session_id, :title, :duration, :format, :description, :intel1, :intel2, :chapter_id)
   end
 end

@@ -16,7 +16,7 @@
     </div>
     <div class="card-right grabbable">
       <div class="card-category">
-        <%= link_to project_session_content_module_path(mod.session.project, mod.session, mod), class: 'grabbable' do %>
+        <%= link_to training_session_content_module_path(mod.session.training, mod.session, mod), class: 'grabbable' do %>
           <h4><%= "#{mod.title} - (#{mod.duration} min) - #{mod.format}" %></h4>
         <% end %>
         <% if @error %>

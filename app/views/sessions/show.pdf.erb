@@ -1,10 +1,10 @@
 <%= wicked_pdf_image_tag 'logo.png', id: "pdf-logo" %>
 <div class="container">
-  <h1 class="title-pdf"><%= @session.project.title %></h1>
+  <h1 class="title-pdf"><%= @session.training.title %></h1>
   <div class='session-details-list-pdf'>
     <h3 class="session-details-pdf"><%= @session.title %></h3>
     <h3 class="session-details-pdf"><%= @session.date.strftime("%A %e %B %Y") %> ( Start time: <%= @session.start_time.strftime("%H:%M") %> - End time: <%= @session.end_time.strftime("%H:%M") %> )</h3>
-    <h3 class="session-details-pdf">Client: <%= @session.project.client_contact.client_company.name %></h3>
+    <h3 class="session-details-pdf">Client: <%= @session.training.client_contact.client_company.name %></h3>
   </div>
   <br>
     <% @session.content_modules.each do |mod| %>

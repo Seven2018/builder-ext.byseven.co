@@ -1,11 +1,11 @@
 <div class="container-seven">
-  <div class="project-info-headers">
-    <%= link_to project_session_path(@module.session.project, @module.session) do %>
+  <div class="training-info-headers">
+    <%= link_to training_session_path(@module.session.training, @module.session) do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <div>
       <button class="btn btn-edit" data-toggle='modal' data-target='#editMod'>Edit Module</button>
-      <%= link_to project_session_content_module_path(@module.session.project, @module.session, @module), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+      <%= link_to training_session_content_module_path(@module.session.training, @module.session, @module), method: :delete, data: { confirm: 'Are you sure ?'} do %>
         <button class="btn btn-edit">Delete Module</button>
       <% end %>
       <%= link_to save_mod_path, data: { confirm: 'Voulez-vous sauvegarder ce contenu ?' } do %>

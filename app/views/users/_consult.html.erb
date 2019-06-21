@@ -1,0 +1,17 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <img src='<%= user.picture %>' alt="" class='client-company-logo-show'>
+    </div>
+    <p>Nom: <strong><%=  user.name %></strong></p>
+    <p>Email: <%= user.email %></p>
+    <p>Level: <%= user.access_level.capitalize %></p>
+    <p>Description: <%= user.description %></p>
+    <p>Note: <%= user.rating %></p>
+    <p>LinkedIn: <%= link_to user.linkedin do %><i class="fab fa-linkedin-in"></i><% end %></p>
+  </div>
+</div>
+
