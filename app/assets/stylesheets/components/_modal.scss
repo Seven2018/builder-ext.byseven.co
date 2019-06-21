@@ -6,6 +6,14 @@
 #modal-title {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+#modal-title-consult {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 
 #modal-title button {
@@ -25,4 +33,11 @@
   margin-left: 20px;
   font-size: 20px;
   cursor: pointer;
+}
+
+.modal-body {
+
+  p {
+    font-size: 16px !important;
+  }
 }

@@ -13,7 +13,7 @@
     <%= f.input :linkedin %>
     <%= f.input :picture, label: 'Photo URL' %>
     <%= f.input :description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
-    <%= f.input :access_level, collection: ['super admin', 'admin', 'project manager', 'sevener'], include_blank: false %>
+    <%= f.input :access_level, collection: ['super admin', 'admin', 'training manager', 'sevener'], include_blank: false %>
     <%= f.input :rating, input_html: { min: '0', max: '5' }  %>
   </div>
   <div class="modal-footer">
@@ -25,9 +25,6 @@
           <i class="fas fa-trash-alt"></i>
         <% end %>
       </button>
-    </div>
-  </div>
-
     </div>
   </div>
 </div>

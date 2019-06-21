@@ -4,6 +4,7 @@ class ContentsController < ApplicationController
   def index
     @contents = Content.all
     @contents = policy_scope(Content)
+    @chapters = Chapter.all
   end
 
   def show
@@ -12,7 +13,6 @@ class ContentsController < ApplicationController
 
   def new
     @content = Content.new
-    @intelligences = Intelligence.all
     authorize @content
   end
 
@@ -53,6 +53,6 @@ class ContentsController < ApplicationController
   end
 
   def content_params
-    params.require(:content).permit(:title, :format, :duration, :description, :logistic, :chapter, :intel1_id, :intel2_id, :session_id,)
+    params.require(:content).permit(:title, :format, :duration, :description, :logistic, :chapter_id, :intel1_id, :intel2_id)
   end
 end

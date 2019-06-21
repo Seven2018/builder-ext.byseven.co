@@ -1,0 +1,32 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= training.title %></h3>
+    </div>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for training do |f| %>
+      <%= f.input :title %>
+      <%= f.input :client_contact_id, :collection => ClientContact.all.order(:name), :label_method => :name, :label => 'Client', :include_blank => false %>
+      <div class="mod-date">
+        <%= f.input :start_date, as: :string, input_html: { class: 'datepicker'} %>
+        <%= f.input :end_date, as: :string, input_html: { class: 'datepicker'} %>
+        <%= f.input :participant_number, input_html: { min: '0' }%>
+      </div>
+  </div>
+  <div class="modal-footer" id="modalNewBookingFooter">
+    <div>
+      <%= f.button :submit, class: 'btn btn-edit' %>
+      <%= link_to training_path(training), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <button class="btn btn-edit">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+    </div>
+  </div>
+</div>

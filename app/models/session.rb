@@ -1,14 +1,14 @@
 class Session < ApplicationRecord
-  belongs_to :project
+  belongs_to :training
   has_many :content_modules, -> { order(position: :asc) }, dependent: :destroy
   has_many :session_trainers, dependent: :destroy
   has_many :users, through: :session_trainers
   has_many :comments, dependent: :destroy
-  validate :date_included_in_project_dates?
+  validate :date_included_in_training_dates?
 
-  def date_included_in_project_dates?
-    if date < project.start_date || date > project.end_date
-      errors.add(:date, "must be included in project's dates")
+  def date_included_in_training_dates?
+    if date < training.start_date || date > training.end_date
+      errors.add(:date, "must be included in training's dates")
     end
   end
 end
