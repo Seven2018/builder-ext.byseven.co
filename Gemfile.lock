@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/galetahub/ckeditor.git
+  revision: f670d232e04b8d81aa3cb9c279e162a69fdd76b5
+  specs:
+    ckeditor (5.0.0)
+      orm_adapter (~> 0.5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -59,6 +66,7 @@ GEM
       sassc (>= 2.0.0)
     builder (3.2.3)
     byebug (11.0.1)
+    climate_control (0.2.0)
     cloudinary (1.9.1)
       aws_cf_signer
       rest-client
@@ -121,6 +129,12 @@ GEM
     nokogiri (1.10.2)
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
+    paperclip (6.1.0)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
+      mime-types
+      mimemagic (~> 0.3.0)
+      terrapin (~> 0.6.0)
     pg (0.21.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
@@ -200,6 +214,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    terrapin (0.6.0)
+      climate_control (>= 0.0.3, < 1.0)
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.9)
@@ -236,6 +252,7 @@ DEPENDENCIES
   autoprefixer-rails
   bootsnap
   bootstrap-sass (~> 3.3)
+  ckeditor!
   cloudinary (~> 1.9.1)
   devise
   dotenv-rails
@@ -244,6 +261,7 @@ DEPENDENCIES
   jquery-rails
   jstree-rails-4
   listen (~> 3.0.5)
+  paperclip
   pg (~> 0.21)
   pry-byebug
   pry-rails

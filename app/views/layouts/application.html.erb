@@ -8,6 +8,7 @@
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <script src="/assets/jquery.js" type="text/javascript"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>
     <%= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
   </head>
     <div class="body-wrapper">
@@ -20,7 +21,15 @@
         <%= yield %>
         <%= javascript_include_tag 'application' %>
         <%= javascript_pack_tag 'application' %>
+        <%= javascript_include_tag Ckeditor.cdn_url %>
         <%#= render 'shared/footer' %>
       </div>
     </div>
 </html>
+
+<!-- Modal -->
+<div class="modal fade" id="contactUs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    {% include contact-modal.html %}
+  </div>
+</div>

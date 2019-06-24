@@ -24,6 +24,8 @@ gem 'jquery-rails'
 gem 'acts_as_list'
 gem "jstree-rails-4"
 gem "acts_as_tree"
+gem "ckeditor", github: 'galetahub/ckeditor'
+gem 'paperclip'
 gem "simple_calendar", "~> 2.0"
 
 gem 'dotenv-rails', groups: [:development, :test]

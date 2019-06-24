@@ -3,19 +3,16 @@
   <h2><%= @content.title %></h2>
   <div class="show-control-links">
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <a class="edit-fafa" data-toggle='modal' data-target='#editContent'><i class="fas fa-edit"></i></a>
+      <!-- <a class="edit-fafa" data-toggle='modal' data-target='#editContent'><i class="fas fa-edit"></i></a> -->
+      <%= link_to edit_content_path do %>
+        <i class="fas fa-edit"></i>
+      <% end %>
     <% end %>
   </div>
   <p><%= @content.format %></p>
   <p><%= @content.duration %></p>
-  <p><%= @content.description %></p>
+  <%= @content.description.html_safe %>
   <p><%= @content.logistic %></p>
   <p><%= @content.chapter %></p>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="editContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
-    <%= render 'edit', content: @content %>
-  </div>
-</div>

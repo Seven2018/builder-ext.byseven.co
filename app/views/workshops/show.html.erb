@@ -1,0 +1,29 @@
+<div class="container-seven">
+  <div class="training-info-headers">
+    <%= link_to training_session_path(@module.session.training, @module.session) do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+    <div>
+      <button class="btn btn-edit" data-toggle='modal' data-target='#editMod'>Edit Module</button>
+      <%= link_to training_session_workshop_path(@module.session.training, @module.session, @module), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+        <button class="btn btn-edit">Delete Module</button>
+      <% end %>
+      <%= link_to save_mod_path, data: { confirm: 'Voulez-vous sauvegarder ce contenu ?' } do %>
+        <button class="btn btn-edit">Save Module</button>
+      <% end %>
+    </div>
+  </div>
+  <h4><%= @module.title %></h4>
+  <div class="container mod-container">
+    <p> <%= @module.description %> </p>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editMod" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'edit', mod: @module %>
+  </div>
+</div>
+
+
