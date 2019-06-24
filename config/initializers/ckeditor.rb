@@ -10,7 +10,7 @@ Ckeditor.setup do |config|
 
   config.authorize_with :pundit
 
-  config.cdn_url = "//cdn.ckeditor.com/4.6.1/full/ckeditor.js"
+  config.cdn_url = "//cdn.ckeditor.com/12.2.0/classic/ckeditor.js"
 
   # Allowed image file types for upload.
   # Set to nil or [] (empty array) for all file types

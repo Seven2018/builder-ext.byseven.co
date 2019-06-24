@@ -1,0 +1,27 @@
+<div class="container-seven">
+    <%= simple_form_for @content do |f| %>
+    <%= f.input :title %>
+    <%= f.input :format %>
+    <%= f.input :duration, input_html: { min: '0' } %>
+    <%= f.input :description, as: :ckeditor, input_html: { ckeditor: { toolbar: 'Full' }, class: 'editor' } %>
+    <%= f.input :logistic %>
+    <%= f.input :chapter, collection: ["Leadership", "Gestion d'équipe", "Communication", "Business Development", "Gestion de Projet", "Intelligence Economique", "Team Building"] %>
+    <script>
+      ClassicEditor
+              .create( document.querySelector( '.editor' ), {
+              } )
+              .then( editor => {
+                                        console.log( editor );
+                                } )
+              .catch( error => {
+                      console.error( error );
+              } );
+    </script>
+      <%= f.button :submit, class: 'btn btn-edit' %>
+      <% end %>
+      <%= link_to content_path(@content), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <button class="btn btn-edit">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+      <% end %>
+</div>
