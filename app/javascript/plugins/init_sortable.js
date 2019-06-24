@@ -12,7 +12,7 @@ const initSortable = () => {
 
       Rails.ajax({
         type: "POST",
-        url: `/content_module/${itemId}`,
+        url: `/workshop/${itemId}`,
         data: formData
       })
     }

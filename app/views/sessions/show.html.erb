@@ -42,7 +42,7 @@
       </div>
     </div>
     <div id="mods" style="min-height: 70vh;">
-      <%= render 'content_modules/index', session: @session %>
+      <%= render 'workshops/index', session: @session %>
     </div>
     <div class="comment-box">
       <div class="message-box">
@@ -89,7 +89,7 @@
               <li><span class="caret"><%= chapter.name %></span>
                 <ul class="nested">
                   <% chapter.contents.each do |content| %>
-                    <li><%= link_to "+ #{content.title}", training_session_content_modules_path(@session.training, @session, content_id: content.id), method: :post, remote: true %></li>
+                    <li><%= link_to "+ #{content.title}", training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true %></li>
                   <% end %>
                 </ul>
               </li>
@@ -100,7 +100,7 @@
                     <li><span class="caret"><%= subchapter.name %></span>
                       <ul class="nested">
                         <% subchapter.contents.each do |content| %>
-                          <li><%= link_to "+ #{content.title}", training_session_content_modules_path(@session.training, @session, content_id: content.id), method: :post, remote: true %></li>
+                          <li><%= link_to "+ #{content.title}", training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true %></li>
                         <% end %>
                       </ul>
                     </li>

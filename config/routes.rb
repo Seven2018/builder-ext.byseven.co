@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
   get 'session_trainers/new'
   devise_for :users
   resources :users
@@ -10,7 +11,7 @@ Rails.application.routes.draw do
   resources :client_contacts, path: '/contacts'
   resources :trainings do
     resources :sessions do
-      resources :content_modules, only: [:show, :create, :edit, :update, :destroy], path: '/modules'
+      resources :workshops, only: [:show, :create, :edit, :update, :destroy], path: '/modules'
       resources :session_trainers, only: [:create, :destroy], path: '/trainers'
       resources :comments
     end
@@ -18,6 +19,6 @@ Rails.application.routes.draw do
   end
   get 'trainings_week', to: 'trainings#index_week', as: "index_week"
   get 'trainings_month', to: 'trainings#index_month', as: "index_month"
-  post 'content_module/:id', to: "content_modules#move", as: "move_mod"
-  get 'content_module/:id', to: 'content_modules#save', as: "save_mod"
+  post 'workshop/:id', to: "workshops#move", as: "move_mod"
+  get 'workshop/:id', to: 'workshops#save', as: "save_mod"
 end

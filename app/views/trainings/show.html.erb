@@ -44,7 +44,7 @@
             </div>
             <div class="mods-list">
               <ul>
-                <% list = session.content_modules %>
+                <% list = session.workshops %>
                 <%# list.sort_by { |mod| mod[:position]} %>
                 <% list.order(:position).each do |mod| %>
                   <li>

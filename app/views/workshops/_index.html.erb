@@ -1,0 +1,18 @@
+<div id="items">
+  <% if session.workshops.empty? %>
+    <div class="empty-mod">
+      <p> <i class="fas fa-plus-circle"></i> </p>
+      <p> <%= "Please add content" %> </p>
+    </div>
+  <% else %>
+    <% session.workshops.each do |mod| %>
+    <% if mod.position == 1 %>
+      <% @start = session.start_time %>
+    <% else %>
+      <% @duration = session.workshops.find_by(position: (mod.position - 1 )).duration.minutes %>
+      <% @start += @duration %>
+    <% end %>
+    <%= render "workshops/mod_card", mod: mod, session: session, start: @start %>
+    <% end %>
+  <% end %>
+</div>

@@ -3,7 +3,7 @@ ClientCompany.destroy_all
 ClientContact.destroy_all
 Comment.destroy_all
 Content.destroy_all
-ContentModule.destroy_all
+Workshop.destroy_all
 Intelligence.destroy_all
 # IntelligenceContent.destroy_all
 Training.destroy_all

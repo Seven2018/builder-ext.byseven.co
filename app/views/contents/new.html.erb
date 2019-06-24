@@ -5,7 +5,7 @@
     <%= f.input :title %>
     <%= f.input :format %>
     <%= f.input :duration, input_html: { min: '0' } %>
-    <%= f.input :description, :input_html => {:rows => 10} %>
+    <%= f.input :description, as: :ckeditor%>
     <%= f.input :logistic %>
     <%= f.association :chapter, collection: Chapter.order('name ASC') %>
     <%# f.input :intel1, label: 'Intelligence 1', collection: Intelligence.all.each { |intel| intel.name } %>

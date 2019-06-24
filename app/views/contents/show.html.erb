@@ -8,7 +8,7 @@
   </div>
   <p><%= @content.format %></p>
   <p><%= @content.duration %></p>
-  <p><%= @content.description %></p>
+  <%= @content.description.html_safe %>
   <p><%= @content.logistic %></p>
   <p><%= @content.chapter %></p>
 </div>

@@ -1,0 +1,19 @@
+function addMod(modHTML) {
+  const emptyPlaceHolder = document.querySelector('.empty-mod');
+  if (emptyPlaceHolder) {
+    emptyPlaceHolder.remove();
+  }
+  const mods = document.getElementById('items');
+  items.insertAdjacentHTML('beforeend', modHTML);
+};
+
+<% @session.workshops.each do |mod| %>
+  <% if mod.position == 1 %>
+    <% @start = @session.start_time %>
+  <% else %>
+    <% @duration = @session.workshops.find_by(position: (mod.position - 1 )).duration.minutes %>
+    <% @start += @duration %>
+  <% end %>
+<% end %>
+
+addMod('<%= j render "workshops/mod_card", mod: @module, session: @session, start: @start%>');

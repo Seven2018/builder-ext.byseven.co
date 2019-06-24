@@ -7,12 +7,31 @@
   </div>
   <div class="modal-body">
     <%= simple_form_for @content do |f| %>
-          <%= f.input :title %>
+    <%= f.input :title %>
     <%= f.input :format %>
     <%= f.input :duration, input_html: { min: '0' } %>
-    <%= f.input :description, :input_html => {:rows => 10} %>
+    <%= f.input :description, input_html: { class: 'editor'} %>
     <%= f.input :logistic %>
     <%= f.input :chapter, collection: ["Leadership", "Gestion d'équipe", "Communication", "Business Development", "Gestion de Projet", "Intelligence Economique", "Team Building"] %>
+    <script>
+      ClassicEditor
+              .create( document.querySelector( '.editor' ), {
+                toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+                heading: {
+                  options: [
+                      { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                      { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                      { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                  ]
+                }
+              } )
+              .then( editor => {
+                                        console.log( editor );
+                                } )
+              .catch( error => {
+                      console.error( error );
+              } );
+    </script>
   </div>
   <div class="modal-footer">
     <div>

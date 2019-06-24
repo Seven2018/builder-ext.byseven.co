@@ -23,6 +23,17 @@ ActiveRecord::Schema.define(version: 2019_06_23_144122) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "ckeditor_assets", force: :cascade do |t|
+    t.string "data_file_name", null: false
+    t.string "data_content_type"
+    t.integer "data_file_size"
+    t.string "data_fingerprint"
+    t.string "type", limit: 30
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_ckeditor_assets_on_type"
+  end
+
   create_table "client_companies", force: :cascade do |t|
     t.string "name"
     t.string "address"
@@ -52,23 +63,6 @@ ActiveRecord::Schema.define(version: 2019_06_23_144122) do
     t.datetime "updated_at", null: false
     t.index ["session_id"], name: "index_comments_on_session_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
-  end
-
-  create_table "content_modules", force: :cascade do |t|
-    t.string "title"
-    t.string "format"
-    t.integer "duration"
-    t.text "description"
-    t.bigint "session_id"
-    t.string "logistic"
-    t.bigint "chapter_id"
-    t.integer "position"
-    t.integer "intel1_id"
-    t.integer "intel2_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["chapter_id"], name: "index_content_modules_on_chapter_id"
-    t.index ["session_id"], name: "index_content_modules_on_session_id"
   end
 
   create_table "contents", force: :cascade do |t|
@@ -168,11 +162,26 @@ ActiveRecord::Schema.define(version: 2019_06_23_144122) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "workshops", force: :cascade do |t|
+    t.string "title"
+    t.string "format"
+    t.integer "duration"
+    t.text "description"
+    t.bigint "session_id"
+    t.string "logistic"
+    t.bigint "chapter_id"
+    t.integer "position"
+    t.integer "intel1_id"
+    t.integer "intel2_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chapter_id"], name: "index_workshops_on_chapter_id"
+    t.index ["session_id"], name: "index_workshops_on_session_id"
+  end
+
   add_foreign_key "client_contacts", "client_companies"
   add_foreign_key "comments", "sessions"
   add_foreign_key "comments", "users"
-  add_foreign_key "content_modules", "chapters"
-  add_foreign_key "content_modules", "sessions"
   add_foreign_key "contents", "chapters"
   add_foreign_key "session_trainers", "sessions"
   add_foreign_key "session_trainers", "users"
@@ -182,4 +191,6 @@ ActiveRecord::Schema.define(version: 2019_06_23_144122) do
   add_foreign_key "training_ownerships", "trainings"
   add_foreign_key "training_ownerships", "users"
   add_foreign_key "trainings", "client_contacts"
+  add_foreign_key "workshops", "chapters"
+  add_foreign_key "workshops", "sessions"
 end

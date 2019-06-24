@@ -7,7 +7,7 @@
     <h3 class="session-details-pdf">Client: <%= @session.training.client_contact.client_company.name %></h3>
   </div>
   <br>
-    <% @session.content_modules.each do |mod| %>
+    <% @session.workshops.each do |mod| %>
     <h3 class="content-details-pdf"><%= mod.title %> ( <%= mod.format %> - <em><%= mod.duration %> min</em> )</h3>
     <p class="content-intel-pdf">Intelligences: <% if mod.intel2.nil? %>
                                                   <%= mod.intel1 %>
