@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :trainings do
     resources :sessions do
       resources :workshops, only: [:show, :create, :edit, :update, :destroy] do
-        resources :workshop_modules, only: [:show, :create, :edit, :update, :destroy]
+        resources :workshop_modules
       end
       resources :session_trainers, only: [:create, :destroy], path: '/trainers'
       resources :comments

@@ -6,9 +6,9 @@ class ContentModulesController < ApplicationController
   end
 
   def new
+    @content = Content.find(params[:content_id])
     @content_module = ContentModule.new
     authorize @content_module
-    @content = Content.find(params[:content_id])
   end
 
   def create

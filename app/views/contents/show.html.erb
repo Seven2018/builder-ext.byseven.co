@@ -21,7 +21,7 @@
       <% @content.content_modules.order('position ASC').each do |mod| %>
         <li><div class='module-card'>
           <div>
-          <%= mod.title %>
+          <%= link_to mod.title, content_content_module_path(mod.content, mod) %>
           <%= link_to content_content_module_path(@content, mod), method: :delete, data: { confirm: 'Are you sure ?'} do %>
             <i class="fas fa-trash"></i>
           <% end %>
