@@ -1,5 +1,5 @@
 class WorkshopModulesController < ApplicationController
-before_action :set_workshop_module, only: [:show, :edit, :update, :destroy]
+before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :move_up, :move_down]
 
   def show
     authorize @workshop_module
@@ -47,6 +47,46 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy]
     @workshop_module.destroy
     update_duration
     redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
+  end
+
+  def move_up
+    authorize @workshop_module
+    @workshop = @workshop_module.workshop
+    array = []
+    @workshop.workshop_modules.order('position ASC').each do |mod|
+      array << mod
+    end
+    unless @workshop_module.position == 1
+      array.insert((@workshop_module.position - 2), array.delete_at(@workshop_module.position - 1))
+    end
+    array.compact.each do |mod|
+      mod.update(position: array.index(mod) + 1)
+    end
+    @workshop_module.save
+    respond_to do |format|
+      format.html {redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)}
+      format.js
+    end
+  end
+
+  def move_down
+    authorize @workshop_module
+    @workshop = @workshop_module.workshop
+    array = []
+    @workshop.workshop_modules.order('position ASC').each do |mod|
+      array << mod
+    end
+    unless @workshop_module.position == array.compact.count
+      array.insert((@workshop_module.position), array.delete_at(@workshop_module.position - 1))
+    end
+    array.compact.each do |mod|
+      mod.update(position: array.index(mod) + 1)
+    end
+    @workshop_module.save
+    respond_to do |format|
+      format.html {redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)}
+      format.js
+    end
   end
 
  private

@@ -25,5 +25,6 @@ Rails.application.routes.draw do
   get 'trainings_month', to: 'trainings#index_month', as: "index_month"
   post 'workshop/:id', to: "workshops#move", as: "move_workshop"
   get 'workshop/:id', to: 'workshops#save', as: "save_workshop"
-  post 'content_module/:id', to: "content_modules#move", as: "move_content_module"
+  get 'workshop_module/:id/move_up', to: "workshop_modules#move_up", as: "move_up_workshop_module"
+  get 'workshop_module/:id/move_down', to: "workshop_modules#move_down", as: "move_down_workshop_module"
 end

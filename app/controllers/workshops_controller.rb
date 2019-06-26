@@ -2,16 +2,24 @@ class WorkshopsController < ApplicationController
   before_action :set_module, only: [:show, :edit, :update, :destroy, :move, :save]
 
   def show
-    authorize @module
+    authorize @workshop
   end
 
   def create
     @content = Content.find(params[:content_id])
     @session = Session.find(params[:session_id])
-    @module = Workshop.new(@content.attributes.except("id", "created_at", "updated_at"))
-    authorize @module
-    @module.session = @session
-    if @module.save
+    @workshop = Workshop.new(@content.attributes.except("id", "created_at", "updated_at"))
+    authorize @workshop
+    @workshop.session = @session
+    i = 1
+    if @workshop.save
+      @content.content_modules.order('position ASC').each do |mod|
+        wmod = WorkshopModule.new(mod.attributes.except("id", "position", "created_at", "updated_at", "content_id"))
+        wmod.workshop = @workshop
+        wmod.position = i
+        i +=1
+        wmod.save
+      end
       respond_to do |format|
         format.html {redirect_to training_session_path(@session.training, @session)}
         format.js
@@ -19,38 +27,38 @@ class WorkshopsController < ApplicationController
     else
       raise
     end
-    Comment.create(object: 'Log', content: "Module #{@module.title} added |", user_id: current_user.id, session_id: @module.session.id)
+    Comment.create(object: 'Log', content: "Module #{@workshop.title} added |", user_id: current_user.id, session_id: @workshop.session.id)
   end
 
   def edit
-    authorize @module
+    authorize @workshop
   end
 
   def update
-    params = @module.attributes
-    authorize @module
-    @module.update(workshop_params)
-    if @module.save
-      comment = Comment.create(object: 'Log', content: "Module #{@module.title} updated | from #{params.except('id', 'created_at', 'updated_at', 'session_id')} to #{@module.attributes.except('id', 'created_at', 'updated_at', 'session_id')}",
-                     user_id: current_user.id, session_id: @module.session.id)
-      redirect_to training_session_path(@module.session.training, @module.session)
+    params = @workshop.attributes
+    authorize @workshop
+    @workshop.update(workshop_params)
+    if @workshop.save
+      comment = Comment.create(object: 'Log', content: "Module #{@workshop.title} updated | from #{params.except('id', 'created_at', 'updated_at', 'session_id')} to #{@workshop.attributes.except('id', 'created_at', 'updated_at', 'session_id')}",
+                     user_id: current_user.id, session_id: @workshop.session.id)
+      redirect_to training_session_path(@workshop.session.training, @workshop.session)
     else
       render :edit
     end
   end
 
   def destroy
-    Comment.create(object: 'Log', content: "Module #{@module.title} removed |", user_id: current_user.id, session_id: @module.session.id)
-    authorize @module
-    @module.destroy
-    redirect_to training_session_path(@module.session.training, @module.session)
+    Comment.create(object: 'Log', content: "Module #{@workshop.title} removed |", user_id: current_user.id, session_id: @workshop.session.id)
+    authorize @workshop
+    @workshop.destroy
+    redirect_to training_session_path(@workshop.session.training, @workshop.session)
   end
 
   def save
-    @content = Content.new(@module.attributes.except("id", "position", "session_id", "created_at", "updated_at"))
-    authorize @module
+    @content = Content.new(@workshop.attributes.except("id", "position", "session_id", "created_at", "updated_at"))
+    authorize @workshop
     if @content.save
-      redirect_to training_session_workshop_path(@module.session.training, @module.session, @module)
+      redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
       @success = true
     else
       raise
@@ -58,9 +66,9 @@ class WorkshopsController < ApplicationController
   end
 
   def move
-    authorize @module
-    @session = @module.session
-    if @module.insert_at(params[:position].to_i)
+    authorize @workshop
+    @session = @workshop.session
+    if @workshop.insert_at(params[:position].to_i)
     else
       raise
     end
@@ -69,7 +77,7 @@ class WorkshopsController < ApplicationController
   private
 
   def set_module
-    @module = Workshop.find(params[:id])
+    @workshop = Workshop.find(params[:id])
   end
 
   def workshop_params
