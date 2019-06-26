@@ -7,7 +7,7 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [@training, @training_ownership] do |f| %>
-        <%= f.input :user, :collection => @users, label: false %>
+        <%= f.input :user, :collection => @users.where.not(access_level: 'sevener'), label: false, include_blank: false %>
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">
     <div>

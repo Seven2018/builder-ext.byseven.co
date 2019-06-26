@@ -4,8 +4,8 @@
   <% end %>
   <h2><%= @workshop_module.title %></h2>
 
-  <p><%= @workshop_module.instructions %></p>
-  <p><%= @workshop_module.duration %></p>
+  <p><%= @workshop_module.instructions.html_safe %></p>
+  <p><%= @workshop_module.duration %> minutes</p>
   <p><%= @workshop_module.url1 %></p>
   <p><%= @workshop_module.url2 %></p>
   <p><%= @workshop_module.logistics %></p>

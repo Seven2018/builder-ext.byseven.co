@@ -1,0 +1,57 @@
+<div class="container-session-viewer">
+  <div class="session-container">
+    <div class="training-info-headers">
+      <%= link_to training_session_path(@session.training, @session) do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
+    </div>
+    <div class="middle-info">
+      <div class="middle-info-main">
+        <h3><%= @session.title %></h3>
+        <h4><%= @session.date.strftime("%A %e %B %Y") %>
+          <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
+          <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
+          <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
+          <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.start_time.min.to_s.length == 2 %>
+        </h4>
+      </div>
+    </div>
+    <div id="mods" style="min-height: 70vh;">
+      <div id="items">
+        <% if @session.workshops.empty? %>
+          <div class="empty-mod">
+            <p> <i class="fas fa-plus-circle"></i> </p>
+            <p> <%= "Please add content" %> </p>
+          </div>
+        <% else %>
+          <% @session.workshops.each do |mod| %>
+          <% if mod.position == 1 %>
+            <% @start = @session.start_time %>
+          <% else %>
+            <% @duration = @session.workshops.find_by(position: (mod.position - 1 )).duration.minutes %>
+            <% @start += @duration %>
+          <% end %>
+          <div class="card card-mods" data-item-id="<%= mod.id %>">
+            <div class="card-left align-elements-in-flexbox">
+              <div class="mod-time">
+                <%= @start.strftime("%H:%M") %>
+                <div class="circle"></div>
+              </div>
+            </div>
+            <div class="card-right card-right-viewer">
+              <div class="card-category">
+                <%= link_to workshop_viewer_path(mod) do %>
+                  <h4><%= "#{mod.title} - (#{mod.duration} min)" %></h4>
+                <% end %>
+              </div>
+              <div class="card-description">
+                <h5><%= "#{mod.description.split('.').first(2).join('.')}." %></h5>
+              </div>
+            </div>
+          </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

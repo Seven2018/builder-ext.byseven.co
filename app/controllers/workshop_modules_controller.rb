@@ -1,5 +1,5 @@
 class WorkshopModulesController < ApplicationController
-before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :move_up, :move_down]
+before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :move_up, :move_down, :viewer]
 
   def show
     authorize @workshop_module
@@ -87,6 +87,10 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
       format.html {redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)}
       format.js
     end
+  end
+
+  def viewer
+    authorize @workshop_module
   end
 
  private

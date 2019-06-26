@@ -1,0 +1,29 @@
+<div class="container-seven container-seven-viewer">
+  <div class="training-info-headers">
+    <%= link_to session_viewer_path(@workshop.session) do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h4><%= @workshop.title %></h4>
+  <div class="container mod-container">
+    <p><%= @workshop.duration %> minutes</p>
+  <%= @workshop.description.html_safe %>
+  <p><%= @workshop.theme.name %></p>
+  </div>
+  <div id='content-mods'>
+    <h4>Liste des modules</h4>
+    <ul>
+      <% @workshop.workshop_modules.order('position ASC').each do |mod| %>
+        <li><div class='module-card'>
+          <div>
+          <%= link_to mod.title, workshop_module_viewer_path(mod) %>
+          <p><%= mod.duration %> min</p>
+          </div>
+          <%= mod.instructions.html_safe %>
+          <p>Action 1 : <%= mod.action1.name %></p>
+          <p>Action 2 : <%= mod.action2.name %></p>
+          </div></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

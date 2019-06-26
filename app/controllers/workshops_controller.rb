@@ -1,5 +1,5 @@
 class WorkshopsController < ApplicationController
-  before_action :set_module, only: [:show, :edit, :update, :destroy, :move, :save]
+  before_action :set_module, only: [:show, :edit, :update, :destroy, :move, :save, :viewer]
 
   def show
     authorize @workshop
@@ -72,6 +72,10 @@ class WorkshopsController < ApplicationController
     else
       raise
     end
+  end
+
+  def viewer
+    authorize @workshop
   end
 
   private

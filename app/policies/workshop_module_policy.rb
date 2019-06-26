@@ -36,4 +36,8 @@ class WorkshopModulePolicy < ApplicationPolicy
   def save?
     true
   end
+
+  def viewer?
+    true
+  end
 end
