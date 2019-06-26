@@ -29,7 +29,7 @@ class WorkshopsController < ApplicationController
   def update
     params = @module.attributes
     authorize @module
-    @module.update(mod_params)
+    @module.update(workshop_params)
     if @module.save
       comment = Comment.create(object: 'Log', content: "Module #{@module.title} updated | from #{params.except('id', 'created_at', 'updated_at', 'session_id')} to #{@module.attributes.except('id', 'created_at', 'updated_at', 'session_id')}",
                      user_id: current_user.id, session_id: @module.session.id)
@@ -72,7 +72,7 @@ class WorkshopsController < ApplicationController
     @module = Workshop.find(params[:id])
   end
 
-  def mod_params
-    params.require(:workshop).permit(:session_id, :title, :duration, :format, :description, :intel1, :intel2, :chapter_id)
+  def workshop_params
+    params.require(:workshop).permit(:session_id, :title, :duration, :description, :theme_id)
   end
 end

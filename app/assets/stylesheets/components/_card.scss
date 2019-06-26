@@ -459,3 +459,107 @@ duration {
   opacity: 0.8;
   filter: alpha(opacity=100);
 }
+
+
+#content-modules-items {
+    margin-bottom: 20px;
+    padding-right: 0;
+    .card-mods {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: auto;
+    height: auto;
+    opacity: 0.75;
+    &:hover {
+      transition: all 0.8s ease;
+      transform: scale(1.0);
+      opacity: 1;
+    }
+  }
+  .card-left {
+    border-right-style: solid;
+    border-right-color: $timeline;
+    border-right-width: 4px;
+    width: 150px;
+    position: relative;
+  }
+  .mod-time {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    top: 40%;
+    left: 54px;
+    color: $blue;
+    font-weight: 600;
+    font-size: 23px;
+  }
+  .card-right {
+    // flex-shrink: 2;
+    width: 700px;
+    box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    cursor: grab;
+    &:hover {
+      box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
+    }
+    h5{
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 0.6px;
+      line-height: 1.6;
+    }
+  }
+  .grabbable {
+    cursor: move ; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    h4 {
+      color: rgba(0,0,0,0.6);
+    }
+    h4:hover {
+      color: rgba(0,0,0,1);
+    }
+  }
+  .grabbable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+  }
+  .circle {
+    border: solid 2px $timeline;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    background-color: $timeline;
+    margin-left: 15px;
+  }
+
+  .align-elements-in-flexbox {
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    justify-content: space-between;
+  }
+  .card-description {
+    text-align: justify;
+    i {
+      font-size: 22px;
+      position: absolute;
+      top: 41px;
+      right: 61px;
+      color: #2e353d85;
+    }
+  }
+
+}

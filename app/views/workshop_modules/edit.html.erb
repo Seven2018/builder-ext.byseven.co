@@ -1,0 +1,40 @@
+<div class="container-seven">
+  <h2>Ajouter un module</h2>
+
+  <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @workshop_module] do |f| %>
+    <%= f.input :title %>
+    <%= f.input :instructions, input_html: { class: 'editor' } %>
+    <%= f.input :duration %>
+    <%= f.input :url1 %>
+    <%= f.input :url2 %>
+    <%= f.input :image1 %>
+    <%= f.input :image2 %>
+    <%= f.input :logistics, input_html: { class: 'editor2', style: 'width:100%;' } %>
+    <%= f.input :action1_id, collection: Action.all, allow_blank: false %>
+    <%= f.input :action2_id, collection: Action.all %>
+    <%= f.input :comments, input_html: { style: 'width:100%;' } %>
+    <script>
+      ClassicEditor
+              .create( document.querySelector( '.editor' ), {
+              } )
+              .then( editor => {
+                                        console.log( editor );
+                                } )
+              .catch( error => {
+                      console.error( error );
+              } );
+    </script>
+    <script>
+      ClassicEditor
+              .create( document.querySelector( '.editor2' ), {
+              } )
+              .then( editor => {
+                                        console.log( editor );
+                                } )
+              .catch( error => {
+                      console.error( error );
+              } );
+    </script>
+    <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>
+  <% end %>
+</div>

@@ -4,18 +4,45 @@
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <div>
-      <button class="btn btn-edit" data-toggle='modal' data-target='#editMod'>Edit Module</button>
+      <button class="btn btn-edit" data-toggle='modal' data-target='#editMod'>Editer cet atelier</button>
       <%= link_to training_session_workshop_path(@module.session.training, @module.session, @module), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-        <button class="btn btn-edit">Delete Module</button>
+        <button class="btn btn-edit">Supprimer l'atelier</button>
       <% end %>
-      <%= link_to save_mod_path, data: { confirm: 'Voulez-vous sauvegarder ce contenu ?' } do %>
-        <button class="btn btn-edit">Save Module</button>
+      <%= link_to save_workshop_path, data: { confirm: 'Voulez-vous sauvegarder ce contenu ?' } do %>
+        <button class="btn btn-edit">Sauvegarder cet atelier</button>
+      <% end %>
+      <%= link_to new_training_session_workshop_workshop_module_path(@module.session.training, @module.session, @module) do %>
+        <button class="btn btn-edit">Ajouter un module</button>
       <% end %>
     </div>
   </div>
   <h4><%= @module.title %></h4>
   <div class="container mod-container">
-    <p> <%= @module.description %> </p>
+    <p><%= @module.duration %> minutes</p>
+  <%= @module.description.html_safe %>
+  <p><%= @module.theme.name %></p>
+  </div>
+  <div id='content-mods'>
+    <h4>Liste des modules</h4>
+    <ul>
+      <% @module.workshop_modules.order('position ASC').each do |mod| %>
+        <li><div class='module-card'>
+          <div>
+          <%= link_to mod.title, training_session_workshop_workshop_module_path(@module.session.training, @module.session, @module, mod) %>
+          <%= link_to training_session_workshop_workshop_module_path(@module.session.training, @module.session, @module, mod), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+            <i class="fas fa-trash"></i>
+          <% end %>
+          <%= link_to edit_training_session_workshop_workshop_module_path(@module.session.training, @module.session, @module, mod) do %>
+            <i class="fas fa-edit"></i>
+          <% end %>
+          <p><%= mod.duration %> min</p>
+          </div>
+          <%= mod.instructions.html_safe %>
+          <p>Action 1 : <%= mod.action1.name %></p>
+          <p>Action 2 : <%= mod.action2.name %></p>
+          </div></li>
+      <% end %>
+    </ul>
   </div>
 </div>
 

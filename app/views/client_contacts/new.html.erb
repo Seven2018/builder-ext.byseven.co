@@ -7,6 +7,6 @@
     <%= f.input :title %>
     <%= f.input :role_description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
     <%= f.input :client_company_id, collection: @companies.order(:name), include_blank: false %>
-    <p class="center-button"> <%= f.submit class: 'btn-edit' %> </p>
+    <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>
   <% end %>
 </div>

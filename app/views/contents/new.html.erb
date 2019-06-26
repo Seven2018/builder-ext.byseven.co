@@ -3,15 +3,9 @@
 
   <%= simple_form_for @content do |f| %>
     <%= f.input :title %>
-    <%= f.input :format %>
     <%= f.input :duration, input_html: { min: '0' } %>
-    <%= f.input :description, as: :ckeditor, input_html: { ckeditor: { toolbar: 'Full' }, class: 'editor' }%>
-    <%= f.input :logistic %>
-    <%= f.association :chapter, collection: Chapter.order('name ASC') %>
-    <%# f.input :intel1, label: 'Intelligence 1', collection: Intelligence.all.each { |intel| intel.name } %>
-    <%# f.input :intel2, label: 'Intelligence 2', collection: Intelligence.all.each { |intel| intel.name } %>
-    <%= f.input :intel1_id, collection: Intelligence.all %>
-    <%= f.input :intel2_id, collection: Intelligence.all %>
+    <%= f.input :description, input_html: { class: 'editor' }%>
+    <%= f.association :theme, collection: Theme.order('name ASC') %>
      <script>
       ClassicEditor
               .create( document.querySelector( '.editor' ), {
@@ -31,6 +25,6 @@
                       console.error( error );
               } );
     </script>
-    <p class="center-button"> <%= f.submit class: 'btn-edit' %> </p>
+    <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>
   <% end %>
 </div>

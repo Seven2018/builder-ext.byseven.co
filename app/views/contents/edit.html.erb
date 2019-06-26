@@ -3,9 +3,9 @@
     <%= f.input :title %>
     <%= f.input :format %>
     <%= f.input :duration, input_html: { min: '0' } %>
-    <%= f.input :description, as: :ckeditor, input_html: { ckeditor: { toolbar: 'Full' }, class: 'editor' } %>
+    <%= f.input :description, input_html: { class: 'editor' } %>
     <%= f.input :logistic %>
-    <%= f.input :chapter, collection: ["Leadership", "Gestion d'équipe", "Communication", "Business Development", "Gestion de Projet", "Intelligence Economique", "Team Building"] %>
+    <%= f.input :theme, collection: ["Leadership", "Gestion d'équipe", "Communication", "Business Development", "Gestion de Projet", "Intelligence Economique", "Team Building"] %>
     <script>
       ClassicEditor
               .create( document.querySelector( '.editor' ), {

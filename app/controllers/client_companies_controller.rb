@@ -34,7 +34,7 @@ before_action :set_clientcompany, only: [:show, :edit, :update, :destroy]
     authorize @client_company
     @client_company.update(clientcompany_params)
     if @client_company.save
-      redirect_to iclient_company_path(@client_company)
+      redirect_to client_company_path(@client_company)
     else
       render "_edit"
     end
