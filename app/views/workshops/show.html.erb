@@ -8,7 +8,7 @@
       <%= link_to training_session_workshop_path(@module.session.training, @module.session, @module), method: :delete, data: { confirm: 'Are you sure ?'} do %>
         <button class="btn btn-edit">Delete Module</button>
       <% end %>
-      <%= link_to save_mod_path, data: { confirm: 'Voulez-vous sauvegarder ce contenu ?' } do %>
+      <%= link_to save_workshop_path, data: { confirm: 'Voulez-vous sauvegarder ce contenu ?' } do %>
         <button class="btn btn-edit">Save Module</button>
       <% end %>
     </div>

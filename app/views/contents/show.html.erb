@@ -7,12 +7,35 @@
       <%= link_to edit_content_path do %>
         <i class="fas fa-edit"></i>
       <% end %>
+      <%= link_to new_content_content_module_path(@content) do %>
+        <i class="fas fa-plus"></i>
+      <% end %>
     <% end %>
   </div>
-  <p><%= @content.format %></p>
-  <p><%= @content.duration %></p>
+  <p><%= @content.duration %> minutes</p>
   <%= @content.description.html_safe %>
-  <p><%= @content.logistic %></p>
-  <p><%= @content.chapter %></p>
+  <p><%= @content.theme.name %></p>
+  <div id='content-mods'>
+    <h4>Liste des modules</h4>
+    <ul>
+      <% @content.content_modules.order('position ASC').each do |mod| %>
+        <li><div class='module-card'>
+          <div>
+          <%= mod.title %>
+          <%= link_to content_content_module_path(@content, mod), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+            <i class="fas fa-trash"></i>
+          <% end %>
+          <%= link_to edit_content_content_module_path(@content, mod) do %>
+            <i class="fas fa-edit"></i>
+          <% end %>
+          <p><%= mod.duration %> min</p>
+          </div>
+          <%= mod.instructions.html_safe %>
+          <p>Action 1 : <%= mod.action1.name %></p>
+          <p>Action 2 : <%= mod.action2.name %></p>
+          </div></li>
+      <% end %>
+    </ul>
+  </div>
 </div>
 

@@ -7,22 +7,22 @@
     </div>
   </div>
   <ul id='myUL'>
-    <% Chapter.walk_tree do |chapter, level| %>
-      <% if chapter.children.empty? && chapter.level == 0 %>
-        <li><span class="caret"><%= chapter.name %></span>
+    <% Theme.walk_tree do |theme, level| %>
+      <% if theme.children.empty? && theme.level == 0 %>
+        <li><span class="caret"><%= theme.name %></span>
           <ul class="nested">
-            <% chapter.contents.each do |content| %>
+            <% theme.contents.each do |content| %>
               <li><%= link_to content.title, content_path(content) %></li>
             <% end %>
           </ul>
         </li>
-      <% elsif chapter.level == 0 && chapter.children != [] %>
-        <li><span class="caret"><%= chapter.name %></span>
+      <% elsif theme.level == 0 && theme.children != [] %>
+        <li><span class="caret"><%= theme.name %></span>
           <ul class="nested">
-            <% chapter.children.each do |subchapter| %>
-              <li><span class="caret"><%= subchapter.name %></span>
+            <% theme.children.each do |subtheme| %>
+              <li><span class="caret"><%= subtheme.name %></span>
                 <ul class="nested">
-                  <% subchapter.contents.each do |content| %>
+                  <% subtheme.contents.each do |content| %>
                     <li><%= link_to content.title, content_path(content) %></li>
                   <% end %>
                 </ul>

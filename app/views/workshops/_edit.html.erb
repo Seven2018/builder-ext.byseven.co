@@ -9,9 +9,8 @@
     <%= simple_form_for [mod.session.training, mod.session, mod] do |f| %>
       <%= f.input :title %>
       <div class="mod-date">
-        <%= f.input :format %>
         <%= f.input :duration, input_html: { min: '0' } %>
-        <%= f.input :chapter, :collection => %w[ Communication Developpement-Personnel Innovation Management Négociation Stratégie Leadership ] %>
+        <%= f.association :theme, :collection => Theme.all %>
       </div>
       <%= f.text_area :description, style: 'width: 100%; height: 300px;' %>
   </div>

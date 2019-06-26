@@ -13,9 +13,9 @@ class SessionsController < ApplicationController
     @contents = Content.all
     @session_trainer = SessionTrainer.new
     @comment = Comment.new
-    @chapters = Chapter.all
+    @themes = Theme.all
     # @contents.each do |content|
-    #   @chapter << content.chapter
+    #   @theme << content.theme
     # end
     respond_to do |format|
       format.html
@@ -37,7 +37,6 @@ class SessionsController < ApplicationController
 
   def new
     @session = Session.new
-    # @clients = ClientContact.all
     @training = Training.find(params[:training_id])
     authorize @session
   end

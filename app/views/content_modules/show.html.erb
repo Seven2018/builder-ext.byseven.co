@@ -1,0 +1,15 @@
+<div class="container-seven">
+  <%= link_to content_path(@content_module.content) do %>
+    <i class="fas fa-arrow-left"></i>
+  <% end %>
+  <h2><%= @content_module.title %></h2>
+
+  <p><%= @content_module.instructions %></p>
+  <p><%= @content_module.duration %></p>
+  <p><%= @content_module.url1 %></p>
+  <p><%= @content_module.url2 %></p>
+  <p><%= @content_module.logistics %></p>
+  <p><%= @content_module.action1.name %></p>
+  <p><%= @content_module.action2.name %></p>
+  <p><%= @content_module.comments %></p>
+</div>
