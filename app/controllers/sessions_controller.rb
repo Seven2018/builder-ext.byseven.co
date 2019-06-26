@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :set_session, only: [:show, :edit, :update, :destroy]
+  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer]
 
   def index
     @training = Training.find(params[:training_id])
@@ -8,7 +8,6 @@ class SessionsController < ApplicationController
   end
 
   def show
-    @session = Session.find(params[:id])
     authorize @session
     @contents = Content.all
     @session_trainer = SessionTrainer.new
@@ -74,6 +73,10 @@ class SessionsController < ApplicationController
     authorize @session
     @session.destroy
     redirect_to training_path(@training)
+  end
+
+  def viewer
+    authorize @session
   end
 
   private

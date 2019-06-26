@@ -15,7 +15,12 @@
     <div class="middle-info">
       <div class="middle-info-main">
         <h3><%= @session.title %></h3>
-        <button class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-edit"></i></button>
+        <div style="display: flex;align-items: center;justify-content: left;">
+          <button class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-edit"></i></button>
+          <%= link_to session_viewer_path(@session) do %>
+            <i class="far fa-eye"></i></a>
+          <% end %>
+        </div>
         <h4><%= @session.date.strftime("%A %e %B %Y") %>
           <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
           <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>

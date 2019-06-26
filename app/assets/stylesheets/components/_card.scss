@@ -203,6 +203,7 @@ $timeline: #115173;
     }
   }
   .card-left {
+    flex-shrink: 0;
     border-right-style: solid;
     border-right-color: $timeline;
     border-right-width: 4px;
@@ -480,6 +481,7 @@ duration {
   }
   .card-left {
     border-right-style: solid;
+    flex-shrink: 0;
     border-right-color: $timeline;
     border-right-width: 4px;
     width: 150px;

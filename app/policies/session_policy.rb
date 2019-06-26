@@ -25,6 +25,10 @@ class SessionPolicy < ApplicationPolicy
     check_access
   end
 
+  def viewer?
+    true
+  end
+
   private
 
   def check_access

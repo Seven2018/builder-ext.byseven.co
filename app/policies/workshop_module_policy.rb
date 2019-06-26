@@ -25,11 +25,19 @@ class WorkshopModulePolicy < ApplicationPolicy
     true
   end
 
-  def move?
+  def move_up?
+    true
+  end
+
+  def move_down?
     true
   end
 
   def save?
+    true
+  end
+
+  def viewer?
     true
   end
 end

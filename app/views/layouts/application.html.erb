@@ -13,7 +13,9 @@
   </head>
     <div class="body-wrapper">
      <div class='<%= "wrapper" unless params[:controller] == "pages" && params[:action] == "home" %>'>
-        <% unless params[:controller] == "pages" && params[:action] == "home" %>
+        <% if params[:controller] == "pages" && params[:action] == "home" %>
+        <% elsif params[:action] == 'viewer' %>
+        <% else %>
           <%= render 'shared/left-navbar' %>
         <% end %>
         <%#= render 'shared/navbar' %>
