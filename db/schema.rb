@@ -188,9 +188,11 @@ ActiveRecord::Schema.define(version: 2019_06_25_091241) do
     t.integer "action2_id"
     t.text "comments"
     t.integer "position"
+    t.bigint "user_id"
     t.bigint "workshop_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_workshop_modules_on_user_id"
     t.index ["workshop_id"], name: "index_workshop_modules_on_workshop_id"
   end
 
@@ -221,6 +223,7 @@ ActiveRecord::Schema.define(version: 2019_06_25_091241) do
   add_foreign_key "training_ownerships", "trainings"
   add_foreign_key "training_ownerships", "users"
   add_foreign_key "trainings", "client_contacts"
+  add_foreign_key "workshop_modules", "users"
   add_foreign_key "workshop_modules", "workshops"
   add_foreign_key "workshops", "sessions"
   add_foreign_key "workshops", "themes"

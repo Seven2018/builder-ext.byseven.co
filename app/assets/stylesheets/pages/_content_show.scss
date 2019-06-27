@@ -1,15 +1,31 @@
 #content-mods {
-
+  margin: 30px 0;
 }
 
 .module-card {
   background-color: white;
-  border: 1px solid black;
-  padding: 10px;
-  margin-bottom: 20px;
+  box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  &:hover {
+      box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
+    }
 
   div {
     display: flex;
     justify-content: space-between;
   }
+}
+
+.module-card-infos, .module-card-controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.module-card-controls {
+  align-items: center;
 }

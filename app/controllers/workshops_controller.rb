@@ -58,6 +58,11 @@ class WorkshopsController < ApplicationController
     @content = Content.new(@workshop.attributes.except("id", "position", "session_id", "created_at", "updated_at"))
     authorize @workshop
     if @content.save
+      @workshop.workshop_modules.each do |mod|
+        contentmod = ContentModule.new(mod.attributes.except("id", "user_id", "created_at", "updated_at", "workshop_id"))
+        contentmod.content = @content
+        contentmod.save
+      end
       redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
       @success = true
     else
