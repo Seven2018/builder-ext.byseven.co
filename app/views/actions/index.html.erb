@@ -1,10 +1,12 @@
 <div class="container-seven">
-  <h2>Liste des actions</h2>
-  <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-    <%= link_to new_action_path do %>
-      <i class="fas fa-plus"></i>
+  <div class='flex-title'>
+    <h2>Liste des actions</h2>
+    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+      <%= link_to new_action_path do %>
+        <i class="fas fa-plus"></i>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
   <ul>
   <% @actions.each do |action| %>
     <li><%= link_to action.name, action_path(action) %></li>

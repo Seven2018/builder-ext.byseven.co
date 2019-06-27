@@ -45,7 +45,9 @@
                 <% end %>
               </div>
               <div class="card-description">
-                <h5><%= "#{mod.description.split('.').first(2).join('.')}." %></h5>
+                <% mod.workshop_modules.order('position ASC').compact.each do |workmod| %>
+                  <%= workmod.title %>
+                <% end %>
               </div>
             </div>
           </div>

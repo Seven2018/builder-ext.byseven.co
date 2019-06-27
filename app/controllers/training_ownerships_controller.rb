@@ -14,4 +14,13 @@ class TrainingOwnershipsController < ApplicationController
       redirect_to training_path(@training)
     end
   end
+
+  def destroy
+    @user = User.find(params[:training_ownership][:user].to_s)
+    @training = Training.find(params[:training_id])
+    @ownership = TrainingOwnership.where(user: @user).where(training: @training)
+    skip_authorization
+    @ownership.first.destroy
+    redirect_to training_path(@training)
+  end
 end

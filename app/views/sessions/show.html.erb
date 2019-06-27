@@ -43,6 +43,7 @@
         </ul>
           <% if (['super admin', 'admin'].include? current_user.access_level) || (@session.training.users.include? current_user) %>
             <button class='user-fafa' data-toggle='modal' data-target='#newUser'><i class="fas fa-user-plus"></i></button>
+            <button class='user-fafa' data-toggle='modal' data-target='#destroyUser'><i class="fas fa-user-minus"></i></button>
           <% end %>
       </div>
     </div>
@@ -132,6 +133,12 @@
 <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'session_trainers/new', session: @session, session_trainer: @session_trainer %>
+  </div>
+</div>
+
+<div class="modal fade" id="destroyUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'session_trainers/destroy', session: @session, session_trainer: @session_trainer %>
   </div>
 </div>
 

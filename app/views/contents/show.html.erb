@@ -1,41 +1,48 @@
 <div class="container-seven">
-  <%= link_to contents_path do %><i class="fas fa-arrow-left"></i><% end %>
-  <h2><%= @content.title %></h2>
-  <div class="show-control-links">
-    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <!-- <a class="edit-fafa" data-toggle='modal' data-target='#editContent'><i class="fas fa-edit"></i></a> -->
-      <%= link_to edit_content_path do %>
-        <i class="fas fa-edit"></i>
+  <div class="training-info-headers">
+    <%= link_to contents_path do %><i class="fas fa-arrow-left"></i><% end %>
+    <div class="show-control-links">
+      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+        <%= link_to edit_content_path do %>
+          <button class="btn btn-edit">Editer ce contenu</button>
+        <% end %>
       <% end %>
+    </div>
+  </div>
+  <h2><%= @content.title %></h2>
+  <p><%= @content.duration %> minutes</p>
+  <p><strong><%= @content.theme.name %></strong></p>
+  <%= @content.description.html_safe %>
+  <div id='content-mods'>
+    <div>
+      <h4>Liste des modules</h4>
       <%= link_to new_content_content_module_path(@content) do %>
         <i class="fas fa-plus"></i>
       <% end %>
-    <% end %>
-  </div>
-  <p><%= @content.duration %> minutes</p>
-  <%= @content.description.html_safe %>
-  <p><%= @content.theme.name %></p>
-  <div id='content-mods'>
-    <h4>Liste des modules</h4>
-    <ul>
-      <% @content.content_modules.order('position ASC').each do |mod| %>
-        <li><div class='module-card'>
-          <div>
-          <%= link_to mod.title, content_content_module_path(mod.content, mod) %>
-          <%= link_to content_content_module_path(@content, mod), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-            <i class="fas fa-trash"></i>
-          <% end %>
+    </div>
+    <% @content.content_modules.order('position ASC').each do |mod| %>
+      <div class='module-card'>
+        <div class="module-card-infos">
+        <h5><%= link_to mod.title, content_content_module_path(@content, mod) %></h5>
+        <%= mod.instructions.html_safe %>
+        <% unless mod.action2.nil? %>
+          <p>Action 1 : <%= mod.action1.name %></p>
+          <p>Action 2 : <%= mod.action2.name %></p>
+        <% else %>
+          <p>Action : <%= mod.action1.name %></p>
+        <% end %>
+        </div>
+        <div class="module-card-controls">
+          <p><%= mod.duration %> min</p>
           <%= link_to edit_content_content_module_path(@content, mod) do %>
             <i class="fas fa-edit"></i>
           <% end %>
-          <p><%= mod.duration %> min</p>
-          </div>
-          <%= mod.instructions.html_safe %>
-          <p>Action 1 : <%= mod.action1.name %></p>
-          <p>Action 2 : <%= mod.action2.name %></p>
-          </div></li>
-      <% end %>
-    </ul>
+          <%= link_to content_content_module_path(@content, mod), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+            <i class="fas fa-trash"></i>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
 

@@ -14,4 +14,14 @@ class SessionTrainersController < ApplicationController
       redirect_to training_session_path(@session.training, @session)
     end
   end
+
+  def destroy
+    @user = User.find(params[:session_trainer][:user].to_s)
+    @session = Session.find(params[:session_id])
+    @session_trainer = SessionTrainer.where(user: @user).where(session: @session)
+    skip_authorization
+    @session_trainer.first.destroy
+    redirect_back(fallback_location: root_path)
+    return
+  end
 end

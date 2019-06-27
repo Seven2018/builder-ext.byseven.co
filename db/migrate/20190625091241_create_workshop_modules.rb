@@ -13,6 +13,7 @@ class CreateWorkshopModules < ActiveRecord::Migration[5.2]
       t.integer :action2_id
       t.text :comments
       t.integer :position
+      t.references :user, foreign_key: true
       t.references :workshop, foreign_key: true
 
       t.timestamps

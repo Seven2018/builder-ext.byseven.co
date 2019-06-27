@@ -1,34 +1,48 @@
 <h4>Liste des modules</h4>
-<ul>
   <% @workshop.workshop_modules.order('position ASC').each do |mod| %>
-    <li><div class='module-card'>
-      <div>
-      <%= link_to mod.title, training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod) %>
-      <%= link_to training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-        <i class="fas fa-trash"></i>
-      <% end %>
-      <%= link_to edit_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod) do %>
-        <i class="fas fa-edit"></i>
-      <% end %>
-      <p><%= mod.duration %> min</p>
-      </div>
-      <% if mod.position == 1 %>
-        <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
-      <% else %>
-        <%= link_to move_up_workshop_module_path(mod), remote: true do %>
-          <i class="fas fa-arrow-up"></i>
-        <% end %>
-      <% end %>
-      <% if mod.position ==  @workshop.workshop_modules.count %>
-        <a href=""><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
-      <% else %>
-        <%= link_to move_down_workshop_module_path(mod), remote: true do %>
-          <i class="fas fa-arrow-down"></i>
-        <% end %>
-      <% end %>
+    <div class='module-card'>
+      <div class="module-card-infos">
+      <h5><%= link_to mod.title, training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod) %></h5>
       <%= mod.instructions.html_safe %>
-      <p>Action 1 : <%= mod.action1.name %></p>
-      <p>Action 2 : <%= mod.action2.name %></p>
-      </div></li>
+      <% unless mod.action2.nil? %>
+          <p>Action 1 : <%= mod.action1.name %></p>
+          <p>Action 2 : <%= mod.action2.name %></p>
+        <% else %>
+          <p>Action : <%= mod.action1.name %></p>
+        <% end %>
+      </div>
+      <div class="module-card-controls">
+        <p><%= mod.duration %> min</p>
+        <% unless mod.user.nil? %>
+          <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= mod.user.id %>'><img src='<%= "#{mod.user.picture}" %>' alt="" class='avatar'></a>
+        <% end %>
+        <% if mod.position == 1 %>
+          <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
+        <% else %>
+          <%= link_to move_up_workshop_module_path(mod), remote: true do %>
+            <i class="fas fa-arrow-up"></i>
+          <% end %>
+        <% end %>
+        <% if mod.position ==  @workshop.workshop_modules.count %>
+          <a href=""><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
+        <% else %>
+          <%= link_to move_down_workshop_module_path(mod), remote: true do %>
+            <i class="fas fa-arrow-down"></i>
+          <% end %>
+        <% end %>
+        <%= link_to edit_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod) do %>
+          <i class="fas fa-edit"></i>
+        <% end %>
+        <%= link_to training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <i class="fas fa-trash"></i>
+        <% end %>
+      </div>
+    </div>
+    <!-- Modals -->
+    <div class="modal fade" id="consultUser<%= mod.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document" style="border-radius: 20px">
+        <%= render 'users/consult', user: mod.user %>
+      </div>
+    </div>
   <% end %>
-</ul>
+
