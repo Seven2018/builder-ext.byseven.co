@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2019_06_25_091241) do
   create_table "client_companies", force: :cascade do |t|
     t.string "name"
     t.string "address"
+    t.string "client_company_type"
     t.text "description"
     t.string "logo"
     t.datetime "created_at", null: false

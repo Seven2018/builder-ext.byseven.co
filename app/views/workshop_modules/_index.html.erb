@@ -14,7 +14,7 @@
       <div class="module-card-controls">
         <p><%= mod.duration %> min</p>
         <% unless mod.user.nil? %>
-          <img src="<%= mod.user.picture %>" alt="" class='avatar'>
+          <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= mod.user.id %>'><img src='<%= "#{mod.user.picture}" %>' alt="" class='avatar'></a>
         <% end %>
         <% if mod.position == 1 %>
           <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
@@ -38,4 +38,11 @@
         <% end %>
       </div>
     </div>
+    <!-- Modals -->
+    <div class="modal fade" id="consultUser<%= mod.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document" style="border-radius: 20px">
+        <%= render 'users/consult', user: mod.user %>
+      </div>
+    </div>
   <% end %>
+

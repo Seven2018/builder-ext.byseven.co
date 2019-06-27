@@ -28,6 +28,7 @@
           <% end %>
         </ul>
         <button class='user-fafa' data-toggle='modal' data-target='#newOwner'><i class="fas fa-user-plus"></i></button>
+        <button class='user-fafa' data-toggle='modal' data-target='#destroyOwner'><i class="fas fa-user-minus"></i></button>
       </div>
   </div>
   <div class="training-info">
@@ -82,6 +83,12 @@
 <div class="modal fade" id="newOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'training_ownerships/new', training_owner: @ownership %>
+  </div>
+</div>
+
+<div class="modal fade" id="destroyOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'training_ownerships/destroy', training_owner: @ownership %>
   </div>
 </div>
 

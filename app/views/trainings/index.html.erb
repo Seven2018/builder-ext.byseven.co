@@ -2,10 +2,11 @@
   <h3 style="text-align: left;"><%= "Dashboard" %></h3>
   <div class="trainings-title">
     <ul class="nav nav-tabs">
-      <li role="presentation"><a href="#ongoing" data-toggle="tab" class="active">Projets en cours</a></li>
-      <li role="presentation"><a href="#coming" data-toggle="tab">Projets à venir</a></li>
-      <li role="presentation"><a href="#completed" data-toggle="tab">Projets terminés</a></li>
-      <li></li>
+      <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) %>
+        <li role="presentation"><a href="#ongoing" data-toggle="tab" class="active">Projets en cours</a></li>
+        <li role="presentation"><a href="#coming" data-toggle="tab">Projets à venir</a></li>
+        <li role="presentation"><a href="#completed" data-toggle="tab">Projets terminés</a></li>
+      <% end %>
       <li><%= link_to "Semaine", index_week_path %></li>
       <li><%= link_to "Mois", index_month_path %></li>
     </ul>
@@ -14,16 +15,16 @@
     </div>
   </div>
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="ongoing">
-      <%= render 'ongoing', trainings: @trainings %>
-    </div>
+    <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) %>
+      <div role="tabpanel" class="tab-pane active" id="ongoing">
+        <%= render 'ongoing', trainings: @trainings %>
+      </div>
+    <% end %>
     <div role="tabpanel" class="tab-pane" id="coming">
       <%= render 'coming', trainings: @trainings %>
     </div>
     <div role="tabpanel" class="tab-pane" id="completed">
       <%= render 'completed', trainings: @trainings %>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="settings">
     </div>
   </div>
 

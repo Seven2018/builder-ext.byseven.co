@@ -3,6 +3,7 @@
 
   <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @workshop_module] do |f| %>
     <%= f.input :title %>
+    <%= f.association :user, label: 'Intervenant', collection: @users, allow_blank: true %>
     <%= f.input :instructions, input_html: { class: 'editor' } %>
     <%= f.input :duration %>
     <%= f.input :url1 %>
