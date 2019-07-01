@@ -9,10 +9,8 @@
       <% end %>
     </div>
   </div>
-  <h2><%= @content.title %></h2>
-  <p><%= @content.duration %> minutes</p>
-  <p><strong><%= @content.theme.name %></strong></p>
-  <%= @content.description.html_safe %>
+  <h2><%= @content.theme.name %></h2>
+  <img src="<%= @content.description %>" alt="">
   <div id='content-mods'>
     <div>
       <h4>Liste des modules</h4>
