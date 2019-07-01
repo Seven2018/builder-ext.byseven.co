@@ -1,7 +1,6 @@
 <div class="container-seven">
     <%= simple_form_for @content do |f| %>
     <%= f.input :title %>
-    <%= f.input :format %>
     <%= f.input :duration, input_html: { min: '0' } %>
     <%= f.input :description, input_html: { class: 'editor' } %>
     <%= f.input :logistic %>
