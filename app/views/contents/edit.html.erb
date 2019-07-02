@@ -2,20 +2,8 @@
     <%= simple_form_for @content do |f| %>
     <%= f.input :title %>
     <%= f.input :duration, input_html: { min: '0' } %>
-    <%= f.input :description, input_html: { class: 'editor' } %>
-    <%= f.input :logistic %>
+    <%= f.input :description, label: 'Image intro (url)' %>
     <%= f.input :theme, collection: ["Leadership", "Gestion d'équipe", "Communication", "Business Development", "Gestion de Projet", "Intelligence Economique", "Team Building"] %>
-    <script>
-      ClassicEditor
-              .create( document.querySelector( '.editor' ), {
-              } )
-              .then( editor => {
-                                        console.log( editor );
-                                } )
-              .catch( error => {
-                      console.error( error );
-              } );
-    </script>
       <%= f.button :submit, class: 'btn btn-edit' %>
       <% end %>
       <%= link_to content_path(@content), method: :delete, data: { confirm: 'Are you sure ?'} do %>
