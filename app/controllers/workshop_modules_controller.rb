@@ -9,6 +9,7 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     @workshop = Workshop.find(params[:workshop_id])
     @workshop_module = WorkshopModule.new
     authorize @workshop_module
+    @users = @workshop.session.users
   end
 
   def create

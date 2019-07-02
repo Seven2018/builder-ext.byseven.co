@@ -1,4 +1,8 @@
-<h4>Liste des modules</h4>
+
+  <h4>Liste des modules</h4>
+  <%= link_to new_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop) do %>
+    <i class="fas fa-plus"></i>
+  <% end %>
   <% @workshop.workshop_modules.order('position ASC').each do |mod| %>
     <div class='module-card'>
       <div class="module-card-infos">
@@ -39,10 +43,12 @@
       </div>
     </div>
     <!-- Modals -->
-    <div class="modal fade" id="consultUser<%= mod.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document" style="border-radius: 20px">
-        <%= render 'users/consult', user: mod.user %>
+    <% unless mod.user.nil? %>
+      <div class="modal fade" id="consultUser<%= mod.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="border-radius: 20px">
+          <%= render 'users/consult', user: mod.user %>
+        </div>
       </div>
-    </div>
+    <% end %>
   <% end %>
 

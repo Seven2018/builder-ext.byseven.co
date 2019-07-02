@@ -16,11 +16,12 @@
       <% end %>
     </div>
   </div>
-  <h4><%= @workshop.title %></h4>
+  <h2><%= @workshop.theme.name %></h2>
+  <br>
+  <h4><%= @workshop.title %> - (<%= @workshop.duration %> minutes)</h4>
+  <br>
+  <img src="<%= @workshop.description %>" alt="">
   <div class="container mod-container">
-    <p><%= @workshop.duration %> minutes</p>
-  <%= @workshop.description.html_safe %>
-  <p><%= @workshop.theme.name %></p>
   </div>
   <div id='content-mods'>
     <%= render 'workshop_modules/index', mod: @workshop %>
