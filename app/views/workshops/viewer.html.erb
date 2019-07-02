@@ -16,12 +16,13 @@
       <% @workshop.workshop_modules.order('position ASC').each do |mod| %>
         <li><div class='module-card'>
           <div>
-          <%= link_to mod.title, workshop_module_viewer_path(mod) %>
-          <p><%= mod.duration %> min</p>
+            <p><%= link_to mod.title, workshop_module_viewer_path(mod) %> - (<%= mod.duration %> min)</p>
           </div>
           <%= mod.instructions.html_safe %>
           <p>Action 1 : <%= mod.action1.name %></p>
-          <p>Action 2 : <%= mod.action2.name %></p>
+          <% unless mod.action2.nil? %>
+            <p>Action 2 : <%= mod.action2.name %></p>
+          <% end %>
           </div></li>
       <% end %>
     </ul>

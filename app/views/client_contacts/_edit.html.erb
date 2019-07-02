@@ -6,7 +6,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   </div>
   <div class="modal-body">
-    <%= simple_form_for @client_contact do |f| %>
+    <%= simple_form_for [@client_contact.client_company, @client_contact] do |f| %>
           <%= f.input :name %>
     <%= f.input :email %>
     <%= f.input :title %>
@@ -17,7 +17,7 @@
     <div>
       <%= f.button :submit, class: 'btn btn-edit' %>
       <% end %>
-      <%= link_to client_contact_path(@client_contact), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+      <%= link_to client_company_client_contact_path(@client_contact.client_company, @client_contact), method: :delete, data: { confirm: 'Are you sure ?'} do %>
           <button class="btn btn-edit">
             <i class="fas fa-trash-alt"></i>
           </button>

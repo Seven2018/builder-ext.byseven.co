@@ -12,15 +12,17 @@ class ClientContactsController < ApplicationController
 
   def new
     @client_contact = ClientContact.new
-    @companies = ClientCompany.all
+    @client_company = ClientCompany.find(params[:client_company_id])
     authorize @client_contact
   end
 
   def create
     @client_contact = ClientContact.new(clientcontact_params)
+    @client_company = ClientCompany.find(params[:client_company_id])
     authorize @client_contact
+    @client_contact.client_company = @client_company
     if @client_contact.save
-      redirect_to client_contact_path(@client_contact)
+      redirect_to client_company_client_contact_path(@client_company, @client_contact)
     else
       render :new
     end
@@ -36,7 +38,7 @@ class ClientContactsController < ApplicationController
     authorize @client_contact
     @client_contact.update(clientcontact_params)
     if @client_contact.save
-      redirect_to client_contact_path(@client_contact)
+      redirect_to client_company_client_contact_path(@client_contact.client_company, @client_contact)
     else
       render "_edit"
     end

@@ -9,8 +9,9 @@ Rails.application.routes.draw do
   resources :contents do
     resources :content_modules
   end
-  resources :client_companies, path: '/companies'
-  resources :client_contacts, path: '/contacts'
+  resources :client_companies, path: '/companies' do
+    resources :client_contacts, path: '/contacts'
+  end
   resources :trainings do
     resources :sessions do
       resources :workshops, only: [:show, :create, :edit, :update, :destroy] do

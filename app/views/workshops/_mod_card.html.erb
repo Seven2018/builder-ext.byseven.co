@@ -25,9 +25,13 @@
       <% end %>
     </div>
     <div class="card-description grabbable">
-      <% mod.workshop_modules.order('position ASC').compact.each do |workmod| %>
-        <%= workmod.title %>
-      <% end %>
+      <ul>
+        <% mod.workshop_modules.order('position ASC').compact.each do |workmod| %>
+          <li>
+            <%= workmod.title %>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </div>
