@@ -3,7 +3,7 @@
   <%= simple_form_for @client_company do |f| %>
     <%= f.input :name %>
     <%= f.input :address %>
-    <%= f.input :client_company_type, label: 'Type' collection: ["Entreprise", "Ecole"], include_blank: false %>
+    <%= f.input :client_company_type, label: 'Type', collection: ["Entreprise", "Ecole"], include_blank: false %>
     <%= f.input :description, :input_html => {:rows => 10, style: 'width:100%;'} %>
     <%= f.input :logo, label: 'Logo URL' %>
     <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>

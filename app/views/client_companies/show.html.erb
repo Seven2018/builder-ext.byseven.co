@@ -16,10 +16,16 @@
     <p><%= @client_company.client_company_type %></p>
     <p><%= @client_company.description %></p>
   </div>
-  <h2>Client Contacts List</h2>
-  <ul class="client-contact-list">
+  <h2>Liste de contacts</h2>
+  <div class="client-contact-list">
+    <div class="client-company-card">
+      <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
+      <div>
+        <p>Ajouter un nouveau contact</p>
+        <p></p>
+      </div>
+    </div>
     <% @client_contacts.each do |contact| %>
-      <li>
         <%= link_to client_contact_path(contact) do %>
           <div class="client-contact-card">
             <img class='client-company-logo-index' src='<%= "#{contact.client_company.logo}" %>'>
@@ -30,9 +36,8 @@
             </div>
           </div>
         <% end %>
-      </li>
     <% end %>
-  </ul>
+  </div>
 </div>
 
 
