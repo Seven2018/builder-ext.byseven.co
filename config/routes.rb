@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'invoices', to: 'invoice_items#invoice_index', as: 'invoices'
   post 'new_invoice', to: 'invoice_items#new_invoice', as: 'new_invoice'
   get 'estimates', to: 'invoice_items#estimate_index', as: 'estimates'
+  resources :invoice_lines, only: [:create, :update, :destroy]
   resources :trainings do
     resources :sessions do
       resources :workshops, only: [:show, :create, :edit, :update, :destroy] do

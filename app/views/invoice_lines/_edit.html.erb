@@ -1,0 +1,24 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= line.description %></h3>
+    </div>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for line do |f| %>
+      <%= f.input :description %>
+      <%= f.input :quantity %>
+  </div>
+  <div class="modal-footer" id="modalNewBookingFooter">
+    <div>
+      <%= f.button :submit, class: 'btn btn-edit' %>
+      <%= link_to invoice_line_path(line), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <button class="btn btn-edit">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -14,14 +14,16 @@
       <% else %>
         <h1>Devis</h1>
       <% end %>
-      <p>Numéro <%= @invoice_item.uuid %></p>
-      <p>Du <%= @invoice_item.issue_date %></p>
+      <p>n° <%= @invoice_item.uuid %></p>
+      <p>Du <%= @invoice_item.issue_date.strftime('%d/%m/%Y') %></p>
       <p>Etablie en Euro</p>
     </div>
   </div>
   <div class="invoice-client">
-    <%= @invoice_item.client_company.name %>
-    <%= @invoice_item.client_company.address %>
+    <div>
+      <p><%= @invoice_item.client_company.name %></p>
+      <p><%= @invoice_item.client_company.address %></p>
+    </div>
   </div>
   <div class="invoice-desc-header">
     <div>
@@ -32,5 +34,36 @@
       <p>Montant HT</p>
       <p>%TVA</p>
     </div>
+    <% @invoice_item.invoice_lines.each do |line| %>
+      <div>
+        <%= line.description %>
+        <%= line.quantity %>
+        <%= line.net_amount %>
+        <%= line.net_amount * line.quantity %>
+        <%= "#{line.tax_amount}%" %>
+        <a class="edit-fafa" data-toggle='modal' data-target='#editLine<%= line.id %>'><i class="fas fa-edit"></i></a>
+        <!-- Modals -->
+        <% unless line.id.nil? %>
+          <div class="modal fade" id="editLine<%= line.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="border-radius: 20px">
+              <%= render 'invoice_lines/edit', line: line %>
+            </div>
+          </div>
+        <% end %>
+        <!-- Modals -->
+      </div>
+    <% end %>
   </div>
 </div>
+  <div class="nav-side-menu-container">
+    <div class="nav-side-menu">
+      <h3>Liste des produits</h3>
+      <div class="menu-list">
+        <ul>
+          <% Product.all.each do |product| %>
+            <li><%= link_to product.name, invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>

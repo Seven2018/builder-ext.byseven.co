@@ -1,0 +1,19 @@
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  margin-bottom: 100px;
+
+  div > p {
+    margin: 0;
+  }
+}
+
+.invoice-client {
+  border: 1px solid rgb(136,136,136);
+  width: auto;
+
+  div > p {
+    margin: 0;
+  }
+}

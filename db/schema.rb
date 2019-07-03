@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_03_073940) do
+ActiveRecord::Schema.define(version: 2019_07_03_132141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,25 @@ ActiveRecord::Schema.define(version: 2019_07_03_073940) do
     t.datetime "updated_at", null: false
     t.index ["client_company_id"], name: "index_invoice_items_on_client_company_id"
     t.index ["training_id"], name: "index_invoice_items_on_training_id"
+  end
+
+  create_table "invoice_lines", force: :cascade do |t|
+    t.string "description"
+    t.integer "quantity"
+    t.decimal "net_amount"
+    t.decimal "tax_amount"
+    t.bigint "invoice_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_item_id"], name: "index_invoice_lines_on_invoice_item_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.decimal "price"
+    t.integer "tax"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "session_trainers", force: :cascade do |t|
@@ -236,6 +255,7 @@ ActiveRecord::Schema.define(version: 2019_07_03_073940) do
   add_foreign_key "contents", "themes"
   add_foreign_key "invoice_items", "client_companies"
   add_foreign_key "invoice_items", "trainings"
+  add_foreign_key "invoice_lines", "invoice_items"
   add_foreign_key "session_trainers", "sessions"
   add_foreign_key "session_trainers", "users"
   add_foreign_key "sessions", "trainings"
