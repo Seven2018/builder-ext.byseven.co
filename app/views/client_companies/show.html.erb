@@ -8,6 +8,7 @@
         <div class="show-control-links">
           <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
             <a class="edit-fafa" data-toggle='modal' data-target='#editClientCompany'><i class="fas fa-edit"></i></a>
+            <%= link_to 'Liste Factures', invoice_items_path(client_company_id: @client_company.id) %>
           <% end %>
         </div>
       </div>

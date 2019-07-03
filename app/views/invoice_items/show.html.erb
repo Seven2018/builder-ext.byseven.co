@@ -1,0 +1,36 @@
+<div class="container-seven">
+  <%= link_to invoice_items_path do %><i class="fas fa-arrow-left"></i><% end %>
+  <div class="invoice-header">
+    <div>
+      <h3>SAS SEVEN</h3>
+      <p>5, rue Moret</p>
+      <p>75011 Paris</p>
+      <p>FRANCE</p>
+      <p>contact@byseven.co</p>
+    </div>
+    <div>
+      <% if @invoice_item.type == 'Invoice' %>
+        <h1>Facture</h1>
+      <% else %>
+        <h1>Devis</h1>
+      <% end %>
+      <p>Numéro <%= @invoice_item.uuid %></p>
+      <p>Du <%= @invoice_item.issue_date %></p>
+      <p>Etablie en Euro</p>
+    </div>
+  </div>
+  <div class="invoice-client">
+    <%= @invoice_item.client_company.name %>
+    <%= @invoice_item.client_company.address %>
+  </div>
+  <div class="invoice-desc-header">
+    <div>
+      <p>Désignation</p>
+      <p>Qté</p>
+      <p>Unité</p>
+      <p>PU HT</p>
+      <p>Montant HT</p>
+      <p>%TVA</p>
+    </div>
+  </div>
+</div>

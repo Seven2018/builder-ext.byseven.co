@@ -3,6 +3,7 @@ class Training < ApplicationRecord
   has_many :sessions, :dependent => :destroy
   has_many :training_ownerships, :dependent => :destroy
   has_many :users, through: :training_ownerships
+  has_many :invoice_items
 
   def start_time
     self.start_date

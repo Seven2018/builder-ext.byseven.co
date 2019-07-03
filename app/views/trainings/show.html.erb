@@ -5,7 +5,10 @@
     <% end %>
     <div>
       <%= link_to new_training_session_path(@training) do %>
-      <button class="btn btn-edit">Add a session</button>
+        <button class="btn btn-edit">Ajouter une session</button>
+      <% end %>
+      <%= link_to new_invoice_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post do %>
+        <button class="btn btn-edit">Créer une facture</button>
       <% end %>
     </div>
   </div>

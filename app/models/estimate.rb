@@ -1,0 +1,2 @@
+class Estimate < InvoiceItem
+end
