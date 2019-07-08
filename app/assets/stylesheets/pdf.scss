@@ -1,3 +1,7 @@
+#body-pdf {
+  background-color: white;
+}
+
 #pdf-logo {
   padding: 20px;
   margin-bottom: 50px;
@@ -22,12 +26,14 @@
   font-family: "Roboto", sans-serif;
   text-align: center;
 }
+
 .training-details-pdf {
   font-family: "Roboto", sans-serif;
   text-align: center;
   font-style: italic;
   margin-top: -15px
 }
+
 .content-details-pdf {
   font-family: "Roboto", sans-serif;
   border-bottom: 1px solid #000;
@@ -36,6 +42,7 @@
     color: red;
   }
 }
+
 .content-description-pdf {
   line-height: 30px;
   font-size: 16px;
@@ -43,9 +50,98 @@
   margin-bottom: 50px;
 }
 
-
 .content-intel-pdf {
   font-family: "Roboto", sans-serif;
   font-style: italic;
   // margin-top: -15px;
+}
+
+.wrapper-pdf {
+  position: relative;
+}
+
+.invoice-header-pdf {
+  height: 100px !important;
+}
+
+.invoice-header-number-pdf {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.invoice-desc-headline-pdf {
+  display: inline-block;
+  border-bottom: 2px solid black;
+
+  p, div, div > p {
+    display: inherit;
+  }
+
+  div {
+  }
+
+  div > p {
+    margin-left: 50px;
+    width: 70px;
+    text-align: right;
+  }
+}
+
+.invoice-desc-line-pdf {
+  display: inline-block;
+
+  p, div, div > p {
+    display: inherit;
+  }
+
+  div {
+  }
+
+  div > p {
+    margin-left: 50px;
+    width: 70px;
+    text-align: right;
+  }
+}
+
+.invoice-desc-line-pretaxamount {
+  width: 100px !important;
+}
+
+.invoice-desc-line-description-pdf {
+  width: 365px;
+}
+
+.invoice-total-pdf {
+  display: inline-block;
+  margin-top: 100px;
+
+  div {
+    display: inherit;
+  }
+}
+
+.invoice-total-due-date-pdf {
+  width: 310px;
+
+  div {
+
+    &:first-child {
+      border-bottom: 2px solid black
+    }
+  }
+
+  div > p {
+    display: inline-block;
+    width: 150px;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
+
+.footer-pdf {
+  background-color: white;
 }

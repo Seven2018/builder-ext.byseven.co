@@ -96,8 +96,8 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
     t.bigint "client_company_id"
     t.bigint "training_id"
     t.string "type"
-    t.decimal "total_amount"
-    t.decimal "tax_amount"
+    t.decimal "total_amount", precision: 15, scale: 10
+    t.decimal "tax_amount", precision: 15, scale: 10
     t.string "status"
     t.string "identifier"
     t.string "description"
@@ -113,8 +113,8 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
   create_table "invoice_lines", force: :cascade do |t|
     t.string "description"
     t.integer "quantity"
-    t.decimal "net_amount"
-    t.decimal "tax_amount"
+    t.decimal "net_amount", precision: 15, scale: 10
+    t.decimal "tax_amount", precision: 15, scale: 10
     t.bigint "invoice_item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -123,7 +123,7 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
 
   create_table "products", force: :cascade do |t|
     t.string "name"
-    t.decimal "price"
+    t.decimal "price", precision: 15, scale: 10
     t.integer "tax"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

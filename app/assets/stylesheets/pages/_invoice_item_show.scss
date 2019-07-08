@@ -3,17 +3,76 @@
   justify-content: space-between;
   padding: 30px;
   margin-bottom: 100px;
-
-  div > p {
-    margin: 0;
-  }
 }
 
 .invoice-client {
   border: 1px solid rgb(136,136,136);
+  margin-left: 550px;
+  margin-bottom: 50px;
   width: auto;
+}
 
-  div > p {
-    margin: 0;
+#invoice-desc-header {
+    border-bottom: 2px solid black;
+}
+
+.invoice-desc-line, .invoice-desc-line > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.invoice-desc-line > div {
+  width: 45%;
+
+  p {
+    width: 100px;
+    text-align: right;
+  }
+}
+
+.invoice-total-details, .invoice-total-due-date, .invoice-total{
+  display: flex;
+  justify-content: space-between;
+}
+
+.invoice-total-details > div, .invoice-total-due-date > div {
+  &:first-child {
+    width: 250px;
+  }
+
+  &:last-child {
+    p {
+    width: 100px;
+    text-align: right;
+    }
+  }
+}
+
+.invoice-total-details > div > p, .invoice-total-due-date > div > p {
+  padding: 5px 0;
+
+  &:last-child {
+    border-top: 2px solid black;
+  }
+}
+
+.invoice-total {
+  width: 100%;
+  margin-top: 100px;
+}
+
+.invoice-bank-statement {
+  margin-top: 50px;
+}
+
+.invoice-footer {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.invoice-footer > p {
+
+  &:last-child {
+    font-size: 10px;
   }
 }

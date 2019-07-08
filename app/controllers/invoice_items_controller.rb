@@ -12,6 +12,24 @@ class InvoiceItemsController < ApplicationController
 
   def show
     authorize @invoice_item
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render(
+          pdf: "#{@invoice_item.uuid}",
+          layout: 'pdf.html.erb',
+          :margin => { :bottom => 55 },
+          :footer => { :margin => { :top => 0, :bottom => 0 }, :html => { :template => 'invoice_items/footer.pdf.erb' } },
+          template: 'invoice_items/show',
+          background: true,
+          show_as_html: params.key?('debug'),
+          page_size: 'A4',
+          encoding: 'utf8',
+          dpi: 300,
+          zoom: 1,
+        )
+      end
+    end
   end
 
   def new_invoice

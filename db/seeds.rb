@@ -149,4 +149,16 @@ ClientCompany.create(
  logo: "https://upload.wikimedia.org/wikipedia/fr/thumb/2/22/M6_2009.svg/1200px-M6_2009.svg.png",
  client_company_type: "Entreprise")
 
+puts "Generating Products..."
+
+Product.create(name: 'Formation Seven sans TVA' , price: 0, tax: 0)
+Product.create(name: 'Formation Seven avec TVA' , price: 2400, tax: 20)
+Product.create(name: 'Préparation formation', price: 0, tax: 20)
+Product.create(name: 'Frais de transport', price: 0, tax: 0)
+Product.create(name: 'Frais de logement', price: 0, tax: 0)
+Product.create(name: 'Frais de repas', price: 0, tax: 0)
+Product.create(name: 'Poste à la Home', price: 250, tax: 20)
+Product.create(name: 'Caution poste à la home', price: 0, tax: 20)
+Product.create(name: 'NEOMA - Direction du MS BDCGC', price: 3661.5, tax: 20)
+
 puts "Done!"
