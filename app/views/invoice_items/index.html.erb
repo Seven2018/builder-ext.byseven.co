@@ -1,23 +1,10 @@
 <div class="container-seven">
-  <h2>Liste des factures</h2>
-  <ul>
-    <% @invoice_items.each do |item| %>
-      <li>
-        <%= link_to invoice_item_path(item) do %>
-          <div class="client-company-card">
-            <div>
-              <p><%= item.id %></p>
-            </div>
-            <div>
-              <% unless item.type.nil? %>
-                <%= item.type %>
-              <% end %>
-              <%= item.total_amount %>
-              <%= item.status %>
-            </div>
-          </div>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+  <% if params[:type] == 'Invoice' %>
+    <h2>Liste des factures</h2>
+  <% elsif params[:type] == 'Estimate' %>
+    <h2>Liste des devis</h2>
+  <% end %>
+  <div class="invoice-list">
+    <%= render 'list', invoice_items: @invoice_items %>
+  </div>
 </div>

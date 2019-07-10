@@ -34,12 +34,20 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
 
       ##others
 
-      t.string :name, null: false, default: ""
+      t.string :firstname, null: false, default: ""
+      t.string :lastname, null: false, default: ""
+      t.boolean :english_fluent
       t.string :access_level, null: false, inclusion: { in: ['admin', 'super admin', 'sevener', 'training manager'] }, default: "sevener"
       t.string :picture
+      t.string :phone_number
+      t.string :address
       t.string :linkedin
       t.text :description
       t.integer :rating
+      t.string :company_name
+      t.string :company_address
+      t.string :siret
+      t.boolean :vat
 
 
       t.timestamps null: false

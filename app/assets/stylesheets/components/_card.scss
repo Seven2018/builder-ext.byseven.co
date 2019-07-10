@@ -13,8 +13,6 @@ $timeline: #115173;
   background-color: white;
   transition: all 0.8s ease;
   a {
-    text-decoration: none;
-    color: black;
     height: 100%;
   }
   .card-main {
@@ -22,7 +20,6 @@ $timeline: #115173;
     width: 100%;
     text-align: left;
     padding: 15px;
-    // border: 1px solid rgba(0, 0, 0, 0.1);
     position: relative;
     background-size: cover;
     background-position: center;
@@ -46,8 +43,6 @@ $timeline: #115173;
   background-color: white;
   transition: all 0.8s ease;
   a {
-    text-decoration: none;
-    color: black;
     height: 100%;
   }
   .card-main-sm {
@@ -55,7 +50,6 @@ $timeline: #115173;
     width: 100%;
     text-align: left;
     padding: 15px;
-    // border: 1px solid rgba(0, 0, 0, 0.1);
     position: relative;
     background-size: cover;
     background-position: center;
@@ -134,10 +128,7 @@ $timeline: #115173;
   &:hover {
     box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
   }
-  a {
-    text-decoration: none;
-    color: black;
-    }
+
   .card-main-lg {
     height: auto;
     padding: 20px;
@@ -222,7 +213,6 @@ $timeline: #115173;
     font-size: 23px;
   }
   .card-right {
-    // flex-shrink: 2;
     width: 700px;
     box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
     padding-right: 40px;
@@ -303,7 +293,7 @@ $timeline: #115173;
   }
 }
 
-duration {
+.duration {
   position: absolute;
   top: 46px;
   right: 61px;
@@ -382,10 +372,9 @@ duration {
   box-shadow: none;
 }
 
-.btn-edit {
+.btn-edit, .btn-edit-red {
   opacity: 0.8;
   display: inline-block;
-  background-color: $yellow;
   padding: 0.45em 2em;
   border-radius: 0.22em;
   box-sizing: border-box;
@@ -404,9 +393,14 @@ duration {
     color: white;
     text-decoration: none !important;
   }
-  // a {
-  //     text-decoration: none !important;
-  // }
+}
+
+.btn-edit {
+  background-color: $yellow;
+}
+
+.btn-edit-red {
+    background-color: $red;
 }
 
 .edit-btn {
@@ -499,7 +493,6 @@ duration {
     font-size: 23px;
   }
   .card-right {
-    // flex-shrink: 2;
     width: 700px;
     box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
     padding-right: 40px;

@@ -64,7 +64,7 @@
         <ul>
           <% @session.comments.each do |comment| %>
             <% if comment.object != "Log" %>
-              <li class="logs-message"><%= "#{comment.object} on #{comment.created_at.strftime(("%d/%m/%Y at %H:%M"))} by #{comment.user.name}" %>
+              <li class="logs-message"><%= "#{comment.object} on #{comment.created_at.strftime(("%d/%m/%Y at %H:%M"))} by #{comment.user.firstname}" %>
                 <br>
                 <%= "#{comment.content}" %>
               </li>
@@ -115,6 +115,10 @@
               </li>
             <% end %>
           <% end %>
+          <% pause = Content.where(title: 'Pause') %>
+          <% pausedej = Content.where(title: 'Pause Déjeuner') %>
+          <li><%= link_to 'Pause', training_session_workshops_path(@session.training, @session, content_id: pause.first.id), method: :post, remote: true %></li>
+          <li><%= link_to 'Pause Déjeuner', training_session_workshops_path(@session.training, @session, content_id: pausedej.first.id), method: :post, remote: true %></li>
         </ul>
       </div>
       <script src="/javascript/plugins/tree.js" type="text/javascript"></script>

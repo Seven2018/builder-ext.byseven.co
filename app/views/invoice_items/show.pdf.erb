@@ -1,69 +1,71 @@
-<div class="wrapper-pdf">
-  <div class="invoice-client">
-    <div>
-      <p><%= @invoice_item.client_company.name %></p>
-      <p><%= @invoice_item.client_company.address %></p>
-    </div>
-  </div>
-  <div class="invoice-desc-headline-pdf">
-    <p class='invoice-desc-line-description-pdf'>Désignation</p>
-    <div>
-    <p>Qté</p>
-    <p>PU HT</p>
-    <p class='invoice-desc-line-pretaxamount'>Montant HT</p>
-    <p>%TVA</p>
-    </div>
-  </div>
-  <% @invoice_item.invoice_lines.each do |line| %>
-    <div  class="invoice-desc-line-pdf">
-      <p class='invoice-desc-line-description-pdf'><%= line.description %></p>
-      <div>
-        <p><%= line.quantity %></p>
-        <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
-        <p class='invoice-desc-line-pretaxamount'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
-        <p><%= number_with_precision(line.tax_amount, precision: 2) %></p>
+<!DOCTYPE html>
+<html style='padding-top: 100px;'>
+  <body class='invoice-body-pdf' >
+    <div class="wrapper-pdf">
+      <div class="invoice-desc-headline-pdf">
+        <p class='invoice-desc-line-description-pdf'>Désignation</p>
+        <div>
+        <p>Qté</p>
+        <p>PU HT</p>
+        <p class='invoice-desc-line-pretaxamount'>Montant HT</p>
+        <p>%TVA</p>
+        </div>
+      </div>
+      <% @invoice_item.invoice_lines.each do |line| %>
+        <div  class="invoice-desc-line-pdf">
+          <p class='invoice-desc-line-description-pdf'><%= line.description %></p>
+          <div>
+            <p><%= line.quantity %></p>
+            <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
+            <p class='invoice-desc-line-pretaxamount'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
+            <p><%= number_with_precision(line.tax_amount, precision: 2) %></p>
+          </div>
+        </div>
+        <div style='padding-left:20px;margin-bottom: 20px;'><% unless line.comments.nil? || line.comments.empty? %>
+              <%= line.comments.html_safe %>
+            <% end %></div>
+      <% end %>
+      <% if @invoice_item.client_company.client_company_type == 'Ecole' %>
+        <br>
+        <p>TVA non applicable, art. 293 B du CGI</p>
+      <% end %>
+      <div class="invoice-total-pdf">
+        <div class=invoice-total-due-date-pdf>
+          <div>
+            <p>Echéance(s)</p>
+            <p><%= @invoice_item.due_date.strftime('%d/%m/%Y') %></p>
+          </div>
+          <div>
+            <p>Montant</p>
+            <% total_net = [] %>
+            <% total_ht = [] %>
+            <% total_tva = [] %>
+            <% @invoice_item.invoice_lines.each do |line| %>
+              <% total_ht << line.net_amount*line.quantity %>
+              <% total_tva << line.net_amount*line.quantity*line.tax_amount/100 %>
+              <% total_net << line.net_amount*line.quantity * (1 + (line.tax_amount / 100)) %>
+            <% end %>
+            <% @invoice_item.tax_amount = total_tva.sum %>
+            <% @invoice_item.total_amount = total_net.sum %>
+            <% @invoice_item.save %>
+            <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
+          </div>
+        </div>
+        <div class="invoice-total-details">
+          <div>
+            <p>Total HT Net</p>
+            <p>Total TVA</p>
+            <p>Total TTC</p>
+            <p>Net à payer en EUR</p>
+          </div>
+          <div>
+            <p><%= number_with_precision(total_ht.sum, precision: 2) %></p>
+            <p><%= number_with_precision(@invoice_item.tax_amount, precision: 2) %></p>
+            <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
+            <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
+          </div>
+        </div>
       </div>
     </div>
-  <% end %>
-  <% if @invoice_item.client_company.client_company_type == 'Ecole' %>
-    <br>
-    <p>TVA non applicable, art. 293 B du CGI</p>
-  <% end %>
-  <div class="invoice-total-pdf">
-    <div class=invoice-total-due-date-pdf>
-      <div>
-        <p>Echéance(s)</p>
-        <p><%= @invoice_item.due_date.strftime('%d/%m/%Y') %></p>
-      </div>
-      <div>
-        <p>Montant</p>
-        <% total_net = [] %>
-        <% total_ht = [] %>
-        <% total_tva = [] %>
-        <% @invoice_item.invoice_lines.each do |line| %>
-          <% total_ht << line.net_amount*line.quantity %>
-          <% total_tva << line.net_amount*line.quantity*line.tax_amount/100 %>
-          <% total_net << line.net_amount*line.quantity * (1 + (line.tax_amount / 100)) %>
-        <% end %>
-        <% @invoice_item.tax_amount = total_tva.sum %>
-        <% @invoice_item.total_amount = total_net.sum %>
-        <% @invoice_item.save %>
-        <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
-      </div>
-    </div>
-    <div class="invoice-total-details">
-      <div>
-        <p>Total HT Net</p>
-        <p>Total TVA</p>
-        <p>Total TTC</p>
-        <p>Net à payer en EUR</p>
-      </div>
-      <div>
-        <p><%= number_with_precision(total_ht.sum, precision: 2) %></p>
-        <p><%= number_with_precision(@invoice_item.tax_amount, precision: 2) %></p>
-        <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
-        <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
-      </div>
-    </div>
-  </div>
-</div>
+  </body>
+</html>

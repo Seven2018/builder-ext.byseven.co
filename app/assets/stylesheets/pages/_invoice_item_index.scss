@@ -1,0 +1,12 @@
+.item-id, .item-status {
+  width: 300px !important;
+  color: black !important;
+}
+
+.invoice-card {
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+  }
+}

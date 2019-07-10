@@ -10,6 +10,7 @@
       <%= f.input :title %>
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
+        <%= f.input :duration, label: "Durée (heures)" %>
         <%= f.input :start_time, as: :time, input_html: { class: 'timepicker'} %>
         <%= f.input :end_time, as: :time, input_html: { class: 'timepicker'} %>
       </div>

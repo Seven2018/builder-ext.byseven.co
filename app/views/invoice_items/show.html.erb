@@ -43,23 +43,30 @@
     <a class="edit-fafa" data-toggle='modal' data-target='#editLine<%= line.id %>'>
       <div  class="invoice-desc-line">
         <p><%= line.description %></p>
-        <div>
-          <p><%= line.quantity %></p>
-          <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
-          <p><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
-          <p><%= "#{line.tax_amount}%" %></p>
-        </div>
+          <div>
+              <p><%= line.quantity %></p>
+              <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
+              <p><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
+              <p><%= "#{line.tax_amount}%" %></p>
+          </div>
       </div>
     </a>
+    <div class="invoice-line-comments">
+    <% if line.comments.nil? || line.comments.empty? %>
+      <%= link_to 'Ajouter un commentaire', edit_invoice_line_path(line) %>
+    <% else %>
+      <%= link_to line.comments.html_safe, edit_invoice_line_path(line) %>
+    <% end %>
       <!-- Modals -->
       <% unless line.id.nil? %>
         <div class="modal fade" id="editLine<%= line.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document" style="border-radius: 20px">
+          <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
             <%= render 'invoice_lines/edit', line: line %>
           </div>
         </div>
       <% end %>
       <!-- Modals -->
+    </div>
   <% end %>
   <% if @invoice_item.client_company.client_company_type == 'Ecole' %>
     <br>
@@ -77,9 +84,9 @@
         <% total_ht = [] %>
         <% total_tva = [] %>
         <% @invoice_item.invoice_lines.each do |line| %>
-          <% total_ht << line.net_amount*line.quantity %>
-          <% total_tva << line.net_amount*line.quantity*line.tax_amount/100 %>
-          <% total_net << line.net_amount*line.quantity * (1 + (line.tax_amount / 100)) %>
+            <% total_ht << line.net_amount*line.quantity %>
+            <% total_tva << line.net_amount*line.quantity*line.tax_amount/100 %>
+            <% total_net << line.net_amount*line.quantity * (1 + (line.tax_amount / 100)) %>
         <% end %>
         <% @invoice_item.tax_amount = total_tva.sum %>
         <% @invoice_item.total_amount = total_net.sum %>
@@ -122,6 +129,7 @@
           <% Product.all.each do |product| %>
             <li><%= link_to product.name, invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post %></li>
           <% end %>
+            <li><%= link_to 'Commentaires', invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post %></li>
         </ul>
       </div>
     </div>

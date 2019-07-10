@@ -112,7 +112,8 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
 
   create_table "invoice_lines", force: :cascade do |t|
     t.string "description"
-    t.integer "quantity"
+    t.text "comments"
+    t.float "quantity"
     t.decimal "net_amount", precision: 15, scale: 10
     t.decimal "tax_amount", precision: 15, scale: 10
     t.bigint "invoice_item_id"
@@ -141,6 +142,7 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
   create_table "sessions", force: :cascade do |t|
     t.string "title"
     t.date "date"
+    t.float "duration"
     t.time "start_time"
     t.time "end_time"
     t.bigint "training_id"
@@ -201,12 +203,20 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "name", default: "", null: false
+    t.string "firstname", default: "", null: false
+    t.string "lastname", default: "", null: false
+    t.boolean "english_fluent"
     t.string "access_level", default: "sevener", null: false
     t.string "picture"
+    t.string "phone_number"
+    t.string "address"
     t.string "linkedin"
     t.text "description"
     t.integer "rating"
+    t.string "company_name"
+    t.string "company_address"
+    t.string "siret"
+    t.boolean "vat"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

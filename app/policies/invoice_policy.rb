@@ -25,7 +25,11 @@ class InvoicePolicy < ApplicationPolicy
     check_access
   end
 
-  def new_invoice?
+  def new_invoice_item?
+    check_access
+  end
+
+  def marked_as_paid?
     check_access
   end
 

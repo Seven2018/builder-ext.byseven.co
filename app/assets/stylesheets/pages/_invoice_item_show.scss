@@ -30,6 +30,17 @@
   }
 }
 
+.invoice-line-comments {
+  color: black;
+  padding-left: 10px;
+
+  &:hover {
+    text-decoration: none;
+    color: black;
+    cursor: help;
+  }
+}
+
 .invoice-total-details, .invoice-total-due-date, .invoice-total{
   display: flex;
   justify-content: space-between;
@@ -58,7 +69,7 @@
 
 .invoice-total {
   width: 100%;
-  margin-top: 100px;
+  margin-top: 250px;
 }
 
 .invoice-bank-statement {

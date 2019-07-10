@@ -1,3 +1,12 @@
+a {
+  color: black;
+
+  &:hover {
+    text-decoration: none;
+    color: black;
+  }
+}
+
 .wrapper {
   width: 100%;
   display: flex;
@@ -21,10 +30,6 @@
 .tab-pane .row {
   margin-left: 0;
   padding-left: 0;
-}
-
-html {
-  height: 100%;
 }
 
 body {

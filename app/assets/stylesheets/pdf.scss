@@ -56,12 +56,20 @@
   // margin-top: -15px;
 }
 
+// .invoice-body-pdf {
+//   margin-bottom: 55px;
+// }
+
 .wrapper-pdf {
   position: relative;
 }
 
 .invoice-header-pdf {
   height: 100px !important;
+}
+
+.invoice-client {
+  margin-top: 50px;
 }
 
 .invoice-header-number-pdf {
@@ -142,6 +150,15 @@
   }
 }
 
+.invoice-total-details {
+  margin-left: 220px;
+}
+
+.hidden {
+  display: none;
+}
+
 .footer-pdf {
   background-color: white;
+  margin-bottom: 55px;
 }

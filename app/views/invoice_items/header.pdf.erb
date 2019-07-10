@@ -20,5 +20,11 @@
         <p>Etablie en Euro</p>
       </div>
     </div>
+    <div class="invoice-client">
+      <div>
+        <p><%= @invoice_item.client_company.name %></p>
+        <p><%= @invoice_item.client_company.address %></p>
+      </div>
+    </div>
   </body>
 </html>
