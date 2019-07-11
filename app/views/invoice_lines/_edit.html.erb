@@ -7,22 +7,11 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for line do |f| %>
-      <%= f.input :description, input_html: { class: "editor#{line.id}" } %>
+      <%= f.input :description %>
       <% unless line.quantity.nil? %>
         <%= f.input :quantity %>
         <%= f.input :net_amount %>
       <% end %>
-      <script>
-      ClassicEditor
-              .create( document.querySelector( '.editor<%= line.id %>' ), {
-              } )
-              .then( editor => {
-                                        console.log( editor );
-                                } )
-              .catch( error => {
-                      console.error( error );
-              } );
-    </script>
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">
     <div>

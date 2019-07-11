@@ -1,8 +1,13 @@
 <div id="items">
   <% if session.workshops.empty? %>
     <div class="empty-mod">
-      <p> <i class="fas fa-plus-circle"></i> </p>
-      <p> <%= "Please add content" %> </p>
+      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+        <p> <i class="fas fa-plus-circle"></i> </p>
+        <p> <%= "Ajouter du contenu" %> </p>
+      <% else %>
+        <i class="fas fa-wrench"></i>
+        <p> <%= "Session à construire" %> </p>
+      <% end %>
     </div>
   <% else %>
     <% session.workshops.each do |mod| %>

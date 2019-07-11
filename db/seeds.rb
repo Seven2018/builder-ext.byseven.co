@@ -162,5 +162,7 @@ Product.create(name: 'Frais de repas', price: 0, tax: 0)
 Product.create(name: 'Poste à la Home', price: 250, tax: 20)
 Product.create(name: 'Caution poste à la home', price: 0, tax: 20)
 Product.create(name: 'NEOMA - Direction du MS BDCGC', price: 3661.5, tax: 20)
+Product.create(name: 'Sevener - Formation Entreprise', price: 560, tax: 0)
+Product.create(name: 'Sevener - Formation Ecole', price: 40, tax: 0)
 
 puts "Done!"

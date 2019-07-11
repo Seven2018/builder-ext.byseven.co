@@ -1,5 +1,7 @@
 class InvoiceItemsController < ApplicationController
-  before_action :set_invoice_item, only: [:show, :marked_as_paid, :destroy]
+  before_action :set_invoice_item, only: [:show, :edit, :marked_as_paid, :destroy]
+
+  Drive = Google::Apis::DriveV2
 
   def index
     @invoice_items = policy_scope(InvoiceItem)
@@ -26,6 +28,18 @@ class InvoiceItemsController < ApplicationController
           zoom: 1,
         )
       end
+    end
+  end
+
+  def edit
+    authorize @invoice_item
+  end
+
+  def update
+    authorize @invoice_item
+    @invoice_item.update(invoiceitem_params)
+    if @invoice_item.save
+      redirect_to invoice_item_path(@invoice_item)
     end
   end
 
@@ -61,10 +75,37 @@ class InvoiceItemsController < ApplicationController
       end
       InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax)
     end
-    update_price
-    if @invoice.save
-      redirect_to invoice_item_path(@invoice)
+    update_price(@invoice)
+    redirect_to invoice_item_path(@invoice) if @invoice.save
+  end
+
+  def new_sevener_invoice
+    @training = Training.find(params[:training_id])
+    @client_company = ClientCompany.find(params[:client_company_id])
+    @sevener_invoice = InvoiceItem.new(training_id: params[:training_id].to_i, client_company_id: params[:client_company_id].to_i, issue_date: Date.today, due_date: Date.today + 1.months, user_id: current_user.id, type: 'InvoiceSevener')
+    authorize @sevener_invoice
+    @sevener_invoice.uuid = "#{current_user.firstname[0]}#{current_user.lastname[0]}#{Date.today.strftime('%Y%m')}%05d" % (InvoiceSevener.where(user_id: current_user.id).count+1)
+    if @training.client_contact.client_company.client_company_type == 'Entreprise'
+      product = Product.find(10)
+      quantity = 0
+      @training.sessions.each do |session|
+        session.duration < 4 ? quantity += 0.5 : quantity += 1
+      end
+      InvoiceLine.create(invoice_item: @sevener_invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax)
+    else
+      product = Product.find(11)
+      quantity = 0
+      @training.sessions.each do |session|
+        quantity += session.duration
+      end
+      InvoiceLine.create(invoice_item: @sevener_invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax)
     end
+    update_price(@sevener_invoice)
+    redirect_to invoice_item_path(@sevener_invoice) if @sevener_invoice.save
+  end
+
+  def upload_to_drive
+    drive = Drive::DriveService.new
   end
 
   private
@@ -80,13 +121,13 @@ class InvoiceItemsController < ApplicationController
     return @invoice_items
   end
 
-  def update_price
+  def update_price(invoice)
     total = 0
-    @invoice.invoice_lines.each do |line|
+    invoice.invoice_lines.each do |line|
       total += line.quantity * line.net_amount * (1 + line.tax_amount/100)
     end
-    @invoice.update(total_amount: total)
-    @invoice.save
+    invoice.update(total_amount: total)
+    invoice.save
   end
 
   def set_invoice_item
@@ -94,6 +135,6 @@ class InvoiceItemsController < ApplicationController
   end
 
   def invoiceitem_params
-    params.require(:invoice_item).permit(:status)
+    params.require(:invoice_item).permit(:status, :uuid)
   end
 end
