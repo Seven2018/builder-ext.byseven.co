@@ -7,12 +7,12 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [session.training, session] do |f| %>
-      <%= f.input :title %>
+      <%= f.input :title, label: 'Titre' %>
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
         <%= f.input :duration, label: "Durée (heures)" %>
-        <%= f.input :start_time, as: :time, input_html: { class: 'timepicker'} %>
-        <%= f.input :end_time, as: :time, input_html: { class: 'timepicker'} %>
+        <%= f.input :start_time, label: 'Heure de début', as: :string, input_html: { class: 'timepicker'} %>
+        <%= f.input :end_time, label: 'Heure de fin', as: :string, input_html: { class: 'timepicker'} %>
       </div>
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">

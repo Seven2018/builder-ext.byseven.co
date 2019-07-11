@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :client_companies, path: '/companies' do
     resources :client_contacts, path: '/contacts'
   end
-  resources :invoice_items
+  resources :invoice_items, only: [:index, :show]
   get 'invoices', to: 'invoice_items#invoice_index', as: 'invoices'
   post 'new_invoice_item', to: 'invoice_items#new_invoice_item', as: 'new_invoiceitem'
   get 'estimates', to: 'invoice_items#estimate_index', as: 'estimates'
