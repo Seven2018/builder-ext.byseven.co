@@ -4,3 +4,4 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require jstree
+//= require tinymce

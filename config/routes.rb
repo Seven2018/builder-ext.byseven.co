@@ -12,6 +12,13 @@ Rails.application.routes.draw do
   resources :client_companies, path: '/companies' do
     resources :client_contacts, path: '/contacts'
   end
+  resources :invoice_items
+  get 'invoices', to: 'invoice_items#invoice_index', as: 'invoices'
+  post 'new_invoice_item', to: 'invoice_items#new_invoice_item', as: 'new_invoiceitem'
+  get 'estimates', to: 'invoice_items#estimate_index', as: 'estimates'
+  get 'invoice_items/:id/export', to: 'invoice_items#export', as: 'invoice_item_export'
+  get 'invoice_items/:id/marked', to: 'invoice_items#marked_as_paid', as: 'invoice_marked'
+  resources :invoice_lines, only: [:create, :edit, :update, :destroy]
   resources :trainings do
     resources :sessions do
       resources :workshops, only: [:show, :create, :edit, :update, :destroy] do

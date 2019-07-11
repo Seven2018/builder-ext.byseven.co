@@ -5,7 +5,15 @@
     <% end %>
     <div>
       <%= link_to new_training_session_path(@training) do %>
-      <button class="btn btn-edit">Add a session</button>
+        <button class="btn btn-edit">Ajouter une session</button><% end %>
+      <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post do %>
+        <button class="btn btn-edit">Créer un devis</button><% end %>
+      <% if @training.end_date > Date.today %>
+        <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post do %>
+          <button class="btn btn-edit">Créer une facture</button><% end %>
+      <% else %>
+        <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post do %>
+          <button class="btn btn-edit-red">Créer une facture</button><% end %>
       <% end %>
     </div>
   </div>

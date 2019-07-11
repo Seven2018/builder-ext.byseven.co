@@ -1,0 +1,22 @@
+<ul>
+  <% @invoice_items.each do |item| %>
+    <li>
+      <%= link_to invoice_item_path(item) do %>
+        <div class="client-company-card invoice-card">
+          <div class='item-id'>
+            <% if item.class == Invoice %>
+              <%= image_tag 'invoice-logo.png', class: 'client-company-logo-index' %>
+            <% elsif item.class == Estimate %>
+              <%=  image_tag 'estimate-logo.jpg', class: 'client-company-logo-index' %>
+            <% end %>
+            <p><%= item.uuid %></p>
+          </div>
+          <div class='item-status' style='width: 50%;display:flex; justify-content: space-between;'>
+            <p><%= number_with_precision(item.total_amount, precision: 2) %>€</p>
+            <%= render 'status', item: item %>
+          </div>
+        </div>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

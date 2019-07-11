@@ -77,15 +77,17 @@ Content.create(title: "Etre efficace avec la matrice d'Eisenhower", theme_id: 5,
 Content.create(title: 'Etre influent', theme_id: 6, description: "https://drive.google.com/open?id=1rEgICKmmDOY50EtQ8FL8XHwAJgUhTcpg", duration: 0)
 Content.create(title: 'Comprendre et anticiper les dynamiques sociales', theme_id: 6, description: "https://drive.google.com/uc?id=17-6_vLV-FrSxM89Z0571ldlFCjgu7Dwy", duration: 0)
 Content.create(title: 'Relever le Marshmallow Challenge', theme_id: 7, description: "https://drive.google.com/uc?id=1npVabsqOBlv6pKqvQBEt9j-2_obiJ-SW", duration: 0)
+Content.create(title: 'Pause Déjeuner', description: 'Pause', duration: 60)
+Content.create(title: 'Pause', description: 'Pause', duration: 10)
 
 puts "Generating Users..."
 
-User.create(name: "Yahya Fallah", email: "yahya.fallah@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/yahya-fallah/?originalSubdomain=fr", picture: "https://avatars1.githubusercontent.com/u/45921830?s=460&v=4", description: "Co-founder")
-User.create(name: "Brice Chapuis", email: "brice.chapuis@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/brice-chapuis-b8744b181/?originalSubdomain=fr", picture: "https://avatars1.githubusercontent.com/u/45003333?s=460&v=4", description: "CTO")
-User.create(name: "Thomas Fraudet", email: "thomas.fraudet@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/thomas-fraudet-6a70592/?originalSubdomain=fr", picture: "https://media.licdn.com/dms/image/C5603AQFpzVM8PSLILQ/profile-displayphoto-shrink_800_800/0?e=1567036800&v=beta&t=TAwjd7n3Ty_aX_IOSbnRorRQTxhU4MqOGlid40JAKX0", description: "CEO")
-User.create(name: "Jorick Roustan", email: "jorick.roustan@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/jorickroustan/", picture: "https://media.licdn.com/dms/image/C5603AQEAGvSdhQwuCQ/profile-displayphoto-shrink_800_800/0?e=1567036800&v=beta&t=AKTcGW7VjOOFm39TsLbMF0K-5a8BSXu_GO-VEmpmw0w", description: "Business Developer")
-User.create(name: "Mathilde Meurer", email: "mathilde.meurer@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/mathilde-meurer-80668961/", picture: "https://media.licdn.com/dms/image/C5603AQFqVl0zBCRjSw/profile-displayphoto-shrink_800_800/0?e=1567036800&v=beta&t=l5MDjEaxp2vjRA55N7W7D22lGxfFn1mDAmB58SFQuqg", description: "Business Developer")
-User.create(name: "Sevener", email: "sevener@byseven.co", password: "tititoto", access_level: "sevener", linkedin: "", picture: "https://bloody-disgusting.com/wp-content/uploads/2017/05/Screen-Shot-2017-05-01-at-11.17.09-AM.jpg", description: "Sevener Lambda")
+User.create(firstname: "Yahya", lastname: "Fallah", email: "yahya.fallah@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/yahya-fallah/?originalSubdomain=fr", picture: "https://avatars1.githubusercontent.com/u/45921830?s=460&v=4", description: "Co-founder")
+User.create(firstname: "Brice", lastname: "Chapuis", email: "brice.chapuis@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/brice-chapuis-b8744b181/?originalSubdomain=fr", picture: "https://avatars1.githubusercontent.com/u/45003333?s=460&v=4", description: "CTO")
+User.create(firstname: "Thomas", lastname: "Fraudet", email: "thomas.fraudet@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/thomas-fraudet-6a70592/?originalSubdomain=fr", picture: "https://media.licdn.com/dms/image/C5603AQFpzVM8PSLILQ/profile-displayphoto-shrink_800_800/0?e=1567036800&v=beta&t=TAwjd7n3Ty_aX_IOSbnRorRQTxhU4MqOGlid40JAKX0", description: "CEO")
+User.create(firstname: "Jorick", lastname: "Roustan", email: "jorick.roustan@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/jorickroustan/", picture: "https://media.licdn.com/dms/image/C5603AQEAGvSdhQwuCQ/profile-displayphoto-shrink_800_800/0?e=1567036800&v=beta&t=AKTcGW7VjOOFm39TsLbMF0K-5a8BSXu_GO-VEmpmw0w", description: "Business Developer")
+User.create(firstname: "Mathilde", lastname: "Meurer", email: "mathilde.meurer@byseven.co", password: "tititoto", access_level: "super admin", linkedin: "https://www.linkedin.com/in/mathilde-meurer-80668961/", picture: "https://media.licdn.com/dms/image/C5603AQFqVl0zBCRjSw/profile-displayphoto-shrink_800_800/0?e=1567036800&v=beta&t=l5MDjEaxp2vjRA55N7W7D22lGxfFn1mDAmB58SFQuqg", description: "Business Developer")
+User.create(firstname: "Sevener", lastname: "Lambda", email: "sevener@byseven.co", password: "tititoto", access_level: "sevener", linkedin: "", picture: "https://bloody-disgusting.com/wp-content/uploads/2017/05/Screen-Shot-2017-05-01-at-11.17.09-AM.jpg", description: "Sevener Lambda")
 
 puts "Generating Client Companies..."
 ClientCompany.create(
@@ -148,5 +150,17 @@ ClientCompany.create(
  address: "89 Avenue Charles-de-gaulle, 92200 Neuilly-sur-seine",
  logo: "https://upload.wikimedia.org/wikipedia/fr/thumb/2/22/M6_2009.svg/1200px-M6_2009.svg.png",
  client_company_type: "Entreprise")
+
+puts "Generating Products..."
+
+Product.create(name: 'Formation Seven sans TVA' , price: 0, tax: 0)
+Product.create(name: 'Formation Seven avec TVA' , price: 2400, tax: 20)
+Product.create(name: 'Préparation formation', price: 0, tax: 20)
+Product.create(name: 'Frais de transport', price: 0, tax: 0)
+Product.create(name: 'Frais de logement', price: 0, tax: 0)
+Product.create(name: 'Frais de repas', price: 0, tax: 0)
+Product.create(name: 'Poste à la Home', price: 250, tax: 20)
+Product.create(name: 'Caution poste à la home', price: 0, tax: 20)
+Product.create(name: 'NEOMA - Direction du MS BDCGC', price: 3661.5, tax: 20)
 
 puts "Done!"

@@ -6,7 +6,8 @@
     <div>
       <img src='<%= user.picture %>' alt="" class='client-company-logo-show'>
     </div>
-    <p>Nom: <strong><%=  user.name %></strong></p>
+    <p>Nom: <strong><%=  user.lastname %></strong></p>
+    <p>Prénom: <strong><%=  user.firstname %></strong></p>
     <p>Email: <%= user.email %></p>
     <p>Level: <%= user.access_level.capitalize %></p>
     <p>Description: <%= user.description %></p>

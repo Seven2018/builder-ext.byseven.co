@@ -6,9 +6,6 @@
   a {
     text-decoration: none;
     }
-  a, a:hover {
-    color: black;
-  }
 }
 
 .client-company-card, .client-contact-card {
@@ -25,16 +22,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    &:first-child {
-      margin-right: 40px;
-      width: 35%;
-    }
-
-    &:last-child {
-      margin-left: 40px;
-      width: 65%;
-    }
 
     p {
       margin: 0;

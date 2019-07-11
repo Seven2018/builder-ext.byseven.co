@@ -1,0 +1,10 @@
+<div class="container-seven">
+  <% if params[:type] == 'Invoice' %>
+    <h2>Liste des factures</h2>
+  <% elsif params[:type] == 'Estimate' %>
+    <h2>Liste des devis</h2>
+  <% end %>
+  <div class="invoice-list">
+    <%= render 'list', invoice_items: @invoice_items %>
+  </div>
+</div>

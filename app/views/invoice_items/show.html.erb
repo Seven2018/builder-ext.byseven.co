@@ -1,0 +1,136 @@
+<div class="container-seven">
+  <%= link_to invoice_items_path do %><i class="fas fa-arrow-left"></i><% end %>
+  <%= link_to invoice_item_path(@invoice_item, format: :pdf) do %>
+    <button class="btn btn-edit" id='export-btn'>
+      Export as <i class="fas fa-file-pdf"></i>
+    </button>
+  <% end %>
+  <div class="invoice-header">
+    <div>
+      <h3 style="color:black;">SAS SEVEN</h3>
+      <p>5, rue Moret</p>
+      <p>75011 Paris</p>
+      <p>FRANCE</p>
+      <p>contact@byseven.co</p>
+    </div>
+    <div>
+      <% if @invoice_item.type == 'Invoice' %>
+        <h1>Facture</h1>
+      <% else %>
+        <h1>Devis</h1>
+      <% end %>
+      <p>n° <%= @invoice_item.uuid %></p>
+      <p>Du <%= @invoice_item.issue_date.strftime('%d/%m/%Y') %></p>
+      <p>Etablie en Euro</p>
+    </div>
+  </div>
+  <div class="invoice-client">
+    <div>
+      <p><%= @invoice_item.client_company.name %></p>
+      <p><%= @invoice_item.client_company.address %></p>
+    </div>
+  </div>
+  <div class="invoice-desc-line" id='invoice-desc-header'>
+    <p>Désignation</p>
+    <div>
+      <p>Qté</p>
+      <p>PU HT</p>
+      <p>Montant HT</p>
+      <p>%TVA</p>
+    </div>
+  </div>
+  <% @invoice_item.invoice_lines.each do |line| %>
+    <a class="edit-fafa" data-toggle='modal' data-target='#editLine<%= line.id %>'>
+      <div  class="invoice-desc-line">
+        <p><%= line.description %></p>
+          <div>
+              <p><%= line.quantity %></p>
+              <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
+              <p><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
+              <p><%= "#{line.tax_amount}%" %></p>
+          </div>
+      </div>
+    </a>
+    <div class="invoice-line-comments">
+    <% if line.comments.nil? || line.comments.empty? %>
+      <%= link_to 'Ajouter un commentaire', edit_invoice_line_path(line) %>
+    <% else %>
+      <%= link_to line.comments.html_safe, edit_invoice_line_path(line) %>
+    <% end %>
+      <!-- Modals -->
+      <% unless line.id.nil? %>
+        <div class="modal fade" id="editLine<%= line.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+            <%= render 'invoice_lines/edit', line: line %>
+          </div>
+        </div>
+      <% end %>
+      <!-- Modals -->
+    </div>
+  <% end %>
+  <% if @invoice_item.client_company.client_company_type == 'Ecole' %>
+    <br>
+    <p>TVA non applicable, art. 293 B du CGI</p>
+  <% end %>
+  <div class="invoice-total">
+    <div class=invoice-total-due-date>
+      <div>
+        <p>Echéance(s)</p>
+        <p>Montant</p>
+      </div>
+      <div>
+        <p><%= @invoice_item.due_date.strftime('%d/%m/%Y') %></p>
+        <% total_net = [] %>
+        <% total_ht = [] %>
+        <% total_tva = [] %>
+        <% @invoice_item.invoice_lines.each do |line| %>
+            <% total_ht << line.net_amount*line.quantity %>
+            <% total_tva << line.net_amount*line.quantity*line.tax_amount/100 %>
+            <% total_net << line.net_amount*line.quantity * (1 + (line.tax_amount / 100)) %>
+        <% end %>
+        <% @invoice_item.tax_amount = total_tva.sum %>
+        <% @invoice_item.total_amount = total_net.sum %>
+        <% @invoice_item.save %>
+        <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
+      </div>
+    </div>
+    <div class="invoice-total-details">
+      <div>
+        <p>Total HT Net</p>
+        <p>Total TVA</p>
+        <p>Total TTC</p>
+        <p>Net à payer en EUR</p>
+      </div>
+      <div>
+        <p><%= number_with_precision(total_ht.sum, precision: 2) %></p>
+        <p><%= number_with_precision(@invoice_item.tax_amount, precision: 2) %></p>
+        <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
+        <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
+      </div>
+    </div>
+  </div>
+  <div class="invoice-bank-statement">
+    <p>Déclaration d'activité sous le numéro 11 92 20487 92 auprès du Préfet d'IDF</p>
+    <p>Domiciliation Bancaire : CIC Paris République</p>
+    <p>Banque : 3006 Guichet : 10011 N° Compte : 00020287201 Clé : 36</p>
+    <p>IBAN : FR76 3006 6100 1100 0202 8720 136</p>
+    <p>BIC : CMCIFRPP</p>
+  </div>
+  <div class="invoice-footer">
+    <p>SAS - RCS : Paris - Siret : 80396439400024 - APE : 8559A - ID TVA : FR28 803964394</p>
+    <p>Pas d'escompte pour paiement anticipé, passée la date d'échéance, tout paiement différé entraîne l'application d'une pénalité de 3 fois le taux d'intérêt légal (loi 2008-776 du 04/08/2008) ainsi qu'une indemnité forfaitaire pour frais de recouvrement de 40 euros (Décret 2012-1115 du 02/10/2012).</p>
+  </div>
+</div>
+  <div class="nav-side-menu-container">
+    <div class="nav-side-menu">
+      <h3>Articles</h3>
+      <div class="menu-list">
+        <ul>
+          <% Product.all.each do |product| %>
+            <li><%= link_to product.name, invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post %></li>
+          <% end %>
+            <li><%= link_to 'Commentaires', invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post %></li>
+        </ul>
+      </div>
+    </div>
+  </div>

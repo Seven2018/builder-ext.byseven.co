@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_25_091241) do
+ActiveRecord::Schema.define(version: 2019_07_03_132141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,44 @@ ActiveRecord::Schema.define(version: 2019_06_25_091241) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "invoice_items", force: :cascade do |t|
+    t.bigint "client_company_id"
+    t.bigint "training_id"
+    t.string "type"
+    t.decimal "total_amount", precision: 15, scale: 10
+    t.decimal "tax_amount", precision: 15, scale: 10
+    t.string "status"
+    t.string "identifier"
+    t.string "description"
+    t.datetime "issue_date"
+    t.datetime "due_date"
+    t.string "uuid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_company_id"], name: "index_invoice_items_on_client_company_id"
+    t.index ["training_id"], name: "index_invoice_items_on_training_id"
+  end
+
+  create_table "invoice_lines", force: :cascade do |t|
+    t.string "description"
+    t.text "comments"
+    t.float "quantity"
+    t.decimal "net_amount", precision: 15, scale: 10
+    t.decimal "tax_amount", precision: 15, scale: 10
+    t.bigint "invoice_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_item_id"], name: "index_invoice_lines_on_invoice_item_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.decimal "price", precision: 15, scale: 10
+    t.integer "tax"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "session_trainers", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "session_id"
@@ -104,6 +142,7 @@ ActiveRecord::Schema.define(version: 2019_06_25_091241) do
   create_table "sessions", force: :cascade do |t|
     t.string "title"
     t.date "date"
+    t.float "duration"
     t.time "start_time"
     t.time "end_time"
     t.bigint "training_id"
@@ -164,12 +203,20 @@ ActiveRecord::Schema.define(version: 2019_06_25_091241) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "name", default: "", null: false
+    t.string "firstname", default: "", null: false
+    t.string "lastname", default: "", null: false
+    t.boolean "english_fluent"
     t.string "access_level", default: "sevener", null: false
     t.string "picture"
+    t.string "phone_number"
+    t.string "address"
     t.string "linkedin"
     t.text "description"
     t.integer "rating"
+    t.string "company_name"
+    t.string "company_address"
+    t.string "siret"
+    t.boolean "vat"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -216,6 +263,9 @@ ActiveRecord::Schema.define(version: 2019_06_25_091241) do
   add_foreign_key "comments", "users"
   add_foreign_key "content_modules", "contents"
   add_foreign_key "contents", "themes"
+  add_foreign_key "invoice_items", "client_companies"
+  add_foreign_key "invoice_items", "trainings"
+  add_foreign_key "invoice_lines", "invoice_items"
   add_foreign_key "session_trainers", "sessions"
   add_foreign_key "session_trainers", "users"
   add_foreign_key "sessions", "trainings"
