@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'session_trainers/new'
+  # get 'session_trainers/new'
   devise_for :users
   resources :users
   root to: 'pages#home'
@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'estimates', to: 'invoice_items#estimate_index', as: 'estimates'
   get 'invoice_items/:id/export', to: 'invoice_items#export', as: 'invoice_item_export'
   get 'invoice_items/:id/marked', to: 'invoice_items#marked_as_paid', as: 'invoice_marked'
+  post 'upload_to_sheet', to: 'invoice_items#upload_to_sheet', as: 'upload_to_sheet'
   resources :invoice_lines, only: [:create, :edit, :update, :destroy]
   resources :trainings do
     resources :sessions do

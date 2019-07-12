@@ -71,9 +71,10 @@
             </div>
           </div>
           <div class="card-footer-lg">
-            <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p><div><i class="far fa-hourglass"></i><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %>
-            <p><%=   %></p>
+            <% if session.start_time && session.end_time %>
+              <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p><div><i class="far fa-hourglass"></i><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %>
             </div>
+            <% end %>
           </div>
         </div>
         <% end %>

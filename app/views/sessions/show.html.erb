@@ -21,12 +21,14 @@
             <i class="far fa-eye"></i></a>
           <% end %>
         </div>
-        <h4><%= @session.date.strftime("%A %e %B %Y") %>
-          <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
-          <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
-          <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
-          <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.start_time.min.to_s.length == 2 %>
-        </h4>
+        <% if @session.start_time && @session.end_time %>
+          <h4><%= @session.date.strftime("%A %e %B %Y") %>
+            <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
+            <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
+            <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
+            <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.start_time.min.to_s.length == 2 %>
+          </h4>
+        <% end %>
       </div>
       <div style="display: flex;align-items: center;justify-content: space-between;">
         <ul id="owner">

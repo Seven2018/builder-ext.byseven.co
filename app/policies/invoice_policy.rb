@@ -21,6 +21,10 @@ class InvoicePolicy < ApplicationPolicy
     check_access
   end
 
+  def upload_to_sheet?
+    check_access
+  end
+
   private
 
   def check_access

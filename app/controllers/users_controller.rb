@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    @users = policy_scope(User).order(:name)
+    @users = policy_scope(User).order(:lastname)
   end
 
   def show
@@ -52,6 +52,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :access_level, :picture, :linkedin, :description, :rating)
+    params.require(:user).permit(:firstname, :lastname, :email, :password, :access_level, :picture, :linkedin, :description, :rating)
   end
 end
