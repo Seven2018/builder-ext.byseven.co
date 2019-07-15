@@ -9,7 +9,13 @@
   </div>
   <ul>
   <% @actions.each do |action| %>
-    <li><%= link_to action.name, action_path(action) %></li>
+    <li><%= link_to action.name, action_path(action) %>  <a class="edit-fafa" data-toggle='modal' data-target='#editAction<%= action.id %>'><i class="fas fa-edit"></i></a></li>
+    <!-- Modal -->
+    <div class="modal fade" id="editAction<%= action.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+        <%= render 'edit', action: action %>
+      </div>
+    </div>
   <% end %>
   </ul>
 </div>

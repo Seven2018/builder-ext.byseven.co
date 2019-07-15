@@ -5,19 +5,7 @@ class InvoicePolicy < ApplicationPolicy
     end
   end
 
-  def create?
-    check_access
-  end
-
   def show?
-    check_access
-  end
-
-  def edit?
-    check_access
-  end
-
-  def update?
     check_access
   end
 
@@ -30,6 +18,10 @@ class InvoicePolicy < ApplicationPolicy
   end
 
   def marked_as_paid?
+    check_access
+  end
+
+  def upload_to_sheet?
     check_access
   end
 

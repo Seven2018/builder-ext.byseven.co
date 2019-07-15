@@ -2,15 +2,24 @@
 <html>
   <body>
     <div class="invoice-header-pdf">
-      <div>
-        <h3>SAS SEVEN</h3>
-        <p>5, rue Moret</p>
-        <p>75011 Paris</p>
-        <p>FRANCE</p>
-        <p>contact@byseven.co</p>
-      </div>
+      <% unless @invoice_item.type == 'InvoiceSevener' %>
+        <div>
+          <h3">SAS SEVEN</h3>
+          <p>5, rue Moret</p>
+          <p>75011 Paris</p>
+          <p>FRANCE</p>
+          <p>contact@byseven.co</p>
+        </div>
+      <% else %>
+        <div>
+          <h3 style="color:black;"><%= @invoice_item.user.firstname %> <%= @invoice_item.user.lastname %></h3>
+          <p><%= @invoice_item.user.address %></p>
+          <p><%= @invoice_item.user.email %></p>
+          <p>SIRET : <%= @invoice_item.user.siret %></p>
+        </div>
+      <% end %>
       <div class="invoice-header-number-pdf">
-        <% if @invoice_item.type == 'Invoice' %>
+        <% if @invoice_item.type == 'Invoice' || @invoice_item.type == 'InvoiceSevener' %>
           <h1>Facture</h1>
         <% else %>
           <h1>Devis</h1>
@@ -21,10 +30,17 @@
       </div>
     </div>
     <div class="invoice-client">
-      <div>
-        <p><%= @invoice_item.client_company.name %></p>
-        <p><%= @invoice_item.client_company.address %></p>
-      </div>
+      <% unless @invoice_item.type == 'InvoiceSevener' %>
+        <div>
+          <p><%= @invoice_item.client_company.name %></p>
+          <p><%= @invoice_item.client_company.address %></p>
+        </div>
+      <% else %>
+        <div>
+          <p>SEVEN SAS</p>
+          <p>5, rue Moret 75011 Paris</p>
+        </div>
+      <% end %>
     </div>
   </body>
 </html>

@@ -7,7 +7,7 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [@training, @training_ownership], url: training_training_ownership_path(@training), method: :delete do |f| %>
-        <%= f.input :user, :collection => @training.users, label: false, include_blank: false %>
+        <%= f.input :user, :collection => @training.users, :label_method => lambda { |owner| "#{owner.firstname} #{owner.lastname}" }, include_blank: false %>
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">
     <div>

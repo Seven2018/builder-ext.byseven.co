@@ -1,0 +1,25 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= action.name %></h3>
+    </div>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for action, as: :act do |f| %>
+    <%= f.input :name %>
+    <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
+    <%= f.association :intelligence, collection: @intelligences, include_blank: false %>
+  </div>
+  <div class="modal-footer" id="modalNewBookingFooter">
+    <div>
+      <%= f.button :submit, class: 'btn btn-edit' %>
+        <%= link_to action_path(action), method: :delete, data: { confirm: 'Etes vous certain(e) de vouloir supprimer cette Action ?'} do %>
+          <button class="btn btn-edit">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

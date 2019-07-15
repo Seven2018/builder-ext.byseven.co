@@ -95,11 +95,11 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
   create_table "invoice_items", force: :cascade do |t|
     t.bigint "client_company_id"
     t.bigint "training_id"
+    t.bigint "user_id"
     t.string "type"
     t.decimal "total_amount", precision: 15, scale: 10
     t.decimal "tax_amount", precision: 15, scale: 10
     t.string "status"
-    t.string "identifier"
     t.string "description"
     t.datetime "issue_date"
     t.datetime "due_date"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
     t.datetime "updated_at", null: false
     t.index ["client_company_id"], name: "index_invoice_items_on_client_company_id"
     t.index ["training_id"], name: "index_invoice_items_on_training_id"
+    t.index ["user_id"], name: "index_invoice_items_on_user_id"
   end
 
   create_table "invoice_lines", force: :cascade do |t|
@@ -117,15 +118,18 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
     t.decimal "net_amount", precision: 15, scale: 10
     t.decimal "tax_amount", precision: 15, scale: 10
     t.bigint "invoice_item_id"
+    t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_item_id"], name: "index_invoice_lines_on_invoice_item_id"
+    t.index ["product_id"], name: "index_invoice_lines_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.decimal "price", precision: 15, scale: 10
     t.integer "tax"
+    t.string "product_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -265,7 +269,9 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
   add_foreign_key "contents", "themes"
   add_foreign_key "invoice_items", "client_companies"
   add_foreign_key "invoice_items", "trainings"
+  add_foreign_key "invoice_items", "users"
   add_foreign_key "invoice_lines", "invoice_items"
+  add_foreign_key "invoice_lines", "products"
   add_foreign_key "session_trainers", "sessions"
   add_foreign_key "session_trainers", "users"
   add_foreign_key "sessions", "trainings"

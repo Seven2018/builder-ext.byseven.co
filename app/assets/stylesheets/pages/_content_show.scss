@@ -30,3 +30,14 @@
   align-items: center;
 }
 
+.content-actions {
+  color: $orange;
+}
+
+.content-logistics {
+  height: auto;
+}
+
+.content-logistics > p {
+  color: $green;
+}

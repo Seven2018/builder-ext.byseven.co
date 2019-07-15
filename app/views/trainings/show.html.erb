@@ -3,19 +3,26 @@
     <%= link_to trainings_path do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
-    <div>
-      <%= link_to new_training_session_path(@training) do %>
-        <button class="btn btn-edit">Ajouter une session</button><% end %>
-      <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post do %>
-        <button class="btn btn-edit">Créer un devis</button><% end %>
-      <% if @training.end_date > Date.today %>
-        <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post do %>
-          <button class="btn btn-edit">Créer une facture</button><% end %>
-      <% else %>
-        <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post do %>
-          <button class="btn btn-edit-red">Créer une facture</button><% end %>
-      <% end %>
-    </div>
+    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+      <div>
+        <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post do %>
+          <button class="btn btn-edit">Créer un devis</button><% end %>
+        <% if @training.end_date >= Date.today %>
+          <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post do %>
+            <button class="btn btn-edit">Créer une facture</button><% end %>
+        <% else %>
+          <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post do %>
+            <button class="btn btn-edit-red">Créer une facture</button><% end %>
+        <% end %>
+        <%= link_to invoice_items_path(training_id: @training.id) do %>
+          <button class="btn btn-edit">Liste Factures</button><% end %>
+      </div>
+    <% elsif @training.session_trainers.where(user_id: current_user.id).any? %>
+      <div>
+        <%= link_to new_sevener_invoice_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'InvoiceSevener'), method: :post do %>
+            <button class="btn btn-edit">Créer ma facture</button><% end %>
+      </div>
+    <% end %>
   </div>
   <div class="middle-info">
     <div class='middle-info-main'>
@@ -35,8 +42,10 @@
           </div>
           <% end %>
         </ul>
-        <button class='user-fafa' data-toggle='modal' data-target='#newOwner'><i class="fas fa-user-plus"></i></button>
-        <button class='user-fafa' data-toggle='modal' data-target='#destroyOwner'><i class="fas fa-user-minus"></i></button>
+        <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+          <button class='user-fafa' data-toggle='modal' data-target='#newOwner'><i class="fas fa-user-plus"></i></button>
+          <button class='user-fafa' data-toggle='modal' data-target='#destroyOwner'><i class="fas fa-user-minus"></i></button>
+        <% end %>
       </div>
   </div>
   <div class="training-info">
@@ -54,7 +63,6 @@
             <div class="mods-list">
               <ul>
                 <% list = session.workshops %>
-                <%# list.sort_by { |mod| mod[:position]} %>
                 <% list.order(:position).each do |mod| %>
                   <li>
                     <%= "#{mod.title} - #{mod.duration} min" %>
@@ -64,9 +72,10 @@
             </div>
           </div>
           <div class="card-footer-lg">
-            <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p><div><i class="far fa-hourglass"></i><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %>
-            <p><%=   %></p>
+            <% if session.start_time && session.end_time %>
+              <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p><div><i class="far fa-hourglass"></i><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %>
             </div>
+            <% end %>
           </div>
         </div>
         <% end %>
@@ -74,9 +83,10 @@
     </div>
   </div>
   <div class="training-info-footer">
+    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <%= link_to new_training_session_path(@training) do %>
-      <button class="btn btn-edit">Add a session</button>
-      <% end %>
+      <button class="btn btn-edit">Ajouter une session</button><% end %>
+    <% end %>
     </div>
   </div>
 </div>

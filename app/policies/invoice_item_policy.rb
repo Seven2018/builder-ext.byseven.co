@@ -10,10 +10,26 @@ class InvoiceItemPolicy < ApplicationPolicy
   end
 
   def show?
-    check_access
+    true
   end
 
   def destroy?
+    check_access
+  end
+
+  def new_invoice_item?
+    check_access
+  end
+
+  def marked_as_paid?
+    check_access
+  end
+
+  def new_sevener_invoice?
+    true
+  end
+
+  def upload_to_sheet?
     check_access
   end
 

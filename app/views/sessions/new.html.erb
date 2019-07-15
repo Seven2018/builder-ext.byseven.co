@@ -5,9 +5,8 @@
     <%= f.input :title, label: 'Titre' %>
     <%= f.input :date, as: :string, required: false, input_html: {class: "datepicker"} %>
     <%= f.input :duration, label: "Durée (heures)" %>
-    <%= f.input :start_time, label: 'Heure de début', as: :string, required: false, input_html: {class: "timepicker"} %>
-    <%= f.input :end_time, label: 'Heure de fin', as: :string, required: false, input_html: {class: "timepicker"} %>
+    <%= f.input :start_time, label: 'Heure de début', as: :time, required: false, input_html: {class: "timepicker", placeholder: 'Sat, 01 Jan 2000 09:00:00 UTC +00:00'} %>
+    <%= f.input :end_time, label: 'Heure de fin', as: :time, required: false, input_html: {class: "timepicker"} %>
     <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>
-    <p class="center-button"> <%= link_to 'Cancel', training_path(@training), class: 'btn btn-edit' %></p>
   <% end %>
 </div>

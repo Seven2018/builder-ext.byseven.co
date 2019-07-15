@@ -1,0 +1,2 @@
+class InvoiceSevener < InvoiceItem
+end

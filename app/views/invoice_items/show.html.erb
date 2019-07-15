@@ -5,17 +5,35 @@
       Export as <i class="fas fa-file-pdf"></i>
     </button>
   <% end %>
+  <% if @invoice_item.type == 'Invoice' %>
+    <%= link_to upload_to_sheet_path(@invoice_item, id: @invoice_item.id), method: :post do %>
+      <button class="btn btn-edit">
+        Upload to Numbers
+      </button>
+    <% end %>
+  <% end %>
   <div class="invoice-header">
-    <div>
-      <h3 style="color:black;">SAS SEVEN</h3>
-      <p>5, rue Moret</p>
-      <p>75011 Paris</p>
-      <p>FRANCE</p>
-      <p>contact@byseven.co</p>
-    </div>
+    <% unless @invoice_item.type == 'InvoiceSevener' %>
+      <div>
+        <h3 style="color:black;">SAS SEVEN</h3>
+        <p>5, rue Moret</p>
+        <p>75011 Paris</p>
+        <p>FRANCE</p>
+        <p>contact@byseven.co</p>
+      </div>
+    <% else %>
+      <div>
+        <h3 style="color:black;"><%= @invoice_item.user.firstname %> <%= @invoice_item.user.lastname %></h3>
+        <p><%= @invoice_item.user.address %></p>
+        <p><%= @invoice_item.user.email %></p>
+        <p>SIRET : <%= @invoice_item.user.siret %></p>
+      </div>
+    <% end %>
     <div>
       <% if @invoice_item.type == 'Invoice' %>
         <h1>Facture</h1>
+      <% elsif @invoice_item.type == 'InvoiceSevener' %>
+        <h1>Bon de commande</h1>
       <% else %>
         <h1>Devis</h1>
       <% end %>
@@ -25,10 +43,17 @@
     </div>
   </div>
   <div class="invoice-client">
-    <div>
-      <p><%= @invoice_item.client_company.name %></p>
-      <p><%= @invoice_item.client_company.address %></p>
-    </div>
+    <% unless @invoice_item.type == 'InvoiceSevener' %>
+      <div>
+        <p><%= @invoice_item.client_company.name %></p>
+        <p><%= @invoice_item.client_company.address %></p>
+      </div>
+    <% else %>
+      <div>
+        <p>SEVEN SAS</p>
+        <p>5, rue Moret 75011 Paris</p>
+      </div>
+    <% end %>
   </div>
   <div class="invoice-desc-line" id='invoice-desc-header'>
     <p>Désignation</p>
@@ -109,28 +134,34 @@
       </div>
     </div>
   </div>
-  <div class="invoice-bank-statement">
-    <p>Déclaration d'activité sous le numéro 11 92 20487 92 auprès du Préfet d'IDF</p>
-    <p>Domiciliation Bancaire : CIC Paris République</p>
-    <p>Banque : 3006 Guichet : 10011 N° Compte : 00020287201 Clé : 36</p>
-    <p>IBAN : FR76 3006 6100 1100 0202 8720 136</p>
-    <p>BIC : CMCIFRPP</p>
-  </div>
-  <div class="invoice-footer">
-    <p>SAS - RCS : Paris - Siret : 80396439400024 - APE : 8559A - ID TVA : FR28 803964394</p>
-    <p>Pas d'escompte pour paiement anticipé, passée la date d'échéance, tout paiement différé entraîne l'application d'une pénalité de 3 fois le taux d'intérêt légal (loi 2008-776 du 04/08/2008) ainsi qu'une indemnité forfaitaire pour frais de recouvrement de 40 euros (Décret 2012-1115 du 02/10/2012).</p>
-  </div>
+  <% unless @invoice_item.type == 'InvoiceSevener' %>
+    <div class="invoice-bank-statement">
+      <p>Déclaration d'activité sous le numéro 11 92 20487 92 auprès du Préfet d'IDF</p>
+      <p>Domiciliation Bancaire : CIC Paris République</p>
+      <p>Banque : 3006 Guichet : 10011 N° Compte : 00020287201 Clé : 36</p>
+      <p>IBAN : FR76 3006 6100 1100 0202 8720 136</p>
+      <p>BIC : CMCIFRPP</p>
+    </div>
+    <div class="invoice-footer">
+      <p>SAS - RCS : Paris - Siret : 80396439400024 - APE : 8559A - ID TVA : FR28 803964394</p>
+      <p>Pas d'escompte pour paiement anticipé, passée la date d'échéance, tout paiement différé entraîne l'application d'une pénalité de 3 fois le taux d'intérêt légal (loi 2008-776 du 04/08/2008) ainsi qu'une indemnité forfaitaire pour frais de recouvrement de 40 euros (Décret 2012-1115 du 02/10/2012).</p>
+    </div>
+  <% else %>
+    <div>
+      <p>TVA non applicable, article 293b du CGI</p>
+    </div>
+  <% end %>
 </div>
-  <div class="nav-side-menu-container">
-    <div class="nav-side-menu">
-      <h3>Articles</h3>
-      <div class="menu-list">
-        <ul>
-          <% Product.all.each do |product| %>
-            <li><%= link_to product.name, invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post %></li>
-          <% end %>
-            <li><%= link_to 'Commentaires', invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post %></li>
-        </ul>
-      </div>
+<div class="nav-side-menu-container">
+  <div class="nav-side-menu">
+    <h3>Articles</h3>
+    <div class="menu-list">
+      <ul>
+        <% Product.all.each do |product| %>
+          <li><%= link_to product.name, invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post %></li>
+        <% end %>
+          <li><%= link_to 'Commentaires', invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post %></li>
+      </ul>
     </div>
   </div>
+</div>

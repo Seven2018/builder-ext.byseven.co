@@ -153,14 +153,16 @@ ClientCompany.create(
 
 puts "Generating Products..."
 
-Product.create(name: 'Formation Seven sans TVA' , price: 0, tax: 0)
-Product.create(name: 'Formation Seven avec TVA' , price: 2400, tax: 20)
-Product.create(name: 'Préparation formation', price: 0, tax: 20)
-Product.create(name: 'Frais de transport', price: 0, tax: 0)
-Product.create(name: 'Frais de logement', price: 0, tax: 0)
-Product.create(name: 'Frais de repas', price: 0, tax: 0)
-Product.create(name: 'Poste à la Home', price: 250, tax: 20)
-Product.create(name: 'Caution poste à la home', price: 0, tax: 20)
-Product.create(name: 'NEOMA - Direction du MS BDCGC', price: 3661.5, tax: 20)
+Product.create(name: 'Formation Seven sans TVA' , price: 0, tax: 0, product_type: 'Formation')
+Product.create(name: 'Formation Seven avec TVA' , price: 2400, tax: 20, product_type: 'Formation')
+Product.create(name: 'Préparation formation', price: 0, tax: 20, product_type: 'Préparation')
+Product.create(name: 'Frais de transport', price: 0, tax: 0, product_type: 'Frais')
+Product.create(name: 'Frais de logement', price: 0, tax: 0, product_type: 'Frais')
+Product.create(name: 'Frais de repas', price: 0, tax: 0, product_type: 'Frais')
+Product.create(name: 'Poste à la Home', price: 250, tax: 20, product_type: 'Formation')
+Product.create(name: 'Caution poste à la home', price: 0, tax: 20, product_type: 'Caution')
+Product.create(name: 'NEOMA - Direction du MS BDCGC', price: 3661.5, tax: 20, product_type: 'Formation')
+Product.create(name: 'Sevener - Formation Entreprise', price: 560, tax: 0, product_type: 'Formation')
+Product.create(name: 'Sevener - Formation Ecole', price: 40, tax: 0, product_type: 'Formation')
 
 puts "Done!"

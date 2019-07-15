@@ -62,7 +62,7 @@ class SessionsController < ApplicationController
     authorize @session
     @session.update(session_params)
     if @session.save
-      redirect_to training_session_path(@training, @session)
+      redirect_back(fallback_location: root_path)
     else
       render "_edit"
     end
@@ -86,6 +86,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id)
+    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id, :duration)
   end
 end

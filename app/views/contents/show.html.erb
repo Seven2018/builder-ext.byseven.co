@@ -13,7 +13,7 @@
   <br>
   <h4><%= @content.title %> - (<%= @content.duration %> minutes)</h4>
   <br>
-  <img src="<%= @content.description %>" alt="">
+  <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:150px;'></a>
   <div id='content-mods'>
     <div>
       <h4>Liste des modules</h4>
@@ -26,11 +26,14 @@
         <div class="module-card-infos">
         <h5><%= link_to mod.title, content_content_module_path(@content, mod) %></h5>
         <%= mod.instructions.html_safe %>
+        <% if mod.logistics %>
+          <div class='content-logistics'><%= mod.logistics.html_safe %></div>
+        <% end %>
         <% unless mod.action2.nil? %>
-          <p>Action 1 : <%= mod.action1.name %></p>
-          <p>Action 2 : <%= mod.action2.name %></p>
+          <p class=content-actions>Action 1 : <%= mod.action1.name %></p>
+          <p class=content-actions>Action 2 : <%= mod.action2.name %></p>
         <% else %>
-          <p>Action : <%= mod.action1.name %></p>
+          <p class=content-actions>Action : <%= mod.action1.name %></p>
         <% end %>
         </div>
         <div class="module-card-controls">
@@ -47,3 +50,9 @@
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="viewImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <img src="<%= @content.description %>" alt="">
+  </div>
+</div>

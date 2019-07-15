@@ -5,19 +5,7 @@ class EstimatePolicy < ApplicationPolicy
     end
   end
 
-  def create?
-    check_access
-  end
-
   def show?
-    check_access
-  end
-
-  def edit?
-    check_access
-  end
-
-  def update?
     check_access
   end
 
