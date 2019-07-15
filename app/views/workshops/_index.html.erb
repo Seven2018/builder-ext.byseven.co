@@ -2,7 +2,7 @@
   <% if session.workshops.empty? %>
     <div class="empty-mod">
       <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-        <p> <i class="fas fa-plus-circle"></i> </p>
+        <br>
         <p> <%= "Ajouter du contenu" %> </p>
       <% else %>
         <i class="fas fa-wrench"></i>

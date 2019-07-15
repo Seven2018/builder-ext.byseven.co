@@ -135,7 +135,9 @@ class InvoiceItemsController < ApplicationController
   private
 
   def index_filtered
-    if params[:client_company_id].nil?
+    if params[:training_id]
+      @invoice_items = InvoiceItem.where(training_id: params[:training_id].to_i)
+    elsif params[:client_company_id].nil?
       @invoice_items = InvoiceItem.all.order('id DESC')
     elsif params[:type] == 'Invoice'
       @invoice_items = Invoice.where(client_company_id: params[:client_company_id].to_i).order('id DESC')

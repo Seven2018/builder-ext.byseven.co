@@ -17,7 +17,6 @@ class ActionsController < ApplicationController
   end
 
   def create
-    # @action = Action.new(action_params)
     @action = Action.new(action_params)
     @intelligences = Intelligence.all
     authorize @action

@@ -8,11 +8,14 @@
       <div class="module-card-infos">
       <h5><%= link_to mod.title, training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod) %></h5>
       <%= mod.instructions.html_safe %>
+      <% if mod.logistics %>
+        <div class='content-logistics'><%= mod.logistics.html_safe %></div>
+      <% end %>
       <% unless mod.action2.nil? %>
-          <p>Action 1 : <%= mod.action1.name %></p>
-          <p>Action 2 : <%= mod.action2.name %></p>
+          <p class='content-actions'>Action 1 : <%= mod.action1.name %></p>
+          <p class='content-actions'>Action 2 : <%= mod.action2.name %></p>
         <% else %>
-          <p>Action : <%= mod.action1.name %></p>
+          <p class='content-actions'>Action : <%= mod.action1.name %></p>
         <% end %>
       </div>
       <div class="module-card-controls">

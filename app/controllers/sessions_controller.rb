@@ -62,7 +62,7 @@ class SessionsController < ApplicationController
     authorize @session
     @session.update(session_params)
     if @session.save
-      redirect_to training_session_path(@training, @session)
+      redirect_back(fallback_location: root_path)
     else
       render "_edit"
     end
