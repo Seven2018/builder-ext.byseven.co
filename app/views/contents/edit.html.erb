@@ -1,11 +1,13 @@
 <div class="container-seven">
+  <div>
     <%= simple_form_for @content do |f| %>
     <%= f.input :title %>
     <%= f.input :duration, input_html: { min: '0' } %>
-    <%= f.input :description, label: 'Image intro (url)' %>
-    <%= f.input :theme, collection: ["Leadership", "Gestion d'équipe", "Communication", "Business Development", "Gestion de Projet", "Intelligence Economique", "Team Building"] %>
-      <%= f.button :submit, class: 'btn btn-edit' %>
-      <% end %>
+    <%= f.input :description, label: 'Image intro (url)', input_html: { style: 'width: 100%;'} %>
+    <%= f.association :theme, collection: Theme.all, selected: @content.theme_id %>
+    <%= f.button :submit, class: 'btn btn-edit' %>
+    <% end %>
+  </div>
       <%= link_to content_path(@content), method: :delete, data: { confirm: 'Are you sure ?'} do %>
           <button class="btn btn-edit">
             <i class="fas fa-trash-alt"></i>

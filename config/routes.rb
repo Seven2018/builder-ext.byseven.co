@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get 'invoice_items/:id/export', to: 'invoice_items#export', as: 'invoice_item_export'
   get 'invoice_items/:id/marked', to: 'invoice_items#marked_as_paid', as: 'invoice_marked'
   post 'upload_to_sheet', to: 'invoice_items#upload_to_sheet', as: 'upload_to_sheet'
+  get 'report', to: 'invoice_items#report', as: 'report'
   resources :invoice_lines, only: [:create, :edit, :update, :destroy]
   resources :trainings do
     resources :sessions do

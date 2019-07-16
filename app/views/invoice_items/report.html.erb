@@ -1,0 +1,10 @@
+<h3>Invoices Grid</h3>
+
+<div class="left">
+  <%= datagrid_form_for @invoice_items_grid, url: report_path %>
+
+
+  <div class='total'>Total: <%= @invoice_items_grid.assets.count %></div>
+  <%= datagrid_table(@invoice_items_grid) %>
+</div>
+

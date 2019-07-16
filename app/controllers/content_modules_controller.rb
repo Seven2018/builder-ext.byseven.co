@@ -35,7 +35,7 @@ class ContentModulesController < ApplicationController
     @content_module.update(content_module_params)
     if @content_module.save
       update_duration
-      redirect_to content_content_module_path(@content_module.content, @content_module)
+      redirect_to content_path(@content_module.content)
     else
       render :edit
     end
@@ -46,7 +46,7 @@ class ContentModulesController < ApplicationController
     @content = Content.find(params[:content_id])
     @content_module.destroy
     update_duration
-    redirect_to content_path(@content)
+    redirect_to contents_path
   end
 
   def move

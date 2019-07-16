@@ -10,7 +10,7 @@
       <%= f.input :title %>
       <div class="mod-date">
         <%= f.input :duration, input_html: { min: '0' } %>
-        <%= f.association :theme, :collection => Theme.all %>
+        <%= f.association :theme, :collection => Theme.all, selected: mod.theme_id %>
       </div>
       <%= f.text_area :description, style: 'width: 100%; height: 300px;' %>
   </div>

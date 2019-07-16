@@ -13,7 +13,6 @@ class ActionsController < ApplicationController
   def new
     @action = Action.new
     authorize @action
-    @intelligences = Intelligence.all
   end
 
   def create

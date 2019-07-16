@@ -6,6 +6,12 @@ class InvoiceItemsController < ApplicationController
     index_filtered
   end
 
+  def report
+    @invoice_items = InvoiceItem.all
+    @invoice_items_grid = InvoiceItemsGrid.new(params[:invoice_items_grid])
+    authorize @invoice_items
+  end
+
   def show
     authorize @invoice_item
     respond_to do |format|
@@ -54,7 +60,7 @@ class InvoiceItemsController < ApplicationController
   def new_invoice_item
     @training = Training.find(params[:training_id])
     @client_company = ClientCompany.find(params[:client_company_id])
-    @invoice = InvoiceItem.new(training_id: params[:training_id].to_i, client_company_id: params[:client_company_id].to_i, issue_date: Date.today, due_date: Date.today + 1.months, type: params[:type])
+    @invoice = InvoiceItem.new(training_id: params[:training_id].to_i, client_company_id: params[:client_company_id].to_i, type: params[:type])
     authorize @invoice
     @invoice.type == 'Invoice' ? @invoice.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+1) : @invoice.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Estimate.count+1)
     @invoice.type == 'Invoice' ? @invoice.status = 'Non payée' : @invoice.status = 'En attente'
