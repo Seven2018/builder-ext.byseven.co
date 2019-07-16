@@ -67,6 +67,8 @@ GEM
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     crass (1.0.4)
+    datagrid (1.5.9)
+      rails (>= 4.0)
     declarative (0.0.10)
     declarative-option (0.1.0)
     devise (4.6.1)
@@ -279,6 +281,7 @@ DEPENDENCIES
   bootsnap
   bootstrap-sass (~> 3.3)
   cloudinary (~> 1.9.1)
+  datagrid
   devise
   dotenv-rails
   font-awesome-sass (~> 5.5.0)
