@@ -31,7 +31,6 @@ class InvoiceItemsGrid
   column(:client_company, header: 'Nom client') do |record|
     record.client_company.name
   end
-  column
   column :uuid
   column :created_at do
     self.created_at.to_date.strftime('%d/%m/%y')
