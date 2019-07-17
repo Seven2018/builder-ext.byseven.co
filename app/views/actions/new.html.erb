@@ -4,6 +4,6 @@
     <%= f.input :name %>
     <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
     <%= f.association :intelligence, collection: Intelligence.all, include_blank: false %>
-    <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>
+    <p class="center-button"> <%= f.submit "Créer l'action", class: 'btn btn-edit' %> </p>
   <% end %>
 </div>

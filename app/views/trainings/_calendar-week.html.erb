@@ -8,7 +8,8 @@
           <div class="card-sm" id="card-index">
             <div class="card-main-sm">
               <div class='client-logo' style="background-image: url(<%= session.training.client_contact.client_company.logo %>); background-size: 50px 50px; background-repeat: no-repeat;"></div>
-              <h5><%= session.title %></h5>
+              <h5><%= session.training.title %></h5>
+              <h5 id='card-main-sm-session'><%= session.title %></h5>
               <div class="card-infos">
                 <div class='card-infos-elements'><i class="fas fa-user"></i><%= " #{session.training.participant_number} participants" %></div>
                 <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= " De #{session.start_time.strftime('%H:%M')} à #{session.end_time.strftime('%H:%M')}" %>

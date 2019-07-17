@@ -17,13 +17,6 @@
       <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), class: 'grabbable' do %>
         <div style='display:flex;justify-content:space-between;width:100%;'>
           <h4><%= "#{mod.title} - (#{mod.duration} min)" %></h4>
-          <a data-toggle='modal' data-target='#editMod'><i class="fas fa-edit"></i></a>
-          <!-- Modal -->
-            <div class="modal fade" id="editMod" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog" role="document" style="border-radius: 20px">
-                <%= render 'workshops/edit', mod: mod %>
-              </div>
-            </div>
         </div>
       <% end %>
       <% if @error %>

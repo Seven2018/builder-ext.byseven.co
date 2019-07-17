@@ -2,8 +2,8 @@
   <h2>Ajouter un contenu</h2>
 
   <%= simple_form_for @content do |f| %>
-    <%= f.input :title %>
-    <%= f.input :duration, input_html: { min: '0' } %>
+    <%= f.input :title, label: 'Titre' %>
+    <%= f.input :duration, input_html: { min: '0' }, label: 'Durée (min)' %>
     <%= f.input :description, label: 'Image intro (url)' %>
     <%= f.association :theme, collection: Theme.order('name ASC'), include_blank: false, allow_blank: false %>
     <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>

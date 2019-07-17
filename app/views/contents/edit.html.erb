@@ -1,8 +1,8 @@
 <div class="container-seven">
   <div>
     <%= simple_form_for @content do |f| %>
-    <%= f.input :title %>
-    <%= f.input :duration, input_html: { min: '0' } %>
+    <%= f.input :title, label: 'Titre' %>
+    <%= f.input :duration, input_html: { min: '0' }, label: 'Durée (min)' %>
     <%= f.input :description, label: 'Image intro (url)', input_html: { style: 'width: 100%;'} %>
     <%= f.association :theme, collection: Theme.all, selected: @content.theme_id %>
     <%= f.button :submit, class: 'btn btn-edit' %>

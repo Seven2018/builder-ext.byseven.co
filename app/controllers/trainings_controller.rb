@@ -53,7 +53,7 @@ class TrainingsController < ApplicationController
     if @training.save
       redirect_to training_path(@training)
     else
-      render "_edit"
+      render :edit
     end
   end
 

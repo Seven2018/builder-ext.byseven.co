@@ -18,11 +18,11 @@
       <li>
         <%= link_to client_company_path(company) do %>
           <div class="client-company-card">
-            <div>
+            <div class='client-company-name-logo'>
               <img class='client-company-logo-index' src='<%= "#{company.logo}" %>'>
               <p><%= company.name %></p>
             </div>
-            <div>
+            <div class="client-company-type-address">
               <p><%= company.client_company_type %></p>
               <p><%= company.address %></p>
             </div>

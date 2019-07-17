@@ -7,9 +7,9 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [mod.session.training, mod.session, mod] do |f| %>
-      <%= f.input :title %>
+      <%= f.input :title, label: 'Titre' %>
       <div class="mod-date">
-        <%= f.input :duration, input_html: { min: '0' } %>
+        <%= f.input :duration, input_html: { min: '0' }, label: 'Durée (min)' %>
         <%= f.association :theme, :collection => Theme.all, selected: mod.theme_id %>
       </div>
       <%= f.text_area :description, style: 'width: 100%; height: 300px;' %>

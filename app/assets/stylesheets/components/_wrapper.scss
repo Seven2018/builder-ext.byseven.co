@@ -19,6 +19,7 @@ a {
   min-width: 1080px;
   min-height: 100vh;
   padding: 50px;
+  overflow: auto;
 }
 
 .container-new-form {
@@ -32,13 +33,15 @@ a {
   padding-left: 0;
 }
 
+html {
+  display: flex;
+  justify-content: center;
+}
+
 body {
   display: flex;
   justify-content: center;
   position: relative;
-}
-
-.body-wrapper {
   max-width: 1440px;
   width: 100vw;
 }
