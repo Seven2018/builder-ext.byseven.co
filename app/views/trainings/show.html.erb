@@ -1,6 +1,6 @@
 <div class="container-seven">
   <div class="training-info-headers">
-    <%= link_to url_for(:back) do %>
+    <%= link_to trainings_path do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>

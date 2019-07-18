@@ -1,5 +1,5 @@
 <div class="container-seven">
-  <%= link_to url_for(:back) do %>
+  <%= link_to workshop_path(@workshop_module.workshop) do %>
     <i class="fas fa-arrow-left"></i>
   <% end %>
   <h2><%= @workshop_module.title %></h2>

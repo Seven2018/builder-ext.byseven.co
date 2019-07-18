@@ -1,6 +1,6 @@
 <div class="container-seven">
   <div class="training-info-headers">
-    <%= link_to url_for(:back) do %>
+    <%= link_to training_session_path(@workshop.session.training, @workshop.session) do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <div>

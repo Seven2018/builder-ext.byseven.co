@@ -1,7 +1,7 @@
 <div class="container-session-show">
   <div class="session-container">
     <div class="training-info-headers">
-      <%= link_to url_for(:back) do %>
+      <%= link_to training_path(@session.training) do %>
         <i class="fas fa-arrow-left"></i>
       <% end %>
       <div>

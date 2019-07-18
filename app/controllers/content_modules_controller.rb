@@ -46,7 +46,7 @@ class ContentModulesController < ApplicationController
     @content = Content.find(params[:content_id])
     @content_module.destroy
     update_duration
-    redirect_to contents_path
+    redirect_to content_path(@content)
   end
 
   def move
