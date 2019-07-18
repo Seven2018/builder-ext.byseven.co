@@ -2,7 +2,6 @@ class ActionsController < ApplicationController
   before_action :set_action, only: [:show, :edit, :update, :destroy]
 
   def index
-    @actions = Action.all
     @actions = policy_scope(Action).order(name: :asc)
   end
 

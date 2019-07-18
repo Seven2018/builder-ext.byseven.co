@@ -1,5 +1,5 @@
 <div class="container-seven">
-  <%= link_to client_companies_path do %><i class="fas fa-arrow-left"></i><% end %>
+  <%= link_to url_for(:back) do %><i class="fas fa-arrow-left"></i><% end %>
   <div class="client-company-card-show">
     <div>
       <img src='<%= @client_company.logo %>' alt="" class='client-company-logo-show'>

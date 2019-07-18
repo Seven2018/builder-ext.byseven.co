@@ -15,7 +15,7 @@
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">
     <div>
-      <%= f.button :submit, class: 'btn btn-edit' %>
+      <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %>
       <%= link_to invoice_line_path(line), method: :delete, data: { confirm: 'Are you sure ?'} do %>
           <button class="btn btn-edit">
             <i class="fas fa-trash-alt"></i>

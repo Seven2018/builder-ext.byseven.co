@@ -1,5 +1,5 @@
 <div class="container-seven">
-  <%= link_to intelligences_path do %><i class="fas fa-arrow-left"></i><% end %>
+  <%= link_to url_for(:back) do %><i class="fas fa-arrow-left"></i><% end %>
   <h2><%= @intelligence.name %></h2>
   <div class="show-control-links">
     <% if current_user.access_level == 'admin' %>

@@ -2,7 +2,6 @@ class IntelligencesController < ApplicationController
   before_action :set_intelligence, only: [:show, :edit, :update, :destroy]
 
   def index
-    @intelligences = Intelligence.all
     @intelligences = policy_scope(Intelligence)
   end
 

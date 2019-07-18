@@ -1,0 +1,19 @@
+<div class="container-seven">
+  <div class='flex-title'>
+    <h2>Liste des théories</h2>
+    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+      <%= link_to new_theory_path do %>
+        <i class="fas fa-plus"></i>
+      <% end %>
+    <% end %>
+  </div>
+  <ul>
+    <% @theories.each do |theory| %>
+      <li><%= link_to theory.name, theory_path(theory) %>
+        <%= link_to edit_theory_path(theory) do %>
+          <i class="fas fa-edit"></i>
+        <% end %>
+       </li>
+    <% end %>
+  </ul>
+</div>

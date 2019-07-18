@@ -17,6 +17,7 @@
       <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), class: 'grabbable' do %>
         <div style='display:flex;justify-content:space-between;width:100%;'>
           <h4><%= "#{mod.title} - (#{mod.duration} min)" %></h4>
+          <a class="button" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>'><button class='btn'><i class="fas fa-edit"></i></button></a>
         </div>
       <% end %>
       <% if @error %>

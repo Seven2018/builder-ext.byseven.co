@@ -7,6 +7,6 @@
     <%= f.input :start_date, as: :string, required: true, input_html: {class: "datepicker"}, label: 'Date de début' %>
     <%= f.input :end_date, as: :string, input_html: {class: "datepicker"}, label: 'Date de fin' %>
     <%= f.input :participant_number, input_html: { min: '0' }, label: 'Nombre de participants' %>
-    <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>
+    <p class="center-button"> <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %> </p>
   <% end %>
 </div>

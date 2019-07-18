@@ -3,7 +3,7 @@
 
   <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @workshop_module] do |f| %>
     <%= f.input :title, label: 'Titre' %>
-    <%= f.association :user, label: 'Intervenant', collection: @users, allow_blank: true %>
+    <%= f.association :user, label: 'Intervenant', collection: @users, label_method: lambda { |user| "#{user.firstname} #{user.lastname}" }, allow_blank: true %>
     <%= f.input :instructions, input_html: { class: 'editor' } %>
     <%= f.input :duration, label: 'Durée (min)' %>
     <%= f.input :url1 %>
@@ -36,6 +36,6 @@
                       console.error( error );
               } );
     </script>
-    <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>
+    <p class="center-button"> <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %> </p>
   <% end %>
 </div>

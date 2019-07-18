@@ -35,7 +35,7 @@ class ContentModulesController < ApplicationController
     @content_module.update(content_module_params)
     if @content_module.save
       update_duration
-      redirect_to content_path(@content_module.content)
+      redirect_to content_path(@content)
     else
       render :edit
     end

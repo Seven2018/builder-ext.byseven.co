@@ -2,7 +2,6 @@ class TrainingsController < ApplicationController
   before_action :set_training, only: [:show, :edit, :update, :destroy]
 
   def index
-    @trainings = Training.all
     @sessions = Session.all
     @trainings = policy_scope(Training)
   end

@@ -2,7 +2,6 @@ class ClientCompaniesController < ApplicationController
 before_action :set_clientcompany, only: [:show, :edit, :update, :destroy]
 
   def index
-    @client_companies = ClientCompany.all
     @client_companies = policy_scope(ClientCompany).order(name: :asc)
   end
 

@@ -1,5 +1,5 @@
 <div class="container-seven">
-  <%= link_to users_path do %><i class="fas fa-arrow-left"></i><% end %>
+  <%= link_to url_for(:back) do %><i class="fas fa-arrow-left"></i><% end %>
   <div class="client-contact-card-show">
     <div>
       <img src='<%= @user.picture %>' alt="" class='client-company-logo-show'>

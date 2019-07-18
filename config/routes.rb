@@ -6,8 +6,10 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :intelligences
   resources :actions
+  resources :theories
   resources :contents do
     resources :content_modules
+    resources :theory_contents, only: [:create, :destroy]
   end
   resources :client_companies, path: '/companies' do
     resources :client_contacts, path: '/contacts'

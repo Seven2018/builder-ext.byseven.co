@@ -1,11 +1,13 @@
 <div class="container-seven">
   <div class="training-info-headers">
-    <%= link_to contents_path do %><i class="fas fa-arrow-left"></i><% end %>
+    <%= link_to url_for(:back) do %><i class="fas fa-arrow-left"></i><% end %>
     <div class="show-control-links">
       <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
         <%= link_to edit_content_path do %>
           <button class="btn btn-edit">Editer ce contenu</button>
         <% end %>
+        <button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-search-plus"></i></button>
+        <button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-search-minus"></i></button>
       <% end %>
     </div>
   </div>
@@ -54,5 +56,17 @@
 <div class="modal fade" id="viewImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <img src="<%= @content.description %>" alt="">
+  </div>
+</div>
+
+<div class="modal fade" id="newTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'theory_contents/new', theory_content: @theory_content %>
+  </div>
+</div>
+
+<div class="modal fade" id="destroyTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'theory_contents/destroy', theory_content: @theory_content %>
   </div>
 </div>

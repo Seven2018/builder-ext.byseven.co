@@ -1,6 +1,6 @@
 <div class="container-seven">
   <div class="training-info-headers">
-    <%= link_to trainings_path do %>
+    <%= link_to url_for(:back) do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
@@ -114,13 +114,13 @@
 
 <div class="modal fade" id="newOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
-    <%= render 'training_ownerships/new', training_owner: @ownership %>
+    <%= render 'training_ownerships/new', training_owner: @training_ownership %>
   </div>
 </div>
 
 <div class="modal fade" id="destroyOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
-    <%= render 'training_ownerships/destroy', training_owner: @ownership %>
+    <%= render 'training_ownerships/destroy', training_owner: @training_ownership %>
   </div>
 </div>
 

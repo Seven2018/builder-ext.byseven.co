@@ -1,13 +1,13 @@
 <div class="container-session-show">
   <div class="session-container">
     <div class="training-info-headers">
-      <%= link_to training_path(@session.training) do %>
+      <%= link_to url_for(:back) do %>
         <i class="fas fa-arrow-left"></i>
       <% end %>
       <div>
         <%= link_to training_session_path(@session.training, @session, format: :pdf) do %>
           <button class="btn btn-edit" id='export-btn'>
-            Export as <i class="fas fa-file-pdf"></i>
+            Exporter <i class="fas fa-file-pdf"></i>
           </button>
         <% end %>
       </div>
@@ -22,10 +22,10 @@
           <% end %>
         </div>
         <% if @session.start_time && @session.end_time %>
-          <h4><%= @session.date.strftime("%A %e %B %Y") %>
-            <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
-            <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
-            <%# "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
+          <h4><%= "Le #{@session.date.strftime("%d/%m/%y")}" %>
+            <%= "de #{@session.start_time.hour}:#{@session.start_time.min}0 à" if @session.start_time.min.to_s.length == 1 %>
+            <%= "de #{@session.start_time.hour}:#{@session.start_time.min} à" if @session.start_time.min.to_s.length == 2 %>
+            <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
             <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.start_time.min.to_s.length == 2 %>
           </h4>
         <% end %>
@@ -164,4 +164,10 @@
   </div>
 </div>
 
-
+<% @session.workshops.each do |workshop| %>
+  <div class="modal fade" id="editWorkshop<%= workshop.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+    <%= render 'workshops/edit', mod: workshop  %>
+  </div>
+<% end %>
+</div>

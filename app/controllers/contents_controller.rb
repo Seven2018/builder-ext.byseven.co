@@ -2,13 +2,13 @@ class ContentsController < ApplicationController
   before_action :set_content, only: [:show, :edit, :update, :destroy]
 
   def index
-    @contents = Content.all
     @contents = policy_scope(Content)
     @themes = Theme.all
   end
 
   def show
     authorize @content
+    @theory_content = TheoryContent.new
   end
 
   def new
