@@ -43,4 +43,6 @@ Rails.application.routes.draw do
   get 'workshop_module/:id/move_up', to: "workshop_modules#move_up", as: "move_up_workshop_module"
   get 'workshop_module/:id/move_down', to: "workshop_modules#move_down", as: "move_down_workshop_module"
   get 'workshop_module_viewer/:id', to: 'workshop_modules#viewer', as: 'workshop_module_viewer'
+  get 'content_module/:id/move_up', to: 'content_modules#move_up', as: 'move_up_content_module'
+  get 'content_module/:id/move_down', to: 'content_modules#move_down', as: 'move_down_content_module'
 end

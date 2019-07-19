@@ -25,7 +25,11 @@ class ContentModulePolicy < ApplicationPolicy
     true
   end
 
-  def move?
+  def move_up?
+    true
+  end
+
+  def move_down?
     true
   end
 
