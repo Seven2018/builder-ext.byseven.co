@@ -33,6 +33,10 @@ class InvoiceItemPolicy < ApplicationPolicy
     check_access
   end
 
+  def report?
+    true
+  end
+
   private
 
   def check_access

@@ -4,6 +4,6 @@
   <%= simple_form_for @intelligence do |f| %>
     <%= f.input :name %>
     <%= f.input :description, :input_html => {:rows => 10} %>
-    <p class="center-button"> <%= f.submit class: 'btn-edit' %> </p>
+    <p class="center-button"> <%= f.button :submit, 'Sauvegarder', class: 'btn-edit' %> </p>
   <% end %>
 </div>

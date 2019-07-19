@@ -26,8 +26,18 @@
   flex-direction: column;
 }
 
+.module-card-infos {
+  padding-right: 20px;
+}
+
 .module-card-controls {
+  justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
+
+ div {
+  margin: 20px 0;
+ }
 }
 
 .content-actions {

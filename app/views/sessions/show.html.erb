@@ -7,7 +7,7 @@
       <div>
         <%= link_to training_session_path(@session.training, @session, format: :pdf) do %>
           <button class="btn btn-edit" id='export-btn'>
-            Export as <i class="fas fa-file-pdf"></i>
+            Exporter <i class="fas fa-file-pdf"></i>
           </button>
         <% end %>
       </div>
@@ -22,9 +22,9 @@
           <% end %>
         </div>
         <% if @session.start_time && @session.end_time %>
-          <h4><%= @session.date.strftime("%A %e %B %Y") %>
-            <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
-            <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
+          <h4><%= "Le #{@session.date.strftime("%d/%m/%y")}" %>
+            <%= "de #{@session.start_time.hour}:#{@session.start_time.min}0 à" if @session.start_time.min.to_s.length == 1 %>
+            <%= "de #{@session.start_time.hour}:#{@session.start_time.min} à" if @session.start_time.min.to_s.length == 2 %>
             <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
             <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.start_time.min.to_s.length == 2 %>
           </h4>
@@ -94,7 +94,7 @@
         <div class="menu-list">
           <ul id='myUL'>
             <% Theme.walk_tree do |theme, level| %>
-              <% if theme.children.empty? && theme.level == 0 %>
+              <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
                 <li><span class="caret"><%= theme.name %></span>
                   <ul class="nested">
                     <% theme.contents.each do |content| %>
@@ -123,6 +123,20 @@
             <li><%= link_to 'Pause', training_session_workshops_path(@session.training, @session, content_id: pause.first.id), method: :post, remote: true %></li>
             <li><%= link_to 'Pause Déjeuner', training_session_workshops_path(@session.training, @session, content_id: pausedej.first.id), method: :post, remote: true %></li>
           </ul>
+          <br>
+          <ul id='myUL'>
+            <% @themes.each do |theme| %>
+              <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
+                <li><span class="caret"><%= theme.name %></span>
+                  <ul class="nested">
+                    <% theme.contents.each do |content| %>
+                      <li><%= link_to content.title, content_path(content) %></li>
+                    <% end %>
+                  </ul>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
         </div>
         <script src="/javascript/plugins/tree.js" type="text/javascript"></script>
       </div>
@@ -150,4 +164,10 @@
   </div>
 </div>
 
-
+<% @session.workshops.each do |workshop| %>
+  <div class="modal fade" id="editWorkshop<%= workshop.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+    <%= render 'workshops/edit', mod: workshop  %>
+  </div>
+<% end %>
+</div>

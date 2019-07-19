@@ -1,5 +1,5 @@
 class ContentModulesController < ApplicationController
-  before_action :set_content_module, only: [:show, :edit, :update, :destroy, :move]
+  before_action :set_content_module, only: [:show, :edit, :update, :destroy, :move_up, :move_down]
 
   def show
     authorize @content_module
@@ -35,7 +35,7 @@ class ContentModulesController < ApplicationController
     @content_module.update(content_module_params)
     if @content_module.save
       update_duration
-      redirect_to content_content_module_path(@content_module.content, @content_module)
+      redirect_to content_path(@content)
     else
       render :edit
     end
@@ -49,12 +49,43 @@ class ContentModulesController < ApplicationController
     redirect_to content_path(@content)
   end
 
-  def move
+  def move_up
     authorize @content_module
     @content = @content_module.content
-    if @content_module.insert_at(params[:position].to_i)
-    else
-      raise
+    array = []
+    @content.content_modules.order('position ASC').each do |mod|
+      array << mod
+    end
+    unless @content_module.position == 1
+      array.insert((@content_module.position - 2), array.delete_at(@content_module.position - 1))
+    end
+    array.compact.each do |mod|
+      mod.update(position: array.index(mod) + 1)
+    end
+    @content_module.save
+    respond_to do |format|
+      format.html {redirect_to content_path(@content)}
+      format.js
+    end
+  end
+
+  def move_down
+    authorize @content_module
+    @content = @content_module.content
+    array = []
+    @content.content_modules.order('position ASC').each do |mod|
+      array << mod
+    end
+    unless @content_module.position == array.compact.count
+      array.insert((@content_module.position), array.delete_at(@content_module.position - 1))
+    end
+    array.compact.each do |mod|
+      mod.update(position: array.index(mod) + 1)
+    end
+    @content_module.save
+    respond_to do |format|
+      format.html {redirect_to content_path(@content)}
+      format.js
     end
   end
 

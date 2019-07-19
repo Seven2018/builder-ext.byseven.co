@@ -2,7 +2,6 @@ class ClientContactsController < ApplicationController
   before_action :set_clientcontact, only: [:show, :edit, :update, :destroy]
 
   def index
-    @client_contacts = ClientContact.all
     @client_contacts = policy_scope(ClientContact).order(name: :asc)
   end
 

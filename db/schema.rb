@@ -101,8 +101,8 @@ ActiveRecord::Schema.define(version: 2019_07_03_132141) do
     t.decimal "tax_amount", precision: 15, scale: 10
     t.string "status"
     t.string "description"
-    t.datetime "issue_date"
-    t.datetime "due_date"
+    t.datetime "sending_date"
+    t.datetime "payment_date"
     t.string "uuid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

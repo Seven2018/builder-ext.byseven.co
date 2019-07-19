@@ -9,8 +9,8 @@ class CreateInvoiceItems < ActiveRecord::Migration[5.2]
       t.decimal :tax_amount, precision: 15, scale: 10
       t.string :status
       t.string :description
-      t.datetime :issue_date
-      t.datetime :due_date
+      t.datetime :sending_date
+      t.datetime :payment_date
       t.string :uuid
 
       t.timestamps

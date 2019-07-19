@@ -49,6 +49,9 @@ Theme.create(name: 'Business Developement')
 Theme.create(name: 'Gestion de projet')
 Theme.create(name: 'Intelligence économique')
 Theme.create(name: 'Team Building')
+Theme.create(name: 'Ice breaker')
+Theme.create(name: 'Présentation')
+Theme.create(name: 'Conclusion')
 
 puts "Generating Contents..."
 

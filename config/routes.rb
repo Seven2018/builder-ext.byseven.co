@@ -6,8 +6,10 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :intelligences
   resources :actions
+  resources :theories
   resources :contents do
     resources :content_modules
+    resources :theory_contents, only: [:create, :destroy]
   end
   resources :client_companies, path: '/companies' do
     resources :client_contacts, path: '/contacts'
@@ -20,6 +22,7 @@ Rails.application.routes.draw do
   get 'invoice_items/:id/export', to: 'invoice_items#export', as: 'invoice_item_export'
   get 'invoice_items/:id/marked', to: 'invoice_items#marked_as_paid', as: 'invoice_marked'
   post 'upload_to_sheet', to: 'invoice_items#upload_to_sheet', as: 'upload_to_sheet'
+  get 'report', to: 'invoice_items#report', as: 'report'
   resources :invoice_lines, only: [:create, :edit, :update, :destroy]
   resources :trainings do
     resources :sessions do
@@ -40,4 +43,6 @@ Rails.application.routes.draw do
   get 'workshop_module/:id/move_up', to: "workshop_modules#move_up", as: "move_up_workshop_module"
   get 'workshop_module/:id/move_down', to: "workshop_modules#move_down", as: "move_down_workshop_module"
   get 'workshop_module_viewer/:id', to: 'workshop_modules#viewer', as: 'workshop_module_viewer'
+  get 'content_module/:id/move_up', to: 'content_modules#move_up', as: 'move_up_content_module'
+  get 'content_module/:id/move_down', to: 'content_modules#move_down', as: 'move_down_content_module'
 end

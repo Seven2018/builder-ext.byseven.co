@@ -25,7 +25,7 @@
           <h1>Devis</h1>
         <% end %>
         <p>n° <%= @invoice_item.uuid %></p>
-        <p>Du <%= @invoice_item.issue_date.strftime('%d/%m/%Y') %></p>
+        <p>Du <%= @invoice_item.created_at.strftime('%d/%m/%Y') %></p>
         <p>Etablie en Euro</p>
       </div>
     </div>

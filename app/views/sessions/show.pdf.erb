@@ -3,18 +3,12 @@
   <h1 class="title-pdf"><%= @session.training.title %></h1>
   <div class='session-details-list-pdf'>
     <h3 class="session-details-pdf"><%= @session.title %></h3>
-    <h3 class="session-details-pdf"><%= @session.date.strftime("%A %e %B %Y") %> ( Start time: <%= @session.start_time.strftime("%H:%M") %> - End time: <%= @session.end_time.strftime("%H:%M") %> )</h3>
-    <h3 class="session-details-pdf">Client: <%= @session.training.client_contact.client_company.name %></h3>
+    <p class="session-details-pdf"><%= @session.date.strftime("%d/%m/%y") %> de <%= @session.start_time.strftime("%H:%M") %> à <%= @session.end_time.strftime("%H:%M") %></p>
+    <p class="session-details-pdf">Client: <%= @session.training.client_contact.client_company.name %></p>
   </div>
   <br>
     <% @session.workshops.each do |mod| %>
-    <h3 class="content-details-pdf"><%= mod.title %> ( <%= mod.format %> - <em><%= mod.duration %> min</em> )</h3>
-    <p class="content-intel-pdf">Intelligences: <% if mod.intel2.nil? %>
-                                                  <%= mod.intel1 %>
-                                                  <% else %>
-                                                  <%= mod.intel1.name %> - <%= mod.intel2.name %>
-                                                  <% end %>
-    </p>
+    <h3 class="content-details-pdf"><%= mod.title %> (<em><%= mod.duration %> min</em>)</h3>
     <br>
     <p class="content-description-pdf"><%= mod.description %></p>
     <br>

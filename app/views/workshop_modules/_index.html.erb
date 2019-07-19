@@ -23,20 +23,22 @@
         <% unless mod.user.nil? %>
           <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= mod.user.id %>'><img src='<%= "#{mod.user.picture}" %>' alt="" class='avatar'></a>
         <% end %>
-        <% if mod.position == 1 %>
-          <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
-        <% else %>
-          <%= link_to move_up_workshop_module_path(mod), remote: true do %>
-            <i class="fas fa-arrow-up"></i>
+        <div style='display:flex;flex-direction:column;'>
+          <% if mod.position == 1 %>
+            <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
+          <% else %>
+            <%= link_to move_up_workshop_module_path(mod), remote: true do %>
+              <i class="fas fa-arrow-up"></i>
+            <% end %>
           <% end %>
-        <% end %>
-        <% if mod.position ==  @workshop.workshop_modules.count %>
-          <a href=""><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
-        <% else %>
-          <%= link_to move_down_workshop_module_path(mod), remote: true do %>
-            <i class="fas fa-arrow-down"></i>
+          <% if mod.position ==  @workshop.workshop_modules.count %>
+            <a href=""><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
+          <% else %>
+            <%= link_to move_down_workshop_module_path(mod), remote: true do %>
+              <i class="fas fa-arrow-down"></i>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
         <%= link_to edit_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod) do %>
           <i class="fas fa-edit"></i>
         <% end %>

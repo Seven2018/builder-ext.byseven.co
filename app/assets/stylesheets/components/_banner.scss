@@ -1,5 +1,8 @@
 .banner {
   height: 100vh;
+  max-height: 1080px;
+  width: 100vw;
+  max-width: 1440px;
   display: flex;
   justify-content: space-around;
   align-items: center;

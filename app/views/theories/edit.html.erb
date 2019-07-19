@@ -1,0 +1,33 @@
+<div class="container-seven">
+  <h2>Editer <%= @theory.name %></h2>
+
+  <%= simple_form_for @theory do |f| %>
+    <%= f.input :name, label: 'Nom' %>
+    <%= f.input :description, input_html: { class: 'editor' } %>
+    <%= f.input :links, input_html: { style: 'width: 100%;' }, label: 'Liens externes' %>
+    <%= f.input :references, input_html: { class: 'editor2' }, label: 'Références' %>
+    <script>
+      ClassicEditor
+              .create( document.querySelector( '.editor' ), {
+              } )
+              .then( editor => {
+                                        console.log( editor );
+                                } )
+              .catch( error => {
+                      console.error( error );
+              } );
+    </script>
+    <script>
+      ClassicEditor
+              .create( document.querySelector( '.editor2' ), {
+              } )
+              .then( editor => {
+                                        console.log( editor );
+                                } )
+              .catch( error => {
+                      console.error( error );
+              } );
+    </script>
+    <p class="center-button"> <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %> </p>
+  <% end %>
+</div>

@@ -2,7 +2,6 @@ class ActionsController < ApplicationController
   before_action :set_action, only: [:show, :edit, :update, :destroy]
 
   def index
-    @actions = Action.all
     @actions = policy_scope(Action).order(name: :asc)
   end
 
@@ -13,7 +12,6 @@ class ActionsController < ApplicationController
   def new
     @action = Action.new
     authorize @action
-    @intelligences = Intelligence.all
   end
 
   def create

@@ -1,6 +1,6 @@
 <div class="container-seven">
   <div class='flex-title'>
-    <h2>Liste des contenus</h2>
+    <h2>Liste des ateliers</h2>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <%= link_to new_content_path do %>
         <i class="fas fa-plus"></i>
@@ -9,7 +9,7 @@
   </div>
   <ul id='myUL'>
     <% Theme.walk_tree do |theme, level| %>
-      <% if theme.children.empty? && theme.level == 0 %>
+      <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
         <li><span class="caret"><%= theme.name %></span>
           <ul class="nested">
             <% theme.contents.each do |content| %>
@@ -28,6 +28,20 @@
                   <% end %>
                 </ul>
               </li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+  <br>
+  <ul id='myUL'>
+    <% @themes.each do |theme| %>
+      <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
+        <li><span class="caret"><%= theme.name %></span>
+          <ul class="nested">
+            <% theme.contents.each do |content| %>
+              <li><%= link_to content.title, content_path(content) %></li>
             <% end %>
           </ul>
         </li>

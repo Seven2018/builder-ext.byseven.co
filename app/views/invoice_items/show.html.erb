@@ -1,5 +1,5 @@
 <div class="container-seven">
-  <%= link_to invoice_items_path do %><i class="fas fa-arrow-left"></i><% end %>
+  <%= link_to url_for(:back) do %><i class="fas fa-arrow-left"></i><% end %>
   <%= link_to invoice_item_path(@invoice_item, format: :pdf) do %>
     <button class="btn btn-edit" id='export-btn'>
       Export as <i class="fas fa-file-pdf"></i>
@@ -38,7 +38,7 @@
         <h1>Devis</h1>
       <% end %>
       <p>n° <%= @invoice_item.uuid %></p>
-      <p>Du <%= @invoice_item.issue_date.strftime('%d/%m/%Y') %></p>
+      <p>Du <%= @invoice_item.created_at.strftime('%d/%m/%Y') %></p>
       <p>Etablie en Euro</p>
     </div>
   </div>
@@ -104,7 +104,7 @@
         <p>Montant</p>
       </div>
       <div>
-        <p><%= @invoice_item.due_date.strftime('%d/%m/%Y') %></p>
+        <p><%= (@invoice_item.created_at + 1.months).strftime('%d/%m/%Y') %></p>
         <% total_net = [] %>
         <% total_ht = [] %>
         <% total_tva = [] %>

@@ -1,4 +1,4 @@
-<div class="row" style="background-color: white; margin-right: 15px;">
+<div class="row" style="background-color: white; margin-right: 0;">
   <% result_term = [] %>
   <% trainings.each do |training| %>
     <% if training.end_date < Date.today %>
@@ -17,7 +17,6 @@
           </div>
           <div class="card-footer">
               <h5>Plus d'infos</h5>
-            </ul>
           </div>
           <% end %>
         </div>

@@ -44,11 +44,12 @@
 .user-fafa {
   border: none;
   padding-left: 0;
-  .fa-user-plus, .fa-user-minus {
-  font-size: 32px;
-  margin-top: 5px;
-  color: black;
-  }
+}
+
+.fa-user-plus, .fa-user-minus, .fa-search-plus, .fa-search-minus {
+font-size: 32px;
+margin-top: 5px;
+color: black;
 }
 
 .comment-box {

@@ -3,7 +3,17 @@
   <%= simple_form_for @action, as: :act do |f| %>
     <%= f.input :name %>
     <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
-    <%= f.association :intelligence, collection: @intelligences, include_blank: false %>
-    <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>
+    <%= f.association :intelligence, collection: Intelligence.all, include_blank: false %>
+    <p class="center-button"> <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %> </p>
+  <% end %>
+
+  <% Intelligence.all.each do |intel| %>
+    <div>
+      <br>
+      <p><%= intel.name %></p>
+      <br>
+      <p><%= intel.description %></p>
+      <br>
+    </div>
   <% end %>
 </div>
