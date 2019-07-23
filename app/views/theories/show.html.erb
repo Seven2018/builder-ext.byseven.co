@@ -4,5 +4,5 @@
 
   <p><%= @theory.description.html_safe %></p>
   <p><%= @theory.links %></p>
-  <p><%= @theory.references.html_safe unless @theory.references.nil? %></p>
+  <p class='theory-show-references'><%= @theory.references.html_safe unless @theory.references.nil? %></p>
 </div>

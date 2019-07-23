@@ -34,7 +34,7 @@ class InvoiceItemPolicy < ApplicationPolicy
   end
 
   def report?
-    true
+    ['super admin', 'admin'].include? user.access_level
   end
 
   private

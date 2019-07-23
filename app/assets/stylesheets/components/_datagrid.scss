@@ -1,0 +1,23 @@
+.report-controls {
+  display: flex;
+  justify-content: flex-start;
+
+  div {
+    flex-grow: 0;
+  }
+}
+
+.report-controls-left {
+  width: 700px;
+}
+
+.datagrid-filter {
+  width: 650px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date_filter {
+  width: 200px;
+}

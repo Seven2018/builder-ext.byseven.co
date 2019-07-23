@@ -6,8 +6,6 @@
         <%= link_to edit_content_path do %>
           <button class="btn btn-edit">Editer ce contenu</button>
         <% end %>
-        <button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-search-plus"></i></button>
-        <button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-search-minus"></i></button>
       <% end %>
     </div>
   </div>
@@ -16,6 +14,12 @@
   <h4><%= @content.title %> - (<%= @content.duration %> minutes)</h4>
   <br>
   <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:150px;'></a>
+  <ul class="theory-list">
+    <p>Liste des théories associées <button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></button><button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></button></p>
+    <% @content.theories.each do |theory| %>
+      <li><%= link_to "* #{theory.name}", theory_path(theory) %></li>
+    <% end %>
+  </ul>
   <div id='content-mods'>
     <%= render 'content_modules/index', mod: @content %>
   </div>
