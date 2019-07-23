@@ -102,4 +102,15 @@ class InvoiceItemsGrid
       result.join('-')
     end
   end
+
+  def total_sum
+    x = 1
+    y = self.data.count
+    sum = 0
+    while x < y do
+      sum += self.data[x][12]
+      x += 1
+    end
+    sum
+  end
 end
