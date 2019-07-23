@@ -17,12 +17,14 @@
     <% @client_contacts.each do |contact| %>
       <li>
         <%= link_to client_contact_path(contact) do %>
-          <div class="client-contact-card">
+          <div class="client-contact-card user-contact-card">
             <img class='client-company-logo-index' src='<%= "#{contact.client_company.logo}" %>'>
             <div>
               <p><%= contact.name %></p>
-              <p><%= contact.title %></p>
-              <p><%= contact.email %></p>
+              <div>
+                <p><%= contact.title %></p>
+                <p><%= contact.email %></p>
+              </div>
             </div>
           </div>
         <% end %>
