@@ -13,6 +13,10 @@ class Training < ApplicationRecord
     self.start_date
   end
 
+  def end_time
+    self.end_date
+  end
+
   private
 
   def end_date_after_start_date
