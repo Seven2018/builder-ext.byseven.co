@@ -1,7 +1,7 @@
-<%= week_calendar events: @trainings do |date, trainings| %>
+<%= week_calendar events: @sessions do |date, sessions| %>
   <%= date.day %>
-  <% trainings.each do |training| %>
-    <% training.sessions.each do |session| %>
+  <% raise %>
+  <% sessions.each do |session| %>
       <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
         <div style="display: flex; justify-content: center;">
           <%= link_to training_session_path(session.training, session) do %>
@@ -30,6 +30,5 @@
           </div>
         </div>
       <% end %>
-    <% end %>
   <% end %>
 <% end %>

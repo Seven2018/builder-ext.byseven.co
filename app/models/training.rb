@@ -9,6 +9,10 @@ class Training < ApplicationRecord
   validates :title, :start_date, :end_date, presence: true
   validate :end_date_after_start_date
 
+  def start_time
+    self.start_date
+  end
+
   private
 
   def end_date_after_start_date
