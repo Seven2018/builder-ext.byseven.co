@@ -1,5 +1,5 @@
 <div class="container-seven">
-  <%= link_to url_for(:back) do %><i class="fas fa-arrow-left"></i><% end %>
+  <%= link_to invoice_items_path(training_id: @invoice_item.training.id) do %><i class="fas fa-arrow-left"></i><% end %>
   <%= link_to invoice_item_path(@invoice_item, format: :pdf) do %>
     <button class="btn btn-edit" id='export-btn'>
       Export as <i class="fas fa-file-pdf"></i>
