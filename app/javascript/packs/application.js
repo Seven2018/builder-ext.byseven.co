@@ -6,3 +6,6 @@ import {initTree} from "../plugins/tree";
 initSortable();
 global.initSortable = initSortable;
 
+
+require("trix")
+require("@rails/actiontext")
