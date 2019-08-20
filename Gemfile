@@ -28,6 +28,7 @@ gem "simple_calendar", "~> 2.0"
 gem 'google-api-client', '~> 0.11'
 gem 'google_drive'
 gem 'datagrid'
+gem 'image_processing'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
