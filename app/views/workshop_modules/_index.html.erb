@@ -9,7 +9,7 @@
       <h5><%= link_to mod.title, training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod) %></h5>
       <%= mod.instructions.html_safe %>
       <% if mod.logistics %>
-        <div class='content-logistics'><%= mod.logistics.html_safe %></div>
+        <div class='content-logistics'>Logistique : <%= mod.logistics.html_safe %></div>
       <% end %>
       <% unless mod.action2.nil? %>
           <p class='content-actions'>Action 1 : <%= mod.action1.name %></p>

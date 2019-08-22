@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_142000) do
+ActiveRecord::Schema.define(version: 2019_08_19_092951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,11 +92,13 @@ ActiveRecord::Schema.define(version: 2019_08_19_142000) do
 
   create_table "content_modules", force: :cascade do |t|
     t.string "title"
+    t.text "instructions"
     t.integer "duration"
     t.string "url1"
     t.string "url2"
     t.string "image1"
     t.string "image2"
+    t.text "logistics"
     t.integer "action1_id"
     t.integer "action2_id"
     t.text "comments"
@@ -261,11 +263,13 @@ ActiveRecord::Schema.define(version: 2019_08_19_142000) do
 
   create_table "workshop_modules", force: :cascade do |t|
     t.string "title"
+    t.text "instructions"
     t.integer "duration"
     t.string "url1"
     t.string "url2"
     t.string "image1"
     t.string "image2"
+    t.text "logistics"
     t.integer "action1_id"
     t.integer "action2_id"
     t.text "comments"

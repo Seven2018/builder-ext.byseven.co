@@ -1,11 +1,11 @@
 <div class="container-seven">
-  <%= link_to workshop_path(@workshop_module.workshop) do %>
+  <%= link_to training_session_workshop_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop) do %>
     <i class="fas fa-arrow-left"></i>
   <% end %>
   <h2><%= @workshop_module.title %></h2>
 
   <p><%= @workshop_module.duration %> minutes</p>
-  <p><%= @workshop_module.instructions.html_safe %></p>
+  <p><%= @workshop_module.instructions %></p>
   <p><%= @workshop_module.logistics %></p>
   <p><%= @workshop_module.url1 %></p>
   <p><%= @workshop_module.url2 %></p>

@@ -345,7 +345,7 @@ trix-editor .attachment__metadata {
     .trix-content .attachment__caption .attachment__name + .attachment__size::before {
       content: ' · '; }
   .trix-content .attachment--preview {
-    width: 100%;
+    width: auto;
     text-align: center; }
     .trix-content .attachment--preview .attachment__caption {
       color: #666;
@@ -398,3 +398,4 @@ trix-editor .attachment__metadata {
     }
   }
 }
+

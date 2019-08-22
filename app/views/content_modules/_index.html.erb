@@ -7,9 +7,9 @@
     <div class='module-card'>
       <div class="module-card-infos">
       <h5><%= link_to mod.title, content_content_module_path(@content, mod) %></h5>
-      <%= mod.instructions %>
+      <%= mod.instructions.html_safe %>
       <% if mod.logistics %>
-        <div class='content-logistics'><%= mod.logistics %></div>
+        <div class='content-logistics'>Logistique : <%= mod.logistics.html_safe %></div>
       <% end %>
       <% unless mod.action2.nil? %>
           <p class='content-actions'>Action 1 : <%= mod.action1.name %></p>
