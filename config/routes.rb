@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       resources :session_trainers, only: [:create, :destroy], path: '/trainers'
       resources :comments
     end
+    resources :attendees, only: [:new, :create, :destroy]
     resources :training_ownerships, only: [:create, :destroy], path: '/owners'
   end
   get 'trainings_week', to: 'trainings#index_week', as: "index_week"

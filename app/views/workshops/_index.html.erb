@@ -10,14 +10,17 @@
       <% end %>
     </div>
   <% else %>
+    <% array = [] %>
     <% session.workshops.each do |mod| %>
-    <% if mod.position == 1 %>
-      <% @start = session.start_time %>
-    <% else %>
-      <% @duration = session.workshops.find_by(position: (mod.position - 1 )).duration.minutes %>
-      <% @start += @duration %>
-    <% end %>
-    <%= render "workshops/mod_card", mod: mod, session: session, start: @start %>
+      <% array << mod %>
+      <% mod.update(position: (array.index(mod) + 1)) %>
+      <% if mod.position == 1 %>
+        <% @start = session.start_time %>
+      <% else %>
+        <% @duration = session.workshops.find_by(position: (mod.position - 1 )).duration.minutes %>
+        <% @start += @duration %>
+      <% end %>
+      <%= render "workshops/mod_card", mod: mod, session: session, start: @start %>
     <% end %>
   <% end %>
 </div>

@@ -13,8 +13,8 @@
     <% workshop.workshop_modules.each do |mod| %>
       <div class="module-card-pdf">
         <h4><%= mod.title %> - <%= mod.duration %></h4>
-        <%= mod.instructions %>
-        <p class='logistics-pdf'>Logistique: <%= mod.logistics %></p>
+        <%= mod.instructions.html_safe %>
+        <p class='logistics-pdf'>Logistique: <%= mod.logistics.html_safe %></p>
         <p id='action-pdf'>Action: <%= mod.action1.name %></p>
         <% unless mod.action2.nil? %>
           <p id='action-pdf'>Action: <%= mod.action2.name %></p>
