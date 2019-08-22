@@ -25,8 +25,8 @@
           <h4><%= "Le #{@session.date.strftime("%d/%m/%y")}" %>
             <%= "de #{@session.start_time.hour}:#{@session.start_time.min}0 à" if @session.start_time.min.to_s.length == 1 %>
             <%= "de #{@session.start_time.hour}:#{@session.start_time.min} à" if @session.start_time.min.to_s.length == 2 %>
-            <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
-            <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.start_time.min.to_s.length == 2 %>
+            <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.end_time.min.to_s.length == 1 %>
+            <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.end_time.min.to_s.length == 2 %>
           </h4>
         <% end %>
       </div>
@@ -130,7 +130,7 @@
                 <li><span class="caret"><%= theme.name %></span>
                   <ul class="nested">
                     <% theme.contents.each do |content| %>
-                      <li><%= link_to content.title, content_path(content) %></li>
+                      <li><%= link_to "+ #{content.title}", training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true %></li>
                     <% end %>
                   </ul>
                 </li>
@@ -162,12 +162,4 @@
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'session_trainers/destroy', session: @session, session_trainer: @session_trainer %>
   </div>
-</div>
-
-<% @session.workshops.each do |workshop| %>
-  <div class="modal fade" id="editWorkshop<%= workshop.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
-    <%= render 'workshops/edit', mod: workshop  %>
-  </div>
-<% end %>
 </div>

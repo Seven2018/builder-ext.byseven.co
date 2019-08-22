@@ -6,9 +6,6 @@ class Session < ApplicationRecord
   has_many :comments, dependent: :destroy
   validate :date_included_in_training_dates?
 
-  def start_time
-    self.date
-  end
 
   def date_included_in_training_dates?
     if date < training.start_date || date > training.end_date

@@ -1,11 +1,18 @@
 <div class="container-seven">
-  <h3>Invoices Grid</h3>
+  <h3>Numbers</h3>
 
-  <div class="left">
-    <%= datagrid_form_for @invoice_items_grid, url: report_path %>
+  <div class="report-controls">
+    <div class="report-controls-left">
+      <%= datagrid_form_for @invoice_items_grid, url: report_path %>
+    </div>
+    <div class="right">
+      <h3><%= "CA HT : #{@invoice_items_grid.total_sum}€"  %></h3>
+      <h3><%= "Nb Journées : #{@invoice_items_grid.total_days}"  %></h3>
+      <h3><%= "Nb heures : #{@invoice_items_grid.total_hours}"  %></h3>
+    </div>
+  </div>
 
 
     <div class='total'>Total: <%= @invoice_items_grid.assets.count %></div>
     <%= datagrid_table(@invoice_items_grid) %>
-  </div>
 </div>

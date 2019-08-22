@@ -113,4 +113,26 @@ class InvoiceItemsGrid
     end
     sum
   end
+
+  def total_days
+    x = 1
+    y = self.data.count
+    sum = 0
+    while x < y do
+        sum += self.data[x][4] if self.data[x][5] == 'j'
+        x += 1
+    end
+    sum
+  end
+
+  def total_hours
+    x = 1
+    y = self.data.count
+    sum = 0
+    while x < y do
+        sum += self.data[x][4] if self.data[x][5] == 'h'
+        x += 1
+    end
+    sum
+  end
 end

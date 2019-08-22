@@ -5,13 +5,13 @@
       Export as <i class="fas fa-file-pdf"></i>
     </button>
   <% end %>
-  <% if @invoice_item.type == 'Invoice' %>
-    <%= link_to upload_to_sheet_path(@invoice_item, id: @invoice_item.id), method: :post do %>
-      <button class="btn btn-edit">
+  <%# if @invoice_item.type == 'Invoice' %>
+    <%# link_to upload_to_sheet_path(@invoice_item, id: @invoice_item.id), method: :post do %>
+ <!--      <button class="btn btn-edit">
         Upload to Numbers
-      </button>
-    <% end %>
-  <% end %>
+      </button> -->
+    <%# end %>
+  <%# end %>
   <div class="invoice-header">
     <% unless @invoice_item.type == 'InvoiceSevener' %>
       <div>

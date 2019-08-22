@@ -46,8 +46,13 @@
 
 .content-logistics {
   height: auto;
+  justify-content: left !important;
 }
 
-.content-logistics > p {
+.content-logistics, .content-logistics > div > div {
   color: $green;
+}
+
+.content-logistics > div {
+  margin-left: 5px;
 }

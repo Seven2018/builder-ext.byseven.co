@@ -1,5 +1,5 @@
 <div class="container-seven">
-  <h2>Ajouter un module</h2>
+  <h2>Editer un module</h2>
 
   <%= simple_form_for [@content, @content_module] do |f| %>
     <%= f.input :title, label: 'Titre' %>
@@ -27,7 +27,6 @@
     <script>
       ClassicEditor
               .create( document.querySelector( '.editor2' ), {
-
               } )
               .then( editor => {
                                         console.log( editor );

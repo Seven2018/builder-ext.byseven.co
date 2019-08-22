@@ -50,15 +50,26 @@
   margin-bottom: 50px;
 }
 
+.module-card-pdf {
+  border: 1px solid black;
+  padding: 0 15px;
+}
+
 .content-intel-pdf {
   font-family: "Roboto", sans-serif;
   font-style: italic;
   // margin-top: -15px;
 }
 
-// .invoice-body-pdf {
-//   margin-bottom: 55px;
-// }
+p.logistics-pdf {
+  color: green;
+}
+
+#action-pdf {
+  color: orange
+}
+
+//INVOICE
 
 .wrapper-pdf {
   position: relative;

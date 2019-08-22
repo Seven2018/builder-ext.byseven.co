@@ -3,12 +3,12 @@ ruby '2.5.3'
 
 gem 'bootsnap', require: false
 gem 'cloudinary', '~> 1.9.1'
-gem 'devise'
+gem 'devise', git: 'https://github.com/plataformatec/devise'
 gem 'jbuilder', '~> 2.0'
 gem 'pg', '~> 0.21'
 gem 'puma'
 gem 'pundit'
-gem 'rails', '5.2.2'
+gem 'rails', '6.0.0'
 gem 'redis'
 gem 'wicked_pdf', '~> 1.1'
 gem 'wkhtmltopdf-binary'
@@ -28,6 +28,7 @@ gem "simple_calendar", "~> 2.0"
 gem 'google-api-client', '~> 0.11'
 gem 'google_drive'
 gem 'datagrid'
+gem 'image_processing'
 
 gem 'dotenv-rails', groups: [:development, :test]
 

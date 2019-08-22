@@ -1,7 +1,6 @@
 <div class="container-seven" style="background-color: white">
   <h3 style="text-align: left;"><%= "Dashboard" %></h3>
   <div class="trainings-title">
-    <%= link_to 'report', report_path %>
     <ul class="nav nav-tabs">
       <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) %>
         <li role="presentation"><a href="#ongoing" data-toggle="tab" class="active">Projets en cours</a></li>

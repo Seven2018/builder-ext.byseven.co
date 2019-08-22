@@ -17,12 +17,14 @@
     <% @users.each do |user| %>
       <li>
         <%= link_to user_path(user) do %>
-          <div class="client-contact-card">
+          <div class="client-contact-card user-contact-card">
             <img class='client-company-logo-index' src='<%= "#{user.picture}" %>'>
             <div>
-              <p><%= user.firstname %></p>
-              <p><%= user.email %></p>
-              <p><%= user.access_level %></p>
+              <p><%= "#{user.firstname} #{user.lastname}" %></p>
+              <div>
+                <p><%= user.email %></p>
+                <p><%= user.access_level %></p>
+              </div>
             </div>
           </div>
         <% end %>
