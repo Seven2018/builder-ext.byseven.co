@@ -11,6 +11,8 @@
     <%= f.input :image2 %>
     <%= f.input :logistics, input_html: { class: 'editor2', style: 'width:100%;' } %>
     <%= f.input :action1_id, collection: Action.all, allow_blank: false, include_blank: false, label: 'Action participant 1' %>
+    <%= link_to 'Nouvelle action', new_action_path, target: :_blank %>
+    <%= link_to 'Actualiser', render(:new => 'content_modules/new') %>
     <%= f.input :action2_id, collection: Action.all, label: 'Action participant 2' %>
     <%= f.input :comments, input_html: { style: 'width:100%;' }, label: 'Commentaires' %>
     <script>

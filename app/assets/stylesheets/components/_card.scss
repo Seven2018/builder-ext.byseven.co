@@ -373,6 +373,11 @@ $timeline: #115173;
   }
 }
 
+.card-controls {
+  display: flex;
+  width: 50px;
+}
+
 #card-index:hover {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.7);
   transition: 0.8s ease;

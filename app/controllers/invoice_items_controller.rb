@@ -10,6 +10,10 @@ class InvoiceItemsController < ApplicationController
     @invoice_items = InvoiceItem.all
     @invoice_items_grid = InvoiceItemsGrid.new(params[:invoice_items_grid])
     authorize @invoice_items
+    respond_to do |format|
+      format.html
+      format.csv { send_data @invoice_items_grid.to_csv }
+    end
   end
 
   def show
