@@ -17,12 +17,12 @@
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">
     <div>
+      <%= link_to training_session_path(session.training, session), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+        <button class="btn btn-edit">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      <% end %>
       <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %>
-        <%= link_to training_session_path(session.training, session), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-          <button class="btn btn-edit">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        <% end %>
       <% end %>
     </div>
   </div>

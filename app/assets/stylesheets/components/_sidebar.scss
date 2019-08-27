@@ -13,6 +13,11 @@
   box-shadow: -3px 3px 5px rgba(0,0,0,0.7);
   height: 100%;
   width: 220px;
+  overflow: scroll;
+
+  div {
+    width: 220px;
+  }
 }
 .nav-side-menu .brand {
   background-color: #23282e;
@@ -160,4 +165,13 @@ body {
 .click-to-add {
   text-align: center;
   padding-top: 20px;
+}
+
+.menu-list > form {
+  width: 220px;
+  padding: 0 15px;
+
+  input {
+    width: 190px;
+  }
 }

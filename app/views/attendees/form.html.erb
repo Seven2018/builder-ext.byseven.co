@@ -1,0 +1,48 @@
+<div class="container-seven-form">
+  <div id='attendee-form-logo'>
+    <%= image_tag "SEVENLOGO_SQUARE.jpg", size: '150x150' %>
+    <img src="<%= @training.client_contact.client_company.logo %>" alt="" width='150' height='150'>
+  </div>
+  <div id='attendee-form'>
+    <div id="attendee-form-title">
+      <h3>Formulaire d'inscription</h3>
+      <h4><%= @training.title %></h4>
+      <p>Du <%= @training.start_date.strftime('%d/%m/%y') %> au <%= @training.end_date.strftime('%d/%m/%y') %></p>
+    </div>
+    <%= simple_form_for :search, url: training_attendees_form_path(@training), method: 'GET' do |f| %>
+      <% status = !params[:search].nil? %>
+      <div style='display:flex;justify-content:space-around;'>
+        <%= f.input :firstname, label: 'Prénom', input_html: { value: @info[:firstname]}, disabled: (status && params[:search].has_key?(:firstname)) %>
+        <%= f.input :lastname, label: 'Nom', input_html: { value: @info[:lastname]}, disabled: (status && params[:search].has_key?(:lastname)) %>
+      </div>
+      <div style='display:flex;justify-content:space-around;'>
+        <%= f.input :employee_id, label: 'ID interne', input_html: { value: @info[:employee_id] }, disabled: status %>
+        <%= f.input :email, label: 'Adresse email', input_html: { value: @info[:email] }, disabled: (status && params[:search].has_key?(:email)) %>
+      </div>
+      <% if status %>
+        <p class="center-button"> <%= f.submit 'Modifier les infos', class: 'btn btn-edit' %> </p>
+      <% else %>
+        <p class="center-button"> <%= f.submit 'Soumettre', class: 'btn btn-edit' %> </p>
+      <% end %>
+    <% end %>
+  </div>
+  <% unless @sessions.nil? %>
+    <div class='container'>
+      <div class="row session-form-row">
+        <% @sessions.each do |session| %>
+          <div class="col-xs-12 col-sm-4">
+            <div class="session-form-card">
+              <p><%= session.title %></p>
+              <p><%= session.date.strftime('%d/%m/%y') %></p>
+              <% if session.attendees.where(email: @info[:email]).empty? %>
+                <%= link_to "S'inscrire", training_attendees_form_create_path(@training, firstname: @info[:firstname], lastname: @info[:lastname], email: @info[:email], session_id: session.id, employee_id: @info[:employee_id]), method: :post %>
+              <% else %>
+                <%= link_to "Se désinscrire", training_attendees_form_destroy_path(@training, id: session.attendees.where(email: @info[:email]).first.id), method: :delete %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

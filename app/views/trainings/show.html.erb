@@ -16,6 +16,8 @@
         <% end %>
         <%= link_to invoice_items_path(training_id: @training.id) do %>
           <button class="btn btn-edit">Liste Factures</button><% end %>
+          <%= link_to training_attendees_form_path(training_id: @training.id) do %>
+          <button class="btn btn-edit">Participant</button><% end %>
       </div>
     <% elsif @training.session_trainers.where(user_id: current_user.id).any? %>
       <div>

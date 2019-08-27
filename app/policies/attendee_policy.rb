@@ -5,7 +5,15 @@ class AttendeePolicy < ApplicationPolicy
     end
   end
 
+  def form?
+    true
+  end
+
   def create?
+    true
+  end
+
+  def destroy?
     true
   end
 end

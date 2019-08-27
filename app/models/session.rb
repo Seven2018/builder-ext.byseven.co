@@ -4,6 +4,7 @@ class Session < ApplicationRecord
   has_many :session_trainers, dependent: :destroy
   has_many :users, through: :session_trainers
   has_many :comments, dependent: :destroy
+  has_many :attendees, dependent: :destroy
   validate :date_included_in_training_dates?
 
 

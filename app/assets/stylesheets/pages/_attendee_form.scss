@@ -1,0 +1,31 @@
+.container-seven-form {
+  width: 100%;
+  min-width: 1080px;
+  min-height: 100vh;
+  padding: 50px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#attendee-form {
+  width: 500px;
+}
+
+#attendee-form-title {
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+#attendee-form-logo {
+  width: 50%;
+  display: inherit;
+  justify-content: space-around;
+}
+
+.session-form-card {
+  width: 200px;
+  border: 1px solid black;
+}
