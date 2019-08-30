@@ -16,12 +16,18 @@
       <h4><%= time.strftime("%H:%M") %> - <%= mod.title %> - <%= mod.duration %> min</h4>
       <% time += mod.duration*60 %>
       <%= mod.instructions.html_safe %>
-      <p class='logistics-pdf'>Logistique: <%= mod.logistics.html_safe %></p>
-      <p id='action-pdf'>Action: <%= mod.action1.name %></p>
+      <% unless mod.logistics.empty? %>
+        <p class='logistics-pdf'>Logistique: <%= mod.logistics.html_safe %></p>
+      <% end %>
+      <% unless mod.action1.nil? %>
+        <p id='action-pdf'>Action: <%= mod.action1.name %></p>
+      <% end %>
       <% unless mod.action2.nil? %>
         <p id='action-pdf'>Action: <%= mod.action2.name %></p>
       <% end %>
-      <p id='comments-pdf'>Commentaires: <%= mod.comments %></p>
+      <% unless mod.comments.empty? %>
+        <p id='comments-pdf'>Commentaires: <%= mod.comments %></p>
+      <% end %>
     </div>
   <% end %>
   <br>

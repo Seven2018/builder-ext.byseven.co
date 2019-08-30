@@ -7,16 +7,16 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [mod.session.training, mod.session, mod] do |f| %>
-      <%= f.input :title, label: 'Titre' %>
+      <%= f.input :title %>
       <div class="mod-date">
-        <%= f.input :duration, input_html: { min: '0' }, label: 'Durée (min)' %>
+        <%= f.input :duration, input_html: { min: '0' }, label: 'Duration (min)' %>
         <%= f.association :theme, :collection => Theme.all, selected: mod.theme_id %>
       </div>
       <%= f.text_area :description, style: 'width: 100%; height: 300px;' %>
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">
     <div>
-      <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %>
+      <%= f.button :submit, 'Save', class: 'btn btn-edit' %>
       <% end %>
     </div>
   </div>

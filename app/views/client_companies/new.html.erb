@@ -1,11 +1,11 @@
 <div class="container-seven">
-  <h2>Ajouter une entreprise client</h2>
+  <h2>Add a client company or school</h2>
   <%= simple_form_for @client_company do |f| %>
     <%= f.input :name %>
     <%= f.input :address %>
-    <%= f.input :client_company_type, collection: ["Entreprise", "Ecole"], include_blank: false %>
+    <%= f.input :client_company_type, collection: ["Company", "School"], include_blank: false %>
     <%= f.input :description, :input_html => {:rows => 10, style: 'width:100%;'} %>
     <%= f.input :logo, label: 'Logo URL' %>
-    <p class="center-button"> <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %> </p>
+    <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit' %> </p>
   <% end %>
 </div>

@@ -19,7 +19,6 @@
 .left-navbar-top {
   display: flex;
   justify-content: space-around;
-  // margin-bottom: 70px;
 }
 
 .left-navbar-middle {
@@ -40,11 +39,7 @@
   text-decoration: none;
   text-transform: none;
   color: #2d2c2cde;
-  // opacity: 0.7;
   font-size: 18px;
-  // &:hover {
-  //   opacity: 1;
-  // }
 }
 
 .avatar {
@@ -86,15 +81,9 @@
   left: auto;
 }
 
-// .left-navbar li {
-//   margin-top: 50px;
-//   margin-bottom: 50px;
-// }
-
 .left-buttons {
   font-size: 8px;
   font-weight: lighter;
-  font-family: roboto;
 }
 
 .left-menu-title {

@@ -6,18 +6,18 @@
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <div>
         <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post do %>
-          <button class="btn btn-edit">Créer un devis</button><% end %>
+          <button class="btn btn-edit">Create an estimate</button><% end %>
         <% if @training.end_date >= Date.today %>
           <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post do %>
-            <button class="btn btn-edit">Créer une facture</button><% end %>
+            <button class="btn btn-edit">Create an invoice</button><% end %>
         <% else %>
           <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post do %>
-            <button class="btn btn-edit-red">Créer une facture</button><% end %>
+            <button class="btn btn-edit-red">Create an invoice</button><% end %>
         <% end %>
         <%= link_to invoice_items_path(training_id: @training.id) do %>
-          <button class="btn btn-edit">Liste Factures</button><% end %>
+          <button class="btn btn-edit">Invoices List</button><% end %>
           <%= link_to training_attendees_form_path(training_id: @training.id) do %>
-          <button class="btn btn-edit">Participant</button><% end %>
+          <button class="btn btn-edit">Participants</button><% end %>
       </div>
     <% elsif @training.session_trainers.where(user_id: current_user.id).any? %>
       <div>
@@ -29,7 +29,7 @@
   <div class="middle-info">
     <div class='middle-info-main'>
       <h3><%= @training.title %>    <a class="edit-fafa" data-toggle='modal' data-target='#editTraining'><i class="fas fa-edit"></i></a></h3>
-      <h4><%="From #{@training.start_date.strftime('%d/%m/%y')} to #{@training.end_date.strftime('%d/%m/%y')}" %> - <i class="fas fa-user"> </i> <%= "#{@training.participant_number}"%> </h4>
+      <h4><%="From #{@training.start_date.strftime('%d/%m/%y')} to #{@training.end_date.strftime('%d/%m/%y')}" %>
     </div>
       <div style="display: flex;align-items: center;justify-content: space-between;">
         <ul id="owner">
@@ -89,8 +89,9 @@
           </div>
           <div class="card-footer-lg">
             <% if session.start_time && session.end_time %>
-              <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p><div><i class="far fa-hourglass"></i><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %>
-            </div>
+              <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p>
+              <div><i class="far fa-hourglass"></i><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></div>
+              <i class="fas fa-users"> <%= session.attendee_number %></i>
             <% end %>
           </div>
         </div>
@@ -128,7 +129,7 @@
 
 <% @training.sessions.order(:date).each do |session| %>
 <div class="modal fade" id="editSession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render '/sessions/edit', session: session %>
   </div>
 </div>

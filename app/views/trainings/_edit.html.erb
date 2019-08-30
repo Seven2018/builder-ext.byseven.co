@@ -7,17 +7,16 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for training do |f| %>
-      <%= f.input :title, label: 'Titre' %>
-      <%= f.input :client_contact_id, :collection => ClientContact.all.order(:name), :label_method => :name, :label => 'Client', :include_blank => false %>
+      <%= f.input :title %>
+      <%= f.input :client_contact_id, :collection => ClientContact.all.order(:name), :label_method => :name, :label => 'Client contact', :include_blank => false %>
       <div class="mod-date">
-        <%= f.input :start_date, as: :string, input_html: { class: 'datepicker'}, label: 'Date de début' %>
-        <%= f.input :end_date, as: :string, input_html: { class: 'datepicker'}, label: 'Date de fin' %>
-        <%= f.input :participant_number, input_html: { min: '0' }, label: 'Nombre de participants' %>
+        <%= f.input :start_date, as: :string, input_html: { class: 'datepicker'}, label: 'Start date' %>
+        <%= f.input :end_date, as: :string, input_html: { class: 'datepicker'}, label: 'End date' %>
       </div>
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">
     <div>
-      <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %>
+      <%= f.button :submit, 'Save', class: 'btn btn-edit' %>
       <%= link_to training_path(training), method: :delete, data: { confirm: 'Are you sure ?'} do %>
           <button class="btn btn-edit">
             <i class="fas fa-trash-alt"></i>

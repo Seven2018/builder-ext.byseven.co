@@ -30,6 +30,7 @@ gem 'google_drive'
 gem 'datagrid'
 gem 'image_processing'
 gem 'invisible_captcha'
+gem 'material_design_lite-sass'
 
 gem 'dotenv-rails', groups: [:development, :test]
 

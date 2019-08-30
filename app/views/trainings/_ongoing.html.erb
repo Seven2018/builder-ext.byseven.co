@@ -10,7 +10,6 @@
             <h5><%= training.title %></h5>
             <% result_cours << training %>
             <div class="card-infos">
-              <div class='card-infos-elements'><i class="fas fa-user"></i><%= " #{training.participant_number} people" %></div>
               <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= " From #{training.start_date.strftime('%d/%m/%y')} to #{training.end_date.strftime('%d/%m/%y')}" %>
               </div>
             </div>
