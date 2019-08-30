@@ -12,7 +12,7 @@
   <h3 class="content-details-pdf"><%= time.strftime("%H:%M") %> - <%= workshop.title %> (<em><%= workshop.duration %> min</em>)</h3>
   <br>
   <% workshop.workshop_modules.order('position ASC').each do |mod| %>
-    <div class="module-card-pdf">
+    <div class="module-card-pdf" style='border: 1px solid black;padding: 0 15px;margin-bottom: 30px;'>
       <h4><%= time.strftime("%H:%M") %> - <%= mod.title %> - <%= mod.duration %> min</h4>
       <% time += mod.duration*60 %>
       <%= mod.instructions.html_safe %>
