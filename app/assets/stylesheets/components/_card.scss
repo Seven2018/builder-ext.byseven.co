@@ -387,7 +387,7 @@ $timeline: #115173;
   box-shadow: none;
 }
 
-.btn-edit, .btn-edit-red {
+.btn-edit, .btn-edit-red, .btn-edit-green {
   opacity: 0.8;
   display: inline-block;
   padding: 0.45em 2em;
@@ -416,6 +416,10 @@ $timeline: #115173;
 
 .btn-edit-red {
     background-color: $red;
+}
+
+.btn-edit-green {
+    background-color: $green;
 }
 
 .edit-btn {

@@ -1,15 +1,15 @@
-class AttendeePolicy < ApplicationPolicy
+class SessionAttendeePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
     end
   end
 
-  def form?
+  def create?
     true
   end
 
-  def create?
+  def destroy?
     true
   end
 end

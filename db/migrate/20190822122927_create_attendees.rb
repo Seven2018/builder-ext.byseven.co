@@ -5,7 +5,7 @@ class CreateAttendees < ActiveRecord::Migration[6.0]
       t.string :lastname
       t.string :employee_id
       t.string :email
-      t.references :session, null: false, foreign_key: true
+      t.references :client_company, null: false, foreign_key: true
 
       t.timestamps
     end

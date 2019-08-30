@@ -11,12 +11,14 @@
       <% if mod.logistics %>
         <div class='content-logistics'>Logistique : <%= mod.logistics.html_safe %></div>
       <% end %>
-      <% unless mod.action2.nil? %>
-          <p class='content-actions'>Action 1 : <%= mod.action1.name %></p>
-          <p class='content-actions'>Action 2 : <%= mod.action2.name %></p>
-        <% else %>
-          <p class='content-actions'>Action : <%= mod.action1.name %></p>
-        <% end %>
+      <% if !mod.action1.nil? && !mod.action2.nil? %>
+        <p class='content-actions'>Action 1 : <%= mod.action1.name %></p>
+        <p class='content-actions'>Action 2 : <%= mod.action2.name %></p>
+      <% elsif !mod.action1.nil? %>
+        <p class='content-actions'>Action : <%= mod.action1.name %></p>
+      <% elsif !mod.action2.nil? %>
+        <p class='content-actions'>Action : <%= mod.action2.name %></p>
+      <% end %>
       </div>
       <div class="module-card-controls">
         <p><%= mod.duration %> min</p>

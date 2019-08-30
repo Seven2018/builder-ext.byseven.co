@@ -29,6 +29,7 @@ gem 'google-api-client', '~> 0.11'
 gem 'google_drive'
 gem 'datagrid'
 gem 'image_processing'
+gem 'invisible_captcha'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
