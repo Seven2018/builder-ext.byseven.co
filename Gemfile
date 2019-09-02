@@ -22,7 +22,6 @@ gem 'uglifier'
 gem 'webpacker'
 gem 'jquery-rails'
 gem 'acts_as_list'
-gem "jstree-rails-4"
 gem "acts_as_tree"
 gem "simple_calendar", "~> 2.0"
 gem 'google-api-client', '~> 0.11'

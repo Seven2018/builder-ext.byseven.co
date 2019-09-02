@@ -3,6 +3,5 @@
 //= require_tree .
 //= require jquery
 //= require bootstrap-sprockets
-//= require jstree
 //= require trix/dist/trix
 //= require material
