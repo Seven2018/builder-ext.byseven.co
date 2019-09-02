@@ -12,8 +12,7 @@
               <h5><%= session.training.title %></h5>
               <h5><%= session.title %></h5>
               <div class="card-infos">
-                <div class='card-infos-elements'><i class="fas fa-user"></i><%= " #{session.training.participant_number} participants" %></div>
-                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= " De #{session.start_time.strftime('%H:%M')} à #{session.end_time.strftime('%H:%M')}" %>
+                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= " From #{session.start_time.strftime('%H:%M')} to #{session.end_time.strftime('%H:%M')}" %>
                 </div>
               </div>
               <div class="card-trainers">

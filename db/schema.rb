@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_092951) do
+ActiveRecord::Schema.define(version: 2019_08_30_084033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,17 @@ ActiveRecord::Schema.define(version: 2019_08_19_092951) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "attendees", force: :cascade do |t|
+    t.string "firstname"
+    t.string "lastname"
+    t.string "employee_id"
+    t.string "email"
+    t.bigint "client_company_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["client_company_id"], name: "index_attendees_on_client_company_id"
   end
 
   create_table "client_companies", force: :cascade do |t|
@@ -168,6 +179,15 @@ ActiveRecord::Schema.define(version: 2019_08_19_092951) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "session_attendees", force: :cascade do |t|
+    t.bigint "session_id", null: false
+    t.bigint "attendee_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["attendee_id"], name: "index_session_attendees_on_attendee_id"
+    t.index ["session_id"], name: "index_session_attendees_on_session_id"
+  end
+
   create_table "session_trainers", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "session_id"
@@ -186,6 +206,8 @@ ActiveRecord::Schema.define(version: 2019_08_19_092951) do
     t.bigint "training_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "attendee_number"
+    t.string "picture"
     t.index ["training_id"], name: "index_sessions_on_training_id"
   end
 
@@ -228,7 +250,6 @@ ActiveRecord::Schema.define(version: 2019_08_19_092951) do
     t.string "title"
     t.date "start_date"
     t.date "end_date"
-    t.integer "participant_number"
     t.bigint "client_contact_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -297,6 +318,7 @@ ActiveRecord::Schema.define(version: 2019_08_19_092951) do
 
   add_foreign_key "actions", "intelligences"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "attendees", "client_companies"
   add_foreign_key "client_contacts", "client_companies"
   add_foreign_key "comments", "sessions"
   add_foreign_key "comments", "users"
@@ -307,6 +329,8 @@ ActiveRecord::Schema.define(version: 2019_08_19_092951) do
   add_foreign_key "invoice_items", "users"
   add_foreign_key "invoice_lines", "invoice_items"
   add_foreign_key "invoice_lines", "products"
+  add_foreign_key "session_attendees", "attendees"
+  add_foreign_key "session_attendees", "sessions"
   add_foreign_key "session_trainers", "sessions"
   add_foreign_key "session_trainers", "users"
   add_foreign_key "sessions", "trainings"

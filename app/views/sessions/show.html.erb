@@ -22,9 +22,9 @@
           <% end %>
         </div>
         <% if @session.start_time && @session.end_time %>
-          <h4><%= "Le #{@session.date.strftime("%d/%m/%y")}" %>
-            <%= "de #{@session.start_time.hour}:#{@session.start_time.min}0 à" if @session.start_time.min.to_s.length == 1 %>
-            <%= "de #{@session.start_time.hour}:#{@session.start_time.min} à" if @session.start_time.min.to_s.length == 2 %>
+          <h4><%= "#{@session.date.strftime("%d/%m/%y")}" %>
+            <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
+            <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
             <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.end_time.min.to_s.length == 1 %>
             <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.end_time.min.to_s.length == 2 %>
           </h4>
@@ -54,11 +54,11 @@
     </div>
     <div class="comment-box">
       <div class="message-box">
-        <h4>Add a message</h4>
+        <h4>Ajouter un message</h4>
         <%= simple_form_for [@session.training, @session, @comment] do |f| %>
           <%= f.input :object, placeholder: "Objet", input_html: { style: "width: 600px; margin-right: 20px; heigth: 50px;"}, label: false %>
           <%= f.input :content, placeholder: "Message", input_html: { style: "width: 600px; margin-right: 20px; heigth: 50px;"}, label: false %>
-          <div> <%= f.submit class: 'btn btn-edit'%> </div>
+          <div> <%= f.submit 'Publier', class: 'btn btn-edit'%> </div>
         <% end %>
       </div>
       <div class='log-box'>
@@ -89,54 +89,78 @@
   <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
     <div class="nav-side-menu-container">
       <div class="nav-side-menu">
-        <div class="brand">Content Manager</div>
+        <div class="brand">Workshops</div>
         <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
         <div class="menu-list">
-          <ul id='myUL'>
-            <% Theme.walk_tree do |theme, level| %>
-              <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
-                <li><span class="caret"><%= theme.name %></span>
-                  <ul class="nested">
-                    <% theme.contents.each do |content| %>
-                      <li><%= link_to "+ #{content.title}", training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true %></li>
-                    <% end %>
-                  </ul>
-                </li>
-              <% elsif theme.level == 0 && theme.children != [] %>
-                <li><span class="caret"><%= theme.name %></span>
-                  <ul class="nested">
-                    <% theme.children.each do |subtheme| %>
-                      <li><span class="caret"><%= subtheme.name %></span>
-                        <ul class="nested">
-                          <% subtheme.contents.each do |content| %>
-                            <li><%= link_to "+ #{content.title}", training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true %></li>
-                          <% end %>
-                        </ul>
-                      </li>
-                    <% end %>
-                  </ul>
-                </li>
+          <% status = !params[:search].nil? %>
+          <%= simple_form_for :search, url: training_session_path(@session.training, @session), method: 'GET' do |f| %>
+            <%= f.input :title, placeholder: 'Search', label: false %>
+          <% end %>
+          <% if status %>
+            <ul id='myUL'>
+              <% (Content.where("lower(title) LIKE :query", query: "%#{params[:search][:title].downcase}%") + (Content.joins(:content_modules).where("lower(content_modules.title) LIKE :query", query:"%#{params[:search][:title].downcase}%"))).each do |content| %>
+                <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
+                  <li>+ <%= content.title %></li>
+                <% end %>
               <% end %>
-            <% end %>
-            <% pause = Content.where(title: 'Pause') %>
-            <% pausedej = Content.where(title: 'Pause Déjeuner') %>
-            <li><%= link_to 'Pause', training_session_workshops_path(@session.training, @session, content_id: pause.first.id), method: :post, remote: true %></li>
-            <li><%= link_to 'Pause Déjeuner', training_session_workshops_path(@session.training, @session, content_id: pausedej.first.id), method: :post, remote: true %></li>
-          </ul>
-          <br>
-          <ul id='myUL'>
-            <% @themes.each do |theme| %>
-              <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
-                <li><span class="caret"><%= theme.name %></span>
-                  <ul class="nested">
-                    <% theme.contents.each do |content| %>
-                      <li><%= link_to "+ #{content.title}", training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true %></li>
-                    <% end %>
-                  </ul>
-                </li>
+            </ul>
+          <% else %>
+            <ul id='myUL'>
+              <% Theme.walk_tree do |theme, level| %>
+                <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
+                  <li><span class="caret"><%= theme.name %></span>
+                    <ul class="nested">
+                      <% theme.contents.each do |content| %>
+                        <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
+                          <li>+ <%= content.title %></li>
+                        <% end %>
+                      <% end %>
+                    </ul>
+                  </li>
+                <% elsif theme.level == 0 && theme.children != [] %>
+                  <li><span class="caret"><%= theme.name %></span>
+                    <ul class="nested">
+                      <% theme.children.each do |subtheme| %>
+                        <li><span class="caret"><%= subtheme.name %></span>
+                          <ul class="nested">
+                            <% subtheme.contents.each do |content| %>
+                              <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
+                                <li>+ <%= content.title %></li>
+                              <% end %>
+                            <% end %>
+                          </ul>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </li>
+                <% end %>
               <% end %>
-            <% end %>
-          </ul>
+              <% pause = Content.where(title: 'Pause') %>
+              <% pausedej = Content.where(title: 'Pause Déjeuner') %>
+              <%= link_to training_session_workshops_path(@session.training, @session, content_id: pause.first.id), method: :post, remote: true do %>
+                <li>Pause</li>
+              <% end %>
+              <%= link_to training_session_workshops_path(@session.training, @session, content_id: pausedej.first.id), method: :post, remote: true do %>
+                <li>Pause Déjeuner</li>
+              <% end %>
+            </ul>
+            <br>
+            <ul id='myUL'>
+              <% @themes.each do |theme| %>
+                <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
+                  <li><span class="caret"><%= theme.name %></span>
+                    <ul class="nested">
+                      <% theme.contents.each do |content| %>
+                        <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
+                          <li>+ <%= content.title %></li>
+                        <% end %>
+                      <% end %>
+                    </ul>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          <% end %>
         </div>
         <script src="/javascript/plugins/tree.js" type="text/javascript"></script>
       </div>

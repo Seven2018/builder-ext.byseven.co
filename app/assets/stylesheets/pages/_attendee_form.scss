@@ -1,0 +1,58 @@
+.container-seven-form {
+  width: 100%;
+  min-width: 1080px;
+  min-height: 100vh;
+  padding: 50px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#attendee-form {
+  width: 500px;
+}
+
+#attendee-form-title {
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+#attendee-form-logo {
+  width: 50%;
+  display: inherit;
+  justify-content: space-around;
+}
+
+.session-form-row {
+  padding-left: 0 !important;
+  padding-bottom: 36px !important;
+  margin-left: 65px;
+  margin-right: 65px;
+}
+
+.session-form-card {
+  height: 300px;
+  width: 100%;
+  padding: 10px;
+  background-color: #595959;
+  color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.session-form-control {
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+
+  p {
+  }
+}
+
+#form-import {
+  margin-top: 100px;
+}

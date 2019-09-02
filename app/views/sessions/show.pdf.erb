@@ -7,21 +7,29 @@
     <p class="session-details-pdf">Client: <%= @session.training.client_contact.client_company.name %></p>
   </div>
   <br>
-    <% @session.workshops.each do |workshop| %>
-    <h3 class="content-details-pdf"><%= workshop.title %> (<em><%= workshop.duration %> min</em>)</h3>
-    <br>
-    <% workshop.workshop_modules.each do |mod| %>
-      <div class="module-card-pdf">
-        <h4><%= mod.title %> - <%= mod.duration %></h4>
-        <%= mod.instructions %>
-        <p class='logistics-pdf'>Logistique: <%= mod.logistics %></p>
+  <% time = @session.start_time %>
+  <% @session.workshops.each do |workshop| %>
+  <h3 class="content-details-pdf"><%= time.strftime("%H:%M") %> - <%= workshop.title %> (<em><%= workshop.duration %> min</em>)</h3>
+  <br>
+  <% workshop.workshop_modules.order('position ASC').each do |mod| %>
+    <div class="module-card-pdf" style='border: 1px solid black;padding: 0 15px;margin-bottom: 30px;'>
+      <h4><%= time.strftime("%H:%M") %> - <%= mod.title %> - <%= mod.duration %> min</h4>
+      <% time += mod.duration*60 %>
+      <%= mod.instructions.html_safe %>
+      <% unless mod.logistics.empty? %>
+        <p class='logistics-pdf'>Logistique: <%= mod.logistics.html_safe %></p>
+      <% end %>
+      <% unless mod.action1.nil? %>
         <p id='action-pdf'>Action: <%= mod.action1.name %></p>
-        <% unless mod.action2.nil? %>
-          <p id='action-pdf'>Action: <%= mod.action2.name %></p>
-        <% end %>
+      <% end %>
+      <% unless mod.action2.nil? %>
+        <p id='action-pdf'>Action: <%= mod.action2.name %></p>
+      <% end %>
+      <% unless mod.comments.empty? %>
         <p id='comments-pdf'>Commentaires: <%= mod.comments %></p>
-      </div>
-    <% end %>
-    <br>
-    <% end %>
+      <% end %>
+    </div>
+  <% end %>
+  <br>
+  <% end %>
 </div>

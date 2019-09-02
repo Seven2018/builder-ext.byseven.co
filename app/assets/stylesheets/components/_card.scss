@@ -373,6 +373,11 @@ $timeline: #115173;
   }
 }
 
+.card-controls {
+  display: flex;
+  width: 50px;
+}
+
 #card-index:hover {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.7);
   transition: 0.8s ease;
@@ -382,13 +387,13 @@ $timeline: #115173;
   box-shadow: none;
 }
 
-.btn-edit, .btn-edit-red {
+.btn-edit, .btn-edit-red, .btn-edit-green {
   opacity: 0.8;
   display: inline-block;
   padding: 0.45em 2em;
   border-radius: 0.22em;
   box-sizing: border-box;
-  font-family: 'Roboto',sans-serif;
+  // font-family: 'Roboto',sans-serif;
   font-weight: 600;
   color: white;
   text-align: center;
@@ -411,6 +416,10 @@ $timeline: #115173;
 
 .btn-edit-red {
     background-color: $red;
+}
+
+.btn-edit-green {
+    background-color: $green;
 }
 
 .edit-btn {

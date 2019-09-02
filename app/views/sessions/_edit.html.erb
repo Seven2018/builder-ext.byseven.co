@@ -7,22 +7,27 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [session.training, session] do |f| %>
-      <%= f.input :title, label: 'Titre' %>
+      <div class='mod-date'>
+        <%= f.input :title %>
+        <%= f.input :attendee_number, input_html: { min: 0, style: 'width:120px;', value: 0 }, label: 'Participants' %>
+      </div>
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
-        <%= f.input :duration, label: "Durée (heures)", input_html: { style: 'width:100px;' } %>
-        <%= f.input :start_time, label: 'Heure de début', as: :time, input_html: { class: 'timepicker'} %>
-        <%= f.input :end_time, label: 'Heure de fin', as: :time, input_html: { class: 'timepicker'} %>
+        <%= f.input :duration, label: "Duration (hours)", input_html: { style: 'width:120px;' } %>
+      </div>
+      <div class='mod-date'>
+        <%= f.input :start_time, label: 'Start time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('9:00') %>
+        <%= f.input :end_time, label: 'End time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('17:00') %>
       </div>
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">
     <div>
-      <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %>
-        <%= link_to training_session_path(session.training, session), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-          <button class="btn btn-edit">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        <% end %>
+      <%= link_to training_session_path(session.training, session), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+        <button class="btn btn-edit">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      <% end %>
+      <%= f.button :submit, 'Save', class: 'btn btn-edit' %>
       <% end %>
     </div>
   </div>

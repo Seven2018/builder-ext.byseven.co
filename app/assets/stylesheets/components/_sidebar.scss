@@ -13,6 +13,11 @@
   box-shadow: -3px 3px 5px rgba(0,0,0,0.7);
   height: 100%;
   width: 220px;
+  overflow: scroll;
+
+  div {
+    width: 220px;
+  }
 }
 .nav-side-menu .brand {
   background-color: #23282e;
@@ -34,7 +39,7 @@
   list-style: none;
   padding: 0px;
   margin: 0px;
-  line-height: 35px;
+  line-height: 25px;
   cursor: pointer;
   /*
     .collapsed{
@@ -93,7 +98,7 @@
   border-left: 3px solid #2e353d;
   border-bottom: 1px solid #23282e;
 }
-.nav-side-menu li a {
+.nav-side-menu a li {
   text-decoration: none;
   color: white;
   font-size: 12px;
@@ -160,4 +165,13 @@ body {
 .click-to-add {
   text-align: center;
   padding-top: 20px;
+}
+
+.menu-list > form {
+  width: 220px;
+  padding: 0 15px;
+
+  input {
+    width: 190px;
+  }
 }

@@ -1,0 +1,69 @@
+<div class="container-seven-form">
+  <div id='attendee-form-logo'>
+    <%= image_tag "SEVENLOGO_SQUARE2.png", size: '150x150' %>
+    <img src="<%= @training.client_contact.client_company.logo %>" alt="" width='150' height='150'>
+  </div>
+  <div id='attendee-form'>
+    <% status = !params[:search].nil? %>
+    <div id="attendee-form-title">
+      <h3>Formulaire d'inscription</h3>
+      <h4><%= @training.title %></h4>
+      <p>Du <%= @training.start_date.strftime('%d/%m/%y') %> au <%= @training.end_date.strftime('%d/%m/%y') %></p>
+    </div>
+    <%= simple_form_for :search, url: training_attendees_form_path(@training), method: 'GET' do |f| %>
+      <% if (status && !Attendee.where(email: params[:search][:email]).empty?) || (params[:attendee] && Attendee.find(params[:attendee].to_i)) %>
+        <% attendee = Attendee.find(params[:attendee].to_i) if params[:attendee] %>
+        <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
+        <div style='display:flex;justify-content:space-around;'>
+          <%= f.input :firstname, label: 'Prénom', input_html: { value: attendee.firstname}, disabled: true, required: false %>
+          <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname}, disabled: true, required: false %>
+        </div>
+        <div style='display:flex;justify-content:space-around;'>
+          <%= f.input :employee_id, label: 'ID interne', input_html: { value: attendee.employee_id }, disabled: true, required: false %>
+          <%= f.input :email, input_html: { value: attendee.email }, disabled: true, required: false %>
+        </div>
+        <p class="center-button"> <%= f.submit 'Retour', class: 'btn btn-edit' %> </p>
+      <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
+        <% controller.redirect_to new_attendee_path(training_id: @training.id, email: params[:search][:email]) %>
+      <% else %>
+        <%= f.input :email, label: 'Adresse email' %>
+        <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit' %> </p>
+      <% end %>
+    <% end %>
+  </div>
+  <% if !@sessions.nil? && ((params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || (params[:attendee] && !Attendee.find(params[:attendee].to_i).nil?)) %>
+    <div class='container'>
+      <div class="row session-form-row">
+        <% @sessions.each do |session| %>
+          <div class="col-xs-12 col-sm-4">
+            <div class="session-form-card center-button">
+              <h5><%= session.title %></h5>
+              <h5><%= session.date.strftime('%d/%m/%y') %></h5>
+              <% if (params[:search] && session.attendees.where(email: params[:search][:email]).empty?) || (params[:attendee] && session.attendees.where(email: Attendee.find(params[:attendee].to_i).email).empty?) %>
+                <div class='session-form-control'>
+                  <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session.id, attendee_id: @attendee.id), method: :post, class: 'btn btn-edit-green' %>
+                  <p>Cliquez pour vous inscrire</p>
+                </div>
+              <% else %>
+                <div class='session-form-control'>
+                  <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session.id, attendee_id: @attendee.id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session.title}. Continer ?"}, class: 'btn btn-edit-red' %>
+                  <p>Vous êtes déjà inscrit à cette session</p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
+    <% flash[:notice] = "Aucun compte ne correspond à l'adresse email renseignée" %>
+  <% end %>
+  <div id="form-import">
+    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+      <%= form_tag import_attendees_path, multipart: true do %>
+        <%= file_field_tag :file %>
+        <%= submit_tag 'Import CSV' %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

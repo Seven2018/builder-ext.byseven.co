@@ -30,8 +30,10 @@ Rails.application.routes.draw do
         resources :workshop_modules
       end
       resources :session_trainers, only: [:create, :destroy], path: '/trainers'
+      resources :session_attendees, only: [:create, :destroy]
       resources :comments
     end
+    get 'attendees/form', to: 'attendees#form', as: 'attendees_form'
     resources :training_ownerships, only: [:create, :destroy], path: '/owners'
   end
   get 'trainings_week', to: 'trainings#index_week', as: "index_week"
@@ -42,7 +44,11 @@ Rails.application.routes.draw do
   get 'workshop_viewer/:id', to: 'workshops#viewer', as: 'workshop_viewer'
   get 'workshop_module/:id/move_up', to: "workshop_modules#move_up", as: "move_up_workshop_module"
   get 'workshop_module/:id/move_down', to: "workshop_modules#move_down", as: "move_down_workshop_module"
+  get 'workshop/:id/move_up', to: "workshops#move_up", as: "move_up_workshop"
+  get 'workshop/:id/move_down', to: "workshops#move_down", as: "move_down_workshop"
   get 'workshop_module_viewer/:id', to: 'workshop_modules#viewer', as: 'workshop_module_viewer'
   get 'content_module/:id/move_up', to: 'content_modules#move_up', as: 'move_up_content_module'
   get 'content_module/:id/move_down', to: 'content_modules#move_down', as: 'move_down_content_module'
+  post 'attendees/import', to: 'attendees#import', as: 'import_attendees'
+  resources :attendees, only: [:new, :create]
 end

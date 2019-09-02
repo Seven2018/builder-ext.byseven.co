@@ -1,9 +1,9 @@
 <div class="container-seven">
-  <h2>Ajouter une intelligence</h2>
+  <h2>Add a intelligence type</h2>
 
   <%= simple_form_for @intelligence do |f| %>
     <%= f.input :name %>
     <%= f.input :description, :input_html => {:rows => 10} %>
-    <p class="center-button"> <%= f.button :submit, 'Sauvegarder', class: 'btn-edit' %> </p>
+    <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn-edit' %> </p>
   <% end %>
 </div>

@@ -1,18 +1,22 @@
 <div class="container-seven">
-  <h2>Ajouter un module</h2>
+  <h2>Add a module</h2>
 
   <%= simple_form_for [@content, @content_module] do |f| %>
-    <%= f.input :title, label: 'Titre' %>
+    <%= f.input :title %>
     <%= f.input :instructions, input_html: { class: 'editor' } %>
-    <%= f.input :duration, label: 'Durée (min)' %>
+    <%= f.input :duration, label: 'Duration (min)' %>
     <%= f.input :url1 %>
     <%= f.input :url2 %>
     <%= f.input :image1 %>
     <%= f.input :image2 %>
     <%= f.input :logistics, input_html: { class: 'editor2', style: 'width:100%;' } %>
-    <%= f.input :action1_id, collection: Action.all, allow_blank: false, include_blank: false, label: 'Action participant 1' %>
-    <%= f.input :action2_id, collection: Action.all, label: 'Action participant 2' %>
-    <%= f.input :comments, input_html: { style: 'width:100%;' }, label: 'Commentaires' %>
+    <%= f.input :action1_id, collection: Action.all, allow_blank: false, include_blank: false, label: 'Action 1' %>
+    <script>
+      button = document.getElementById('update')
+      button.addEventListener('click', )
+    </script>
+    <%= f.input :action2_id, collection: Action.all, label: 'Action 2' %>
+    <%= f.input :comments, input_html: { style: 'width:100%;' } %>
     <script>
       ClassicEditor
               .create( document.querySelector( '.editor' ), {
@@ -35,6 +39,6 @@
                       console.error( error );
               } );
     </script>
-    <p class="center-button"> <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %> </p>
+    <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit' %> </p>
   <% end %>
 </div>

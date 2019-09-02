@@ -23,9 +23,12 @@ a {
 }
 
 .container-new-form {
-  padding: 85px 500px;
+  margin-left: 220px;
+  width: 100%;
+  min-width: 1080px;
+  min-height: 100vh;
+  padding: 85px 400px;
   background-color: white;
-  height: 100vh;
 }
 
 .tab-pane .row {

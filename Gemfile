@@ -29,6 +29,9 @@ gem 'google-api-client', '~> 0.11'
 gem 'google_drive'
 gem 'datagrid'
 gem 'image_processing'
+gem 'invisible_captcha'
+gem 'material_design_lite-sass'
+gem 'wkhtmltopdf-heroku', '2.12.5.0'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
