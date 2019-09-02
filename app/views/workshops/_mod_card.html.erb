@@ -22,6 +22,22 @@
             <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?'}, remote: true do %>
               <button class='btn'><i class="fas fa-trash-alt"></i></button>
             <% end %>
+            <div style='display:flex;flex-direction:column;'>
+              <% if mod.position == 1 %>
+                <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
+              <% else %>
+                <%= link_to move_up_workshop_path(mod), remote: true do %>
+                  <i class="fas fa-arrow-up"></i>
+                <% end %>
+              <% end %>
+              <% if mod.position ==  @session.workshops.count %>
+                <a href=""><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
+              <% else %>
+                <%= link_to move_down_workshop_path(mod), remote: true do %>
+                  <i class="fas fa-arrow-down"></i>
+                <% end %>
+              <% end %>
+            </div>
           </div>
         </div>
       <% end %>

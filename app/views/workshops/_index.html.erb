@@ -1,4 +1,9 @@
 <div id="items">
+      <% array = [] %>
+    <% session.workshops.order('position ASC').each do |mod| %>
+      <% array << mod %>
+      <% mod.update(position: (array.index(mod) + 1)) %>
+    <% end %>
   <% if session.workshops.empty? %>
     <div class="empty-mod">
       <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
@@ -10,10 +15,7 @@
       <% end %>
     </div>
   <% else %>
-    <% array = [] %>
-    <% session.workshops.each do |mod| %>
-      <% array << mod %>
-      <% mod.update(position: (array.index(mod) + 1)) %>
+    <% session.workshops.order('position ASC').each do |mod| %>
       <% if mod.position == 1 %>
         <% @start = session.start_time %>
       <% else %>

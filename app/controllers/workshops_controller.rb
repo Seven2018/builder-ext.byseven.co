@@ -1,5 +1,5 @@
 class WorkshopsController < ApplicationController
-  before_action :set_module, only: [:show, :edit, :update, :destroy, :move, :save, :viewer]
+  before_action :set_module, only: [:show, :edit, :update, :destroy, :move, :move_up, :move_down, :save, :viewer]
 
   def show
     authorize @workshop
@@ -73,14 +73,54 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  def move
+  def move_up
     authorize @workshop
     @session = @workshop.session
-    if @workshop.insert_at(params[:position].to_i)
-    else
-      raise
+    array = []
+    @session.workshops.order('position ASC').each do |workshop|
+      array << workshop
+    end
+    unless @workshop.position == 1
+      array.insert((@workshop.position - 2), array.delete_at(@workshop.position - 1))
+    end
+    array.compact.each do |workshop|
+      workshop.update(position: array.index(workshop) + 1)
+    end
+    @workshop.save
+    respond_to do |format|
+      format.html {redirect_to training_session_path(@workshop.session.training, @workshop.session)}
+      format.js
     end
   end
+
+  def move_down
+    authorize @workshop
+    @session = @workshop.session
+    array = []
+    @session.workshops.order('position ASC').each do |workshop|
+      array << workshop
+    end
+    unless @workshop.position == array.compact.count
+      array.insert((@workshop.position), array.delete_at(@workshop.position - 1))
+    end
+    array.compact.each do |workshop|
+      workshop.update(position: array.index(workshop) + 1)
+    end
+    @workshop.save
+    respond_to do |format|
+      format.html {redirect_to training_session_path(@workshop.session.training, @workshop.session)}
+      format.js
+    end
+  end
+
+  # def move
+  #   authorize @workshop
+  #   @session = @workshop.session
+  #   if @workshop.insert_at(params[:position].to_i)
+  #   else
+  #     raise
+  #   end
+  # end
 
   def viewer
     authorize @workshop
