@@ -1,3 +1,8 @@
+h3, p {
+  margin: 0;
+  padding: 0;
+}
+
 #body-pdf {
   background-color: white;
 }
@@ -80,8 +85,17 @@ p.logistics-pdf {
   height: 100px !important;
 }
 
+#header-body-pdf {
+  position: relative;
+}
+
 .invoice-client {
-  margin-top: 50px;
+  margin-top: 70px;
+  margin-left: 650px;
+  // margin-right: 50px;
+  border: 1px solid black;
+  padding: 10px;
+  width: auto;
 }
 
 .invoice-header-number-pdf {
@@ -91,7 +105,7 @@ p.logistics-pdf {
 }
 
 .invoice-desc-headline-pdf {
-  display: inline-block;
+  display: inline;
   border-bottom: 2px solid black;
 
   p, div, div > p {
@@ -103,7 +117,6 @@ p.logistics-pdf {
 
   div > p {
     margin-left: 50px;
-    width: 70px;
     text-align: right;
   }
 }
@@ -119,18 +132,26 @@ p.logistics-pdf {
   }
 
   div > p {
+    width: 50px;
     margin-left: 50px;
-    width: 70px;
     text-align: right;
   }
 }
 
-.invoice-desc-line-pretaxamount {
-  width: 100px !important;
+// .invoice-desc-line-pretaxamount {
+//   width: 100px !important;
+// }
+
+.invoice-desc-headline-description-pdf {
+  margin-right: 335px;
 }
 
 .invoice-desc-line-description-pdf {
-  width: 365px;
+  width: 420px;
+  margin-right: 0px;
+}
+
+.invoice-desc-line-data-pdf {
 }
 
 .invoice-total-pdf {
