@@ -1,4 +1,24 @@
 .simple-calendar {
+
+  @media screen and (max-width: 640px) {
+    table {
+    width:100%;
+    }
+    thead {
+    display: none;
+    }
+    tbody td {
+       display: block;
+       text-align:center;
+       width:100%;
+    }
+
+    .simple-calendar .day {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
   table {
     -webkit-border-horizontal-spacing: 0px;
     -webkit-border-vertical-spacing: 0px;
@@ -29,20 +49,21 @@
     padding: 6px;
     vertical-align: top;
     width: 14%;
+    border: 1px solid black !important
 
-    border: 1px solid #ddd;
-    border-top-color: rgb(221, 221, 221);
-    border-top-style: solid;
-    border-top-width: 1px;
-    border-right-color: rgb(221, 221, 221);
-    border-right-style: solid;
-    border-right-width: 1px;
-    border-bottom-color: rgb(221, 221, 221);
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-left-color: rgb(221, 221, 221);
-    border-left-style: solid;
-    border-left-width: 1px;
+    // border: 1px solid #ddd !important;
+    // border-top-color: rgb(221, 221, 221);
+    // border-top-style: solid;
+    // border-top-width: 1px;
+    // border-right-color: rgb(221, 221, 221);
+    // border-right-style: solid;
+    // border-right-width: 1px;
+    // border-bottom-color: rgb(221, 221, 221);
+    // border-bottom-style: solid;
+    // border-bottom-width: 1px;
+    // border-left-color: rgb(221, 221, 221);
+    // border-left-style: solid;
+    // border-left-width: 1px;
   }
 
   .day {
@@ -69,6 +90,11 @@
   .prev-month {
     background: #DDD;
   }
+
+  .day.prev-month {
+
+  }
+
   .next-month {
     background: #DDD;
   }

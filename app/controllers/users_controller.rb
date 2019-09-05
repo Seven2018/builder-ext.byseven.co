@@ -2,7 +2,11 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
 
   def index
-    @users = policy_scope(User).order(:lastname)
+    if params[:search]
+      @users = (policy_scope(User).where('lower(firstname) LIKE ?', "%#{params[:search][:name].donwcase}%") + policy_scope(User).where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%")).order(:lastname)
+    else
+      @users = policy_scope(User).order(:lastname)
+    end
   end
 
   def show

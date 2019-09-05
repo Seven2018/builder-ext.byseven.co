@@ -1,19 +1,30 @@
-<div class="container-seven">
-  <div class='flex-title'>
-    <h2>Liste des théories</h2>
-    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <%= link_to new_theory_path do %>
-        <i class="fas fa-plus"></i>
-      <% end %>
-    <% end %>
-  </div>
-  <ul>
-    <% @theories.each do |theory| %>
-      <li><%= link_to theory.name, theory_path(theory) %>
-        <%= link_to edit_theory_path(theory) do %>
-          <i class="fas fa-edit"></i>
+<div class="container-seven container-seven-centered">
+  <div id='theory-index'>
+    <div id="theory-index-controls">
+      <h2>Theories List</h2>
+      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+        <%= link_to new_theory_path do %>
+          <button class="btn btn-edit">New Theory</button>
         <% end %>
-       </li>
-    <% end %>
-  </ul>
+      <% end %>
+    </div>
+    <ul class='theory-list'>
+      <% @theories.each do |theory| %>
+        <li>
+          <%= link_to theory_path(theory) do %>
+            <div class="theory-card">
+              <div class="theory-card-infos">
+                <p><%= theory.name %></p>
+                <div class="theory-contents">
+                  <% theory.contents.order(:title).each do |content| %>
+                    <p><%= content.title %></p>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+         </li>
+      <% end %>
+    </ul>
+  </div>
 </div>

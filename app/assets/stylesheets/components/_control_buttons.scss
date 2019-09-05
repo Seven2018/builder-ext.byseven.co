@@ -71,12 +71,19 @@
 }
 
 .edit-fafa {
+  display: none;
   border: none;
   font-size: 20px;
   outline: none;
   color: black;
+  background-color: white;
   &:hover {
     color: black;
     cursor: pointer;
   }
+
+  @include from-large {
+    display: inline;
+  }
 }
+

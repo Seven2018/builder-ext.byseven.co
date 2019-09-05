@@ -14,7 +14,7 @@ gem 'wicked_pdf', '~> 1.1'
 gem 'wkhtmltopdf-binary'
 
 gem 'autoprefixer-rails'
-gem 'bootstrap-sass', '~> 3.3'
+# gem 'bootstrap-sass', '~> 3.3'
 gem 'font-awesome-sass', '~> 5.5.0'
 gem 'sassc-rails'
 gem 'simple_form'
@@ -29,7 +29,8 @@ gem 'google_drive'
 gem 'datagrid'
 gem 'image_processing'
 gem 'invisible_captcha'
-gem 'material_design_lite-sass'
+gem 'bootstrap',     '4.1.1'
+gem 'material-sass', git: 'https://github.com/bricechapuis/material-sass'
 gem 'wkhtmltopdf-heroku', '2.12.5.0'
 
 gem 'dotenv-rails', groups: [:development, :test]

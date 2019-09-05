@@ -1,0 +1,10 @@
+.action-infos {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 25px;
+
+  p:last-child {
+    color: rgba(0,0,0,0.6);
+  }
+}

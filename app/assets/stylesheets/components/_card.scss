@@ -9,7 +9,7 @@ $timeline: #115173;
   border: 1px solid #e0e0e0;
   font-family: 'Roboto';
   font-weight: lighter;
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: none !important;
   background-color: white;
   transition: all 0.8s ease;
   a {
@@ -66,6 +66,20 @@ $timeline: #115173;
   }
 }
 
+.card-sm-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 640px) {
+  .card-sm-mobile {
+    display: block !important;
+  }
+
+  .card-sm {
+    display: none;
+  }
+}
+
 .sessions-cards {
   a {
     text-decoration: none;
@@ -75,7 +89,6 @@ $timeline: #115173;
 .client-logo {
   height: 50px;
   width: 50px;
-  border-radius: 100%;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -128,7 +141,7 @@ $timeline: #115173;
 
 .card-lg {
   background-color: white;
-  width: 80%;
+  width: 100%;
   height: auto;
   box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
   margin: 0 auto;
@@ -168,6 +181,7 @@ $timeline: #115173;
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin-bottom: 20px;
 
     h3 {
       margin: 0;
@@ -204,12 +218,17 @@ $timeline: #115173;
     }
   }
   .card-left {
-    flex-shrink: 0;
     border-right-style: solid;
     border-right-color: $timeline;
     border-right-width: 4px;
     width: 150px;
     position: relative;
+    display: none;
+
+    @include from-large {
+      display: flex;
+      flex-shrink: 0;
+    }
   }
   .mod-time {
     display: flex;
@@ -223,12 +242,9 @@ $timeline: #115173;
     font-size: 23px;
   }
   .card-right {
-    width: 700px;
+    width: 100%;
     box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
-    padding-right: 40px;
-    padding-left: 40px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 10px;
     margin-left: 25px;
     margin-right: 25px;
     margin-top: 20px;
@@ -242,6 +258,14 @@ $timeline: #115173;
       font-weight: 300;
       letter-spacing: 0.6px;
       line-height: 1.6;
+    }
+
+    @include from-large {
+      width: 700px;
+      padding-right: 40px;
+      padding-left: 40px;
+      padding-top: 20px;
+      padding-bottom: 20px;
     }
   }
   .grabbable {
@@ -362,20 +386,33 @@ $timeline: #115173;
 
 .card-category {
   display: flex;
-  justify-content: left;
-  align-items: center;
-  i {
-    padding-bottom: 20px;
-  }
+  justify-content: space-between;
+
   h4{
     text-align: left;
-    padding-bottom: 16px;
+    font-size: 16px;
+
+    @include from-large {
+      font-size: 20px;
+      padding-bottom: 16px;
+    }
   }
 }
 
 .card-controls {
   display: flex;
-  width: 50px;
+  flex-direction: column;
+
+  .btn {
+    width: auto;
+    min-width: 16px;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  a {
+    padding-bottom: 10px;
+  }
 }
 
 #card-index:hover {
@@ -387,15 +424,18 @@ $timeline: #115173;
   box-shadow: none;
 }
 
+input.btn {
+  margin-bottom: 10px !important;
+}
+
 .btn-edit, .btn-edit-red, .btn-edit-green {
   opacity: 0.8;
   display: inline-block;
   padding: 0.45em 2em;
   border-radius: 0.22em;
   box-sizing: border-box;
-  // font-family: 'Roboto',sans-serif;
-  font-weight: 600;
-  color: white;
+  font-weight: 800 !important;
+  color: white !important;
   text-align: center;
   transition: all 0.1s;
   outline: none !important;
@@ -404,22 +444,20 @@ $timeline: #115173;
   }
   &:hover{
     opacity: 1;
-    font-weight: 600;
-    color: white;
     text-decoration: none !important;
   }
 }
 
 .btn-edit {
-  background-color: $yellow;
+  background-color: $yellow !important;
 }
 
 .btn-edit-red {
-    background-color: $red;
+    background-color: $red !important;
 }
 
 .btn-edit-green {
-    background-color: $green;
+    background-color: $green !important;
 }
 
 .edit-btn {
@@ -434,7 +472,6 @@ $timeline: #115173;
 
 #new-training {
   font-size: 20px;
-  margin-right: 15px;
 }
 
 #edit-btn {
@@ -461,6 +498,7 @@ $timeline: #115173;
 }
 .center-button {
   text-align: center;
+  margin-top: 30px;
 }
 
 .empty-mod {

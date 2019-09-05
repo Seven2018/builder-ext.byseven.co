@@ -1,3 +1,11 @@
+h2{
+  font-size: 24px !important;
+
+  @include from-large {
+    font-size: 34px !important;
+  }
+}
+
 p {
   margin: 0;
   font-size: 16px;
@@ -6,4 +14,9 @@ p {
 
 a {
   font-family: 'Open Sans' !important;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
 }

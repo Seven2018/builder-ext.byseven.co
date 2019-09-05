@@ -1,5 +1,5 @@
 <div class="container-seven" style="background-color: white">
-  <h3 style="text-align: left;"><%= "Dashboard" %></h3>
+  <h3 style="text-align: left;"><%= "Trainings Dashboard" %></h3>
   <div class="trainings-title">
     <ul class="nav nav-tabs">
       <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) %>
@@ -10,7 +10,9 @@
       <li><%= link_to "Calendar", index_week_path %></li>
     </ul>
     <div class="new-training">
-      <%= link_to 'New training', new_training_path, id: "new-training", class: "btn btn-edit" %>
+      <%= link_to new_training_path, id: "new-training" do %>
+        <button class="btn btn-edit">New Training</button>
+      <% end %>
     </div>
   </div>
   <div class="tab-content">

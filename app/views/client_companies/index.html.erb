@@ -1,34 +1,42 @@
-<div class="container-seven">
-  <h2>Customers List</h2>
-  <ul class='client-company-list'>
-    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <li>
-        <%= link_to new_client_company_path do %>
-          <div class="client-company-card">
-            <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
-            <div>
-              <p>Add a new company</p>
-              <p></p>
+<div class="container-seven container-seven-centered">
+  <div>
+    <div id="client-company-controls">
+      <h2>Customers List</h2>
+      <%= simple_form_for :search, url: client_companies_path, method: 'GET' do |f| %>
+        <%= f.input :name, placeholder: 'Search', label: false %>
+      <% end %>
+    </div>
+    <ul class='client-company-list'>
+      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level && params[:search].nil? %>
+        <li>
+          <%= link_to new_client_company_path do %>
+            <div class="client-company-card">
+              <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
+              <div class="client-company-type-address">
+                <p>Add a new company</p>
+                <p></p>
+              </div>
             </div>
-          </div>
-        <% end %>
-      </li>
-    <% end %>
-    <% @client_companies.each do |company| %>
-      <li>
-        <%= link_to client_company_path(company) do %>
-          <div class="client-company-card">
-            <div class='client-company-name-logo'>
-              <img class='client-company-logo-index' src='<%= "#{company.logo}" %>'>
-              <p><%= company.name %></p>
+          <% end %>
+        </li>
+      <% end %>
+      <% @client_companies.each do |company| %>
+        <li>
+          <%= link_to client_company_path(company) do %>
+            <div class="client-company-card">
+              <div class='client-company-name-logo'>
+                <img class='client-company-logo-index' src='<%= "#{company.logo}" %>'>
+              </div>
+              <div class="client-company-type-address">
+                <p><%= company.name %></p>
+                <% company.address.split(',').each do |el| %>
+                  <p><%= el %></p>
+                <% end %>
+              </div>
             </div>
-            <div class="client-company-type-address">
-              <p><%= company.client_company_type %></p>
-              <p><%= company.address %></p>
-            </div>
-          </div>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>

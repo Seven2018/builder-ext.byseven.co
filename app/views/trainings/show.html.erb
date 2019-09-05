@@ -4,7 +4,7 @@
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <div>
+      <div class="training-info-headers-buttons">
         <%= link_to new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post do %>
           <button class="btn btn-edit">Create an estimate</button><% end %>
         <% if @training.end_date >= Date.today %>
@@ -29,28 +29,28 @@
   <div class="middle-info">
     <div class='middle-info-main'>
       <h3><%= @training.title %>    <a class="edit-fafa" data-toggle='modal' data-target='#editTraining'><i class="fas fa-edit"></i></a></h3>
-      <h4><%="From #{@training.start_date.strftime('%d/%m/%y')} to #{@training.end_date.strftime('%d/%m/%y')}" %>
     </div>
-      <div style="display: flex;align-items: center;justify-content: space-between;">
-        <ul id="owner">
-          <% @training.users.each do |user| %>
-          <li>
-            <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
-          </li>
-          <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document" style="border-radius: 20px">
-              <%= render 'users/consult', user: user %>
-            </div>
+    <div style="display: flex;align-items: center;justify-content: space-between;">
+      <ul id="owner">
+        <% @training.users.each do |user| %>
+        <li>
+          <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+        </li>
+        <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document" style="border-radius: 20px">
+            <%= render 'users/consult', user: user %>
           </div>
-          <% end %>
-        </ul>
-        <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-          <button class='user-fafa' data-toggle='modal' data-target='#newOwner'><i class="fas fa-user-plus"></i></button>
-          <button class='user-fafa' data-toggle='modal' data-target='#destroyOwner'><i class="fas fa-user-minus"></i></button>
+        </div>
         <% end %>
-      </div>
+      </ul>
+      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+        <button class='user-fafa' data-toggle='modal' data-target='#newOwner'><i class="fas fa-user-plus"></i></button>
+        <button class='user-fafa' data-toggle='modal' data-target='#destroyOwner'><i class="fas fa-user-minus"></i></button>
+      <% end %>
+    </div>
   </div>
   <div class="training-info">
+    <h4><%="From #{@training.start_date.strftime('%d/%m/%y')} to #{@training.end_date.strftime('%d/%m/%y')}" %></h4>
     <% session_number = 0 %>
     <div class="sessions-cards">
       <% @training.sessions.order(:date).each do |session| %>

@@ -6,7 +6,7 @@
   <% exceed << mod.position if (total_duration * 60) > (mod.session.end_time - mod.session.start_time) %>
 <% end %>
 <div class="card card-mods grabbable" data-item-id="<%= mod.id %>">
-  <div class="card-left align-elements-in-flexbox grabbable">
+  <div class="card-left">
     <div class="mod-time">
       <%= start.strftime("%H:%M") %>
       <div class="circle"></div>
@@ -15,30 +15,37 @@
   <div class="card-right grabbable">
     <div class="card-category">
       <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), class: 'grabbable' do %>
-        <div style='display:flex;justify-content:space-between;width:100%;'>
+        <div>
           <h4><%= "#{mod.title} - (#{mod.duration} min)" %></h4>
-          <div class='card-controls'>
-            <a class="button" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>'><button class='btn'><i class="fas fa-edit"></i></button></a>
-            <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?'}, remote: true do %>
-              <button class='btn'><i class="fas fa-trash-alt"></i></button>
-            <% end %>
-            <div style='display:flex;flex-direction:column;'>
-              <% if mod.position == 1 %>
-                <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
-              <% else %>
-                <%= link_to move_up_workshop_path(mod), remote: true do %>
-                  <i class="fas fa-arrow-up"></i>
-                <% end %>
+          <div class="card-description grabbable">
+            <ul>
+              <% mod.workshop_modules.order('position ASC').compact.each do |workmod| %>
+                <li>
+                  <%= workmod.title %>
+                </li>
               <% end %>
-              <% if mod.position ==  @session.workshops.count %>
-                <a href=""><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
-              <% else %>
-                <%= link_to move_down_workshop_path(mod), remote: true do %>
-                  <i class="fas fa-arrow-down"></i>
-                <% end %>
-              <% end %>
-            </div>
+            </ul>
           </div>
+        </div>
+        <div class='card-controls'>
+          <a class="button" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>'><button class='btn'><i class="fas fa-edit"></i></button></a>
+          <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?'}, remote: true do %>
+            <button class='btn'><i class="fas fa-trash-alt"></i></button>
+          <% end %>
+          <% if mod.position == 1 %>
+            <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
+          <% else %>
+            <%= link_to move_up_workshop_path(mod), remote: true do %>
+              <i class="fas fa-arrow-up"></i>
+            <% end %>
+          <% end %>
+          <% if mod.position ==  @session.workshops.count %>
+            <a href=""><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
+          <% else %>
+            <%= link_to move_down_workshop_path(mod), remote: true do %>
+              <i class="fas fa-arrow-down"></i>
+            <% end %>
+          <% end %>
         </div>
       <% end %>
       <% if @error %>
@@ -47,15 +54,6 @@
       <% if exceed.include?(mod.position) %>
         <p class='error'>Durée de la session dépassée</p>
       <% end %>
-    </div>
-    <div class="card-description grabbable">
-      <ul>
-        <% mod.workshop_modules.order('position ASC').compact.each do |workmod| %>
-          <li>
-            <%= workmod.title %>
-          </li>
-        <% end %>
-      </ul>
     </div>
   </div>
 </div>

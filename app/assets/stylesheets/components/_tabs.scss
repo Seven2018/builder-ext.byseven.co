@@ -1,16 +1,25 @@
 .nav-tabs {
   border-bottom: none;
   list-style-type: none !important;
+  box-shadow: none !important;
+}
+
+.nav-tabs > li {
+  margin-bottom: 10px;
 }
 
 .nav-tabs > li > a {
   padding-left: 0;
   padding-right: 0;
-  margin-left: 15px;
-  margin-right: 15px;
   color: black;
-  font-size: 20px;
+  font-size: 14px;
   text-decoration: none;
+
+  @include from-large {
+    margin-left: 15px;
+    margin-right: 15px;
+    font-size: 20px;
+  }
 }
 
 .nav-tabs > li > a.active {
@@ -27,3 +36,16 @@
   border-bottom: 4px solid rgba(255, 193, 92, 0.7);
 }
 
+@media screen and (max-width: 600px) {
+  .calendar-tabs {
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+
+  .calendar-tabs-div {
+    justify-content: center !important;
+    margin-bottom: 20px;
+  }
+}

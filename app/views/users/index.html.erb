@@ -1,34 +1,41 @@
-<div class="container-seven">
-  <h2>Liste des utilisateurs</h2>
-  <ul class="client-contact-list">
-    <% if current_user.access_level == 'super admin' %>
-      <li>
-        <%= link_to new_user_path do %>
-          <div class="client-company-card">
-            <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
-            <div>
-              <p>Add a new user</p>
-              <p></p>
-            </div>
-          </div>
-        <% end %>
-      </li>
-    <% end %>
-    <% @users.each do |user| %>
-      <li>
-        <%= link_to user_path(user) do %>
-          <div class="client-contact-card user-contact-card">
-            <img class='client-company-logo-index' src='<%= "#{user.picture}" %>'>
-            <div>
-              <p><%= "#{user.firstname} #{user.lastname}" %></p>
+<div class="container-seven container-seven-centered">
+  <div>
+    <div id="client-company-controls">
+      <h2>Users list</h2>
+      <%= simple_form_for :search, url: users_path, method: 'GET' do |f| %>
+        <%= f.input :name, placeholder: 'Search', label: false %>
+      <% end %>
+    </div>
+    <ul class="client-contact-list">
+      <% if current_user.access_level == 'super admin' %>
+        <li>
+          <%= link_to new_user_path do %>
+            <div class="client-company-card">
+              <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
               <div>
-                <p><%= user.email %></p>
-                <p><%= user.access_level %></p>
+                <p>Add a new user</p>
+                <p></p>
               </div>
             </div>
-          </div>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+          <% end %>
+        </li>
+      <% end %>
+      <% @users.each do |user| %>
+        <li>
+          <%= link_to user_path(user) do %>
+            <div class="client-contact-card user-contact-card">
+              <img class='client-company-logo-index' src='<%= "#{user.picture}" %>'>
+              <div class="client-company-type-address">
+                <p><%= "#{user.firstname} #{user.lastname}" %></p>
+                <div>
+                  <p><%= user.email %></p>
+                  <p><%= user.access_level %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>

@@ -1,6 +1,11 @@
 .nav-side-menu-container {
   height: 100vh;
   min-width: 220px;
+  display: none;
+
+  @include from-large {
+    display: block;
+  }
 }
 
 .nav-side-menu {

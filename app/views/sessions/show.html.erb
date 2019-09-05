@@ -14,40 +14,41 @@
     </div>
     <div class="middle-info">
       <div class="middle-info-main">
-        <h3><%= @session.title %></h3>
-        <div style="display: flex;align-items: center;justify-content: left;">
+        <h3 id='session-title'><%= @session.title %>
           <button class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-edit"></i></button>
           <%= link_to session_viewer_path(@session) do %>
-            <i class="far fa-eye"></i></a>
+            <button class="edit-fafa"><i class="far fa-eye"></i></button>
           <% end %>
-        </div>
-        <% if @session.start_time && @session.end_time %>
-          <h4><%= "#{@session.date.strftime("%d/%m/%y")}" %>
-            <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
-            <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
-            <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.end_time.min.to_s.length == 1 %>
-            <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.end_time.min.to_s.length == 2 %>
-          </h4>
-        <% end %>
-      </div>
-      <div style="display: flex;align-items: center;justify-content: space-between;">
-        <ul id="owner">
-          <% @session.users.each do |user| %>
-            <li>
-              <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
-            </li>
-            <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog" role="document" style="border-radius: 20px">
-                <%= render 'users/consult', user: user %>
+        </h3>
+        <div style="display: flex;align-items: center;justify-content: space-between;">
+          <ul id="owner">
+            <% @session.users.each do |user| %>
+              <li>
+                <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+              </li>
+              <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document" style="border-radius: 20px">
+                  <%= render 'users/consult', user: user %>
+                </div>
               </div>
-            </div>
-          <% end %>
-        </ul>
-          <% if (['super admin', 'admin'].include? current_user.access_level) || (@session.training.users.include? current_user) %>
-            <button class='user-fafa' data-toggle='modal' data-target='#newUser'><i class="fas fa-user-plus"></i></button>
-            <button class='user-fafa' data-toggle='modal' data-target='#destroyUser'><i class="fas fa-user-minus"></i></button>
-          <% end %>
+            <% end %>
+          </ul>
+            <% if (['super admin', 'admin'].include? current_user.access_level) || (@session.training.users.include? current_user) %>
+              <button class='user-fafa' data-toggle='modal' data-target='#newUser'><i class="fas fa-user-plus"></i></button>
+              <button class='user-fafa' data-toggle='modal' data-target='#destroyUser'><i class="fas fa-user-minus"></i></button>
+            <% end %>
+        </div>
       </div>
+    </div>
+    <div class="training-info">
+      <% if @session.start_time && @session.end_time %>
+        <h4><%= "#{@session.date.strftime("%d/%m/%y")}" %>
+          <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
+          <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
+          <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.end_time.min.to_s.length == 1 %>
+          <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.end_time.min.to_s.length == 2 %>
+        </h4>
+      <% end %>
     </div>
     <div id="mods" style="min-height: 70vh;">
       <%= render 'workshops/index', session: @session %>
@@ -93,7 +94,7 @@
         <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
         <div class="menu-list">
           <% status = !params[:search].nil? %>
-          <%= simple_form_for :search, url: training_session_path(@session.training, @session), method: 'GET' do |f| %>
+          <%= simple_form_for :search, url: training_session_path(@session.training, @session), html: { class: 'sidebar-search' }, method: 'GET' do |f| %>
             <%= f.input :title, placeholder: 'Search', label: false %>
           <% end %>
           <% if status %>

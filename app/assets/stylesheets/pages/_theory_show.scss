@@ -16,3 +16,59 @@
 .theory-list {
   margin-top: 10px;
 }
+
+#theory-index {
+  width: 700px;
+}
+
+.theory-list {
+  list-style: none;
+  width: 700px;
+  padding: 0;
+
+  a {
+    text-decoration: none;
+    }
+}
+
+.theory-card {
+  width: 100%;
+  height: auto;
+  display: flex;
+  border-bottom: 2px solid rgba(0,0,0,0.4);
+  margin: 0;
+  padding: 20px 0;
+
+  div {
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+#theory-index-controls {
+  width: 700px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.theory-card-infos {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  p {
+    word-wrap: break-word;
+    width: 250px;
+  }
+}
+
+.theory-contents {
+
+  p {
+    color: rgba(0,0,0,0.6);
+  }
+}

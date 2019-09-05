@@ -1,52 +1,76 @@
-<div class="container-seven">
-  <div class='flex-title'>
-    <h2>Workshops List</h2>
-    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <%= link_to new_content_path do %>
-        <i class="fas fa-plus"></i>
+<div class="container-seven container-seven-centered">
+  <div>
+    <div class='flex-title'>
+      <h2>Workshops List</h2>
+      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+        <%= link_to new_content_path do %>
+          <button class="btn btn-edit">New workshop</button>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
-  <ul id='myUL'>
-    <% Theme.walk_tree do |theme, level| %>
-      <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
-        <li><span class="caret"><%= theme.name %></span>
-          <ul class="nested">
-            <% theme.contents.each do |content| %>
-              <li><%= link_to content.title, content_path(content) %></li>
-            <% end %>
-          </ul>
-        </li>
-      <% elsif theme.level == 0 && theme.children != [] %>
-        <li><span class="caret"><%= theme.name %></span>
-          <ul class="nested">
-            <% theme.children.each do |subtheme| %>
-              <li><span class="caret"><%= subtheme.name %></span>
-                <ul class="nested">
-                  <% subtheme.contents.each do |content| %>
-                    <li><%= link_to content.title, content_path(content) %></li>
+    </div>
+    <div id='myUL'>
+      <% Theme.walk_tree do |theme, level| %>
+        <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
+          <div class="myUL-li-theme"><span class="caret"><%= theme.name %></span>
+            <div class="nested">
+              <% theme.contents.each do |content| %>
+                <div class="myUL-li-content">
+                  <%= link_to content_path(content) do %>
+                    <span class="myUL-li-content-first"><strong><%= content.title %></strong></span>
+                    <% if !content.theories.nil? %>
+                      <span class="myUL-li-content-second">
+                        <% content.theories.order('name ASC').each do |theory| %>
+                          <%= theory.name %>
+                        <% end %>
+                      </span>
+                    <% end %>
                   <% end %>
-                </ul>
-              </li>
-            <% end %>
-          </ul>
-        </li>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% elsif theme.level == 0 && theme.children != [] %>
+          <div><span class="caret"><%= theme.name %></span>
+            <div class="nested">
+              <% theme.children.each do |subtheme| %>
+                <div><span class="caret"><%= subtheme.name %></span>
+                  <div class="nested">
+                    <% subtheme.contents.each do |content| %>
+                      <div><%= link_to content.title, content_path(content) %></div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
-  </ul>
-  <br>
-  <ul id='myUL'>
-    <% @themes.each do |theme| %>
-      <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
-        <li><span class="caret"><%= theme.name %></span>
-          <ul class="nested">
-            <% theme.contents.each do |content| %>
-              <li><%= link_to content.title, content_path(content) %></li>
-            <% end %>
-          </ul>
-        </li>
+    </div>
+    <br>
+    <div id='myUL'>
+      <% @themes.each do |theme| %>
+        <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
+          <div class="myUL-li-theme"><span class="caret"><%= theme.name %></span>
+            <div class="nested">
+              <% theme.contents.each do |content| %>
+                <div class="myUL-li-content">
+                  <%= link_to content_path(content) do %>
+                    <span class="myUL-li-content-first"><strong><%= content.title %></strong></span>
+                    <% if !content.theories.nil? %>
+                      <span class="myUL-li-content-second">
+                        <% content.theories.order('name ASC').each do |theory| %>
+                          <%= theory.name %>
+                        <% end %>
+                      </span>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
-  </ul>
+    </div>
+  </div>
 </div>
 <script src="/javascript/plugins/tree.js" type="text/javascript"></script>

@@ -22,16 +22,17 @@
 .training-info {
   background-color: white;
   padding-bottom: 20px;
-  margin-bottom: 90px;
   padding-top: 20px;
+  text-align: center;
 
+  @include from-large {
+    text-align: left;
+  }
 }
 
 .training-info-headers {
   display: flex;
   justify-content: space-between;
-  padding-top: 25px;
-  margin-bottom: 20px;
   width: 100%;
   p {
     margin: 0;
@@ -43,6 +44,14 @@
   }
 }
 
+.training-info-headers-buttons {
+  display: none;
+
+  @include from-large {
+    display: block;
+  }
+}
+
 .training-info-footer {
   display: flex;
   justify-content: flex-end;
@@ -50,7 +59,10 @@
 
 .sessions-cards {
   text-align: center;
-  margin: 60px 0px;
+
+  @include from-large {
+    margin: 60px 0px;
+  }
 }
 
 .invalid-feedback {
@@ -67,13 +79,13 @@
 
 .middle-info {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+
   h3, p {
-    margin-top: 0;
-    margin-bottom: 12.5px;
-    font-size: 34px;
+    font-size: 24px;
+    margin-bottom: 10px;
   }
   li {
     font-size: 20px;
@@ -86,7 +98,18 @@
   .middle-info-main {
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  @include from-large {
+    flex-direction: row;
     width: 50%;
+    text-align: left;
+
+    h3 {
+      margin: 0;
+    }
   }
 }
 
@@ -98,6 +121,7 @@
   font-size: 20px;
   font-weight: 300;
   margin: 0;
+  padding: 0 !important;
 
   li {
     display: inline-block;

@@ -4,5 +4,12 @@
 
   <p><%= @theory.description.html_safe %></p>
   <p><%= @theory.links %></p>
+
+  <h5>Workshops</h5>
+  <div style='display: flex;flex-direction:column;'>
+    <% @theory.contents.order(:title).each do |content| %>
+      <%= link_to content.title, content_path(content) %>
+    <% end %>
+  </div>
   <p class='theory-show-references'><%= @theory.references.html_safe unless @theory.references.nil? %></p>
 </div>
