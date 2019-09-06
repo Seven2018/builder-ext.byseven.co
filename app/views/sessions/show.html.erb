@@ -15,16 +15,16 @@
     <div class="middle-info">
       <div class="middle-info-main">
         <h3 id='session-title'><%= @session.title %>
-          <button class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-edit"></i></button>
-          <%= link_to session_viewer_path(@session) do %>
-            <button class="edit-fafa"><i class="far fa-eye"></i></button>
+          <abutton class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-edit"></i></a>
+          <%= link_to session_viewer_path(@session), class: 'edit-fafa' do %>
+            <i class="far fa-eye"></i>
           <% end %>
         </h3>
-        <div style="display: flex;align-items: center;justify-content: space-between;">
+        <div style="display:flex;align-items:center;justify-content:center;">
           <ul id="owner">
             <% @session.users.each do |user| %>
               <li>
-                <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+                <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
               </li>
               <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document" style="border-radius: 20px">

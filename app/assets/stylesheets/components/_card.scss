@@ -241,6 +241,21 @@ $timeline: #115173;
     font-weight: 600;
     font-size: 23px;
   }
+
+  .mod-time-mobile {
+    top: 40%;
+    left: 54px;
+    color: $blue;
+    font-weight: 600;
+    font-size: 23px;
+    text-align: center;
+    margin-top: 30px;
+
+    @include from-large {
+      display: none;
+    }
+  }
+
   .card-right {
     width: 100%;
     box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);

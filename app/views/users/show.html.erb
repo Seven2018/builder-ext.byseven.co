@@ -1,26 +1,28 @@
 <div class="container-seven">
   <%= link_to users_path do %><i class="fas fa-arrow-left"></i><% end %>
-  <div class="client-contact-card-show">
-    <div>
-      <img src='<%= @user.picture %>' alt="" class='client-company-logo-show'>
-      <div>
-        <div class="show-control-links" style='display:flex;flex-direction:row;'>
-          <% if current_user.access_level == 'super admin' || @user == current_user %>
-            <a class="button" data-toggle='modal' data-target='#editUser'><button class='btn'>Edit Profile</button></a>
-            <a class="button" data-toggle='modal' data-target='#editPassword'><button class='btn'>Change Password</button></a>
-            <!-- <a class="button" data-toggle='modal' data-target='#editUser'><i class="fas fa-edit"></i></a>
-            <a class="edit-fafa" data-toggle='modal' data-target='#editPassword'><i class="fas fa-unlock-alt"></i></a> -->
-          <% end %>
+  <div class='centered-card-show'>
+    <div class="user-contact-card-show">
+      <div class='user-picture-show'>
+        <img src='<%= @user.picture %>' alt="" class='client-company-logo-show'>
+        <div>
+          <div class="show-control-links" style='display:flex;flex-direction:row;'>
+            <% if current_user.access_level == 'super admin' || @user == current_user %>
+              <a class="button edit-fafa" data-toggle='modal' data-target='#editUser'><button class='btn btn-edit'>Edit Profile</button></a>
+              <a class="button edit-fafa" data-toggle='modal' data-target='#editPassword'><button class='btn btn-edit'>Change Password</button></a>
+            <% end %>
+          </div>
         </div>
       </div>
+      <div class="user-info">
+        <p>Lastname: <strong><%=  @user.lastname %></strong></p>
+        <p>Firstname: <strong><%=  @user.firstname %></strong></p>
+        <p>Email: <%= @user.email %></p>
+        <p>Access Level: <%= @user.access_level.capitalize %></p>
+        <p>Description: <%= @user.description %></p>
+        <p>Rating: <%= @user.rating %></p>
+        <p>LinkedIn: <%= link_to @user.linkedin do %><i class="fab fa-linkedin-in"></i><% end %></p>
+        </div>
     </div>
-    <p>Lastname: <strong><%=  @user.lastname %></strong></p>
-    <p>Firstname: <strong><%=  @user.firstname %></strong></p>
-    <p>Email: <%= @user.email %></p>
-    <p>Access Level: <%= @user.access_level.capitalize %></p>
-    <p>Description: <%= @user.description %></p>
-    <p>Rating: <%= @user.rating %></p>
-    <p>LinkedIn: <%= link_to @user.linkedin do %><i class="fab fa-linkedin-in"></i><% end %></p>
   </div>
 </div>
 

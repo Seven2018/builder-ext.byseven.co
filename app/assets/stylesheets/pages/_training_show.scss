@@ -95,17 +95,10 @@
     font-weight: 300;
     margin: 0;
   }
-  .middle-info-main {
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    text-align: center;
-  }
 
   @include from-large {
     flex-direction: row;
-    width: 50%;
-    text-align: left;
+    width: 100%;
 
     h3 {
       margin: 0;
@@ -113,8 +106,18 @@
   }
 }
 
-.middle-info-main img {
-  margin-right: 20px;
+.middle-info-main {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+
+  @include from-large {
+    flex-direction: row;
+    text-align: left;
+  }
 }
 
 #owner {

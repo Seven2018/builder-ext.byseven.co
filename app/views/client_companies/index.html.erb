@@ -1,7 +1,7 @@
 <div class="container-seven container-seven-centered">
-  <div>
+  <div id='client-company-index'>
     <div id="client-company-controls">
-      <h2>Customers List</h2>
+      <h3>Customers List</h3>
       <%= simple_form_for :search, url: client_companies_path, method: 'GET' do |f| %>
         <%= f.input :name, placeholder: 'Search', label: false %>
       <% end %>

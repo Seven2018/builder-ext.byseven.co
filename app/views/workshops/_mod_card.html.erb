@@ -18,6 +18,9 @@
         <div>
           <h4><%= "#{mod.title} - (#{mod.duration} min)" %></h4>
           <div class="card-description grabbable">
+            <div class="mod-time-mobile">
+              <%= start.strftime("%H:%M") %>
+            </div>
             <ul>
               <% mod.workshop_modules.order('position ASC').compact.each do |workmod| %>
                 <li>
@@ -60,7 +63,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="editWorkshop<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'workshops/edit', mod: mod  %>
   </div>
 </div>

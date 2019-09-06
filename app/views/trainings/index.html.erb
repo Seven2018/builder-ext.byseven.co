@@ -9,11 +9,9 @@
       <% end %>
       <li><%= link_to "Calendar", index_week_path %></li>
     </ul>
-    <div class="new-training">
-      <%= link_to new_training_path, id: "new-training" do %>
-        <button class="btn btn-edit">New Training</button>
-      <% end %>
-    </div>
+    <%= link_to new_training_path, id: "new-training" do %>
+      <button class="btn btn-edit">New Training</button>
+    <% end %>
   </div>
   <div class="tab-content">
     <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) %>

@@ -1,6 +1,11 @@
 .mod-date {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
+
+  @include from-large {
+    flex-direction: row;
+  }
 }
 
 #modal-title {

@@ -1,8 +1,17 @@
 .action-infos {
-  width: 400px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   margin-right: 25px;
+
+  @include from-large {
+    width: 400px;
+    margin-right: 0 !important;
+  }
+
+  p {
+    width: 47%;
+  }
 
   p:last-child {
     color: rgba(0,0,0,0.6);

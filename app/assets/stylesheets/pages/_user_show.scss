@@ -1,0 +1,49 @@
+.show-control-links {
+
+  a {
+    margin-left: 20px;
+  }
+}
+
+.user-info {
+  flex-direction: column;
+
+  @include from-large {
+    text-align: left;
+    align-items: flex-start !important;
+  }
+}
+
+.user-contact-card-show {
+  width: 100%;
+  margin: 50px 0;
+  padding: 20px;
+  box-shadow: 2px 2px 10px rgba(136,136,136,0.8);
+
+  @include from-large {
+    width: 50%;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  div > div {
+    flex-direction: column;
+    margin: 0;
+  }
+}
+
+.user-picture-show {
+  justify-content: center;
+
+  @include from-large {
+    justify-content: space-between;
+  }
+}

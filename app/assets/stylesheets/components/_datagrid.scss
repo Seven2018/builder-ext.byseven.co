@@ -1,6 +1,10 @@
 .report-controls {
-  display: flex;
+  display: none;
   justify-content: flex-start;
+
+  @include from-large {
+    display: flex;
+  }
 
   div {
     flex-grow: 0;

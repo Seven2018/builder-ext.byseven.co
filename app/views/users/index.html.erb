@@ -1,5 +1,5 @@
 <div class="container-seven container-seven-centered">
-  <div>
+  <div id='client-company-index'>
     <div id="client-company-controls">
       <h2>Users list</h2>
       <%= simple_form_for :search, url: users_path, method: 'GET' do |f| %>
@@ -29,7 +29,7 @@
                 <p><%= "#{user.firstname} #{user.lastname}" %></p>
                 <div>
                   <p><%= user.email %></p>
-                  <p><%= user.access_level %></p>
+                  <p><%= user.access_level.capitalize %></p>
                 </div>
               </div>
             </div>

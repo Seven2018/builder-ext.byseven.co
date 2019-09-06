@@ -18,7 +18,7 @@
       <% end %>
     </div>
   </div>
-  <div class="middle-info">
+  <div class="middle-info-workshop">
     <div class="middle-info-main">
       <h3><%= @workshop.title %> - (<%= @workshop.duration %> min)</h3>
     </div>
@@ -28,7 +28,8 @@
     <% end %>
     <br>
     <% unless @workshop.title.split(' ').first == 'Pause' %>
-      <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @workshop.description %>" alt="" style='height:150px;'></a>
+      <a class='edit-fafa' data-toggle='modal' data-target='#viewImage'><img src="<%= @workshop.description %>" alt="" style='height:150px;'></a>
+      <img id='workshop-image-mobile' src="<%= @workshop.description %>" alt="" style='height:150px;'>
       <div class="container mod-container">
       </div>
       <div id='content-mods'>

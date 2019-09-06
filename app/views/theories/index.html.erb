@@ -1,7 +1,7 @@
 <div class="container-seven container-seven-centered">
   <div id='theory-index'>
     <div id="theory-index-controls">
-      <h2>Theories List</h2>
+      <h3>Theories List</h3>
       <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
         <%= link_to new_theory_path do %>
           <button class="btn btn-edit">New Theory</button>

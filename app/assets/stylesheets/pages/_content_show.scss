@@ -14,20 +14,12 @@
   &:hover {
       box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
     }
-
-  div {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-
-.module-card-infos, .module-card-controls {
-  display: flex;
-  flex-direction: column;
 }
 
 .module-card-infos {
-  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .module-card-controls {
@@ -46,7 +38,11 @@
 
 .content-logistics {
   height: auto;
-  justify-content: left !important;
+  justify-content: center;
+
+  @include from-large {
+    justify-content: left;
+  }
 }
 
 .content-logistics, .content-logistics > div > div {

@@ -32,7 +32,10 @@ a {
 
 .container-seven-centered {
   display: flex;
-  justify-content: center;
+
+  @include from-large {
+    justify-content: center;
+  }
 }
 
 .container-new-form {
