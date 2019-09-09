@@ -55,46 +55,48 @@
     <div class="sessions-cards">
       <% @training.sessions.order(:date).each do |session| %>
         <% session_number +=1 %>
-        <%= link_to training_session_path(session.training, session) do %>
-        <div class="card-lg">
-          <div class="card-main-lg">
-            <div class="card-session-header">
-              <h3><%= session.title %></h3>
-              <div style='display:flex;'>
-                <ul id="owner-session-index">
-                  <% session.users.each do |user| %>
-                    <li>
-                      <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
-                    </li>
-                    <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                      <div class="modal-dialog" role="document" style="border-radius: 20px">
-                        <%= render 'users/consult', user: user %>
+        <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
+          <%= link_to training_session_path(session.training, session) do %>
+          <div class="card-lg">
+            <div class="card-main-lg">
+              <div class="card-session-header">
+                <h3><%= session.title %></h3>
+                <div style='display:flex;'>
+                  <ul id="owner-session-index">
+                    <% session.users.each do |user| %>
+                      <li>
+                        <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+                      </li>
+                      <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document" style="border-radius: 20px">
+                          <%= render 'users/consult', user: user %>
+                        </div>
                       </div>
-                    </div>
+                    <% end %>
+                  </ul>
+                  <h3><%= session_number %>/<%= @training.sessions.count %> <a class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-edit"></i></a></h3>
+                </div>
+              </div>
+              <div class="mods-list">
+                <ul>
+                  <% list = session.workshops %>
+                  <% list.order(:position).each do |mod| %>
+                    <li>
+                      <%= "#{mod.title} - #{mod.duration} min" %>
+                    </li>
                   <% end %>
                 </ul>
-                <h3><%= session_number %>/<%= @training.sessions.count %> <a class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-edit"></i></a></h3>
               </div>
             </div>
-            <div class="mods-list">
-              <ul>
-                <% list = session.workshops %>
-                <% list.order(:position).each do |mod| %>
-                  <li>
-                    <%= "#{mod.title} - #{mod.duration} min" %>
-                  </li>
-                <% end %>
-              </ul>
+            <div class="card-footer-lg">
+              <% if session.start_time && session.end_time %>
+                <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p>
+                <div><i class="far fa-hourglass"></i><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></div>
+                <i class="fas fa-users"> <%= session.attendee_number %></i>
+              <% end %>
             </div>
           </div>
-          <div class="card-footer-lg">
-            <% if session.start_time && session.end_time %>
-              <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p>
-              <div><i class="far fa-hourglass"></i><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></div>
-              <i class="fas fa-users"> <%= session.attendee_number %></i>
-            <% end %>
-          </div>
-        </div>
+          <% end %>
         <% end %>
       <% end %>
     </div>

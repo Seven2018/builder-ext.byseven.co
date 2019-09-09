@@ -50,6 +50,7 @@ class WorkshopsController < ApplicationController
   def destroy
     Comment.create(object: 'Log', content: "Module #{@workshop.title} removed |", user_id: current_user.id, session_id: @workshop.session.id)
     authorize @workshop
+    @session = @workshop.session
     @workshop.destroy
     respond_to do |format|
       format.html {redirect_to training_session_path(@workshop.session.training, @workshop.session)}

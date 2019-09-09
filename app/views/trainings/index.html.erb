@@ -2,11 +2,9 @@
   <h3 style="text-align: left;"><%= "Trainings Dashboard" %></h3>
   <div class="trainings-title">
     <ul class="nav nav-tabs">
-      <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) %>
-        <li role="presentation"><a href="#ongoing" data-toggle="tab" class="active">Ongoing trainings</a></li>
-        <li role="presentation"><a href="#coming" data-toggle="tab">Upcoming trainings</a></li>
-        <li role="presentation"><a href="#completed" data-toggle="tab">Completed trainings</a></li>
-      <% end %>
+      <li role="presentation"><a href="#ongoing" data-toggle="tab" class="active">Ongoing trainings</a></li>
+      <li role="presentation"><a href="#coming" data-toggle="tab">Upcoming trainings</a></li>
+      <li role="presentation"><a href="#completed" data-toggle="tab">Completed trainings</a></li>
       <li><%= link_to "Calendar", index_week_path %></li>
     </ul>
     <%= link_to new_training_path, id: "new-training" do %>

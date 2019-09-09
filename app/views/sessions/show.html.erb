@@ -77,8 +77,18 @@
       </div>
     </div>
     <div class="log-box">
-      <%= render 'comments', session: @session  %>
+      <h4 id='logs-title'>Log Records<span>Click to see</span></h4>
+      <div id='logs-list' class='hidden'>
+        <%= render 'comments', session: @session  %>
+      </div>
     </div>
+    <script>
+      button = document.getElementById('logs-title');
+      list = document.getElementById('logs-list');
+      button.addEventListener('click', (event) => {
+        list.classList.toggle('hidden');
+      })
+    </script>
   </div>
   <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
     <div class="nav-side-menu-container">
@@ -181,3 +191,9 @@
     <%= render 'session_trainers/destroy', session: @session, session_trainer: @session_trainer %>
   </div>
 </div>
+
+<script>
+  $(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+  });
+</script>

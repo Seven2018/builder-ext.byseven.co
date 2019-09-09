@@ -3,7 +3,15 @@ class TrainingsController < ApplicationController
 
   def index
     @sessions = Session.all
-    @trainings = policy_scope(Training)
+    if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
+      @trainings = policy_scope(Training)
+    else
+      @trainings = policy_scope(Training)
+      @trainings = []
+      @sessions.each do |session|
+        @trainings << session.training if session.users.include?(current_user)
+      end
+    end
   end
 
   def index_week
