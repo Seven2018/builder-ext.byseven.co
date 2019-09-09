@@ -1,5 +1,14 @@
 <div class="container-seven">
-  <%= link_to theories_path do %><i class="fas fa-arrow-left"></i><% end %>
+  <div class="training-info-headers">
+    <%= link_to theories_path do %><i class="fas fa-arrow-left"></i><% end %>
+    <div class="show-control-links">
+      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+        <%= link_to edit_theory_path do %>
+          <button class="btn btn-edit">Edit Theory</button>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
   <h2><%= @theory.name %></h2>
 
   <p><%= @theory.description.html_safe %></p>

@@ -16,7 +16,11 @@
     <div class="card-category">
       <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), class: 'grabbable' do %>
         <div>
-          <h4><%= "#{mod.title} - (#{mod.duration} min)" %></h4>
+          <% if exceed.include?(mod.position) %>
+            <h4><%= "#{mod.title} - (#{mod.duration} min)" %> <p class='error'>Durée de la session dépassée</p></h4>
+          <% else %>
+            <h4><%= "#{mod.title} - (#{mod.duration} min)" %></h4>
+          <% end %>
           <div class="card-description grabbable">
             <div class="mod-time-mobile">
               <%= start.strftime("%H:%M") %>
@@ -53,9 +57,6 @@
       <% end %>
       <% if @error %>
         <p class='error'>Attention au rythme</p>
-      <% end %>
-      <% if exceed.include?(mod.position) %>
-        <p class='error'>Durée de la session dépassée</p>
       <% end %>
     </div>
   </div>

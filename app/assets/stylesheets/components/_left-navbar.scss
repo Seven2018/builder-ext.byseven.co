@@ -43,10 +43,6 @@
   justify-content: space-around;
 }
 
-.left-navbar-middle {
-  margin-bottom: 160px;
-}
-
 .left-navbar-middle-mobile {
   width: 100%;
   display: flex;
@@ -54,10 +50,14 @@
 }
 
 .left-navbar-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 60px;
-  margin-bottom: 20px;
+  // position: absolute;
+  // bottom: 0;
+  // left: 60px;
+
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: 38px;
 }
 
 .left-buttons {

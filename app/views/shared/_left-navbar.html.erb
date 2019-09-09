@@ -5,6 +5,9 @@
         <img src='<%= "#{current_user.picture}" %>' class="avatar dropdown-toggle" id="navbar-wagon-menu" data-toggle="dropdown">
       <% end %>
       <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
+        <% if user_signed_in? %>
+          <li><%= link_to "Profile", user_path(current_user) %></li>
+        <% end %>
         <li>
           <%= link_to "Log out", destroy_user_session_path, method: :delete %>
         </li>

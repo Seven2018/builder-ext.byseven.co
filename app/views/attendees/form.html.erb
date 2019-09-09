@@ -1,7 +1,7 @@
 <div class="container-seven-form">
   <div id='attendee-form-logo'>
-    <%= image_tag "SEVENLOGO_SQUARE2.png", size: '150x150' %>
-    <img src="<%= @training.client_contact.client_company.logo %>" alt="" width='150' height='150'>
+    <%= image_tag "SEVENLOGO_SQUARE2.png" %>
+    <img src="<%= @training.client_contact.client_company.logo %>" alt="" >
   </div>
   <div id='attendee-form'>
     <% status = !params[:search].nil? %>

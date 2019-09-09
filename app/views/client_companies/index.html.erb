@@ -7,7 +7,7 @@
       <% end %>
     </div>
     <ul class='client-company-list'>
-      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level && params[:search].nil? %>
+      <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && params[:search].nil? %>
         <li>
           <%= link_to new_client_company_path do %>
             <div class="client-company-card">

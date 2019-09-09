@@ -1,16 +1,27 @@
 .container-seven-form {
   width: 100%;
-  min-width: 1080px;
   min-height: 100vh;
   padding: 50px;
   overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @include from-large {
+    min-width: 1080px;
+  }
+
+  h2 {
+    text-align: center;
+  }
 }
 
 #attendee-form {
-  width: 500px;
+  width: 100%;
+
+  @include from-large {
+    width: 500px;
+  }
 }
 
 #attendee-form-title {
@@ -20,9 +31,21 @@
 }
 
 #attendee-form-logo {
-  width: 50%;
+  width: 100%;
   display: inherit;
   justify-content: space-around;
+
+  @include from-large {
+    width: 50%;
+  }
+
+  img {
+    height: 75px;
+
+    @include from-large {
+      height: 150px;
+    }
+  }
 }
 
 .session-form-row {
@@ -55,4 +78,9 @@
 
 #form-import {
   margin-top: 100px;
+  display: none;
+
+  @include from-large {
+    display: block;
+  }
 }

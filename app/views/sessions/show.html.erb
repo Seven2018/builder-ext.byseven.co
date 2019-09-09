@@ -77,14 +77,7 @@
       </div>
     </div>
     <div class="log-box">
-      <h4>Log Records</h4>
-      <ul>
-        <% @session.comments.each do |comment| %>
-          <% if comment.object == "Log" %>
-            <li class="logs-message"><%= "#{comment.content} - #{comment.created_at.strftime(("%d/%m/%Y - %H:%M"))}" %></li>
-          <% end %>
-        <% end %>
-      </ul>
+      <%= render 'comments', session: @session  %>
     </div>
   </div>
   <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>

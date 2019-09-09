@@ -1,0 +1,9 @@
+<h4>Log Records</h4>
+<ul>
+  <% comments = session.comments.last(10) %>
+  <% session.comments.last(10).each do |comment| %>
+    <% if comment.object == "Log" %>
+      <li class="logs-message"><%= "#{comment.user.firstname} - #{comment.content} - #{comment.created_at.strftime(("%d/%m/%Y - %H:%M"))}" %></li>
+    <% end %>
+  <% end %>
+</ul>
