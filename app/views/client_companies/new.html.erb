@@ -6,6 +6,10 @@
     <%= f.input :client_company_type, collection: ["Company", "School"], include_blank: false %>
     <%= f.input :description, :input_html => {:rows => 10, style: 'width:100%;'} %>
     <%= f.input :logo, label: 'Logo URL' %>
-    <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit' %> </p>
+    <div class="center-button">
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>
+        <i class="fas fa-save"></i>
+      <% end %>
+    </div>
   <% end %>
 </div>

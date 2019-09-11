@@ -12,19 +12,16 @@
       <%= f.input :client_company_type, label: "Type", collection: ["Company", "School"], include_blank: false %>
       <%= f.input :description, :input_html => {:rows => 10} %>
       <%= f.input :logo, label: 'Logo URL' %>
-  </div>
-  <div class="modal-footer">
-    <div>
-      <%= f.button :submit, 'Save', class: 'btn btn-edit' %>
-      <% end %>
-      <%= link_to client_company_path(@client_company), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-          <button class="btn btn-edit">
+      <div style=" display: flex; justify-content: space-between;">
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+        <%= link_to client_company_path(@client_company), method: :delete, data: { confirm: 'Etes vous certain(e) de vouloir supprimer cette Action ?'} do %>
+          <button class="btn btn-edit-red">
             <i class="fas fa-trash-alt"></i>
           </button>
         <% end %>
-    </div>
-  </div>
-
-    </div>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -6,11 +6,12 @@ class Session < ApplicationRecord
   has_many :session_attendees
   has_many :attendees, through: :session_attendees
   has_many :comments, dependent: :destroy
+  validates :date, presence: true
   validate :date_included_in_training_dates?
 
 
   def date_included_in_training_dates?
-    if date < training.start_date || date > training.end_date
+    if !date.nil? && (date < training.start_date || date > training.end_date)
       errors.add(:date, "must be included in training's dates")
     end
   end

@@ -2,7 +2,11 @@ class ActionsController < ApplicationController
   before_action :set_action, only: [:show, :edit, :update, :destroy]
 
   def index
-    @actions = policy_scope(Action).order(name: :asc)
+    if params[:search]
+      @actions = policy_scope(Action).where("lower(name) LIKE ?", "%#{params[:search][:name].downcase}%").order(name: :asc)
+    else
+      @actions = policy_scope(Action).order(name: :asc)
+    end
   end
 
   def show

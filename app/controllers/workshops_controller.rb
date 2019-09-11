@@ -3,6 +3,7 @@ class WorkshopsController < ApplicationController
 
   def show
     authorize @workshop
+    @theory_workshop = TheoryWorkshop.new
   end
 
   def create
@@ -13,6 +14,9 @@ class WorkshopsController < ApplicationController
     @workshop.session = @session
     i = 1
     if @workshop.save
+      @content.theories.each do |theory|
+        TheoryWorkshop.create(theory_id: theory.id, workshop_id: @workshop.id)
+      end
       @content.content_modules.order('position ASC').each do |mod|
         wmod = WorkshopModule.new(mod.attributes.except("id", "position", "created_at", "updated_at", "content_id"))
         wmod.workshop = @workshop

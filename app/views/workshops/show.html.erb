@@ -20,7 +20,7 @@
   </div>
   <div class="middle-info-workshop">
     <div class="middle-info-main">
-      <h3><%= @workshop.title %> - (<%= @workshop.duration %> min)</h3>
+      <h4><%= @workshop.title %> - (<%= @workshop.duration %> min)</h4>
     </div>
     <br>
     <% if @workshop.theme %>
@@ -29,7 +29,28 @@
     <br>
     <% unless @workshop.title.split(' ').first == 'Pause' %>
       <a class='edit-fafa' data-toggle='modal' data-target='#viewImage'><img src="<%= @workshop.description %>" alt="" style='height:150px;'></a>
-      <img id='workshop-image-mobile' src="<%= @workshop.description %>" alt="" style='height:150px;'>
+      <p class='theory-list-title'>Linked Theories<button class='user-fafa' data-toggle='modal' data-target='#newTheoryWorkshop'><i class="fas fa-plus"></i></button><button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryWorkshop'><i class="fas fa-minus"></i></button></p>
+      <ul class="theory-list">
+        <% @workshop.theories.each do |theory| %>
+          <li><a data-toggle='modal' data-target="#theory-<%= theory.id %>"><%= theory.name %></a></li>
+          <div class="modal fade" id="theory-<%= theory.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div id="modal-title" style=" display: flex; justify-content: space-between;">
+                    <h3 class="modal-title" id="myModalLabel"><%= theory.name %></h3>
+                  </div>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body" id="modalNewBookinBody">
+                  <%= theory.description.html_safe %>
+                  <%= theory.references.html_safe %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </ul>
       <div class="container mod-container">
       </div>
       <div id='content-mods'>
@@ -52,3 +73,14 @@
   </div>
 </div>
 
+<div class="modal fade" id="newTheoryWorkshop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'theory_workshops/new', theory_workshop: @theory_workshop %>
+  </div>
+</div>
+
+<div class="modal fade" id="destroyTheoryWorkshop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'theory_workshops/destroy', theory_workshop: @theory_workshop %>
+  </div>
+</div>

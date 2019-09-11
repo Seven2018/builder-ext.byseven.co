@@ -22,7 +22,7 @@ a {
 
   @include from-large {
     margin-top: 0;
-    margin-left: 220px;
+    margin: 0 220px;
     min-height: 100vh;
     padding: 50px;
     overflow: auto;
@@ -30,13 +30,13 @@ a {
   }
 }
 
-.container-seven-centered {
-  display: flex;
+// .container-seven-centered {
+//   display: flex;
 
-  @include from-large {
-    justify-content: center;
-  }
-}
+//   @include from-large {
+//     justify-content: center;
+//   }
+// }
 
 .container-new-form {
   margin-top: 30px;

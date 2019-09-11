@@ -15,7 +15,7 @@
     <div class="middle-info">
       <div class="middle-info-main">
         <h3 id='session-title'><%= @session.title %>
-          <abutton class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-edit"></i></a>
+          <abutton class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
           <%= link_to session_viewer_path(@session), class: 'edit-fafa' do %>
             <i class="far fa-eye"></i>
           <% end %>
@@ -57,9 +57,9 @@
       <div class="message-box">
         <h4>Ajouter un message</h4>
         <%= simple_form_for [@session.training, @session, @comment] do |f| %>
-          <%= f.input :object, placeholder: "Objet", input_html: { style: "width: 600px; margin-right: 20px; heigth: 50px;"}, label: false %>
-          <%= f.input :content, placeholder: "Message", input_html: { style: "width: 600px; margin-right: 20px; heigth: 50px;"}, label: false %>
-          <div> <%= f.submit 'Publier', class: 'btn btn-edit'%> </div>
+          <%= f.input :object, placeholder: "Objet", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
+          <%= f.input :content, placeholder: "Message", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
+          <div class='center-button'> <%= f.submit 'Publier', class: 'btn btn-edit'%> </div>
         <% end %>
       </div>
       <div class='log-box'>

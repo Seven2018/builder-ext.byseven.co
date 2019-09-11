@@ -44,16 +44,29 @@
 .mods-list {
   display: none;
   text-align: left;
+  position: relative;
+
   ul {
     font-size: 20px;
     font-weight: 300;
     letter-spacing: 0.6px;
     line-height: 1.6;
     list-style: none;
+    padding: 0;
+  }
+
+  .card-session-number {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+    height: 50px;
+    width: 50px;
   }
 
   @include from-large {
     display: block;
+    padding: 0 20px 20px 20px;
   }
 }
 
@@ -74,12 +87,14 @@
 .user-fafa {
   border: none;
   padding: 0;
+  margin: 0 5px;
+  background-color: rgba(0,0,0,0);
 }
 
 .fa-user-plus, .fa-user-minus, .fa-search-plus, .fa-search-minus {
 font-size: 32px;
 color: black;
-background-color: white;
+background-color: rgba(0,0,0,0);
 }
 
 .comment-box {

@@ -18,38 +18,38 @@
     <% if user_signed_in? %>
       <%= link_to trainings_path, style: 'color: white', class: 'left-buttons' do %>
         <div class="left-menu-list">
-          <i class="fas fa-tasks"></i> <div class="left-menu-title"><p>Trainings</p></div>
+          <i class="fas fa-tasks"></i> <div class="left-menu-title"><h4>Trainings</h4></div>
         </div>
       <% end %>
       <% if ['super admin', 'admin'].include? current_user.access_level %>
         <%= link_to contents_path, style: 'color: white', class: 'left-buttons' do %>
           <div class="left-menu-list">
-            <i class="fas fa-toolbox"></i> <div class="left-menu-title"><p>Workshops</p></div>
+            <i class="fas fa-toolbox"></i> <div class="left-menu-title"><h4>Workshops</h4></div>
           </div>
         <% end %>
         <%= link_to client_companies_path, style: 'color: white', class: 'left-buttons' do %>
           <div class="left-menu-list">
-            <i class="far fa-copyright"></i> <div class="left-menu-title"><p>Customers</p></div>
+            <i class="far fa-copyright"></i> <div class="left-menu-title"><h4>Customers</h4></div>
           </div>
         <% end %>
         <%= link_to users_path, style: 'color: white', class: 'left-buttons' do %>
           <div class="left-menu-list">
-            <i class="fas fa-user-tie"></i> <div class="left-menu-title"><p>Users</p></div>
+            <i class="fas fa-user-tie"></i> <div class="left-menu-title"><h4>Users</h4></div>
           </div>
         <% end %>
         <%= link_to actions_path, style: 'color: white', class: 'left-buttons' do %>
           <div class="left-menu-list">
-            <i class="fas fa-running"></i> <div class="left-menu-title"><p>Actions</p></div>
+            <i class="fas fa-running"></i> <div class="left-menu-title"><h4>Actions</h4></div>
           </div>
         <% end %>
         <%= link_to theories_path, style: 'color: white', class: 'left-buttons' do %>
           <div class="left-menu-list">
-            <i class="fas fa-book"></i> <div class="left-menu-title"><p>Library</p></div>
+            <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Library</h4></div>
           </div>
         <% end %>
         <%= link_to report_path, style: 'color: white', class: 'left-buttons' do %>
           <div class="left-menu-list">
-            <i class="fas fa-chart-bar"></i> <div class="left-menu-title"><p>Reports</p></div>
+            <i class="fas fa-chart-bar"></i> <div class="left-menu-title"><h4>Reports</h4></div>
           </div>
         <% end %>
       <% end %>

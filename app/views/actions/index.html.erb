@@ -1,32 +1,31 @@
 <div class="container-seven container-seven-centered">
   <div id='client-company-index'>
     <div id='client-company-controls'>
-      <h2>Actions List</h2>
-      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-        <%= link_to new_action_path do %>
-          <button class="btn btn-edit">New Action</button>
+      <h3>Actions List</h3>
+      <div id="client_company_buttons">
+        <%= simple_form_for :search, url: theories_path, method: 'GET' do |f| %>
+          <%= f.input :name, placeholder: 'Search', label: false %>
         <% end %>
-      <% end %>
+        <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+          <%= link_to new_action_path do %>
+            <button class="btn btn-edit">New Action</button>
+          <% end %>
+        <% end %>
+      </div>
     </div>
-    <ul class='client-company-list'>
+    <ul class='action-list'>
     <% @actions.each do |action| %>
       <li>
         <%= link_to action_path(action) do %>
-          <div class="client-company-card">
+          <div class="action-card">
             <div class="action-infos">
               <p><%= action.name %></p>
               <p><%= action.intelligence.name %></p>
+              <p><%= action.description %></p>
             </div>
-            <a class="edit-fafa" data-toggle='modal' data-target='#editAction<%= action.id %>'><i class="fas fa-edit"></i></a>
           </div>
         <% end %>
       </li>
-      <!-- Modal -->
-      <div class="modal fade" id="editAction<%= action.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
-          <%= render 'edit', action: action %>
-        </div>
-      </div>
     <% end %>
     </ul>
   </div>

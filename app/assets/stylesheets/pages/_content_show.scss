@@ -26,6 +26,13 @@
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
+  margin-left: 20px;
+  display: none;
+
+  @include from-large {
+    display: flex;
+    flex-direction: column;
+  }
 
  div {
   margin: 20px 0;

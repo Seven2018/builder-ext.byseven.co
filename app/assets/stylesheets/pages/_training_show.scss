@@ -21,8 +21,6 @@
 
 .training-info {
   background-color: white;
-  padding-bottom: 20px;
-  padding-top: 20px;
   text-align: center;
 
   @include from-large {
@@ -49,7 +47,15 @@
   display: none;
 
   @include from-large {
-    display: block;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .dropdown-menu {
+    width: 170px;
+    position: absolute;
+    right: -50px;
   }
 }
 
@@ -62,7 +68,7 @@
   text-align: center;
 
   @include from-large {
-    margin: 60px 0px;
+    margin: 40px 0px;
   }
 }
 
@@ -80,9 +86,7 @@
 
 .middle-info {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
 
   h3, p {
     font-size: 24px;
@@ -95,6 +99,9 @@
     font-size: 20px;
     font-weight: 300;
     margin: 0;
+    margin-top: 3.5px !important;
+    margin-bottom: 5px !important;
+    text-align: right;
   }
 
   @include from-large {
@@ -107,12 +114,22 @@
   }
 }
 
-.middle-info-main {
+.middle-info2 {
+  margin-top: 20px;
   display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+  justify-content: flex-end;
+
+  h4 {
+    font-size: 20px;
+    font-weight: 300;
+    margin: 0;
+    margin-top: 3.5px !important;
+    margin-bottom: 5px !important;
+    text-align: right;
+  }
+}
+
+.middle-info-main {
   text-align: center;
 
   @include from-large {
@@ -121,22 +138,24 @@
   }
 }
 
-#owner {
+#owner, #trainer {
   font-size: 20px;
   font-weight: 300;
   margin: 0;
   padding: 0 !important;
+  list-style: none;
 
   li {
-    display: inline-block;
+    float:left;
     margin: 0 5px;
+
   }
 }
 
 #owner-session-index {
   font-size: 20px;
   font-weight: 300;
-  margin-right: 15px;
+  margin: 0 15px 0 0;
 
   li {
     display: inline-block;
@@ -146,4 +165,8 @@
 
 .fa-arrow-left {
   font-size: 30px;
+}
+
+#dropdownMenuButton::after {
+  content: none !important;
 }

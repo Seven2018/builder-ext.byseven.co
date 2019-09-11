@@ -3,18 +3,16 @@
     <%= link_to contents_path do %><i class="fas fa-arrow-left"></i><% end %>
     <div class="show-control-links">
       <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-        <%= link_to edit_content_path do %>
-          <button class="btn btn-edit">Edit Workshop</button>
-        <% end %>
+        <a class="edit-fafa" data-toggle='modal' data-target='#editContent'><button class="btn btn-edit">Edit Workshop</button></a>
       <% end %>
     </div>
   </div>
-  <h2><%= @content.theme.name %></h2>
+  <h3><%= @content.theme.name %></h3>
   <br>
   <h4><%= @content.title %> - (<%= @content.duration %> minutes)</h4>
   <br>
   <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:150px;'></a>
-  <p class='theory-list-title'>Liste des théories associées <button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></button><button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></button></p>
+  <p class='theory-list-title'>Linked Theories<button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></button><button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></button></p>
   <ul class="theory-list">
     <% @content.theories.each do |theory| %>
       <li><%= link_to theory.name, theory_path(theory) %></li>
@@ -41,5 +39,11 @@
 <div class="modal fade" id="destroyTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'theory_contents/destroy', theory_content: @theory_content %>
+  </div>
+</div>
+
+<div class="modal fade" id="editContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'edit', theory_content: @theory_content %>
   </div>
 </div>

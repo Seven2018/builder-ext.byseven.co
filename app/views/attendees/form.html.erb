@@ -8,7 +8,6 @@
     <div id="attendee-form-title">
       <h3>Formulaire d'inscription</h3>
       <h4><%= @training.title %></h4>
-      <p>Du <%= @training.start_date.strftime('%d/%m/%y') %> au <%= @training.end_date.strftime('%d/%m/%y') %></p>
     </div>
     <%= simple_form_for :search, url: training_attendees_form_path(@training), method: 'GET' do |f| %>
       <% if (status && !Attendee.where(email: params[:search][:email]).empty?) || (params[:attendee] && Attendee.find(params[:attendee].to_i)) %>
@@ -22,7 +21,6 @@
           <%= f.input :employee_id, label: 'ID interne', input_html: { value: attendee.employee_id }, disabled: true, required: false %>
           <%= f.input :email, input_html: { value: attendee.email }, disabled: true, required: false %>
         </div>
-        <p class="center-button"> <%= f.submit 'Retour', class: 'btn btn-edit' %> </p>
       <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
         <% controller.redirect_to new_attendee_path(training_id: @training.id, email: params[:search][:email]) %>
       <% else %>
@@ -32,28 +30,42 @@
     <% end %>
   </div>
   <% if !@sessions.nil? && ((params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || (params[:attendee] && !Attendee.find(params[:attendee].to_i).nil?)) %>
-    <div class='container'>
-      <div class="row session-form-row">
-        <% @sessions.each do |session| %>
-          <div class="col-xs-12 col-sm-4">
-            <div class="session-form-card center-button">
-              <h5><%= session.title %></h5>
-              <h5><%= session.date.strftime('%d/%m/%y') %></h5>
-              <% if (params[:search] && session.attendees.where(email: params[:search][:email]).empty?) || (params[:attendee] && session.attendees.where(email: Attendee.find(params[:attendee].to_i).email).empty?) %>
-                <div class='session-form-control'>
-                  <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session.id, attendee_id: @attendee.id), method: :post, class: 'btn btn-edit-green' %>
-                  <p>Cliquez pour vous inscrire</p>
-                </div>
-              <% else %>
-                <div class='session-form-control'>
-                  <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session.id, attendee_id: @attendee.id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session.title}. Continer ?"}, class: 'btn btn-edit-red' %>
-                  <p>Vous êtes déjà inscrit à cette session</p>
-                </div>
-              <% end %>
-            </div>
+    <div class='container-seven-form'>
+      <h3><strong>Formations à venir</strong></h3>
+      <% @sessions.each do |session| %>
+        <div class="session-form-card center-button">
+          <div class="session-form-card-left">
+            <% if @sessions.first == session %>
+              <div class="session-form-card-image-1">
+
+              </div>
+              <!-- <img src="https://static.lexpress.fr/medias_9458/w_480,h_270,c_fill,g_north/v1395063433/gign-1_4842839.jpg" alt=""> -->
+            <% end %>
           </div>
-        <% end %>
-      </div>
+          <div class="session-form-card-right">
+            <div>
+              <h3><strong><%= session.title %></strong></h3>
+              <h5><%= session.date.strftime('%d/%m/%y') %></h5>
+            </div>
+            <% if @sessions.first == session %>
+              <p class='session-teaser'>Découvrez la négociation raisonnée
+                  sur la base des enseignements de Saint-Cyr, école des officiers et les meilleures techniques de facilitation des forces spéciales"
+                  simulation engageante et techniques du GIGN.</p>
+            <% end %>
+            <% if (params[:search] && session.attendees.where(email: params[:search][:email]).empty?) || (params[:attendee] && session.attendees.where(email: Attendee.find(params[:attendee].to_i).email).empty?) %>
+              <div class='session-form-control'>
+                <p>Cliquez pour vous inscrire</p>
+                <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session.id, attendee_id: @attendee.id), method: :post, class: 'btn btn-edit-green' %>
+              </div>
+            <% else %>
+              <div class='session-form-control'>
+                <p>Vous êtes déjà inscrit à cette session</p>
+                <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session.id, attendee_id: @attendee.id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session.title}. Continer ?"}, class: 'btn btn-edit-red' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
   <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
     <% flash[:notice] = "Aucun compte ne correspond à l'adresse email renseignée" %>

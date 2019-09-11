@@ -1,5 +1,5 @@
 <div class="container-new-form">
-  <h1>Ajouter une session</h1>
+  <h1>Add a Session</h1>
 
   <%= simple_form_for [@training, @session] do |f| %>
     <%= f.input :title %>
@@ -8,6 +8,10 @@
     <%= f.input :duration, label: "Duration (hours)" %>
     <%= f.input :start_time, label: 'Start time', as: :time, required: false, input_html: {class: "timepicker"}, default: Time.parse('9:00') %>
     <%= f.input :end_time, label: 'End time', as: :time, required: false, input_html: {class: "timepicker"}, default: Time.parse('17:00') %>
-    <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>
+    <div class="center-button">
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>
+        <i class="fas fa-save"></i>
+      <% end %>
+    </div>
   <% end %>
 </div>

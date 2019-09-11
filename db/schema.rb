@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_30_084033) do
+ActiveRecord::Schema.define(version: 2019_09_10_090129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,6 +237,15 @@ ActiveRecord::Schema.define(version: 2019_08_30_084033) do
     t.index ["theory_id"], name: "index_theory_contents_on_theory_id"
   end
 
+  create_table "theory_workshops", force: :cascade do |t|
+    t.bigint "theory_id", null: false
+    t.bigint "workshop_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["theory_id"], name: "index_theory_workshops_on_theory_id"
+    t.index ["workshop_id"], name: "index_theory_workshops_on_workshop_id"
+  end
+
   create_table "training_ownerships", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "training_id"
@@ -336,6 +345,8 @@ ActiveRecord::Schema.define(version: 2019_08_30_084033) do
   add_foreign_key "sessions", "trainings"
   add_foreign_key "theory_contents", "contents"
   add_foreign_key "theory_contents", "theories"
+  add_foreign_key "theory_workshops", "theories"
+  add_foreign_key "theory_workshops", "workshops"
   add_foreign_key "training_ownerships", "trainings"
   add_foreign_key "training_ownerships", "users"
   add_foreign_key "trainings", "client_contacts"

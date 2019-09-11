@@ -4,7 +4,11 @@
     <%= f.input :name %>
     <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
     <%= f.association :intelligence, collection: Intelligence.all, include_blank: false %>
-    <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit' %> </p>
+    <div class="center-button">
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>
+        <i class="fas fa-save"></i>
+      <% end %>
+    </div>
   <% end %>
 
   <% Intelligence.all.each do |intel| %>

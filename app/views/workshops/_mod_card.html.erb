@@ -14,7 +14,7 @@
   </div>
   <div class="card-right grabbable">
     <div class="card-category">
-      <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), class: 'grabbable' do %>
+      <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod) do %>
         <div>
           <% if exceed.include?(mod.position) %>
             <h4><%= "#{mod.title} - (#{mod.duration} min)" %> <p class='error'>Durée de la session dépassée</p></h4>
@@ -34,10 +34,10 @@
             </ul>
           </div>
         </div>
-        <div class='card-controls'>
-          <a class="button" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>'><button class='btn'><i class="fas fa-edit"></i></button></a>
+        <div class='module-card-controls'>
+          <a class="button" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>'><i class="fas fa-pen"></i></a>
           <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?'}, remote: true do %>
-            <button class='btn'><i class="fas fa-trash-alt"></i></button>
+            <i class="fas fa-trash-alt"></i>
           <% end %>
           <% if mod.position == 1 %>
             <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>

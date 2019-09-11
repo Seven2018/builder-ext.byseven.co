@@ -19,16 +19,16 @@
         <%= f.input :start_time, label: 'Start time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('9:00') %>
         <%= f.input :end_time, label: 'End time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('17:00') %>
       </div>
-  </div>
-  <div class="modal-footer" id="modalNewBookingFooter">
-    <div>
-      <%= link_to training_session_path(session.training, session), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-        <button class="btn btn-edit">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      <% end %>
-      <%= f.button :submit, 'Save', class: 'btn btn-edit' %>
-      <% end %>
-    </div>
+      <div style=" display: flex; justify-content: space-between;">
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+        <%= link_to training_session_path(session.training, session), method: :delete, data: { confirm: 'Etes vous certain(e) de vouloir supprimer cette Action ?'} do %>
+          <button class="btn btn-edit-red">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>

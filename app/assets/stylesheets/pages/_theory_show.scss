@@ -13,61 +13,11 @@
   margin-top: 30px;
 }
 
-.theory-list {
-  margin-top: 10px;
-}
-
 #theory-index {
   width: 100%;
 
   @include from-large {
     width: 700px;
-  }
-}
-
-.theory-list {
-  list-style: none;
-  width: 100%;
-  padding: 0;
-
-  @include from-large {
-    width: 700px;
-  }
-
-  a {
-    text-decoration: none;
-    }
-}
-
-.theory-card {
-  width: 100%;
-  height: auto;
-  display: flex;
-  border-bottom: 2px solid rgba(0,0,0,0.4);
-  margin: 0;
-  padding: 20px 0;
-
-  div {
-
-    p {
-      margin: 0;
-    }
-  }
-}
-
-#theory-index-controls {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 50px;
-
-  @include from-large {
-    width: 700px;
-  }
-
-  h3 {
-    margin-bottom: 0;
   }
 }
 

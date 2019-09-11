@@ -154,7 +154,6 @@ $timeline: #115173;
 
   .card-main-lg {
     height: auto;
-    padding: 20px;
     position: relative;
     h3 {
       font-family: "Roboto";
@@ -163,6 +162,7 @@ $timeline: #115173;
       color: inherit;
       text-align: left;
       margin: 0;
+      position: relative;
     }
   }
   .card-footer-lg {
@@ -170,9 +170,22 @@ $timeline: #115173;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-top: 1px solid rgba(115, 133, 152, 0.6);
+    border-bottom: 1px solid rgba(115, 133, 152, 0.6);
+    position: relative;
     p {
       margin: 0;
+    }
+
+    button {
+      height: 50px;
+      width: 50px;
+      position: absolute;
+      right: 0;
+      border-left: 1px solid rgba(115, 133, 152, 0.6);
+
+      &:hover {
+        background-color: rgba(0,0,0,0.05);
+      }
     }
   }
 }
@@ -180,12 +193,16 @@ $timeline: #115173;
 .card-session-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  margin-bottom: 20px;
+  padding: 20px;
 
-    h3 {
-      margin: 0;
-      padding: 0;
+  a {
+    max-width: 70%;
+  }
+
+  h3 {
+    max-width: 100%;
   }
 }
 
@@ -249,7 +266,8 @@ $timeline: #115173;
     font-weight: 600;
     font-size: 23px;
     text-align: center;
-    margin-top: 30px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 
     @include from-large {
       display: none;
@@ -316,13 +334,22 @@ $timeline: #115173;
     justify-content: space-between;
   }
   .card-description {
-    text-align: justify;
+    text-align: center;
+
+    @include from-large {
+      text-align: justify;
+    }
+
     i {
       font-size: 22px;
       position: absolute;
       top: 41px;
       right: 61px;
       color: #2e353d85;
+    }
+    ul {
+      padding: 0;
+      list-style: none;
     }
   }
 
@@ -367,12 +394,16 @@ $timeline: #115173;
 
 .message-box {
   background-color: white;
-  padding-left: 120px;
-  padding-right: 120px;
-  padding-top: 35px;
-  padding-bottom: 31px;
   margin-top: 50px;
   text-align: left;
+
+  @include from-large {
+    padding-left: 120px;
+    padding-right: 120px;
+    padding-top: 35px;
+    padding-bottom: 31px;
+  }
+
   li{
     margin-top: 10px;
   }
@@ -390,19 +421,27 @@ $timeline: #115173;
 .log-box{
   text-align: left;
   background-color: white;
-  margin-top: 50px;
-  margin-bottom: 62px;
-  border-bottom-width: 20px;
-  padding-bottom: 30px;
-  padding-top: 30px;
-  padding-left: 120px;
-  padding-right: 120px;
+  margin: 30px 0;
   position: relative;
+
+  @include from-large {
+    margin-top: 50px;
+    margin-bottom: 62px;
+    border-bottom-width: 20px;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    padding-left: 120px;
+    padding-right: 120px;
+  }
 }
 
 .card-category {
   display: flex;
   justify-content: space-between;
+
+  a, a > div {
+    width: 100%;
+  }
 
   h4{
     text-align: left;
@@ -412,22 +451,6 @@ $timeline: #115173;
       font-size: 20px;
       padding-bottom: 16px;
     }
-  }
-}
-
-.card-controls {
-  display: flex;
-  flex-direction: column;
-
-  .btn {
-    width: auto;
-    min-width: 16px;
-    box-shadow: none;
-    padding: 0;
-  }
-
-  a {
-    padding-bottom: 10px;
   }
 }
 
@@ -444,9 +467,10 @@ input.btn {
   margin-bottom: 10px !important;
 }
 
-.btn-edit, .btn-edit-red, .btn-edit-green {
+.btn-edit, .btn-edit-red, .btn-edit-green, .btn-edit-grey {
   opacity: 0.8;
-  display: inline-block;
+  width: auto;
+  min-width: 0 !important;
   padding: 0.45em 2em;
   border-radius: 0.22em;
   box-sizing: border-box;
@@ -469,11 +493,15 @@ input.btn {
 }
 
 .btn-edit-red {
-    background-color: $red !important;
+    background-color: #E64259 !important;
 }
 
 .btn-edit-green {
-    background-color: $green !important;
+    background-color: #4AC2C7 !important;
+}
+
+.btn-edit-grey {
+    background-color: #23282E !important;
 }
 
 .edit-btn {
@@ -588,6 +616,7 @@ input.btn {
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
+
     h4 {
       color: rgba(0,0,0,0.6);
     }
@@ -625,5 +654,16 @@ input.btn {
       color: #2e353d85;
     }
   }
+}
 
+.stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: auto;
+    content: "";
+    background-color: rgba(0,0,0,0);
 }
