@@ -1,16 +1,29 @@
 .container-seven-form {
   width: 100%;
-  min-width: 1080px;
   min-height: 100vh;
-  padding: 50px;
+  padding: 20px;
   overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @include from-large {
+    min-width: 1080px;
+    padding: 50px;
+  }
+
+  h2 {
+    text-align: center;
+  }
 }
 
 #attendee-form {
-  width: 500px;
+  width: 100%;
+  margin-bottom: 30px;
+
+  @include from-large {
+    width: 500px;
+  }
 }
 
 #attendee-form-title {
@@ -20,39 +33,99 @@
 }
 
 #attendee-form-logo {
-  width: 50%;
+  width: 100%;
   display: inherit;
   justify-content: space-around;
-}
 
-.session-form-row {
-  padding-left: 0 !important;
-  padding-bottom: 36px !important;
-  margin-left: 65px;
-  margin-right: 65px;
+  @include from-large {
+    width: 50%;
+  }
+
+  img {
+    height: 75px;
+
+    @include from-large {
+      height: 150px;
+    }
+  }
 }
 
 .session-form-card {
-  height: 300px;
-  width: 100%;
-  padding: 10px;
-  background-color: #595959;
-  color: white;
-  position: relative;
+  height: 600px;
+  width: 300px;
+  background-color: white;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  align-items: center;
+
+  @include from-large {
+    height: 450px;
+    width: 900px;
+    flex-direction: row;
+  }
+
+  h3 {
+    color: #FFC451;
+  }
+
+  .session-teaser {
+    text-align: left;
+    font-size: 12px;
+
+    @include from-large {
+      font-size: 16px;
+    }
+  }
+}
+
+.session-form-card-left {
+  height: 300px;
+  width: 300px;
+
+  @include from-large {
+    height: 450px;
+    width: 450px;
+  }
+}
+
+.session-form-card-image-1 {
+  height: 300px;
+  width: 300px;
+  background-image: url('https://static.lexpress.fr/medias_9458/w_480,h_270,c_fill,g_north/v1395063433/gign-1_4842839.jpg');
+  background-size: cover;
+  background-position: right 20% bottom 45%;
+
+  @include from-large {
+    height: 450px;
+    width: 450px;
+  }
+}
+
+.session-form-card-right {
+  height: 300px;
+  width: 300px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @include from-large {
+    height: 450px;
+    width: 450px;
+  }
 }
 
 .session-form-control {
-  position: absolute;
-  width: 100%;
-  bottom: 10px;
-
-  p {
+  a {
+    margin-bottom: 10px;
   }
 }
 
 #form-import {
   margin-top: 100px;
+  display: none;
+
+  @include from-large {
+    display: block;
+  }
 }

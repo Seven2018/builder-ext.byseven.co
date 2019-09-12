@@ -1,8 +1,9 @@
-
-  <h4>Workshops List</h4>
-  <%= link_to new_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop) do %>
-    <i class="fas fa-plus"></i>
-  <% end %>
+  <div class="workshop-middle-info-main">
+    <h4>Modules List</h4>
+    <%= link_to new_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop) do %>
+      <button class="btn btn-edit">New Module</button>
+    <% end %>
+  </div>
   <% @workshop.workshop_modules.order('position ASC').each do |mod| %>
     <div class='module-card'>
       <div class="module-card-infos">
@@ -22,9 +23,6 @@
       </div>
       <div class="module-card-controls">
         <p><%= mod.duration %> min</p>
-        <% unless mod.user.nil? %>
-          <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= mod.user.id %>'><img src='<%= "#{mod.user.picture}" %>' alt="" class='avatar'></a>
-        <% end %>
         <div style='display:flex;flex-direction:column;'>
           <% if mod.position == 1 %>
             <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
@@ -42,7 +40,7 @@
           <% end %>
         </div>
         <%= link_to edit_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod) do %>
-          <i class="fas fa-edit"></i>
+          <i class="fas fa-pen"></i>
         <% end %>
         <%= link_to training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod), method: :delete, data: { confirm: 'Are you sure ?'} do %>
           <i class="fas fa-trash"></i>

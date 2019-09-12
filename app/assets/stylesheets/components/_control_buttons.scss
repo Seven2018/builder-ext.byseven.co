@@ -71,12 +71,37 @@
 }
 
 .edit-fafa {
+  display: none;
   border: none;
   font-size: 20px;
   outline: none;
   color: black;
+  background-color: rgba(0,0,0,0);
   &:hover {
     color: black;
     cursor: pointer;
+  }
+
+  @include from-large {
+    display: inline;
+  }
+}
+
+.add-user {
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  border: 1px solid rgba(0,0,0,0.6);
+  padding: 0;
+  background-color: rgba(0,0,0,0);
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
   }
 }

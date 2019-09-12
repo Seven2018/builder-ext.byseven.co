@@ -2,7 +2,11 @@ class TheoriesController < ApplicationController
   before_action :set_theory, only: [:show, :edit, :update, :destroy]
 
   def index
-    @theories = policy_scope(Theory).order(name: :asc)
+    if params[:search]
+      @theories = policy_scope(Theory).where("lower(name) LIKE ?", "%#{params[:search][:name].downcase}%").order(name: :asc)
+    else
+      @theories = policy_scope(Theory).order(name: :asc)
+    end
   end
 
   def show

@@ -1,0 +1,53 @@
+<div class="left-navbar-mobile">
+  <div class="left-navbar-middle-mobile">
+    <div class="left-buttons-mobile">
+      <div class="left-navbar-top-mobile">
+        <% if user_signed_in? %>
+          <img src='<%= "#{current_user.picture}" %>' class="avatar-mobile dropdown-toggle" id="navbar-wagon-menu" data-toggle="dropdown">
+        <% end %>
+        <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
+          <% if user_signed_in? %>
+            <li><%= link_to "Profile", user_path(current_user) %></li>
+          <% end %>
+          <li>
+            <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <% if user_signed_in? %>
+      <%= link_to trainings_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+        <div class="left-menu-list-mobile">
+          <i class="fas fa-tasks"></i>
+        </div>
+      <% end %>
+      <% if user_signed_in? && (['super admin', 'admin'].include? current_user.access_level) %>
+        <%= link_to contents_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+          <div class="left-menu-list-mobile">
+            <i class="fas fa-toolbox"></i>
+          </div>
+        <% end %>
+        <%= link_to client_companies_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+          <div class="left-menu-list-mobile">
+            <i class="far fa-copyright"></i>
+          </div>
+        <% end %>
+        <%= link_to users_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+          <div class="left-menu-list-mobile">
+            <i class="fas fa-user-tie"></i>
+          </div>
+        <% end %>
+        <%= link_to actions_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+          <div class="left-menu-list-mobile">
+            <i class="fas fa-running"></i>
+          </div>
+        <% end %>
+        <%= link_to theories_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+          <div class="left-menu-list-mobile">
+            <i class="fas fa-book"></i>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

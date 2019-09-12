@@ -1,21 +1,23 @@
 <div class="container-seven">
   <%= link_to client_company_path(@client_contact.client_company) do %><i class="fas fa-arrow-left"></i><% end %>
-  <div class="client-contact-card-show">
-    <div>
-      <img src='<%= @client_contact.client_company.logo %>' alt="" class='client-company-logo-show'>
+  <div class="centered-card-show">
+    <div class="client-contact-card-show">
       <div>
-        <div class="show-control-links">
-          <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-            <a class="edit-fafa" data-toggle='modal' data-target='#editClientContact'><i class="fas fa-edit"></i></a>
-          <% end %>
+        <img src='<%= @client_contact.client_company.logo %>' alt="" class='client-company-logo-show'>
+        <div>
+          <div class="show-control-links">
+            <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+              <button class="edit-fafa btn btn-edit" data-toggle='modal' data-target='#editClientContact'>Edit Client</i></button>
+            <% end %>
+          </div>
         </div>
       </div>
+      <p>Company/School: <%= @client_contact.client_company.name %></p>
+      <p>Name: <%=  @client_contact.name %></p>
+      <p>Email: <%= @client_contact.email %></p>
+      <p>Position: <%= @client_contact.title %></p>
+      <p>Description: <%= @client_contact.role_description %></p>
     </div>
-    <p>Company/School: <%= @client_contact.client_company.name %></p>
-    <p>Name: <%=  @client_contact.name %></p>
-    <p>Email: <%= @client_contact.email %></p>
-    <p>Position: <%= @client_contact.title %></p>
-    <p>Description: <%= @client_contact.role_description %></p>
   </div>
 </div>
 

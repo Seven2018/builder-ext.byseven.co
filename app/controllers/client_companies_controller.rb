@@ -2,7 +2,11 @@ class ClientCompaniesController < ApplicationController
 before_action :set_clientcompany, only: [:show, :edit, :update, :destroy]
 
   def index
-    @client_companies = policy_scope(ClientCompany).order(name: :asc)
+    if params[:search]
+      @client_companies = policy_scope(ClientCompany).where("lower(name) LIKE ?", "%#{params[:search][:name].downcase}%").order(name: :asc)
+    else
+      @client_companies = policy_scope(ClientCompany).order(name: :asc)
+    end
   end
 
   def show

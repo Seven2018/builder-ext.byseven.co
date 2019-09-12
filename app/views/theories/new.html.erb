@@ -1,8 +1,8 @@
 <div class="container-seven">
-  <h2>Ajouter une théorie</h2>
+  <h2>Add a Theory</h2>
 
   <%= simple_form_for @theory do |f| %>
-    <%= f.input :name, label: 'Nom' %>
+    <%= f.input :name %>
     <%= f.input :description, input_html: { class: 'editor' } %>
     <%= f.input :links, input_html: { style: 'width: 100%;' }, label: 'External links' %>
     <%= f.input :references, input_html: { class: 'editor2' } %>
@@ -28,6 +28,10 @@
                       console.error( error );
               } );
     </script>
-    <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit' %> </p>
+    <div class="center-button">
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+        <i class="fas fa-save"></i>
+      <% end %>
+    </div>
   <% end %>
 </div>

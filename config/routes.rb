@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :intelligences
   resources :actions
   resources :theories
-  resources :contents do
+  resources :contents, only: [:index, :show, :new, :create, :update, :destroy] do
     resources :content_modules
     resources :theory_contents, only: [:create, :destroy]
   end
@@ -25,9 +25,10 @@ Rails.application.routes.draw do
   get 'report', to: 'invoice_items#report', as: 'report'
   resources :invoice_lines, only: [:create, :edit, :update, :destroy]
   resources :trainings do
-    resources :sessions do
+    resources :sessions, only: [:show, :create, :update, :destroy] do
       resources :workshops, only: [:show, :create, :edit, :update, :destroy] do
         resources :workshop_modules
+        resources :theory_workshops, only: [:create, :destroy]
       end
       resources :session_trainers, only: [:create, :destroy], path: '/trainers'
       resources :session_attendees, only: [:create, :destroy]

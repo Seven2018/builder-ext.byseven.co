@@ -9,14 +9,45 @@
   padding: 0;
 
   li {
-    padding-right: 15px;
+    border: none;
   }
 }
+
+.myUL-li-theme {
+  border: solid black;
+  border-width: 1px 1px 0 1px;
+  width: 500px;
+  padding: 15px 0;
+
+  &:last-child {
+    border-bottom-width: 1px;
+  }
+}
+
+.theme-active {
+  padding-bottom: 0 !important;
+}
+
+.myUL-li-content {
+  border-bottom: 1px solid black;
+
+  a {
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &:last-child {
+    border-bottom: none !important;
+  }
+}
+
 
 /* Style the caret/arrow */
 .caret {
   cursor: pointer;
   user-select: none; /* Prevent text selection */
+  padding: 10px 7.5px;
 }
 
 /* Create the caret/arrow with a unicode, and style it */
@@ -35,9 +66,15 @@
 /* Hide the nested list */
 .nested {
   display: none;
+  list-style: none !important;
+  border: solid $yellow;
+  border-width: 1px 0 0 0;
 }
 
 /* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
-.active {
+.nested-active {
   display: block;
+  width: 100%;
+  padding: 0;
+  margin-top: 15px;
 }

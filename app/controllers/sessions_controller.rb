@@ -34,18 +34,13 @@ class SessionsController < ApplicationController
     end
   end
 
-  def new
-    @session = Session.new
-    @training = Training.find(params[:training_id])
-    authorize @session
-  end
-
   def create
     @training = Training.find(params[:training_id])
     @session = Session.new(session_params)
     authorize @session
     @session.training = @training
     if @session.save
+      SessionTrainer.create(session_id: @session.id, user_id: params[:session][:users].to_i)
       redirect_to training_path(@training)
     else
       render :new

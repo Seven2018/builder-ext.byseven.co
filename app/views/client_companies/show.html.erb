@@ -1,30 +1,32 @@
 <div class="container-seven">
   <%= link_to client_companies_path do %><i class="fas fa-arrow-left"></i><% end %>
-  <div class="client-company-card-show">
-    <div>
-      <img src='<%= @client_company.logo %>' alt="" class='client-company-logo-show'>
+  <div class="centered-card-show">
+    <div class="client-company-card-show">
       <div>
-        <p><%=  @client_company.name %></p>
-        <div class="show-control-links">
-          <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-            <a class="edit-fafa" data-toggle='modal' data-target='#editClientCompany'><i class="fas fa-edit"></i></a>
-            <%= link_to 'Liste Factures', invoice_items_path(client_company_id: @client_company.id, type: 'Invoice') %>
-            <%= link_to 'Liste Devis', invoice_items_path(client_company_id: @client_company.id, type: 'Estimate') %>
-          <% end %>
+        <img src='<%= @client_company.logo %>' alt="" class='client-company-logo-show'>
+        <div>
+          <p><%=  @client_company.name %></p>
+          <div class="show-control-links">
+            <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+              <a class="edit-fafa" data-toggle='modal' data-target='#editClientCompany'><i class="fas fa-pen"></i></a>
+              <%= link_to 'Liste Factures', invoice_items_path(client_company_id: @client_company.id, type: 'Invoice') %>
+              <%= link_to 'Liste Devis', invoice_items_path(client_company_id: @client_company.id, type: 'Estimate') %>
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
-    <p><%= @client_company.address %></p>
-    <p><%= @client_company.client_company_type %></p>
-    <p><%= @client_company.description %></p>
+      <p><%= @client_company.address %></p>
+      <p><%= @client_company.client_company_type %></p>
+      <p><%= @client_company.description %></p>
+
   </div>
-  <h2>Liste de contacts</h2>
+  <h2>Contacts List</h2>
   <div class="client-contact-list">
     <%= link_to new_client_company_client_contact_path(@client_company) do %>
       <div class="client-company-card">
         <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
-        <div>
-          <p>Ajouter un nouveau contact</p>
+        <div class='client-contact-info'>
+          <p>New contact</p>
           <p></p>
         </div>
       </div>
@@ -33,7 +35,7 @@
         <%= link_to client_company_client_contact_path(contact.client_company, contact) do %>
           <div class="client-contact-card user-contact-card">
             <img class='client-company-logo-index' src='<%= "#{contact.client_company.logo}" %>'>
-            <div>
+            <div class='client-contact-info'>
               <p><%= contact.name %></p>
               <div>
                 <p><%= contact.title %></p>
@@ -43,6 +45,7 @@
           </div>
         <% end %>
     <% end %>
+  </div>
   </div>
 </div>
 

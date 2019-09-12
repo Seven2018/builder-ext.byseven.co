@@ -1,0 +1,14 @@
+.middle-info-workshop {
+  text-align: center;
+
+  @include from-large {
+    text-align: left;
+  }
+}
+
+.workshop-image-mobile {
+
+  @include from-large {
+    display: none;
+  }
+}

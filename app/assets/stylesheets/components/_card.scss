@@ -9,7 +9,7 @@ $timeline: #115173;
   border: 1px solid #e0e0e0;
   font-family: 'Roboto';
   font-weight: lighter;
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: none !important;
   background-color: white;
   transition: all 0.8s ease;
   a {
@@ -66,6 +66,20 @@ $timeline: #115173;
   }
 }
 
+.card-sm-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 640px) {
+  .card-sm-mobile {
+    display: block !important;
+  }
+
+  .card-sm {
+    display: none;
+  }
+}
+
 .sessions-cards {
   a {
     text-decoration: none;
@@ -75,7 +89,6 @@ $timeline: #115173;
 .client-logo {
   height: 50px;
   width: 50px;
-  border-radius: 100%;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -128,7 +141,7 @@ $timeline: #115173;
 
 .card-lg {
   background-color: white;
-  width: 80%;
+  width: 100%;
   height: auto;
   box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
   margin: 0 auto;
@@ -141,7 +154,6 @@ $timeline: #115173;
 
   .card-main-lg {
     height: auto;
-    padding: 20px;
     position: relative;
     h3 {
       font-family: "Roboto";
@@ -150,6 +162,7 @@ $timeline: #115173;
       color: inherit;
       text-align: left;
       margin: 0;
+      position: relative;
     }
   }
   .card-footer-lg {
@@ -157,9 +170,26 @@ $timeline: #115173;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-top: 1px solid rgba(115, 133, 152, 0.6);
+    border-bottom: 1px solid rgba(115, 133, 152, 0.6);
+    position: relative;
     p {
       margin: 0;
+    }
+
+    @include from-large {
+      padding-right: 40%;
+    }
+
+    button {
+      height: 50px;
+      width: 50px;
+      position: absolute;
+      right: 0;
+      border-left: 1px solid rgba(115, 133, 152, 0.6);
+
+      &:hover {
+        background-color: rgba(0,0,0,0.05);
+      }
     }
   }
 }
@@ -167,11 +197,16 @@ $timeline: #115173;
 .card-session-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
+  padding: 20px;
 
-    h3 {
-      margin: 0;
-      padding: 0;
+  a {
+    max-width: 70%;
+  }
+
+  h3 {
+    max-width: 100%;
   }
 }
 
@@ -204,12 +239,17 @@ $timeline: #115173;
     }
   }
   .card-left {
-    flex-shrink: 0;
     border-right-style: solid;
     border-right-color: $timeline;
     border-right-width: 4px;
     width: 150px;
     position: relative;
+    display: none;
+
+    @include from-large {
+      display: flex;
+      flex-shrink: 0;
+    }
   }
   .mod-time {
     display: flex;
@@ -222,13 +262,26 @@ $timeline: #115173;
     font-weight: 600;
     font-size: 23px;
   }
+
+  .mod-time-mobile {
+    top: 40%;
+    left: 54px;
+    color: $blue;
+    font-weight: 600;
+    font-size: 23px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+    @include from-large {
+      display: none;
+    }
+  }
+
   .card-right {
-    width: 700px;
+    width: 100%;
     box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
-    padding-right: 40px;
-    padding-left: 40px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 10px;
     margin-left: 25px;
     margin-right: 25px;
     margin-top: 20px;
@@ -242,6 +295,14 @@ $timeline: #115173;
       font-weight: 300;
       letter-spacing: 0.6px;
       line-height: 1.6;
+    }
+
+    @include from-large {
+      width: 700px;
+      padding-right: 40px;
+      padding-left: 40px;
+      padding-top: 20px;
+      padding-bottom: 20px;
     }
   }
   .grabbable {
@@ -277,13 +338,22 @@ $timeline: #115173;
     justify-content: space-between;
   }
   .card-description {
-    text-align: justify;
+    text-align: center;
+
+    @include from-large {
+      text-align: justify;
+    }
+
     i {
       font-size: 22px;
       position: absolute;
       top: 41px;
       right: 61px;
       color: #2e353d85;
+    }
+    ul {
+      padding: 0;
+      list-style: none;
     }
   }
 
@@ -328,12 +398,16 @@ $timeline: #115173;
 
 .message-box {
   background-color: white;
-  padding-left: 120px;
-  padding-right: 120px;
-  padding-top: 35px;
-  padding-bottom: 31px;
   margin-top: 50px;
   text-align: left;
+
+  @include from-large {
+    padding-left: 120px;
+    padding-right: 120px;
+    padding-top: 35px;
+    padding-bottom: 31px;
+  }
+
   li{
     margin-top: 10px;
   }
@@ -351,31 +425,37 @@ $timeline: #115173;
 .log-box{
   text-align: left;
   background-color: white;
-  margin-top: 50px;
-  margin-bottom: 62px;
-  border-bottom-width: 20px;
-  padding-bottom: 30px;
-  padding-top: 30px;
-  padding-left: 120px;
-  padding-right: 120px;
+  margin: 30px 0;
+  position: relative;
+
+  @include from-large {
+    margin-top: 50px;
+    margin-bottom: 62px;
+    border-bottom-width: 20px;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    padding-left: 120px;
+    padding-right: 120px;
+  }
 }
 
 .card-category {
   display: flex;
-  justify-content: left;
-  align-items: center;
-  i {
-    padding-bottom: 20px;
+  justify-content: space-between;
+
+  a, a > div {
+    width: 100%;
   }
+
   h4{
     text-align: left;
-    padding-bottom: 16px;
-  }
-}
+    font-size: 16px;
 
-.card-controls {
-  display: flex;
-  width: 50px;
+    @include from-large {
+      font-size: 20px;
+      padding-bottom: 16px;
+    }
+  }
 }
 
 #card-index:hover {
@@ -387,15 +467,33 @@ $timeline: #115173;
   box-shadow: none;
 }
 
-.btn-edit, .btn-edit-red, .btn-edit-green {
+input.btn {
+  margin-bottom: 10px !important;
+}
+
+.return-arrow {
+  min-width: 0 !important;
+  padding: 15.75px 17px !important;
+  box-shadow: none !important;
+
+  &:hover {
+    background-color: ghostwhite !important;
+  }
+
+  i {
+    font-size: 14px;
+  }
+}
+
+.btn-edit, .btn-edit-red, .btn-edit-green, .btn-edit-grey {
   opacity: 0.8;
-  display: inline-block;
+  width: auto;
+  max-width: none;
   padding: 0.45em 2em;
   border-radius: 0.22em;
   box-sizing: border-box;
-  // font-family: 'Roboto',sans-serif;
-  font-weight: 600;
-  color: white;
+  font-weight: 800 !important;
+  color: white !important;
   text-align: center;
   transition: all 0.1s;
   outline: none !important;
@@ -404,45 +502,38 @@ $timeline: #115173;
   }
   &:hover{
     opacity: 1;
-    font-weight: 600;
-    color: white;
     text-decoration: none !important;
   }
 }
 
 .btn-edit {
-  background-color: $yellow;
+  background-color: $yellow !important;
 }
 
 .btn-edit-red {
-    background-color: $red;
+    background-color: #E64259 !important;
 }
 
 .btn-edit-green {
-    background-color: $green;
+    background-color: #4AC2C7 !important;
 }
 
-.edit-btn {
-  font-size: 17px;
-  cursor: pointer;
-  color: $gray;
-  &:hover {
-    color: $gray;
-    text-decoration: none;
-  }
+.btn-edit-grey {
+    background-color: #23282E !important;
+}
+
+.btn-edit-pen, .btn-edit-menu {
+  padding: 15.75px 16px !important
+}
+
+.btn-edit-disk, .btn-edit-trash {
+  padding: 15.75px 17px !important;
+  min-width: 0 !important;
+  color: white !important;
 }
 
 #new-training {
   font-size: 20px;
-  margin-right: 15px;
-}
-
-#edit-btn {
-  color: black;
-}
-
-#edit-btn:hover {
-  text-decoration: none !important;
 }
 
 .card-mods:last-child {
@@ -461,6 +552,7 @@ $timeline: #115173;
 }
 .center-button {
   text-align: center;
+  margin-top: 30px;
 }
 
 .empty-mod {
@@ -534,6 +626,7 @@ $timeline: #115173;
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
+
     h4 {
       color: rgba(0,0,0,0.6);
     }
@@ -571,5 +664,16 @@ $timeline: #115173;
       color: #2e353d85;
     }
   }
+}
 
+.stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: auto;
+    content: "";
+    background-color: rgba(0,0,0,0);
 }

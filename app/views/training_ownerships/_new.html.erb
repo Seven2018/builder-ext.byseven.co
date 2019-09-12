@@ -8,11 +8,7 @@
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [@training, @training_ownership] do |f| %>
         <%= f.input :user, :collection => @users.where.not(access_level: 'sevener'), :label_method => lambda { |owner| "#{owner.firstname} #{owner.lastname}" }, include_blank: false %>
-  </div>
-  <div class="modal-footer" id="modalNewBookingFooter">
-    <div>
-      <%= f.button :submit, "Invite", class: 'btn btn-edit' %>
-      <% end %>
-    </div>
+        <%= f.button :submit, "Invite", class: 'btn btn-edit' %>
+    <% end %>
   </div>
 </div>

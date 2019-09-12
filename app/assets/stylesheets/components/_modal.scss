@@ -1,6 +1,11 @@
 .mod-date {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
+
+  @include from-large {
+    flex-direction: row;
+  }
 }
 
 #modal-title {
@@ -30,7 +35,7 @@
 
 .fa-user-plus {
   color: black;
-  margin-left: 20px;
+  margin: 0;
   font-size: 20px;
   cursor: pointer;
 }
@@ -44,4 +49,16 @@
 
 .modal-lg {
   z-index: 9500 !important;
+}
+
+.modal {
+ overflow-y: auto !important;
+}
+
+.modal-open {
+ overflow: auto !important;
+}
+
+.modal-seven {
+  width: auto !important;
 }

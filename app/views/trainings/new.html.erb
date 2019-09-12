@@ -2,7 +2,7 @@
   <h2>Add a new training</h2>
 
   <%= simple_form_for @training do |f| %>
-    <%= f.input :title, label: 'Titre' %>
+    <%= f.input :title %>
     <%= f.input :client_contact_id, :collection => ClientContact.all.order(:name), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name}" }, :label => 'Customer contact', :include_blank => false %>
     <%= f.input :start_date, as: :string, required: true, input_html: {class: "datepicker"}, label: 'Start date' %>
     <%= f.input :end_date, as: :string, input_html: {class: "datepicker"}, label: 'End date' %>

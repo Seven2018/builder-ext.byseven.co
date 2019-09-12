@@ -3,8 +3,8 @@
   <body class='invoice-body-pdf' >
     <div class="wrapper-pdf">
       <div class="invoice-desc-headline-pdf">
-        <p class='invoice-desc-line-description-pdf'>Désignation</p>
-        <div>
+        <p class='invoice-desc-headline-description-pdf'>Désignation</p>
+        <div class='invoice-desc-line-data-pdf'>
         <p>Qté</p>
         <p>PU HT</p>
         <p class='invoice-desc-line-pretaxamount'>Montant HT</p>
@@ -14,7 +14,7 @@
       <% @invoice_item.invoice_lines.each do |line| %>
         <div  class="invoice-desc-line-pdf">
           <p class='invoice-desc-line-description-pdf'><%= line.description %></p>
-          <div>
+          <div class='invoice-desc-line-data-pdf'>
             <p><%= line.quantity %></p>
             <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
             <p class='invoice-desc-line-pretaxamount'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>

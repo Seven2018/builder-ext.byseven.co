@@ -16,7 +16,7 @@ class TrainingOwnershipsController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:training_ownership][:user].to_s)
+    @user = User.find(params[:user_id])
     @training = Training.find(params[:training_id])
     @ownership = TrainingOwnership.where(user: @user).where(training: @training)
     skip_authorization

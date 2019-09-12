@@ -1,0 +1,18 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= "Remove a theory" %></h3>
+    </div>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @theory_workshop], url: training_session_workshop_theory_workshop_path(@workshop.session.training, @workshop.session, @workshop), method: :delete do |f| %>
+        <%= f.input :theory, :collection => @workshop.theories, :label_method => :name, include_blank: false %>
+  </div>
+  <div class="modal-footer" id="modalNewBookingFooter">
+    <div>
+      <%= f.button :submit, "Remove", class: 'btn btn-edit' %>
+      <% end %>
+    </div>
+  </div>
+</div>

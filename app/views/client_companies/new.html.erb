@@ -2,10 +2,14 @@
   <h2>Add a client company or school</h2>
   <%= simple_form_for @client_company do |f| %>
     <%= f.input :name %>
-    <%= f.input :address %>
+    <%= f.input :address, placeholder: 'ex: 5 rue Moret, 75011 Paris' %>
     <%= f.input :client_company_type, collection: ["Company", "School"], include_blank: false %>
     <%= f.input :description, :input_html => {:rows => 10, style: 'width:100%;'} %>
     <%= f.input :logo, label: 'Logo URL' %>
-    <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit' %> </p>
+    <div class="center-button">
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+        <i class="fas fa-save"></i>
+      <% end %>
+    </div>
   <% end %>
 </div>

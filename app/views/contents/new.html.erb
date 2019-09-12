@@ -1,11 +1,15 @@
 <div class="container-seven">
-  <h2>Add a new Workshop</h2>
+  <h3>Add a new Workshop</h3>
 
   <%= simple_form_for @content do |f| %>
     <%= f.input :title %>
     <%= f.input :duration, input_html: { min: '0' }, label: 'Duration (min)' %>
     <%= f.input :description, label: 'Image intro (url)' %>
     <%= f.association :theme, collection: Theme.order('name ASC'), include_blank: false, allow_blank: false %>
-    <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit' %> </p>
+    <div class="center-button">
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+        <i class="fas fa-save"></i>
+      <% end %>
+    </div>
   <% end %>
 </div>

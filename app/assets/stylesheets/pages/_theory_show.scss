@@ -13,6 +13,33 @@
   margin-top: 30px;
 }
 
-.theory-list {
-  margin-top: 10px;
+#theory-index {
+  width: 100%;
+
+  @include from-large {
+    width: 700px;
+  }
+}
+
+.theory-card-infos {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  & > p:first-child {
+    word-wrap: break-word;
+    max-width: 45%;
+
+    @include from-large {
+      width: 250px;
+    }
+  }
+}
+
+.theory-contents {
+  width: 45%;
+
+  p {
+    color: rgba(0,0,0,0.6);
+  }
 }

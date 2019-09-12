@@ -6,7 +6,7 @@
   <% exceed << mod.position if (total_duration * 60) > (mod.session.end_time - mod.session.start_time) %>
 <% end %>
 <div class="card card-mods grabbable" data-item-id="<%= mod.id %>">
-  <div class="card-left align-elements-in-flexbox grabbable">
+  <div class="card-left">
     <div class="mod-time">
       <%= start.strftime("%H:%M") %>
       <div class="circle"></div>
@@ -14,55 +14,57 @@
   </div>
   <div class="card-right grabbable">
     <div class="card-category">
-      <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), class: 'grabbable' do %>
-        <div style='display:flex;justify-content:space-between;width:100%;'>
-          <h4><%= "#{mod.title} - (#{mod.duration} min)" %></h4>
-          <div class='card-controls'>
-            <a class="button" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>'><button class='btn'><i class="fas fa-edit"></i></button></a>
-            <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?'}, remote: true do %>
-              <button class='btn'><i class="fas fa-trash-alt"></i></button>
-            <% end %>
-            <div style='display:flex;flex-direction:column;'>
-              <% if mod.position == 1 %>
-                <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
-              <% else %>
-                <%= link_to move_up_workshop_path(mod), remote: true do %>
-                  <i class="fas fa-arrow-up"></i>
-                <% end %>
-              <% end %>
-              <% if mod.position ==  @session.workshops.count %>
-                <a href=""><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
-              <% else %>
-                <%= link_to move_down_workshop_path(mod), remote: true do %>
-                  <i class="fas fa-arrow-down"></i>
-                <% end %>
-              <% end %>
+      <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod) do %>
+        <div>
+          <% if exceed.include?(mod.position) %>
+            <h4><%= "#{mod.title} - (#{mod.duration} min)" %> <p class='error'>Durée de la session dépassée</p></h4>
+          <% else %>
+            <h4><%= "#{mod.title} - (#{mod.duration} min)" %></h4>
+          <% end %>
+          <div class="card-description grabbable">
+            <div class="mod-time-mobile">
+              <%= start.strftime("%H:%M") %>
             </div>
+            <ul>
+              <% mod.workshop_modules.order('position ASC').compact.each do |workmod| %>
+                <li>
+                  <%= workmod.title %>
+                </li>
+              <% end %>
+            </ul>
           </div>
+        </div>
+        <div class='module-card-controls'>
+          <a class="button" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>'><i class="fas fa-pen"></i></a>
+          <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?'}, remote: true do %>
+            <i class="fas fa-trash-alt"></i>
+          <% end %>
+          <% if mod.position == 1 %>
+            <a href=""><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
+          <% else %>
+            <%= link_to move_up_workshop_path(mod), remote: true do %>
+              <i class="fas fa-arrow-up"></i>
+            <% end %>
+          <% end %>
+          <% if mod.position ==  @session.workshops.count %>
+            <a href=""><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
+          <% else %>
+            <%= link_to move_down_workshop_path(mod), remote: true do %>
+              <i class="fas fa-arrow-down"></i>
+            <% end %>
+          <% end %>
         </div>
       <% end %>
       <% if @error %>
         <p class='error'>Attention au rythme</p>
       <% end %>
-      <% if exceed.include?(mod.position) %>
-        <p class='error'>Durée de la session dépassée</p>
-      <% end %>
-    </div>
-    <div class="card-description grabbable">
-      <ul>
-        <% mod.workshop_modules.order('position ASC').compact.each do |workmod| %>
-          <li>
-            <%= workmod.title %>
-          </li>
-        <% end %>
-      </ul>
     </div>
   </div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="editWorkshop<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'workshops/edit', mod: mod  %>
   </div>
 </div>

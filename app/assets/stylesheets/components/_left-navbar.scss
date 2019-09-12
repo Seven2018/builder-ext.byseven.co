@@ -1,5 +1,5 @@
 .left-navbar {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   background-color: #23282e;
@@ -14,6 +14,28 @@
   -webkit-box-shadow: inset -2px 0px 0px 0px rgba(0,0,0,0.18);
   -moz-box-shadow: inset -2px 0px 0px 0px rgba(0,0,0,0.18);
   box-shadow: inset -2px 0px 0px 0px rgba(0,0,0,0.18);
+
+  @include from-large {
+    display: flex;
+  }
+}
+
+.left-navbar-mobile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #23282e;
+  position: fixed;
+  top: 0px;
+  width: 100vw;
+  height: 50px;
+  z-index: 2;
+
+  text-align: left;
+
+  @include from-large {
+    display: none;
+  }
 }
 
 .left-navbar-top {
@@ -21,18 +43,32 @@
   justify-content: space-around;
 }
 
-.left-navbar-middle {
-  margin-bottom: 160px;
+.left-navbar-middle-mobile {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .left-navbar-bottom {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: 38px;
 }
 
 .left-buttons {
   color: white;
+}
+
+.left-buttons-mobile {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+    &:focus {
+    background-color: #FFC552;
+  }
 }
 
 .left-navbar a {
@@ -59,8 +95,18 @@
   align-items: center;
   padding: 24px;
   width: 220px;
+
   &:hover {
-    background-color: #FFC552;
+    background-color: #FDC553;
+  }
+}
+
+.left-menu-list-mobile {
+  width: 20px;
+  height: 20px;
+
+  i {
+    font-size: 20px;
   }
 }
 
@@ -89,8 +135,7 @@
 .left-menu-title {
   text-align: left;
   margin-left: 20px;
-  p {
-    font-size: 20px;
+  h4 {
     font-weight: 400;
     margin: 0;
   }

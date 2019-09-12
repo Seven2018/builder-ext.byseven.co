@@ -14,40 +14,25 @@
     </div>
     <div class="middle-info">
       <div class="middle-info-main">
-        <h3><%= @session.title %></h3>
-        <div style="display: flex;align-items: center;justify-content: left;">
-          <button class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-edit"></i></button>
-          <%= link_to session_viewer_path(@session) do %>
-            <i class="far fa-eye"></i></a>
+        <h3 id='session-title'><%= @session.title %>
+          <abutton class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
+          <%= link_to session_viewer_path(@session), class: 'edit-fafa' do %>
+            <i class="far fa-eye"></i>
           <% end %>
-        </div>
-        <% if @session.start_time && @session.end_time %>
-          <h4><%= "#{@session.date.strftime("%d/%m/%y")}" %>
-            <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
-            <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
-            <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.end_time.min.to_s.length == 1 %>
-            <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.end_time.min.to_s.length == 2 %>
-          </h4>
-        <% end %>
+        </h3>
       </div>
-      <div style="display: flex;align-items: center;justify-content: space-between;">
-        <ul id="owner">
-          <% @session.users.each do |user| %>
-            <li>
-              <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
-            </li>
-            <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog" role="document" style="border-radius: 20px">
-                <%= render 'users/consult', user: user %>
-              </div>
-            </div>
-          <% end %>
-        </ul>
-          <% if (['super admin', 'admin'].include? current_user.access_level) || (@session.training.users.include? current_user) %>
-            <button class='user-fafa' data-toggle='modal' data-target='#newUser'><i class="fas fa-user-plus"></i></button>
-            <button class='user-fafa' data-toggle='modal' data-target='#destroyUser'><i class="fas fa-user-minus"></i></button>
-          <% end %>
+      <div style="display:flex;align-items:center;justify-content:center;">
       </div>
+    </div>
+    <div class="training-info">
+      <% if @session.start_time && @session.end_time %>
+        <h4><%= "#{@session.date.strftime("%d/%m/%y")}" %>
+          <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
+          <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
+          <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.end_time.min.to_s.length == 1 %>
+          <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.end_time.min.to_s.length == 2 %>
+        </h4>
+      <% end %>
     </div>
     <div id="mods" style="min-height: 70vh;">
       <%= render 'workshops/index', session: @session %>
@@ -56,9 +41,9 @@
       <div class="message-box">
         <h4>Ajouter un message</h4>
         <%= simple_form_for [@session.training, @session, @comment] do |f| %>
-          <%= f.input :object, placeholder: "Objet", input_html: { style: "width: 600px; margin-right: 20px; heigth: 50px;"}, label: false %>
-          <%= f.input :content, placeholder: "Message", input_html: { style: "width: 600px; margin-right: 20px; heigth: 50px;"}, label: false %>
-          <div> <%= f.submit 'Publier', class: 'btn btn-edit'%> </div>
+          <%= f.input :object, placeholder: "Objet", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
+          <%= f.input :content, placeholder: "Message", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
+          <div class='center-button'> <%= f.submit 'Publier', class: 'btn btn-edit'%> </div>
         <% end %>
       </div>
       <div class='log-box'>
@@ -76,15 +61,18 @@
       </div>
     </div>
     <div class="log-box">
-      <h4>Log Records</h4>
-      <ul>
-        <% @session.comments.each do |comment| %>
-          <% if comment.object == "Log" %>
-            <li class="logs-message"><%= "#{comment.content} - #{comment.created_at.strftime(("%d/%m/%Y - %H:%M"))}" %></li>
-          <% end %>
-        <% end %>
-      </ul>
+      <h4 id='logs-title'>Log Records<span>Click to see</span></h4>
+      <div id='logs-list' class='hidden'>
+        <%= render 'comments', session: @session  %>
+      </div>
     </div>
+    <script>
+      button = document.getElementById('logs-title');
+      list = document.getElementById('logs-list');
+      button.addEventListener('click', (event) => {
+        list.classList.toggle('hidden');
+      })
+    </script>
   </div>
   <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
     <div class="nav-side-menu-container">
@@ -93,7 +81,7 @@
         <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
         <div class="menu-list">
           <% status = !params[:search].nil? %>
-          <%= simple_form_for :search, url: training_session_path(@session.training, @session), method: 'GET' do |f| %>
+          <%= simple_form_for :search, url: training_session_path(@session.training, @session), html: { class: 'sidebar-search' }, method: 'GET' do |f| %>
             <%= f.input :title, placeholder: 'Search', label: false %>
           <% end %>
           <% if status %>
@@ -187,3 +175,9 @@
     <%= render 'session_trainers/destroy', session: @session, session_trainer: @session_trainer %>
   </div>
 </div>
+
+<script>
+  $(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+  });
+</script>

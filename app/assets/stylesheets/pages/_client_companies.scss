@@ -1,40 +1,76 @@
 //INDEX
 
-.client-company-list, .client-contact-list {
+#client-company-index {
+  width: 100%;
+
+  @include from-large {
+    width: auto;
+  }
+}
+
+#client-company-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  @include from-large {
+    width: 100%;
+    flex-direction: row;
+    margin-bottom: 50px;
+  }
+
+  div {
+    display: flex;
+  }
+
+  div > a {
+    margin-left: 20px;
+  }
+}
+
+.client-company-list, .client-contact-list, .theory-list, .action-list {
   list-style: none;
+  width: 100%;
+  padding: 0;
 
   a {
     text-decoration: none;
     }
+
+  h3 {
+    margin: 0;
+  }
+
+  @include from-large {
+    width: auto;
+  }
 }
 
-.client-company-card, .client-contact-card {
+.client-company-card, .client-contact-card, .theory-card, .action-card {
   width: 100%;
-  height: 75px;
+  height: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 2px 2px 10px rgba(136,136,136,0.8);
-  margin: 20px 0;
-  padding: 20px;
+  margin: 0;
+  padding: 20px 0;
+  transition: all 0.1s ease;
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
 
   div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
     p {
       margin: 0;
     }
   }
-}
 
-.client-company-name-logo {
-  width: 30%;
-}
-
-.client-company-type-address {
-  width: 55%;
+  @include from-large {
+    padding: 20px;
+  }
 }
 
 .client-company-logo-index {
@@ -43,14 +79,57 @@
   object-fit: cover;
 }
 
+.client-company-infos {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.client-company-type-address {
+  margin-left: 30px;
+
+  @include from-large {
+    margin-left: 10%;
+    width: 30%;
+  }
+
+  p {
+    color: rgba(0,0,0,0.6);
+
+    &:first-child {
+      color: black;
+    }
+  }
+}
+
+.client-company-client-contact-list {
+
+
+  @include from-large {
+    width: 30%;
+  }
+}
+
 //-------------------------------------------------------------------
 
 //SHOW
 
+.centered-card-show {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .client-company-card-show, .client-contact-card-show {
+  width: 100%;
   margin: 50px 0;
   padding: 20px;
   box-shadow: 2px 2px 10px rgba(136,136,136,0.8);
+
+  @include from-large {
+    width: 50%;
+  }
 
   div {
     display: flex;
@@ -69,7 +148,7 @@
   }
 }
 
-.client-company-logo-show {
+.client-company-logo-show, .user-picture-show {
   height: 100px;
 }
 
@@ -78,5 +157,13 @@
 
   div {
     width: 60%;
+  }
+}
+
+.client-contact-info {
+  margin-left: 30px;
+
+  @include from-large {
+    margin-left: 200px;
   }
 }

@@ -6,30 +6,36 @@
       <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
         <div style="display: flex; justify-content: center;">
           <%= link_to training_session_path(session.training, session) do %>
-          <div class="card-sm" id="card-index">
-            <div class="card-main-sm">
-              <div class='client-logo' style="background-image: url(<%= session.training.client_contact.client_company.logo %>); background-size: 50px 50px; background-repeat: no-repeat;"></div>
-              <h5><%= session.training.title %></h5>
-              <h5><%= session.title %></h5>
-              <div class="card-infos">
-                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= " From #{session.start_time.strftime('%H:%M')} to #{session.end_time.strftime('%H:%M')}" %>
+            <div class="card-sm" id="card-index">
+              <div class="card-main-sm">
+                <div class='client-logo' style="background-image: url(<%= session.training.client_contact.client_company.logo %>); background-size: 50px 50px; background-repeat: no-repeat;"></div>
+                <h5><%= session.training.title %></h5>
+                <h5><%= session.title %></h5>
+                <div class="card-infos">
+                  <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= " From #{session.start_time.strftime('%H:%M')} to #{session.end_time.strftime('%H:%M')}" %>
+                  </div>
+                </div>
+                <div class="card-trainers">
+                  <% session.session_trainers.each do |trainer| %>
+                    <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= trainer.user.id %>'><img src='<%= "#{trainer.user.picture}" %>' alt="" class='card-trainer'></a>
+                    <div class="modal fade" id="consultUser<%= trainer.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document" style="border-radius: 20px">
+                        <%= render 'users/consult', user: trainer.user %>
+                      </div>
+                    </div>
+                  <% end %>
                 </div>
               </div>
-              <div class="card-trainers">
-                <% session.session_trainers.each do |trainer| %>
-                  <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= trainer.user.id %>'><img src='<%= "#{trainer.user.picture}" %>' alt="" class='card-trainer'></a>
-                  <div class="modal fade" id="consultUser<%= trainer.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document" style="border-radius: 20px">
-                      <%= render 'users/consult', user: trainer.user %>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
             </div>
-            <% end %>
-          </div>
+          <% end %>
+          <%= link_to "#{session.training.title} | #{session.title}", training_session_path(session.training, session), class: 'card-sm-mobile' %>
         </div>
       <% end %>
     <% end %>
   <% end %>
 <% end %>
+<style>
+  .prev-month, .next-month {
+    display: none !important;
+  }
+</style>

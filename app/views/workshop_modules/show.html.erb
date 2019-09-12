@@ -1,17 +1,21 @@
 <div class="container-seven">
-  <%= link_to training_session_workshop_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop) do %>
-    <i class="fas fa-arrow-left"></i>
-  <% end %>
-  <h2><%= @workshop_module.title %></h2>
+  <div class="training-info-headers">
+    <%= link_to training_session_workshop_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop) do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <div class="middle-info-workshop">
+    <h2><%= @workshop_module.title %></h2>
 
-  <p><%= @workshop_module.duration %> minutes</p>
-  <p><%= @workshop_module.instructions %></p>
-  <p><%= @workshop_module.logistics %></p>
-  <p><%= @workshop_module.url1 %></p>
-  <p><%= @workshop_module.url2 %></p>
-  <p><%= @workshop_module.action1.name %></p>
-  <% unless @workshop_module.action2.nil? %>
-    <p><%= @workshop_module.action2.name %></p>
-  <% end %>
-  <p><%= @workshop_module.comments %></p>
+    <p><%= @workshop_module.duration %> minutes</p>
+    <p><%= @workshop_module.instructions.html_safe %></p>
+    <div class='content-logistics'><p>Logistics : <%= @workshop_module.logistics.html_safe %></p></div>
+    <p><%= @workshop_module.url1 %></p>
+    <p><%= @workshop_module.url2 %></p>
+    <p class='content-actions'>Action : <%= @workshop_module.action1.name %></p>
+    <% unless @workshop_module.action2.nil? %>
+      <p class='content-actions'>Action : <%= @workshop_module.action2.name %></p>
+    <% end %>
+    <p><%= @workshop_module.comments %></p>
+  </div>
 </div>

@@ -14,21 +14,43 @@ a {
 }
 
 .container-seven {
-  margin-left: 220px;
+  margin-top: 50px;
   width: 100%;
-  min-width: 1080px;
-  min-height: 100vh;
-  padding: 50px;
-  overflow: auto;
+  min-height: calc(100vh-50px);
+  padding: 30px;
+  position: relative;
+
+  @include from-large {
+    margin-top: 0;
+    margin: 0 220px;
+    min-height: 100vh;
+    padding: 50px;
+    overflow: auto;
+    min-width: 1080px;
+  }
 }
 
+// .container-seven-centered {
+//   display: flex;
+
+//   @include from-large {
+//     justify-content: center;
+//   }
+// }
+
 .container-new-form {
-  margin-left: 220px;
+  margin-top: 30px;
   width: 100%;
-  min-width: 1080px;
   min-height: 100vh;
-  padding: 85px 400px;
   background-color: white;
+  padding: 50px;
+
+  @include from-large {
+    margin-top: 0;
+    margin-left: 220px;
+    min-width: 1080px;
+    padding: 85px 400px;
+  }
 }
 
 .tab-pane .row {
@@ -65,7 +87,9 @@ body {
 
 .flex-title {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
 
   a {
     margin-left: 10px;

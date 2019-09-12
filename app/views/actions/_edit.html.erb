@@ -7,19 +7,19 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for action, as: :act do |f| %>
-    <%= f.input :name %>
-    <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
-    <%= f.association :intelligence, collection: Intelligence.all, include_blank: false %>
-  </div>
-  <div class="modal-footer" id="modalNewBookingFooter">
-    <div>
-      <%= f.button :submit, 'Save', class: 'btn btn-edit' %>
+      <%= f.input :name %>
+      <%= f.input :description, :input_html => {:rows => 2, style: 'width:100%;', maxlength: 140} %>
+      <%= f.association :intelligence, collection: Intelligence.all, include_blank: false %>
+      <div style=" display: flex; justify-content: space-between;">
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
         <%= link_to action_path(action), method: :delete, data: { confirm: 'Etes vous certain(e) de vouloir supprimer cette Action ?'} do %>
-          <button class="btn btn-edit">
+          <button class="btn btn-edit-red btn-edit-trash">
             <i class="fas fa-trash-alt"></i>
           </button>
         <% end %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div>
 </div>
