@@ -7,6 +7,10 @@
 #myUL {
   margin: 0;
   padding: 0;
+
+  li {
+    border: none;
+  }
 }
 
 .myUL-li-theme {
@@ -63,7 +67,7 @@
 .nested {
   display: none;
   list-style: none !important;
-  border: solid black;
+  border: solid $yellow;
   border-width: 1px 0 0 0;
 }
 

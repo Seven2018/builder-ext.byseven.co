@@ -12,7 +12,7 @@
     <%= f.input :access_level, collection: ['super admin', 'admin', 'training manager', 'sevener'], include_blank: false %>
     <%= f.input :rating, input_html: { min: '0', max: '5' }  %>
     <div class="center-button">
-      <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
         <i class="fas fa-save"></i>
       <% end %>
     </div>

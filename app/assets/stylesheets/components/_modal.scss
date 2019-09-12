@@ -50,3 +50,15 @@
 .modal-lg {
   z-index: 9500 !important;
 }
+
+.modal {
+ overflow-y: auto !important;
+}
+
+.modal-open {
+ overflow: auto !important;
+}
+
+.modal-seven {
+  width: auto !important;
+}

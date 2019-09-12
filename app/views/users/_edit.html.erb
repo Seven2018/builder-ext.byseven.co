@@ -16,11 +16,11 @@
       <%= f.input :access_level, collection: ['super admin', 'admin', 'training manager', 'sevener'], include_blank: false %>
       <%= f.input :rating, input_html: { min: '0', max: '5' }  %>
       <div style=" display: flex; justify-content: space-between;">
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
           <i class="fas fa-save"></i>
         <% end %>
         <%= link_to user_path(@user), method: :delete, data: { confirm: 'Etes vous certain(e) de vouloir supprimer cette Action ?'} do %>
-          <button class="btn btn-edit-red">
+          <button class="btn btn-edit-red btn-edit-trash">
             <i class="fas fa-trash-alt"></i>
           </button>
         <% end %>

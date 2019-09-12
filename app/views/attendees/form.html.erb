@@ -55,12 +55,12 @@
             <% if (params[:search] && session.attendees.where(email: params[:search][:email]).empty?) || (params[:attendee] && session.attendees.where(email: Attendee.find(params[:attendee].to_i).email).empty?) %>
               <div class='session-form-control'>
                 <p>Cliquez pour vous inscrire</p>
-                <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session.id, attendee_id: @attendee.id), method: :post, class: 'btn btn-edit-green' %>
+                <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session.id, attendee_id: @attendee.id), method: :post, class: 'btn btn-edit-green btn-edit-disk' %>
               </div>
             <% else %>
               <div class='session-form-control'>
                 <p>Vous êtes déjà inscrit à cette session</p>
-                <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session.id, attendee_id: @attendee.id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session.title}. Continer ?"}, class: 'btn btn-edit-red' %>
+                <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session.id, attendee_id: @attendee.id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session.title}. Continer ?"}, class: 'btn btn-edit-red btn-edit-trash' %>
               </div>
             <% end %>
           </div>

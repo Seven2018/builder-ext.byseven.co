@@ -4,7 +4,7 @@ class TrainingsController < ApplicationController
   def index
     @sessions = Session.all
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
-      @trainings = policy_scope(Training)
+      @trainings = policy_scope(Training).order('start_date ASC')
     else
       @trainings = policy_scope(Training)
       @trainings = []
@@ -29,6 +29,7 @@ class TrainingsController < ApplicationController
   def show
     authorize @training
     @training_ownership = TrainingOwnership.new
+    @session = Session.new
     @users = User.all
   end
 

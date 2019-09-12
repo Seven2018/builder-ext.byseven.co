@@ -41,6 +41,16 @@
   }
 }
 
+.session-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include from-large {
+    padding-right: 40%;
+  }
+}
+
 .mods-list {
   display: none;
   text-align: left;
@@ -53,6 +63,10 @@
     line-height: 1.6;
     list-style: none;
     padding: 0;
+  }
+
+  li {
+    color: gray;
   }
 
   .card-session-number {

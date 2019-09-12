@@ -13,6 +13,7 @@
     <div style='text-align: center;'>
       <% if params[:controller] == 'trainings' && @training.users.include?(user) %>
         <%= link_to 'Remove from owners', training_training_ownership_path(@training, TrainingOwnership.find_by(training_id: @training.id, user_id: user.id), user_id: user.id), method: :delete, class: 'btn' %>
+
       <% end %>
     </div>
   </div>

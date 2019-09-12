@@ -1,12 +1,12 @@
 <div class="container-seven">
   <div class="training-info-headers">
-    <%= link_to trainings_path do %>
+    <%= link_to trainings_path, class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <div class="training-info-headers-buttons">
-        <a class="btn btn-edit" data-toggle='modal' type='button' data-target='#editTraining'><i class="fas fa-pen"></i></a>
-        <button class='btn btn-edit-grey dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+        <a class="btn btn-edit btn-edit-pen" data-toggle='modal' type='button' data-target='#editTraining'><i class="fas fa-pen"></i></a>
+        <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><%= link_to 'Create an estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
           <li><%= link_to 'Create an invoice', new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
@@ -44,7 +44,7 @@
             </div>
           </div>
           <% end %>
-          <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+          <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.users.count < 2 %>
             <li><button class='add-user' data-toggle='modal' data-target='#newOwner'><i class="fas fa-plus"></i></button></li>
           <% end %>
         </ul>
@@ -53,8 +53,16 @@
   </div>
   <div class="middle-info2">
     <div>
-      <h4>Trainers</h4>
-      <div style="display: flex;align-items: center;justify-content: space-between;">
+      <% trainers = 0 %>
+      <% @training.sessions.each do |session| %>
+        <% trainers += session.users.count %>
+      <% end %>
+      <% if trainers < 2 %>
+        <h4>Trainer</h4>
+      <% else %>
+        <h4>Trainers</h4>
+      <% end %>
+      <div class='trainer-div'>
         <ul id="trainer">
           <% @training.sessions.each do |session| %>
             <% session.users.each do |trainer| %>
@@ -75,7 +83,7 @@
             <div class="card-footer-lg">
               <% if session.start_time && session.end_time %>
                 <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p>
-                <div><i class="far fa-hourglass"></i><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></div>
+                <div><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></div>
                 <i class="fas fa-users"> <%= session.attendee_number %></i>
                 <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
               <% end %>
@@ -119,8 +127,7 @@
   </div>
   <div class="training-info-footer">
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <%= link_to new_training_session_path(@training) do %>
-      <button class="btn btn-edit">Ajouter une session</button><% end %>
+      <a class='btn btn-edit' id='add-session-button' data-toggle='modal' data-target='#newSession'>Ajouter une session</a>
     <% end %>
     </div>
   </div>
@@ -146,3 +153,9 @@
   </div>
 </div>
 <% end %>
+
+<div class="modal fade" id="newSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render '/sessions/new', session: @session %>
+  </div>
+</div>

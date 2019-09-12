@@ -20,24 +20,8 @@
             <i class="far fa-eye"></i>
           <% end %>
         </h3>
-        <div style="display:flex;align-items:center;justify-content:center;">
-          <ul id="owner">
-            <% @session.users.each do |user| %>
-              <li>
-                <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
-              </li>
-              <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document" style="border-radius: 20px">
-                  <%= render 'users/consult', user: user %>
-                </div>
-              </div>
-            <% end %>
-          </ul>
-            <% if (['super admin', 'admin'].include? current_user.access_level) || (@session.training.users.include? current_user) %>
-              <button class='user-fafa' data-toggle='modal' data-target='#newUser'><i class="fas fa-user-plus"></i></button>
-              <button class='user-fafa' data-toggle='modal' data-target='#destroyUser'><i class="fas fa-user-minus"></i></button>
-            <% end %>
-        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;">
       </div>
     </div>
     <div class="training-info">

@@ -18,7 +18,7 @@ a {
   width: 100%;
   min-height: calc(100vh-50px);
   padding: 30px;
-
+  position: relative;
 
   @include from-large {
     margin-top: 0;

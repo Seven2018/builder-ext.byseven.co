@@ -22,6 +22,7 @@
 .training-info {
   background-color: white;
   text-align: center;
+  margin-bottom: 30px;
 
   @include from-large {
     text-align: left;
@@ -32,7 +33,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   p {
     margin: 0;
     padding-top: 10px;
@@ -40,6 +41,10 @@
   }
   :first-child {
     text-align: left;
+  }
+
+  @include from-large {
+    margin-bottom: 30px;
   }
 }
 
@@ -57,11 +62,21 @@
     position: absolute;
     right: -50px;
   }
+
+  a, button {
+    min-width: 0 !important;
+  }
 }
 
 .training-info-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+
+  @include from-large {
+    position: fixed;
+    bottom: 30px;
+    right: 290px;
+  }
 }
 
 .sessions-cards {
@@ -87,6 +102,25 @@
 .middle-info {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+
+  div > h4 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 300;
+    margin: 0;
+
+    @include from-large {
+      text-align: right;
+    }
+  }
+
+  div:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
   h3, p {
     font-size: 24px;
@@ -94,14 +128,6 @@
   }
   li {
     font-size: 20px;
-  }
-  h4 {
-    font-size: 20px;
-    font-weight: 300;
-    margin: 0;
-    margin-top: 3.5px !important;
-    margin-bottom: 5px !important;
-    text-align: right;
   }
 
   @include from-large {
@@ -117,23 +143,41 @@
 .middle-info2 {
   margin-top: 20px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 
-  h4 {
+  div > h4 {
+    text-align: center;
     font-size: 20px;
     font-weight: 300;
     margin: 0;
     margin-top: 3.5px !important;
     margin-bottom: 5px !important;
-    text-align: right;
+
+    @include from-large {
+      text-align: right;
+    }
+  }
+
+  .trainer-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include from-large {
+      justify-content: flex-end;
+    }
+  }
+
+  @include from-large {
+    justify-content: flex-end;
   }
 }
 
 .middle-info-main {
   text-align: center;
+  min-height: 63px;
 
   @include from-large {
-    flex-direction: row;
     text-align: left;
   }
 }
@@ -170,3 +214,5 @@
 #dropdownMenuButton::after {
   content: none !important;
 }
+
+#add-session-button {}

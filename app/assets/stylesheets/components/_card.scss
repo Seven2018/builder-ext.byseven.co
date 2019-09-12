@@ -176,6 +176,10 @@ $timeline: #115173;
       margin: 0;
     }
 
+    @include from-large {
+      padding-right: 40%;
+    }
+
     button {
       height: 50px;
       width: 50px;
@@ -467,10 +471,24 @@ input.btn {
   margin-bottom: 10px !important;
 }
 
+.return-arrow {
+  min-width: 0 !important;
+  padding: 15.75px 17px !important;
+  box-shadow: none !important;
+
+  &:hover {
+    background-color: ghostwhite !important;
+  }
+
+  i {
+    font-size: 14px;
+  }
+}
+
 .btn-edit, .btn-edit-red, .btn-edit-green, .btn-edit-grey {
   opacity: 0.8;
   width: auto;
-  min-width: 0 !important;
+  max-width: none;
   padding: 0.45em 2em;
   border-radius: 0.22em;
   box-sizing: border-box;
@@ -504,26 +522,18 @@ input.btn {
     background-color: #23282E !important;
 }
 
-.edit-btn {
-  font-size: 17px;
-  cursor: pointer;
-  color: $gray;
-  &:hover {
-    color: $gray;
-    text-decoration: none;
-  }
+.btn-edit-pen, .btn-edit-menu {
+  padding: 15.75px 16px !important
+}
+
+.btn-edit-disk, .btn-edit-trash {
+  padding: 15.75px 17px !important;
+  min-width: 0 !important;
+  color: white !important;
 }
 
 #new-training {
   font-size: 20px;
-}
-
-#edit-btn {
-  color: black;
-}
-
-#edit-btn:hover {
-  text-decoration: none !important;
 }
 
 .card-mods:last-child {

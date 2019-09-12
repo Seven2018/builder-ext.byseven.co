@@ -1,10 +1,11 @@
 .form-control {
   background-image: none !important;
+
+  input, select {
+    padding: 6px 12px !important;
+  }
 }
 
-input, select {
-padding: 6px 12px !important;
-}
 
 input:focus {
   box-shadow: none !important;

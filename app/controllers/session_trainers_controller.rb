@@ -16,12 +16,11 @@ class SessionTrainersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:session_trainer][:user].to_s)
+    @user = User.find(params[:user_id])
     @session = Session.find(params[:session_id])
     @session_trainer = SessionTrainer.where(user: @user).where(session: @session)
     skip_authorization
     @session_trainer.first.destroy
     redirect_back(fallback_location: root_path)
-    return
   end
 end
