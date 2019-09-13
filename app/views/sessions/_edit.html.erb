@@ -9,7 +9,6 @@
     <%= simple_form_for [session.training, session] do |f| %>
       <div class='mod-date'>
         <%= f.input :title %>
-        <%= f.input :users, label: 'Trainer', :collection => User.all, :label_method => lambda { |owner| "#{owner.firstname} #{owner.lastname}" }, include_blank: false %>
         <%= f.input :attendee_number, input_html: { min: 0, style: 'width:120px;', value: 0 }, label: 'Participants' %>
       </div>
       <div class="mod-date">

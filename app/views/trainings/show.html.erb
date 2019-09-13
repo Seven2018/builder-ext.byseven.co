@@ -36,13 +36,8 @@
         <ul id="owner">
           <% @training.users.each do |user| %>
           <li>
-            <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+            <a class='edit-fafa' data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
           </li>
-          <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document" style="border-radius: 20px">
-              <%= render 'users/consult', user: user %>
-            </div>
-          </div>
           <% end %>
           <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.users.count < 2 %>
             <li><button class='add-user' data-toggle='modal' data-target='#newOwner'><i class="fas fa-plus"></i></button></li>
@@ -64,9 +59,13 @@
       <% end %>
       <div class='trainer-div'>
         <ul id="trainer">
+          <% trainer_array = [] %>
           <% @training.sessions.each do |session| %>
             <% session.users.each do |trainer| %>
-              <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm'></a></li>
+              <% trainer_array << trainer %>
+              <% if trainer_array.uniq.count == trainer_array.count %>
+                <li><a class='edit-fafa' data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm'></a></li>
+              <% end %>
             <% end %>
           <% end %>
         </ul>
@@ -83,7 +82,7 @@
             <div class="card-footer-lg">
               <% if session.start_time && session.end_time %>
                 <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p>
-                <div><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></div>
+                <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
                 <i class="fas fa-users"> <%= session.attendee_number %></i>
                 <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
               <% end %>
@@ -159,3 +158,13 @@
     <%= render '/sessions/new', session: @session %>
   </div>
 </div>
+
+<% @training.sessions.each do |session| %>
+  <% session.users.each do |trainer| %>
+    <div class="modal fade" id="consultUser<%= trainer.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document" style="border-radius: 20px">
+        <%= render 'users/consult', user: trainer %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

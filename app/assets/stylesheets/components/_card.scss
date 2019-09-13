@@ -28,6 +28,10 @@ $timeline: #115173;
       margin: 15px 0;
     }
   }
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
 }
 
 .card-sm {
@@ -89,6 +93,7 @@ $timeline: #115173;
 .client-logo {
   height: 50px;
   width: 50px;
+  object-fit: contain;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -115,8 +120,8 @@ $timeline: #115173;
   bottom: 15px;
  .card-infos-elements {
     margin-top: 5px;
-    color: rgb(160, 160, 160);
-    font-size: 12px;
+    color: rgb(50,50,50);
+    font-size: 16px;
   }
 }
 
@@ -125,8 +130,7 @@ $timeline: #115173;
   display: flex;
   align-items: center;
   background-color: $yellow !important;
-  justify-content: space-around;
-  // border: 1px solid rgba(115, 133, 152, 0.6);
+  justify-content: space-between;
   background: rgba(115, 133, 152, 0.15);
   border-top: none;
   p {
@@ -162,7 +166,6 @@ $timeline: #115173;
       color: inherit;
       text-align: left;
       margin: 0;
-      position: relative;
     }
   }
   .card-footer-lg {
@@ -256,7 +259,28 @@ $timeline: #115173;
     flex-direction: row;
     align-items: center;
     position: absolute;
-    top: 40%;
+    top: 5px;
+    left: 54px;
+    color: $blue;
+    font-weight: 600;
+    font-size: 23px;
+  }
+
+  .mod-duration {
+    position: absolute;
+    bottom: 115.575px;
+    right: 23px;
+    color: $blue;
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+  .mod-endtime {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    bottom: 5px;
     left: 54px;
     color: $blue;
     font-weight: 600;
@@ -279,6 +303,8 @@ $timeline: #115173;
   }
 
   .card-right {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
     padding: 10px;
@@ -286,7 +312,7 @@ $timeline: #115173;
     margin-right: 25px;
     margin-top: 20px;
     margin-bottom: 20px;
-    cursor: grab;
+
     &:hover {
       box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
     }
@@ -299,17 +325,14 @@ $timeline: #115173;
 
     @include from-large {
       width: 700px;
-      padding-right: 40px;
-      padding-left: 40px;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding: 20px;
     }
   }
   .grabbable {
-    cursor: move ; /* fallback if grab cursor is unsupported */
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
+    // cursor: move ; /* fallback if grab cursor is unsupported */
+    // cursor: grab;
+    // cursor: -moz-grab;
+    // cursor: -webkit-grab;
     h4 {
       color: rgba(0,0,0,0.6);
     }
@@ -442,6 +465,8 @@ $timeline: #115173;
 .card-category {
   display: flex;
   justify-content: space-between;
+  position: relative;
+  flex-grow: 1;
 
   a, a > div {
     width: 100%;
@@ -523,7 +548,20 @@ input.btn {
 }
 
 .btn-edit-pen, .btn-edit-menu {
-  padding: 15.75px 16px !important
+  padding: 15.75px 16px !important;
+  min-width: 0 !important;
+}
+
+.btn-edit-round {
+  min-width: 0 !important;
+  padding: 5.5px !important;
+  border-radius: 50% !important;
+  background-color: #23282E !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #23282E !important;
+  }
 }
 
 .btn-edit-disk, .btn-edit-trash {
@@ -622,10 +660,10 @@ input.btn {
     }
   }
   .grabbable {
-    cursor: move ; /* fallback if grab cursor is unsupported */
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
+    // cursor: move ; /* fallback if grab cursor is unsupported */
+    // cursor: grab;
+    // cursor: -moz-grab;
+    // cursor: -webkit-grab;
 
     h4 {
       color: rgba(0,0,0,0.6);
@@ -635,9 +673,9 @@ input.btn {
     }
   }
   .grabbable:active {
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
+    // cursor: grabbing;
+    // cursor: -moz-grabbing;
+    // cursor: -webkit-grabbing;
   }
   .circle {
     border: solid 2px $timeline;

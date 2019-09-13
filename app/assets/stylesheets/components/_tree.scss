@@ -14,22 +14,29 @@
 }
 
 .myUL-li-theme {
-  border: solid black;
-  border-width: 1px 1px 0 1px;
   width: 500px;
   padding: 15px 0;
 
   &:last-child {
     border-bottom-width: 1px;
   }
+
+  .caret {
+    background-color: white;
+    transition: background-color 0.5s 0.5s;
+  }
 }
 
 .theme-active {
   padding-bottom: 0 !important;
+
+  .caret-down {
+    background-color: #FDC553;
+    transition: background-color 0.5s;
+  }
 }
 
 .myUL-li-content {
-  border-bottom: 1px solid black;
 
   a {
     padding: 15px 20px;
@@ -65,16 +72,26 @@
 
 /* Hide the nested list */
 .nested {
-  display: none;
+  overflow: hidden;
   list-style: none !important;
-  border: solid $yellow;
   border-width: 1px 0 0 0;
+  max-height: 0px;
+  -webkit-transition: max-height 1s ease 0s, margin 0.7s ease 0s;
+  -moz-transition: max-height 1s ease 0s, margin 0.7s ease 0s;
+  -ms-transition: max-height 1s ease 0s, margin 0.7s ease 0s;
+  -o-transition: max-height 1s ease 0s, margin 0.7s ease 0s;
+  transition: max-height 1s ease 0s, margin 0.7s ease 0s;
 }
 
 /* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
 .nested-active {
-  display: block;
   width: 100%;
   padding: 0;
   margin-top: 15px;
+  max-height: 100vh;
+  -webkit-transition: max-height 3s ease, margin 0.7s ease 0s;
+  -moz-transition: max-height 3s ease, margin 0.7s ease 0s;
+  -ms-transition: max-height 3s ease, margin 0.7s ease 0s;
+  -o-transition: max-height 3s ease, margin 0.7s ease 0s;
+  transition: max-height 3s ease, margin 0.7s ease 0s;
 }

@@ -3,33 +3,51 @@
   <% trainings.each do |training| %>
     <% if training.start_date <= Date.today && training.end_date >= Date.today %>
       <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
-        <%= link_to training_path(training) do %>
         <div class="card" id="card-index">
           <div class="card-main">
-            <div class='client-logo' style="background-image: url(<%= training.client_contact.client_company.logo %>); background-size: 50px 50px; background-repeat: no-repeat;"></div>
-            <h5><%= training.title %></h5>
-            <% result_cours << training %>
-            <div class="card-infos">
-              <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= " From #{training.start_date.strftime('%d/%m/%y')} to #{training.end_date.strftime('%d/%m/%y')}" %>
+            <%= link_to training_path(training), class: 'stretched-link' do %>
+              <div class='client-logo' style="background-image: url(<%= training.client_contact.client_company.logo %>); background-size: 50px 50px; background-repeat: no-repeat;"></div>
+              <h5 style='max-width: 175px;'><%= training.title %></h5>
+              <% result_term << training %>
+              <div class="card-infos">
+                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.start_date.strftime('%d/%m/%y')} to #{training.end_date.strftime('%d/%m/%y')}" %>
+                </div>
               </div>
-            </div>
+            <% end %>
           </div>
           <div class="card-footer">
-              <h5>More details</h5>
+            <div>
+              <% training.users.each do |owner| %>
+                <img class='avatar-xs' src="<%= owner.picture %>" alt='<%= "#{owner.firstname.capitalize} #{owner.lastname.upcase}" %>'>
+              <% end %>
+            </div>
+            <div>
+              <% trainer_array = [] %>
+              <% training.sessions.each do |session| %>
+                <% session.users.each do |trainer| %>
+                  <% trainer_array << trainer %>
+                  <% if trainer_array.uniq.count <= 3 && trainer_array.uniq.count == trainer_array.count %>
+                    <img class='avatar-xs' src="<%= trainer.picture %>" alt='<%= "#{trainer.firstname.capitalize} #{trainer.lastname.upcase}" %>'>
+                  <% end %>
+                <% end %>
+                <% if trainer_array.uniq.count > 3 %>
+                  <button class='btn btn-edit-menu btn-edit-round'><i class='fas fa-ellipsis-h'></i></button>
+                <% end %>
+              <% end %>
+            </div>
           </div>
-          <% end %>
         </div>
       </div>
     <% end %>
   <% end %>
-    <% if result_cours.empty? %>
-      <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
-        <div class="card">
-          <div class="card-main">
-            <%= "Empty" %>
-          </div>
-          <div class="card-footer"></div>
+  <% if result_cours.empty? %>
+    <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
+      <div class="card">
+        <div class="card-main">
+          <%= "Empty" %>
         </div>
+        <div class="card-footer"></div>
       </div>
-    <% end %>
+    </div>
+  <% end %>
 </div>

@@ -26,7 +26,6 @@
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  margin-left: 20px;
   display: none;
 
   @include from-large {
@@ -45,10 +44,15 @@
 
 .content-logistics {
   height: auto;
-  justify-content: center;
+  display: block;
+
+  .logistics-label {
+    width: 185px;
+  }
 
   @include from-large {
     justify-content: left;
+    display: flex;
   }
 }
 

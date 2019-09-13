@@ -1,13 +1,13 @@
 <div class="container-session-show">
   <div class="session-container">
     <div class="training-info-headers">
-      <%= link_to training_path(@session.training) do %>
+      <%= link_to training_path(@session.training), class: 'btn return-arrow' do %>
         <i class="fas fa-arrow-left"></i>
       <% end %>
       <div>
         <%= link_to training_session_path(@session.training, @session, format: :pdf) do %>
           <button class="btn btn-edit" id='export-btn'>
-            Exporter <i class="fas fa-file-pdf"></i>
+            Export <i class="fas fa-file-pdf"></i>
           </button>
         <% end %>
       </div>
@@ -15,23 +15,35 @@
     <div class="middle-info">
       <div class="middle-info-main">
         <h3 id='session-title'><%= @session.title %>
-          <abutton class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
+          <a class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
           <%= link_to session_viewer_path(@session), class: 'edit-fafa' do %>
             <i class="far fa-eye"></i>
           <% end %>
         </h3>
       </div>
-      <div style="display:flex;align-items:center;justify-content:center;">
+      <div>
+        <% if @session.users.count < 2 %>
+          <h4>Trainer</h4>
+        <% else %>
+          <h4>Trainers</h4>
+        <% end %>
+        <div style="display: table;margin: 0 auto">
+          <ul id='owner'>
+            <% @session.users.each do |user| %>
+              <li>
+                <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+              </li>
+            <% end %>
+            <li><button class='add-user' data-toggle='modal' data-target='#newUser'><i class="fas fa-plus"></i></button></li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="training-info">
+    <div class="session-info">
       <% if @session.start_time && @session.end_time %>
-        <h4><%= "#{@session.date.strftime("%d/%m/%y")}" %>
-          <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
-          <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
-          <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.end_time.min.to_s.length == 1 %>
-          <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.end_time.min.to_s.length == 2 %>
-        </h4>
+        <p> <%="#{@session.date.strftime('%d/%m/%y')}"%> </p>
+        <div><p><%= " #{@session.start_time.strftime("%k:%M")} to #{@session.end_time.strftime("%k:%M")}" %></p></div>
+        <i class="fas fa-users"> <%= @session.attendee_number %></i>
       <% end %>
     </div>
     <div id="mods" style="min-height: 70vh;">
@@ -175,6 +187,14 @@
     <%= render 'session_trainers/destroy', session: @session, session_trainer: @session_trainer %>
   </div>
 </div>
+
+<% @session.users.each do |user| %>
+  <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="border-radius: 20px">
+      <%= render 'users/consult', user: user %>
+    </div>
+  </div>
+<% end %>
 
 <script>
   $(document).ready(function() {

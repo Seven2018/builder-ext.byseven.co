@@ -32,6 +32,7 @@
 .training-info-headers {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   margin-bottom: 10px;
   p {
@@ -61,10 +62,6 @@
     width: 170px;
     position: absolute;
     right: -50px;
-  }
-
-  a, button {
-    min-width: 0 !important;
   }
 }
 
@@ -101,6 +98,7 @@
 
 .middle-info {
   display: flex;
+  margin-bottom: 20px;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
@@ -141,7 +139,6 @@
 }
 
 .middle-info2 {
-  margin-top: 20px;
   display: flex;
   justify-content: center;
 
