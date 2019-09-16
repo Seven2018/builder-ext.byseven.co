@@ -36,7 +36,7 @@
         <ul id="owner">
           <% @training.users.each do |user| %>
           <li>
-            <a class='edit-fafa' data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+            <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
           </li>
           <% end %>
           <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.users.count < 2 %>
@@ -64,7 +64,7 @@
             <% session.users.each do |trainer| %>
               <% trainer_array << trainer %>
               <% if trainer_array.uniq.count == trainer_array.count %>
-                <li><a class='edit-fafa' data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm'></a></li>
+                <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm'></a></li>
               <% end %>
             <% end %>
           <% end %>

@@ -7,6 +7,17 @@
   transition: all 0.3s ease;
 
   &:hover {
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+#product-list {
+
+  li > a {
+    color: white;
+  }
+
+  li:hover {
+      border: none !important;
   }
 }

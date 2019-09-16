@@ -1,51 +1,54 @@
 <div class="container-seven">
-  <%= link_to client_companies_path do %><i class="fas fa-arrow-left"></i><% end %>
+  <%= link_to client_companies_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
   <div class="centered-card-show">
     <div class="client-company-card-show">
       <div>
         <img src='<%= @client_company.logo %>' alt="" class='client-company-logo-show'>
-        <div>
-          <p><%=  @client_company.name %></p>
-          <div class="show-control-links">
-            <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-              <a class="edit-fafa" data-toggle='modal' data-target='#editClientCompany'><i class="fas fa-pen"></i></a>
-              <%= link_to 'Liste Factures', invoice_items_path(client_company_id: @client_company.id, type: 'Invoice') %>
-              <%= link_to 'Liste Devis', invoice_items_path(client_company_id: @client_company.id, type: 'Estimate') %>
-            <% end %>
-          </div>
+        <div class="training-info-headers-buttons">
+          <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+            <a class="edit-fafa btn btn-edit btn-edit-pen" data-toggle='modal' data-target='#editClientCompany'><i class="fas fa-pen"></i></a>
+            <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+            <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><%= link_to 'Invoices List', invoice_items_path(client_company_id: @client_company.id, type: 'Invoice') %></li>
+              <li><%= link_to 'Estimates List', invoice_items_path(client_company_id: @client_company.id, type: 'Estimate') %></li>
+            </ul>
+          <% end %>
         </div>
       </div>
-      <p><%= @client_company.address %></p>
+      <p><%= @client_company.name %></p>
+      <% @client_company.address.split(',').each do |el| %>
+        <p style='margin:0;'><%= el %></p>
+      <% end %>
+      <br>
       <p><%= @client_company.client_company_type %></p>
       <p><%= @client_company.description %></p>
-
-  </div>
-  <h2>Contacts List</h2>
-  <div class="client-contact-list">
-    <%= link_to new_client_company_client_contact_path(@client_company) do %>
-      <div class="client-company-card">
-        <img class='client-company-logo-index' src='https://www.pecora.com/wp-content/uploads/2015/11/new.png'>
-        <div class='client-contact-info'>
-          <p>New contact</p>
-          <p></p>
-        </div>
+    </div>
+    <div id="client-contact-controls">
+      <h3>Contacts List</h3>
+      <div id="client_company_buttons">
+        <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+          <%= link_to new_client_company_client_contact_path(@client_company) do %>
+            <button class="btn btn-edit">New Contact</button>
+          <% end %>
+        <% end %>
       </div>
-    <% end %>
-    <% @client_contacts.each do |contact| %>
-        <%= link_to client_company_client_contact_path(contact.client_company, contact) do %>
-          <div class="client-contact-card user-contact-card">
-            <img class='client-company-logo-index' src='<%= "#{contact.client_company.logo}" %>'>
-            <div class='client-contact-info'>
-              <p><%= contact.name %></p>
-              <div>
-                <p><%= contact.title %></p>
-                <p><%= contact.email %></p>
+    </div>
+    <div class="client-contact-list">
+      <% @client_contacts.each do |contact| %>
+          <%= link_to client_company_client_contact_path(contact.client_company, contact) do %>
+            <div class="client-contact-card user-contact-card">
+              <img class='client-company-logo-index' src='<%= "#{contact.client_company.logo}" %>'>
+              <div class='client-contact-info'>
+                <p><%= contact.name %></p>
+                <div>
+                  <p><%= contact.title %></p>
+                  <p><%= contact.email %></p>
+                </div>
               </div>
             </div>
-          </div>
-        <% end %>
-    <% end %>
-  </div>
+          <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 

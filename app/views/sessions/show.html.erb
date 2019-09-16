@@ -31,7 +31,7 @@
           <ul id='owner'>
             <% @session.users.each do |user| %>
               <li>
-                <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+                <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
               </li>
             <% end %>
             <li><button class='add-user' data-toggle='modal' data-target='#newUser'><i class="fas fa-plus"></i></button></li>
@@ -108,7 +108,7 @@
             <ul id='myUL'>
               <% Theme.walk_tree do |theme, level| %>
                 <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
-                  <li><span class="caret"><%= theme.name %></span>
+                  <li><span class="caret sidebar-caret"><%= theme.name %></span>
                     <ul class="nested">
                       <% theme.contents.each do |content| %>
                         <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
@@ -118,7 +118,7 @@
                     </ul>
                   </li>
                 <% elsif theme.level == 0 && theme.children != [] %>
-                  <li><span class="caret"><%= theme.name %></span>
+                  <li><span class="caret sidebar-caret"><%= theme.name %></span>
                     <ul class="nested">
                       <% theme.children.each do |subtheme| %>
                         <li><span class="caret"><%= subtheme.name %></span>
@@ -148,7 +148,7 @@
             <ul id='myUL'>
               <% @themes.each do |theme| %>
                 <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
-                  <li><span class="caret"><%= theme.name %></span>
+                  <li><span class="caret sidebar-caret"><%= theme.name %></span>
                     <ul class="nested">
                       <% theme.contents.each do |content| %>
                         <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>

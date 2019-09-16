@@ -129,7 +129,7 @@ $timeline: #115173;
   height: 25%;
   display: flex;
   align-items: center;
-  background-color: $yellow !important;
+  background: linear-gradient(0.25turn, #23282E, #FCC94B) !important;
   justify-content: space-between;
   background: rgba(115, 133, 152, 0.15);
   border-top: none;
@@ -522,6 +522,7 @@ input.btn {
   text-align: center;
   transition: all 0.1s;
   outline: none !important;
+  margin-left: 5px !important;
   i {
     color: white;
   }

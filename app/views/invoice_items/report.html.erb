@@ -1,20 +1,24 @@
 <div class="container-seven">
-  <div class="flex-title">
-    <h3>Numbers</h3>
+  <div class="invoice-item-container-mobile">
+    <h3>Numbers - Not available on mobile devices</h3>
     <a href="/report.csv"><button class="btn btn-edit-red btn-edit-trash">Export <i class="fas fa-file-csv"></i></button></a>
   </div>
-  <div class="report-controls">
-    <div class="report-controls-left">
-      <%= datagrid_form_for @invoice_items_grid, url: report_path %>
+  <div class="report-main">
+    <div class="flex-title">
+      <h3>Numbers</h3>
+      <a href="/report.csv"><button class="btn btn-edit-red btn-edit-trash">Export <i class="fas fa-file-csv"></i></button></a>
     </div>
-    <div class="right">
-      <h3><%= "CA HT : #{@invoice_items_grid.total_sum}€"  %></h3>
-      <h3><%= "Nb Journées : #{@invoice_items_grid.total_days}"  %></h3>
-      <h3><%= "Nb heures : #{@invoice_items_grid.total_hours}"  %></h3>
+    <div class="report-controls">
+      <div class="report-controls-left">
+        <%= datagrid_form_for @invoice_items_grid, url: report_path %>
+      </div>
+      <div class="right">
+        <h3><%= "CA HT : #{@invoice_items_grid.total_sum}€"  %></h3>
+        <h3><%= "Nb Journées : #{@invoice_items_grid.total_days}"  %></h3>
+        <h3><%= "Nb heures : #{@invoice_items_grid.total_hours}"  %></h3>
+      </div>
     </div>
-  </div>
-
-
     <div class='total'>Total: <%= @invoice_items_grid.assets.count %></div>
     <%= datagrid_table(@invoice_items_grid) %>
+  </div>
 </div>

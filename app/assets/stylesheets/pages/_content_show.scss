@@ -47,7 +47,8 @@
   display: block;
 
   .logistics-label {
-    width: 185px;
+    min-width: 75px;
+    margin: 0 !important;
   }
 
   @include from-large {
@@ -58,10 +59,6 @@
 
 .content-logistics, .content-logistics > div > div {
   color: $green;
-}
-
-.content-logistics > div {
-  margin-left: 5px;
 }
 
 .workshop-middle-info-main {

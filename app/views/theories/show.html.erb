@@ -1,10 +1,10 @@
 <div class="container-seven">
   <div class="training-info-headers">
-    <%= link_to theories_path do %><i class="fas fa-arrow-left"></i><% end %>
+    <%= link_to theories_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
     <div class="show-control-links">
       <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-        <%= link_to edit_theory_path do %>
-          <button class="btn btn-edit">Edit Theory</button>
+        <%= link_to edit_theory_path, class: 'edit-fafa btn btn-edit btn-edit-pen' do %>
+          <i class="fas fa-pen"></i>
         <% end %>
       <% end %>
     </div>

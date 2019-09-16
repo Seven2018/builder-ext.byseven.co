@@ -9,7 +9,7 @@
     <%= simple_form_for line do |f| %>
       <%= f.input :description %>
       <% unless line.quantity.nil? %>
-        <%= f.input :quantity %>
+        <%= f.input :quantity, input_html: { min: 0 } %>
         <%= f.input :net_amount %>
       <% end %>
   </div>
