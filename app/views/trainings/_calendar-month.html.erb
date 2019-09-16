@@ -20,7 +20,7 @@
                     <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= trainer.user.id %>'><img src='<%= "#{trainer.user.picture}" %>' alt="" class='card-trainer'></a>
                     <div class="modal fade" id="consultUser<%= trainer.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog" role="document" style="border-radius: 20px">
-                        <%= render 'users/consult', user: trainer.user %>
+                        <%= render 'users/consult', user: trainer.user, training: training %>
                       </div>
                     </div>
                   <% end %>
@@ -34,8 +34,4 @@
     <% end %>
   <% end %>
 <% end %>
-<style>
-  .prev-month, .next-month {
-    display: none !important;
-  }
-</style>
+

@@ -163,7 +163,7 @@
   <% session.users.each do |trainer| %>
     <div class="modal fade" id="consultUser<%= trainer.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document" style="border-radius: 20px">
-        <%= render 'users/consult', user: trainer %>
+        <%= render 'users/consult', user: trainer, training: @training %>
       </div>
     </div>
   <% end %>

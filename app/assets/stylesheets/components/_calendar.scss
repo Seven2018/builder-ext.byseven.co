@@ -108,3 +108,11 @@
   text-align: center;
   margin-bottom: 30px;
 }
+
+.prev-month, .next-month {
+  display: none !important;
+
+  @include from-large {
+    display: table-cell !important;
+  }
+}
