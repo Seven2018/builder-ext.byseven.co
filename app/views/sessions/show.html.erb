@@ -5,6 +5,10 @@
         <i class="fas fa-arrow-left"></i>
       <% end %>
       <div>
+        <a class='edit-fafa btn btn-edit btn-edit-pen' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
+        <%= link_to session_viewer_path(@session), class: 'edit-fafa btn btn-edit-grey btn-edit-eye' do %>
+          <i class="far fa-eye"></i>
+        <% end %>
         <%= link_to training_session_path(@session.training, @session, format: :pdf) do %>
           <button class="btn btn-edit" id='export-btn'>
             Export <i class="fas fa-file-pdf"></i>
@@ -15,18 +19,9 @@
     <div class="middle-info">
       <div class="middle-info-main">
         <h3 id='session-title'><%= @session.title %>
-          <a class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
-          <%= link_to session_viewer_path(@session), class: 'edit-fafa' do %>
-            <i class="far fa-eye"></i>
-          <% end %>
         </h3>
       </div>
       <div>
-        <% if @session.users.count < 2 %>
-          <h4>Trainer</h4>
-        <% else %>
-          <h4>Trainers</h4>
-        <% end %>
         <div style="display: table;margin: 0 auto">
           <ul id='owner'>
             <% @session.users.each do |user| %>
@@ -34,7 +29,7 @@
                 <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
               </li>
             <% end %>
-            <li><button class='add-user' data-toggle='modal' data-target='#newUser'><i class="fas fa-plus"></i></button></li>
+            <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
           </ul>
         </div>
       </div>
@@ -177,14 +172,8 @@
 </div>
 
 <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
     <%= render 'session_trainers/new', session: @session, session_trainer: @session_trainer %>
-  </div>
-</div>
-
-<div class="modal fade" id="destroyUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
-    <%= render 'session_trainers/destroy', session: @session, session_trainer: @session_trainer %>
   </div>
 </div>
 

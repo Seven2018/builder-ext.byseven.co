@@ -8,6 +8,7 @@ class Session < ApplicationRecord
   has_many :comments, dependent: :destroy
   validates :date, :duration, presence: true
   validate :date_included_in_training_dates?
+  accepts_nested_attributes_for :session_trainers
 
 
   def date_included_in_training_dates?

@@ -1,14 +1,34 @@
 <div class="modal-content">
   <div class="modal-header">
-    <div id="modal-title" style=" display: flex; justify-content: space-between;">
-      <h3 class="modal-title" id="myModalLabel"><%= "Invite Owner" %></h3>
+    <div id="modal-title" style="display:flex;justify-content:center;text-align:center;">
+      <h3 class="modal-title" id="myModalLabel"><%= "Owners (max : 2)" %></h3>
     </div>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   </div>
-  <div class="modal-body" id="modalNewBookinBody">
+  <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
     <%= simple_form_for [@training, @training_ownership] do |f| %>
-        <%= f.input :user, :collection => @users.where.not(access_level: 'sevener'), :label_method => lambda { |owner| "#{owner.firstname} #{owner.lastname}" }, include_blank: false %>
-        <%= f.button :submit, "Invite", class: 'btn btn-edit' %>
+      <div id='checkbox' style=" display:flex;justify-content:space-between;flex-direction:column;">
+        <%= collection_check_boxes(:training, :user_ids, User.all.order('firstname ASC'), :id, :fullname) do |b| %>
+          <%= b.label class: 'label-checkbox' do %>
+            <%= b.check_box + b.text %>
+          <% end %>
+        <% end %>
+      </div>
+      <script>
+        $('#checkbox input:checkbox').change(function () {
+          var $cs=$('#checkbox input:checkbox:checked');
+          if ($cs.length > 1) {
+            $('#checkbox input:checkbox:not(:checked)').attr("disabled", true);
+          }
+          else{
+            $('#checkbox input:checkbox').attr("disabled", false);
+          }
+        });
+      </script>
+      <div style="display:flex;justify-content:center;margin-top:30px;">
+        <%= button_tag :submit, class: 'btn btn-edit-green btn-edit-disk' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+      </div>
     <% end %>
   </div>
 </div>

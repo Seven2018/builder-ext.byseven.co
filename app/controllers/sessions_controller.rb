@@ -81,6 +81,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id, :duration, :attendee_number)
+    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id, :duration, :attendee_number, { user_ids: [] }, session_trainers_attributes: [:id, :session_id, :user_id])
   end
 end

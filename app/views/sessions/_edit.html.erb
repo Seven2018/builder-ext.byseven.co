@@ -10,6 +10,7 @@
       <div class='mod-date'>
         <%= f.input :title %>
         <%= f.input :attendee_number, input_html: { min: 0, style: 'width:120px;', value: 0 }, label: 'Participants' %>
+        <%= collection_check_boxes(:session, :user_ids, User.all.order('firstname ASC'), :id, :fullname) %>
       </div>
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>

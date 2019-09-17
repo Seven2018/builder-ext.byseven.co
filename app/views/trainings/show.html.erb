@@ -27,11 +27,6 @@
       <h4><%="From #{@training.start_date.strftime('%d/%m/%y')} to #{@training.end_date.strftime('%d/%m/%y')}" %></h4>
     </div>
     <div>
-      <% if @training.users.count > 1 %>
-        <h4>Owners</h4>
-      <% else %>
-        <h4>Owner</h4>
-      <% end %>
       <div style="display: table;margin: 0 auto">
         <ul id="owner">
           <% @training.users.each do |user| %>
@@ -39,8 +34,12 @@
             <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
           </li>
           <% end %>
-          <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.users.count < 2 %>
-            <li><button class='add-user' data-toggle='modal' data-target='#newOwner'><i class="fas fa-plus"></i></button></li>
+          <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
+            <% if @training.users.count > 1 %>
+              <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newOwner'>Owners</button></li>
+            <% else %>
+              <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newOwner'>Owner</button></li>
+            <% end %>
           <% end %>
         </ul>
       </div>
@@ -52,11 +51,6 @@
       <% @training.sessions.each do |session| %>
         <% trainers += session.users.count %>
       <% end %>
-      <% if trainers < 2 %>
-        <h4>Trainer</h4>
-      <% else %>
-        <h4>Trainers</h4>
-      <% end %>
       <div class='trainer-div'>
         <ul id="trainer">
           <% trainer_array = [] %>
@@ -67,6 +61,11 @@
                 <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm'></a></li>
               <% end %>
             <% end %>
+          <% end %>
+          <% if trainer_array.uniq.count > 1 %>
+            <li><button class='btn btn-add-user disabled'>Trainers</button></li>
+          <% else %>
+            <li><button class='btn btn-add-user disabled'>Trainer</button></li>
           <% end %>
         </ul>
       </div>
@@ -84,6 +83,7 @@
                 <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p>
                 <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
                 <i class="fas fa-users"> <%= session.attendee_number %></i>
+                <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-graduate"></i></button>
                 <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
               <% end %>
             </div>
@@ -140,17 +140,23 @@
 </div>
 
 <div class="modal fade" id="newOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
     <%= render 'training_ownerships/new', training_owner: @training_ownership %>
   </div>
 </div>
 
 <% @training.sessions.order(:date).each do |session| %>
-<div class="modal fade" id="editSession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
-    <%= render '/sessions/edit', session: session %>
+  <div class="modal fade" id="editSession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="border-radius: 20px">
+      <%= render '/sessions/edit', session: session %>
+    </div>
   </div>
-</div>
+  <div class="modal fade" id="addTrainer<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
+      <% @session = session %>
+      <%= render '/session_trainers/new', session: @session, session_trainer: SessionTrainer.new %>
+    </div>
+  </div>
 <% end %>
 
 <div class="modal fade" id="newSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

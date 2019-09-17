@@ -8,4 +8,8 @@ class User < ApplicationRecord
   has_many :sessions, through: :session_trainers
   has_many :comments
   validates :access_level, inclusion: { in: ['sevener', 'training manager', 'admin', 'super admin'] }
+
+  def fullname
+    "#{firstname} #{lastname}"
+  end
 end
