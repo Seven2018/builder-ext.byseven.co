@@ -73,7 +73,7 @@
     <% flash[:notice] = "Aucun compte ne correspond à l'adresse email renseignée" %>
   <% end %>
   <div id="form-import">
-    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+    <% if user_signed_in? && (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
       <%= form_tag import_attendees_path, multipart: true do %>
         <%= file_field_tag :file %>
         <%= submit_tag 'Import CSV' %>
