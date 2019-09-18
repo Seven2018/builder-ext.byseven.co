@@ -14,7 +14,7 @@
 }
 
 .myUL-li-theme {
-  width: 500px;
+  width: 100%;
   padding: 15px 0;
 
   &:last-child {
@@ -23,34 +23,60 @@
 
   .caret {
     background-color: white;
-    transition: background-color 0.5s 0.5s;
+    transition: color 0.5s 0.5s;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.05) !important;
+    }
+  }
+}
+
+.myUL-sidebar .theme-active{
+
+  &:hover {
+    background-color: #2E353D !important;
   }
 }
 
 .theme-active {
-  padding-bottom: 0 !important;
 
   .caret-down {
-    background-color: #FDC553;
-    transition: background-color 0.5s;
+    color: #FDC553;
+    transition: color 0.5s;
   }
 
   .sidebar-caret {
     background-color: rgba(0,0,0,0) !important;
-    color: #FDC553;
   }
 }
 
 .myUL-li-content {
 
   a {
+    width: 100%;
     padding: 15px 20px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.05);
+    }
   }
 
   &:last-child {
     border-bottom: none !important;
+  }
+
+  .myUL-li-content-second {
+    width: 60%;
+    display: flex;
+    justify-content: flex-start;
+
+    span {
+      width: 30%;
+      margin: 0 10px;
+    }
   }
 }
 
@@ -80,23 +106,23 @@
   overflow: hidden;
   list-style: none !important;
   border-width: 1px 0 0 0;
+  margin-top: 15px;
   max-height: 0px;
-  -webkit-transition: max-height 1s ease 0s, margin 0.7s ease 0s;
-  -moz-transition: max-height 1s ease 0s, margin 0.7s ease 0s;
-  -ms-transition: max-height 1s ease 0s, margin 0.7s ease 0s;
-  -o-transition: max-height 1s ease 0s, margin 0.7s ease 0s;
-  transition: max-height 1s ease 0s, margin 0.7s ease 0s;
+  -webkit-transition: max-height 0.66s;
+  -moz-transition: max-height 0.66s;
+  -ms-transition: max-height 0.66s;
+  -o-transition: max-height 0.66s;
+  transition: max-height 0.66s;
 }
 
 /* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
 .nested-active {
   width: 100%;
   padding: 0;
-  margin-top: 15px;
   max-height: 100vh;
-  -webkit-transition: max-height 3s ease, margin 0.7s ease 0s;
-  -moz-transition: max-height 3s ease, margin 0.7s ease 0s;
-  -ms-transition: max-height 3s ease, margin 0.7s ease 0s;
-  -o-transition: max-height 3s ease, margin 0.7s ease 0s;
-  transition: max-height 3s ease, margin 0.7s ease 0s;
+  -webkit-transition: max-height 2s ease 0.2s;
+  -moz-transition: max-height 2s ease 0.2s;
+  -ms-transition: max-height 2s ease 0.2s;
+  -o-transition: max-height 2s ease 0.2s;
+  transition: max-height 2s ease 0.2s;
 }

@@ -2,9 +2,9 @@
   <h3 style="text-align: left;"><%= "Trainings Dashboard" %></h3>
   <div class="trainings-title">
     <ul class="nav nav-tabs">
-      <li role="presentation"><a href="<%= trainings_path(tab: 'ongoing') %>">Ongoing trainings</a></li>
-      <li role="presentation"><a href="<%= trainings_path(tab: 'upcoming') %>">Upcoming trainings</a></li>
-      <li role="presentation"><a href="<%= trainings_path(tab: 'completed') %>">Completed trainings</a></li>
+      <li role="presentation"><a href="<%= trainings_path(tab: 'ongoing') %>" class='tab-grayed'>Ongoing trainings</a></li>
+      <li role="presentation"><a href="<%= trainings_path(tab: 'upcoming') %>" class='tab-grayed'>Upcoming trainings</a></li>
+      <li role="presentation"><a href="<%= trainings_path(tab: 'completed') %>" class='tab-grayed'>Completed trainings</a></li>
       <li><%= link_to "Calendar", index_week_path, class: 'active' %></li>
     </ul>
     <%= link_to new_training_path, id: "new-training" do %>

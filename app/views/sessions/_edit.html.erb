@@ -9,7 +9,7 @@
     <%= simple_form_for [session.training, session] do |f| %>
       <div class='mod-date'>
         <%= f.input :title %>
-        <%= f.input :attendee_number, input_html: { min: 0, style: 'width:120px;', value: 0 }, label: 'Participants' %>
+        <%= f.input :attendee_number, input_html: { min: 0, style: 'width:120px;' }, label: 'Participants', default: 0 %>
       </div>
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>

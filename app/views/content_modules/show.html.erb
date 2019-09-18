@@ -1,17 +1,20 @@
 <div class="container-seven">
-  <%= link_to content_path(@content_module.content) do %>
-    <i class="fas fa-arrow-left"></i>
-  <% end %>
-  <h2><%= @content_module.title %></h2>
-
-  <p><%= @content_module.duration %></p>
-  <p><%= @content_module.instructions.html_safe %></p>
-  <p><%= @content_module.logistics.html_safe %></p>
-  <p><%= @content_module.url1 %></p>
-  <p><%= @content_module.url2 %></p>
-  <p><%= @content_module.action1.name %></p>
-  <% if @content_module.action2 %>
-    <p><%= @content_module.action2.name %></p>
-  <% end %>
-  <p><%= @content_module.comments %></p>
+  <div class="training-info-headers">
+    <%= link_to content_path(@content_module.content), class: 'return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <div class="middle-info-workshop">
+    <h3><%= @content_module.title %> - <%= @content_module.duration %> minutes</h3>
+    <br>
+    <p><%= @content_module.instructions.html_safe %></p>
+    <div class='content-logistics'><p class='logistics-label'>Logistics : </p><div><%= @content_module.logistics.html_safe %></div></div>
+    <p><%= @content_module.url1 %></p>
+    <p><%= @content_module.url2 %></p>
+    <p class='content-actions'>Action 1 (participant): <%= @content_module.action1.name %></p>
+    <% if @content_module.action2 %>
+      <p class='content-actions'>Action 2 (participant) : <%= @content_module.action2.name %></p>
+    <% end %>
+    <p>Comments : <%= @content_module.comments %></p>
+  </div>
 </div>

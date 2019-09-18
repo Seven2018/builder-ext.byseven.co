@@ -28,6 +28,11 @@
     box-sizing: border-box;
     max-width: 100%;
     width: 100%;
+
+    td {
+      padding-right: 10px !important;
+      padding-left: 10px !important;
+    }
   }
 
   tr {
@@ -115,4 +120,9 @@
   @include from-large {
     display: table-cell !important;
   }
+}
+
+.tab-grayed {
+
+  color: rgba(0,0,0,0.3) !important;
 }

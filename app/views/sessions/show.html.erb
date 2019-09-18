@@ -93,12 +93,12 @@
             <ul id='myUL'>
               <% (Content.where("lower(title) LIKE :query", query: "%#{params[:search][:title].downcase}%") + (Content.joins(:content_modules).where("lower(content_modules.title) LIKE :query", query:"%#{params[:search][:title].downcase}%"))).each do |content| %>
                 <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
-                  <li>+ <%= content.title %></li>
+                  <li class='myUL-li-theme-sidebar'>+ <%= content.title %></li>
                 <% end %>
               <% end %>
             </ul>
           <% else %>
-            <ul id='myUL'>
+            <ul id='myUL' class='myUL-sidebar'>
               <% Theme.walk_tree do |theme, level| %>
                 <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
                   <li><span class="caret sidebar-caret"><%= theme.name %></span>
@@ -138,7 +138,7 @@
               <% end %>
             </ul>
             <br>
-            <ul id='myUL'>
+            <ul id='myUL' class='myUL-sidebar'>
               <% @themes.each do |theme| %>
                 <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
                   <li><span class="caret sidebar-caret"><%= theme.name %></span>
