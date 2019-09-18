@@ -68,6 +68,7 @@
 .training-info-footer {
   display: flex;
   justify-content: center;
+  z-index: 1001;
 
   @include from-large {
     position: fixed;
@@ -78,6 +79,10 @@
 
 .sessions-cards {
   text-align: center;
+
+  a {
+    text-decoration: none;
+  }
 
   @include from-large {
     margin: 40px 0px;

@@ -3,7 +3,7 @@
 
   <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @workshop_module] do |f| %>
     <%= f.input :title %>
-    <%= f.association :user, label: 'Speaker', collection: @users, allow_blank: true %>
+    <%= f.association :user, label: 'Speaker', collection: @users, label_method: lambda { |user| "#{user.firstname} #{user.lastname}" }, allow_blank: true %>
     <%= f.input :instructions, input_html: { class: 'editor' } %>
     <%= f.input :duration, label: 'Duration (min)' %>
     <%= f.input :url1 %>

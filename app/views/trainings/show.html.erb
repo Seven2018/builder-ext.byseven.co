@@ -128,7 +128,6 @@
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <a class='btn btn-edit' id='add-session-button' data-toggle='modal' data-target='#newSession'>Ajouter une session</a>
     <% end %>
-    </div>
   </div>
 </div>
 
@@ -161,7 +160,7 @@
 
 <div class="modal fade" id="newSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
-    <%= render '/sessions/new', session: @session %>
+    <%= render '/sessions/new' %>
   </div>
 </div>
 

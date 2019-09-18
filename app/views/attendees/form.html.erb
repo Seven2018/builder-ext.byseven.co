@@ -18,7 +18,7 @@
           <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname}, disabled: true, required: false %>
         </div>
         <div style='display:flex;justify-content:space-around;'>
-          <%= f.input :employee_id, label: 'ID interne', input_html: { value: attendee.employee_id }, disabled: true, required: false %>
+          <%= f.input :employee_id, label: 'N°WWID', input_html: { value: attendee.employee_id }, disabled: true, required: false %>
           <%= f.input :email, input_html: { value: attendee.email }, disabled: true, required: false %>
         </div>
       <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
@@ -32,14 +32,13 @@
   <% if !@sessions.nil? && ((params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || (params[:attendee] && !Attendee.find(params[:attendee].to_i).nil?)) %>
     <div class='container-seven-form'>
       <h3><strong>Formations à venir</strong></h3>
-      <% @sessions.each do |session| %>
+      <% @sessions.order('date ASC').each do |session| %>
         <div class="session-form-card center-button">
           <div class="session-form-card-left">
-            <% if @sessions.first == session %>
+            <% if @sessions.order('date ASC').first == session %>
               <div class="session-form-card-image-1">
 
               </div>
-              <!-- <img src="https://static.lexpress.fr/medias_9458/w_480,h_270,c_fill,g_north/v1395063433/gign-1_4842839.jpg" alt=""> -->
             <% end %>
           </div>
           <div class="session-form-card-right">
@@ -47,12 +46,15 @@
               <h3><strong><%= session.title %></strong></h3>
               <h5><%= session.date.strftime('%d/%m/%y') %></h5>
             </div>
-            <% if @sessions.first == session %>
+            <% if @sessions.order('date ASC').first == session %>
               <p class='session-teaser'>Découvrez la négociation raisonnée
-                  sur la base des enseignements de Saint-Cyr, école des officiers et les meilleures techniques de facilitation des forces spéciales"
-                  simulation engageante et techniques du GIGN.</p>
+                  sur la base des enseignements de Saint-Cyr, école des officiers, et les meilleures techniques de facilitation des forces spéciales au travers d'une simulation engageante.</p>
             <% end %>
-            <% if (params[:search] && session.attendees.where(email: params[:search][:email]).empty?) || (params[:attendee] && session.attendees.where(email: Attendee.find(params[:attendee].to_i).email).empty?) %>
+            <% if (session.attendees.count >= session.attendee_number) && session.attendees.where(email: params[:search][:email]).empty? %>
+              <div class="session-form-control">
+                <p>Plus de places pour cette session</p>
+              </div>
+            <% elsif (params[:search] && session.attendees.where(email: params[:search][:email]).empty?) || (params[:attendee] && session.attendees.where(email: Attendee.find(params[:attendee].to_i).email).empty?) %>
               <div class='session-form-control'>
                 <p>Cliquez pour vous inscrire</p>
                 <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session.id, attendee_id: @attendee.id), method: :post, class: 'btn btn-edit-green btn-edit-disk' %>

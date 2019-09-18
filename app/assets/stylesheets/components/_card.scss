@@ -37,8 +37,8 @@ $timeline: #115173;
 }
 
 .card-sm {
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
   margin: 10px 0;
   position: relative;
   background-color: rgb(244, 244, 244);
@@ -62,8 +62,13 @@ $timeline: #115173;
     background-repeat: no-repeat;
 
     h5 {
-      font-size: 16px;
+      font-size: 12px;
       width: 60%;
+    }
+
+    p {
+      font-size: 12px;
+      margin: 0;
     }
 
     #card-main-sm-session {
@@ -83,12 +88,6 @@ $timeline: #115173;
 
   .card-sm {
     display: none;
-  }
-}
-
-.sessions-cards {
-  a {
-    text-decoration: none;
   }
 }
 
@@ -119,7 +118,7 @@ $timeline: #115173;
 .card-infos {
   margin-top: 20px;
   position: absolute;
-  bottom: 15px;
+  bottom: 10px;
  .card-infos-elements {
     margin-top: 5px;
     color: rgb(50,50,50);
@@ -205,6 +204,10 @@ $timeline: #115173;
       }
     }
   }
+}
+
+.sessions-cards .card-lg {
+  z-index: 1000;
 }
 
 .card-session-header {

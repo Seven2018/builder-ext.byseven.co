@@ -46,13 +46,12 @@ a {
   }
 }
 
-// .container-seven-centered {
-//   display: flex;
+.container-seven-monthly-calendar {
 
-//   @include from-large {
-//     justify-content: center;
-//   }
-// }
+  @include from-large {
+    margin: 0 0 0 220px !important;
+  }
+}
 
 .container-new-form {
   margin-top: 30px;

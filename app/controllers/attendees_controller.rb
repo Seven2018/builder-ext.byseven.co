@@ -38,6 +38,15 @@ class AttendeesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def export
+    @attendees = Attendee.joins(:session_attendees).where(session_attendees: {session_id: params[:id]})
+    skip_authorization
+    respond_to do |format|
+      format.html
+      format.csv { send_data @attendees.to_csv}
+    end
+  end
+
   private
 
   def attendee_params

@@ -6,14 +6,12 @@
       <% end %>
       <div>
         <a class='edit-fafa btn btn-edit btn-edit-pen' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
-        <%= link_to session_viewer_path(@session), class: 'edit-fafa btn btn-edit-grey btn-edit-eye' do %>
-          <i class="far fa-eye"></i>
-        <% end %>
-        <%= link_to training_session_path(@session.training, @session, format: :pdf) do %>
-          <button class="btn btn-edit" id='export-btn'>
-            Export <i class="fas fa-file-pdf"></i>
-          </button>
-        <% end %>
+        <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+        <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><%= link_to 'View mode', session_viewer_path(@session) %></li>
+          <li><%= link_to 'Export PDF', training_session_path(@session.training, @session, format: :pdf) %></li>
+          <li><%= link_to 'Participants List', export_attendees_path(@session.training, @session) %></li>
+        </ul>
       </div>
     </div>
     <div class="middle-info">
