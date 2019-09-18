@@ -32,7 +32,7 @@
      if (input.value !== '') {
       span.classList.add('form-label-active')
     }
-    div.addEventListener('select', (event) => {
+    div.addEventListener('focusin', (event) => {
       input.focus();
       span.classList.add('form-label-active')
     })
