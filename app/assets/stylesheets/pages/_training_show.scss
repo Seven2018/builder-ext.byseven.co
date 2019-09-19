@@ -71,9 +71,7 @@
   z-index: 1001;
 
   @include from-large {
-    position: fixed;
-    bottom: 30px;
-    right: 290px;
+    justify-content: flex-end;
   }
 }
 

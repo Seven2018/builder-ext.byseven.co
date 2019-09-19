@@ -149,12 +149,11 @@ $timeline: #115173;
   width: 100%;
   height: auto;
   box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
-  margin: 0 auto;
-  margin-top: 30px;
+  margin: 10px auto 0 auto;
   text-decoration: none;
   color: black;
   &:hover {
-    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
+    background-color: rgba(0,0,0,0.05);
   }
 
   .card-main-lg {
@@ -169,39 +168,50 @@ $timeline: #115173;
       margin: 0;
     }
   }
-  .card-footer-lg {
-    height: 50px;
+}
+
+.card-footer-lg {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  position: relative;
+
+  @include from-large {
+    padding-right: 40%;
+  }
+
+  div {
+    height: 100%;
+    width: 30%;
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    border-bottom: 1px solid rgba(115, 133, 152, 0.6);
-    position: relative;
-    p {
-      margin: 0;
+    justify-content: center;
+    box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  button {
+    height: 50px;
+    width: 50px;
+    box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
+
+    &:hover {
+      background-color: rgba(0,0,0,0.05);
     }
 
-    @include from-large {
-      padding-right: 40%;
+    &:first-of-type {
+      position: absolute;
+      right: 56px;
     }
 
-    button {
-      height: 50px;
-      width: 50px;
-      border-left: 1px solid rgba(115, 133, 152, 0.6);
-
-      &:hover {
-        background-color: rgba(0,0,0,0.05);
-      }
-
-      &:first-of-type {
-        position: absolute;
-        right: 51px;
-      }
-
-      &:last-child {
-        position: absolute;
-        right: 0;
-      }
+    &:last-child {
+      position: absolute;
+      right: 0;
     }
   }
 }
@@ -593,6 +603,18 @@ input.btn {
   box-shadow: none !important;
   border-radius: 52px !important;
   background-color: rgba(0,0,0,0.05) !important;
+}
+
+.btn-add-user-disabled {
+  box-shadow: none !important;
+  cursor: default !important;
+  background-color: white !important;
+  background-image: none !important;
+
+  &:hover {
+    background-color: white !important;
+    background-image: none !important;
+  }
 }
 
 #new-training {

@@ -63,9 +63,9 @@
             <% end %>
           <% end %>
           <% if trainer_array.uniq.count > 1 %>
-            <li><button class='btn btn-add-user disabled'>Trainers</button></li>
+            <li><button class='btn btn-add-user-disabled'>Trainers</button></li>
           <% else %>
-            <li><button class='btn btn-add-user disabled'>Trainer</button></li>
+            <li><button class='btn btn-add-user-disabled'>Trainer</button></li>
           <% end %>
         </ul>
       </div>
@@ -77,16 +77,16 @@
       <% @training.sessions.order(:date).each do |session| %>
         <% session_number +=1 %>
         <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
+          <div class="card-footer-lg">
+            <% if session.start_time && session.end_time %>
+              <div><p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p></div>
+              <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
+              <div><i class="fas fa-users"> <%= session.attendee_number %></i></div>
+              <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-graduate"></i></button>
+              <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
+            <% end %>
+          </div>
           <div class="card-lg">
-            <div class="card-footer-lg">
-              <% if session.start_time && session.end_time %>
-                <p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p>
-                <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
-                <i class="fas fa-users"> <%= session.attendee_number %></i>
-                <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-graduate"></i></button>
-                <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
-              <% end %>
-            </div>
               <div class="card-main-lg">
                 <%= link_to training_session_path(session.training, session), class: 'stretched-link' do %>
                   <div class="card-session-header">
