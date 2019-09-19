@@ -11,7 +11,9 @@
     <div class='content-logistics'><p class='logistics-label'>Logistics : </p><div><%= @content_module.logistics.html_safe %></div></div>
     <p><%= @content_module.url1 %></p>
     <p><%= @content_module.url2 %></p>
-    <p class='content-actions'>Action 1 (participant): <%= @content_module.action1.name %></p>
+    <% if @content_module.action1 %>
+      <p class='content-actions'>Action 1 (participant): <%= @content_module.action1.name %></p>
+    <% end %>
     <% if @content_module.action2 %>
       <p class='content-actions'>Action 2 (participant) : <%= @content_module.action2.name %></p>
     <% end %>

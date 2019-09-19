@@ -9,11 +9,16 @@
   }
 
   p {
-    width: 47%;
+    width: 30%;
     color: rgba(0,0,0,0.6);
   }
 
   p:first-child {
     color: black;
+    width: 30%;
+  }
+
+  p:last-child {
+    width: 30%;
   }
 }
