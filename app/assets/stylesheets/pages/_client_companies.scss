@@ -29,6 +29,27 @@
   }
 }
 
+#client-contact-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  @include from-large {
+    width: 50%;
+    flex-direction: row;
+    margin-bottom: 50px;
+  }
+
+  div {
+    display: flex;
+  }
+
+  div > a {
+    margin-left: 20px;
+  }
+}
+
 .client-company-list, .client-contact-list, .theory-list, .action-list {
   list-style: none;
   width: 100%;
@@ -44,6 +65,13 @@
 
   @include from-large {
     width: auto;
+  }
+}
+
+.client-contact-list {
+
+  @include from-large {
+    width: 50%;
   }
 }
 
@@ -76,7 +104,8 @@
 .client-company-logo-index {
   height:50px;
   width:50px;
-  object-fit: cover;
+  background-color: rgba(0,0,0,0);
+  object-fit: contain;
 }
 
 .client-company-infos {
@@ -142,9 +171,8 @@
     }
   }
 
-  div > div {
-    flex-direction: column;
-    margin: 0;
+  .show-control-links {
+
   }
 }
 
@@ -164,6 +192,6 @@
   margin-left: 30px;
 
   @include from-large {
-    margin-left: 200px;
+    margin-left: 120px;
   }
 }

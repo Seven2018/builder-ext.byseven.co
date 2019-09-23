@@ -32,3 +32,11 @@ input:focus {
   color: black;
   transition: all 0.4s ease;
 }
+
+.label-checkbox {
+  display: flex;
+
+  input {
+    margin-right: 10px;
+  }
+}

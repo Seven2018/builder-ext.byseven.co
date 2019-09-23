@@ -32,6 +32,7 @@
 .training-info-headers {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   margin-bottom: 10px;
   p {
@@ -62,25 +63,24 @@
     position: absolute;
     right: -50px;
   }
-
-  a, button {
-    min-width: 0 !important;
-  }
 }
 
 .training-info-footer {
   display: flex;
   justify-content: center;
+  z-index: 1001;
 
   @include from-large {
-    position: fixed;
-    bottom: 30px;
-    right: 290px;
+    justify-content: flex-end;
   }
 }
 
 .sessions-cards {
   text-align: center;
+
+  a {
+    text-decoration: none;
+  }
 
   @include from-large {
     margin: 40px 0px;
@@ -101,6 +101,7 @@
 
 .middle-info {
   display: flex;
+  margin-bottom: 20px;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
@@ -141,7 +142,6 @@
 }
 
 .middle-info2 {
-  margin-top: 20px;
   display: flex;
   justify-content: center;
 

@@ -1,6 +1,8 @@
+
 $timeline: #115173;
 
 .card {
+
   height: 250px;
   width: 350px;
   margin: 10px;
@@ -28,11 +30,15 @@ $timeline: #115173;
       margin: 15px 0;
     }
   }
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
 }
 
 .card-sm {
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
   margin: 10px 0;
   position: relative;
   background-color: rgb(244, 244, 244);
@@ -56,8 +62,13 @@ $timeline: #115173;
     background-repeat: no-repeat;
 
     h5 {
-      font-size: 16px;
+      font-size: 12px;
       width: 60%;
+    }
+
+    p {
+      font-size: 12px;
+      margin: 0;
     }
 
     #card-main-sm-session {
@@ -80,15 +91,10 @@ $timeline: #115173;
   }
 }
 
-.sessions-cards {
-  a {
-    text-decoration: none;
-  }
-}
-
 .client-logo {
   height: 50px;
   width: 50px;
+  object-fit: contain;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -112,11 +118,11 @@ $timeline: #115173;
 .card-infos {
   margin-top: 20px;
   position: absolute;
-  bottom: 15px;
+  bottom: 10px;
  .card-infos-elements {
     margin-top: 5px;
-    color: rgb(160, 160, 160);
-    font-size: 12px;
+    color: rgb(50,50,50);
+    font-size: 16px;
   }
 }
 
@@ -124,9 +130,8 @@ $timeline: #115173;
   height: 25%;
   display: flex;
   align-items: center;
-  background-color: $yellow !important;
-  justify-content: space-around;
-  // border: 1px solid rgba(115, 133, 152, 0.6);
+  background: linear-gradient(0.25turn, #23282E, #FCC94B) !important;
+  justify-content: space-between;
   background: rgba(115, 133, 152, 0.15);
   border-top: none;
   p {
@@ -144,12 +149,11 @@ $timeline: #115173;
   width: 100%;
   height: auto;
   box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
-  margin: 0 auto;
-  margin-top: 30px;
+  margin: 10px auto 0 auto;
   text-decoration: none;
   color: black;
   &:hover {
-    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
+    background-color: rgba(0,0,0,0.05);
   }
 
   .card-main-lg {
@@ -162,36 +166,58 @@ $timeline: #115173;
       color: inherit;
       text-align: left;
       margin: 0;
-      position: relative;
     }
   }
-  .card-footer-lg {
-    height: 50px;
+}
+
+.card-footer-lg {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  position: relative;
+
+  @include from-large {
+    padding-right: 40%;
+  }
+
+  div {
+    height: 100%;
+    width: 30%;
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    border-bottom: 1px solid rgba(115, 133, 152, 0.6);
-    position: relative;
-    p {
-      margin: 0;
+    justify-content: center;
+    box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  button {
+    height: 50px;
+    width: 50px;
+    box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
+
+    &:hover {
+      background-color: rgba(0,0,0,0.05);
     }
 
-    @include from-large {
-      padding-right: 40%;
+    &:first-of-type {
+      position: absolute;
+      right: 56px;
     }
 
-    button {
-      height: 50px;
-      width: 50px;
+    &:last-child {
       position: absolute;
       right: 0;
-      border-left: 1px solid rgba(115, 133, 152, 0.6);
-
-      &:hover {
-        background-color: rgba(0,0,0,0.05);
-      }
     }
   }
+}
+
+.sessions-cards .card-lg {
+  z-index: 1000;
 }
 
 .card-session-header {
@@ -256,7 +282,28 @@ $timeline: #115173;
     flex-direction: row;
     align-items: center;
     position: absolute;
-    top: 40%;
+    top: 5px;
+    left: 54px;
+    color: $blue;
+    font-weight: 600;
+    font-size: 23px;
+  }
+
+  .mod-duration {
+    position: absolute;
+    bottom: 115.575px;
+    right: 23px;
+    color: $blue;
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+  .mod-endtime {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    bottom: 5px;
     left: 54px;
     color: $blue;
     font-weight: 600;
@@ -279,6 +326,8 @@ $timeline: #115173;
   }
 
   .card-right {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
     padding: 10px;
@@ -286,7 +335,7 @@ $timeline: #115173;
     margin-right: 25px;
     margin-top: 20px;
     margin-bottom: 20px;
-    cursor: grab;
+
     &:hover {
       box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
     }
@@ -299,17 +348,14 @@ $timeline: #115173;
 
     @include from-large {
       width: 700px;
-      padding-right: 40px;
-      padding-left: 40px;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding: 20px;
     }
   }
   .grabbable {
-    cursor: move ; /* fallback if grab cursor is unsupported */
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
+    // cursor: move ; /* fallback if grab cursor is unsupported */
+    // cursor: grab;
+    // cursor: -moz-grab;
+    // cursor: -webkit-grab;
     h4 {
       color: rgba(0,0,0,0.6);
     }
@@ -442,6 +488,8 @@ $timeline: #115173;
 .card-category {
   display: flex;
   justify-content: space-between;
+  position: relative;
+  flex-grow: 1;
 
   a, a > div {
     width: 100%;
@@ -497,6 +545,7 @@ input.btn {
   text-align: center;
   transition: all 0.1s;
   outline: none !important;
+  margin-left: 5px !important;
   i {
     color: white;
   }
@@ -523,13 +572,49 @@ input.btn {
 }
 
 .btn-edit-pen, .btn-edit-menu {
-  padding: 15.75px 16px !important
+  padding: 15.75px 16px !important;
+  min-width: 0 !important;
+}
+
+.btn-edit-round {
+  min-width: 0 !important;
+  padding: 5.5px !important;
+  border-radius: 50% !important;
+  background-color: #23282E !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #23282E !important;
+  }
 }
 
 .btn-edit-disk, .btn-edit-trash {
   padding: 15.75px 17px !important;
   min-width: 0 !important;
   color: white !important;
+}
+
+.btn-edit-eye {
+  padding: 15.75px 15px !important;
+  min-width: 0 !important;
+}
+
+.btn-add-user {
+  box-shadow: none !important;
+  border-radius: 52px !important;
+  background-color: rgba(0,0,0,0.05) !important;
+}
+
+.btn-add-user-disabled {
+  box-shadow: none !important;
+  cursor: default !important;
+  background-color: white !important;
+  background-image: none !important;
+
+  &:hover {
+    background-color: white !important;
+    background-image: none !important;
+  }
 }
 
 #new-training {
@@ -622,10 +707,10 @@ input.btn {
     }
   }
   .grabbable {
-    cursor: move ; /* fallback if grab cursor is unsupported */
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
+    // cursor: move ; /* fallback if grab cursor is unsupported */
+    // cursor: grab;
+    // cursor: -moz-grab;
+    // cursor: -webkit-grab;
 
     h4 {
       color: rgba(0,0,0,0.6);
@@ -635,9 +720,9 @@ input.btn {
     }
   }
   .grabbable:active {
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
+    // cursor: grabbing;
+    // cursor: -moz-grabbing;
+    // cursor: -webkit-grabbing;
   }
   .circle {
     border: solid 2px $timeline;

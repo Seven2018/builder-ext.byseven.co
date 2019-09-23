@@ -1,8 +1,19 @@
 <div class="container-seven">
+  <div class="training-info-headers">
+    <% if params[:training_id] %>
+      <%= link_to training_path(Training.find(params[:training_id])), class: 'btn return-arrow' do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
+    <% elsif params[:client_company_id] %>
+      <%= link_to client_company_path(ClientCompany.find(params[:client_company_id])), class: 'btn return-arrow' do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
+    <% end %>
+  </div>
   <% if params[:type] == 'Invoice' %>
-    <h2>Liste des factures</h2>
+    <h3>Liste des factures</h3>
   <% elsif params[:type] == 'Estimate' %>
-    <h2>Liste des devis</h2>
+    <h3>Liste des devis</h3>
   <% end %>
   <div class="invoice-list">
     <%= render 'list', invoice_items: @invoice_items %>

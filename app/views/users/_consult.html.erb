@@ -11,9 +11,11 @@
       <p>LinkedIn: <%= link_to user.linkedin do %><i class="fab fa-linkedin-in"></i><% end %></p>
     </div>
     <div style='text-align: center;'>
-      <% if params[:controller] == 'trainings' && @training.users.include?(user) %>
-        <%= link_to 'Remove from owners', training_training_ownership_path(@training, TrainingOwnership.find_by(training_id: @training.id, user_id: user.id), user_id: user.id), method: :delete, class: 'btn' %>
-
+      <% training = @training if @training %>
+      <% if params[:controller] == 'trainings' && training.users.include?(user) %>
+        <%= link_to 'Remove from owners', training_training_ownership_path(training, TrainingOwnership.find_by(training_id: training.id, user_id: user.id), user_id: user.id), method: :delete, class: 'btn' %>
+      <% elsif params[:controller] == 'sessions' %>
+        <%= link_to 'Remove from trainers', training_session_session_trainer_path(@session.training, @session, SessionTrainer.find_by(session_id: @session.id, user_id: user.id), user_id: user.id), method: :delete, class: 'btn' %>
       <% end %>
     </div>
   </div>

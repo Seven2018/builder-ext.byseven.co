@@ -1,18 +1,20 @@
 class SessionTrainersController < ApplicationController
   def create
-    @user = User.find(params[:session_trainer][:user].to_s)
-    @session = Session.find(params[:session_id])
-    @session_trainer = SessionTrainer.new(user: @user, session: @session)
+    @session_trainer = SessionTrainer.new
     authorize @session_trainer
-    unless @session.users.include?(@user)
-      if @session_trainer.save
-        redirect_to training_session_path(@session.training, @session)
-      else
-        raise
+    @session = Session.find(params[:session_id])
+    array = params[:session][:user_ids].drop(1).map(&:to_i)
+    array.each do |ind|
+      if SessionTrainer.where(session_id: @session.id, user_id: ind).empty?
+        SessionTrainer.create(session_id: @session.id, user_id: ind)
       end
-    else
-      redirect_to training_session_path(@session.training, @session)
     end
+    (User.ids - array).each do |ind|
+      unless SessionTrainer.where(session_id: @session.id, user_id: ind).empty?
+        SessionTrainer.where(session_id: @session.id, user_id: ind).first.destroy
+      end
+    end
+    redirect_back(fallback_location: root_path)
   end
 
   def destroy

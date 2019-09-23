@@ -3,16 +3,16 @@
 
   <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @workshop_module] do |f| %>
     <%= f.input :title %>
-    <%= f.association :user, label: 'Speaker', collection: @users, allow_blank: true %>
+    <%= f.association :user, label: 'Speaker', collection: @users, label_method: lambda { |user| "#{user.firstname} #{user.lastname}" }, allow_blank: true %>
     <%= f.input :instructions, input_html: { class: 'editor' } %>
     <%= f.input :duration, label: 'Duration (min)' %>
     <%= f.input :url1 %>
     <%= f.input :url2 %>
     <%= f.input :image1 %>
     <%= f.input :image2 %>
-    <%= f.input :logistics, input_html: { class: 'editor2', style: 'width:100%;' }, label: 'Logistique' %>
+    <%= f.input :logistics, input_html: { class: 'editor2', style: 'width:100%;' } %>
     <%= f.input :action1_id, collection: Action.all, allow_blank: false, include_blank: false, label: 'Action 1' %>
-    <%= f.input :action2_id, collection: Action.all, label: 'Action 2' %>
+    <%= f.input :action2_id, collection: Action.all, allow_blank: true, label: 'Action 2' %>
     <%= f.input :comments, input_html: { style: 'width:100%;' } %>
     <script>
       ClassicEditor

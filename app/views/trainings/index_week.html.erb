@@ -1,12 +1,23 @@
 <div class="container-seven" style="background-color: white">
   <h3 style="text-align: left;"><%= "Trainings Dashboard" %></h3>
+  <div class="trainings-title">
+    <ul class="nav nav-tabs">
+      <li role="presentation"><a href="<%= trainings_path(tab: 'ongoing') %>" class='tab-grayed'>Ongoing trainings</a></li>
+      <li role="presentation"><a href="<%= trainings_path(tab: 'upcoming') %>" class='tab-grayed'>Upcoming trainings</a></li>
+      <li role="presentation"><a href="<%= trainings_path(tab: 'completed') %>" class='tab-grayed'>Completed trainings</a></li>
+      <li><%= link_to "Calendar", index_week_path, class: 'active' %></li>
+    </ul>
+    <%= link_to new_training_path, id: "new-training" do %>
+      <button class="btn btn-edit">New Training</button>
+    <% end %>
+  </div>
   <div class="trainings-title calendar-tabs-div">
     <ul class="nav nav-tabs">
         <li><%= link_to "Weekly", index_week_path, class: 'calendar-tabs active' %></li>
         <li><%= link_to "Monthly", index_month_path, class: 'calendar-tabs' %></li>
     </ul>
   </div>
-
   <div id='week_display'>
     <%= render 'calendar-week', session: @sessions %>
+  </div>
 </div>

@@ -1,3 +1,11 @@
+.report-main {
+  display: none;
+
+  @include from-large {
+    display: block;
+  }
+}
+
 .report-controls {
   display: none;
   justify-content: flex-start;

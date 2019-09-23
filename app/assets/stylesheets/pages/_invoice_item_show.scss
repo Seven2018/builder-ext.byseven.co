@@ -1,3 +1,26 @@
+.invoice-item-container {
+  display: none;
+
+  @include from-large {
+    display: block;
+  }
+}
+
+.invoice-item-container-mobile {
+  width: 100%;
+  margin-top: 30px;
+  text-align: center;
+
+  h3 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  @include from-large {
+    display: none;
+  }
+}
+
 .invoice-header {
   display: flex;
   justify-content: space-between;
@@ -33,11 +56,12 @@
 .invoice-line-comments {
   color: black;
   padding-left: 10px;
+  margin-bottom: 20px;
 
-  &:hover {
+  &:hover, a:hover {
     text-decoration: none;
     color: black;
-    cursor: help;
+    cursor: help
   }
 }
 

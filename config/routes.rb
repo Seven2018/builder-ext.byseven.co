@@ -52,4 +52,5 @@ Rails.application.routes.draw do
   get 'content_module/:id/move_down', to: 'content_modules#move_down', as: 'move_down_content_module'
   post 'attendees/import', to: 'attendees#import', as: 'import_attendees'
   resources :attendees, only: [:new, :create]
+  get 'training/:training_id/session/:id/attendees/export.csv', to: 'attendees#export', as: 'export_attendees'
 end

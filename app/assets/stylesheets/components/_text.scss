@@ -22,3 +22,11 @@ a {
     text-decoration: none;
   }
 }
+
+*:focus {
+    outline: 0 !important;
+}
+
+input[type='checkbox']:checked + label {
+  color: black !important;
+}

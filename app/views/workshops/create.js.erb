@@ -17,4 +17,5 @@ function addMod(modHTML) {
   <% end %>
 <% end %>
 
-addMod('<%= j render "workshops/mod_card", mod: @workshop, session: @session, start: @start %>');
+// addMod('<%= j render "workshops/mod_card", mod: @workshop, session: @session, start: @start %>');
+document.getElementById('mods').innerHTML = '<%= j (render("workshops/index", session: @session)) %>';

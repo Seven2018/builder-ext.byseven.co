@@ -7,24 +7,21 @@
   </div>
   <div class="modal-body">
     <%= simple_form_for [@client_contact.client_company, @client_contact] do |f| %>
-          <%= f.input :name %>
-    <%= f.input :email %>
-    <%= f.input :title %>
-    <%= f.input :role_description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
-    <%= f.input :client_company_id, collection: ClientCompany.all.order(:name) %>
-  </div>
-  <div class="modal-footer">
-    <div>
-      <%= f.button :submit, 'Save', class: 'btn btn-edit' %>
-      <% end %>
-      <%= link_to client_company_client_contact_path(@client_contact.client_company, @client_contact), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-          <button class="btn btn-edit">
+      <%= f.input :name %>
+      <%= f.input :email %>
+      <%= f.input :title %>
+      <%= f.input :role_description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
+      <%= f.input :client_company_id, collection: ClientCompany.all.order(:name) %>
+      <div style=" display: flex; justify-content: space-between;">
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+        <%= link_to client_company_client_contact_path(@client_contact.client_company, @client_contact), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <button class="btn btn-edit-red btn-edit-trash">
             <i class="fas fa-trash-alt"></i>
           </button>
         <% end %>
-    </div>
-  </div>
-
-    </div>
+      </div>
+    <% end %>
   </div>
 </div>

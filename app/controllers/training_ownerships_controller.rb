@@ -1,26 +1,27 @@
 class TrainingOwnershipsController < ApplicationController
   def create
-    @user = User.find(params[:training_ownership][:user].to_s)
-    @training = Training.find(params[:training_id])
-    @ownership = TrainingOwnership.new(user: @user, training: @training)
     skip_authorization
-    unless @training.users.include?(@user)
-      if @ownership.save
-        redirect_to training_path(@training)
-      else
-        raise
+    @training = Training.find(params[:training_id])
+    array = params[:training][:user_ids].drop(1).map(&:to_i)
+    array.each do |ind|
+      if TrainingOwnership.where(training_id: @training.id, user_id: ind).empty?
+        TrainingOwnership.create(training_id: @training.id, user_id: ind)
       end
-    else
-      redirect_to training_path(@training)
     end
+    (User.ids - array).each do |ind|
+      unless TrainingOwnership.where(training_id: @training.id, user_id: ind).empty?
+        TrainingOwnership.where(training_id: @training.id, user_id: ind).first.destroy
+      end
+    end
+    redirect_back(fallback_location: root_path)
   end
 
   def destroy
     @user = User.find(params[:user_id])
     @training = Training.find(params[:training_id])
-    @ownership = TrainingOwnership.where(user: @user).where(training: @training)
+    @ownership = TrainingOwnership.where(user: @user).where(training: @training).first
     skip_authorization
-    @ownership.first.destroy
-    redirect_to training_path(@training)
+    @ownership.destroy
+    redirect_back(fallback_location: root_path)
   end
 end

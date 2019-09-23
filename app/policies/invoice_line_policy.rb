@@ -6,14 +6,20 @@ class InvoiceLinePolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    check_access
   end
 
   def update?
-    true
+    check_access
   end
 
   def destroy?
-    true
+    check_access
+  end
+
+  private
+
+  def check_access
+    ['super admin', 'admin', 'training manager'].include? user.access_level
   end
 end

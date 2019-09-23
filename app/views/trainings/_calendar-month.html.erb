@@ -12,17 +12,12 @@
                 <h5><%= session.training.title %></h5>
                 <h5><%= session.title %></h5>
                 <div class="card-infos">
-                  <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= " From #{session.start_time.strftime('%H:%M')} to #{session.end_time.strftime('%H:%M')}" %>
+                  <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><p><%= "#{session.start_time.strftime('%H:%M')} - #{session.end_time.strftime('%H:%M')}" %></p>
                   </div>
                 </div>
                 <div class="card-trainers">
                   <% session.session_trainers.each do |trainer| %>
-                    <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= trainer.user.id %>'><img src='<%= "#{trainer.user.picture}" %>' alt="" class='card-trainer'></a>
-                    <div class="modal fade" id="consultUser<%= trainer.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                      <div class="modal-dialog" role="document" style="border-radius: 20px">
-                        <%= render 'users/consult', user: trainer.user %>
-                      </div>
-                    </div>
+                    <%= "#{trainer.user.firstname.first}#{trainer.user.lastname.first}" %>
                   <% end %>
                 </div>
               </div>
@@ -34,8 +29,4 @@
     <% end %>
   <% end %>
 <% end %>
-<style>
-  .prev-month, .next-month {
-    display: none !important;
-  }
-</style>
+

@@ -18,11 +18,13 @@
                   <%= link_to content_path(content) do %>
                     <span class="myUL-li-content-first"><strong><%= content.title %></strong></span>
                     <% if !content.theories.nil? %>
-                      <span class="myUL-li-content-second">
+                      <div class="myUL-li-content-second">
                         <% content.theories.order('name ASC').each do |theory| %>
-                          <%= theory.name %>
+                          <span>
+                            <%= theory.name %>
+                          </span>
                         <% end %>
-                      </span>
+                      </div>
                     <% end %>
                   <% end %>
                 </div>

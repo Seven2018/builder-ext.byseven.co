@@ -10,7 +10,7 @@ class ContentPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    check_access
   end
 
   def edit?

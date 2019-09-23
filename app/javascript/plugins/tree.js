@@ -6,6 +6,7 @@ const initTree = () => {
       this.parentElement.querySelector(".nested").classList.toggle("nested-active");
       this.parentElement.classList.toggle("theme-active");
       this.classList.toggle("caret-down");
+      // this.parentElement.querySelector(".nested").animate([{height: 0}, {height: 100%}], 2000);
     });
   }
 }

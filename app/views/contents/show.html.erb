@@ -1,6 +1,6 @@
 <div class="container-seven">
   <div class="training-info-headers">
-    <%= link_to contents_path do %><i class="fas fa-arrow-left"></i><% end %>
+    <%= link_to contents_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
     <div class="show-control-links">
       <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
         <a class="edit-fafa" data-toggle='modal' data-target='#editContent'><button class="btn btn-edit">Edit Workshop</button></a>

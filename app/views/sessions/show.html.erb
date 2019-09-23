@@ -1,37 +1,42 @@
 <div class="container-session-show">
   <div class="session-container">
     <div class="training-info-headers">
-      <%= link_to training_path(@session.training) do %>
+      <%= link_to training_path(@session.training), class: 'btn return-arrow' do %>
         <i class="fas fa-arrow-left"></i>
       <% end %>
       <div>
-        <%= link_to training_session_path(@session.training, @session, format: :pdf) do %>
-          <button class="btn btn-edit" id='export-btn'>
-            Exporter <i class="fas fa-file-pdf"></i>
-          </button>
-        <% end %>
+        <a class='edit-fafa btn btn-edit btn-edit-pen' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
+        <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+        <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><%= link_to 'View mode', session_viewer_path(@session) %></li>
+          <li><%= link_to 'Export PDF', training_session_path(@session.training, @session, format: :pdf) %></li>
+          <li><%= link_to 'Participants List', export_attendees_path(@session.training, @session) %></li>
+        </ul>
       </div>
     </div>
     <div class="middle-info">
       <div class="middle-info-main">
         <h3 id='session-title'><%= @session.title %>
-          <abutton class='edit-fafa' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
-          <%= link_to session_viewer_path(@session), class: 'edit-fafa' do %>
-            <i class="far fa-eye"></i>
-          <% end %>
         </h3>
       </div>
-      <div style="display:flex;align-items:center;justify-content:center;">
+      <div>
+        <div style="display: table;margin: 0 auto">
+          <ul id='owner'>
+            <% @session.users.each do |user| %>
+              <li>
+                <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+              </li>
+            <% end %>
+            <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="training-info">
+    <div class="session-info">
       <% if @session.start_time && @session.end_time %>
-        <h4><%= "#{@session.date.strftime("%d/%m/%y")}" %>
-          <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
-          <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
-          <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.end_time.min.to_s.length == 1 %>
-          <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.end_time.min.to_s.length == 2 %>
-        </h4>
+        <p> <%="#{@session.date.strftime('%d/%m/%y')}"%> </p>
+        <div><p><%= " #{@session.start_time.strftime("%k:%M")} to #{@session.end_time.strftime("%k:%M")}" %></p></div>
+        <i class="fas fa-users"> <%= @session.attendee_number %></i>
       <% end %>
     </div>
     <div id="mods" style="min-height: 70vh;">
@@ -88,15 +93,15 @@
             <ul id='myUL'>
               <% (Content.where("lower(title) LIKE :query", query: "%#{params[:search][:title].downcase}%") + (Content.joins(:content_modules).where("lower(content_modules.title) LIKE :query", query:"%#{params[:search][:title].downcase}%"))).each do |content| %>
                 <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
-                  <li>+ <%= content.title %></li>
+                  <li class='myUL-li-theme-sidebar'>+ <%= content.title %></li>
                 <% end %>
               <% end %>
             </ul>
           <% else %>
-            <ul id='myUL'>
+            <ul id='myUL' class='myUL-sidebar'>
               <% Theme.walk_tree do |theme, level| %>
                 <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
-                  <li><span class="caret"><%= theme.name %></span>
+                  <li><span class="caret sidebar-caret"><%= theme.name %></span>
                     <ul class="nested">
                       <% theme.contents.each do |content| %>
                         <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
@@ -106,7 +111,7 @@
                     </ul>
                   </li>
                 <% elsif theme.level == 0 && theme.children != [] %>
-                  <li><span class="caret"><%= theme.name %></span>
+                  <li><span class="caret sidebar-caret"><%= theme.name %></span>
                     <ul class="nested">
                       <% theme.children.each do |subtheme| %>
                         <li><span class="caret"><%= subtheme.name %></span>
@@ -123,6 +128,9 @@
                   </li>
                 <% end %>
               <% end %>
+              <%= link_to training_session_workshops_path(@session.training, @session), method: :post, remote: true do %>
+                <li>Vide - à personnaliser</li>
+              <% end %>
               <% pause = Content.where(title: 'Pause') %>
               <% pausedej = Content.where(title: 'Pause Déjeuner') %>
               <%= link_to training_session_workshops_path(@session.training, @session, content_id: pause.first.id), method: :post, remote: true do %>
@@ -133,10 +141,10 @@
               <% end %>
             </ul>
             <br>
-            <ul id='myUL'>
+            <ul id='myUL' class='myUL-sidebar'>
               <% @themes.each do |theme| %>
                 <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
-                  <li><span class="caret"><%= theme.name %></span>
+                  <li><span class="caret sidebar-caret"><%= theme.name %></span>
                     <ul class="nested">
                       <% theme.contents.each do |content| %>
                         <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
@@ -165,16 +173,18 @@
 </div>
 
 <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
     <%= render 'session_trainers/new', session: @session, session_trainer: @session_trainer %>
   </div>
 </div>
 
-<div class="modal fade" id="destroyUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
-    <%= render 'session_trainers/destroy', session: @session, session_trainer: @session_trainer %>
+<% @session.users.each do |user| %>
+  <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="border-radius: 20px">
+      <%= render 'users/consult', user: user %>
+    </div>
   </div>
-</div>
+<% end %>
 
 <script>
   $(document).ready(function() {

@@ -45,9 +45,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 
   @include from-large {
     padding-right: 40%;
+  }
+
+  p {
+    margin: 0;
   }
 }
 
@@ -89,7 +94,7 @@
   width: 131%;
 }
 
-.session-header, .training-info-headers {
+.session-header {
   display: flex;
   justify-content: space-between;
 

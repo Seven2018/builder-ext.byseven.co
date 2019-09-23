@@ -9,19 +9,19 @@
     <%= simple_form_for line do |f| %>
       <%= f.input :description %>
       <% unless line.quantity.nil? %>
-        <%= f.input :quantity %>
+        <%= f.input :quantity, input_html: { min: 0 } %>
         <%= f.input :net_amount %>
       <% end %>
-  </div>
-  <div class="modal-footer" id="modalNewBookingFooter">
-    <div>
-      <%= f.button :submit, 'Sauvegarder', class: 'btn btn-edit' %>
-      <%= link_to invoice_line_path(line), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-          <button class="btn btn-edit">
+      <div style=" display: flex; justify-content: space-between;">
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+        <%= link_to invoice_line_path(line), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <button class="btn btn-edit-red btn-edit-trash">
             <i class="fas fa-trash-alt"></i>
           </button>
         <% end %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div>
 </div>

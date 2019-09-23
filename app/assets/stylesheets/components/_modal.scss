@@ -12,6 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-grow: 1;
 }
 
 #modal-title-consult {
@@ -44,6 +45,7 @@
 
   p {
     font-size: 16px !important;
+    font-weight: 300;
   }
 }
 

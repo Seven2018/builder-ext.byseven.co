@@ -2,9 +2,10 @@ class SessionAttendeesController < ApplicationController
   before_action :authenticate_user!, except: [:destroy, :create]
 
   def create
-    @session_attendee = SessionAttendee.new(session_id: params[:session_id], attendee_id: params[:attendee_id])
+    @session = Session.find(params[:session_id])
+    @session_attendee = SessionAttendee.new(session_id: @session.id, attendee_id: params[:attendee_id])
     authorize @session_attendee
-    if @session_attendee.save
+    if (@session.attendees.count <= (@session.attendee_number - 1)) && @session_attendee.save
       flash[:notice] = "Vous êtes désormais inscrit à la session #{@session_attendee.session.title}."
       redirect_back(fallback_location: root_path)
     end

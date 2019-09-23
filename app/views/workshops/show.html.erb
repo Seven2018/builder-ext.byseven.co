@@ -1,19 +1,16 @@
 <div class="container-seven">
   <div class="training-info-headers">
-    <%= link_to training_session_path(@workshop.session.training, @workshop.session) do %>
+    <%= link_to training_session_path(@workshop.session.training, @workshop.session), class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <div class="training-info-headers-buttons">
-      <button class="btn btn-edit" data-toggle='modal' data-target='#editMod'>Edit workshop</button>
-      <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-        <button class="btn btn-edit">Delete workshop</button>
+      <button class="btn btn-edit btn-edit-pen" data-toggle='modal' data-target='#editMod'><i class="fas fa-pen"></i></button>
+      <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: "btn btn-edit btn-edit-red btn-edit-trash", method: :delete, data: { confirm: 'Are you sure ?'} do %>
+        <i class="fas fa-trash-alt"></i>
       <% end %>
       <% unless @workshop.title.split(' ').first == 'Pause' %>
         <%= link_to save_workshop_path, data: { confirm: 'Voulez-vous sauvegarder ce contenu ?' } do %>
           <button class="btn btn-edit">Save this workshop in DB</button>
-        <% end %>
-        <%= link_to new_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop) do %>
-          <button class="btn btn-edit">Add a new module</button>
         <% end %>
       <% end %>
     </div>

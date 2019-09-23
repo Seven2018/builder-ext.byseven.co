@@ -3,8 +3,12 @@ class InvoiceLinesController < ApplicationController
 
   def create
     @invoice_item = InvoiceItem.find(params[:invoice_item_id])
-    @product = Product.find(params[:product_id])
-    @invoiceline = InvoiceLine.new(invoice_item_id: @invoice_item.id, product_id: @product.id, description: @product.name, quantity: 1, net_amount: @product.price, tax_amount: @product.tax)
+    @product = Product.find(params[:product_id]) if params[:product_id]
+    if @product
+      @invoiceline = InvoiceLine.new(invoice_item_id: @invoice_item.id, product_id: @product.id, description: @product.name, quantity: 1, net_amount: @product.price, tax_amount: @product.tax)
+    else
+      @invoiceline = InvoiceLine.new(invoice_item_id: @invoice_item.id, description: 'Commentaires')
+    end
     authorize @invoiceline
     if @invoiceline.save
       redirect_to invoice_item_path(@invoice_item)

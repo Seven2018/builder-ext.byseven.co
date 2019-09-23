@@ -18,7 +18,7 @@
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
           <i class="fas fa-save"></i>
         <% end %>
-        <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Etes vous certain(e) de vouloir supprimer cette Action ?'} do %>
+        <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?'} do %>
           <button class="btn btn-edit-red btn-edit-trash">
             <i class="fas fa-trash-alt"></i>
           </button>
