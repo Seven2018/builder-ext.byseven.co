@@ -56,11 +56,12 @@
 .invoice-line-comments {
   color: black;
   padding-left: 10px;
+  margin-bottom: 20px;
 
-  &:hover {
+  &:hover, a:hover {
     text-decoration: none;
     color: black;
-    cursor: help;
+    cursor: help
   }
 }
 

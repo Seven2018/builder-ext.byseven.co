@@ -8,7 +8,7 @@
     <%= simple_form_for [@training, @training_ownership] do |f| %>
       <div id='checkbox' style=" display:flex;justify-content:space-between;flex-direction:column;">
         <%= collection_check_boxes(:training, :user_ids, User.where.not(access_level: 'sevener').order('firstname ASC'), :id, :fullname) do |b| %>
-          <%= b.label class: 'label-checkbox' do %>
+          <%= b.label class: 'label-checkbox', style: 'color:black;' do %>
             <%= b.check_box + b.text %>
           <% end %>
         <% end %>
@@ -17,14 +17,17 @@
         var $cs=$('#checkbox input:checkbox:checked');
           if ($cs.length > 1) {
             $('#checkbox input:checkbox:not(:checked)').attr("disabled", true);
+            $('#checkbox input:checkbox:not(:checked)').parent().css("color", "gray");
           }
         $('#checkbox input:checkbox').change(function () {
           var $cs=$('#checkbox input:checkbox:checked');
           if ($cs.length > 1) {
             $('#checkbox input:checkbox:not(:checked)').attr("disabled", true);
+            $('#checkbox input:checkbox:not(:checked)').parent().css("color", "gray");
           }
           else{
             $('#checkbox input:checkbox').attr("disabled", false);
+            $('#checkbox input:checkbox').parent().css("color", "black");
           }
         });
       </script>

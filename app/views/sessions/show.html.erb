@@ -128,6 +128,9 @@
                   </li>
                 <% end %>
               <% end %>
+              <%= link_to training_session_workshops_path(@session.training, @session), method: :post, remote: true do %>
+                <li>Vide - à personnaliser</li>
+              <% end %>
               <% pause = Content.where(title: 'Pause') %>
               <% pausedej = Content.where(title: 'Pause Déjeuner') %>
               <%= link_to training_session_workshops_path(@session.training, @session, content_id: pause.first.id), method: :post, remote: true do %>

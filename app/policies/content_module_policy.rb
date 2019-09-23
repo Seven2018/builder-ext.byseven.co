@@ -6,34 +6,40 @@ class ContentModulePolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    check_access
   end
 
   def show?
-    true
+    check_access
   end
 
   def edit?
-    true
+    check_access
   end
 
   def update?
-    true
+    check_access
   end
 
   def destroy?
-    true
+    check_access
   end
 
   def move_up?
-    true
+    check_access
   end
 
   def move_down?
-    true
+    check_access
   end
 
   def save?
-    true
+    check_access
+  end
+
+  private
+
+  def check_access
+    ['super admin', 'admin', 'training manager'].include? user.access_level
   end
 end

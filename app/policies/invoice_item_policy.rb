@@ -10,7 +10,7 @@ class InvoiceItemPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    check_access
   end
 
   def destroy?
@@ -26,7 +26,7 @@ class InvoiceItemPolicy < ApplicationPolicy
   end
 
   def new_sevener_invoice?
-    true
+    check_access
   end
 
   def upload_to_sheet?

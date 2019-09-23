@@ -7,22 +7,28 @@ class WorkshopsController < ApplicationController
   end
 
   def create
-    @content = Content.find(params[:content_id])
     @session = Session.find(params[:session_id])
-    @workshop = Workshop.new(@content.attributes.except("id", "created_at", "updated_at"))
+    if params[:content_id]
+      @content = Content.find(params[:content_id])
+      @workshop = Workshop.new(@content.attributes.except("id", "created_at", "updated_at"))
+    else
+      @workshop = Workshop.new(title: 'New workshop', duration: 0)
+    end
     authorize @workshop
     @workshop.session = @session
     i = 1
     if @workshop.save
-      @content.theories.each do |theory|
-        TheoryWorkshop.create(theory_id: theory.id, workshop_id: @workshop.id)
-      end
-      @content.content_modules.order('position ASC').each do |mod|
-        wmod = WorkshopModule.new(mod.attributes.except("id", "position", "created_at", "updated_at", "content_id"))
-        wmod.workshop = @workshop
-        wmod.position = i
-        i +=1
-        wmod.save
+      if params[:content_id]
+        @content.theories.each do |theory|
+          TheoryWorkshop.create(theory_id: theory.id, workshop_id: @workshop.id)
+        end
+        @content.content_modules.order('position ASC').each do |mod|
+          wmod = WorkshopModule.new(mod.attributes.except("id", "position", "created_at", "updated_at", "content_id"))
+          wmod.workshop = @workshop
+          wmod.position = i
+          i +=1
+          wmod.save
+        end
       end
       respond_to do |format|
         format.html {redirect_to training_session_path(@session.training, @session)}

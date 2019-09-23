@@ -72,12 +72,14 @@
     <% @invoice_item.invoice_lines.each do |line| %>
       <a class="edit-fafa" data-toggle='modal' data-target='#editLine<%= line.id %>'>
         <div  class="invoice-desc-line">
-          <p><%= line.description %></p>
+          <p><strong><%= line.description %></strong></p>
             <div>
+              <% if line.product %>
                 <p><%= line.quantity %></p>
                 <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
                 <p><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
                 <p><%= "#{line.tax_amount}%" %></p>
+              <% end %>
             </div>
         </div>
       </a>
@@ -114,9 +116,11 @@
           <% total_ht = [] %>
           <% total_tva = [] %>
           <% @invoice_item.invoice_lines.each do |line| %>
+            <% if line.product %>
               <% total_ht << line.net_amount*line.quantity %>
               <% total_tva << line.net_amount*line.quantity*line.tax_amount/100 %>
               <% total_net << line.net_amount*line.quantity * (1 + (line.tax_amount / 100)) %>
+            <% end %>
           <% end %>
           <% @invoice_item.tax_amount = total_tva.sum %>
           <% @invoice_item.total_amount = total_net.sum %>
@@ -163,9 +167,13 @@
       <div class="menu-list">
         <ul id="product-list">
           <% Product.all.each do |product| %>
-            <li><%= link_to product.name, invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post %></li>
+            <%= link_to invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post do %>
+              <li><%= product.name %></li>
+            <% end %>
           <% end %>
-            <li><%= link_to 'Commentaires', invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post %></li>
+            <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post do %>
+              <li>Commentaires</li>
+            <% end %>
         </ul>
       </div>
     </div>
