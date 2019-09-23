@@ -9,7 +9,11 @@
   <p><%= @workshop_module.url1 %></p>
   <p><%= @workshop_module.url2 %></p>
   <p><%= @workshop_module.logistics %></p>
-  <p><%= @workshop_module.action1.name %></p>
-  <p><%= @workshop_module.action2.name %></p>
+ <% if @workshop_module.action1 %>
+      <p>Action 1 (participant) : <%= @workshop_module.action1.name %></p>
+    <% end %>
+    <% if @workshop_module.action2 %>
+      <p>Action 2 (participant) : <%= @workshop_module.action2.name %></p>
+    <% end %>
   <p><%= @workshop_module.comments %></p>
 </div>

@@ -16,7 +16,7 @@
     </div>
     <% if mod.position == @session.workshops.count %>
       <div class="mod-endtime">
-        <%= @session.end_time.strftime("%H:%M") %>
+        <%= (start + total_duration + mod.duration*60).strftime("%H:%M") %>
         <div class="circle"></div>
       </div>
     <% end %>

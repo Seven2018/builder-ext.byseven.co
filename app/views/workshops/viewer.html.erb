@@ -19,9 +19,11 @@
             <p><%= link_to mod.title, workshop_module_viewer_path(mod) %> - (<%= mod.duration %> min)</p>
           </div>
           <%= mod.instructions.html_safe %>
-          <p>Action 1 : <%= mod.action1.name %></p>
-          <% unless mod.action2.nil? %>
-            <p>Action 2 : <%= mod.action2.name %></p>
+          <% if mod.action1 %>
+            <p>Action 1 (participant) : <%= mod.action1.name %></p>
+          <% end %>
+          <% if mod.action2 %>
+            <p>Action 2 (participant) : <%= mod.action2.name %></p>
           <% end %>
           </div></li>
       <% end %>
