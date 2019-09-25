@@ -126,7 +126,8 @@
   </div>
   <div class="training-info-footer">
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <a class='btn btn-edit' id='add-session-button' data-toggle='modal' data-target='#newSession'>Ajouter une session</a>
+      <a class='btn btn-edit' id='add-session-button' data-toggle='modal' data-target='#newSession'>Add a session</a>
+      <%= link_to 'Add a session - School Mode', new_training_session_path(@training), class: 'btn btn-edit' %>
     <% end %>
   </div>
 </div>

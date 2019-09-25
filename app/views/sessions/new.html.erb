@@ -1,13 +1,31 @@
-<div class="container-new-form">
-  <h1>Add a Session</h1>
+<div class="container-seven">
+  <h3>Add a Session in School Mode</h3>
 
   <%= simple_form_for [@training, @session] do |f| %>
-    <%= f.input :title %>
-    <%= f.input :attendee_number, input_html: { min: 0, value: 0 }, label: 'Number of participants' %>
-    <%= f.input :date, as: :string, required: false, input_html: {class: "datepicker"} %>
-    <%= f.input :duration, label: "Duration (hours)" %>
-    <%= f.input :start_time, label: 'Start time', as: :time, required: false, input_html: {class: "timepicker"}, default: Time.parse('9:00') %>
-    <%= f.input :end_time, label: 'End time', as: :time, required: false, input_html: {class: "timepicker"}, default: Time.parse('17:00') %>
+    <div class='mod-date'>
+      <%= f.input :title %>
+      <%= f.input :attendee_number, input_html: { min: 0, style: 'width:120px;' }, label: 'Participants', default: 0 %>
+    </div>
+    <div class="mod-date">
+      <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
+      <%= f.input :duration, label: "Duration (hours)", input_html: { min: 0, style: 'width:120px;' }, default: 0, allow_blank: false %>
+    </div>
+    <div class='mod-date'>
+      <%= f.input :start_time, label: 'Start time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('9:00') %>
+      <%= f.input :end_time, label: 'End time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('17:00') %>
+    </div>
+    <%= f.input :description, input_html: {class: 'editor', style: "width: 100%; heigth: 50px;"} %>
+    <script>
+      ClassicEditor
+        .create( document.querySelector( '.editor' ), {
+        } )
+        .then( editor => {
+                                  console.log( editor );
+                          } )
+        .catch( error => {
+                console.error( error );
+        } );
+    </script>
     <div class="center-button">
       <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
         <i class="fas fa-save"></i>

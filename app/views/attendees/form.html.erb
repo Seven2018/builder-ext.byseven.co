@@ -10,8 +10,7 @@
       <h4><%= @training.title %></h4>
     </div>
     <%= simple_form_for :search, url: training_attendees_form_path(@training), method: 'GET' do |f| %>
-      <% if (status && !Attendee.where(email: params[:search][:email]).empty?) || (params[:attendee] && Attendee.find(params[:attendee].to_i)) %>
-        <% attendee = Attendee.find(params[:attendee].to_i) if params[:attendee] %>
+      <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
         <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
         <div style='display:flex;justify-content:space-around;'>
           <%= f.input :firstname, label: 'Prénom', input_html: { value: attendee.firstname}, disabled: true, required: false %>
@@ -29,7 +28,7 @@
       <% end %>
     <% end %>
   </div>
-  <% if !@sessions.nil? && ((params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || (params[:attendee] && !Attendee.find(params[:attendee].to_i).nil?)) %>
+  <% if !@sessions.nil? && params[:search] && !Attendee.where(email: params[:search][:email]).empty? %>
     <div class='container-seven-form'>
       <h3><strong>Formations à venir</strong></h3>
       <% @sessions.order('date ASC').each do |session| %>
@@ -54,7 +53,7 @@
               <div class="session-form-control">
                 <p>Plus de places pour cette session</p>
               </div>
-            <% elsif (params[:search] && session.attendees.where(email: params[:search][:email]).empty?) || (params[:attendee] && session.attendees.where(email: Attendee.find(params[:attendee].to_i).email).empty?) %>
+            <% elsif (params[:search] && session.attendees.where(email: params[:search][:email]).empty?) %>
               <div class='session-form-control'>
                 <p>Cliquez pour vous inscrire</p>
                 <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session.id, attendee_id: @attendee.id), method: :post, class: 'btn btn-edit-green btn-edit-disk' %>

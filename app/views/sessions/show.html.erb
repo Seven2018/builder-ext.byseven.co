@@ -40,7 +40,11 @@
       <% end %>
     </div>
     <div id="mods" style="min-height: 70vh;">
-      <%= render 'workshops/index', session: @session %>
+      <% if !@session.description.nil? %>
+        <%= @session.description.html_safe %>
+      <% else %>
+        <%= render 'workshops/index', session: @session %>
+      <% end %>
     </div>
     <div class="comment-box">
       <div class="message-box">
@@ -79,7 +83,7 @@
       })
     </script>
   </div>
-  <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+  <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @session.description.nil? %>
     <div class="nav-side-menu-container">
       <div class="nav-side-menu">
         <div class="brand">Workshops</div>

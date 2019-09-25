@@ -34,6 +34,12 @@ class SessionsController < ApplicationController
     end
   end
 
+  def new
+    @training = Training.find(params[:training_id])
+    @session = Session.new
+    authorize @session
+  end
+
   def create
     @training = Training.find(params[:training_id])
     @session = Session.new(session_params)
@@ -81,6 +87,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id, :duration, :attendee_number, { user_ids: [] }, session_trainers_attributes: [:id, :session_id, :user_id])
+    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id, :duration, :attendee_number, :description, :teaser, { user_ids: [] }, session_trainers_attributes: [:id, :session_id, :user_id])
   end
 end

@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   get 'report', to: 'invoice_items#report', as: 'report'
   resources :invoice_lines, only: [:create, :edit, :update, :destroy]
   resources :trainings do
-    resources :sessions, only: [:show, :create, :update, :destroy] do
+    resources :sessions, only: [:new, :show, :create, :update, :destroy] do
       resources :workshops, only: [:show, :create, :edit, :update, :destroy] do
         resources :workshop_modules
         resources :theory_workshops, only: [:create, :destroy]
