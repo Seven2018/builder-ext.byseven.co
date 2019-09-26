@@ -30,12 +30,11 @@ Rails.application.routes.draw do
         resources :workshop_modules
         resources :theory_workshops, only: [:create, :destroy]
       end
-      resources :session_trainers, only: [:create, :destroy], path: '/trainers'
+      resources :session_trainers, only: [:create, :destroy]
       resources :session_attendees, only: [:create, :destroy]
       resources :comments
     end
-    get 'attendees/form', to: 'attendees#form', as: 'attendees_form'
-    resources :training_ownerships, only: [:create, :destroy], path: '/owners'
+    resources :training_ownerships, only: [:create, :destroy]
     resources :forms
   end
   get 'trainings_week', to: 'trainings#index_week', as: "index_week"
@@ -53,5 +52,6 @@ Rails.application.routes.draw do
   get 'content_module/:id/move_down', to: 'content_modules#move_down', as: 'move_down_content_module'
   post 'attendees/import', to: 'attendees#import', as: 'import_attendees'
   resources :attendees, only: [:new, :create]
+  resources :session_forms, only: [:create, :destroy]
   get 'training/:training_id/session/:id/attendees/export.csv', to: 'attendees#export', as: 'export_attendees'
 end

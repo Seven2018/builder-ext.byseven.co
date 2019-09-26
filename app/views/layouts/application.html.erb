@@ -21,6 +21,7 @@
      <div class='<%= "wrapper" unless params[:controller] == "pages" && params[:action] == "home" %>'>
         <% if params[:controller] == "pages" && params[:action] == "home" %>
         <% elsif params[:controller] == 'attendees' %>
+        <% elsif params[:controller] == 'forms' && params[:action] == 'show' %>
         <% elsif params[:action] == 'viewer' %>
         <% elsif params[:action] == 'export' %>
         <% else %>

@@ -24,7 +24,7 @@ class AttendeesController < ApplicationController
     authorize @attendee
     @attendee.update(client_company_id: Training.find(params[:attendee][:training_id].to_i).client_contact.client_company.id)
     if @attendee.save
-      redirect_to training_attendees_form_path(Training.find(params[:attendee][:training_id].to_i), search: {email: @attendee.email})
+      redirect_to training_form_path(Training.find(params[:attendee][:training_id].to_i), Form.find(params[:attendee][:form_id].to_i), search: {email: @attendee.email})
       flash[:notice] = 'Compte créé avec succès'
     else
       flash[:notice] = 'Erreur'

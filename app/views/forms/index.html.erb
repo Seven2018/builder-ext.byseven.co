@@ -1,0 +1,43 @@
+<div class="container-seven container-seven-centered">
+  <div class="training-info-headers">
+    <%= link_to training_path(@training), class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <div id='client-company-index'>
+    <div id="client-company-controls">
+      <h3>Forms List for <%= @training.title %></h3>
+      <div id="client_company_buttons">
+        <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+          <a class='btn btn-edit' data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a>
+        <% end %>
+      </div>
+    </div>
+    <ul class='theory-list'>
+      <% @forms.each do |form| %>
+        <li>
+          <%= link_to training_form_path(@training, form) do %>
+            <div class="theory-card">
+              <div class="theory-card-infos">
+                <p><%= form.title %></p>
+                <div class="theory-contents">
+                  <% form.sessions.each do |session| %>
+                    <p><%= session.title %></p>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+         </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<!-- Modal -->
+
+<div class="modal fade" id="newForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
+    <%= render 'forms/new', form: @form %>
+  </div>
+</div>

@@ -18,6 +18,7 @@
         <%= f.input :email, label: false, input_html: { value: params[:email] ? params[:email].downcase : '' } %>
         <%= invisible_captcha :subtitle, :attendee %>
         <%= f.hidden_field :training_id, value: params[:training_id] %>
+        <%= f.hidden_field :form_id, value: params[:form_id] %>
       </div>
       <div class="center-button">
         <%= f.button :submit, "S'enregistrer", class: 'btn btn-edit' %>

@@ -4,6 +4,7 @@ class TrainingsController < ApplicationController
   def index
     @sessions = Session.all
     @session_trainer = SessionTrainer.new
+    @form = Form.new
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
       @trainings = policy_scope(Training).order('start_date ASC')
     else

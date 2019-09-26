@@ -5,6 +5,10 @@ class FormPolicy < ApplicationPolicy
     end
   end
 
+  def index
+    check_access
+  end
+
   def create?
     check_access
   end
