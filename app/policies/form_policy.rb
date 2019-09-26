@@ -1,4 +1,4 @@
-class SessionPolicy < ApplicationPolicy
+class FormPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
@@ -19,10 +19,6 @@ class SessionPolicy < ApplicationPolicy
 
   def destroy?
     check_access
-  end
-
-  def viewer?
-    true
   end
 
   private

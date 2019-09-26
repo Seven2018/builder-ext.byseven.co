@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     end
     get 'attendees/form', to: 'attendees#form', as: 'attendees_form'
     resources :training_ownerships, only: [:create, :destroy], path: '/owners'
+    resources :forms
   end
   get 'trainings_week', to: 'trainings#index_week', as: "index_week"
   get 'trainings_month', to: 'trainings#index_month', as: "index_month"

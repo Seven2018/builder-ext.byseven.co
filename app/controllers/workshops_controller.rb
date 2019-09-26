@@ -80,7 +80,7 @@ class WorkshopsController < ApplicationController
       redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
       @success = true
     else
-      raise
+      flash[:alert] = "An error has occured."
     end
   end
 

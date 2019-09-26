@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_141904) do
+ActiveRecord::Schema.define(version: 2019_09_25_132309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,14 @@ ActiveRecord::Schema.define(version: 2019_09_23_141904) do
     t.index ["theme_id"], name: "index_contents_on_theme_id"
   end
 
+  create_table "forms", force: :cascade do |t|
+    t.string "title"
+    t.bigint "training_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["training_id"], name: "index_forms_on_training_id"
+  end
+
   create_table "intelligences", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -188,6 +196,15 @@ ActiveRecord::Schema.define(version: 2019_09_23_141904) do
     t.index ["session_id"], name: "index_session_attendees_on_session_id"
   end
 
+  create_table "session_forms", force: :cascade do |t|
+    t.bigint "session_id", null: false
+    t.bigint "form_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["form_id"], name: "index_session_forms_on_form_id"
+    t.index ["session_id"], name: "index_session_forms_on_session_id"
+  end
+
   create_table "session_trainers", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "session_id"
@@ -209,6 +226,10 @@ ActiveRecord::Schema.define(version: 2019_09_23_141904) do
     t.integer "attendee_number"
     t.string "picture"
     t.text "description"
+    t.text "teaser"
+    t.string "image"
+    t.string "address"
+    t.string "room"
     t.index ["training_id"], name: "index_sessions_on_training_id"
   end
 
@@ -262,6 +283,7 @@ ActiveRecord::Schema.define(version: 2019_09_23_141904) do
     t.bigint "client_contact_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "mode"
     t.index ["client_contact_id"], name: "index_trainings_on_client_contact_id"
   end
 
@@ -333,6 +355,7 @@ ActiveRecord::Schema.define(version: 2019_09_23_141904) do
   add_foreign_key "comments", "users"
   add_foreign_key "content_modules", "contents"
   add_foreign_key "contents", "themes"
+  add_foreign_key "forms", "trainings"
   add_foreign_key "invoice_items", "client_companies"
   add_foreign_key "invoice_items", "trainings"
   add_foreign_key "invoice_items", "users"
@@ -340,6 +363,8 @@ ActiveRecord::Schema.define(version: 2019_09_23_141904) do
   add_foreign_key "invoice_lines", "products"
   add_foreign_key "session_attendees", "attendees"
   add_foreign_key "session_attendees", "sessions"
+  add_foreign_key "session_forms", "forms"
+  add_foreign_key "session_forms", "sessions"
   add_foreign_key "session_trainers", "sessions"
   add_foreign_key "session_trainers", "users"
   add_foreign_key "sessions", "trainings"

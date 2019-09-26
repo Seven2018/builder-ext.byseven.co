@@ -9,7 +9,6 @@
     <%= simple_form_for [mod.session.training, mod.session, mod] do |f| %>
       <%= f.input :title %>
       <div class="mod-date">
-        <%= f.input :duration, input_html: { min: '0' }, label: 'Duration (min)' %>
         <%= f.association :theme, :collection => Theme.all, selected: mod.theme_id %>
       </div>
       <%= f.label :description %>

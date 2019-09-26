@@ -34,24 +34,21 @@
       <% @sessions.order('date ASC').each do |session| %>
         <div class="session-form-card center-button">
           <div class="session-form-card-left">
-            <% if @sessions.order('date ASC').first == session %>
-              <div class="session-form-card-image-1">
-
-              </div>
-            <% end %>
+            <img src="<%= session.image %>" alt="" style='height:100%;width:100%;object-fit:cover;'>
           </div>
           <div class="session-form-card-right">
             <div>
               <h3><strong><%= session.title %></strong></h3>
-              <h5><%= session.date.strftime('%d/%m/%y') %></h5>
+              <h5><%= session.date.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %> <br> <%= session.room %> </h5>
             </div>
-            <% if @sessions.order('date ASC').first == session %>
-              <p class='session-teaser'>Découvrez la négociation raisonnée
-                  sur la base des enseignements de Saint-Cyr, école des officiers, et les meilleures techniques de facilitation des forces spéciales au travers d'une simulation engageante.</p>
-            <% end %>
+              <p class='session-teaser'><%= session.teaser %></p>
             <% if (session.attendees.count >= session.attendee_number) && session.attendees.where(email: params[:search][:email]).empty? %>
               <div class="session-form-control">
-                <p>Plus de places pour cette session</p>
+                <% if session.title == 'NÉGOCIATION : DÉCOUVRIR LES TECHNIQUES DES FORCES SPÉCIALES' %>
+                  <p>Session complète <br> Ouverture d’une seconde session prochainement</p>
+                <% else %>
+                  <p>Plus de places pour cette session</p>
+                <% end %>
               </div>
             <% elsif (params[:search] && session.attendees.where(email: params[:search][:email]).empty?) %>
               <div class='session-form-control'>
@@ -68,8 +65,6 @@
         </div>
       <% end %>
     </div>
-  <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
-    <% flash[:notice] = "Aucun compte ne correspond à l'adresse email renseignée" %>
   <% end %>
   <div id="form-import">
     <% if user_signed_in? && (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>

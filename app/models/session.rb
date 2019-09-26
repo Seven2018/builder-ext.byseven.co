@@ -6,6 +6,7 @@ class Session < ApplicationRecord
   has_many :session_attendees
   has_many :attendees, through: :session_attendees
   has_many :comments, dependent: :destroy
+  has_many :session_forms, dependent: :destroy
   validates :date, :duration, presence: true
   validate :date_included_in_training_dates?
   accepts_nested_attributes_for :session_trainers
