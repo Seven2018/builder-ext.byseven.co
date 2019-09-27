@@ -54,8 +54,8 @@
               <% if user_signed_in? %>
                 <p>Réservations : <%= session.attendees.count %> / <%= session.attendee_number %></p>
               <% elsif (session.attendees.count >= session.attendee_number) && session.attendees.where(email: params[:search][:email]).empty? %>
-                <% if session.title == 'NÉGOCIATION : DÉCOUVRIR LES TECHNIQUES DES FORCES SPÉCIALES' %>
-                  <p>Session complète <br> Ouverture d’une seconde session prochainement</p>
+                <% if session.title.end_with?("NÉGOCIATION : DÉCOUVRIR LES TECHNIQUES DES FORCES SPÉCIALES") %>
+                  <p>Session complète <br> Ouverture d’une autre session prochainement</p>
                 <% else %>
                   <p>Plus de places disponibles</p>
                 <% end %>

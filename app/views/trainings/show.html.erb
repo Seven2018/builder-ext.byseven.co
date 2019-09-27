@@ -29,7 +29,7 @@
     <div class='middle-info-main'>
       <% if @training.mode == 'Company' %>
         <h3><i class="fas fa-user-tie"></i> &nbsp; <%= @training.title %></h3>
-      <% else %>
+      <% elsif @training.mode == 'School' %>
         <h3><i class="fas fa-user-graduate"></i> &nbsp; <%= @training.title %></h3>
       <% end %>
       <h4><%="From #{@training.start_date.strftime('%d/%m/%y')} to #{@training.end_date.strftime('%d/%m/%y')}" %></h4>
@@ -133,7 +133,7 @@
     </div>
   </div>
   <div class="training-info-footer">
-    <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.mode == 'Company' %>
+    <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && (@training.mode == 'Company' || @training.mode.nil?) %>
       <a class='btn btn-edit' id='add-session-button' data-toggle='modal' data-target='#newSession'>Add a session</a>
       <% elsif (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.mode == 'School'%>
       <%= link_to 'Add a session', new_training_session_path(@training), class: 'btn btn-edit' %>
