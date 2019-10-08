@@ -3,23 +3,45 @@
 }
 
 .module-card {
-  background-color: white;
   box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
-  padding: 20px;
   margin: 20px 0;
+
+  &:hover {
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.module-card-main {
+  background-color: white;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+}
 
-  &:hover {
-      box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
-    }
+.module-card-footer {
+  background-color: rgba(0,0,0,0.1);
+  padding: 20px;
 }
 
 .module-card-infos {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  h4 {
+    font-weight: 600;
+  }
+
+  .module-card-instructions {
+    color: gray;
+    margin-bottom: 10px;
+    padding: 0 10px;
+
+    p, ul {
+      margin: 0;
+    }
+  }
 }
 
 .module-card-controls {
@@ -40,11 +62,13 @@
 
 .content-actions {
   color: $orange;
+  margin: 0;
 }
 
 .content-logistics {
   height: auto;
   display: block;
+  margin-bottom: 10px;
 
   .logistics-label {
     min-width: 75px;

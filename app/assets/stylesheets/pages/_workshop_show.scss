@@ -4,6 +4,19 @@
   @include from-large {
     text-align: left;
   }
+
+  p > button > i {
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+      color: black;
+    }
+  }
+
+  .edit-fafa > img {
+    margin: 40px 0;
+  }
 }
 
 .workshop-image-mobile {

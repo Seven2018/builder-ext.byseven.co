@@ -45,14 +45,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 
   @include from-large {
-    padding-right: 40%;
+    padding-right: 60%;
   }
 
-  p {
+  p, i {
     margin: 0;
+    font-weight: 600;
+    color: gray;
   }
 }
 
@@ -76,11 +78,14 @@
 
   .card-session-number {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 5px;
+    right: 5px;
     margin: 0;
     height: 50px;
     width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   @include from-large {
