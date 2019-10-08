@@ -15,13 +15,4 @@ class TrainingOwnershipsController < ApplicationController
     end
     redirect_back(fallback_location: root_path)
   end
-
-  def destroy
-    @user = User.find(params[:user_id])
-    @training = Training.find(params[:training_id])
-    @ownership = TrainingOwnership.where(user: @user).where(training: @training).first
-    skip_authorization
-    @ownership.destroy
-    redirect_back(fallback_location: root_path)
-  end
 end

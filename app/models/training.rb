@@ -6,6 +6,7 @@ class Training < ApplicationRecord
   has_many :session_trainers, through: :sessions
   has_many :invoice_items
   has_many :invoices
+  has_many :forms
   validates :title, :start_date, :end_date, presence: true
   validate :end_date_after_start_date
   accepts_nested_attributes_for :training_ownerships

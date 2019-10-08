@@ -101,7 +101,7 @@
 
 .middle-info {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
@@ -110,10 +110,11 @@
     text-align: center;
     font-size: 20px;
     font-weight: 300;
-    margin: 0;
+    margin: 0 0 10px 0;
 
     @include from-large {
-      text-align: right;
+      margin: 0;
+      text-align: left;
     }
   }
 
@@ -179,6 +180,12 @@
 
   @include from-large {
     text-align: left;
+    width: 60%;
+  }
+
+  p {
+    font-weight: 600;
+    color: gray;
   }
 }
 
@@ -199,7 +206,6 @@
 #owner-session-index {
   font-size: 20px;
   font-weight: 300;
-  margin: 0 15px 0 0;
 
   li {
     display: inline-block;

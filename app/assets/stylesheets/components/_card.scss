@@ -149,7 +149,7 @@ $timeline: #115173;
   width: 100%;
   height: auto;
   box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
-  margin: 10px auto 0 auto;
+  margin: 0 auto;
   text-decoration: none;
   color: black;
   &:hover {
@@ -159,6 +159,7 @@ $timeline: #115173;
   .card-main-lg {
     height: auto;
     position: relative;
+    margin-top: 20px;
     h3 {
       font-family: "Roboto";
       font-weight: 500;
@@ -172,6 +173,7 @@ $timeline: #115173;
 
 .card-footer-lg {
   height: 50px;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -179,26 +181,27 @@ $timeline: #115173;
   position: relative;
 
   @include from-large {
-    padding-right: 40%;
+    height: auto;
+    padding: 20px 0 0 20px;
+    padding-right: 60%;
   }
 
   div {
     height: 100%;
-    width: 30%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
   }
 
-  p {
+  p, i {
     margin: 0;
+    font-weight: 600;
+    color: gray;
   }
 
   button {
     height: 50px;
     width: 50px;
-    box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
 
     &:hover {
       background-color: rgba(0,0,0,0.05);
@@ -207,11 +210,13 @@ $timeline: #115173;
     &:first-of-type {
       position: absolute;
       right: 56px;
+      top: 5px;
     }
 
     &:last-child {
       position: absolute;
-      right: 0;
+      right: 5px;
+      top: 5px;
     }
   }
 }
@@ -226,6 +231,7 @@ $timeline: #115173;
   align-items: center;
   width: 100%;
   padding: 20px;
+  position: relative;
 
   a {
     max-width: 70%;
@@ -233,6 +239,11 @@ $timeline: #115173;
 
   h3 {
     max-width: 100%;
+    font-size: 20px;
+
+    @include from-large {
+      font-size: 24px;
+    }
   }
 }
 

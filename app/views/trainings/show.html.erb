@@ -8,22 +8,30 @@
         <a class="btn btn-edit btn-edit-pen" data-toggle='modal' type='button' data-target='#editTraining'><i class="fas fa-pen"></i></a>
         <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><%= link_to 'Create an estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
-          <li><%= link_to 'Create an invoice', new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
+          <li><%= link_to 'New estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
+          <li><%= link_to 'New invoice', new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
           <li><%= link_to 'Invoices List', invoice_items_path(training_id: @training.id) %></li>
-          <li><%= link_to 'Participants', training_attendees_form_path(training_id: @training.id) %></li>
+          <% if @training.forms.empty? %>
+            <li><a data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a></li>
+          <% else %>
+            <li><%= link_to 'Forms list', training_forms_path(@training) %></li>
+          <% end %>
         </ul>
       </div>
     <% elsif @training.session_trainers.where(user_id: current_user.id).any? %>
       <div>
         <%= link_to new_sevener_invoice_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'InvoiceSevener'), method: :post do %>
-            <button class="btn btn-edit">Créer ma facture</button><% end %>
+            <button class="btn btn-edit">Create my invoice</button><% end %>
       </div>
     <% end %>
   </div>
   <div class="middle-info">
     <div class='middle-info-main'>
-      <h3><%= @training.title %></h3>
+      <% if @training.mode == 'Company' %>
+        <h3><i class="fas fa-user-tie"></i> &nbsp; <%= @training.title %></h3>
+      <% elsif @training.mode == 'School' %>
+        <h3><i class="fas fa-user-graduate"></i> &nbsp; <%= @training.title %></h3>
+      <% end %>
       <h4><%="From #{@training.start_date.strftime('%d/%m/%y')} to #{@training.end_date.strftime('%d/%m/%y')}" %></h4>
     </div>
     <div>
@@ -77,46 +85,46 @@
       <% @training.sessions.order(:date).each do |session| %>
         <% session_number +=1 %>
         <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
-          <div class="card-footer-lg">
-            <% if session.start_time && session.end_time %>
-              <div><p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p></div>
-              <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
-              <div><i class="fas fa-users"> <%= session.attendee_number %></i></div>
-              <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-graduate"></i></button>
-              <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
-            <% end %>
-          </div>
           <div class="card-lg">
-              <div class="card-main-lg">
-                <%= link_to training_session_path(session.training, session), class: 'stretched-link' do %>
-                  <div class="card-session-header">
-                    <h3><%= session.title %></h3>
-                    <div style='display:flex;align-items:center;'>
-                      <ul id="owner-session-index">
-                        <% session.users.each do |user| %>
-                          <li>
-                            <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
-                          </li>
-                          <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document" style="border-radius: 20px">
-                              <%= render 'users/consult', user: user %>
-                            </div>
-                          </div>
-                        <% end %>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="mods-list">
-                    <ul>
-                      <% list = session.workshops %>
-                      <% list.order(:position).each do |mod| %>
+            <div class="card-footer-lg">
+              <% if session.start_time && session.end_time %>
+                <div><p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p></div>
+                <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
+                <div><i class="fas fa-users"></i><p style='margin-left: 5px;'><%= session.attendee_number %></p></div>
+                <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-astronaut"></i></button>
+                <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
+              <% end %>
+            </div>
+            <div class="card-main-lg">
+              <%= link_to training_session_path(session.training, session), class: 'stretched-link' do %>
+                <div class="card-session-header">
+                  <h3><%= session.title %></h3>
+                  <div style='display:flex;align-items:center;position: absolute;right: 130px;top: -48px;'>
+                    <ul id="owner-session-index">
+                      <% session.users.each do |user| %>
                         <li>
-                          <%= "#{mod.title} - #{mod.duration} min" %>
+                          <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
                         </li>
+                        <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                          <div class="modal-dialog" role="document" style="border-radius: 20px">
+                            <%= render 'users/consult', user: user %>
+                          </div>
+                        </div>
                       <% end %>
                     </ul>
-                    <h4 class='card-session-number'><%= session_number %>/<%= @training.sessions.count %> </h4>
                   </div>
+                </div>
+                <div class="mods-list">
+                  <ul>
+                    <% list = session.workshops %>
+                    <% list.order(:position).each do |mod| %>
+                      <li>
+                        <%= "#{mod.title} - #{mod.duration} min" %>
+                      </li>
+                    <% end %>
+                  </ul>
+                  <h4 class='card-session-number'><%= session_number %>/<%= @training.sessions.count %> </h4>
+                </div>
               <% end %>
             </div>
           </div>
@@ -125,8 +133,10 @@
     </div>
   </div>
   <div class="training-info-footer">
-    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <a class='btn btn-edit' id='add-session-button' data-toggle='modal' data-target='#newSession'>Ajouter une session</a>
+    <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && (@training.mode == 'Company' || @training.mode.nil?) %>
+      <a class='btn btn-edit' id='add-session-button' data-toggle='modal' data-target='#newSession'>Add a session</a>
+      <% elsif (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.mode == 'School'%>
+      <%= link_to 'Add a session', new_training_session_path(@training), class: 'btn btn-edit' %>
     <% end %>
   </div>
 </div>
@@ -141,6 +151,12 @@
 <div class="modal fade" id="newOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
     <%= render 'training_ownerships/new', training_owner: @training_ownership %>
+  </div>
+</div>
+
+<div class="modal fade" id="newForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
+    <%= render 'forms/new', form: @form %>
   </div>
 </div>
 

@@ -1,8 +1,12 @@
-class SessionPolicy < ApplicationPolicy
+class FormPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
     end
+  end
+
+  def index
+    check_access
   end
 
   def create?
@@ -19,10 +23,6 @@ class SessionPolicy < ApplicationPolicy
 
   def destroy?
     check_access
-  end
-
-  def viewer?
-    true
   end
 
   private

@@ -7,10 +7,15 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [mod.session.training, mod.session, mod] do |f| %>
-      <%= f.input :title %>
+      <% unless mod.title.start_with?('Pause') %>
+        <%= f.input :title %>
+      <% end %>
       <div class="mod-date">
-        <%= f.input :duration, input_html: { min: '0' }, label: 'Duration (min)' %>
-        <%= f.association :theme, :collection => Theme.all, selected: mod.theme_id %>
+        <% if mod.title.start_with?('Pause') %>
+          <%= f.input :duration, label: 'Duration (min)' %>
+        <% else %>
+          <%= f.association :theme, :collection => Theme.all, selected: mod.theme_id %>
+        <% end %>
       </div>
       <%= f.label :description %>
       <%= f.text_area :description, style: 'width: 100%; height: 300px;' %>

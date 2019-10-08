@@ -1,11 +1,11 @@
 class SessionsController < ApplicationController
   before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer]
 
-  def index
-    @training = Training.find(params[:training_id])
-    @sessions = Session.where(training: @training)
-    @sessions = policy_scope(Session).order(:date)
-  end
+  # def index
+  #   @training = Training.find(params[:training_id])
+  #   @sessions = policy_scope(Session)
+  #   @sessions = Session.where(training: @training).order(:date)
+  # end
 
   def show
     authorize @session
@@ -32,6 +32,12 @@ class SessionsController < ApplicationController
         )
       end
     end
+  end
+
+  def new
+    @training = Training.find(params[:training_id])
+    @session = Session.new
+    authorize @session
   end
 
   def create
@@ -81,6 +87,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id, :duration, :attendee_number, { user_ids: [] }, session_trainers_attributes: [:id, :session_id, :user_id])
+    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id, :duration, :attendee_number, :description, :teaser, :image, :address, :room, { user_ids: [] }, session_trainers_attributes: [:id, :session_id, :user_id])
   end
 end
