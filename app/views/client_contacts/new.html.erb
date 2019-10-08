@@ -1,5 +1,10 @@
 <div class="container-seven">
-  <h2>Add a client contact</h2>
+  <div class="training-info-headers">
+    <%= link_to client_company_path(@client_company), class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Add a client contact</h3>
 
   <%= simple_form_for [@client_company, @client_contact] do |f| %>
     <%= f.input :name %>

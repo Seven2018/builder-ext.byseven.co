@@ -12,6 +12,7 @@ gem 'rails', '6.0.0'
 gem 'redis'
 gem 'wicked_pdf', '~> 1.1'
 gem 'wkhtmltopdf-binary'
+gem 'wkhtmltopdf-heroku', '2.12.5.0'
 
 gem 'autoprefixer-rails'
 # gem 'bootstrap-sass', '~> 3.3'
@@ -31,7 +32,6 @@ gem 'image_processing'
 gem 'invisible_captcha'
 gem 'bootstrap',     '4.1.1'
 gem 'material-sass', git: 'https://github.com/bricechapuis/material-sass'
-gem 'wkhtmltopdf-heroku', '2.12.5.0'
 
 gem 'dotenv-rails', groups: [:development, :test]
 

@@ -1,5 +1,10 @@
 <div class="container-seven">
-  <h2>Add a client company or school</h2>
+  <div class="training-info-headers">
+    <%= link_to client_companies_path, class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Add a client company or school</h3>
   <%= simple_form_for @client_company do |f| %>
     <%= f.input :name %>
     <%= f.input :address, placeholder: 'ex: 5 rue Moret, 75011 Paris' %>

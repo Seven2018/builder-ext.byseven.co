@@ -535,10 +535,6 @@ input.btn {
   padding: 15.75px 17px !important;
   box-shadow: none !important;
 
-  &:hover {
-    background-color: ghostwhite !important;
-  }
-
   i {
     font-size: 14px;
   }
@@ -608,6 +604,16 @@ input.btn {
 .btn-edit-eye {
   padding: 15.75px 15px !important;
   min-width: 0 !important;
+}
+
+.btn-edit-cross {
+  padding: 17px 19.5px !important;
+  min-width: 0 !important;
+  box-shadow: none !important;
+
+  i {
+    font-size: 14px;
+  }
 }
 
 .btn-add-user {

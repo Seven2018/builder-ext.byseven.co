@@ -1,10 +1,14 @@
 <div class="container-seven">
-  <h2>Edit <%= @theory.name %></h2>
+  <div class="training-info-headers">
+    <%= link_to theories_path, class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Edit <%= @theory.name %></h3>
 
   <%= simple_form_for @theory do |f| %>
     <%= f.input :name %>
     <%= f.input :description, input_html: { class: 'editor' } %>
-    <%= f.input :links, input_html: { style: 'width: 100%;' }, label: 'External links' %>
     <%= f.input :references, input_html: { class: 'editor2' } %>
     <script>
       ClassicEditor

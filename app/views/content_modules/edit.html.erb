@@ -1,5 +1,10 @@
 <div class="container-seven">
-  <h2>Update a module</h2>
+  <div class="training-info-headers">
+    <%= link_to content_path(@content), class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Edit a module</h3>
 
   <%= simple_form_for [@content, @content_module] do |f| %>
     <%= f.input :title %>

@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html style='padding-top: 100px;'>
+  <head>
+    <% if params.key?('debug').present? %>
+      <%= stylesheet_link_tag 'pdf' %>
+    <% else %>
+      <%= wicked_pdf_stylesheet_link_tag 'pdf' %>
+    <% end %>
+  </head>
   <body class='invoice-body-pdf' >
     <div class="wrapper-pdf">
       <div class="invoice-desc-headline-pdf">
         <p class='invoice-desc-headline-description-pdf'>Désignation</p>
         <div class='invoice-desc-line-data-pdf'>
-        <p>Qté</p>
-        <p>PU HT</p>
-        <p class='invoice-desc-line-pretaxamount'>Montant HT</p>
-        <p>%TVA</p>
+          <p class='invoice-desc-line-quantity'>Qté</p>
+          <p class='invoice-desc-line-puht'>PU HT</p>
+          <p class='invoice-desc-line-pretaxamount'>Montant HT</p>
+          <p>%TVA</p>
         </div>
       </div>
       <% @invoice_item.invoice_lines.each do |line| %>
@@ -17,7 +24,7 @@
           <div class='invoice-desc-line-data-pdf'>
             <p><%= line.quantity %></p>
             <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
-            <p class='invoice-desc-line-pretaxamount'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
+            <p class='invoice-desc-line-data-pretaxamount'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
             <p><%= number_with_precision(line.tax_amount, precision: 2) %></p>
           </div>
         </div>

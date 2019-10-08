@@ -1,4 +1,9 @@
 <div class="container-seven">
+  <div class="training-info-headers">
+    <%= link_to training_path(@training), class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
   <h3>Add a Session in School Mode</h3>
 
   <%= simple_form_for [@training, @session] do |f| %>

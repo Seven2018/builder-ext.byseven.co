@@ -1,5 +1,10 @@
 <div class="container-new-form">
-  <h2>Add a new training</h2>
+  <div class="training-info-headers">
+    <%= link_to trainings_path, class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Add a new training</h3>
 
   <%= simple_form_for @training do |f| %>
     <%= f.input :title %>

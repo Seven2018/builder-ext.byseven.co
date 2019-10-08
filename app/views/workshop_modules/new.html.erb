@@ -1,4 +1,9 @@
 <div class="container-seven">
+  <div class="training-info-headers">
+    <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
   <h3>Add a new module</h3>
 
   <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @workshop_module] do |f| %>
