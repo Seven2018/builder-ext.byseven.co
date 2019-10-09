@@ -107,6 +107,7 @@ p.logistics-pdf {
 .invoice-desc-headline-pdf {
   display: inline;
   border-bottom: 2px solid black;
+  max-width: 100%;
 
   p, div, div > p {
     display: inherit;
@@ -123,6 +124,7 @@ p.logistics-pdf {
 
 .invoice-desc-line-pdf {
   display: inline-block;
+  max-width: 100%;
 
   p, div, div > p {
     display: inherit;
@@ -155,7 +157,7 @@ p.logistics-pdf {
 }
 
 .invoice-desc-line-quantity {
-  padding-left: 20px;
+  padding-left: 25px;
 }
 
 .invoice-desc-line-puht {
@@ -196,7 +198,7 @@ p.logistics-pdf {
 }
 
 .invoice-total-details {
-  margin-left: 220px;
+  margin-left: 320px;
 }
 
 .hidden {
