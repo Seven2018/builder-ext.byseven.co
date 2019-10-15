@@ -358,7 +358,7 @@ $timeline: #115173;
     }
 
     @include from-large {
-      width: 700px;
+      flex-grow: 1;
       padding: 20px;
     }
   }
