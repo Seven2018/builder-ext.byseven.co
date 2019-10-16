@@ -13,6 +13,7 @@ gem 'redis'
 gem 'wicked_pdf', '~> 1.1'
 gem 'wkhtmltopdf-binary'
 gem 'wkhtmltopdf-heroku', '2.12.5.0'
+gem 'ckeditor', github: 'galetahub/ckeditor'
 
 gem 'autoprefixer-rails'
 # gem 'bootstrap-sass', '~> 3.3'

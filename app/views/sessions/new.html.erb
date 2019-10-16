@@ -19,18 +19,7 @@
       <%= f.input :start_time, label: 'Start time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('9:00') %>
       <%= f.input :end_time, label: 'End time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('17:00') %>
     </div>
-    <%= f.input :description, input_html: {class: 'editor', style: "width: 100%; heigth: 50px;"} %>
-    <script>
-      ClassicEditor
-        .create( document.querySelector( '.editor' ), {
-        } )
-        .then( editor => {
-                                  console.log( editor );
-                          } )
-        .catch( error => {
-                console.error( error );
-        } );
-    </script>
+    <%= f.cktext_area :description, input_html: { style: "width: 100%; heigth: 50px;"} %>
     <div class="center-button">
       <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
         <i class="fas fa-save"></i>
