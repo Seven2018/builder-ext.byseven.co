@@ -9,6 +9,12 @@ h3, p {
 
 #body-pdf p{
   font-size: 16px !important;
+  font-family: 'Times New Roman' !important;
+}
+
+#body-pdf h3{
+  font-size: 24px !important;
+  font-family: 'Times New Roman' !important;
 }
 
 #pdf-logo {
@@ -157,7 +163,7 @@ p.logistics-pdf {
 // }
 
 .invoice-desc-headline-description-pdf {
-  margin-right: 325px;
+  margin-right: 335px;
 }
 
 .invoice-desc-line-description-pdf {
