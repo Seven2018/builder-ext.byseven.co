@@ -7,6 +7,10 @@ h3, p {
   background-color: white;
 }
 
+#body-pdf p{
+  font-size: 16px !important;
+}
+
 #pdf-logo {
   padding: 20px;
   margin-bottom: 50px;
@@ -87,6 +91,10 @@ p.logistics-pdf {
 
 .invoice-header-pdf {
   height: 100px !important;
+
+  img {
+    margin: 0 0 10px 0 !important;
+  }
 }
 
 #header-body-pdf {

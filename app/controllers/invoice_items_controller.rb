@@ -74,14 +74,14 @@ class InvoiceItemsController < ApplicationController
       @training.sessions.each do |session|
         session.duration < 4 ? quantity += 0.5 * session.session_trainers.count : quantity += 1 * session.session_trainers.count
       end
-      InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax)
+      InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id)
     else
       product = Product.find(1)
       quantity = 0
       @training.sessions.each do |session|
       quantity += session.duration
       end
-      InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax)
+      InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id)
     end
     update_price(@invoice)
     if @invoice.save

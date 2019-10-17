@@ -6,7 +6,7 @@
         <%= simple_form_for :search, url: users_path, method: 'GET' do |f| %>
           <%= f.input :name, placeholder: 'Search', label: false %>
         <% end %>
-        <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+        <% if ['super admin'].include? current_user.access_level %>
           <%= link_to new_user_path do %>
             <button class="btn btn-edit">New User</button>
           <% end %>
