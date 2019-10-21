@@ -1,6 +1,6 @@
 <div class="container-seven">
   <div class="training-info-headers">
-    <%= link_to training_session_path(@workshop.session.training, @workshop.session), class: 'btn return-arrow' do %>
+    <%= link_to training_session_path(@workshop.session.training, @workshop.session, anchor: @workshop.id), class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <div class="training-info-headers-buttons">

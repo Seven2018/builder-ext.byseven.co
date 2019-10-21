@@ -6,6 +6,7 @@
   <% exceed << mod.position if (total_duration * 60) > (mod.session.end_time - mod.session.start_time) %>
 <% end %>
 <div class="card card-mods grabbable" data-item-id="<%= mod.id %>">
+  <a id="<%= mod.id %>"></a>
   <div class="card-left">
     <div class="mod-time">
       <%= start.strftime("%H:%M") %>
@@ -16,7 +17,7 @@
     </div>
     <% if mod.position == @session.workshops.count %>
       <div class="mod-endtime">
-        <%= (start + total_duration).strftime("%H:%M") %>
+        <%= (start + mod.duration * 60).strftime("%H:%M") %>
         <div class="circle"></div>
       </div>
     <% end %>

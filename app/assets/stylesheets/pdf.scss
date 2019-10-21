@@ -8,7 +8,7 @@ h3, p {
 }
 
 #body-pdf p{
-  font-size: 16px !important;
+  font-size: 14px !important;
   font-family: 'Times New Roman' !important;
 }
 
@@ -175,15 +175,19 @@ p.logistics-pdf {
 }
 
 .invoice-desc-line-quantity {
-  padding-left: 25px;
+  padding-left: 40px;
 }
 
 .invoice-desc-line-puht {
   padding-left: 10px;
 }
 
+.invoice-desc-line-pretaxamount {
+  padding-left: 10px;
+}
+
 .invoice-desc-line-data-pretaxamount {
-  padding-left: 32px;
+  padding-left: 30px;
 }
 
 .invoice-total-pdf {
