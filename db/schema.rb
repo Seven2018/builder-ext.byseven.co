@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_25_132309) do
+ActiveRecord::Schema.define(version: 2019_10_21_143057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(version: 2019_09_25_132309) do
   create_table "actions", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.bigint "intelligence_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["intelligence_id"], name: "index_actions_on_intelligence_id"
+    t.integer "intelligence1_id"
+    t.integer "intelligence2_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -74,9 +74,8 @@ ActiveRecord::Schema.define(version: 2019_09_25_132309) do
     t.string "logo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "billing_contact"
-    t.string "billing_email"
-    t.string "billing_address"
+    t.string "zipcode"
+    t.string "city"
   end
 
   create_table "client_contacts", force: :cascade do |t|
@@ -87,6 +86,11 @@ ActiveRecord::Schema.define(version: 2019_09_25_132309) do
     t.bigint "client_company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "billing_contact"
+    t.string "billing_email"
+    t.string "billing_address"
+    t.string "billing_zipcode"
+    t.string "billing_city"
     t.index ["client_company_id"], name: "index_client_contacts_on_client_company_id"
   end
 
@@ -105,10 +109,6 @@ ActiveRecord::Schema.define(version: 2019_09_25_132309) do
     t.string "title"
     t.text "instructions"
     t.integer "duration"
-    t.string "url1"
-    t.string "url2"
-    t.string "image1"
-    t.string "image2"
     t.text "logistics"
     t.integer "action1_id"
     t.integer "action2_id"
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(version: 2019_09_25_132309) do
     t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
     t.index ["invoice_item_id"], name: "index_invoice_lines_on_invoice_item_id"
     t.index ["product_id"], name: "index_invoice_lines_on_product_id"
   end
@@ -317,10 +318,6 @@ ActiveRecord::Schema.define(version: 2019_09_25_132309) do
     t.string "title"
     t.text "instructions"
     t.integer "duration"
-    t.string "url1"
-    t.string "url2"
-    t.string "image1"
-    t.string "image2"
     t.text "logistics"
     t.integer "action1_id"
     t.integer "action2_id"
@@ -347,7 +344,6 @@ ActiveRecord::Schema.define(version: 2019_09_25_132309) do
     t.index ["theme_id"], name: "index_workshops_on_theme_id"
   end
 
-  add_foreign_key "actions", "intelligences"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendees", "client_companies"
   add_foreign_key "client_contacts", "client_companies"

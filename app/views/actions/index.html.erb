@@ -20,7 +20,12 @@
           <div class="action-card">
             <div class="action-infos">
               <p><%= action.name %></p>
-              <p><%= action.intelligence.name %></p>
+              <% if action.intelligence1 %>
+                <p><%= action.intelligence1.name %></p>
+              <% end %>
+              <% if action.intelligence2 %>
+                <p><%= action.intelligence2.name %></p>
+              <% end %>
               <p><%= action.description %></p>
             </div>
           </div>

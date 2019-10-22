@@ -74,14 +74,14 @@ class InvoiceItemsController < ApplicationController
       @training.sessions.each do |session|
         session.duration < 4 ? quantity += 0.5 * session.session_trainers.count : quantity += 1 * session.session_trainers.count
       end
-      InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id)
+      InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id, position: 1)
     else
       product = Product.find(1)
       quantity = 0
       @training.sessions.each do |session|
       quantity += session.duration
       end
-      InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id)
+      InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id, position: 1)
     end
     update_price(@invoice)
     if @invoice.save
@@ -101,14 +101,14 @@ class InvoiceItemsController < ApplicationController
       @training.sessions.each do |session|
         session.duration < 4 ? quantity += 0.5 : quantity += 1
       end
-      InvoiceLine.create(invoice_item: @sevener_invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax)
+      InvoiceLine.create(invoice_item: @sevener_invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, position: 1)
     else
       product = Product.find(11)
       quantity = 0
       @training.sessions.each do |session|
         quantity += session.duration
       end
-      InvoiceLine.create(invoice_item: @sevener_invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax)
+      InvoiceLine.create(invoice_item: @sevener_invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, position: 1)
     end
     update_price(@sevener_invoice)
     redirect_to invoice_item_path(@sevener_invoice) if @sevener_invoice.save

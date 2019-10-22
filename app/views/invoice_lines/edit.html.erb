@@ -1,6 +1,7 @@
 <div class="container-seven">
   <%= simple_form_for @invoiceline do |f| %>
-    <%= f.cktext_area :comments, label: 'Commentaires' %>
+    <%= f.label :comments %>
+    <%= f.cktext_area :comments %>
     <p class="center-button"> <%= f.submit class: 'btn btn-edit' %> </p>
   <% end %>
 </div>

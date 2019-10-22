@@ -6,7 +6,12 @@
   <h3><%= @action.name %></h3>
   <br>
   <p>Description : <%= @action.description %></p>
-  <p><%= @action.intelligence.name %></p>
+  <% if @action.intelligence1 %>
+    <p><%= @action.intelligence1.name %></p>
+  <% end %>
+  <% if @action.intelligence2 %>
+    <p><%= @action.intelligence2.name %></p>
+  <% end %>
 </div>
 
 <!-- Modal -->

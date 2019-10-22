@@ -56,6 +56,6 @@ class ActionsController < ApplicationController
   end
 
   def action_params
-    params.require(:act).permit(:name, :description, :intelligence_id)
+    params.require(:act).permit(:name, :description, :intelligence1_id, :intelligence2_id)
   end
 end

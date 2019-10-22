@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   post 'upload_to_sheet', to: 'invoice_items#upload_to_sheet', as: 'upload_to_sheet'
   get 'report', to: 'invoice_items#report', as: 'report'
   resources :invoice_lines, only: [:create, :edit, :update, :destroy]
+  get 'invoice_line/:id/move_up', to: "invoice_lines#move_up", as: "move_up_invoice_line"
+  get 'invoice_line/:id/move_down', to: "invoice_lines#move_down", as: "move_down_invoice_line"
   resources :trainings do
     resources :sessions, only: [:new, :show, :create, :update, :destroy] do
       resources :workshops, only: [:show, :create, :edit, :update, :destroy] do

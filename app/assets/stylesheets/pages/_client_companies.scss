@@ -195,3 +195,17 @@
     margin-left: 120px;
   }
 }
+
+//FORM
+
+.client_company_address, .client_contact_billing_address {
+  width: 30%;
+}
+
+.client_company_zipcode, .client_contact_billing_zipcode {
+  width: 10%;
+}
+
+.client_company_city, .client_contact_billing_city {
+  width: 30%;
+}

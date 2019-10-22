@@ -8,7 +8,8 @@
   <%= simple_form_for @action, as: :act do |f| %>
     <%= f.input :name %>
     <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
-    <%= f.association :intelligence, collection: Intelligence.all, include_blank: false %>
+    <%= f.association :intelligence1, collection: Intelligence.all, include_blank: false %>
+    <%= f.association :intelligence2, collection: Intelligence.all, include_blank: true %>
     <div class="center-button">
       <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
         <i class="fas fa-save"></i>

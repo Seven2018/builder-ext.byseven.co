@@ -69,37 +69,9 @@
         <p>%TVA</p>
       </div>
     </div>
-    <% @invoice_item.invoice_lines.each do |line| %>
-      <a class="edit-fafa" data-toggle='modal' data-target='#editLine<%= line.id %>'>
-        <div  class="invoice-desc-line">
-          <p><strong><%= line.description %></strong></p>
-            <div>
-              <% if line.product %>
-                <p><%= line.quantity %></p>
-                <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
-                <p><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
-                <p><%= "#{line.tax_amount}%" %></p>
-              <% end %>
-            </div>
-        </div>
-      </a>
-      <div class="invoice-line-comments">
-      <% if line.comments.nil? || line.comments.empty? %>
-        <%= link_to 'Ajouter un commentaire', edit_invoice_line_path(line) %>
-      <% else %>
-        <%= link_to line.comments.html_safe, edit_invoice_line_path(line) %>
-      <% end %>
-        <!-- Modals -->
-        <% unless line.id.nil? %>
-          <div class="modal fade" id="editLine<%= line.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
-              <%= render 'invoice_lines/edit', line: line %>
-            </div>
-          </div>
-        <% end %>
-        <!-- Modals -->
-      </div>
-    <% end %>
+    <div id="invoice-line-render">
+      <%= render 'invoice_lines/index', invoice_item: @invoice_item %>
+    </div>
     <% if @invoice_item.client_company.client_company_type == 'Ecole' %>
       <br>
       <p>TVA non applicable, art. 293 B du CGI</p>

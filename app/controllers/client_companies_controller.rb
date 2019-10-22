@@ -56,7 +56,7 @@ before_action :set_clientcompany, only: [:show, :edit, :update, :destroy]
   end
 
   def clientcompany_params
-    params.require(:client_company).permit(:name, :address, :description, :logo, :client_company_type)
+    params.require(:client_company).permit(:name, :address, :zipcode, :city, :description, :logo, :client_company_type)
   end
 end
 

@@ -8,12 +8,10 @@
 
   <%= simple_form_for [@content, @content_module] do |f| %>
     <%= f.input :title %>
+    <%= f.label :instructions %>
     <%= f.cktext_area :instructions %>
     <%= f.input :duration, label: 'Duration (min)' %>
-    <%= f.input :url1 %>
-    <%= f.input :url2 %>
-    <%= f.input :image1 %>
-    <%= f.input :image2 %>
+    <%= f.label :logistics %>
     <%= f.cktext_area :logistics %>
     <%= f.input :action1_id, collection: Action.all, label: 'Action 1' %>
     <%= f.input :action2_id, collection: Action.all, label: 'Action 2' %>

@@ -12,6 +12,12 @@
       <%= f.input :title %>
       <%= f.input :role_description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
       <%= f.input :client_company_id, collection: ClientCompany.all.order(:name) %>
+      <%= f.input :billing_contact %>
+      <div style='display:flex;justify-content:space-between;'>
+        <%= f.input :billing_address, placeholder: 'ex: 5 rue Moret' %>
+        <%= f.input :billing_zipcode, placeholder: 'ex: 75011', input_html: { maxlength: 5 } %>
+        <%= f.input :billing_city, placeholder: 'ex: Paris' %>
+      </div>
       <div style=" display: flex; justify-content: space-between;">
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
           <i class="fas fa-save"></i>

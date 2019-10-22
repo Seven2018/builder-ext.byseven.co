@@ -56,6 +56,6 @@ class ClientContactsController < ApplicationController
   end
 
   def clientcontact_params
-    params.require(:client_contact).permit(:name, :email, :title, :role_description, :client_company_id)
+    params.require(:client_contact).permit(:name, :email, :title, :role_description, :client_company_id, :billing_contact, :billing_address, :billing_zipcode, :billing_city)
   end
 end
