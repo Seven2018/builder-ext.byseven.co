@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   resources :intelligences
   resources :actions
   resources :theories
+  resources :merchandises
+  get 'index_request', to: 'merchandises#index_request', as: 'merchandises_index_request'
+  resources :requests, only: [:create, :destroy]
   resources :contents, only: [:index, :show, :new, :create, :update, :destroy] do
     resources :content_modules
     resources :theory_contents, only: [:create, :destroy]

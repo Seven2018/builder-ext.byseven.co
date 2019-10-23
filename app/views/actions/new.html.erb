@@ -4,7 +4,7 @@
       <i class="fas fa-arrow-left"></i>
     <% end %>
   </div>
-  <h3>Ajouter une action</h3>
+  <h3>Add an Action</h3>
   <%= simple_form_for @action, as: :act do |f| %>
     <%= f.input :name %>
     <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>

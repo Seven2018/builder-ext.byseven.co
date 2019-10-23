@@ -111,6 +111,6 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
   end
 
   def workshop_module_params
-    params.require(:workshop_module).permit(:title, :instructions, :duration, :url1, :url2, :image1, :image2, :logistics, :action1_id, :action2_id, :comments, :workshop_id, :user_id)
+    params.require(:workshop_module).permit(:title, :instructions, :duration, :logistics, :action1_id, :action2_id, :comments, :workshop_id, :user_id)
   end
 end

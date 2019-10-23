@@ -44,6 +44,7 @@ export interface BaseOptions {
     minTime: DateOption;
     minuteIncrement: number;
     mode: "single" | "multiple" | "range" | "time";
+    monthSelectorType: "dropdown" | "static";
     nextArrow: string;
     noCalendar: boolean;
     now?: DateOption;
@@ -112,6 +113,7 @@ export interface ParsedOptions {
     minTime?: Date;
     minuteIncrement: number;
     mode: BaseOptions["mode"];
+    monthSelectorType: string;
     nextArrow: string;
     noCalendar: boolean;
     now: Date;

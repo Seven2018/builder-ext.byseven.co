@@ -9,7 +9,7 @@
         <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><%= link_to 'View mode', session_viewer_path(@session) %></li>
-          <li><%= link_to 'Export PDF', training_session_path(@session.training, @session, format: :pdf) %></li>
+          <li><%= link_to 'Export PDF', training_session_path(@session.training, @session, format: :pdf), target: :_blank %></li>
           <li><%= link_to 'Participants List', export_attendees_path(@session.training, @session) %></li>
         </ul>
       </div>
@@ -92,10 +92,15 @@
           <% status = !params[:search].nil? %>
           <%= simple_form_for :search, url: training_session_path(@session.training, @session), html: { class: 'sidebar-search' }, method: 'GET' do |f| %>
             <%= f.input :title, placeholder: 'Search', label: false %>
+            <% if params[:search] %>
+              <%= link_to training_session_path(@session.training, @session), class: 'sidebar-search-close' do %>
+                <i class="fas fa-times-circle"></i>
+              <% end %>
+            <% end %>
           <% end %>
           <% if status %>
             <ul id='myUL'>
-              <% (Content.where("lower(title) LIKE :query", query: "%#{params[:search][:title].downcase}%") + (Content.joins(:content_modules).where("lower(content_modules.title) LIKE :query", query:"%#{params[:search][:title].downcase}%"))).each do |content| %>
+              <% (Content.where("lower(title) LIKE :query", query: "%#{params[:search][:title].downcase}%") + (Content.joins(:content_modules).where("lower(content_modules.title) LIKE :query", query:"%#{params[:search][:title].downcase}%"))).uniq.each do |content| %>
                 <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
                   <li class='myUL-li-theme-sidebar'>+ <%= content.title %></li>
                 <% end %>

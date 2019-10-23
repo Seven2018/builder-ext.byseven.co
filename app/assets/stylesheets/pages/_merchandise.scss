@@ -1,0 +1,64 @@
+.booklet-list-theme {
+  width: 100%;
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &:last-child {
+    border-bottom-width: 1px;
+  }
+
+  .caret {
+    background-color: white;
+    transition: color 0.5s 0.5s;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.05) !important;
+    }
+  }
+}
+
+.booklet-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.booklet-card {
+  display: flex;
+  flex-direction: column;
+
+  @include from-large {
+    flex-direction: row;
+    height: 300px;
+    width: 600px;
+  }
+
+  h4 {
+    text-align: center;
+  }
+}
+
+.booklet-card-image {
+
+  @include from-large {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+.booklet-card-infos {
+
+  @include from-large {
+    padding: 20px;
+    height: 300px;
+    width: 300px;
+  }
+}
+
+.search-close {
+  position: absolute;
+  left: 175px;
+  top: 10px;
+}

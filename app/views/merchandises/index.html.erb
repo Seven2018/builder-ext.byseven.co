@@ -1,0 +1,84 @@
+<div class="container-seven container-seven-centered">
+  <div id='client-company-index'>
+    <div id='client-company-controls'>
+      <h3>Catalogue SEVEN</h3>
+      <div id="client-company-buttons">
+        <% status = !params[:search].nil? %>
+        <%= simple_form_for :search, url: merchandises_path, method: 'GET' do |f| %>
+          <% if status %>
+            <%= f.input :name, placeholder: "#{params[:search][:name]}", label: false %>
+            <%= link_to merchandises_path, class: 'search-close' do %>
+              <i class="fas fa-times-circle"></i>
+            <% end %>
+          <% else %>
+            <%= f.input :name, placeholder: 'Search', label: false %>
+          <% end %>
+        <% end %>
+        <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+          <%= link_to new_merchandise_path do %>
+            <button class="btn btn-edit">New Product</button>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <% if status %>
+      <div class="booklet-list">
+        <% Merchandise.where("lower(name) LIKE :query", query: "%#{params[:search][:name].downcase}%").each do |merchandise| %>
+          <%= link_to merchandise_path(merchandise) do %>
+            <div class="booklet-card">
+              <div class="booklet-card-image" style="background-image:url('/assets/<%= merchandise.name.downcase %>.jpg');background-size: cover; background-position: 50% 50%;"></div>
+              <div class="booklet-card-infos">
+                <h4><%= merchandise.name %></h4>
+                <p><%= merchandise.description.html_safe %></p>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class='booklet-list'>
+        <% Theme.where.not(name: ['Présentation', 'Conclusion', 'Ice breaker']).walk_tree do |theme, level| %>
+          <% if theme.children.empty? && theme.level == 0 %>
+            <div class="booklet-list-theme"><span class="caret"><%= theme.name %></span>
+              <div class="nested">
+                <% theme.merchandises.each do |merchandise| %>
+                  <%= link_to merchandise_path(merchandise) do %>
+                    <div class="booklet-card">
+                      <div class="booklet-card-image" style="background-image:url('/assets/<%= merchandise.name.downcase %>.jpg');background-size: cover; background-position: 50% 50%;"></div>
+                      <div class="booklet-card-infos">
+                        <h4><%= merchandise.name %></h4>
+                        <p><%= merchandise.description.html_safe %></p>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% elsif theme.level == 0 && theme.children != [] %>
+            <div><span class="caret"><%= theme.name %></span>
+              <div class="nested">
+                <% theme.children.each do |subtheme| %>
+                  <div><span class="caret"><%= subtheme.name %></span>
+                    <div class="nested">
+                      <% subtheme.merchandises.each do |merchandise| %>
+                        <%= link_to merchandise_path(merchandise) do %>
+                          <div class="booklet-card">
+                            <div class="booklet-card-image" style="background-image:url('/assets/<%= merchandise.name.downcase %>.jpg');background-size: cover; background-position: 50% 50%;"></div>
+                            <div class="booklet-card-infos">
+                              <h4><%= merchandise.name %></h4>
+                              <p><%= merchandise.description.html_safe %></p>
+                            </div>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

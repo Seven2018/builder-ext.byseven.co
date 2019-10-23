@@ -6,23 +6,28 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    user.access_level == "super admin"
+    check_access
   end
 
   def show?
-    true
-    # ['super admin', 'admin', 'training manager'].include? user.access_level
+    check_access
   end
 
   def edit?
-    user.access_level == "super admin"
+    check_access
   end
 
   def update?
-    user.access_level == "super admin"
+    check_access
   end
 
   def destroy?
-    user.access_level == "super admin"
+    check_access
+  end
+
+  private
+
+  def check_access
+    ['super admin', 'admin', 'training manager', 'HR'].include? user.access_level
   end
 end

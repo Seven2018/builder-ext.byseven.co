@@ -105,6 +105,6 @@ class ContentModulesController < ApplicationController
   end
 
   def content_module_params
-    params.require(:content_module).permit(:title, :instructions, :duration, :url1, :url2, :image1, :image2, :logistics, :action1_id, :action2_id, :comments, :content_id)
+    params.require(:content_module).permit(:title, :instructions, :duration, :logistics, :action1_id, :action2_id, :comments, :content_id)
   end
 end

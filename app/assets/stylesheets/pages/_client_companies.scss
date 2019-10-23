@@ -29,6 +29,10 @@
   }
 }
 
+#client-company-buttons {
+  position: relative;
+}
+
 #client-contact-controls {
   display: flex;
   flex-direction: column;
@@ -105,7 +109,7 @@
   height:50px;
   width:50px;
   background-color: rgba(0,0,0,0);
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .client-company-infos {
@@ -176,8 +180,16 @@
   }
 }
 
-.client-company-logo-show, .user-picture-show {
+ .user-picture-show {
+  overflow: hidden;
   height: 100px;
+  width: 100px;
+ }
+
+.client-company-logo-show {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
 }
 
 .user-contact-card > div {

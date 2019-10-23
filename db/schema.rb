@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_21_143057) do
+ActiveRecord::Schema.define(version: 2019_10_22_135657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,17 @@ ActiveRecord::Schema.define(version: 2019_10_21_143057) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["client_company_id"], name: "index_attendees_on_client_company_id"
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "client_company_id", null: false
+    t.bigint "merchandise_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["client_company_id"], name: "index_bookings_on_client_company_id"
+    t.index ["merchandise_id"], name: "index_bookings_on_merchandise_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
   create_table "client_companies", force: :cascade do |t|
@@ -179,6 +190,16 @@ ActiveRecord::Schema.define(version: 2019_10_21_143057) do
     t.index ["product_id"], name: "index_invoice_lines_on_product_id"
   end
 
+  create_table "merchandises", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "position"
+    t.bigint "theme_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["theme_id"], name: "index_merchandises_on_theme_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.decimal "price", precision: 15, scale: 10
@@ -186,6 +207,15 @@ ActiveRecord::Schema.define(version: 2019_10_21_143057) do
     t.string "product_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "merchandise_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["merchandise_id"], name: "index_requests_on_merchandise_id"
+    t.index ["user_id"], name: "index_requests_on_user_id"
   end
 
   create_table "session_attendees", force: :cascade do |t|
@@ -310,6 +340,8 @@ ActiveRecord::Schema.define(version: 2019_10_21_143057) do
     t.boolean "vat"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "client_company_id"
+    t.index ["client_company_id"], name: "index_users_on_client_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -346,6 +378,9 @@ ActiveRecord::Schema.define(version: 2019_10_21_143057) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendees", "client_companies"
+  add_foreign_key "bookings", "client_companies"
+  add_foreign_key "bookings", "merchandises"
+  add_foreign_key "bookings", "users"
   add_foreign_key "client_contacts", "client_companies"
   add_foreign_key "comments", "sessions"
   add_foreign_key "comments", "users"
@@ -357,6 +392,9 @@ ActiveRecord::Schema.define(version: 2019_10_21_143057) do
   add_foreign_key "invoice_items", "users"
   add_foreign_key "invoice_lines", "invoice_items"
   add_foreign_key "invoice_lines", "products"
+  add_foreign_key "merchandises", "themes"
+  add_foreign_key "requests", "merchandises"
+  add_foreign_key "requests", "users"
   add_foreign_key "session_attendees", "attendees"
   add_foreign_key "session_attendees", "sessions"
   add_foreign_key "session_forms", "forms"
@@ -371,6 +409,7 @@ ActiveRecord::Schema.define(version: 2019_10_21_143057) do
   add_foreign_key "training_ownerships", "trainings"
   add_foreign_key "training_ownerships", "users"
   add_foreign_key "trainings", "client_contacts"
+  add_foreign_key "users", "client_companies"
   add_foreign_key "workshop_modules", "users"
   add_foreign_key "workshop_modules", "workshops"
   add_foreign_key "workshops", "sessions"

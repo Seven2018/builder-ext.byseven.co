@@ -2,10 +2,18 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
 
   def index
-    if params[:search]
-      @users = (policy_scope(User).where('lower(firstname) LIKE ?', "%#{params[:search][:name].donwcase}%") + policy_scope(User).where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%")).order(:lastname)
-    else
-      @users = policy_scope(User).order(:lastname)
+    if ['super admin', 'admin', 'training manager'].include? (current_user.access_level)
+      if params[:search]
+        @users = (policy_scope(User).where('lower(firstname) LIKE ?', "%#{params[:search][:name].donwcase}%") + policy_scope(User).where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%")).order(:lastname)
+      else
+        @users = policy_scope(User).order(:lastname)
+      end
+    elsif current_user.access_level == 'HR'
+      if params[:search]
+        @users = (policy_scope(User).where(client_company_id: current_user.client_company.id).where('lower(firstname) LIKE ?', "%#{params[:search][:name].donwcase}%") + policy_scope(User).where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%")).order(:lastname)
+      else
+        @users = policy_scope(User).where(client_company_id: current_user.client_company.id).order(:lastname)
+      end
     end
   end
 
@@ -55,6 +63,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:firstname, :lastname, :email, :password, :access_level, :picture, :linkedin, :description, :rating)
+    params.require(:user).permit(:firstname, :lastname, :email, :password, :access_level, :picture, :linkedin, :description, :rating, :client_company_id)
   end
 end

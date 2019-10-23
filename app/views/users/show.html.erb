@@ -1,16 +1,16 @@
 <div class="container-seven">
-  <%= link_to url_for(:back), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+  <%= link_to users_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
   <div class='centered-card-show'>
     <div class="user-contact-card-show">
-      <div class='user-picture-show'>
-        <img src='<%= @user.picture %>' alt="" class='client-company-logo-show'>
-        <div>
-          <div class="show-control-links" style='display:flex;flex-direction:row;'>
-            <% if current_user.access_level == 'super admin' || @user == current_user %>
-              <a class="button edit-fafa" data-toggle='modal' data-target='#editUser'><button class='btn btn-edit'>Edit Profile</button></a>
-              <a class="button edit-fafa" data-toggle='modal' data-target='#editPassword'><button class='btn btn-edit'>Change Password</button></a>
-            <% end %>
-          </div>
+      <div style='display:flex;flex-direction:row;'>
+        <div class='user-picture-show'>
+          <img src='<%= @user.picture %>' alt="" class='client-company-logo-show'>
+        </div>
+        <div class="show-control-links" style='display:flex;flex-direction:row;'>
+          <% if current_user.access_level == 'super admin' || @user == current_user || (current_user.access_level == 'HR' && current_user.client_company == @user.client_company) %>
+            <a class="button edit-fafa" data-toggle='modal' data-target='#editUser'><button class='btn btn-edit'>Edit Profile</button></a>
+            <a class="button edit-fafa" data-toggle='modal' data-target='#editPassword'><button class='btn btn-edit'>Change Password</button></a>
+          <% end %>
         </div>
       </div>
       <div class="user-info">

@@ -5,6 +5,9 @@
 
 .invoice-card {
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);

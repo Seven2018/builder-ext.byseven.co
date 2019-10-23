@@ -2,7 +2,7 @@
   <div id='client-company-index'>
     <div id="client-company-controls">
       <h3>Customers List</h3>
-      <div id="client_company_buttons">
+      <div id="client-company-buttons">
         <%= simple_form_for :search, url: client_companies_path, method: 'GET' do |f| %>
           <%= f.input :name, placeholder: 'Search', label: false %>
         <% end %>
