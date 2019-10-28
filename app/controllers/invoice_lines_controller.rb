@@ -10,7 +10,7 @@ class InvoiceLinesController < ApplicationController
       @invoiceline = InvoiceLine.new(invoice_item_id: @invoice_item.id, description: 'Commentaires', position: @invoice_item.invoice_lines.count + 1)
     end
     authorize @invoiceline
-    @invoiceline.save ? redirect_to invoice_item_path(@invoice_item) : raise
+    redirect_to invoice_item_path(@invoice_item) if @invoiceline.save
   end
 
   def edit

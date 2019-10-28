@@ -2,11 +2,7 @@ class RequestsController < ApplicationController
   def create
     @request = Request.new(user_id: current_user.id, merchandise_id: params[:merchandise])
     authorize @request
-    if @request.save
-      redirect_to merchandise_path(Merchandise.find(params[:merchandise]))
-    else
-      raise
-    end
+    redirect_to merchandise_path(Merchandise.find(params[:merchandise])) if @request.save
   end
 
   def destroy

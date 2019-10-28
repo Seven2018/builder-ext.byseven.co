@@ -23,7 +23,7 @@ class MerchandisesController < ApplicationController
   def create
     @merchandise = Merchandise.new(merchandise_params)
     authorize @merchandise
-    @merchandise.save ? redirect_to merchandise_path(@merchandise) : raise
+    redirect_to merchandise_path(@merchandise) if @merchandise.save
   end
 
   def edit
@@ -33,7 +33,7 @@ class MerchandisesController < ApplicationController
   def update
     authorize @merchandise
     @merchandise.update(merchandise_params)
-    @merchandise.save ? redirect_to merchandise_path(@merchandise) : raise
+    redirect_to merchandise_path(@merchandise) if @merchandise.save
   end
 
   def destroy
