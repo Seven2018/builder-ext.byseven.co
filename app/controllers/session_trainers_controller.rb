@@ -1,6 +1,6 @@
 class SessionTrainersController < ApplicationController
 
-  # Allows management of Session Trainers through a checkbox collection
+  # Allows management of SessionTrainers through a checkbox collection
   def create
     @session_trainer = SessionTrainer.new
     authorize @session_trainer

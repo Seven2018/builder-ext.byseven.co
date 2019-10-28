@@ -1,21 +1,13 @@
 class SessionsController < ApplicationController
   before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer]
 
-  # def index
-  #   @training = Training.find(params[:training_id])
-  #   @sessions = policy_scope(Session)
-  #   @sessions = Session.where(training: @training).order(:date)
-  # end
-
+  # Shows an InvoiceItem in html or pdf version
   def show
     authorize @session
     @contents = Content.all
     @session_trainer = SessionTrainer.new
     @comment = Comment.new
     @themes = Theme.all
-    # @contents.each do |content|
-    #   @theme << content.theme
-    # end
     respond_to do |format|
       format.html
       format.pdf do
@@ -23,7 +15,6 @@ class SessionsController < ApplicationController
           pdf: "#{@session.title}",
           layout: 'pdf.html.erb',
           template: 'sessions/show',
-          # title: "#{@session.title}",
           show_as_html: params.key?('debug'),
           page_size: 'A4',
           encoding: 'utf8',
@@ -62,11 +53,7 @@ class SessionsController < ApplicationController
     @training = Training.find(params[:training_id])
     authorize @session
     @session.update(session_params)
-    if @session.save
-      redirect_back(fallback_location: root_path)
-    else
-      render "_edit"
-    end
+    @session.save ? (redirect_back(fallback_location: root_path)) : (render "_edit")
   end
 
   def destroy
@@ -76,6 +63,7 @@ class SessionsController < ApplicationController
     redirect_to training_path(@training)
   end
 
+  # Shows a Session in "viewer mode"
   def viewer
     authorize @session
   end

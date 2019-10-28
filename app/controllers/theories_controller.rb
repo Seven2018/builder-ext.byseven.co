@@ -1,6 +1,7 @@
 class TheoriesController < ApplicationController
   before_action :set_theory, only: [:show, :edit, :update, :destroy]
 
+  # Index with "search" option
   def index
     if params[:search]
       @theories = policy_scope(Theory).where("lower(name) LIKE ?", "%#{params[:search][:name].downcase}%").order(name: :asc)
@@ -21,11 +22,7 @@ class TheoriesController < ApplicationController
   def create
     @theory = Theory.new(theory_params)
     authorize @theory
-    if @theory.save
-      redirect_to theories_path
-    else
-      render :new
-    end
+    @theory.save ? (redirect_to theories_path) : (render :new)
   end
 
   def edit
@@ -35,11 +32,7 @@ class TheoriesController < ApplicationController
   def update
     authorize @theory
     @theory.update(theory_params)
-    if @theory.save
-      redirect_to theory_path(@theory)
-    else
-      render :edit
-    end
+    @theory.save ? (redirect_to theory_path(@theory)) : (render :edit)
   end
 
   def destroy

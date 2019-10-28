@@ -5,6 +5,7 @@ class TrainingsController < ApplicationController
     @sessions = Session.all
     @session_trainer = SessionTrainer.new
     @form = Form.new
+    # Index with 'search' option and global visibility for SEVEN Users
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
       if params[:search]
         @trainings = policy_scope(Training)
@@ -13,10 +14,12 @@ class TrainingsController < ApplicationController
         @trainings = policy_scope(Training)
       end
       @bookings = Booking.all
+    # Index for HR Users, with limited visibility
     elsif current_user.access_level == 'HR'
       @trainings = policy_scope(Training)
       @trainings = Training.joins(:client_contact).where(client_contacts: { email: current_user.email })
       @bookings = Booking.where(user_id: current_user.id)
+    # Index for Sevener Users, with limited visibility
     else
       @trainings = policy_scope(Training)
       @trainings = []
@@ -26,12 +29,14 @@ class TrainingsController < ApplicationController
     end
   end
 
+  # Index with weekly calendar view
   def index_week
     @trainings = Training.all
     @sessions = Session.all
     authorize @trainings
   end
 
+  # Index with monthly calendar view
   def index_month
     @trainings = Training.all
     @sessions = Session.all
