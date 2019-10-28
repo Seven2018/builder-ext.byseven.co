@@ -6,7 +6,17 @@ class TrainingsController < ApplicationController
     @session_trainer = SessionTrainer.new
     @form = Form.new
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
-      @trainings = policy_scope(Training).order('start_date ASC')
+      if params[:search]
+        @trainings = policy_scope(Training)
+        @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%").order(title: :asc)) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
+      else
+        @trainings = policy_scope(Training)
+      end
+      @bookings = Booking.all
+    elsif current_user.access_level == 'HR'
+      @trainings = policy_scope(Training)
+      @trainings = Training.joins(:client_contact).where(client_contacts: { email: current_user.email })
+      @bookings = Booking.where(user_id: current_user.id)
     else
       @trainings = policy_scope(Training)
       @trainings = []

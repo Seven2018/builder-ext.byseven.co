@@ -261,6 +261,7 @@ $timeline: #115173;
 #items, #items-viewer {
     margin-bottom: 20px;
     padding-right: 0;
+
     .card-mods {
     display: flex;
     margin: 0;
@@ -285,6 +286,9 @@ $timeline: #115173;
 
     @include from-large {
       display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       flex-shrink: 0;
     }
   }
@@ -633,10 +637,6 @@ input.btn {
     background-color: white !important;
     background-image: none !important;
   }
-}
-
-#new-training {
-  font-size: 20px;
 }
 
 .card-mods:last-child {

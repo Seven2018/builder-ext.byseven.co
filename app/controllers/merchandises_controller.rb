@@ -1,6 +1,7 @@
 class MerchandisesController < ApplicationController
   before_action :set_merchandise, only: [:show, :edit, :update, :destroy]
 
+  # Index with "search" option
   def index
     if params[:search]
       @merchandises = policy_scope(Merchandise).where("lower(name) LIKE ?", "%#{params[:search][:name].downcase}%").order(name: :asc)
@@ -11,6 +12,7 @@ class MerchandisesController < ApplicationController
 
   def show
     authorize @merchandise
+    @booking = Booking.new
   end
 
   def new
@@ -21,11 +23,7 @@ class MerchandisesController < ApplicationController
   def create
     @merchandise = Merchandise.new(merchandise_params)
     authorize @merchandise
-    if @merchandise.save
-      redirect_to merchandise_path(@merchandise)
-    else
-      raise
-    end
+    @merchandise.save ? redirect_to merchandise_path(@merchandise) : raise
   end
 
   def edit
@@ -35,11 +33,7 @@ class MerchandisesController < ApplicationController
   def update
     authorize @merchandise
     @merchandise.update(merchandise_params)
-    if @merchandise.save
-      redirect_to merchandise_path(@merchandise)
-    else
-      raise
-    end
+    @merchandise.save ? redirect_to merchandise_path(@merchandise) : raise
   end
 
   def destroy

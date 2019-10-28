@@ -1,12 +1,9 @@
 class ActionsController < ApplicationController
   before_action :set_action, only: [:show, :edit, :update, :destroy]
 
+  # Index with "search" option
   def index
-    if params[:search]
-      @actions = policy_scope(Action).where("lower(name) LIKE ?", "%#{params[:search][:name].downcase}%").order(name: :asc)
-    else
-      @actions = policy_scope(Action).order(name: :asc)
-    end
+    params[:search] ? @actions = policy_scope(Action).where("lower(name) LIKE ?", "%#{params[:search][:name].downcase}%").order(name: :asc) : @actions = policy_scope(Action).order(name: :asc)
   end
 
   def show
@@ -22,11 +19,7 @@ class ActionsController < ApplicationController
     @action = Action.new(action_params)
     @intelligences = Intelligence.all
     authorize @action
-    if @action.save
-      redirect_to action_path(@action)
-    else
-      render :new
-    end
+    @action.save ? (redirect_to action_path(@action)) : (render :new)
   end
 
   def edit
@@ -36,11 +29,7 @@ class ActionsController < ApplicationController
   def update
     authorize @action
     @action.update(action_params)
-    if @action.save
-      redirect_to action_path(@action)
-    else
-      render '_edit'
-    end
+    @action.save ? (redirect_to action_path(@action)) : (render '_edit')
   end
 
   def destroy

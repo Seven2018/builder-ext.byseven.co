@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :session_trainers
   has_many :sessions, through: :session_trainers
   has_many :comments
+  has_many :bookings
+  has_many :requests
   belongs_to :client_company
   validates :access_level, inclusion: { in: ['sevener', 'training manager', 'admin', 'super admin', 'HR', 'employee'] }
 

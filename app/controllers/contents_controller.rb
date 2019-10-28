@@ -19,11 +19,7 @@ class ContentsController < ApplicationController
   def create
     @content = Content.new(content_params)
     authorize @content
-    if @content.save
-      redirect_to content_path(@content)
-    else
-      render :new
-    end
+    @content.save ? (redirect_to content_path(@content)) : (render :new)
   end
 
   def edit
@@ -33,11 +29,7 @@ class ContentsController < ApplicationController
   def update
     authorize @content
     @content.update(content_params)
-    if @content.save
-      redirect_to content_path(@content)
-    else
-      render "_edit"
-    end
+    @content.save ? (redirect_to content_path(@content)) : (render "_edit")
   end
 
   def destroy

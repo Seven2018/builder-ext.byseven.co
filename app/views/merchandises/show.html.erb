@@ -14,9 +14,17 @@
   <% if Request.where(merchandise_id: @merchandise.id, user_id: current_user.id).empty? %>
     <%= link_to "Je m'inscris !", requests_path(merchandise: @merchandise.id), method: :post, class: 'btn btn-edit-green' %>
   <% else %>
-    <%= link_to "Je me désinscris !", request_path(Request.where(merchandise_id: @merchandise.id, user_id: current_user.id).first, merchandise: @merchandise.id), method: :delete, data: { confirm: 'Etes vous certain de vouloir vous supprimer votre requête ?'}, class: 'btn btn-edit-red' %>
+    <%= link_to "Je me désinscris !", request_path(Request.where(user_id: current_user.id).first, merchandise: @merchandise.id), method: :delete, data: { confirm: 'Etes vous certain de vouloir vous supprimer votre requête ?'}, class: 'btn btn-edit-red' %>
   <% end %>
   <% if current_user.access_level == 'HR' %>
     <p><%= "#{(Request.joins(:user).where(users: { client_company_id: current_user.client_company.id }).where(merchandise_id: @merchandise.id)).count} demande(s)" %></p>
+    <a class='btn btn-edit-green' data-toggle='modal' data-target='#newBooking'>Faire une demande de formation</a>
   <% end %>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="newBooking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'bookings/new', merchandise: @merchandise %>
+  </div>
 </div>

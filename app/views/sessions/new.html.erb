@@ -9,14 +9,14 @@
   <%= simple_form_for [@training, @session] do |f| %>
     <div class='mod-date'>
       <%= f.input :title %>
-      <%= f.input :attendee_number, input_html: { min: 0, style: 'width:120px;' }, label: 'Participants', default: 0 %>
+      <%= f.input :attendee_number, input_html: { value: 0, min: 0, style: 'width:120px;' }, label: 'Participants' %>
     </div>
     <div class="mod-date">
-      <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
-      <%= f.input :duration, label: "Duration (hours)", input_html: { min: 0, style: 'width:120px;' }, default: 0, allow_blank: false %>
+      <%= f.input :date, as: :string, input_html: { value: @training.start_date, class: 'datepicker'} %>
+      <%= f.input :duration, label: "Duration (hours)", input_html: { value: 0, min: 0, style: 'width:120px;' }, allow_blank: false %>
     </div>
     <div class='mod-date'>
-      <%= f.input :start_time, label: 'Start time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('9:00') %>
+      <%= f.input :start_time, label: 'Start time', as: :time, input_html: { class: 'timepicker' }, default: Time.parse('9:00') %>
       <%= f.input :end_time, label: 'End time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('17:00') %>
     </div>
     <%= f.label :description %>

@@ -39,3 +39,14 @@ input:focus {
     margin-right: 10px;
   }
 }
+
+.form-group {
+
+  span {
+    display: flex;
+
+    label {
+      margin-left: 5px;
+    }
+  }
+}

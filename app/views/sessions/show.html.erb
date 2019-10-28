@@ -5,12 +5,16 @@
         <i class="fas fa-arrow-left"></i>
       <% end %>
       <div>
-        <a class='edit-fafa btn btn-edit btn-edit-pen' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
+        <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+          <a class='edit-fafa btn btn-edit btn-edit-pen' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
+        <% end %>
         <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><%= link_to 'View mode', session_viewer_path(@session) %></li>
+          <li><%= link_to 'View mode', training_session_viewer_path(@session.training, @session) %></li>
           <li><%= link_to 'Export PDF', training_session_path(@session.training, @session, format: :pdf), target: :_blank %></li>
-          <li><%= link_to 'Participants List', export_attendees_path(@session.training, @session) %></li>
+          <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+            <li><%= link_to 'Participants List', export_attendees_path(@session.training, @session) %></li>
+          <% end %>
         </ul>
       </div>
     </div>

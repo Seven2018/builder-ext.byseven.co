@@ -1,7 +1,7 @@
 <div class="row" style="background-color: white; margin-right: 0;">
   <% result_fut = [] %>
-  <% trainings.each do |training| %>
-    <% if training.start_date > Date.today %>
+  <% @trainings.joins(:sessions).where('date > ?', Date.today).order('date ASC').uniq.each do |training| %>
+    <% if training.end_date > Date.today %>
       <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
         <div class="card" id="card-index">
           <div class="card-main">

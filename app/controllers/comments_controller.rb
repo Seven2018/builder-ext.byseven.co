@@ -4,9 +4,7 @@ class CommentsController < ApplicationController
     authorize @comment
     @comment.session = Session.find(params[:session_id])
     @comment.user = current_user
-    if @comment.save
-      redirect_to training_session_path(@comment.session.training, @comment.session)
-    end
+    redirect_to training_session_path(@comment.session.training, @comment.session) if @comment.save
   end
 
   def destroy

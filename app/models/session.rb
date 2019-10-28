@@ -3,10 +3,11 @@ class Session < ApplicationRecord
   has_many :workshops, -> { order(position: :asc) }, dependent: :destroy
   has_many :session_trainers, dependent: :destroy
   has_many :users, through: :session_trainers
-  has_many :session_attendees
+  has_many :session_attendees, dependent: :destroy
   has_many :attendees, through: :session_attendees
   has_many :comments, dependent: :destroy
   has_many :session_forms, dependent: :destroy
+  has_many :forms, through: :session_forms
   validates :title, :date, :duration, presence: true
   validate :date_included_in_training_dates?
   accepts_nested_attributes_for :session_trainers

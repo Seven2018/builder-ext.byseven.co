@@ -3,17 +3,6 @@ class AttendeesController < ApplicationController
   before_action :authenticate_user!, except: [:form, :new, :create]
   invisible_captcha only: [:create], honeypot: :subtitle
 
-  def form
-    @attendee = Attendee.new
-    authorize @attendee
-    @sessions = @training.sessions
-    if params[:search] && params[:search][:email]
-      @attendee = Attendee.find_by(email: params[:search][:email])
-    elsif params[:attendee]
-      @attendee = Attendee.find(params[:attendee].to_i)
-    end
-  end
-
   def new
     @attendee = Attendee.new
     authorize @attendee
@@ -31,6 +20,7 @@ class AttendeesController < ApplicationController
     end
   end
 
+  # Creates new Attendees from an imported list
   def import
     @attendees = Attendee.import(params[:file])
     skip_authorization
@@ -38,6 +28,7 @@ class AttendeesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  # Exports a list of Attendees attending the current Session
   def export
     @attendees = Attendee.joins(:session_attendees).where(session_attendees: {session_id: params[:id]})
     skip_authorization

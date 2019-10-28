@@ -1,0 +1,36 @@
+<div class="row" style="background-color: white; margin-right: 0;">
+  <% unless bookings.nil? %>
+    <% result_booking = [] %>
+    <% bookings.each do |booking| %>
+      <% if booking.start_date %>
+        <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
+          <div class="card" id="card-index">
+            <div class="card-main">
+              <%= link_to booking_path(booking), class: 'stretched-link' do %>
+                <div class='client-logo' style="background-image: url(<%= booking.user.client_company.logo %>); background-size: 50px 50px; background-repeat: no-repeat;"></div>
+                <h5 style='max-width: 175px;'><%= booking.merchandise.name %></h5>
+                <% result_booking << booking %>
+                <div class="card-infos">
+                  <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{booking.start_date.strftime('%d/%m/%y')} to #{booking.end_date.strftime('%d/%m/%y')}" %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <div class="card-footer">
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    <% if result_booking.empty? %>
+      <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
+        <div class="card">
+          <div class="card-main">
+            <%= "Empty" %>
+          </div>
+          <div class="card-footer"></div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
