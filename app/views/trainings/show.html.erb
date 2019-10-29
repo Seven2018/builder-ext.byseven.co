@@ -65,7 +65,7 @@
           <% @training.sessions.each do |session| %>
             <% session.users.each do |trainer| %>
               <% trainer_array << trainer %>
-              <% if trainer_array.uniq.count == trainer_array.count %>
+              <% unless trainer_array.count(trainer) > 1 %>
                 <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm'></a></li>
               <% end %>
             <% end %>
@@ -91,8 +91,10 @@
                 <div><p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p></div>
                 <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
                 <div><i class="fas fa-users"></i><p style='margin-left: 5px;'><%= session.attendee_number %></p></div>
-                <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-astronaut"></i></button>
-                <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
+                <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
+                  <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-astronaut"></i></button>
+                  <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
+                <% end %>
               <% end %>
             </div>
             <div class="card-main-lg">

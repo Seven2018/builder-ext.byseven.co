@@ -21,11 +21,12 @@ class TrainingsController < ApplicationController
       @bookings = Booking.where(user_id: current_user.id)
     # Index for Sevener Users, with limited visibility
     else
-      @trainings = policy_scope(Training)
-      @trainings = []
-      @sessions.each do |session|
-        @trainings << session.training if session.users.include?(current_user)
-      end
+      # @trainings = policy_scope(Training)
+      # @trainings = []
+      # @sessions.each do |session|
+      #   @trainings << session.training if session.users.include?(current_user)
+      # end
+      @trainings = policy_scope(Training).joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}")
     end
   end
 

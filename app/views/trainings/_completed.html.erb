@@ -26,7 +26,7 @@
               <% training.sessions.each do |session| %>
                 <% session.users.each do |trainer| %>
                   <% trainer_array << trainer %>
-                  <% if trainer_array.uniq.count <= 3 && trainer_array.uniq.count == trainer_array.count %>
+                  <% unless trainer_array.count(trainer) > 1 || trainer_array.uniq.count > 3 %>
                     <img class='avatar-xs' src="<%= trainer.picture %>" alt='<%= "#{trainer.firstname.capitalize} #{trainer.lastname.upcase}" %>'>
                   <% end %>
                 <% end %>

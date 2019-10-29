@@ -31,7 +31,11 @@
                 <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
               </li>
             <% end %>
-            <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
+            <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
+              <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
+            <% else %>
+              <li><button disabled class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
+            <% end %>
           </ul>
         </div>
       </div>

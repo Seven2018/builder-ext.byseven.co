@@ -8,15 +8,15 @@
     <h3><%= @workshop_module.title %> - <%= @workshop_module.duration %> minutes</h3>
     <br>
     <p><%= @workshop_module.instructions.html_safe %></p>
+    <% if @workshop_module.comments && @workshop_module.comments != "" %>
+      <p>Comments : <%= @workshop_module.comments %></p>
+    <% end %>
     <div class='content-logistics'><p class='logistics-label'>Logistics : </p><div><%= @workshop_module.logistics.html_safe %></div></div>
-    <p><%= @workshop_module.url1 %></p>
-    <p><%= @workshop_module.url2 %></p>
     <% if @workshop_module.action1 %>
-      <p class='content-actions'>Action 1 (participant) : <%= @workshop_module.action1.name %></p>
+      <p class='content-actions'>Participant Action 1 : <%= @workshop_module.action1.name %></p>
     <% end %>
     <% if @workshop_module.action2 %>
-      <p class='content-actions'>Action 2 (participant) : <%= @workshop_module.action2.name %></p>
+      <p class='content-actions'>Participant Action 2 : <%= @workshop_module.action2.name %></p>
     <% end %>
-    <p>Comments : <%= @workshop_module.comments %></p>
   </div>
 </div>
