@@ -12,7 +12,7 @@
           <%= link_to "Log out", destroy_user_session_path, method: :delete %>
         </li>
       </ul>
-      <% if ['super admin'].include? current_user.access_level %>
+      <% if user_signed_in? && current_user.access_level == 'super admin' %>
         <%= link_to merchandises_path, class: 'left-navbar-toggle' do %>
         <% end %>
       <% end %>
