@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:edit, :update, :destroy]
 
   def index
     if ['super admin', 'admin', 'training manager'].include? (current_user.access_level)
@@ -18,6 +18,13 @@ class UsersController < ApplicationController
   end
 
   def show
+    if ['super admin', 'admin', 'training manager'].include?(current_user.access_level)
+      @user = User.find(params[:id])
+    elsif current_user.access_level == 'HR'
+      @user = User.where(client_company_id: current_user.client_company_id).find(params[:id])
+    else
+      @user = current_user
+    end
     authorize @user
   end
 

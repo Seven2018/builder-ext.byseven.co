@@ -1,4 +1,4 @@
-<div class="left-navbar">
+<div class="left-navbar left-navbar-builder left-navbar-active">
   <div class="dropdown">
     <div class="left-navbar-top">
       <% if user_signed_in? %>
@@ -12,6 +12,18 @@
           <%= link_to "Log out", destroy_user_session_path, method: :delete %>
         </li>
       </ul>
+      <% if ['super admin'].include? current_user.access_level %>
+        <%= link_to merchandises_path, class: 'left-navbar-toggle' do %>
+        <% end %>
+      <% end %>
+      <!-- <script>
+        $(document).ready(function(){
+          $('.left-navbar-toggle').click(function(){
+            $('.left-navbar-toggle').toggleClass('booklet-active')
+            $('.left-navbar-builder').toggleClass('left-navbar-active')
+          })
+        })
+      </script> -->
     </div>
   </div>
   <div class="left-navbar-middle">
@@ -54,13 +66,6 @@
         <%= link_to report_path, style: 'color: white;', class: 'left-buttons' do %>
           <div class="left-menu-list">
             <i class="fas fa-chart-bar"></i> <div class="left-menu-title"><h4>Reports</h4></div>
-          </div>
-        <% end %>
-      <% end %>
-      <% if ['super admin', 'admin', 'training manager', 'HR', 'employee'].include? current_user.access_level %>
-        <%= link_to merchandises_path, style: 'color: white;', class: 'left-buttons' do  %>
-          <div class="left-menu-list">
-            <i class="fas fa-book-open"></i> <div class="left-menu-title"><h4>Booklet</h4></div>
           </div>
         <% end %>
       <% end %>

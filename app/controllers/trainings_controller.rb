@@ -14,20 +14,23 @@ class TrainingsController < ApplicationController
         @trainings = policy_scope(Training)
       end
       @bookings = Booking.all
-    # Index for HR Users, with limited visibility
-    elsif current_user.access_level == 'HR'
-      @trainings = policy_scope(Training)
-      @trainings = Training.joins(:client_contact).where(client_contacts: { email: current_user.email })
-      @bookings = Booking.where(user_id: current_user.id)
+    # # Index for HR Users, with limited visibility
+    # elsif current_user.access_level == 'HR'
+    #   @trainings = policy_scope(Training)
+    #   @trainings = Training.joins(:client_contact).where(client_contacts: { email: current_user.email })
+    #   @bookings = Booking.where(user_id: current_user.id)
     # Index for Sevener Users, with limited visibility
     else
-      # @trainings = policy_scope(Training)
-      # @trainings = []
-      # @sessions.each do |session|
-      #   @trainings << session.training if session.users.include?(current_user)
-      # end
       @trainings = policy_scope(Training).joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}")
     end
+  end
+
+  # Index when using Booklet Mode
+  def index_booklet
+
+    @trainings = Training.joins(:client_contact).where(client_contacts: { email: current_user.email })
+    authorize @trainings
+    @bookings = Booking.where(user_id: current_user.id)
   end
 
   # Index with weekly calendar view

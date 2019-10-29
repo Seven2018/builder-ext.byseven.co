@@ -77,12 +77,14 @@
         </ul>
       </div>
     </div>
-    <div class="log-box">
-      <h4 id='logs-title'>Log Records<span>Click to see</span></h4>
-      <div id='logs-list' class='hidden'>
-        <%= render 'comments', session: @session  %>
+    <% if  ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+      <div class="log-box">
+        <h4 id='logs-title'>Log Records<span>Click to see</span></h4>
+        <div id='logs-list' class='hidden'>
+          <%= render 'comments', session: @session  %>
+        </div>
       </div>
-    </div>
+    <% end %>
     <script>
       button = document.getElementById('logs-title');
       list = document.getElementById('logs-list');

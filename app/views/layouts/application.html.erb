@@ -25,6 +25,8 @@
         <% elsif params[:controller] == 'forms' && params[:action] == 'show' %>
         <% elsif params[:action] == 'viewer' %>
         <% elsif params[:action] == 'export' %>
+        <% elsif params[:controller] == 'merchandises' %>
+          <%= render 'shared/left-navbar-booklet' %>
         <% else %>
           <%= render 'shared/left-navbar' %>
           <%= render 'shared/left-navbar-mobile' %>
