@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
     if ['super admin', 'admin', 'training manager'].include? (current_user.access_level)
@@ -51,8 +51,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
     authorize @user
+    @user.destroy
     redirect_to users_path
   end
 

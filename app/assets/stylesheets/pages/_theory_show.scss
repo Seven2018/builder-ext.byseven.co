@@ -87,3 +87,20 @@ ul.theory-list {
     color: rgba(0,0,0,0.6);
   }
 }
+
+.theory-description-modal {
+  padding: 10px;
+}
+
+.theory-references-modal {
+  background-color: #E5E5E5;
+  padding: 10px;
+
+  a {
+    color: black;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
