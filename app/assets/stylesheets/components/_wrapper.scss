@@ -10,8 +10,10 @@ body {
   display: flex;
   justify-content: center;
   position: relative;
-  max-width: 1440px;
-  width: 100vw;
+  max-width: 1440px !important;
+  width: 100vw !important;
+  margin: 0px !important;
+  padding: 0px !important;
 }
 
 a {

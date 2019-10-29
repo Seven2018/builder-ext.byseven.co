@@ -34,7 +34,7 @@
             <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
               <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
             <% else %>
-              <li><button disabled class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
+              <li><button class='btn btn-add-user btn-add-user-disabled'>Trainers</button></li>
             <% end %>
           </ul>
         </div>
@@ -179,10 +179,6 @@
       </div>
     </div>
   <% end %>
-</div>
-
-
-<!-- Modals -->
 <div class="modal fade" id="editSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
     <%= render 'edit', session: @session %>
@@ -202,6 +198,10 @@
     </div>
   </div>
 <% end %>
+</div>
+
+
+<!-- Modals -->
 
 <script>
   $(document).ready(function() {

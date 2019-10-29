@@ -298,11 +298,11 @@ $timeline: #115173;
     align-items: center;
     position: absolute;
     top: 5px;
-    left: 54px;
+    right: -9.5px;
     color: $blue;
     font-weight: 600;
     font-size: 23px;
-    width: 105px !important;
+    // width: 105px !important;
   }
 
   .mod-duration {
@@ -694,7 +694,7 @@ input.btn {
     align-items: center;
     position: absolute;
     top: 40%;
-    left: 54px;
+    right: -9.5px;
     color: $blue;
     font-weight: 600;
     font-size: 23px;
