@@ -33,7 +33,7 @@ gem 'image_processing'
 gem 'invisible_captcha'
 gem 'bootstrap',     '4.1.1'
 gem 'material-sass', git: 'https://github.com/bricechapuis/material-sass'
-gem 'exception_handler', '~> 0.8.0.0'
+# gem 'exception_handler', '~> 0.8.0.0'
 
 
 gem 'dotenv-rails', groups: [:development, :test]
