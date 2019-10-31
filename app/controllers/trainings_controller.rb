@@ -36,7 +36,7 @@ class TrainingsController < ApplicationController
       @merchandises = Merchandise.joins(requests: :user).where(users: {client_company_id: current_user.client_company.id})
     else
       @requests = Request.all
-      @merchandises = Merchandises.all
+      @merchandises = Merchandise.all
     end
   end
 
