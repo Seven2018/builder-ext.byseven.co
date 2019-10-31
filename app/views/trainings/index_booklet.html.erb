@@ -18,7 +18,9 @@
         <div class="client-company-card">
           <div class="client-company-infos">
             <p><%= merch.name %></p>
-            <p>Requests : <%= merch.requests.joins(:user).where(users: {client_company_id: current_user.client_company.id}).count %></p>
+            <% if current_user.client_company.present? %>
+              <p>Requests : <%= merch.requests.joins(:user).where(users: {client_company_id: current_user.client_company.id}).count %></p>
+            <% end %>
           </div>
         </div>
       <% end %>
