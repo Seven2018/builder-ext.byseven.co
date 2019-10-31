@@ -5,6 +5,11 @@
       <div id="client-company-buttons">
         <%= simple_form_for :search, url: theories_path, method: 'GET' do |f| %>
           <%= f.input :name, placeholder: 'Search', label: false %>
+          <% if params[:search] %>
+            <%= link_to theories_path, class: 'theory-search-close' do %>
+              <i class="far fa-times-circle"></i>
+            <% end %>
+          <% end %>
         <% end %>
         <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
           <%= link_to new_theory_path do %>

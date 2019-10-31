@@ -34,8 +34,8 @@
       <% unless @invoice_item.type == 'InvoiceSevener' %>
         <div>
           <p><%= @invoice_item.client_company.name %></p>
-          <p><%= @invoice_item.client_company.address.split(',').first %></p>
-          <p><%= @invoice_item.client_company.address.split(',').last %></p>
+          <p><%= @invoice_item.client_company.address %></p>
+          <p><%= @invoice_item.client_company.zipcode %> <%= @invoice_item.client_company.city %></p>
         </div>
       <% else %>
         <div>

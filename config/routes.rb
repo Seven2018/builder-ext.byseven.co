@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   # get 'session_trainers/new'
   devise_for :users
   resources :users
+  get 'users_booklet', to: 'users#index_booklet', as: 'booklet_users'
   root to: 'pages#home'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # resources :intelligences
@@ -35,6 +36,7 @@ Rails.application.routes.draw do
   get 'invoice_line/:id/move_down', to: "invoice_lines#move_down", as: "move_down_invoice_line"
   get 'trainings_week', to: 'trainings#index_week', as: "index_week"
   get 'trainings_month', to: 'trainings#index_month', as: "index_month"
+  get 'trainings_booklet', to: 'trainings#index_booklet', as: 'booklet_trainings'
   resources :trainings do
     get 'session_viewer/:id', to: 'sessions#viewer', as: 'session_viewer'
     resources :sessions, only: [:new, :show, :create, :update, :destroy] do

@@ -2,19 +2,12 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :destroy]
 
   def index
-    if ['super admin', 'admin', 'training manager'].include? (current_user.access_level)
-      if params[:search]
-        @users = (policy_scope(User).where('lower(firstname) LIKE ?', "%#{params[:search][:name].donwcase}%") + policy_scope(User).where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%")).order(:lastname)
-      else
-        @users = policy_scope(User).order(:lastname)
-      end
-    elsif current_user.access_level == 'HR'
-      if params[:search]
-        @users = (policy_scope(User).where(client_company_id: current_user.client_company.id).where('lower(firstname) LIKE ?', "%#{params[:search][:name].donwcase}%") + policy_scope(User).where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%")).order(:lastname)
-      else
-        @users = policy_scope(User).where(client_company_id: current_user.client_company.id).order(:lastname)
-      end
-    end
+    index_function(policy_scope(User))
+  end
+
+  def index_booklet
+    index_function(User)
+    authorize @users
   end
 
   def show
@@ -71,5 +64,23 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:firstname, :lastname, :email, :password, :access_level, :picture, :linkedin, :description, :rating, :client_company_id)
+  end
+
+  def index_function(parameter)
+    if ['super admin', 'admin', 'training manager'].include? (current_user.access_level)
+      if params[:search]
+        @users = (parameter.where('lower(firstname) LIKE ?', "%#{params[:search][:name].downcase}%") + parameter.where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%"))
+        @users = @users.sort_by{ |user| user.lastname } if @users.present?
+      else
+        @users = parameter.order('lastname ASC')
+      end
+    elsif current_user.access_level == 'HR'
+      if params[:search]
+        @users = (parameter.where(client_company_id: current_user.client_company.id).where('lower(firstname) LIKE ?', "%#{params[:search][:name].downcase}%") + parameter.where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%"))
+        @users = @users.sort_by{ |user| user.lastname } if @users.present?
+      else
+        @users = parameter.where(client_company_id: current_user.client_company.id).order('lastname ASC')
+      end
+    end
   end
 end

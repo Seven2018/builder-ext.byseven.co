@@ -18,7 +18,11 @@ class ApplicationController < ActionController::Base
   protected
 
   def after_sign_in_path_for(resource)
-    trainings_path
+    if ['super admin', 'admin', 'training manager', 'sevener'].include?(current_user.access_level)
+      trainings_path
+    else
+      booklet_trainings_path
+    end
   end
 
   def after_sign_out_path_for(resource)

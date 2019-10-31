@@ -27,18 +27,27 @@
           <li role="presentation"><a href="#bookings" data-toggle="tab" class="active">Bookings</a></li>
         <% end %>
       <% end %>
-      <li><%= link_to "Calendar", index_week_path %></li>
+      <% if (['super admin', 'admin', 'training manager', 'sevener'].include? current_user.access_level) %>
+        <li><%= link_to "Calendar", index_week_path %></li>
+      <% end %>
     </ul>
-    <div id='training-buttons'>
-      <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
-        <%= f.input :title, placeholder: 'Search', label: false %>
-      <% end %>
-      <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
-        <%= link_to new_training_path do %>
-          <button class="btn btn-edit">New Training</button>
+    <% unless params[:action] == 'index_booklet' %>
+      <div id='training-buttons'>
+        <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
+          <%= f.input :title, placeholder: 'Search', label: false %>
+          <% if params[:search] %>
+            <%= link_to trainings_path, class: 'training-search-close' do %>
+              <i class="far fa-times-circle"></i>
+            <% end %>
+          <% end %>
         <% end %>
-      <% end %>
-    </div>
+        <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
+          <%= link_to new_training_path do %>
+            <button class="btn btn-edit">New Training</button>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
   <div class="tab-content">
     <% if params[:search] %>

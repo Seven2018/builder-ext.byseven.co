@@ -219,6 +219,19 @@ p.logistics-pdf {
   }
 }
 
+.invoice-total-details {
+  margin-left: 570px;
+
+  div {
+    margin: 0;
+    padding: 0;
+  }
+
+  div > p {
+    min-width: 130px;
+  }
+}
+
 .hidden {
   display: none;
 }
