@@ -13,18 +13,10 @@
     </div>
   </div>
   <div class="tab-content">
-    <% @merchandises.each do |merch| %>
-      <%= link_to merchandise_path(merch) do %>
         <div class="client-company-card">
           <div class="client-company-infos">
-            <p><%= merch.name %></p>
-            <% if current_user.client_company.present? %>
-              <p>Requests : <%= merch.requests.joins(:user).where(users: {client_company_id: current_user.client_company.id}).count %></p>
-            <% end %>
           </div>
         </div>
-      <% end %>
-    <% end %>
   </div>
 </div>
 
