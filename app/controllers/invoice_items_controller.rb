@@ -64,7 +64,7 @@ class InvoiceItemsController < ApplicationController
     @invoice.type == 'Invoice' ? @invoice.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+1) : @invoice.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Estimate.count+1)
     @invoice.type == 'Invoice' ? @invoice.status = 'Non payée' : @invoice.status = 'En attente'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
-    if @training.client_contact.client_company.client_company_type == 'Entreprise'
+    if @training.client_contact.client_company.client_company_type == 'Company'
       product = Product.find(2)
       quantity = 0
       @training.sessions.each do |session|

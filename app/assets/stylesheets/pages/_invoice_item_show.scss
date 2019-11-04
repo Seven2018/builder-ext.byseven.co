@@ -108,6 +108,19 @@
   margin-top: 250px;
 }
 
+.invoice-total-details {
+  margin-left: 220px;
+
+  div {
+    margin: 0;
+    padding: 0;
+  }
+
+  div > p {
+    min-width: 130px;
+  }
+}
+
 .invoice-bank-statement {
   margin-top: 50px;
 }
