@@ -87,7 +87,7 @@
   <div class="training-info">
     <% session_number = 0 %>
     <div class="sessions-cards">
-      <% @training.sessions.order(:date).each do |session| %>
+      <% @training.sessions.order(:date, :start_time).each do |session| %>
         <% session_number +=1 %>
         <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
           <div class="card-lg">
