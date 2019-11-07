@@ -50,6 +50,7 @@ Rails.application.routes.draw do
         get 'workshop_module_viewer/:id', to: 'workshop_modules#viewer', as: 'workshop_module_viewer'
         get 'workshop_module/:id/move_up', to: "workshop_modules#move_up", as: "move_up_workshop_module"
         get 'workshop_module/:id/move_down', to: "workshop_modules#move_down", as: "move_down_workshop_module"
+        get 'workshop_module_copy/:id', to: 'workshop_modules#copy', as: 'copy_workshop_module'
         resources :theory_workshops, only: [:create, :destroy]
       end
       resources :session_trainers, only: [:create, :destroy]

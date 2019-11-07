@@ -20,6 +20,14 @@ class Training < ApplicationRecord
     self.end_date
   end
 
+  def client_company
+    self.client_contact.client_company
+  end
+
+  def title_for_copy
+    self.title + ' - ' + self.end_date.strftime('%d/%m/%y')
+  end
+
   private
 
   def end_date_after_start_date

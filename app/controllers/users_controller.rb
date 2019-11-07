@@ -5,6 +5,7 @@ class UsersController < ApplicationController
     index_function(policy_scope(User))
   end
 
+  # Index view through 'Booklet'
   def index_booklet
     index_function(User)
     authorize @users

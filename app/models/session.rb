@@ -11,11 +11,16 @@ class Session < ApplicationRecord
   validates :title, :date, :duration, presence: true
   validate :date_included_in_training_dates?
   accepts_nested_attributes_for :session_trainers
+  default_scope { order(:date, :start_time) }
 
 
   def date_included_in_training_dates?
     if !date.nil? && (date < training.start_date || date > training.end_date)
       errors.add(:date, "must be included in training's dates")
     end
+  end
+
+  def title_date
+    "#{self.title} - #{self.date.strftime('%d/%m/%y')}"
   end
 end

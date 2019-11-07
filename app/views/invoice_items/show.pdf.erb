@@ -32,7 +32,7 @@
               <%= line.comments.html_safe %>
             <% end %></div>
       <% end %>
-      <% if @invoice_item.client_company.client_company_type == 'Ecole' %>
+      <% if @invoice_item.client_company.client_company_type == 'School' %>
         <br>
         <p>TVA non applicable, art. 293 B du CGI</p>
       <% end %>

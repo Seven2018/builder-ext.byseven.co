@@ -2,6 +2,7 @@ class ContentsController < ApplicationController
   before_action :set_content, only: [:show, :edit, :update, :destroy]
 
   def index
+    params[:search] ? @contents = policy_scope(Content).where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%").order(title: :asc) : @contents = policy_scope(Content).order(title: :asc)
     @contents = policy_scope(Content)
     @themes = Theme.all
   end

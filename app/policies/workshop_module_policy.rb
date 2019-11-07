@@ -6,38 +6,44 @@ class WorkshopModulePolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    check_access
   end
 
   def show?
     true
   end
 
-  def edit?
-    true
-  end
-
   def update?
-    true
+    check_access
   end
 
   def destroy?
-    true
+    check_access
   end
 
   def move_up?
-    true
+    check_access
   end
 
   def move_down?
-    true
+    check_access
   end
 
   def save?
-    true
+    check_access
   end
 
   def viewer?
     true
+  end
+
+  def copy?
+    check_access
+  end
+
+  private
+
+  def check_access
+    ['super admin', 'admin', 'training manager'].include? user.access_level
   end
 end
