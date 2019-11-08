@@ -3,13 +3,14 @@
     <div id="modal-title" style=" display: flex; justify-content: space-between;">
       <h3 class="modal-title" id="myModalLabel"><%= action.name %></h3>
     </div>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for action, as: :act do |f| %>
       <%= f.input :name %>
       <%= f.input :description, :input_html => {:rows => 2, style: 'width:100%;', maxlength: 140} %>
-      <%= f.association :intelligence, collection: Intelligence.all, include_blank: false %>
+      <%= f.association :intelligence1, collection: Intelligence.all, include_blank: false %>
+      <%= f.association :intelligence2, collection: Intelligence.all, include_blank: true %>
       <div style=" display: flex; justify-content: space-between;">
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
           <i class="fas fa-save"></i>

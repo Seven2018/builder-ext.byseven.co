@@ -20,11 +20,7 @@ class ClientContactsController < ApplicationController
     @client_company = ClientCompany.find(params[:client_company_id])
     authorize @client_contact
     @client_contact.client_company = @client_company
-    if @client_contact.save
-      redirect_to client_company_client_contact_path(@client_company, @client_contact)
-    else
-      render :new
-    end
+    @client_contact.save ? (redirect_to client_company_client_contact_path(@client_company, @client_contact)) : (render :new)
   end
 
   def edit
@@ -36,11 +32,7 @@ class ClientContactsController < ApplicationController
     @companies = ClientCompany.all
     authorize @client_contact
     @client_contact.update(clientcontact_params)
-    if @client_contact.save
-      redirect_to client_company_client_contact_path(@client_contact.client_company, @client_contact)
-    else
-      render "_edit"
-    end
+    @client_contact.save ? (redirect_to client_company_client_contact_path(@client_contact.client_company, @client_contact)) : (render "_edit")
   end
 
   def destroy
@@ -56,6 +48,6 @@ class ClientContactsController < ApplicationController
   end
 
   def clientcontact_params
-    params.require(:client_contact).permit(:name, :email, :title, :role_description, :client_company_id)
+    params.require(:client_contact).permit(:name, :email, :title, :role_description, :client_company_id, :billing_contact, :billing_address, :billing_zipcode, :billing_city)
   end
 end

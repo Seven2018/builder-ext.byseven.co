@@ -22,14 +22,14 @@
         <% if mod.position == 1 %>
           <a class='btn return-arrow'><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
         <% else %>
-          <%= link_to move_up_content_module_path(mod), remote: true, class: 'btn return-arrow' do %>
+          <%= link_to content_move_up_content_module_path(mod.content, mod), remote: true, class: 'btn return-arrow' do %>
             <i class="fas fa-arrow-up"></i>
           <% end %>
         <% end %>
         <% if mod.position ==  @content.content_modules.count %>
           <a class='btn return-arrow'><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
         <% else %>
-          <%= link_to move_down_content_module_path(mod), remote: true, class: 'btn return-arrow' do %>
+          <%= link_to content_move_down_content_module_path(mod.content, mod), remote: true, class: 'btn return-arrow' do %>
             <i class="fas fa-arrow-down"></i>
           <% end %>
         <% end %>

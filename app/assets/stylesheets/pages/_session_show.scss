@@ -176,6 +176,7 @@ background-color: rgba(0,0,0,0);
 }
 
 .sidebar-search {
+  position: relative;
 
   div > input {
     border-bottom: 1px solid white !important;
@@ -183,13 +184,19 @@ background-color: rgba(0,0,0,0);
 
   }
 
-  div > input::-webkit-input-placeholder {
+  div > input::-webkit-input-placeholder, i {
       color: white !important;
   }
 
   *::placeholder {
       color: white !important;
   }
+}
+
+.sidebar-search-close {
+  position: absolute;
+  right: 20px;
+  top: 10px;
 }
 
 #logs-title {

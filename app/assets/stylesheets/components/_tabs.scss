@@ -2,10 +2,16 @@
   border-bottom: none;
   list-style-type: none !important;
   box-shadow: none !important;
+  margin-bottom: 15px !important;
 }
 
 .nav-tabs > li {
   margin-bottom: 10px;
+  margin-right: 12px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .nav-tabs > li > a {

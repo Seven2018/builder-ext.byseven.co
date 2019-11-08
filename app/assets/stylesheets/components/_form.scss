@@ -6,7 +6,6 @@
   }
 }
 
-
 input:focus {
   box-shadow: none !important;
 }
@@ -38,5 +37,16 @@ input:focus {
 
   input {
     margin-right: 10px;
+  }
+}
+
+.form-group {
+
+  span {
+    display: flex;
+
+    label {
+      margin-left: 5px;
+    }
   }
 }

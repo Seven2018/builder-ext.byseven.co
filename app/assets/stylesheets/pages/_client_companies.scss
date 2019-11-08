@@ -29,6 +29,10 @@
   }
 }
 
+#client-company-buttons {
+  position: relative;
+}
+
 #client-contact-controls {
   display: flex;
   flex-direction: column;
@@ -50,7 +54,7 @@
   }
 }
 
-.client-company-list, .client-contact-list, .theory-list, .action-list {
+.client-company-list, .client-contact-list, .action-list {
   list-style: none;
   width: 100%;
   padding: 0;
@@ -105,7 +109,7 @@
   height:50px;
   width:50px;
   background-color: rgba(0,0,0,0);
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .client-company-infos {
@@ -137,6 +141,12 @@
   @include from-large {
     width: 30%;
   }
+}
+
+.client-company-search-close {
+  position: absolute;
+  right: 175px;
+  top: 10px;
 }
 
 //-------------------------------------------------------------------
@@ -176,8 +186,16 @@
   }
 }
 
-.client-company-logo-show, .user-picture-show {
+ .user-picture-show {
+  overflow: hidden;
   height: 100px;
+  width: 100px;
+ }
+
+.client-company-logo-show {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
 }
 
 .user-contact-card > div {
@@ -194,4 +212,18 @@
   @include from-large {
     margin-left: 120px;
   }
+}
+
+//FORM
+
+.client_company_address, .client_contact_billing_address {
+  width: 30%;
+}
+
+.client_company_zipcode, .client_contact_billing_zipcode {
+  width: 10%;
+}
+
+.client_company_city, .client_contact_billing_city {
+  width: 30%;
 }

@@ -10,7 +10,7 @@
     </div>
   </div>
   <h3><%= @theory.name %></h3>
-  <p><%= @theory.description.html_safe %></p>
+  <div class='theory-description'><%= @theory.description.html_safe %></div>
   <p class='theory-show-references'><%= @theory.references.html_safe unless @theory.references.nil? %></p>
   <br>
   <h5>Workshops</h5>

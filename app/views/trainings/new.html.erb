@@ -1,15 +1,20 @@
 <div class="container-new-form">
-  <h2>Add a new training</h2>
+  <div class="training-info-headers">
+    <%= link_to trainings_path, class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Add a new training</h3>
 
   <%= simple_form_for @training do |f| %>
     <%= f.input :title %>
-    <%= f.input :client_contact_id, :collection => ClientContact.all.order(:name), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name}" }, :label => 'Customer contact', :include_blank => false %>
-    <%= f.input :start_date, as: :string, required: true, input_html: {class: "datepicker"}, label: 'Start date' %>
-    <%= f.input :end_date, as: :string, input_html: {class: "datepicker"}, label: 'End date' %>
+    <%= f.input :client_contact_id, :collection => ClientContact.all.joins(:client_company).order('client_companies.name ASC, client_contacts.name ASC'), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name}" }, :label => 'Customer contact', :include_blank => false %>
+    <%= f.input :start_date, as: :string, required: true, input_html: { value: Date.today, class: "datepicker" }, label: 'Start date' %>
+    <%= f.input :end_date, as: :string, input_html: { value: (Date.today + 1.months), class: "datepicker" }, label: 'End date' %>
     <div class='form-group' style='display:flex;justify-content:space-between;'>
       <%= f.label :mode %>
-      <div style='width:75%;display:flex;justify-content: space-around;'>
-        <%= f.collection_radio_buttons :mode, [['Company', 'Company'], ['School', 'School']], :first, :last %>
+      <div style='width:75%;display:flex;justify-content: space-around;align-items:center;'>
+        <%= f.collection_radio_buttons :mode, [['Company', 'Company'], ['School', 'School']], :first, :last, checked: ['Company', 'Company'] %>
       </div>
     </div>
     <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit' %> </p>

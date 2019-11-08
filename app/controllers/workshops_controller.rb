@@ -84,16 +84,20 @@ class WorkshopsController < ApplicationController
     end
   end
 
+  # Allows the ordering of workshops (position)
   def move_up
     authorize @workshop
     @session = @workshop.session
+    # Creates an array of Workshops, ordered by position
     array = []
     @session.workshops.order('position ASC').each do |workshop|
       array << workshop
     end
+    # Moves a WorkshopModule in the array by switching indexes
     unless @workshop.position == 1
       array.insert((@workshop.position - 2), array.delete_at(@workshop.position - 1))
     end
+    # Uses the array to update the WorkshopModules positions
     array.compact.each do |workshop|
       workshop.update(position: array.index(workshop) + 1)
     end
@@ -104,16 +108,20 @@ class WorkshopsController < ApplicationController
     end
   end
 
+  # Allows the ordering of workshops (position)
   def move_down
     authorize @workshop
     @session = @workshop.session
+    # Creates an array of Workshops, ordered by position
     array = []
     @session.workshops.order('position ASC').each do |workshop|
       array << workshop
     end
+    # Moves a WorkshopModule in the array by switching indexes
     unless @workshop.position == array.compact.count
       array.insert((@workshop.position), array.delete_at(@workshop.position - 1))
     end
+    # Uses the array to update the WorkshopModules positions
     array.compact.each do |workshop|
       workshop.update(position: array.index(workshop) + 1)
     end
@@ -133,6 +141,7 @@ class WorkshopsController < ApplicationController
   #   end
   # end
 
+  # "View" mode
   def viewer
     authorize @workshop
   end

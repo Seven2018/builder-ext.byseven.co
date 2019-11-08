@@ -1,0 +1,40 @@
+<div class="container-seven container-seven-centered">
+  <div id='client-company-index'>
+    <div id="client-company-controls">
+      <h3>Users list</h3>
+      <div id="client-company-buttons">
+        <%= simple_form_for :search, url: users_path, method: 'GET' do |f| %>
+          <%= f.input :name, placeholder: 'Search', label: false %>
+          <% if params[:search] %>
+            <%= link_to users_path, class: 'user-search-close' do %>
+              <i class="far fa-times-circle"></i>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% if ['super admin', 'admin', 'HR'].include? current_user.access_level %>
+          <%= link_to new_user_path do %>
+            <button class="btn btn-edit">New User</button>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <ul class="client-contact-list">
+      <% @users.each do |user| %>
+        <li>
+          <%= link_to user_path(user) do %>
+            <div class="client-contact-card user-contact-card">
+              <img class='client-company-logo-index' src='<%= "#{user.picture}" %>'>
+              <div class="client-company-type-address">
+                <p><%= "#{user.firstname} #{user.lastname}" %></p>
+                <div>
+                  <p><%= user.email %></p>
+                  <p><%= user.access_level.capitalize %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

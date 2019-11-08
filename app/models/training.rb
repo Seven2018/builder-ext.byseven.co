@@ -1,12 +1,13 @@
 class Training < ApplicationRecord
   belongs_to :client_contact
-  has_many :sessions, :dependent => :destroy
-  has_many :training_ownerships, :dependent => :destroy
+  belongs_to :booking, optional: true
+  has_many :sessions, dependent: :destroy
+  has_many :training_ownerships, dependent: :destroy
   has_many :users, through: :training_ownerships
   has_many :session_trainers, through: :sessions
   has_many :invoice_items
   has_many :invoices
-  has_many :forms
+  has_many :forms, dependent: :destroy
   validates :title, :start_date, :end_date, presence: true
   validate :end_date_after_start_date
   accepts_nested_attributes_for :training_ownerships
@@ -17,6 +18,14 @@ class Training < ApplicationRecord
 
   def end_time
     self.end_date
+  end
+
+  def client_company
+    self.client_contact.client_company
+  end
+
+  def title_for_copy
+    self.title + ' - ' + self.end_date.strftime('%d/%m/%y')
   end
 
   private

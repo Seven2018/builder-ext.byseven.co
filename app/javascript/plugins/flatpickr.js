@@ -11,6 +11,7 @@ flatpickr(".timepicker", {
   noCalendar: true,
   dateFormat: "H:i",
   time_24hr: true,
-  defaultHour: 9
+  defaultHour: 9,
+  minuteIncrement: 10
 })
 

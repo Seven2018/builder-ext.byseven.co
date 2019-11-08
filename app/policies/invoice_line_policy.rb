@@ -17,6 +17,14 @@ class InvoiceLinePolicy < ApplicationPolicy
     check_access
   end
 
+  def move_up?
+    check_access
+  end
+
+  def move_down?
+    check_access
+  end
+
   private
 
   def check_access

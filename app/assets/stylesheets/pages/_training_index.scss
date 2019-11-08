@@ -17,25 +17,49 @@
 .row {
   background-color: white;
   background-color: white;
-  padding-top: 36px;
+  padding-top: 25px;
   padding-left: 25px;
   padding-right: 0px;
   margin-left: 85px;
   margin-right: 65px;
-  margin-top: 32px;
+  margin-top: 25px;
 }
 
 
 .trainings-title {
   margin-top: 37px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   h3 {
     margin: 0;
   }
+
+  @include from-large {
+    flex-direction: row;
+  }
 }
 
 .hidden {
   display: none;
+}
+
+#training-buttons {
+  display: flex;
+  position: relative;
+
+  @include from-large {
+    display: flex;
+  }
+
+  a {
+    margin-left: 20px;
+  }
+}
+
+.training-search-close {
+  position: absolute;
+  right: 170px;
+  top: 10px;
 }

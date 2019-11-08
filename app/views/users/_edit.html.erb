@@ -3,17 +3,22 @@
     <div id="modal-title" style=" display: flex; justify-content: space-between;">
       <h3 class="modal-title" id="myModalLabel"><%= @user.firstname %></h3>
     </div>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body">
     <%= simple_form_for @user do |f| %>
       <%= f.input :firstname %>
       <%= f.input :lastname %>
       <%= f.input :email %>
+      <%= f.input :access_level, collection: ['super admin', 'admin', 'training manager', 'sevener', 'HR', 'employee'], include_blank: false %>
+      <% if current_user.access_level == 'HR' %>
+        <%= f.association :client_company, collection: ClientCompany.where(id: current_user.client_company.id), include_blank: false; %>
+      <% else %>
+        <%= f.association :client_company, collection: ClientCompany.order('name ASC') %>
+      <% end %>
       <%= f.input :linkedin %>
       <%= f.input :picture, label: 'Photo URL' %>
       <%= f.input :description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
-      <%= f.input :access_level, collection: ['super admin', 'admin', 'training manager', 'sevener'], include_blank: false %>
       <%= f.input :rating, input_html: { min: '0', max: '5' }  %>
       <div style=" display: flex; justify-content: space-between;">
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>

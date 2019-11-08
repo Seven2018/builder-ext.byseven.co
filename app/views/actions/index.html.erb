@@ -2,9 +2,14 @@
   <div id='client-company-index'>
     <div id='client-company-controls'>
       <h3>Actions List</h3>
-      <div id="client_company_buttons">
-        <%= simple_form_for :search, url: theories_path, method: 'GET' do |f| %>
+      <div id="client-company-buttons">
+        <%= simple_form_for :search, url: actions_path, method: 'GET' do |f| %>
           <%= f.input :name, placeholder: 'Search', label: false %>
+          <% if params[:search] %>
+            <%= link_to actions_path, class: 'action-search-close' do %>
+              <i class="far fa-times-circle"></i>
+            <% end %>
+          <% end %>
         <% end %>
         <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
           <%= link_to new_action_path do %>
@@ -20,7 +25,12 @@
           <div class="action-card">
             <div class="action-infos">
               <p><%= action.name %></p>
-              <p><%= action.intelligence.name %></p>
+              <% if action.intelligence1 %>
+                <p><%= action.intelligence1.name %></p>
+              <% end %>
+              <% if action.intelligence2 %>
+                <p><%= action.intelligence2.name %></p>
+              <% end %>
               <p><%= action.description %></p>
             </div>
           </div>

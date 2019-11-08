@@ -1,4 +1,4 @@
-<div class="left-navbar">
+<div class="left-navbar left-navbar-builder">
   <div class="dropdown">
     <div class="left-navbar-top">
       <% if user_signed_in? %>
@@ -12,42 +12,50 @@
           <%= link_to "Log out", destroy_user_session_path, method: :delete %>
         </li>
       </ul>
+      <% if user_signed_in? && current_user.access_level == 'super admin' %>
+        <%= link_to booklet_trainings_path, class: 'left-navbar-toggle' do %>
+        <% end %>
+      <% end %>
     </div>
   </div>
   <div class="left-navbar-middle">
     <% if user_signed_in? %>
-      <%= link_to trainings_path, style: 'color: white', class: 'left-buttons' do %>
+      <%= link_to trainings_path, style: 'color: white;', class: 'left-buttons' do %>
         <div class="left-menu-list">
           <i class="fas fa-tasks"></i> <div class="left-menu-title"><h4>Trainings</h4></div>
         </div>
       <% end %>
-      <% if ['super admin', 'admin'].include? current_user.access_level %>
-        <%= link_to contents_path, style: 'color: white', class: 'left-buttons' do %>
+      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+        <%= link_to contents_path, style: 'color: white;', class: 'left-buttons' do %>
           <div class="left-menu-list">
             <i class="fas fa-toolbox"></i> <div class="left-menu-title"><h4>Workshops</h4></div>
           </div>
         <% end %>
-        <%= link_to client_companies_path, style: 'color: white', class: 'left-buttons' do %>
+        <%= link_to client_companies_path, style: 'color: white;', class: 'left-buttons' do %>
           <div class="left-menu-list">
             <i class="far fa-copyright"></i> <div class="left-menu-title"><h4>Customers</h4></div>
           </div>
         <% end %>
-        <%= link_to users_path, style: 'color: white', class: 'left-buttons' do %>
+      <% end %>
+      <% if ['super admin', 'admin', 'training manager', 'HR'].include? current_user.access_level %>
+        <%= link_to users_path, style: 'color: white;', class: 'left-buttons' do %>
           <div class="left-menu-list">
             <i class="fas fa-user-tie"></i> <div class="left-menu-title"><h4>Users</h4></div>
           </div>
         <% end %>
-        <%= link_to actions_path, style: 'color: white', class: 'left-buttons' do %>
+      <% end %>
+      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+        <%= link_to actions_path, style: 'color: white;', class: 'left-buttons' do %>
           <div class="left-menu-list">
             <i class="fas fa-running"></i> <div class="left-menu-title"><h4>Actions</h4></div>
           </div>
         <% end %>
-        <%= link_to theories_path, style: 'color: white', class: 'left-buttons' do %>
+        <%= link_to theories_path, style: 'color: white;', class: 'left-buttons' do %>
           <div class="left-menu-list">
             <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Library</h4></div>
           </div>
         <% end %>
-        <%= link_to report_path, style: 'color: white', class: 'left-buttons' do %>
+        <%= link_to report_path, style: 'color: white;', class: 'left-buttons' do %>
           <div class="left-menu-list">
             <i class="fas fa-chart-bar"></i> <div class="left-menu-title"><h4>Reports</h4></div>
           </div>

@@ -3,12 +3,11 @@
     <div id="modal-title" style=" display: flex; justify-content: space-between;">
       <h3 class="modal-title" id="myModalLabel"><%= @content.title %></h3>
     </div>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for @content do |f| %>
       <%= f.input :title %>
-      <%= f.input :description, label: 'Image intro (url)', input_html: { style: 'width: 100%;'} %>
       <%= f.association :theme, collection: Theme.all, selected: @content.theme_id %>
       <div style=" display: flex; justify-content: space-between;">
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>

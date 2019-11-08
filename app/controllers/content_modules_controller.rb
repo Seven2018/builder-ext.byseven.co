@@ -49,16 +49,20 @@ class ContentModulesController < ApplicationController
     redirect_to content_path(@content)
   end
 
+  # Allows the ordering of modules (position)
   def move_up
     authorize @content_module
     @content = @content_module.content
+    # Creates an array of ContentModules, ordered by position
     array = []
     @content.content_modules.order('position ASC').each do |mod|
       array << mod
     end
+    # Moves a ContentModule in the array by switching indexes
     unless @content_module.position == 1
       array.insert((@content_module.position - 2), array.delete_at(@content_module.position - 1))
     end
+    # Uses the array to update the ContentModules positions
     array.compact.each do |mod|
       mod.update(position: array.index(mod) + 1)
     end
@@ -69,16 +73,20 @@ class ContentModulesController < ApplicationController
     end
   end
 
+  # Allows the ordering of modules (position)
   def move_down
     authorize @content_module
     @content = @content_module.content
+    # Creates an array of ContentModules, ordered by position
     array = []
     @content.content_modules.order('position ASC').each do |mod|
       array << mod
     end
+    # Moves a ContentModule in the array by switching indexes
     unless @content_module.position == array.compact.count
       array.insert((@content_module.position), array.delete_at(@content_module.position - 1))
     end
+    # Uses the array to update the ContentModules positions
     array.compact.each do |mod|
       mod.update(position: array.index(mod) + 1)
     end
@@ -95,6 +103,7 @@ class ContentModulesController < ApplicationController
     @content_module = ContentModule.find(params[:id])
   end
 
+  # Updates Content duration as sum of ContentModules durations
   def update_duration
     result = []
     @content.content_modules.each do |mod|
@@ -105,6 +114,6 @@ class ContentModulesController < ApplicationController
   end
 
   def content_module_params
-    params.require(:content_module).permit(:title, :instructions, :duration, :url1, :url2, :image1, :image2, :logistics, :action1_id, :action2_id, :comments, :content_id)
+    params.require(:content_module).permit(:title, :instructions, :duration, :logistics, :action1_id, :action2_id, :comments, :content_id)
   end
 end

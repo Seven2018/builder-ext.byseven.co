@@ -12,7 +12,8 @@
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
-    <script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>
+    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script> -->
+    <script src="https://cdn.ckeditor.com/4.13.0/full/ckeditor.js"></script>
     <%= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
     <%= javascript_pack_tag 'application' %>
     <!-- <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet"> -->
@@ -24,6 +25,8 @@
         <% elsif params[:controller] == 'forms' && params[:action] == 'show' %>
         <% elsif params[:action] == 'viewer' %>
         <% elsif params[:action] == 'export' %>
+        <% elsif params[:controller] == 'merchandises' || (params[:controller] == 'trainings' && params[:action] == 'index_booklet') || (params[:controller] == 'users' && params[:action] == 'index_booklet') %>
+          <%= render 'shared/left-navbar-booklet' %>
         <% else %>
           <%= render 'shared/left-navbar' %>
           <%= render 'shared/left-navbar-mobile' %>

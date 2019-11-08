@@ -1,3 +1,9 @@
+.theory-description {
+  img {
+    width: 100%;
+  }
+}
+
 .theory-show-references {
 
   a:hover {
@@ -10,12 +16,13 @@
 }
 
 .theory-list-title {
-  height: 40px;
+  min-height: 40px;
   margin: 30px 0 60px 0;
   padding: 0 5px;
   background-color: #606060;
   color: white;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
   p {
@@ -30,6 +37,23 @@
   button:last-child {
     margin: 0 10px 0 5px !important;
     color: white !important;
+  }
+}
+
+.theory-list {
+  width: 50%;
+
+  a {
+    color: white;
+  }
+}
+
+ul.theory-list {
+  width: 100%;
+  list-style: none;
+
+  a {
+    color: black;
   }
 }
 
@@ -62,4 +86,27 @@
   p {
     color: rgba(0,0,0,0.6);
   }
+}
+
+.theory-description-modal {
+  padding: 10px;
+}
+
+.theory-references-modal {
+  background-color: #E5E5E5;
+  padding: 10px;
+
+  a {
+    color: black;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.theory-search-close {
+  position: absolute;
+  right: 155px;
+  top: 10px;
 }

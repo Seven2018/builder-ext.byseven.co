@@ -1,0 +1,30 @@
+<div class="container-seven" style="background-color: white">
+  <h3 id='dashboard-title'><%= "Dashboard" %></h3>
+  <div class="trainings-title">
+    <div id='training-buttons'>
+      <%= simple_form_for :search, url: booklet_trainings_path, method: 'GET' do |f| %>
+        <%= f.input :title, placeholder: 'Search', label: false %>
+        <% if params[:search] %>
+          <%= link_to booklet_trainings_path, class: 'training-search-close' do %>
+            <i class="far fa-times-circle"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="tab-content">
+    <% @merchandises.each do |merch| %>
+      <%= link_to merchandise_path(merch) do %>
+        <div class="client-company-card">
+          <div class="client-company-infos">
+            <p><%= merch.name %></p>
+            <% if current_user.client_company.present? %>
+              <p>Requests : <%= merch.requests.joins(:user).where(users: {client_company_id: current_user.client_company.id}).count %></p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+

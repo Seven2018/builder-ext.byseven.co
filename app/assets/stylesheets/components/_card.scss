@@ -261,6 +261,7 @@ $timeline: #115173;
 #items, #items-viewer {
     margin-bottom: 20px;
     padding-right: 0;
+
     .card-mods {
     display: flex;
     margin: 0;
@@ -285,6 +286,9 @@ $timeline: #115173;
 
     @include from-large {
       display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       flex-shrink: 0;
     }
   }
@@ -294,16 +298,14 @@ $timeline: #115173;
     align-items: center;
     position: absolute;
     top: 5px;
-    left: 54px;
+    right: -9.5px;
     color: $blue;
     font-weight: 600;
     font-size: 23px;
+    // width: 105px !important;
   }
 
   .mod-duration {
-    position: absolute;
-    bottom: 115.575px;
-    right: 23px;
     color: $blue;
     font-weight: 600;
     font-size: 20px;
@@ -358,7 +360,7 @@ $timeline: #115173;
     }
 
     @include from-large {
-      width: 700px;
+      flex-grow: 1;
       padding: 20px;
     }
   }
@@ -535,10 +537,6 @@ input.btn {
   padding: 15.75px 17px !important;
   box-shadow: none !important;
 
-  &:hover {
-    background-color: ghostwhite !important;
-  }
-
   i {
     font-size: 14px;
   }
@@ -583,7 +581,7 @@ input.btn {
 }
 
 .btn-edit-pen, .btn-edit-menu {
-  padding: 15.75px 16px !important;
+  padding: 16px 16px !important;
   min-width: 0 !important;
 }
 
@@ -600,7 +598,7 @@ input.btn {
 }
 
 .btn-edit-disk, .btn-edit-trash {
-  padding: 15.75px 17px !important;
+  padding: 16px 17px !important;
   min-width: 0 !important;
   color: white !important;
 }
@@ -608,6 +606,16 @@ input.btn {
 .btn-edit-eye {
   padding: 15.75px 15px !important;
   min-width: 0 !important;
+}
+
+.btn-edit-cross {
+  padding: 16.75px 19px !important;
+  min-width: 0 !important;
+  box-shadow: none !important;
+
+  i {
+    font-size: 14px;
+  }
 }
 
 .btn-add-user {
@@ -626,10 +634,6 @@ input.btn {
     background-color: white !important;
     background-image: none !important;
   }
-}
-
-#new-training {
-  font-size: 20px;
 }
 
 .card-mods:last-child {
@@ -690,7 +694,7 @@ input.btn {
     align-items: center;
     position: absolute;
     top: 40%;
-    left: 54px;
+    right: -9.5px;
     color: $blue;
     font-weight: 600;
     font-size: 23px;

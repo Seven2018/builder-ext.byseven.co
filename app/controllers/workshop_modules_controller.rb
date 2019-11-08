@@ -1,5 +1,5 @@
 class WorkshopModulesController < ApplicationController
-before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :move_up, :move_down, :viewer]
+before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :move_up, :move_down, :viewer, :copy]
 
   def show
     authorize @workshop_module
@@ -51,16 +51,20 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
   end
 
+  # Allows the ordering of modules (position)
   def move_up
     authorize @workshop_module
     @workshop = @workshop_module.workshop
+    # Creates an array of WorkshopModules, ordered by position
     array = []
     @workshop.workshop_modules.order('position ASC').each do |mod|
       array << mod
     end
+    # Moves a WorkshopModule in the array by switching indexes
     unless @workshop_module.position == 1
       array.insert((@workshop_module.position - 2), array.delete_at(@workshop_module.position - 1))
     end
+    # Uses the array to update the WorkshopModules positions
     array.compact.each do |mod|
       mod.update(position: array.index(mod) + 1)
     end
@@ -71,16 +75,20 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     end
   end
 
+  # Allows the ordering of modules (position)
   def move_down
     authorize @workshop_module
     @workshop = @workshop_module.workshop
+    # Creates an array of WorkshopModules, ordered by position
     array = []
     @workshop.workshop_modules.order('position ASC').each do |mod|
       array << mod
     end
+    # Moves a WorkshopModule in the array by switching indexes
     unless @workshop_module.position == array.compact.count
       array.insert((@workshop_module.position), array.delete_at(@workshop_module.position - 1))
     end
+    # Uses the array to update the WorkshopModules positions
     array.compact.each do |mod|
       mod.update(position: array.index(mod) + 1)
     end
@@ -91,8 +99,27 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     end
   end
 
+  # "View" mode
   def viewer
     authorize @workshop_module
+  end
+
+  # Allows to create a copy of a WorkshopModule into targeted Workshop
+  def copy
+    authorize @workshop_module
+    # Targeted Workshop
+    @workshop = Workshop.find(params[:copy][:workshop_id])
+    # Create the copy, and rename it if applicable
+    @new_workshop_module = WorkshopModule.new(@workshop_module.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
+    @new_workshop_module.title = params[:copy][:rename] if params[:copy][:rename].present?
+    @new_workshop_module.workshop_id = @workshop.id
+    @new_workshop_module.position = @workshop.workshop_modules.count + 1
+    if @new_workshop_module.save
+      update_duration
+      redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
+    else
+      raise
+    end
   end
 
  private
@@ -111,6 +138,6 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
   end
 
   def workshop_module_params
-    params.require(:workshop_module).permit(:title, :instructions, :duration, :url1, :url2, :image1, :image2, :logistics, :action1_id, :action2_id, :comments, :workshop_id, :user_id)
+    params.require(:workshop_module).permit(:title, :instructions, :duration, :logistics, :action1_id, :action2_id, :comments, :workshop_id, :user_id)
   end
 end

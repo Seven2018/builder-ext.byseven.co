@@ -4,6 +4,10 @@
   @include from-large {
     display: block;
   }
+
+  p {
+    margin: 0;
+  }
 }
 
 .invoice-item-container-mobile {
@@ -45,12 +49,20 @@
 }
 
 .invoice-desc-line > div {
-  width: 45%;
+  width: 55%;
 
   p {
     width: 100px;
     text-align: right;
   }
+}
+
+.invoice-desc-line-controls {
+  display: flex;
+  flex-direction: column !important;
+  position: absolute;
+  left: -31px;
+  top: 0;
 }
 
 .invoice-line-comments {
@@ -94,6 +106,19 @@
 .invoice-total {
   width: 100%;
   margin-top: 250px;
+}
+
+.invoice-total-details {
+  margin-left: 220px;
+
+  div {
+    margin: 0;
+    padding: 0;
+  }
+
+  div > p {
+    min-width: 130px;
+  }
 }
 
 .invoice-bank-statement {

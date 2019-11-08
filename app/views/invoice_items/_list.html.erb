@@ -9,6 +9,7 @@
             <% elsif item.class == Estimate %>
               <%=  image_tag 'estimate-logo.jpg', class: 'client-company-logo-index' %>
             <% end %>
+            <p><%= item.training.title %></p>
             <p><%= item.uuid %></p>
           </div>
           <div class='item-status' style='width: 50%;display:flex; justify-content: space-between;'>

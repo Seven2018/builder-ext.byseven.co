@@ -10,9 +10,8 @@
               <div class="card-main-sm">
                 <div class='client-logo' style="background-image: url(<%= session.training.client_contact.client_company.logo %>); background-size: 50px 50px; background-repeat: no-repeat;"></div>
                 <h5><%= session.training.title %></h5>
-                <h5><%= session.title %></h5>
                 <div class="card-infos">
-                  <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><p><%= "#{session.start_time.strftime('%H:%M')} - #{session.end_time.strftime('%H:%M')}" %></p>
+                  <div class='card-infos-elements'><p><%= "#{session.start_time.strftime('%H:%M')} - #{session.end_time.strftime('%H:%M')}" %></p>
                   </div>
                 </div>
                 <div class="card-trainers">

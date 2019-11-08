@@ -8,15 +8,15 @@
     <h3><%= @content_module.title %> - <%= @content_module.duration %> minutes</h3>
     <br>
     <p><%= @content_module.instructions.html_safe %></p>
+    <% if @content_module.comments && @content_module.comments != "" %>
+      <p>Comments : <%= @content_module.comments %></p>
+    <% end %>
     <div class='content-logistics'><p class='logistics-label'>Logistics : </p><div><%= @content_module.logistics.html_safe %></div></div>
-    <p><%= @content_module.url1 %></p>
-    <p><%= @content_module.url2 %></p>
     <% if @content_module.action1 %>
       <p class='content-actions'>Action 1 (participant): <%= @content_module.action1.name %></p>
     <% end %>
     <% if @content_module.action2 %>
       <p class='content-actions'>Action 2 (participant) : <%= @content_module.action2.name %></p>
     <% end %>
-    <p>Comments : <%= @content_module.comments %></p>
   </div>
 </div>

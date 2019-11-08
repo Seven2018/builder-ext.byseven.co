@@ -1,0 +1,49 @@
+<div class="left-navbar left-navbar-booklet">
+  <div class="dropdown">
+    <div class="left-navbar-top">
+      <% if user_signed_in? %>
+        <img src='<%= "#{current_user.picture}" %>' class="avatar dropdown-toggle" id="navbar-wagon-menu" data-toggle="dropdown">
+      <% end %>
+      <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
+        <% if user_signed_in? %>
+          <li><%= link_to "Profile", user_path(current_user) %></li>
+        <% end %>
+        <li>
+          <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+        </li>
+      </ul>
+      <% if user_signed_in? && current_user.access_level == 'super admin' %>
+        <%= link_to trainings_path, class: 'left-navbar-toggle left-navbar-toggle-booklet' do %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="left-navbar-middle">
+    <% if user_signed_in? %>
+      <%= link_to booklet_trainings_path, style: 'color: white;', class: 'left-buttons' do %>
+        <div class="left-menu-list">
+          <i class="fas fa-tasks"></i> <div class="left-menu-title"><h4>Trainings</h4></div>
+        </div>
+      <% end %>
+      <% if ['super admin', 'admin', 'training manager', 'HR'].include? current_user.access_level %>
+        <%= link_to booklet_users_path, style: 'color: white;', class: 'left-buttons' do %>
+          <div class="left-menu-list">
+            <i class="fas fa-user-tie"></i> <div class="left-menu-title"><h4>Users</h4></div>
+          </div>
+        <% end %>
+      <% end %>
+      <% if ['super admin', 'admin', 'training manager', 'HR', 'employee'].include? current_user.access_level %>
+        <%= link_to merchandises_path, style: 'color: white;', class: 'left-buttons' do  %>
+          <div class="left-menu-list">
+            <i class="fas fa-book-open"></i> <div class="left-menu-title"><h4>Booklet</h4></div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="left-navbar-bottom">
+    <%= link_to root_path, class: "left-navbar-logo" do %>
+      <%= image_tag "logo-seven-navbar.png" %>
+    <% end %>
+  </div>
+</div>

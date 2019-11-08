@@ -3,7 +3,7 @@
     <div id="modal-title" style=" display: flex; justify-content: space-between;">
       <h3 class="modal-title" id="myModalLabel"><%= @client_contact.name %></h3>
     </div>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body">
     <%= simple_form_for [@client_contact.client_company, @client_contact] do |f| %>
@@ -12,6 +12,12 @@
       <%= f.input :title %>
       <%= f.input :role_description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
       <%= f.input :client_company_id, collection: ClientCompany.all.order(:name) %>
+      <%= f.input :billing_contact %>
+      <div style='display:flex;justify-content:space-between;'>
+        <%= f.input :billing_address, placeholder: 'ex: 5 rue Moret' %>
+        <%= f.input :billing_zipcode, placeholder: 'ex: 75011', input_html: { maxlength: 5 } %>
+        <%= f.input :billing_city, placeholder: 'ex: Paris' %>
+      </div>
       <div style=" display: flex; justify-content: space-between;">
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
           <i class="fas fa-save"></i>

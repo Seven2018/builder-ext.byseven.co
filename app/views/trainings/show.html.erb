@@ -19,10 +19,9 @@
         </ul>
       </div>
     <% elsif @training.session_trainers.where(user_id: current_user.id).any? %>
-      <div>
-        <%= link_to new_sevener_invoice_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'InvoiceSevener'), method: :post do %>
-            <button class="btn btn-edit">Create my invoice</button><% end %>
-      </div>
+        <%# link_to new_sevener_invoice_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'InvoiceSevener'), method: :post do %>
+          <!-- <button class="btn btn-edit">Create my invoice</button> -->
+        <%# end %>
     <% end %>
   </div>
   <div class="middle-info">
@@ -48,6 +47,12 @@
             <% else %>
               <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newOwner'>Owner</button></li>
             <% end %>
+          <% else %>
+            <% if @training.users.count > 1 %>
+              <li><button class='btn btn-add-user btn-add-user-disabled'>Owners</button></li>
+            <% else %>
+              <li><button class='btn btn-add-user btn-add-user-disabled'>Owner</button></li>
+            <% end %>
           <% end %>
         </ul>
       </div>
@@ -65,7 +70,7 @@
           <% @training.sessions.each do |session| %>
             <% session.users.each do |trainer| %>
               <% trainer_array << trainer %>
-              <% if trainer_array.uniq.count == trainer_array.count %>
+              <% unless trainer_array.count(trainer) > 1 %>
                 <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm'></a></li>
               <% end %>
             <% end %>
@@ -82,7 +87,7 @@
   <div class="training-info">
     <% session_number = 0 %>
     <div class="sessions-cards">
-      <% @training.sessions.order(:date).each do |session| %>
+      <% @training.sessions.order(:date, :start_time).each do |session| %>
         <% session_number +=1 %>
         <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
           <div class="card-lg">
@@ -91,8 +96,10 @@
                 <div><p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p></div>
                 <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
                 <div><i class="fas fa-users"></i><p style='margin-left: 5px;'><%= session.attendee_number %></p></div>
-                <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-astronaut"></i></button>
-                <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
+                <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
+                  <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-astronaut"></i></button>
+                  <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
+                <% end %>
               <% end %>
             </div>
             <div class="card-main-lg">

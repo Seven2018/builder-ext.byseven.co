@@ -6,8 +6,12 @@ class User < ApplicationRecord
   has_many :trainings, through: :training_ownerships
   has_many :session_trainers
   has_many :sessions, through: :session_trainers
+  has_many :workshop_modules
   has_many :comments
-  validates :access_level, inclusion: { in: ['sevener', 'training manager', 'admin', 'super admin'] }
+  has_many :bookings
+  has_many :requests
+  belongs_to :client_company, optional: true
+  validates :access_level, inclusion: { in: ['sevener', 'training manager', 'admin', 'super admin', 'HR', 'employee'] }
 
   def fullname
     "#{firstname} #{lastname}"

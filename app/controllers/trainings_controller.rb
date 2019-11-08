@@ -5,23 +5,49 @@ class TrainingsController < ApplicationController
     @sessions = Session.all
     @session_trainer = SessionTrainer.new
     @form = Form.new
+    # Index with 'search' option and global visibility for SEVEN Users
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
-      @trainings = policy_scope(Training).order('start_date ASC')
-    else
-      @trainings = policy_scope(Training)
-      @trainings = []
-      @sessions.each do |session|
-        @trainings << session.training if session.users.include?(current_user)
+      if params[:search]
+        @trainings = policy_scope(Training)
+        @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%").order(title: :asc)) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
+      else
+        @trainings = policy_scope(Training)
       end
+      @bookings = Booking.all
+    # # Index for HR Users, with limited visibility
+    # elsif current_user.access_level == 'HR'
+    #   @trainings = policy_scope(Training)
+    #   @trainings = Training.joins(:client_contact).where(client_contacts: { email: current_user.email })
+    #   @bookings = Booking.where(user_id: current_user.id)
+    # Index for Sevener Users, with limited visibility
+    else
+      @trainings = policy_scope(Training).joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}")
     end
   end
 
+  # Index when using Booklet Mode
+  def index_booklet
+    @trainings = Training.joins(:client_contact).where(client_contacts: { email: current_user.email })
+    authorize @trainings
+
+    @bookings = Booking.where(user_id: current_user.id)
+    if current_user.client_company.present?
+      @requests = Request.joins(:user).where(users: {client_company_id: current_user.client_company.id})
+      @merchandises = Merchandise.joins(requests: :user).where(users: {client_company_id: current_user.client_company.id})
+    else
+      @requests = Request.all
+      @merchandises = Merchandise.all
+    end
+  end
+
+  # Index with weekly calendar view
   def index_week
     @trainings = Training.all
     @sessions = Session.all
     authorize @trainings
   end
 
+  # Index with monthly calendar view
   def index_month
     @trainings = Training.all
     @sessions = Session.all

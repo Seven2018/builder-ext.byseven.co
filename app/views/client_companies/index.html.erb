@@ -2,9 +2,14 @@
   <div id='client-company-index'>
     <div id="client-company-controls">
       <h3>Customers List</h3>
-      <div id="client_company_buttons">
+      <div id="client-company-buttons">
         <%= simple_form_for :search, url: client_companies_path, method: 'GET' do |f| %>
           <%= f.input :name, placeholder: 'Search', label: false %>
+          <% if params[:search] %>
+            <%= link_to client_companies_path, class: 'client-company-search-close' do %>
+              <i class="far fa-times-circle"></i>
+            <% end %>
+          <% end %>
         <% end %>
         <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
           <%= link_to new_client_company_path do %>

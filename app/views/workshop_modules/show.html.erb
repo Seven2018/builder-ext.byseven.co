@@ -3,20 +3,28 @@
     <%= link_to training_session_workshop_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop), class: 'return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
+    <a data-toggle='modal' data-target='#copyWorkshopModule<%= @workshop_module.id %>'><button class='btn return-arrow'><i class="fas fa-copy"></i></button></a>
+              <!-- Modal -->
+  <div class="modal fade" id="copyWorkshopModule<%= @workshop_module.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="border-radius: 20px">
+      <%= render 'workshop_modules/copy', mod: @workshop_module %>
+    </div>
+  </div>
+  <!-- End Modal -->
   </div>
   <div class="middle-info-workshop">
     <h3><%= @workshop_module.title %> - <%= @workshop_module.duration %> minutes</h3>
     <br>
     <p><%= @workshop_module.instructions.html_safe %></p>
+    <% if @workshop_module.comments && @workshop_module.comments != "" %>
+      <p>Comments : <%= @workshop_module.comments %></p>
+    <% end %>
     <div class='content-logistics'><p class='logistics-label'>Logistics : </p><div><%= @workshop_module.logistics.html_safe %></div></div>
-    <p><%= @workshop_module.url1 %></p>
-    <p><%= @workshop_module.url2 %></p>
     <% if @workshop_module.action1 %>
-      <p class='content-actions'>Action 1 (participant) : <%= @workshop_module.action1.name %></p>
+      <p class='content-actions'>Participant Action 1 : <%= @workshop_module.action1.name %></p>
     <% end %>
     <% if @workshop_module.action2 %>
-      <p class='content-actions'>Action 2 (participant) : <%= @workshop_module.action2.name %></p>
+      <p class='content-actions'>Participant Action 2 : <%= @workshop_module.action2.name %></p>
     <% end %>
-    <p>Comments : <%= @workshop_module.comments %></p>
   </div>
 </div>
