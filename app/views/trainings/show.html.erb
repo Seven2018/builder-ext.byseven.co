@@ -99,6 +99,7 @@
                 <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
                   <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-astronaut"></i></button>
                   <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
+                  <button class='edit-fafa session_copy' id="<%= session.id %>" data-toggle='modal' data-target='#copySession<%= session.id %>'><i class="fas fa-copy"></i></button>
                 <% end %>
               <% end %>
             </div>
@@ -177,6 +178,11 @@
     <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
       <% @session = session %>
       <%= render '/session_trainers/new', session: @session, session_trainer: SessionTrainer.new %>
+    </div>
+  </div>
+  <div class="modal fade" id="copySession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="border-radius: 20px">
+      <%= render 'sessions/copy', session: session %>
     </div>
   </div>
 <% end %>

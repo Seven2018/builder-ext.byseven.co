@@ -25,6 +25,10 @@ class SessionPolicy < ApplicationPolicy
     true
   end
 
+  def copy?
+    check_access
+  end
+
   private
 
   def check_access
