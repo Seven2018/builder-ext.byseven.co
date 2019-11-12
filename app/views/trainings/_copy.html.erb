@@ -1,0 +1,45 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel">Copy <%= training.title %> to :</h3>
+    </div>
+    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for :copy, url: copy_training_path(training), method: 'GET' do |f| %>
+      <div>
+        <%= f.label :client_company_id, 'Company / School' %>
+        <%= f.collection_select :client_company_id, ClientCompany.all.order(:name), :id, :name, options = { include_blank: true }, html_options = {} %>
+      </div>
+      <div>
+        <%= f.label :client_contact_id, 'Contact' %>
+        <%= f.grouped_collection_select :client_contact_id, ClientCompany.all.order(:name), :client_contacts, :name, :id, :name, options = { include_blank: true }, html_options = {} %>
+      </div>
+      <div style='display:flex;flex-direction:column;justify-content:center;margin-top:20px;'>
+        <%= f.input :rename, placeholder: training.title, label: 'Rename' %>
+        <%= f.input :start_date, input_html: { class: 'datepicker'} %>
+        <%= f.input :end_date, input_html: { class: 'datepicker'} %>
+      </div>
+      <div style='display:flex;justify-content:center;margin-top:20px;'>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+          <i class="fas fa-copy"></i>
+        <% end %>
+      </div>
+      <script>
+        $('#copy_client_contact_id').hide()
+        client_contacts = $('#copy_client_contact_id').html()
+        $('#copy_client_company_id').change(function() {
+          client_company = $('#copy_client_company_id :selected').text()
+          options = $(client_contacts).filter(`optgroup[label='${client_company}']`).html()
+          if (options) {
+            $('#copy_client_contact_id').html(options)
+            $('#copy_client_contact_id').show()
+          } else {
+            $('#copy_client_contact_id').empty()
+            $('#copy_client_contact_id').hide()
+          }
+        });
+      </script>
+    <% end %>
+  </div>
+</div>

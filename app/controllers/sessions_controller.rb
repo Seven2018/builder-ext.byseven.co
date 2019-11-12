@@ -74,8 +74,6 @@ class SessionsController < ApplicationController
     @new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at", "training_id", "date", "address", "room"))
     @new_session.title = params[:copy][:rename] if params[:copy][:rename].present?
     @new_session.date = params[:copy][:date] if params[:copy][:date].present?
-    @new_session.start_time = params[:copy][:start_time] if params[:copy][:start_time].present?
-    @new_session.end_time = params[:copy][:end_time] if params[:copy][:end_time].present?
     @new_session.training_id = @training.id
     if @new_session.save
       @session.workshops.each do |workshop|

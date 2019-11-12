@@ -6,6 +6,7 @@
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <div class="training-info-headers-buttons">
         <a class="btn btn-edit btn-edit-pen" data-toggle='modal' type='button' data-target='#editTraining'><i class="fas fa-pen"></i></a>
+        <a class='btn btn-edit-green btn-edit-copy' data-toggle='modal' data-target='#copyTraining'><i class="fas fa-copy"></i></a>
         <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><%= link_to 'New estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
@@ -153,6 +154,12 @@
 <div class="modal fade" id="editTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'edit', training: @training %>
+  </div>
+</div>
+
+<div class="modal fade" id="copyTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'copy', training: @training %>
   </div>
 </div>
 
