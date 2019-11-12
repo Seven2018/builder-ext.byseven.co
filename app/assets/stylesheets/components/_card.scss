@@ -209,6 +209,12 @@ $timeline: #115173;
 
     &:first-of-type {
       position: absolute;
+      right: 106px;
+      top: 5px;
+    }
+
+    &:nth-of-type(2) {
+      position: absolute;
       right: 56px;
       top: 5px;
     }
@@ -364,23 +370,7 @@ $timeline: #115173;
       padding: 20px;
     }
   }
-  .grabbable {
-    // cursor: move ; /* fallback if grab cursor is unsupported */
-    // cursor: grab;
-    // cursor: -moz-grab;
-    // cursor: -webkit-grab;
-    h4 {
-      color: rgba(0,0,0,0.6);
-    }
-    h4:hover {
-      color: rgba(0,0,0,1);
-    }
-  }
-  .grabbable:active {
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
-  }
+
   .circle {
     border: solid 2px $timeline;
     border-radius: 50%;
@@ -597,7 +587,7 @@ input.btn {
   }
 }
 
-.btn-edit-disk, .btn-edit-trash {
+.btn-edit-disk, .btn-edit-trash, .btn-edit-copy {
   padding: 16px 17px !important;
   min-width: 0 !important;
   color: white !important;
@@ -721,24 +711,7 @@ input.btn {
       line-height: 1.6;
     }
   }
-  .grabbable {
-    // cursor: move ; /* fallback if grab cursor is unsupported */
-    // cursor: grab;
-    // cursor: -moz-grab;
-    // cursor: -webkit-grab;
 
-    h4 {
-      color: rgba(0,0,0,0.6);
-    }
-    h4:hover {
-      color: rgba(0,0,0,1);
-    }
-  }
-  .grabbable:active {
-    // cursor: grabbing;
-    // cursor: -moz-grabbing;
-    // cursor: -webkit-grabbing;
-  }
   .circle {
     border: solid 2px $timeline;
     border-radius: 50%;

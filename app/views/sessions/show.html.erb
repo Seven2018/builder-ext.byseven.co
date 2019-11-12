@@ -181,20 +181,20 @@
       </div>
     </div>
   <% end %>
-<div class="modal fade" id="editSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="editSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
     <%= render 'edit', session: @session %>
   </div>
 </div>
 
-<div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
     <%= render 'session_trainers/new', session: @session, session_trainer: @session_trainer %>
   </div>
 </div>
 
 <% @session.users.each do |user| %>
-  <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document" style="border-radius: 20px">
       <%= render 'users/consult', user: user %>
     </div>

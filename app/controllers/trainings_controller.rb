@@ -1,5 +1,5 @@
 class TrainingsController < ApplicationController
-  before_action :set_training, only: [:show, :edit, :update, :destroy]
+  before_action :set_training, only: [:show, :edit, :update, :destroy, :copy]
 
   def index
     @sessions = Session.all
@@ -97,6 +97,33 @@ class TrainingsController < ApplicationController
     @training.destroy
     authorize @training
     redirect_to trainings_path
+  end
+
+  def copy
+    authorize @training
+    @client_contact = ClientContact.find(params[:copy][:client_contact_id])
+    @new_training = Training.new(@training.attributes.except("id", "created_at", "updated_at", "client_contact_id"))
+    @new_training.title = params[:copy][:rename] if params[:copy][:rename].present?
+    @new_training.start_date = params[:copy][:start_date] if params[:copy][:start_date].present?
+    @new_training.end_date = params[:copy][:end_date] if params[:copy][:end_date].present?
+    @new_training.client_contact_id = @client_contact.id
+    if @new_training.save
+      @training.sessions.each do |session|
+        new_session = Session.create(session.attributes.except("id", "created_at", "updated_at", "training_id", "date", "address", "room"))
+        new_session.update(training_id: @new_training.id, date: @new_training.start_date)
+        session.workshops.each do |workshop|
+          new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
+          new_workshop.update(session_id: new_session.id)
+          workshop.workshop_modules.each do |mod|
+            new_mod = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
+            new_mod.update(workshop_id: new_workshop.id)
+          end
+        end
+      end
+      redirect_to training_path(@new_training)
+    else
+      raise
+    end
   end
 
   private

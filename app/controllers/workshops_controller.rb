@@ -1,5 +1,5 @@
 class WorkshopsController < ApplicationController
-  before_action :set_module, only: [:show, :edit, :update, :destroy, :move, :move_up, :move_down, :save, :viewer]
+  before_action :set_module, only: [:show, :edit, :update, :destroy, :move, :move_up, :move_down, :save, :viewer, :copy]
 
   def show
     authorize @workshop
@@ -144,6 +144,28 @@ class WorkshopsController < ApplicationController
   # "View" mode
   def viewer
     authorize @workshop
+  end
+
+  # Allows to create a copy of a Workshop into targeted Session
+  def copy
+    authorize @workshop
+    # Targeted Session
+    @session = Session.find(params[:copy][:session_id])
+    # Creates the copy, and rename it if applicable
+    @new_workshop = Workshop.new(@workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
+    @new_workshop.title = params[:copy][:rename] if params[:copy][:rename].present?
+    @new_workshop.session_id = @session.id
+    @new_workshop.position = @session.workshops.count + 1
+    if @new_workshop.save
+      # Creates a copy of all WorkshopModules from the source
+      @workshop.workshop_modules.each do |mod|
+        modul = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id"))
+        modul.update(workshop_id: @new_workshop.id)
+      end
+      redirect_to training_session_path(@session.training, @session)
+    else
+      raise
+    end
   end
 
   private

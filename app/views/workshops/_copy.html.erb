@@ -6,7 +6,7 @@
     <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody">
-    <%= simple_form_for :copy, url: training_session_workshop_copy_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), method: 'GET' do |f| %>
+    <%= simple_form_for :copy, url: training_session_copy_workshop_path(mod.session.training, mod.session, mod), method: 'GET' do |f| %>
       <div class="copy-form-element">
         <%= f.label :client_company_id, 'Client' %>
         <%= f.collection_select :client_company_id, ClientCompany.all.order(:name), :id, :name, options = { include_blank: true }, html_options = { class: "copy_client_company_id#{mod.id}" } %>
@@ -17,11 +17,7 @@
       </div>
       <div class="copy-form-element">
         <%= f.label :session_id, 'Session', class: 'copy-form-hidden-label' %>
-        <%= f.grouped_collection_select :session_id, Training.all, :sessions, :title_for_copy, :id, :title_date, options = {}, html_options = { class: "copy_session_id#{mod.id}", style: 'max-width:100%;' } %>
-      </div>
-      <div class="copy-form-element">
-        <%= f.label :workshop_id, 'Workshop', class: 'copy-form-hidden-label' %>
-        <%= f.grouped_collection_select :workshop_id, Session.all, :workshops, :title_date, :id, :title, options = {}, html_options = { class: "copy_workshop_id#{mod.id}" } %>
+        <%= f.grouped_collection_select :session_id, Training.all, :sessions, :title_for_copy, :id, :title_date, options = {}, html_options = { class: "copy_session_id#{mod.id}" } %>
       </div>
       <div style='display:flex;justify-content:center;margin-top:20px;'>
         <%= f.input :rename, placeholder: mod.title, label: 'Rename' %>
@@ -37,13 +33,10 @@
           $('.copy-form-hidden-label').hide()
           $('.copy_training_id'+id).hide()
           $('.copy_session_id'+id).hide()
-          $('.copy_workshop_id'+id).hide()
           trainings = $('.copy_training_id'+id).html()
           sessions = $('.copy_session_id'+id).html()
-          workshops = $('.copy_workshop_id'+id).html()
           reset = $('.copy_training_id'+id).html()
           reset1 = $('.copy_session_id'+id).html()
-          reset2 = $('.copy_workshop_id'+id).html()
           $('.copy_client_company_id'+id).change(function() {
             client_company = $('.copy_client_company_id'+id+' :selected').text()
             options = $(trainings).filter(`optgroup[label='${client_company}']`).html()
@@ -55,10 +48,6 @@
               options1 = $(sessions).filter(`optgroup[label='${training}']`).html()
               $('.copy_session_id'+id).html(options1)
               $('.copy_session_id'+id).show()
-              session = $('.copy_session_id'+id+' :selected').text()
-              options2 = $(workshops).filter(`optgroup[label='${session}']`).html()
-              $('.copy_workshop_id'+id).html(options2)
-              $('.copy_workshop_id'+id).show()
             } else {
               $('.copy_training_id'+id).empty()
               $('.copy_training_id'+id).hide()
@@ -70,24 +59,9 @@
             if (options1) {
               $('.copy_session_id'+id).html(options1)
               $('.copy_session_id'+id).show()
-              session = $('.copy_session_id'+id+' :selected').text()
-              options2 = $(workshops).filter(`optgroup[label='${session}']`).html()
-              $('.copy_workshop_id'+id).html(options2)
-              $('.copy_workshop_id'+id).show()
             } else {
               $('.copy_session_id'+id).empty()
               $('.copy_session_id'+id).hide()
-            }
-          });
-          $('.copy_session_id'+id).change(function() {
-            session = $('.copy_session_id'+id+' :selected').text()
-            options2 = $(workshops).filter(`optgroup[label='${session}']`).html()
-            if (options2) {
-              $('.copy_workshop_id'+id).html(options2)
-              $('.copy_workshop_id'+id).show()
-            } else {
-              $('.copy_workshop_id'+id).empty()
-              $('.copy_workshop_id'+id).hide()
             }
           });
           $('.btn-edit-cross').click(function() {
@@ -96,10 +70,8 @@
             });
             $('.copy_training_id'+id).html(reset)
             $('.copy_session_id'+id).html(reset1)
-            $('.copy_workshop_id'+id).html(reset2)
             $('.copy_training_id'+id).hide()
             $('.copy_session_id'+id).hide()
-            $('.copy_workshop_id'+id).hide()
           })
         });
       </script>

@@ -6,6 +6,7 @@
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <div class="training-info-headers-buttons">
         <a class="btn btn-edit btn-edit-pen" data-toggle='modal' type='button' data-target='#editTraining'><i class="fas fa-pen"></i></a>
+        <a class='btn btn-edit-green btn-edit-copy' data-toggle='modal' data-target='#copyTraining'><i class="fas fa-copy"></i></a>
         <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><%= link_to 'New estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
@@ -37,9 +38,14 @@
       <div style="display: table;margin: 0 auto">
         <ul id="owner">
           <% @training.users.each do |user| %>
-          <li>
-            <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
-          </li>
+            <li>
+              <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+            </li>
+            <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog" role="document" style="border-radius: 20px">
+                <%= render 'users/consult', user: user, training: @training %>
+              </div>
+            </div>
           <% end %>
           <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
             <% if @training.users.count > 1 %>
@@ -99,6 +105,7 @@
                 <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
                   <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-astronaut"></i></button>
                   <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
+                  <button class='edit-fafa session_copy' id="<%= session.id %>" data-toggle='modal' data-target='#copySession<%= session.id %>'><i class="fas fa-copy"></i></button>
                 <% end %>
               <% end %>
             </div>
@@ -106,7 +113,7 @@
               <%= link_to training_session_path(session.training, session), class: 'stretched-link' do %>
                 <div class="card-session-header">
                   <h3><%= session.title %></h3>
-                  <div style='display:flex;align-items:center;position: absolute;right: 130px;top: -48px;'>
+                  <div style='display:flex;align-items:center;position: absolute;right: 160px;top: -48px;'>
                     <ul id="owner-session-index">
                       <% session.users.each do |user| %>
                         <li>
@@ -149,39 +156,50 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="editTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="editTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'edit', training: @training %>
   </div>
 </div>
 
-<div class="modal fade" id="newOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="copyTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'copy', training: @training %>
+  </div>
+</div>
+
+<div class="modal fade" id="newOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
     <%= render 'training_ownerships/new', training_owner: @training_ownership %>
   </div>
 </div>
 
-<div class="modal fade" id="newForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="newForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
     <%= render 'forms/new', form: @form %>
   </div>
 </div>
 
 <% @training.sessions.order(:date).each do |session| %>
-  <div class="modal fade" id="editSession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="editSession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document" style="border-radius: 20px">
       <%= render '/sessions/edit', session: session %>
     </div>
   </div>
-  <div class="modal fade" id="addTrainer<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="addTrainer<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
       <% @session = session %>
       <%= render '/session_trainers/new', session: @session, session_trainer: SessionTrainer.new %>
     </div>
   </div>
+  <div class="modal fade" id="copySession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document" style="border-radius: 20px">
+      <%= render 'sessions/copy', session: session %>
+    </div>
+  </div>
 <% end %>
 
-<div class="modal fade" id="newSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="newSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render '/sessions/new' %>
   </div>
@@ -189,7 +207,7 @@
 
 <% @training.sessions.each do |session| %>
   <% session.users.each do |trainer| %>
-    <div class="modal fade" id="consultUser<%= trainer.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="consultUser<%= trainer.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog" role="document" style="border-radius: 20px">
         <%= render 'users/consult', user: trainer, training: @training %>
       </div>

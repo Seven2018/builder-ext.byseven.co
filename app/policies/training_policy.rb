@@ -41,6 +41,10 @@ class TrainingPolicy < ApplicationPolicy
     check_access
   end
 
+  def copy?
+    check_access
+  end
+
   private
 
   def check_access_hr

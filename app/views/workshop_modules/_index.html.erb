@@ -64,7 +64,7 @@
   </div>
   <!-- Modals -->
   <% unless mod.user.nil? %>
-    <div class="modal fade" id="consultUser<%= mod.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="consultUser<%= mod.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog" role="document" style="border-radius: 20px">
         <%= render 'users/consult', user: mod.user %>
       </div>
@@ -72,7 +72,7 @@
   <% end %>
 
   <!-- Modal -->
-  <div class="modal fade" id="copyWorkshopModule<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="copyWorkshopModule<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document" style="border-radius: 20px">
       <%= render 'workshop_modules/copy', mod: mod %>
     </div>

@@ -52,6 +52,7 @@
     <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
       <div class='module-card-controls'>
         <a class="btn return-arrow" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>'><i class="fas fa-pen"></i></a>
+        <button data-toggle='modal' data-target='#copyWorkshop<%= mod.id %>' class='btn return-arrow' id="<%= mod.id %>"><i class="fas fa-copy"></i></button>
         <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?'}, remote: true, class: 'btn return-arrow' do %>
           <i class="fas fa-trash-alt"></i>
         <% end %>
@@ -75,8 +76,15 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="editWorkshop<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="editWorkshop<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'workshops/edit', mod: mod  %>
   </div>
 </div>
+
+<div class="modal fade" id="copyWorkshop<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'workshops/copy', mod: mod %>
+  </div>
+</div>
+<!-- End Modal -->

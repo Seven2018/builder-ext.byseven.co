@@ -109,7 +109,7 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     authorize @workshop_module
     # Targeted Workshop
     @workshop = Workshop.find(params[:copy][:workshop_id])
-    # Create the copy, and rename it if applicable
+    # Creates the copy, and rename it if applicable
     @new_workshop_module = WorkshopModule.new(@workshop_module.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
     @new_workshop_module.title = params[:copy][:rename] if params[:copy][:rename].present?
     @new_workshop_module.workshop_id = @workshop.id
