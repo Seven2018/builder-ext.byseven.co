@@ -7,14 +7,13 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for :copy, url: training_copy_session_path(session.training, session), method: 'GET' do |f| %>
-      <div>
+      <div class="copy-form-element">
         <%= f.label :client_company_id, 'Client' %>
         <%= f.collection_select :client_company_id, ClientCompany.all.order(:name), :id, :name, options = { include_blank: true }, html_options = { class: "copy_client_company_id#{session.id}" } %>
       </div>
-      <div>
-        <%= f.label :training_id, 'Training' %>
+      <div class="copy-form-element">
+        <%= f.label :training_id, 'Training', class: 'copy-form-hidden-label' %>
         <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title, options = {}, html_options = { class: "copy_training_id#{session.id}" } %>
-        <%# f.collection_select :training_id, Training.joins(:training_ownerships).where(training_ownerships: {user_id: current_user.id}).order(:title), :id, :title, include_blank: true %>
       </div>
       <div style='display:flex;flex-direction:column;justify-content:center;margin-top:20px;'>
         <%= f.input :rename, placeholder: session.title, label: 'Rename' %>
@@ -28,12 +27,14 @@
       <script>
         $('.session_copy').click(function() {
           id = $(this).attr('id');
+          $('.copy-form-hidden-label').hide()
           $('.copy_training_id'+id).hide()
           trainings = $('.copy_training_id'+id).html()
           reset = $('.copy_training_id'+id).html()
           $('.copy_client_company_id'+id).change(function() {
             client_company = $('.copy_client_company_id'+id+' :selected').text()
             options = $(trainings).filter(`optgroup[label='${client_company}']`).html()
+            $('.copy-form-hidden-label').show()
             if (options) {
               $('.copy_training_id'+id).html(options)
               $('.copy_training_id'+id).show()
@@ -43,8 +44,9 @@
             }
           });
           $('.btn-edit-cross').click(function() {
-            $('.copy_client_company_id'+id).attr('selectedIndex',0);
-            $('.copy_training_id'+id).attr('selectedIndex',0);
+            $(".copy").each(function() {
+              this.reset();
+            });
             $('.copy_training_id'+id).html(reset)
             $('.copy_training_id'+id).hide()
           })

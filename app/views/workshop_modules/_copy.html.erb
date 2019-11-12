@@ -7,22 +7,21 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for :copy, url: training_session_workshop_copy_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), method: 'GET' do |f| %>
-      <div>
+      <div class="copy-form-element">
         <%= f.label :client_company_id, 'Client' %>
         <%= f.collection_select :client_company_id, ClientCompany.all.order(:name), :id, :name, options = { include_blank: true }, html_options = { class: "copy_client_company_id#{mod.id}" } %>
       </div>
-      <div>
-        <%= f.label :training_id, 'Training' %>
+      <div class="copy-form-element">
+        <%= f.label :training_id, 'Training', class: 'copy-form-hidden-label' %>
         <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title, options = {}, html_options = { class: "copy_training_id#{mod.id}" } %>
-        <%# f.collection_select :training_id, Training.joins(:training_ownerships).where(training_ownerships: {user_id: current_user.id}).order(:title), :id, :title, include_blank: true %>
       </div>
-      <div>
-        <%= f.label :session_id, 'Session' %>
-        <%= f.grouped_collection_select :session_id, Training.joins(:training_ownerships).where(training_ownerships: {user_id: current_user.id}), :sessions, :title_for_copy, :id, :title_date, options = {}, html_options = { class: "copy_session_id#{mod.id}" } %>
+      <div class="copy-form-element">
+        <%= f.label :session_id, 'Session', class: 'copy-form-hidden-label' %>
+        <%= f.grouped_collection_select :session_id, Training.all, :sessions, :title_for_copy, :id, :title_date, options = {}, html_options = { class: "copy_session_id#{mod.id}", style: 'max-width:100%;' } %>
       </div>
-      <div>
-        <%= f.label :workshop_id, 'Workshop' %>
-        <%= f.grouped_collection_select :workshop_id, Session.joins(training: { training_ownerships: :user}).where(training: {training_ownerships: {user_id: current_user.id}}), :workshops, :title_date, :id, :title, options = {}, html_options = { class: "copy_workshop_id#{mod.id}" } %>
+      <div class="copy-form-element">
+        <%= f.label :workshop_id, 'Workshop', class: 'copy-form-hidden-label' %>
+        <%= f.grouped_collection_select :workshop_id, Session.all, :workshops, :title_date, :id, :title, options = {}, html_options = { class: "copy_workshop_id#{mod.id}" } %>
       </div>
       <div style='display:flex;justify-content:center;margin-top:20px;'>
         <%= f.input :rename, placeholder: mod.title, label: 'Rename' %>
@@ -35,6 +34,7 @@
       <script>
         $('.return-arrow').click(function() {
           id = $(this).attr('id');
+          $('.copy-form-hidden-label').hide()
           $('.copy_training_id'+id).hide()
           $('.copy_session_id'+id).hide()
           $('.copy_workshop_id'+id).hide()
@@ -47,6 +47,7 @@
           $('.copy_client_company_id'+id).change(function() {
             client_company = $('.copy_client_company_id'+id+' :selected').text()
             options = $(trainings).filter(`optgroup[label='${client_company}']`).html()
+            $('.copy-form-hidden-label').show()
             if (options) {
               $('.copy_training_id'+id).html(options)
               $('.copy_training_id'+id).show()
@@ -90,10 +91,9 @@
             }
           });
           $('.btn-edit-cross').click(function() {
-            $('.copy_client_company_id'+id).attr('selectedIndex',0);
-            $('.copy_training_id'+id).attr('selectedIndex',0);
-            $('.copy_session_id'+id).attr('selectedIndex',0);
-            $('.copy_workshop_id'+id).attr('selectedIndex',0);
+            $(".copy").each(function() {
+              this.reset();
+            });
             $('.copy_training_id'+id).html(reset)
             $('.copy_session_id'+id).html(reset1)
             $('.copy_workshop_id'+id).html(reset2)

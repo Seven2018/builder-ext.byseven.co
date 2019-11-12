@@ -7,12 +7,12 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for :copy, url: copy_training_path(training), method: 'GET' do |f| %>
-      <div>
+      <div class="copy-form-element">
         <%= f.label :client_company_id, 'Company / School' %>
         <%= f.collection_select :client_company_id, ClientCompany.all.order(:name), :id, :name, options = { include_blank: true }, html_options = {} %>
       </div>
-      <div>
-        <%= f.label :client_contact_id, 'Contact' %>
+      <div class="copy-form-element">
+        <%= f.label :client_contact_id, 'Contact', class: 'copy-form-hidden-label' %>
         <%= f.grouped_collection_select :client_contact_id, ClientCompany.all.order(:name), :client_contacts, :name, :id, :name, options = { include_blank: true }, html_options = {} %>
       </div>
       <div style='display:flex;flex-direction:column;justify-content:center;margin-top:20px;'>
