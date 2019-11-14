@@ -48,7 +48,7 @@
               <h3><strong><%= session.title %></strong></h3>
               <h5><%= session.date.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %> <br> <%= session.room %> <br> <%= session.address %> </h5>
             </div>
-            <p class='session-teaser'><%= session.teaser %></p>
+            <p class='session-teaser'><%= session.teaser.html_safe %></p>
             <div class="session-form-control">
               <% if user_signed_in? && ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
                 <p>Réservations : <%= session.attendees.count %> / <%= session.attendee_number %></p>
