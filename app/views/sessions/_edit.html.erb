@@ -22,8 +22,10 @@
       <%= f.input :address %>
       <%= f.input :room %>
       <%= f.input :image, label: 'Image link' %>
-      <%= f.label :teaser %>
-      <%= f.cktext_area :teaser %>
+      <% unless params[:controller] == 'trainings' && params[:action] == 'show' %>
+        <%= f.label :teaser %>
+        <%= f.cktext_area :teaser %>
+      <% end %>
       <div style=" display: flex; justify-content: space-between;">
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
           <i class="fas fa-save"></i>
