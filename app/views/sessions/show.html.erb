@@ -26,7 +26,9 @@
       <div>
         <div style="display: table;margin: 0 auto">
           <ul id='owner'>
+            <% trainers_list = '' %>
             <% @session.users.each do |user| %>
+            <% trainers_list += "#{user.id}," %>
               <li>
                 <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
               </li>
@@ -36,6 +38,8 @@
             <% else %>
               <li><button class='btn btn-add-user btn-add-user-disabled'>Trainers</button></li>
             <% end %>
+            <% trainers_list = trainers_list[0...-1] %>
+            <%= link_to 'test', redirect_path(list: trainers_list, session_id: @session.id) %>
           </ul>
         </div>
       </div>

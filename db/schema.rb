@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_24_084527) do
+ActiveRecord::Schema.define(version: 2019_11_19_131857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 2019_10_24_084527) do
     t.datetime "updated_at", precision: 6, null: false
     t.date "start_date"
     t.date "end_date"
+    t.integer "attendee_number", default: 0
+    t.boolean "completed", default: false
     t.index ["merchandise_id"], name: "index_bookings_on_merchandise_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
@@ -241,6 +243,7 @@ ActiveRecord::Schema.define(version: 2019_10_24_084527) do
     t.bigint "session_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "calendar_uuid"
     t.index ["session_id"], name: "index_session_trainers_on_session_id"
     t.index ["user_id"], name: "index_session_trainers_on_user_id"
   end
@@ -315,6 +318,8 @@ ActiveRecord::Schema.define(version: 2019_10_24_084527) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "mode"
+    t.bigint "booking_id"
+    t.index ["booking_id"], name: "index_trainings_on_booking_id"
     t.index ["client_contact_id"], name: "index_trainings_on_client_contact_id"
   end
 
@@ -341,6 +346,7 @@ ActiveRecord::Schema.define(version: 2019_10_24_084527) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "client_company_id"
+    t.string "employee_id"
     t.index ["client_company_id"], name: "index_users_on_client_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -407,6 +413,7 @@ ActiveRecord::Schema.define(version: 2019_10_24_084527) do
   add_foreign_key "theory_workshops", "workshops"
   add_foreign_key "training_ownerships", "trainings"
   add_foreign_key "training_ownerships", "users"
+  add_foreign_key "trainings", "bookings"
   add_foreign_key "trainings", "client_contacts"
   add_foreign_key "users", "client_companies"
   add_foreign_key "workshop_modules", "users"

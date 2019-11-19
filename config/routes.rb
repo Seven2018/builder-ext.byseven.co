@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # get 'session_trainers/new'
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   resources :users
   get 'users_booklet', to: 'users#index_booklet', as: 'booklet_users'
   root to: 'pages#home'
@@ -67,4 +67,7 @@ Rails.application.routes.draw do
   post 'attendees/import', to: 'attendees#import', as: 'import_attendees'
   get 'training/:training_id/session/:id/attendees/export.csv', to: 'attendees#export', as: 'export_attendees'
   resources :session_forms, only: [:create, :destroy]
+  get '/redirect', to: 'session_trainers#redirect', as: 'redirect'
+  get '/callback', to: 'session_trainers#callback', as: 'callback'
+  get '/calendars', to: 'session_trainers#calendars', as: 'calendars'
 end

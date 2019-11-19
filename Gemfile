@@ -14,6 +14,8 @@ gem 'wicked_pdf', '~> 1.1'
 gem 'wkhtmltopdf-binary'
 gem 'wkhtmltopdf-heroku', '2.12.5.0'
 gem 'ckeditor', github: 'galetahub/ckeditor'
+gem 'google-api-client', require: 'google/apis/calendar_v3'
+gem 'omniauth-google-oauth2'
 
 gem 'autoprefixer-rails'
 # gem 'bootstrap-sass', '~> 3.3'
@@ -26,7 +28,6 @@ gem 'jquery-rails'
 gem 'acts_as_list'
 gem "acts_as_tree"
 gem "simple_calendar", "~> 2.0"
-gem 'google-api-client', '~> 0.11'
 gem 'google_drive'
 gem 'datagrid'
 gem 'image_processing'
