@@ -13,7 +13,7 @@
     <% status = !params[:search].nil? %>
     <div id="attendee-form-title">
       <h3>Formulaire d'inscription</h3>
-      <h4><%= @training.title %></h4>
+      <h2 style='color: #FFC451;'><strong><%= @training.title %></strong></h2>
     </div>
     <% if !user_signed_in? %>
       <%= simple_form_for :search, url: training_form_path(@training, @form), method: 'GET' do |f| %>
@@ -38,7 +38,6 @@
   </div>
   <% if (!@form.sessions.nil? && params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
     <div class='container-seven-form'>
-      <h3><strong>Formations à venir</strong></h3>
       <% @form.sessions.order('date ASC').each do |session| %>
         <div class="session-form-card center-button">
           <div class="session-form-card-left">
@@ -47,13 +46,13 @@
           <div class="session-form-card-right">
             <div>
               <h3><strong><%= session.title %></strong></h3>
-              <h5><%= session.date.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %> <br> <%= session.room %> </h5>
+              <h5><%= session.date.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %> <br> <%= session.room %> <br> <%= session.address %> </h5>
             </div>
-            <p class='session-teaser'><%= session.teaser %></p>
+            <p class='session-teaser'><%= session.teaser.html_safe %></p>
             <div class="session-form-control">
               <% if user_signed_in? && ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
                 <p>Réservations : <%= session.attendees.count %> / <%= session.attendee_number %></p>
-              <% elsif (session.attendees.count >= session.attendee_number) && (session.attendees.where(email: current_user.email).empty? || (status && session.attendees.where(email: params[:search][:email]).empty?)) %>
+              <% elsif (session.attendees.count >= session.attendee_number) && ((user_signed_in? && session.attendees.where(email: current_user.email).empty?) || (status && session.attendees.where(email: params[:search][:email]).empty?)) %>
                 <% if session.title.end_with?("NÉGOCIATION : DÉCOUVRIR LES TECHNIQUES DES FORCES SPÉCIALES") %>
                   <p>Session complète <br> Ouverture d’une autre session prochainement</p>
                 <% elsif current_user.access_level == 'HR' %>

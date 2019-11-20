@@ -37,10 +37,7 @@ class SessionsController < ApplicationController
     authorize @session
     @session.training = @training
     if @session.save
-      SessionTrainer.create(session_id: @session.id, user_id: params[:session][:users].to_i)
       redirect_to training_path(@training)
-    else
-      render :new
     end
   end
 

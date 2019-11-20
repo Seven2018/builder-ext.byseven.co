@@ -30,9 +30,9 @@
                     <img class='avatar-xs' src="<%= trainer.picture %>" alt='<%= "#{trainer.firstname.capitalize} #{trainer.lastname.upcase}" %>'>
                   <% end %>
                 <% end %>
-                <% if trainer_array.uniq.count > 3 %>
-                  <button class='btn btn-edit-menu btn-edit-round'><i class='fas fa-ellipsis-h'></i></button>
-                <% end %>
+              <% end %>
+              <% if trainer_array.uniq.count > 3 %>
+                <button class='btn btn-edit-menu btn-edit-round'><i class='fas fa-ellipsis-h'></i></button>
               <% end %>
             </div>
           </div>
