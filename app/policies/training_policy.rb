@@ -37,6 +37,10 @@ class TrainingPolicy < ApplicationPolicy
     check_access
   end
 
+  def update_survey?
+    check_access
+  end
+
   def destroy?
     check_access
   end

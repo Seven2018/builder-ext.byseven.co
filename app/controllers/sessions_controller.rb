@@ -50,7 +50,24 @@ class SessionsController < ApplicationController
     @training = Training.find(params[:training_id])
     authorize @session
     @session.update(session_params)
-    @session.save ? (redirect_back(fallback_location: root_path)) : (render "_edit")
+
+    trainers_list = ''
+    @session.users.each do |user|
+      trainers_list += "#{user.id},"
+    end
+
+    event_to_delete = ''
+    SessionTrainer.where(session_id: @session.id).each do |trainer|
+      event_to_delete+=trainer.user_id.to_s+':'+trainer.calendar_uuid+',' if trainer.calendar_uuid.present?
+    end
+    event_to_delete = event_to_delete[0...-1]
+
+    if @session.save
+      redirect_to redirect_path(session_id: "|#{@session.id}|", list: trainers_list, to_delete: "%#{event_to_delete}%")
+    else
+      redirect_to training_path(@session.training)
+      flash[:alert] = 'Something went wrong, please verify all parameters (ex: is the new session date included in the training period ?)'
+    end
   end
 
   def destroy

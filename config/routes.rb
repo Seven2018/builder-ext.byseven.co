@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   get 'trainings_month', to: 'trainings#index_month', as: "index_month"
   get 'trainings_booklet', to: 'trainings#index_booklet', as: 'booklet_trainings'
   get 'training/:id/copy', to: 'trainings#copy', as: 'copy_training'
+  patch 'training/:id/update_survey', to: 'trainings#update_survey', as: 'update_survey_training'
   resources :trainings do
     get 'session_viewer/:id', to: 'sessions#viewer', as: 'session_viewer'
     get 'session/:id/copy', to: 'sessions#copy', as: 'copy_session'

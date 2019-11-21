@@ -39,7 +39,7 @@ class SessionTrainersController < ApplicationController
         date_time: day.to_s+'T'+session.end_time.strftime('%H:%M:%S'),
         time_zone: 'Europe/Paris',
       },
-      summary: session.title
+      summary: session.training.client_company.name.upcase + " - " + session.training.title
     })
     # Calendars ids
     calendars_ids = ['yahya.fallah@byseven.co', 'brice.chapuis@byseven.co', 'thomas.fraudet@byseven.co', 'jorick.roustan@byseven.co', 'mathilde.meurer@byseven.co', 'vum1670hi88jgei65u5uedb988@group.calendar.google.com']
@@ -74,7 +74,7 @@ class SessionTrainersController < ApplicationController
       else
         sevener = User.find(ind)
         initials = sevener.firstname.first.upcase + sevener.lastname.first.upcase
-        event.summary = session.title + " - " + initials
+        event.summary = session.training.client_company.name.upcase + " - " + session.training.title + " - " + initials
         event.id = SecureRandom.hex(32)
         session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first
         session_trainer.update(calendar_uuid: event.id)
