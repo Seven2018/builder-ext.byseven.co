@@ -74,7 +74,7 @@ class UsersController < ApplicationController
     client = RestClient
     # Updates User picture with his(her) Linkedin profile picture.
     url = 'https://api.linkedin.com/v2/me?projection=(id,firstName,lastName,profilePicture(displayImage~:playableStreams))'
-    res = RestClient.get(url, Authorization: "Bearer #{access_token.token}"))
+    res = RestClient.get(url, Authorization: "Bearer #{access_token.token}")
     picture_url = res.body.split('"').select{ |i| i[/https:\/\/media\.licdn\.com\/dms\/image\/.*/]}.last
     current_user.update(picture: picture_url)
 
