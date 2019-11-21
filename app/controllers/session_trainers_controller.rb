@@ -127,7 +127,7 @@ class SessionTrainersController < ApplicationController
       authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
       token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
       scope: Google::Apis::CalendarV3::AUTH_CALENDAR,
-      redirect_uri: "http://localhost:3000/calendars"
+      redirect_uri: "#{request.base_url}/calendars"
     }
   end
 

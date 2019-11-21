@@ -70,7 +70,9 @@ Rails.application.routes.draw do
   get '/redirect', to: 'session_trainers#redirect', as: 'redirect'
   get '/callback', to: 'session_trainers#callback', as: 'callback'
   get '/calendars', to: 'session_trainers#calendars', as: 'calendars'
-  devise_scope :user do
-    get '/users/auth/linkedin/callback' => 'users/omniauth_callbacks#linkedin'
-  end
+  # devise_scope :user do
+  #   get '/users/auth/linkedin/callback', to: 'users/omniauth_callbacks#linkedin', as: 'linkedin_auth'
+  # end
+  get '/linkedin_scrape', to: 'users#linkedin_scrape', as: 'linkedin_scrape'
+  get '/linkedin_scrape_callback', to: 'users#linkedin_scrape_callback', as: 'linkedin_scrape_callback'
 end
