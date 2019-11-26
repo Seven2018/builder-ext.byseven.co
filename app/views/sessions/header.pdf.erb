@@ -2,13 +2,65 @@
   <%= wicked_pdf_image_tag 'logo.png', id: "presence-sheet-logo-pdf" %>
 </div>
 <div>
-  <h1 class="title-presence-sheet-pdf">Formation : <%= @session.training.title %></h1>
+  <h2 class="title-presence-sheet-pdf">Formation : <%= @session.training.title %></h2>
   <br>
-  <h4>Date : <%= @session.date.strftime('%d/%m/%Y') %></h4>
-  <h4>Horaires : <%= @session.start_time.strftime('%H:%M') %> - <%= @session.end_time.strftime('%H:%M') %></h4>
+  <h4 class="infos-presence-sheet-pdf">Date : <%= @session.date.strftime('%d/%m/%Y') %></h4>
+  <h4 class="infos-presence-sheet-pdf">Horaires : <%= @session.start_time.strftime('%H:%M') %> - <%= @session.end_time.strftime('%H:%M') %></h4>
   <% if @session.address.present? %>
-    <h4>Lieu : <%= @session.address %></h4>
+    <h4 class="infos-presence-sheet-pdf">Lieu : <%= @session.address %></h4>
   <% else %>
-    <h4>Lieu : <%= @session.training.client_company.address %> <%= @session.training.client_company.zipcode %> <%= @session.training.client_company.city %></h4>
+    <h4 class="infos-presence-sheet-pdf">Lieu : <%= @session.training.client_company.address %> <%= @session.training.client_company.zipcode %> <%= @session.training.client_company.city %></h4>
   <% end %>
+</div>
+<div class="container">
+    <div class="presence-sheet-grid-pdf">
+    <table>
+      <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <% if @session.start_time.hour >= 12 %>
+          <th style='width:860px;'>Après midi</th>
+        <% elsif @session.end_time.hour <= 13 %>
+          <th style='width:860px;'>Matin</th>
+        <% else %>
+          <th>Matin</th>
+          <th>Après midi</th>
+        <% end %>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th class='table-header-2'>Formateurs SEVEN</th>
+        <th class='table-header-2'>Signatures</th>
+      </tr>
+    </table>
+    <% if (@session.start_time.hour >= 12) || @session.end_time.hour <= 13 %>
+      <table>
+        <% for i in [1,2] do %>
+          <tr>
+            <td></td>
+            <td></td>
+            <td style='width:800px;'></td>
+          </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <table>
+        <% for i in [1,2] do %>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+    <table>
+      <tr>
+        <th class='table-header-2'>Participants</th>
+        <th class='table-header-2'>Signatures</th>
+      </tr>
+    </table>
+  </div>
 </div>

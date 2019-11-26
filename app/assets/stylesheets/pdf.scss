@@ -255,14 +255,19 @@ table, tr, th, td {
 
 .title-presence-sheet-pdf {
   border: none !important;
+  margin-bottom: 0 !important;
+}
+
+.infos-presence-sheet-pdf {
+  margin: 0 !important;
 }
 
 .presence-sheet-grid-pdf {
 
-  margin-top: 50px;
+  margin-top: 20px;
 
   th {
-    height: 50px;
+    height: 30px;
     width: 400px;
     border: 2px solid black;
   }
