@@ -1,0 +1,14 @@
+<div style='text-align:center;'>
+  <%= wicked_pdf_image_tag 'logo.png', id: "presence-sheet-logo-pdf" %>
+</div>
+<div>
+  <h1 class="title-presence-sheet-pdf">Formation : <%= @session.training.title %></h1>
+  <br>
+  <h4>Date : <%= @session.date.strftime('%d/%m/%Y') %></h4>
+  <h4>Horaires : <%= @session.start_time.strftime('%H:%M') %> - <%= @session.end_time.strftime('%H:%M') %></h4>
+  <% if @session.address.present? %>
+    <h4>Lieu : <%= @session.address %></h4>
+  <% else %>
+    <h4>Lieu : <%= @session.training.client_company.address %> <%= @session.training.client_company.zipcode %> <%= @session.training.client_company.city %></h4>
+  <% end %>
+</div>

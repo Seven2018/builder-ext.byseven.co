@@ -43,9 +43,15 @@
     border-bottom: 2px solid black;
 }
 
-.invoice-desc-line, .invoice-desc-line > div {
+.invoice-desc-line, .invoice-desc-line-chapter, .invoice-desc-line > div {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.invoice-desc-line-chapter {
+  height: 40px;
+  background-color: #3AA2AC;
 }
 
 .invoice-desc-line > div {

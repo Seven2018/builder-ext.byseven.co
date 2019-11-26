@@ -17,13 +17,13 @@ h3, p {
   font-family: 'Times New Roman' !important;
 }
 
-#pdf-logo {
+#pdf-logo, #presence-sheet-logo-pdf {
   padding: 20px;
   margin-bottom: 50px;
 }
 
 
-.title-pdf {
+.title-pdf, .title-presence-sheet-pdf {
   font-family: "Roboto", sans-serif;
   padding-top: 3px;
   border: 2px solid black;
@@ -158,6 +158,11 @@ p.logistics-pdf {
   }
 }
 
+.invoice-desc-line-chapter-pdf {
+  width: 100%;
+  background-color: #3AA2AC;
+}
+
 // .invoice-desc-line-pretaxamount {
 //   width: 100px !important;
 // }
@@ -236,3 +241,40 @@ p.logistics-pdf {
   background-color: white;
   margin-bottom: 55px;
 }
+
+// PRESENCE SHEET
+
+#presence-sheet-logo-pdf {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+table, tr, th, td {
+  border-collapse: collapse;
+}
+
+.title-presence-sheet-pdf {
+  border: none !important;
+}
+
+.presence-sheet-grid-pdf {
+
+  margin-top: 50px;
+
+  th {
+    height: 50px;
+    width: 400px;
+    border: 2px solid black;
+  }
+
+    td {
+    height: 50px;
+    width: 400px;
+    border: 1px solid black;
+  }
+
+}
+
+  .table-header-2 {
+    width: 500px !important;
+  }

@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer, :copy]
+  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer, :copy, :presence_sheet]
 
   # Shows an InvoiceItem in html or pdf version
   def show
@@ -101,6 +101,27 @@ class SessionsController < ApplicationController
       redirect_to training_path(@training)
     else
       raise
+    end
+  end
+
+  def presence_sheet
+    authorize @session
+    respond_to do |format|
+      format.pdf do
+        render(
+          pdf: "#{@session.title}",
+          layout: 'pdf.html.erb',
+          template: 'sessions/presence_sheet',
+          margin: { top: 82 },
+          header: { spacing: 10, html: { template: 'sessions/header.pdf.erb' } },
+          show_as_html: params.key?('debug'),
+          page_size: 'A4',
+          encoding: 'utf8',
+          dpi: 300,
+          zoom: 1,
+          viewport_size: '1280x1024'
+        )
+      end
     end
   end
 

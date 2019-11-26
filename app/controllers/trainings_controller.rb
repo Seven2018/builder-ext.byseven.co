@@ -93,13 +93,6 @@ class TrainingsController < ApplicationController
     end
   end
 
-  def update_survey
-    authorize @training
-    @training.update(satisfaction_survey: params[:satisfaction_survey])
-    raise
-    redirect_to training_path(@training)
-  end
-
   def destroy
     @training.destroy
     authorize @training

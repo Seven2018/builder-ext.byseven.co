@@ -7,7 +7,9 @@
   <h3>Edit a module</h3>
   <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @workshop_module] do |f| %>
     <%= f.input :title %>
-    <%= f.association :user, label: 'Speaker', collection: @users, label_method: lambda { |user| "#{user.firstname} #{user.lastname}" }, allow_blank: true %>
+    <% if @users.present? %>
+      <%= f.association :user, label: 'Speaker', collection: @users, label_method: lambda { |user| "#{user.firstname} #{user.lastname}" }, allow_blank: true %>
+    <% end %>
     <%= f.label :instructions %>
     <%= f.cktext_area :instructions %>
     <%= f.input :duration, label: 'Duration (min)' %>
