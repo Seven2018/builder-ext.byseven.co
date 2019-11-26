@@ -144,7 +144,9 @@
 
 .middle-info2 {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  height: 52px;
 
   div > h4 {
     text-align: center;
@@ -159,6 +161,14 @@
     }
   }
 
+  p{
+    margin: 0;
+  }
+
+  form {
+    width: 33%;
+  }
+
   .trainer-div {
     display: flex;
     align-items: center;
@@ -167,10 +177,6 @@
     @include from-large {
       justify-content: flex-end;
     }
-  }
-
-  @include from-large {
-    justify-content: flex-end;
   }
 }
 
@@ -222,3 +228,9 @@
 }
 
 #add-session-button {}
+
+// SURVEY FORM
+#survey-link {
+  text-transform: none !important;
+  background-color: white !important;
+}

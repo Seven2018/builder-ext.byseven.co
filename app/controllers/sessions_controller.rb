@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer, :copy]
+  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer, :copy, :presence_sheet]
 
   # Shows an InvoiceItem in html or pdf version
   def show
@@ -50,7 +50,24 @@ class SessionsController < ApplicationController
     @training = Training.find(params[:training_id])
     authorize @session
     @session.update(session_params)
-    @session.save ? (redirect_back(fallback_location: root_path)) : (render "_edit")
+
+    trainers_list = ''
+    @session.users.each do |user|
+      trainers_list += "#{user.id},"
+    end
+
+    event_to_delete = ''
+    SessionTrainer.where(session_id: @session.id).each do |trainer|
+      event_to_delete+=trainer.user_id.to_s+':'+trainer.calendar_uuid+',' if trainer.calendar_uuid.present?
+    end
+    event_to_delete = event_to_delete[0...-1]
+
+    if @session.save
+      redirect_to redirect_path(session_id: "|#{@session.id}|", list: trainers_list, to_delete: "%#{event_to_delete}%")
+    else
+      redirect_to training_path(@session.training)
+      flash[:alert] = 'Something went wrong, please verify all parameters (ex: is the new session date included in the training period ?)'
+    end
   end
 
   def destroy
@@ -84,6 +101,27 @@ class SessionsController < ApplicationController
       redirect_to training_path(@training)
     else
       raise
+    end
+  end
+
+  def presence_sheet
+    authorize @session
+    respond_to do |format|
+      format.pdf do
+        render(
+          pdf: "#{@session.title}",
+          layout: 'pdf.html.erb',
+          template: 'sessions/presence_sheet',
+          margin: { top: 110 },
+          header: { spacing: 1.51, html: { template: 'sessions/header.pdf.erb' } },
+          show_as_html: params.key?('debug'),
+          page_size: 'A4',
+          encoding: 'utf8',
+          dpi: 300,
+          zoom: 1,
+          viewport_size: '1280x1024'
+        )
+      end
     end
   end
 

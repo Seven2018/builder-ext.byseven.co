@@ -65,6 +65,15 @@
     </div>
   </div>
   <div class="middle-info2">
+    <p id='survey-link' class='btn btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
+    <%= simple_form_for @training, html: { class: "hidden", id: 'survey-form' } do |f| %>
+      <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
+        <%= f.input :satisfaction_survey, placeholder: 'Add a link to the survey', value: @training.satisfaction_survey, label: false, input_html: { style: 'width: 200px;'} %>
+        <%= button_tag type: 'submit', class: 'btn btn-add-user', input_html: { style: 'height: 35px' } do %>
+          Update
+        <% end %>
+      </div>
+    <% end %>
     <div>
       <% trainers = 0 %>
       <% @training.sessions.each do |session| %>
@@ -214,3 +223,12 @@
     </div>
   <% end %>
 <% end %>
+
+<script>
+  survey = document.getElementById('survey-link');
+  form = document.getElementById('survey-form');
+  survey.addEventListener('click', (event) => {
+    survey.classList.toggle('hidden');
+    form.classList.toggle('hidden');
+  })
+</script>

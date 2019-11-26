@@ -15,8 +15,11 @@ gem 'wkhtmltopdf-binary'
 gem 'wkhtmltopdf-heroku', '2.12.5.0'
 gem 'ckeditor', github: 'galetahub/ckeditor'
 gem 'google-api-client', require: 'google/apis/calendar_v3'
+gem 'oauth2'
 gem 'omniauth-google-oauth2'
-
+gem 'omniauth-linkedin-oauth2'
+gem "linkedin-v2"
+gem 'rest-client', '~> 2.1'
 gem 'autoprefixer-rails'
 # gem 'bootstrap-sass', '~> 3.3'
 gem 'font-awesome-sass', '~> 5.5.0'

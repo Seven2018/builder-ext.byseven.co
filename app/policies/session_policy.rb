@@ -29,6 +29,10 @@ class SessionPolicy < ApplicationPolicy
     check_access
   end
 
+  def presence_sheet?
+    check_access
+  end
+
   private
 
   def check_access
