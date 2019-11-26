@@ -138,14 +138,17 @@
       <div class="brand">Products</div>
       <div class="menu-list">
         <ul id="product-list">
+          <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id, type: 'Chapter'), method: :post do %>
+            <li>Chapter</li>
+          <% end %>
           <% Product.all.each do |product| %>
             <%= link_to invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post do %>
               <li><%= product.name %></li>
             <% end %>
           <% end %>
-            <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post do %>
-              <li>Commentaires</li>
-            <% end %>
+          <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post do %>
+            <li>Commentaires</li>
+          <% end %>
         </ul>
       </div>
     </div>

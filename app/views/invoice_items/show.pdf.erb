@@ -18,19 +18,29 @@
           <p>%TVA</p>
         </div>
       </div>
-      <% @invoice_item.invoice_lines.each do |line| %>
-        <div  class="invoice-desc-line-pdf">
-          <p class='invoice-desc-line-description-pdf'><%= line.description %></p>
-          <div class='invoice-desc-line-data-pdf'>
-            <p><%= line.quantity %></p>
-            <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
-            <p class='invoice-desc-line-data-pretaxamount'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
-            <p><%= number_with_precision(line.tax_amount, precision: 2) %></p>
+      <% @invoice_item.invoice_lines.order('position ASC').each do |line| %>
+        <% if line.comments == 'chapter' %>
+          <div class="invoice-desc-line-chapter-pdf">
+            <p class='invoice-desc-line-description-pdf'><%= line.description %></p>
           </div>
-        </div>
-        <div style='padding-left:20px;margin-bottom: 20px;'><% unless line.comments.nil? || line.comments.empty? %>
+        <% else %>
+          <div class="invoice-desc-line-pdf">
+            <p class='invoice-desc-line-description-pdf'><%= line.description %></p>
+            <div class='invoice-desc-line-data-pdf'>
+              <% if line.quantity %>
+                <p><%= line.quantity %></p>
+                <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
+                <p class='invoice-desc-line-data-pretaxamount'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
+                <p><%= number_with_precision(line.tax_amount, precision: 2) %></p>
+              <% end %>
+            </div>
+          </div>
+          <div style='padding-left:20px;margin-bottom: 20px;'>
+            <% unless line.comments.nil? || line.comments.empty? %>
               <%= line.comments.html_safe %>
-            <% end %></div>
+            <% end %>
+          </div>
+        <% end %>
       <% end %>
       <% if @invoice_item.client_company.client_company_type == 'School' %>
         <br>
@@ -48,9 +58,11 @@
             <% total_ht = [] %>
             <% total_tva = [] %>
             <% @invoice_item.invoice_lines.each do |line| %>
-              <% total_ht << line.net_amount*line.quantity %>
-              <% total_tva << line.net_amount*line.quantity*line.tax_amount/100 %>
-              <% total_net << line.net_amount*line.quantity * (1 + (line.tax_amount / 100)) %>
+              <% if line.quantity %>
+                <% total_ht << line.net_amount*line.quantity %>
+                <% total_tva << line.net_amount*line.quantity*line.tax_amount/100 %>
+                <% total_net << line.net_amount*line.quantity * (1 + (line.tax_amount / 100)) %>
+              <% end %>
             <% end %>
             <% @invoice_item.tax_amount = total_tva.sum %>
             <% @invoice_item.total_amount = total_net.sum %>

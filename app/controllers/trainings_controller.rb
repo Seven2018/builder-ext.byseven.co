@@ -1,5 +1,5 @@
 class TrainingsController < ApplicationController
-  before_action :set_training, only: [:show, :edit, :update, :destroy, :copy]
+  before_action :set_training, only: [:show, :edit, :update, :update_survey, :destroy, :copy]
 
   def index
     @sessions = Session.all
@@ -133,6 +133,6 @@ class TrainingsController < ApplicationController
   end
 
   def training_params
-    params.require(:training).permit(:title, :start_date, :end_date, :client_contact_id, :mode)
+    params.require(:training).permit(:title, :start_date, :end_date, :client_contact_id, :mode, :satisfaction_survey)
   end
 end
