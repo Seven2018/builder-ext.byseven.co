@@ -3,7 +3,9 @@
     <%= link_to training_session_workshop_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop), class: 'return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
-    <a data-toggle='modal' data-target='#copyWorkshopModule<%= @workshop_module.id %>'><button class='btn return-arrow'><i class="fas fa-copy"></i></button></a>
+    <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+      <a data-toggle='modal' data-target='#copyWorkshopModule<%= @workshop_module.id %>'><button class='btn return-arrow'><i class="fas fa-copy"></i></button></a>
+    <% end %>
               <!-- Modal -->
   <div class="modal fade" id="copyWorkshopModule<%= @workshop_module.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" style="border-radius: 20px">

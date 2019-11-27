@@ -275,7 +275,7 @@ $timeline: #115173;
     border: none;
     width: auto;
     height: auto;
-    opacity: 0.75;
+    // opacity: 0.75;
     &:hover {
       transition: all 0.8s ease;
       transform: scale(1.0);
@@ -303,8 +303,8 @@ $timeline: #115173;
     flex-direction: row;
     align-items: center;
     position: absolute;
-    top: 5px;
-    right: -9.5px;
+    top: -15px;
+    right: -9.4px;
     color: $blue;
     font-weight: 600;
     font-size: 23px;
@@ -322,8 +322,8 @@ $timeline: #115173;
     flex-direction: row;
     align-items: center;
     position: absolute;
-    bottom: 5px;
-    left: 54px;
+    bottom: -15px;
+    right: -9.4px;
     color: $blue;
     font-weight: 600;
     font-size: 23px;
@@ -428,21 +428,6 @@ $timeline: #115173;
   right: 61px;
   font-size: 15px;
 
-}
-
-.card-mods:first-child {
-  .card-left {
-     -webkit-border-image:
-      -webkit-gradient(linear, 0 100%, 0 0, from($timeline), to(rgba(0, 0, 0, 0))) 1 100%;
-    -webkit-border-image:
-      -webkit-linear-gradient(top, $timeline, rgba(0, 0, 0, 0)) 1 100%;
-    -moz-border-image:
-      -moz-linear-gradient(top, $timeline, rgba(0, 0, 0, 0)) 1 100%;
-    -o-border-image:
-      -o-linear-gradient(top, $timeline, rgba(0, 0, 0, 0)) 1 100%;
-    border-image:
-      linear-gradient(to top, $timeline, rgba(0, 0, 0, 0)) 1 100%;
-  }
 }
 
 .message-box {
@@ -684,7 +669,7 @@ input.btn {
     align-items: center;
     position: absolute;
     top: 40%;
-    right: -9.5px;
+    right: -9.4px;
     color: $blue;
     font-weight: 600;
     font-size: 23px;

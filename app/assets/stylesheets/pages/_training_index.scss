@@ -45,6 +45,10 @@
   display: none !important;
 }
 
+.invisible {
+  opacity: 0;
+}
+
 #training-buttons {
   display: flex;
   position: relative;
