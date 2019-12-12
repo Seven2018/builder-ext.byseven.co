@@ -10,11 +10,14 @@
   <div class="session-container invoice-item-container">
     <div class="training-info-headers">
       <%= link_to invoice_items_path(training_id: @invoice_item.training.id), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
-      <%= link_to invoice_item_path(@invoice_item, format: :pdf), target: :_blank do %>
-        <button class="btn btn-edit" id='export-btn'>
-          Export as <i class="fas fa-file-pdf"></i>
-        </button>
-      <% end %>
+      <div class="training-info-headers-buttons">
+        <button class='btn btn-edit-green btn-edit-copy' data-toggle='modal' data-target='#copyInvoiceItem'><i class="fas fa-copy"></i></button>
+        <%= link_to invoice_item_path(@invoice_item, format: :pdf), target: :_blank do %>
+          <button class="btn btn-edit btn-edit-pen" id='export-btn'>
+            <i class="fas fa-file-pdf"></i>
+          </button>
+        <% end %>
+      </div>
     </div>
     <div class="invoice-header">
       <% unless @invoice_item.type == 'InvoiceSevener' %>
@@ -48,6 +51,7 @@
     </div>
     <div class="invoice-client">
       <% unless @invoice_item.type == 'InvoiceSevener' %>
+        <button class='invoice-item-button-opco' data-toggle='modal' data-target='#editClient'>OPCO ?</button>
         <div>
           <p><%= @invoice_item.client_company.name %></p>
           <p><%= @invoice_item.client_company.address %></p>
@@ -154,3 +158,19 @@
     </div>
   </div>
 </div>
+
+<!-- MODALS -->
+
+<div class="modal fade" id="copyInvoiceItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'invoice_items/copy', invoice_item: @invoice_item %>
+  </div>
+</div>
+
+<div class="modal fade" id="editClient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'invoice_items/edit_client', invoice_item: @invoice_item %>
+  </div>
+</div>
+
+<!--  -->

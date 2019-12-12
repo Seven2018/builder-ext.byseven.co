@@ -1,5 +1,5 @@
 class InvoiceItemsController < ApplicationController
-  before_action :set_invoice_item, only: [:show, :edit, :marked_as_paid, :upload_to_sheet, :destroy]
+  before_action :set_invoice_item, only: [:show, :edit, :copy, :edit_client, :marked_as_paid, :upload_to_sheet, :destroy]
 
   # Indexes with a filter option (see below)
   def index
@@ -70,14 +70,14 @@ class InvoiceItemsController < ApplicationController
       @training.sessions.each do |session|
         session.duration < 4 ? quantity += 0.5 * session.session_trainers.count : quantity += 1 * session.session_trainers.count
       end
-      InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id, position: 1)
+      InvoiceLine.create(invoice_item: @invoice, description: @training.title, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id, position: 1)
     else
       product = Product.find(1)
       quantity = 0
       @training.sessions.each do |session|
       quantity += session.duration
       end
-      InvoiceLine.create(invoice_item: @invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id, position: 1)
+      InvoiceLine.create(invoice_item: @invoice, description: @training.title, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id, position: 1)
     end
     update_price(@invoice)
     if @invoice.save
@@ -111,6 +111,30 @@ class InvoiceItemsController < ApplicationController
     end
     update_price(@sevener_invoice)
     redirect_to invoice_item_path(@sevener_invoice) if @sevener_invoice.save
+  end
+
+  def copy
+    authorize @invoice_item
+    @training = Training.find(params[:copy][:training_id])
+    @new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "training_id", "client_company_id"))
+    @new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+1)
+    @new_invoice_item.training_id = @training.id
+    @new_invoice_item.client_company_id = @training.client_company.id
+    if @new_invoice_item.save
+      @invoice_item.invoice_lines.each do |line|
+        new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
+        new_invoice_line.update(invoice_item_id: @new_invoice_item.id)
+      end
+      redirect_to invoice_item_path(@new_invoice_item)
+    else
+      raise
+    end
+  end
+
+  def edit_client
+    authorize @invoice_item
+    @invoice_item.update(client_company_id: params[:edit_client][:client_company_id])
+    redirect_to invoice_item_path(@invoice_item)
   end
 
   # Marks an InvoiceItem as paid

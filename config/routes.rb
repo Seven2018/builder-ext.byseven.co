@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     resources :client_contacts, path: '/contacts'
   end
   resources :invoice_items, only: [:index, :show, :edit, :update]
+  get 'invoice_item/:id/copy', to: 'invoice_items#copy', as: 'copy_invoice_item'
+  get 'invoice_item/:id/edit_client', to: 'invoice_items#edit_client', as: 'edit_client_invoice_item'
   get 'invoices', to: 'invoice_items#invoice_index', as: 'invoices'
   post 'new_invoice_item', to: 'invoice_items#new_invoice_item', as: 'new_invoiceitem'
   post 'new_sevener_invoice', to: 'invoice_items#new_sevener_invoice', as: 'new_sevener_invoice'

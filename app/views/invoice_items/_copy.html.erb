@@ -1,0 +1,53 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel">Copy <%= invoice_item.uuid %> to :</h3>
+    </div>
+    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for :copy, url: copy_invoice_item_path(invoice_item), method: 'GET' do |f| %>
+      <div class="copy-form-element">
+        <%= f.label :client_company_id, 'Client' %>
+        <%= f.collection_select :client_company_id, ClientCompany.all.order(:name), :id, :name, options = { include_blank: true }, html_options = { class: "copy_client_company_id" } %>
+      </div>
+      <div class="copy-form-element">
+        <%= f.label :training_id, 'Training', class: 'copy-form-hidden-label' %>
+        <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title, options = {}, html_options = { class: "copy_training_id" } %>
+      </div>
+      <div style='display:flex;justify-content:center;margin-top:20px;'>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+          <i class="fas fa-copy"></i>
+        <% end %>
+      </div>
+      <script>
+        $('.session_copy').click(function() {
+          id = $(this).attr('id');
+          $('.copy-form-hidden-label').hide()
+          $('.copy_training_id').hide()
+          trainings = $('.copy_training_id').html()
+          reset = $('.copy_training_id').html()
+          $('.copy_client_company_id').change(function() {
+            client_company = $('.copy_client_company_id :selected').text()
+            options = $(trainings).filter(`optgroup[label='${client_company}']`).html()
+            $('.copy-form-hidden-label').show()
+            if (options) {
+              $('.copy_training_id').html(options)
+              $('.copy_training_id').show()
+            } else {
+              $('.copy_training_id').empty()
+              $('.copy_training_id').hide()
+            }
+          });
+          $('.btn-edit-cross').click(function() {
+            $(".copy").each(function() {
+              this.reset();
+            });
+            $('.copy_training_id').html(reset)
+            $('.copy_training_id').hide()
+          })
+        });
+      </script>
+    <% end %>
+  </div>
+</div>
