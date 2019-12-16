@@ -1,14 +1,9 @@
 <ul style='list-style: none;'>
-  <% @invoice_items.each do |item| %>
+  <% @invoice_items.where(type: params[:type]).each do |item| %>
     <li>
       <%= link_to invoice_item_path(item) do %>
         <div class="client-company-card invoice-card">
           <div class='item-id'>
-            <% if item.class == Invoice %>
-              <%= image_tag 'invoice-logo.png', class: 'client-company-logo-index' %>
-            <% elsif item.class == Estimate %>
-              <%=  image_tag 'estimate-logo.jpg', class: 'client-company-logo-index' %>
-            <% end %>
             <p><%= item.training.title %></p>
             <p><%= item.uuid %></p>
           </div>

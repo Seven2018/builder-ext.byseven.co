@@ -11,9 +11,9 @@
     <% end %>
   </div>
   <% if params[:type] == 'Invoice' %>
-    <h3>Liste des factures</h3>
+    <h3>Invoices List</h3>
   <% elsif params[:type] == 'Estimate' %>
-    <h3>Liste des devis</h3>
+    <h3>Estimates List</h3>
   <% end %>
   <div class="invoice-list">
     <%= render 'list', invoice_items: @invoice_items %>

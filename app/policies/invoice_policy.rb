@@ -25,6 +25,10 @@ class InvoicePolicy < ApplicationPolicy
     check_access
   end
 
+  def credit?
+    check_access
+  end
+
   def marked_as_paid?
     check_access
   end

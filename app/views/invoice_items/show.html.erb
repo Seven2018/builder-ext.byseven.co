@@ -11,10 +11,15 @@
     <div class="training-info-headers">
       <%= link_to invoice_items_path(training_id: @invoice_item.training.id), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
       <div class="training-info-headers-buttons">
-        <button class='btn btn-edit-green btn-edit-copy' data-toggle='modal' data-target='#copyInvoiceItem'><i class="fas fa-copy"></i></button>
+        <button class='btn btn-edit-green btn-edit-copy invoiceitem_copy' data-toggle='modal' data-target='#copyInvoiceItem'><i class="fas fa-copy"></i></button>
         <%= link_to invoice_item_path(@invoice_item, format: :pdf), target: :_blank do %>
           <button class="btn btn-edit btn-edit-pen" id='export-btn'>
             <i class="fas fa-file-pdf"></i>
+          </button>
+        <% end %>
+        <%= link_to credit_invoice_item_path(@invoice_item) do %>
+          <button class="btn btn-edit-red btn-edit-pen">
+            <i class="fas fa-file-invoice-dollar"></i>
           </button>
         <% end %>
       </div>
@@ -38,7 +43,11 @@
       <% end %>
       <div>
         <% if @invoice_item.type == 'Invoice' %>
-          <h1>Facture</h1>
+          <% if @invoice_item.total_amount < 0 %>
+            <h1>Avoir</h1>
+          <% else %>
+            <h1>Facture</h1>
+          <% end %>
         <% elsif @invoice_item.type == 'InvoiceSevener' %>
           <h1>Bon de commande</h1>
         <% else %>
