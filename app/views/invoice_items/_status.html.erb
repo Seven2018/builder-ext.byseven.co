@@ -1,11 +1,11 @@
 <p>
   <%= item.status %>
-  <% if item.status == 'Non payée' || item.status == 'En attente' %>
+  <% if item.status == 'Send' %>
     <% if item.type == 'Invoice' %>
-      <%= link_to invoice_marked_path(item, client_company_id: item.client_company.id, type: item.type), data: { confirm: "Confirmer la facture #{item.uuid} comme payée ?"}, remote: true do %>
+      <%= link_to marked_as_paid_invoice_item_path(item, client_company_id: item.client_company.id, type: item.type), data: { confirm: "Confirmer la facture #{item.uuid} comme payée ?"}, remote: true do %>
       <i class="far fa-square"></i><% end %>
     <% else %>
-      <%= link_to invoice_marked_path(item, client_company_id: item.client_company.id, type: item.type), data: { confirm: "Confirmer le devis #{item.uuid} comme accepté ?"}, remote: true do %>
+      <%= link_to marked_as_paid_invoice_item_path(item, client_company_id: item.client_company.id, type: item.type), data: { confirm: "Confirmer le devis #{item.uuid} comme accepté ?"}, remote: true do %>
       <i class="far fa-square"></i><% end %>
     <% end %>
   <% else %>

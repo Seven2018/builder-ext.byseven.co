@@ -28,6 +28,16 @@ class Training < ApplicationRecord
     self.title + ' - ' + self.end_date.strftime('%d/%m/%y')
   end
 
+  def trainers
+    trainers = []
+    self.sessions.each do |session|
+      session.session_trainers.each do |trainer|
+        trainers << trainer.user
+      end
+    end
+    trainers.uniq
+  end
+
   private
 
   def end_date_after_start_date

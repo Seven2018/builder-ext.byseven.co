@@ -1,10 +1,15 @@
 class InvoiceItemsController < ApplicationController
-  before_action :set_invoice_item, only: [:show, :edit, :copy, :edit_client, :credit, :marked_as_paid, :upload_to_sheet, :destroy]
+  before_action :set_invoice_item, only: [:show, :edit, :copy, :edit_client, :credit, :marked_as_send, :marked_as_paid, :marked_as_reminded, :destroy]
 
   # Indexes with a filter option (see below)
   def index
     @invoice_items = policy_scope(InvoiceItem)
     index_filtered
+    @invoice_items = InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date]).order(:created_at) if params[:export].present?
+    respond_to do |format|
+      format.html
+      format.csv { send_data @invoice_items.to_csv, filename: 'Numbers 2020' }
+    end
   end
 
   # Shows an InvoiceItem in html or pdf version
@@ -62,7 +67,8 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice
     # ttributes a invoice number to the InvoiceItem
     @invoice.type == 'Invoice' ? @invoice.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+1) : @invoice.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Estimate.count+1)
-    @invoice.type == 'Invoice' ? @invoice.status = 'Non payée' : @invoice.status = 'En attente'
+    @invoice.status = 'En attente'
+      # @invoice.type == 'Invoice' ? @invoice.status = 'Non payée' : @invoice.status = 'En attente'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
     if @training.client_contact.client_company.client_company_type == 'Company'
       product = Product.find(2)
@@ -117,7 +123,7 @@ class InvoiceItemsController < ApplicationController
   def copy
     authorize @invoice_item
     @training = Training.find(params[:copy][:training_id])
-    new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "training_id", "client_company_id"))
+    new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "training_id", "client_company_id", "status", "sending_date", "payment_date", "dunning_date"))
     new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+1)
     new_invoice_item.training_id = @training.id
     new_invoice_item.client_company_id = @training.client_company.id
@@ -156,45 +162,117 @@ class InvoiceItemsController < ApplicationController
     end
   end
 
+  # Marks an InvoiceItem as send
+  def marked_as_send
+    authorize @invoice_item
+    index_filtered
+    @invoice_item.update(sending_date: params[:edit_sending][:sending_date])
+    redirect_back(fallback_location: invoice_item_path(@invoice_item))
+  end
+
   # Marks an InvoiceItem as paid
   def marked_as_paid
     authorize @invoice_item
     index_filtered
-    @invoice_item.type == 'Invoice' ? @invoice_item.update(status: 'Payée') : @invoice_item.update(status: 'Accepté')
+    @invoice_item.update(payment_date: params[:edit_payment][:payment_date])
     respond_to do |format|
       format.html {redirect_to invoice_items_path(type: @invoice_item.type)}
       format.js
     end
   end
 
+    # Marks an InvoiceItem as reminded
+  def marked_as_reminded
+    authorize @invoice_item
+    index_filtered
+    @invoice_item.update(dunning_date: params[:edit_payment][:dunning_date])
+    respond_to do |format|
+      format.html {redirect_to invoice_items_path(type: @invoice_item.type)}
+      format.js
+    end
+  end
+
+  def self.to_csv
+    @invoice_items = InvoiceItems.where(created_at: params[:export][:start_date]..params[:export][:end_date])
+    attributes = %w(Début Fin Nom_Client Nom_Formation Trello Unité Nature €/u CA_variable Ca_fixe Caution TVA Frais_facturés Frais_non_facturés Anc_Nouv CA_facturé Num_facture Emission Envoi Relance Paiement Intervenant Reception_Facture Montant Date_Paiement)
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      all.each do |item|
+        startdate = item.training.start_date
+        enddate = item.training.end_date
+        client = item.client_company.name
+        training_name = item.training.title
+        trello = ''
+        unit = 0
+        unit_price = 0
+        variable = 0
+        fixed = 0
+        caution = 0
+        expenses = 0
+        expenses_out = 0
+        item.invoice_lines.each do |line|
+          unit += line.quantity if (line.product = Product.find(1) || line.product == Product.find(2) || line.product == Product.find(7) || line.product == Product.find(9))
+          unit_price += line.net_amount if (line.product = Product.find(1) || line.product == Product.find(2))
+          variable += line.quantity * line.net_amount
+          fixe += line.quantity * line.net_amount if line.product == Product.find(3)
+          caution += line.quantity * line.net_amount if line.product == Product.find(8)
+          expenses += line.quantity * line.net_amount if line.product == (line.product = Product.find(4) || line.product == Product.find(5) || line.product == Product.find(6))
+        end
+        item.training.client_company.type == 'Company' ? nature = 'j' : nature = 'h'
+        description = item.description
+        vat = item.tax_amount
+        revenue = item.net_amount
+        num = item.uuid
+        sending = item.sending_date
+        dunning = item.dunning_date
+        payment = item.payment_date
+        csv << [startdate, enddate, client, training_name, trello, unit, unit_price, variable, fixed, caution, vat, expenses, expenses_out, description, revenue, num, sending, dunning, payment]
+        item.training.trainers.each do |trainer|
+          csv << [startdate, enddate, client, training_name, trello, '', '', '', '', '', '', '', '', '', '', '', '', '', '', "#{trainer.firstname} #{trainer.lastname}", '01/01/20', '480', '01/01/20']
+        end
+      end
+    end
+  end
+
   # Uploads to a GoogleSheet (not used)
-  # def upload_to_sheet
-  #   authorize @invoice_item
-  #   @training = @invoice_item.training
-  #   session = GoogleDrive::Session.from_service_account_key("client_secret.json")
-  #   spreadsheet = session.spreadsheet_by_title("Copie de Seven Numbers #{@invoice_item.issue_date.strftime('%Y')}")
-  #   worksheet = spreadsheet.worksheets.first
-  #   preparation = 0
-  #   costs = 0
-  #   deposit = 0
-  #   @invoice_item.invoice_lines.each do |line|
-  #     if line.product.product_type == 'Préparation'
-  #       preparation += line.quantity * line.net_amount
-  #     elsif
-  #       line.product.product_type == 'Frais'
-  #       costs += line.quantity * line.net_amount
-  #     elsif
-  #       line.product.product_type == 'Caution'
-  #       deposit += line.quantity * line.net_amount
-  #     end
-  #   end
-  #   @invoice_item.training.client_contact.client_company.client_company_type == 'Entreprise' ? unit = 'j' : unit = 'h'
-  #   worksheet.delete_rows((Invoice.count+1), 1)
-  #   worksheet.insert_rows((Invoice.count+1), [[@training.start_date.strftime('%d/%m/%y'), @training.end_date.strftime('%d/%m/%y'), @training.client_contact.client_company.name, @training.title, invoice_item_url(@invoice_item), @invoice_item.invoice_lines.first.quantity, unit, @invoice_item.invoice_lines.first.net_amount.round, (@invoice_item.invoice_lines.first.net_amount*@invoice_item.invoice_lines.first.quantity).round, preparation, deposit, @invoice_item.tax_amount.round, costs, '', (@invoice_item.total_amount - @invoice_item.tax_amount).round, @invoice_item.uuid, @invoice_item.issue_date.strftime('%d/%m/%y')]])
-  #   worksheet.save
-  #   redirect_to invoice_item_path(@invoice_item)
-  #   flash[:notice] = "Uploadé avec succès"
-  # end
+  def upload_to_sheet
+    @invoice_items = InvoiceItem.where({ created_at: Time.current.beginning_of_year..Time.current.end_of_year })
+    authorize @invoice_items
+    @trainings = []
+    @invoice_items.each do |item|
+      @trainings << item.training
+    end
+    @trainings.uniq!
+    session = GoogleDrive::Session.from_service_account_key("client_secret.json")
+    spreadsheet = session.spreadsheet_by_title("Copie de Seven Numbers #{Time.current.year}")
+    worksheet = spreadsheet.worksheets.first
+    row = 2
+    @trainings.each do |training|
+      training.invoice_items do |item|
+        preparation = 0
+        costs = 0
+        deposit = 0
+        item.training.client_contact.client_company.client_company_type == 'Entreprise' ? unit = 'j' : unit = 'h'
+        item.invoice_lines.each do |line|
+          if line.product.product_type == 'Préparation'
+            preparation += line.quantity * line.net_amount
+          elsif
+            line.product.product_type == 'Frais'
+            costs += line.quantity * line.net_amount
+          elsif
+            line.product.product_type == 'Caution'
+            deposit += line.quantity * line.net_amount
+          end
+        end
+      worksheet.insert_rows(row, [[@training.start_date.strftime('%d/%m/%y'), @training.end_date.strftime('%d/%m/%y'), @training.client_contact.client_company.name, @training.title, invoice_item_url(@invoice_item), @invoice_item.invoice_lines.first.quantity, unit, @invoice_item.invoice_lines.first.net_amount.round, (@invoice_item.invoice_lines.first.net_amount*@invoice_item.invoice_lines.first.quantity).round, preparation, deposit, @invoice_item.tax_amount.round, costs, '', (@invoice_item.total_amount - @invoice_item.tax_amount).round, @invoice_item.uuid, @invoice_item.issue_date.strftime('%d/%m/%y')]])
+      row += 1
+      end
+    end
+    # worksheet.delete_rows((Invoice.count+1), 1)
+    worksheet.save
+    redirect_back(fallback_location: root_path)
+    flash[:notice] = "Uploadé avec succès"
+  end
 
   private
 
@@ -230,5 +308,14 @@ class InvoiceItemsController < ApplicationController
 
   def invoiceitem_params
     params.require(:invoice_item).permit(:status, :uuid)
+  end
+
+  def self.to_csv
+    CSV.generate do |csv|
+      csv << column_names
+      all.each do |result|
+        csv << result.attributes.values_at(*column_names)
+      end
+    end
   end
 end

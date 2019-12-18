@@ -7,12 +7,64 @@
             <p><%= item.training.title %></p>
             <p><%= item.uuid %></p>
           </div>
-          <div class='item-status' style='width: 50%;display:flex; justify-content: space-between;'>
+          <a data-toggle='modal' type='button' data-target='#editSending<%= item.id %>' style='cursor:pointer;'>
+            <div class="item-id">
+              <p>Sending date</p>
+              <% if item.sending_date.present? %>
+                <p><%= item.sending_date.strftime('%d/%m/%y') %></p>
+              <% end %>
+            </div>
+          </a>
+          <!-- MODAL -->
+          <div class="modal fade" id="editSending<%= item.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" role="document" style="border-radius: 20px">
+              <%= render 'edit_sending', item: item %>
+            </div>
+          </div>
+          <!--  -->
+          <a data-toggle='modal' type='button' data-target='#editDunning<%= item.id %>' style='cursor:pointer;'>
+            <div class="item-id">
+              <p>Dunning date</p>
+              <% if item.dunning_date.present? %>
+                <p><%= item.dunning_date.strftime('%d/%m/%y') %></p>
+              <% end %>
+            </div>
+          </a>
+          <!-- MODAL -->
+          <div class="modal fade" id="editDunning<%= item.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" role="document" style="border-radius: 20px">
+              <%= render 'edit_dunning', item: item %>
+            </div>
+          </div>
+          <!--  -->
+          <a data-toggle='modal' type='button' data-target='#editPayment<%= item.id %>' style='cursor:pointer;'>
+            <div class="item-id">
+              <p>Payment date</p>
+              <% if item.payment_date.present? %>
+                <p><%= item.payment_date.strftime('%d/%m/%y') %></p>
+              <% end %>
+            </div>
+          </a>
+          <!-- MODAL -->
+          <div class="modal fade" id="editPayment<%= item.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" role="document" style="border-radius: 20px">
+              <%= render 'edit_payment', item: item %>
+            </div>
+          </div>
+          <!--  -->
+          <div class='item-status' style='width: 25%;display:flex; justify-content: space-between;'>
             <p><%= number_with_precision(item.total_amount, precision: 2) %>€</p>
-            <%= render 'status', item: item %>
+            <% if item.payment_date.present? %>
+              <p>Paid</p>
+            <% elsif item.dunning_date.present? %>
+              <p>Reminded</p>
+            <% elsif item.sending_date.present? %>
+              <p>Send</p>
+            <% end %>
           </div>
         </div>
       <% end %>
     </li>
   <% end %>
 </ul>
+

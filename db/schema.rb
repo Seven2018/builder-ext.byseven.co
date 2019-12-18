@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_21_160447) do
+ActiveRecord::Schema.define(version: 2019_12_16_144245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2019_11_21_160447) do
     t.datetime "updated_at", null: false
     t.string "zipcode"
     t.string "city"
+    t.string "reference"
   end
 
   create_table "client_contacts", force: :cascade do |t|
@@ -172,6 +173,7 @@ ActiveRecord::Schema.define(version: 2019_11_21_160447) do
     t.string "uuid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "dunning_date"
     t.index ["client_company_id"], name: "index_invoice_items_on_client_company_id"
     t.index ["training_id"], name: "index_invoice_items_on_training_id"
     t.index ["user_id"], name: "index_invoice_items_on_user_id"
@@ -209,6 +211,7 @@ ActiveRecord::Schema.define(version: 2019_11_21_160447) do
     t.string "product_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reference"
   end
 
   create_table "requests", force: :cascade do |t|
@@ -320,6 +323,7 @@ ActiveRecord::Schema.define(version: 2019_11_21_160447) do
     t.string "mode"
     t.bigint "booking_id"
     t.string "satisfaction_survey"
+    t.string "refid"
     t.index ["booking_id"], name: "index_trainings_on_booking_id"
     t.index ["client_contact_id"], name: "index_trainings_on_client_contact_id"
   end

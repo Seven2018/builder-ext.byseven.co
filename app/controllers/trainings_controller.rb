@@ -72,6 +72,7 @@ class TrainingsController < ApplicationController
     @training = Training.new(training_params)
     @training_ownership = TrainingOwnership.new(user: current_user, training: @training)
     authorize @training
+    @training.refid = "#{Time.current.strftime('%y')}-#{'%04d' % (Training.where(end_date: Time.current.beginning_of_year..Time.current.end_of_year).count + 1)}"
     if @training.save && @training_ownership.save
       redirect_to training_path(@training)
     else
