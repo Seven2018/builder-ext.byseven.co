@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer, :copy, :presence_sheet]
+  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer, :copy, :copy_here, :presence_sheet]
 
   # Shows an InvoiceItem in html or pdf version
   def show
@@ -84,21 +84,39 @@ class SessionsController < ApplicationController
 
   def copy
     authorize @session
-    @training = Training.find(params[:copy][:training_id])
-    @new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at", "training_id", "date", "address", "room"))
-    @new_session.title = params[:copy][:rename] if params[:copy][:rename].present?
-    @new_session.date = params[:copy][:date] if params[:copy][:date].present?
-    @new_session.training_id = @training.id
-    if @new_session.save
+    training = Training.find(params[:copy][:training_id])
+    new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at", "training_id", "date", "address", "room"))
+    new_session.title = params[:copy][:rename] if params[:copy][:rename].present?
+    new_session.date = params[:copy][:date] if params[:copy][:date].present?
+    new_session.training_id = training.id
+    if new_session.save
       @session.workshops.each do |workshop|
         new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
-        new_workshop.update(session_id: @new_session.id)
+        new_workshop.update(session_id: new_session.id)
         workshop.workshop_modules.each do |mod|
           new_mod = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
           new_mod.update(workshop_id: new_workshop.id)
         end
       end
-      redirect_to training_path(@training)
+      redirect_to training_path(training)
+    else
+      raise
+    end
+  end
+
+  def copy_here
+    authorize @session
+    new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at"))
+    if new_session.save
+      @session.workshops.each do |workshop|
+        new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
+        new_workshop.update(session_id: new_session.id)
+        workshop.workshop_modules.each do |mod|
+          new_mod = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
+          new_mod.update(workshop_id: new_workshop.id)
+        end
+      end
+      redirect_to training_path(@session.training)
     else
       raise
     end

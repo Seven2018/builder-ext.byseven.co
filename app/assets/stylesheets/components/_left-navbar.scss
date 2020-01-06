@@ -11,9 +11,6 @@
 
   text-align: left;
   padding-top: 15px;
-  // -webkit-box-shadow: inset -2px 0px 0px 0px rgba(0,0,0,0.18);
-  // -moz-box-shadow: inset -2px 0px 0px 0px rgba(0,0,0,0.18);
-  // box-shadow: inset -2px 0px 0px 0px rgba(0,0,0,0.18);
 
   @include from-large {
     display: flex;
@@ -42,6 +39,15 @@
   display: flex;
   justify-content: space-around;
   position: relative;
+}
+
+.left-navbar-middle {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.left-navbar-middle::-webkit-scrollbar {
+  width: 0 !important;
 }
 
 .left-navbar-middle-mobile {
