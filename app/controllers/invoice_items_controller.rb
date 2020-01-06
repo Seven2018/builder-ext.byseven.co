@@ -66,7 +66,7 @@ class InvoiceItemsController < ApplicationController
     @invoice = InvoiceItem.new(training_id: params[:training_id].to_i, client_company_id: params[:client_company_id].to_i, type: params[:type])
     authorize @invoice
     # ttributes a invoice number to the InvoiceItem
-    @invoice.type == 'Invoice' ? @invoice.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+714) : @invoice.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Estimate.count+1)
+    @invoice.type == 'Invoice' ? @invoice.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+715) : @invoice.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Estimate.count+1)
     @invoice.status = 'En attente'
       # @invoice.type == 'Invoice' ? @invoice.status = 'Non payée' : @invoice.status = 'En attente'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
