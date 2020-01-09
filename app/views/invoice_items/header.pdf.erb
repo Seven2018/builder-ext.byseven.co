@@ -3,9 +3,9 @@
   <body id='header-body-pdf'>
     <div class="invoice-header-pdf">
       <% unless @invoice_item.type == 'InvoiceSevener' %>
-      <%= wicked_pdf_image_tag 'logo.png', id: "pdf-logo" %>
         <div>
-          <h3><strong>SAS SEVEN</strong></h3>
+          <%= wicked_pdf_image_tag 'logo.png', id: "pdf-logo" %>
+          <h3>SEVEN</h3>
           <p>5, rue Moret</p>
           <p>75011 Paris</p>
           <p>FRANCE</p>
