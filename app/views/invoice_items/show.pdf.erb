@@ -29,8 +29,8 @@
             <div class='invoice-desc-line-data-pdf'>
               <% if line.quantity %>
                 <p><%= line.quantity %></p>
-                <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
-                <p class='invoice-desc-line-data-pretaxamount'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
+                <p style='width:65px;margin-left:40px;'><%= number_with_precision(line.net_amount, precision: 2) %></p>
+                <p class='invoice-desc-line-data-pretaxamount' style='width:65px;margin-left:40px;'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
                 <p><%= number_with_precision(line.tax_amount, precision: 2) %></p>
               <% end %>
             </div>
