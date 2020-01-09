@@ -25,21 +25,6 @@ class TrainingsController < ApplicationController
     end
   end
 
-  # Index when using Booklet Mode
-  def index_booklet
-    @trainings = Training.joins(:client_contact).where(client_contacts: { email: current_user.email })
-    authorize @trainings
-
-    @bookings = Booking.where(user_id: current_user.id)
-    if current_user.client_company.present?
-      @requests = Request.joins(:user).where(users: {client_company_id: current_user.client_company.id})
-      @merchandises = Merchandise.joins(requests: :user).where(users: {client_company_id: current_user.client_company.id})
-    else
-      @requests = Request.all
-      @merchandises = Merchandise.all
-    end
-  end
-
   # Index with weekly calendar view
   def index_week
     @trainings = Training.all

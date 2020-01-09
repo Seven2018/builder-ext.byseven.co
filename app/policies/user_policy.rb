@@ -9,10 +9,6 @@ class UserPolicy < ApplicationPolicy
     end
   end
 
-  def index_booklet?
-    check_access_hr
-  end
-
   def create?
     check_access
   end
@@ -34,10 +30,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   private
-
-  def check_access_hr
-    ['super admin', 'admin', 'training manager', 'HR'].include? user.access_level
-  end
 
   def check_access
     ['super admin', 'admin', 'training manager', 'HR'].include? user.access_level

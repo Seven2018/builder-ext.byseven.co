@@ -92,6 +92,6 @@ class InvoiceLinesController < ApplicationController
   # end
 
   def invoiceline_params
-    params.require(:invoice_line).permit(:description, :quantity, :net_amount, :comments)
+    params.require(:invoice_line).permit(:description, :quantity, :net_amount, :tax_amount, :comments)
   end
 end

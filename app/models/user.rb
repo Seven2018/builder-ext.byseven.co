@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_many :bookings
   has_many :requests
   belongs_to :client_company, optional: true
-  validates :access_level, inclusion: { in: ['sevener', 'training manager', 'admin', 'super admin', 'HR', 'employee'] }
+  validates :access_level, inclusion: { in: ['sevener', 'training manager', 'admin', 'super admin'] }
 
   def fullname
     "#{firstname} #{lastname}"

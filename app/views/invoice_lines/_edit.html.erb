@@ -11,6 +11,7 @@
       <% unless line.quantity.nil? %>
         <%= f.input :quantity, input_html: { min: 0 } %>
         <%= f.input :net_amount %>
+        <%= f.input :tax_amount %>
       <% end %>
       <div style=" display: flex; justify-content: space-between;">
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>

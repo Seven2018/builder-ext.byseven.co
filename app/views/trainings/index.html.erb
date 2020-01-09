@@ -31,23 +31,21 @@
         <li><%= link_to "Calendar", index_week_path %></li>
       <% end %>
     </ul>
-    <% unless params[:action] == 'index_booklet' %>
-      <div id='training-buttons'>
-        <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
-          <%= f.input :title, placeholder: 'Search', label: false %>
-          <% if params[:search] %>
-            <%= link_to trainings_path, class: 'training-search-close' do %>
-              <i class="far fa-times-circle"></i>
-            <% end %>
+    <div id='training-buttons'>
+      <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
+        <%= f.input :title, placeholder: 'Search', label: false %>
+        <% if params[:search] %>
+          <%= link_to trainings_path, class: 'training-search-close' do %>
+            <i class="far fa-times-circle"></i>
           <% end %>
         <% end %>
-        <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
-          <%= link_to new_training_path do %>
-            <button class="btn btn-edit">New Training</button>
-          <% end %>
+      <% end %>
+      <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
+        <%= link_to new_training_path do %>
+          <button class="btn btn-edit">New Training</button>
         <% end %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
   <div class="tab-content">
     <% if params[:search] %>

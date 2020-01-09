@@ -3,6 +3,7 @@ class InvoiceItem < ApplicationRecord
   belongs_to :training, optional: true
   belongs_to :user, optional: true
   has_many :invoice_lines, dependent: :destroy
+  self.inheritance_column = :_type_disabled
 
   # def self.to_csv
   #   attributes = %w(Début Fin Nom_Client Nom_Formation Trello Unité Nature €/u CA_variable Ca_fixe Caution TVA Frais_facturés Frais_non_facturés Anc_Nouv CA_facturé Num_facture Emission Envoi Relance Paiement Intervenant Reception_Facture Montant Date_Paiement)
