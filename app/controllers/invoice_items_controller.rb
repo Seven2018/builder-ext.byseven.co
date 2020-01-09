@@ -248,16 +248,15 @@ class InvoiceItemsController < ApplicationController
 
   # Filter for index method
   def index_filtered
-    if params[:training_id]
+    if params[:training_id].present?
       @invoice_items = InvoiceItem.where(training_id: params[:training_id].to_i)
     elsif params[:client_company_id].nil?
       @invoice_items = InvoiceItem.all.order('id DESC')
-    elsif params[:type] == 'Invoice'
+    elsif params[:type] == 'Invoice' && params[:client_company_id]
       @invoice_items = Invoice.where(client_company_id: params[:client_company_id].to_i).order('id DESC')
-    elsif params[:type] == 'Estimate'
+    elsif params[:type] == 'Estimate' && params[:client_company_id]
       @invoice_items = Estimate.where(client_company_id: params[:client_company_id].to_i).order('id DESC')
     end
-    return @invoice_items
   end
 
   # Updates InvoiceItem price and tax amount
