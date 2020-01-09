@@ -22,6 +22,8 @@
       <div class="invoice-header-number-pdf">
         <% if @invoice_item.type == 'Invoice' || @invoice_item.type == 'InvoiceSevener' %>
           <h1>Facture</h1>
+        <% elsif @invoice_item.total_amount < 0 %>
+          <h1>Avoir</h1>
         <% else %>
           <h1>Devis</h1>
         <% end %>

@@ -10,7 +10,9 @@
   <body class='invoice-body-pdf' >
     <div class="wrapper-pdf">
       <div class="invoice-desc-headline-pdf">
-        <p class='invoice-desc-headline-description-pdf'>Désignation</p>
+        <div>
+          <p class='invoice-desc-headline-description-pdf'>Désignation</p>
+        </div>
         <div class='invoice-desc-line-data-pdf'>
           <p class='invoice-desc-line-quantity'>Qté</p>
           <p class='invoice-desc-line-puht'>PU HT</p>
@@ -25,12 +27,14 @@
           </div>
         <% else %>
           <div class="invoice-desc-line-pdf">
-            <p class='invoice-desc-line-description-pdf'><%= line.description %></p>
+            <div>
+              <p class='invoice-desc-line-description-pdf'><%= line.description %></p>
+            </div>
             <div class='invoice-desc-line-data-pdf'>
               <% if line.quantity %>
                 <p><%= line.quantity %></p>
-                <p style='width:65px;margin-left:40px;'><%= number_with_precision(line.net_amount, precision: 2) %></p>
-                <p class='invoice-desc-line-data-pretaxamount' style='width:65px;margin-left:40px;'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
+                <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
+                <p class='invoice-desc-line-data-pretaxamount'><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
                 <p><%= number_with_precision(line.tax_amount, precision: 2) %></p>
               <% end %>
             </div>
