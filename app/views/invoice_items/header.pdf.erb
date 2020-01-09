@@ -20,7 +20,7 @@
         </div>
       <% end %>
       <div class="invoice-header-number-pdf">
-        <% if @invoice_item.type == 'Invoice' || @invoice_item.total_amount < 0 %>
+        <% if @invoice_item.type == 'Invoice' && @invoice_item.total_amount < 0 %>
           <h1>Avoir</h1>
         <% elsif @invoice_item.type == 'Invoice' || @invoice_item.type == 'InvoiceSevener' %>
           <h1>Facture</h1>
