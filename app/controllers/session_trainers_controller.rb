@@ -59,7 +59,7 @@ class SessionTrainersController < ApplicationController
         if %w(1 2 3 4 5 14).include?(key)
           service.delete_event(calendars_ids[key.to_i - 1], value) if value.present?
         else
-          service.delete_event(calendars_ids[6], value) if value.present?
+          service.delete_event(calendars_ids[5], value) if value.present?
         end
       rescue
       end
@@ -78,7 +78,7 @@ class SessionTrainersController < ApplicationController
         event.id = SecureRandom.hex(32)
         session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first
         session_trainer.update(calendar_uuid: event.id)
-        service.insert_event(calendars_ids[6], event)
+        service.insert_event(calendars_ids[5], event)
       end
     end
 
