@@ -42,7 +42,7 @@ class SessionTrainersController < ApplicationController
       summary: session.training.client_company.name.upcase + " - " + session.training.title
     })
     # Calendars ids
-    calendars_ids = ['yahya.fallah@byseven.co', 'brice.chapuis@byseven.co', 'thomas.fraudet@byseven.co', 'jorick.roustan@byseven.co', 'mathilde.meurer@byseven.co', 'camille.briand@byseven.co', 'vum1670hi88jgei65u5uedb988@group.calendar.google.com']
+    calendars_ids = ['yahya.fallah@byseven.co', 'brice.chapuis@byseven.co', 'thomas.fraudet@byseven.co', 'jorick.roustan@byseven.co', 'mathilde.meurer@byseven.co', 'vum1670hi88jgei65u5uedb988@group.calendar.google.com', '', '', '', '', '', '', '', 'camille.briand@byseven.co']
 
     # Lists the users and the events ids of the events to be deleted
     to_delete_string = Base64.decode64(params[:state]).split('|').last.split('%').last
@@ -56,7 +56,7 @@ class SessionTrainersController < ApplicationController
     # Deletes the events
     to_delete_hash.each do |key, value|
       begin
-        if %w(1 2 3 4 5 6).include?(key)
+        if %w(1 2 3 4 5 14).include?(key)
           service.delete_event(calendars_ids[key.to_i - 1], value) if value.present?
         else
           service.delete_event(calendars_ids[6], value) if value.present?
@@ -69,7 +69,7 @@ class SessionTrainersController < ApplicationController
     list = Base64.decode64(params[:state]).split('|').first.split(',')
     # Creates the event in all the targeted calendars
     list.each do |ind|
-      if %w(1 2 3 4 5 6).include?(ind)
+      if %w(1 2 3 4 5 14).include?(ind)
         create_calendar_id(ind, session.id, event, service, calendars_ids)
       else
         sevener = User.find(ind)
