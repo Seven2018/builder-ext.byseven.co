@@ -1,6 +1,5 @@
 class Training < ApplicationRecord
   belongs_to :client_contact
-  belongs_to :booking, optional: true
   has_many :sessions, dependent: :destroy
   has_many :training_ownerships, dependent: :destroy
   has_many :users, through: :training_ownerships
@@ -26,6 +25,16 @@ class Training < ApplicationRecord
 
   def title_for_copy
     self.title + ' - ' + self.end_date.strftime('%d/%m/%y')
+  end
+
+  def trainers
+    trainers = []
+    self.sessions.each do |session|
+      session.session_trainers.each do |trainer|
+        trainers << trainer.user
+      end
+    end
+    trainers.uniq
   end
 
   private

@@ -2,17 +2,11 @@ Rails.application.routes.draw do
   # get 'session_trainers/new'
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   resources :users
-  get 'users_booklet', to: 'users#index_booklet', as: 'booklet_users'
   root to: 'pages#home'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # resources :intelligences
   resources :actions
   resources :theories
-  resources :merchandises
-  get 'index_request', to: 'merchandises#index_request', as: 'merchandises_index_request'
-  resources :requests, only: [:create, :destroy]
-  resources :bookings, only: [:index, :show, :create, :destroy]
-  get 'booking/:id/transform', to: 'bookings#transform', as: 'transform_booking'
   resources :contents, only: [:index, :show, :new, :create, :update, :destroy] do
     resources :content_modules, only: [:show, :new, :create, :edit, :update, :destroy]
       get 'content_module/:id/move_up', to: 'content_modules#move_up', as: 'move_up_content_module'
@@ -23,24 +17,30 @@ Rails.application.routes.draw do
     resources :client_contacts, path: '/contacts'
   end
   resources :invoice_items, only: [:index, :show, :edit, :update]
+  get 'invoice_item/:id/copy', to: 'invoice_items#copy', as: 'copy_invoice_item'
+  get 'invoice_item/:id/edit_client', to: 'invoice_items#edit_client', as: 'edit_client_invoice_item'
+  get 'invoice_item/:id/credit', to: 'invoice_items#credit', as: 'credit_invoice_item'
   get 'invoices', to: 'invoice_items#invoice_index', as: 'invoices'
   post 'new_invoice_item', to: 'invoice_items#new_invoice_item', as: 'new_invoiceitem'
   post 'new_sevener_invoice', to: 'invoice_items#new_sevener_invoice', as: 'new_sevener_invoice'
   get 'estimates', to: 'invoice_items#estimate_index', as: 'estimates'
   get 'invoice_items/:id/export', to: 'invoice_items#export', as: 'invoice_item_export'
-  get 'invoice_items/:id/marked', to: 'invoice_items#marked_as_paid', as: 'invoice_marked'
-  # post 'upload_to_sheet', to: 'invoice_items#upload_to_sheet', as: 'upload_to_sheet'
+  get 'invoice_items/:id/marked_as_send', to: 'invoice_items#marked_as_send', as: 'marked_as_send_invoice_item'
+  get 'invoice_items/:id/marked_as_paid', to: 'invoice_items#marked_as_paid', as: 'marked_as_paid_invoice_item'
+  get 'invoice_items/:id/marked_as_reminded', to: 'invoice_items#marked_as_reminded', as: 'marked_as_reminded_invoice_item'
+  get 'invoice_items/export_to_csv', to: 'invoice_items#export_to_csv', as: 'export_to_csv_invoice_items'
+  post 'upload_to_sheet', to: 'invoice_items#upload_to_sheet', as: 'upload_to_sheet'
   get 'report', to: 'invoice_items#report', as: 'report'
   resources :invoice_lines, only: [:create, :edit, :update, :destroy]
   get 'invoice_line/:id/move_up', to: "invoice_lines#move_up", as: "move_up_invoice_line"
   get 'invoice_line/:id/move_down', to: "invoice_lines#move_down", as: "move_down_invoice_line"
   get 'trainings_week', to: 'trainings#index_week', as: "index_week"
   get 'trainings_month', to: 'trainings#index_month', as: "index_month"
-  get 'trainings_booklet', to: 'trainings#index_booklet', as: 'booklet_trainings'
   get 'training/:id/copy', to: 'trainings#copy', as: 'copy_training'
   resources :trainings do
     get 'session_viewer/:id', to: 'sessions#viewer', as: 'session_viewer'
     get 'session/:id/copy', to: 'sessions#copy', as: 'copy_session'
+    get 'session/:id/copy_here', to: 'sessions#copy_here', as: 'copy_here_session'
     get 'session/:id/presence_sheet', to: 'sessions#presence_sheet', as: 'session_presence_sheet'
     resources :sessions, only: [:new, :show, :create, :update, :destroy] do
       post 'workshop/:id', to: "workshops#move", as: "move_workshop"

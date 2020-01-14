@@ -111,7 +111,7 @@
           <% end %>
           <% if status %>
             <ul id='myUL'>
-              <% (Content.where("lower(title) LIKE :query", query: "%#{params[:search][:title].downcase}%") + (Content.joins(:content_modules).where("lower(content_modules.title) LIKE :query", query:"%#{params[:search][:title].downcase}%"))).uniq.each do |content| %>
+              <% (Content.where("lower(title) LIKE :query", query:"%#{params[:search][:title].downcase}%") + Content.joins(:content_modules).where("lower(content_modules.title) LIKE :query", query:"%#{params[:search][:title].downcase}%") + Content.joins(:theories).where("lower(theories.description) LIKE :query", query:"%#{params[:search][:title].downcase}%") + Content.joins(:theories).where("lower(theories.name) LIKE :query", query:"%#{params[:search][:title].downcase}%")).uniq.each do |content| %>
                 <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
                   <li class='myUL-li-theme-sidebar'>+ <%= content.title %></li>
                 <% end %>

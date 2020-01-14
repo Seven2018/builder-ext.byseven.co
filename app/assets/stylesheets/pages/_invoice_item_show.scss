@@ -37,6 +37,13 @@
   margin-left: 550px;
   margin-bottom: 50px;
   width: auto;
+  position: relative;
+}
+
+.invoice-item-button-opco {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 #invoice-desc-header {

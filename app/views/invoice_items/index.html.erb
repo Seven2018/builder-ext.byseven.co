@@ -9,13 +9,24 @@
         <i class="fas fa-arrow-left"></i>
       <% end %>
     <% end %>
+    <a data-toggle='modal' type='button' data-target='#exportCSV' style='cursor:pointer;'>
+      <button class="btn btn-edit-red btn-edit-trash">Export <i class="fas fa-file-csv"></i></button>
+    </a>
   </div>
   <% if params[:type] == 'Invoice' %>
-    <h3>Liste des factures</h3>
+    <h3>Invoices List</h3>
   <% elsif params[:type] == 'Estimate' %>
-    <h3>Liste des devis</h3>
+    <h3>Estimates List</h3>
   <% end %>
   <div class="invoice-list">
     <%= render 'list', invoice_items: @invoice_items %>
   </div>
 </div>
+
+<!-- MODAL -->
+<div class="modal fade" id="exportCSV" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'export_csv' %>
+  </div>
+</div>
+<!--  -->

@@ -23,35 +23,40 @@
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
           <i class="fas fa-copy"></i>
         <% end %>
+        <%= link_to training_copy_here_session_path(session.training, session), method: 'GET' do %>
+          <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+            <i class="fas fa-clipboard"></i>
+          <% end %>
+        <% end %>
       </div>
-      <script>
-        $('.session_copy').click(function() {
-          id = $(this).attr('id');
-          $('.copy-form-hidden-label').hide()
-          $('.copy_training_id'+id).hide()
-          trainings = $('.copy_training_id'+id).html()
-          reset = $('.copy_training_id'+id).html()
-          $('.copy_client_company_id'+id).change(function() {
-            client_company = $('.copy_client_company_id'+id+' :selected').text()
-            options = $(trainings).filter(`optgroup[label='${client_company}']`).html()
-            $('.copy-form-hidden-label').show()
-            if (options) {
-              $('.copy_training_id'+id).html(options)
-              $('.copy_training_id'+id).show()
-            } else {
-              $('.copy_training_id'+id).empty()
-              $('.copy_training_id'+id).hide()
-            }
-          });
-          $('.btn-edit-cross').click(function() {
-            $(".copy").each(function() {
-              this.reset();
-            });
-            $('.copy_training_id'+id).html(reset)
+        <script>
+          $('.session_copy').click(function() {
+            id = $(this).attr('id');
+            $('.copy-form-hidden-label').hide()
             $('.copy_training_id'+id).hide()
-          })
-        });
-      </script>
+            trainings = $('.copy_training_id'+id).html()
+            reset = $('.copy_training_id'+id).html()
+            $('.copy_client_company_id'+id).change(function() {
+              client_company = $('.copy_client_company_id'+id+' :selected').text()
+              options = $(trainings).filter(`optgroup[label='${client_company}']`).html()
+              $('.copy-form-hidden-label').show()
+              if (options) {
+                $('.copy_training_id'+id).html(options)
+                $('.copy_training_id'+id).show()
+              } else {
+                $('.copy_training_id'+id).empty()
+                $('.copy_training_id'+id).hide()
+              }
+            });
+            $('.btn-edit-cross').click(function() {
+              $(".copy").each(function() {
+                this.reset();
+              });
+              $('.copy_training_id'+id).html(reset)
+              $('.copy_training_id'+id).hide()
+            })
+          });
+        </script>
     <% end %>
   </div>
 </div>

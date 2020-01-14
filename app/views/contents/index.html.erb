@@ -76,3 +76,17 @@
   </div>
 </div>
 <script src="/javascript/plugins/tree.js" type="text/javascript"></script>
+<script>
+  active = document.querySelector('.theme-active');
+  themes = document.getElementsByClassName('myUL-li-theme');
+  for (let i = 0; i < themes.length; i++) {
+    themes[i].addEventListener('click', (event) => {
+      console.log("test");
+      for (let j = 0; j < themes.length; j++) {
+        if (themes[j] != themes[i]) {
+          themes[j].classList.toggle('hidden');
+        }
+      }
+    })
+  }
+</script>

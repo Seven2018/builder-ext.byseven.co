@@ -5,12 +5,6 @@ class UsersController < ApplicationController
     index_function(policy_scope(User))
   end
 
-  # Index view through 'Booklet'
-  def index_booklet
-    index_function(User)
-    authorize @users
-  end
-
   def show
     if ['super admin', 'admin', 'training manager'].include?(current_user.access_level)
       @user = User.find(params[:id])

@@ -2,7 +2,7 @@
   <%= wicked_pdf_image_tag 'logo.png', id: "presence-sheet-logo-pdf" %>
 </div>
 <div>
-  <h2 class="title-presence-sheet-pdf">Formation : <%= @session.training.title %></h2>
+  <h2 class="title-presence-sheet-pdf">Formation : <%= @session.training.client_company.name %> - <%= @session.training.title %></h2>
   <br>
   <h4 class="infos-presence-sheet-pdf">Date : <%= @session.date.strftime('%d/%m/%Y') %></h4>
   <h4 class="infos-presence-sheet-pdf">Horaires : <%= @session.start_time.strftime('%H:%M') %> - <%= @session.end_time.strftime('%H:%M') %></h4>
