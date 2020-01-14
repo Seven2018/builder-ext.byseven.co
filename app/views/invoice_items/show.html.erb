@@ -9,7 +9,7 @@
   </div>
   <div class="session-container invoice-item-container">
     <div class="training-info-headers">
-      <%= link_to invoice_items_path(training_id: @invoice_item.training.id), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+      <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
       <div class="training-info-headers-buttons">
         <button class='btn btn-edit-green btn-edit-copy invoiceitem_copy' data-toggle='modal' data-target='#copyInvoiceItem'><i class="fas fa-copy"></i></button>
         <%= link_to invoice_item_path(@invoice_item, format: :pdf), target: :_blank do %>

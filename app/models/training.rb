@@ -1,6 +1,5 @@
 class Training < ApplicationRecord
   belongs_to :client_contact
-  belongs_to :booking, optional: true
   has_many :sessions, dependent: :destroy
   has_many :training_ownerships, dependent: :destroy
   has_many :users, through: :training_ownerships

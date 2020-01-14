@@ -8,10 +8,6 @@ class SessionAttendeesController < ApplicationController
     authorize @session_attendee
     if (@session.attendees.count <= (@session.attendee_number - 1)) && @session_attendee.save
       flash[:notice] = "Vous êtes désormais inscrit à la session #{@session_attendee.session.title}."
-      # Destroys User(employee)'s request when signing up for a corresponding session
-      unless @session.training.booking.nil?
-        @session.training.booking.merchandise.requests.joins(:user).where(users: {email: @attendee.email}).destroy_all
-      end
       redirect_back(fallback_location: root_path)
     end
   end

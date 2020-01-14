@@ -149,7 +149,7 @@ class InvoiceItemsController < ApplicationController
   def credit
     authorize @invoice_item
     credit = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at"))
-    credit.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+1)
+    credit.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+715)
     if credit.save
       @invoice_item.invoice_lines.each do |line|
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))

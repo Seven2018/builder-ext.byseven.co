@@ -7,11 +7,6 @@ Rails.application.routes.draw do
   # resources :intelligences
   resources :actions
   resources :theories
-  resources :merchandises
-  get 'index_request', to: 'merchandises#index_request', as: 'merchandises_index_request'
-  resources :requests, only: [:create, :destroy]
-  resources :bookings, only: [:index, :show, :create, :destroy]
-  get 'booking/:id/transform', to: 'bookings#transform', as: 'transform_booking'
   resources :contents, only: [:index, :show, :new, :create, :update, :destroy] do
     resources :content_modules, only: [:show, :new, :create, :edit, :update, :destroy]
       get 'content_module/:id/move_up', to: 'content_modules#move_up', as: 'move_up_content_module'

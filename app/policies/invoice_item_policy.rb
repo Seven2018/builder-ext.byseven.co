@@ -33,6 +33,18 @@ class InvoiceItemPolicy < ApplicationPolicy
     check_access
   end
 
+  def marked_as_send
+    check_access
+  end
+
+  def marked_as_paid
+    check_access
+  end
+
+  def marked_as_reminded
+    check_access
+  end
+
   def upload_to_sheet?
     check_access
   end
