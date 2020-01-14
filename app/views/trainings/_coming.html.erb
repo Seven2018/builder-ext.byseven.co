@@ -1,6 +1,6 @@
 <div class="row" style="background-color: white; margin-right: 0;">
   <% result_fut = [] %>
-  <% (@trainings.joins(:sessions).where('date > ?', Date.today).order('date ASC') + @trainings.where('end_date > ?', Date.today)).uniq.each do |training| %>
+  <% (@trainings.joins(:sessions).where('date >= ?', Date.today).order('date ASC') + @trainings.where('end_date >= ?', Date.today)).uniq.each do |training| %>
     <% if training.end_date > Date.today %>
       <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
         <div class="card" id="card-index">
@@ -18,7 +18,7 @@
           <div class="card-footer">
             <div>
               <% training.users.each do |owner| %>
-                <img class='avatar-xs' src="<%= owner.picture %>" alt='<%= "#{owner.firstname.capitalize} #{owner.lastname.upcase}" %>'>
+                <img class='avatar-xs' src="<%= owner.picture %>">
               <% end %>
             </div>
             <div>
@@ -26,10 +26,10 @@
               <% training.sessions.each do |session| %>
                 <% session.users.each do |trainer| %>
                   <% trainer_array << trainer %>
-                  <% unless trainer_array.count(trainer) > 1 || trainer_array.uniq.count > 3 %>
-                    <img class='avatar-xs' src="<%= trainer.picture %>" alt='<%= "#{trainer.firstname.capitalize} #{trainer.lastname.upcase}" %>'>
-                  <% end %>
                 <% end %>
+              <% end %>
+              <% trainer_array.first(3) do |trainer| %>
+                <img class='avatar-xs' src="<%= trainer.picture %>">
               <% end %>
               <% if trainer_array.uniq.count > 3 %>
                 <button class='btn btn-edit-menu btn-edit-round'><i class='fas fa-ellipsis-h'></i></button>

@@ -14,7 +14,7 @@ class WorkshopModulePolicy < ApplicationPolicy
   end
 
   def update?
-    check_access
+    true
   end
 
   def destroy?
@@ -45,5 +45,9 @@ class WorkshopModulePolicy < ApplicationPolicy
 
   def check_access
     ['super admin', 'admin', 'training manager'].include? user.access_level
+  end
+
+  def check_access_sevener
+    ['super admin', 'admin', 'training manager, sevener'].include? user.access_level
   end
 end

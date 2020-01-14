@@ -1,0 +1,18 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel">Payment date for <%= item.uuid %></h3>
+    </div>
+    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <%= simple_form_for :edit_payment, url: marked_as_paid_invoice_item_path(item), method: 'GET' do |f| %>
+      <%= f.input :payment_date, as: :string, input_html: { class: 'datepicker'} %>
+      <div style=" display: flex; justify-content: space-between; margin-top: 10px">
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -12,10 +12,6 @@
           <%= link_to "Log out", destroy_user_session_path, method: :delete %>
         </li>
       </ul>
-      <% if user_signed_in? && current_user.access_level == 'super admin' %>
-        <%= link_to booklet_trainings_path, class: 'left-navbar-toggle' do %>
-        <% end %>
-      <% end %>
     </div>
   </div>
   <div class="left-navbar-middle">

@@ -5,49 +5,32 @@
       <% if params[:search] %>
         <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
         <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
-        <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
-          <li role="presentation"><a href="#bookings" data-toggle="tab">Bookings</a></li>
-        <% end %>
       <% elsif params[:tab].nil? || params[:tab] == 'upcoming' %>
         <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li>
         <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
-        <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
-          <li role="presentation"><a href="#bookings" data-toggle="tab">Bookings</a></li>
-        <% end %>
       <% elsif params[:tab] == 'completed' %>
         <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
         <li role="presentation"><a href="#completed" data-toggle="tab" class="active">Completed</a></li>
-        <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
-          <li role="presentation"><a href="#bookings" data-toggle="tab">Bookings</a></li>
-        <% end %>
-      <% elsif params[:tab] == 'bookings' %>
-        <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
-        <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
-        <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
-          <li role="presentation"><a href="#bookings" data-toggle="tab" class="active">Bookings</a></li>
-        <% end %>
       <% end %>
       <% if (['super admin', 'admin', 'training manager', 'sevener'].include? current_user.access_level) %>
         <li><%= link_to "Calendar", index_week_path %></li>
       <% end %>
     </ul>
-    <% unless params[:action] == 'index_booklet' %>
-      <div id='training-buttons'>
-        <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
-          <%= f.input :title, placeholder: 'Search', label: false %>
-          <% if params[:search] %>
-            <%= link_to trainings_path, class: 'training-search-close' do %>
-              <i class="far fa-times-circle"></i>
-            <% end %>
+    <div id='training-buttons'>
+      <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
+        <%= f.input :title, placeholder: 'Search', label: false %>
+        <% if params[:search] %>
+          <%= link_to trainings_path, class: 'training-search-close' do %>
+            <i class="far fa-times-circle"></i>
           <% end %>
         <% end %>
-        <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
-          <%= link_to new_training_path do %>
-            <button class="btn btn-edit">New Training</button>
-          <% end %>
+      <% end %>
+      <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
+        <%= link_to new_training_path do %>
+          <button class="btn btn-edit">New Training</button>
         <% end %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
   <div class="tab-content">
     <% if params[:search] %>
@@ -61,28 +44,12 @@
       <div role="tabpanel" class="tab-pane" id="completed">
         <%= render 'completed', trainings: @trainings %>
       </div>
-      <div role="tabpanel" class="tab-pane" id="bookings">
-        <%= render 'bookings', bookings: @bookings %>
-      </div>
     <% elsif params[:tab] == 'completed' %>
       <div role="tabpanel" class="tab-pane" id="upcoming">
         <%= render 'coming', trainings: @trainings %>
       </div>
       <div role="tabpanel" class="tab-pane active" id="completed">
         <%= render 'completed', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="bookings">
-        <%= render 'bookings', bookings: @bookings %>
-      </div>
-    <% elsif params[:tab] == 'bookings' %>
-      <div role="tabpanel" class="tab-pane" id="upcoming">
-        <%= render 'coming', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="completed">
-        <%= render 'completed', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane active" id="bookings">
-        <%= render 'bookings', bookings: @bookings %>
       </div>
     <% end %>
   </div>

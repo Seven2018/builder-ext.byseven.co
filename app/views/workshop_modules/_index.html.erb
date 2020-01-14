@@ -20,10 +20,10 @@
             <a data-toggle='modal' data-target='#consultUser<%= mod.user.id %>'><img src='<%= "#{mod.user.picture}" %>' alt="" class='avatar-sm avatar-workshop-module-card'></a>
           <% end %>
           <p><%= mod.duration %> min</p>
+          <%= link_to edit_training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), class: 'btn return-arrow' do %>
+            <i class="fas fa-pen"></i>
+          <% end %>
           <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-            <%= link_to edit_training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), class: 'btn return-arrow' do %>
-              <i class="fas fa-pen"></i>
-            <% end %>
             <a data-toggle='modal' data-target='#copyWorkshopModule<%= mod.id %>'><button class='btn return-arrow' id="<%= mod.id %>"><i class="fas fa-copy"></i></button></a>
             <%= link_to training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), method: :delete, data: { confirm: 'Are you sure ?'}, class: 'btn return-arrow' do %>
               <i class="fas fa-trash-alt"></i>

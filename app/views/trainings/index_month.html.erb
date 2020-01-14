@@ -4,9 +4,6 @@
     <ul class="nav nav-tabs">
       <li role="presentation"><a href="<%= trainings_path(tab: 'upcoming') %>" class='tab-grayed'>Upcoming</a></li>
       <li role="presentation"><a href="<%= trainings_path(tab: 'completed') %>" class='tab-grayed'>Completed</a></li>
-      <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
-        <li role="presentation"><a href="<%= trainings_path(tab: 'bookings') %>" class='tab-grayed'>Bookings</a></li>
-      <% end %>
       <li><%= link_to "Calendar", index_week_path, class: 'active' %></li>
     </ul>
     <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>

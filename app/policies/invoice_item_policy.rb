@@ -13,6 +13,10 @@ class InvoiceItemPolicy < ApplicationPolicy
     check_access
   end
 
+  def credit?
+    ['super admin', 'admin'].include? user.access_level
+  end
+
   def destroy?
     check_access
   end
@@ -26,6 +30,18 @@ class InvoiceItemPolicy < ApplicationPolicy
   end
 
   def new_sevener_invoice?
+    check_access
+  end
+
+  def marked_as_send
+    check_access
+  end
+
+  def marked_as_paid
+    check_access
+  end
+
+  def marked_as_reminded
     check_access
   end
 

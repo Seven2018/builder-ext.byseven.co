@@ -38,7 +38,11 @@ class InvoiceItemsGrid
     record.training.title
   end
   column(:u) do |record|
-    record.invoice_lines.first.quantity
+    total = 0
+    record.training.sessions.each do |session|
+      total += session.duration
+    end
+    total
   end
   column(:nature) do |record|
     if record.client_company.client_company_type == 'Entreprise'
@@ -48,10 +52,10 @@ class InvoiceItemsGrid
     end
   end
   column(:pu, header: '€/u') do |record|
-    record.invoice_lines.first.net_amount.round
+    record.invoice_lines.first.net_amount.round if record.invoice_lines.first.net_amount.present?
   end
   column(:CAV, header: 'CA variable') do |record|
-    (record.invoice_lines.first.quantity * record.invoice_lines.first.net_amount).round
+    (record.invoice_lines.first.quantity * record.invoice_lines.first.net_amount).round if (record.invoice_lines.first.net_amount.present? && record.invoice_lines.first.quantity.present?)
   end
   column(:preparation, header: 'CA fixe') do |record|
     preparation = 0
@@ -90,9 +94,15 @@ class InvoiceItemsGrid
   column :created_at do
     self.created_at.to_date.strftime('%d/%m/%y')
   end
-  column :sending_date
-  column :description
-  column :payment_date
+  column :sending_date do
+    self.sending_date.to_date.strftime('%d/%m/%y') if self.sending_date.present?
+  end
+  column :dunning_date do
+    self.dunning_date.to_date.strftime('%d/%m/%y') if self.dunning_date.present?
+  end
+  column :payment_date do
+    self.payment_date.to_date.strftime('%d/%m/%y') if self.payment_date.present?
+  end
   column(:trainers, header: 'Intervenants') do |record|
     if record.uuid[0] == 'F'
       result = []

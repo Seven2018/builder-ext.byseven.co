@@ -9,10 +9,6 @@ class TrainingPolicy < ApplicationPolicy
     end
   end
 
-  def index_booklet?
-    check_access_hr
-  end
-
   def index_week?
     true
   end
@@ -50,10 +46,6 @@ class TrainingPolicy < ApplicationPolicy
   end
 
   private
-
-  def check_access_hr
-    ['super admin', 'admin', 'training manager', 'HR'].include? user.access_level
-  end
 
   def check_access
     ['super admin', 'admin', 'training manager'].include? user.access_level
