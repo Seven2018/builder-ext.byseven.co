@@ -25,23 +25,19 @@ class InvoiceItemPolicy < ApplicationPolicy
     check_access
   end
 
-  def marked_as_paid?
-    check_access
-  end
-
   def new_sevener_invoice?
     check_access
   end
 
-  def marked_as_send
+  def marked_as_send?
     check_access
   end
 
-  def marked_as_paid
+  def marked_as_paid?
     check_access
   end
 
-  def marked_as_reminded
+  def marked_as_reminded?
     check_access
   end
 
