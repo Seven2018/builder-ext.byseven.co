@@ -3,15 +3,16 @@ import flatpickr from "flatpickr"
 import "flatpickr/dist/flatpickr.min.css" // Note this is important!
 
 flatpickr(".datepicker", {
-  disableMobile: true
+  disableMobile: true,
 })
 
-flatpickr(".timepicker", {
-  enableTime: true,
-  noCalendar: true,
-  dateFormat: "H:i",
-  time_24hr: true,
-  defaultHour: 9,
-  minuteIncrement: 10
-})
+// flatpickr(".timepicker", {
+//   disableMobile: true,
+//   enableTime: true,
+//   noCalendar: true,
+//   allowInput: true,
+//   dateFormat: "H:i",
+//   time_24hr: true,
+//   minuteIncrement: 15,
+// });
 
