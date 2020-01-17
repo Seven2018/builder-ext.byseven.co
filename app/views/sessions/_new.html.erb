@@ -16,8 +16,8 @@
         <%= f.input :duration, label: "Duration (hours)", input_html: { min: 0, style: 'width:120px;' }, default: 0, allow_blank: false %>
       </div>
       <div class='mod-date'>
-        <%= f.input :start_time, label: 'Start time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('9:00') %>
-        <%= f.input :end_time, label: 'End time', as: :time, input_html: { class: 'timepicker'}, default: Time.parse('17:00') %>
+        <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: 'timepicker'}, default: Time.parse('9:00') %>
+        <%= f.input :end_time, label: 'End time', as: :time, minute_step: 15, input_html: { class: 'timepicker'}, default: Time.parse('17:00') %>
       </div>
       <%= f.input :address %>
       <%= f.input :room %>

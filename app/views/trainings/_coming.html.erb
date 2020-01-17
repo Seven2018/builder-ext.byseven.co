@@ -28,7 +28,7 @@
                   <% trainer_array << trainer %>
                 <% end %>
               <% end %>
-              <% trainer_array.first(3) do |trainer| %>
+              <% trainer_array.uniq.first(3) do |trainer| %>
                 <img class='avatar-xs' src="<%= trainer.picture %>">
               <% end %>
               <% if trainer_array.uniq.count > 3 %>

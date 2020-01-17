@@ -200,7 +200,6 @@ class InvoiceItemsController < ApplicationController
     spreadsheet = session.spreadsheet_by_title("Copie de Seven Numbers #{Time.current.year}")
     worksheet = spreadsheet.worksheets.first
     row = 2
-    worksheet.delete_rows(row, 1000)
       @invoice_items.each do |item|
         startdate = item.training.start_date.strftime('%d/%m/%y')
         enddate = item.training.end_date.strftime('%d/%m/%y')
@@ -233,8 +232,10 @@ class InvoiceItemsController < ApplicationController
         worksheet.insert_rows(row, [[startdate, enddate, client, training_name, trello, unit, nature, unit_price, variable, fixed, caution, vat, expenses, expenses_out, description, revenue, num, sending, dunning, payment]])
         row += 1
         item.training.trainers.each do |trainer|
-          worksheet.insert_rows(row, [[startdate, enddate, client, training_name, trello, '0', '', '0', '', '', '', '', '', '', '', '0', '/', '/', '/', '/', '/', '/', "#{trainer.firstname} #{trainer.lastname}", '01/01/20', '480', '01/01/20']])
-          row += 1
+          if trainer.access_level == 'sevener'
+            worksheet.insert_rows(row, [[startdate, enddate, client, training_name, trello, '0', '', '0', '', '', '', '', '', '', '', '0', '/', '/', '/', '/', '/', '/', "#{trainer.firstname} #{trainer.lastname}", '01/01/20', '','480', '01/01/20']])
+            row += 1
+          end
         end
       end
     # end
