@@ -5,6 +5,7 @@
     <h3 class="session-details-pdf"><%= @session.title %></h3>
     <p class="session-details-pdf"><%= @session.date.strftime("%d/%m/%y") %> de <%= @session.start_time.strftime("%H:%M") %> à <%= @session.end_time.strftime("%H:%M") %></p>
     <p class="session-details-pdf">Client: <%= @session.training.client_contact.client_company.name %></p>
+    <p class="session-details-pdf">Client: <%= @session.training.satisfaction_survey %></p>
   </div>
   <br>
   <% time = @session.start_time %>

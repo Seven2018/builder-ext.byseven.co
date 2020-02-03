@@ -46,7 +46,7 @@
           </div>
         <% end %>
       <% end %>
-      <% if @invoice_item.client_company.client_company_type == 'School' %>
+      <% unless @invoice_item.invoice_lines.map(&:product).uniq.include?(Product.find(2)) %>
         <br>
         <p>TVA non applicable, art. 293 B du CGI</p>
       <% end %>
