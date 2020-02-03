@@ -9,7 +9,7 @@ class TrainingsController < ApplicationController
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
       if params[:search]
         @trainings = policy_scope(Training)
-        @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.order(start_date: :desc)
+        @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.sort_by(&:start_date)
       else
         @trainings = policy_scope(Training)
       end
