@@ -16,9 +16,9 @@
 }
 
 .theory-list-title {
-  min-height: 40px;
-  margin: 30px 0 60px 0;
-  padding: 0 5px;
+  min-height: 4rem;
+  margin: 3rem 0 60px 0;
+  padding: 0 0.5rem;
   background-color: #606060;
   color: white;
   display: flex;
@@ -30,12 +30,12 @@
   }
 
   button:first-child {
-    margin: 0 5px 0 10px !important;
+    margin: 0 0.5rem 0 1rem !important;
     color: white !important;
   }
 
   button:last-child {
-    margin: 0 10px 0 5px !important;
+    margin: 0 1rem 0 0.5rem !important;
     color: white !important;
   }
 }
@@ -65,7 +65,7 @@ ul.theory-list {
   }
 }
 
-.theory-card-infos {
+.index-card-large-infos {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -75,7 +75,7 @@ ul.theory-list {
     max-width: 45%;
 
     @include from-large {
-      width: 250px;
+      width: 25rem;
     }
   }
 }
@@ -89,12 +89,12 @@ ul.theory-list {
 }
 
 .theory-description-modal {
-  padding: 10px;
+  padding: 1rem;
 }
 
 .theory-references-modal {
   background-color: #E5E5E5;
-  padding: 10px;
+  padding: 1rem;
 
   a {
     color: black;
@@ -107,6 +107,6 @@ ul.theory-list {
 
 .theory-search-close {
   position: absolute;
-  right: 155px;
-  top: 10px;
+  right: 150.5rem;
+  top: 1rem;
 }

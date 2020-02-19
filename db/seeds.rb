@@ -131,7 +131,7 @@ ClientCompany.create(
 ClientCompany.create(
  name: "PSG",
  address: "24 Rue du Commandant Guilbaud, 75016 Paris",
- logo: "https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/1024px-Paris_Saint-Germain_Logo.svg.png",
+ logo: "https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/102.4rem-Paris_Saint-Germain_Logo.svg.png",
  client_company_type: "Company")
 ClientCompany.create(
  name: "Coca-Cola",

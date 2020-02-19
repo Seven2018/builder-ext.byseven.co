@@ -1,27 +1,23 @@
 <div class="container-seven">
   <div class="invoice-item-container-mobile">
-    <h3>Numbers - Not available on mobile devices</h3>
+    <h1>Reports - Not available on mobile devices</h1>
     <a href="/report.csv"><button class="btn btn-edit-red btn-edit-trash">Export <i class="fas fa-file-csv"></i></button></a>
   </div>
   <div class="report-main">
-    <div class="flex-title">
-      <h3>Numbers</h3>
-      <a href="/report.csv"><button class="btn btn-edit-red btn-edit-trash">Export <i class="fas fa-file-csv"></i></button></a>
-      <%= link_to 'sheet', upload_to_sheet_path, method: :post %>
-      <%= link_to 'Factures', invoice_items_path(type: 'Invoice') %>
-      <%= link_to 'Devis', invoice_items_path(type: 'Esimate') %>
-    </div>
-    <div class="report-controls">
-      <div class="report-controls-left">
-        <%= datagrid_form_for @invoice_items_grid, url: report_path %>
-      </div>
-      <div class="right">
-        <h3><%= "CA HT : #{@invoice_items_grid.total_sum}€"  %></h3>
-        <h3><%= "Nb Journées : #{@invoice_items_grid.total_days}"  %></h3>
-        <h3><%= "Nb heures : #{@invoice_items_grid.total_hours}"  %></h3>
+    <div id="page-controls">
+      <h1>Reports</h1>
+      <div id="page-buttons">
+        <%= link_to 'Factures', invoice_items_path(type: 'Invoice'), class: 'btn btn-edit-green btn-edit-trash' %>
+        <%= link_to 'Devis', invoice_items_path(type: 'Estimate'), class: 'btn btn-edit btn-edit-trash' %>
+        <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+        <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><%= link_to 'Upload to Drive', upload_to_sheet_path, method: :post %></li>
+          <li><a href="/report.csv">Export CSV</a></li>
+        </ul>
       </div>
     </div>
-    <div class='total'>Total: <%= @invoice_items_grid.assets.count %></div>
-    <%= datagrid_table(@invoice_items_grid) %>
+    <p>Billed this year: <%= number_with_precision(@invoice_items.where("created_at > ? AND created_at < ?", Time.now.beginning_of_year, Time.now.end_of_year).map(&:gross_revenue).sum, precision: 2) %>€</p>
+    <p>Billed this month: <%= number_with_precision(@invoice_items.where("created_at > ? AND created_at < ?", Time.now.beginning_of_month, Time.now.end_of_month).map(&:gross_revenue).sum, precision: 2) %>€</p>
+    <p>Unpaid this year: <%= number_with_precision(@invoice_items.where("created_at > ? AND created_at < ?", Time.now.beginning_of_year, Time.now.end_of_year).where(payment_date: nil).map(&:gross_revenue).sum, precision: 2) %>€</p>
   </div>
 </div>

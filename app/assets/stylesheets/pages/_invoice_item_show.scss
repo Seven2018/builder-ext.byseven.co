@@ -12,12 +12,12 @@
 
 .invoice-item-container-mobile {
   width: 100%;
-  margin-top: 30px;
+  margin-top: 3rem;
   text-align: center;
 
   h3 {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 3rem;
   }
 
   @include from-large {
@@ -28,14 +28,14 @@
 .invoice-header {
   display: flex;
   justify-content: space-between;
-  padding: 30px;
+  padding: 3rem;
   margin-bottom: 100px;
 }
 
 .invoice-client {
   border: 1px solid rgb(136,136,136);
-  margin-left: 550px;
-  margin-bottom: 50px;
+  margin-left: 55rem;
+  margin-bottom: 5rem;
   width: auto;
   position: relative;
 }
@@ -57,7 +57,7 @@
 }
 
 .invoice-desc-line-chapter {
-  height: 40px;
+  height: 4rem;
   background-color: #3AA2AC;
 }
 
@@ -74,14 +74,14 @@
   display: flex;
   flex-direction: column !important;
   position: absolute;
-  left: -31px;
+  left: -3.1rem;
   top: 0;
 }
 
 .invoice-line-comments {
   color: black;
-  padding-left: 10px;
-  margin-bottom: 20px;
+  padding-left: 1rem;
+  margin-bottom: 2rem;
 
   &:hover, a:hover {
     text-decoration: none;
@@ -97,7 +97,7 @@
 
 .invoice-total-details > div, .invoice-total-due-date > div {
   &:first-child {
-    width: 250px;
+    width: 25rem;
   }
 
   &:last-child {
@@ -109,7 +109,7 @@
 }
 
 .invoice-total-details > div > p, .invoice-total-due-date > div > p {
-  padding: 5px 0;
+  padding: 0.5rem 0;
 
   &:last-child {
     border-top: 2px solid black;
@@ -118,11 +118,11 @@
 
 .invoice-total {
   width: 100%;
-  margin-top: 250px;
+  margin-top: 25rem;
 }
 
 .invoice-total-details {
-  margin-left: 220px;
+  margin-left: 22rem;
 
   div {
     margin: 0;
@@ -130,22 +130,22 @@
   }
 
   div > p {
-    min-width: 130px;
+    min-width: 13rem;
   }
 }
 
 .invoice-bank-statement {
-  margin-top: 50px;
+  margin-top: 5rem;
 }
 
 .invoice-footer {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 5rem;
 }
 
 .invoice-footer > p {
 
   &:last-child {
-    font-size: 10px;
+    font-size: 1rem;
   }
 }

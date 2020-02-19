@@ -2,7 +2,7 @@
   <%= link_to training_session_workshop_viewer_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop) do %>
     <i class="fas fa-arrow-left"></i>
   <% end %>
-  <h2><%= @workshop_module.title %></h2>
+  <h1><%= @workshop_module.title %></h1>
 
   <p><%= @workshop_module.instructions.html_safe %></p>
   <p><%= @workshop_module.duration %> minutes</p>

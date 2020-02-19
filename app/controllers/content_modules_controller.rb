@@ -16,6 +16,7 @@ class ContentModulesController < ApplicationController
     @content_module = ContentModule.new(content_module_params)
     authorize @content_module
     @content_module.content = @content
+    @content_module.position = @content.content_modules.count + 1
     if @content_module.save
       update_duration
       redirect_to content_path(@content)
@@ -53,18 +54,10 @@ class ContentModulesController < ApplicationController
   def move_up
     authorize @content_module
     @content = @content_module.content
-    # Creates an array of ContentModules, ordered by position
-    array = []
-    @content.content_modules.order('position ASC').each do |mod|
-      array << mod
-    end
-    # Moves a ContentModule in the array by switching indexes
     unless @content_module.position == 1
-      array.insert((@content_module.position - 2), array.delete_at(@content_module.position - 1))
-    end
-    # Uses the array to update the ContentModules positions
-    array.compact.each do |mod|
-      mod.update(position: array.index(mod) + 1)
+      previous_module = @content.content_modules.where(position: @content_module.position - 1).first
+      previous_module.update(position: @content_module.position)
+      @content_module.update(position: (@content_module.position - 1))
     end
     @content_module.save
     respond_to do |format|
@@ -77,18 +70,10 @@ class ContentModulesController < ApplicationController
   def move_down
     authorize @content_module
     @content = @content_module.content
-    # Creates an array of ContentModules, ordered by position
-    array = []
-    @content.content_modules.order('position ASC').each do |mod|
-      array << mod
-    end
-    # Moves a ContentModule in the array by switching indexes
-    unless @content_module.position == array.compact.count
-      array.insert((@content_module.position), array.delete_at(@content_module.position - 1))
-    end
-    # Uses the array to update the ContentModules positions
-    array.compact.each do |mod|
-      mod.update(position: array.index(mod) + 1)
+    unless @content_module.position == @content.content_modules.count
+      next_module = @content.content_modules.where(position: @content_module.position + 1).first
+      next_module.update(position: @content_module.position)
+      @content_module.update(position: (@content_module.position + 1))
     end
     @content_module.save
     respond_to do |format|

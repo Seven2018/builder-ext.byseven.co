@@ -1,10 +1,10 @@
 <div class="container-seven">
-  <h2>Contacts List</h2>
+  <h1>Contacts List</h1>
   <ul class="client-contact-list">
     <% @client_contacts.each do |contact| %>
       <li>
         <%= link_to client_contact_path(contact) do %>
-          <div class="client-contact-card user-contact-card">
+          <div class="index-card-large index-card-small">
             <img class='client-company-logo-index' src='<%= "#{contact.client_company.logo}" %>'>
             <div>
               <p><%= contact.name %></p>

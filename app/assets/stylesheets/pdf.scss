@@ -8,19 +8,19 @@ h3, p {
 }
 
 #body-pdf p{
-  font-size: 14px !important;
+  font-size: 1.4rem !important;
   font-family: 'Times New Roman' !important;
 }
 
 #body-pdf h3{
-  font-size: 24px !important;
+  font-size: 2.4rem !important;
   font-family: 'Times New Roman' !important;
 }
 
 #pdf-logo, #presence-sheet-logo-pdf {
-  width: 150px;
-  padding: 20px;
-  margin-bottom: 50px;
+  width: 15rem;
+  padding: 2rem;
+  margin-bottom: 5rem;
 }
 
 
@@ -47,7 +47,7 @@ h3, p {
   font-family: "Roboto", sans-serif;
   text-align: center;
   font-style: italic;
-  margin-top: -15px
+  margin-top: -1.5rem
 }
 
 .content-details-pdf {
@@ -60,22 +60,22 @@ h3, p {
 }
 
 .content-description-pdf {
-  line-height: 30px;
-  font-size: 16px;
+  line-height: 3rem;
+  font-size: 1.6rem;
   text-align: justify;
-  margin-bottom: 50px;
+  margin-bottom: 5rem;
 }
 
 .module-card-pdf {
   border: 1px solid black;
-  padding: 0 15px;
-  margin-bottom: 30px;
+  padding: 0 1.5rem;
+  margin-bottom: 3rem;
 }
 
 .content-intel-pdf {
   font-family: "Roboto", sans-serif;
   font-style: italic;
-  // margin-top: -15px;
+  // margin-top: -1.5rem;
 }
 
 p.logistics-pdf {
@@ -93,14 +93,14 @@ p.logistics-pdf {
 }
 
 .wrapper-pdf p {
-  font-size: 16px !important;
+  font-size: 1.6rem !important;
 }
 
 .invoice-header-pdf {
   height: 100px !important;
 
   img {
-    margin: 0 0 10px 0 !important;
+    margin: 0 0 1rem 0 !important;
   }
 }
 
@@ -109,9 +109,9 @@ p.logistics-pdf {
 }
 
 .invoice-client {
-  margin-top: 70px;
+  margin-top: 7rem;
   margin-left: 600px;
-  padding: 10px;
+  padding: 1rem;
   width: auto;
 }
 
@@ -132,7 +132,7 @@ p.logistics-pdf {
 }
 
 .invoice-desc-line-pdf {
-  margin-top: 10px;
+  margin-top: 1rem;
   display: inline-block;
   width: 100%;
 
@@ -142,7 +142,7 @@ p.logistics-pdf {
 }
 
 .invoice-desc-line-chapter-pdf {
-  margin-top: 10px;
+  margin-top: 1rem;
   width: 100%;
   background-color: #3AA2AC;
 }
@@ -152,12 +152,12 @@ p.logistics-pdf {
 // }
 
 .invoice-desc-headline-description-pdf {
-  width: 420px !important;
+  width: 42rem !important;
   margin-right: 0px;
 }
 
 .invoice-desc-line-description-pdf {
-  width: 420px;
+  width: 42rem;
   margin-right: 0px;
 }
 
@@ -165,25 +165,25 @@ p.logistics-pdf {
 
   p {
     text-align: right;
-    width: 75px;
-    margin-left: 30px;
+    width: 70.5rem;
+    margin-left: 3rem;
   }
 }
 
 // .invoice-desc-line-quantity {
-//   padding-left: 40px;
+//   padding-left: 4rem;
 // }
 
 // .invoice-desc-line-puht {
-//   padding-left: 10px;
+//   padding-left: 1rem;
 // }
 
 // .invoice-desc-line-pretaxamount {
-//   padding-left: 10px;
+//   padding-left: 1rem;
 // }
 
 // .invoice-desc-line-data-pretaxamount {
-//   padding-left: 30px;
+//   padding-left: 3rem;
 // }
 
 .invoice-total-pdf {
@@ -197,7 +197,7 @@ p.logistics-pdf {
 }
 
 .invoice-total-due-date-pdf {
-  width: 310px;
+  width: 31rem;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -211,7 +211,7 @@ p.logistics-pdf {
 
   div > p {
     display: inline-block;
-    width: 150px;
+    width: 15rem;
 
     &:last-child {
       text-align: right;
@@ -220,7 +220,7 @@ p.logistics-pdf {
 }
 
 .invoice-total-details-pdf {
-  margin-left: 570px;
+  margin-left: 57rem;
   bottom: 0;
   right: 0;
 
@@ -230,25 +230,25 @@ p.logistics-pdf {
   }
 
   div > p {
-    min-width: 130px;
+    min-width: 13rem;
   }
 }
 
 .footer-pdf {
   background-color: white;
-  margin-bottom: 55px;
+  margin-bottom: 50.5rem;
 }
 
 .invoice-footer {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 2rem;
 }
 
 // PRESENCE SHEET
 
 #presence-sheet-logo-pdf {
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
 }
 
 table, tr, th, td {
@@ -266,16 +266,16 @@ table, tr, th, td {
 
 .presence-sheet-grid-pdf {
 
-  margin-top: 20px;
+  margin-top: 2rem;
 
   th {
-    height: 30px;
+    height: 3rem;
     width: 400px;
     border: 2px solid black;
   }
 
     td {
-    height: 50px;
+    height: 5rem;
     width: 400px;
     border: 1px solid black;
   }

@@ -2,19 +2,19 @@
   display: flex;
   justify-content: space-between;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 2rem;
   h1 {
     margin: 0;
   }
   h1, .control-buttons {
-    height: 50px;
+    height: 5rem;
   }
   .control-buttons {
     display: flex;
     align-items: center;
     width: auto;
     a {
-      margin: 0 5px;
+      margin: 0 0.5rem;
     }
   }
 }
@@ -22,7 +22,7 @@
 .training-info {
   background-color: white;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 
   @include from-large {
     text-align: left;
@@ -34,18 +34,18 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   p {
     margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
   :first-child {
     text-align: left;
   }
 
   @include from-large {
-    margin-bottom: 30px;
+    margin-bottom: 3rem;
   }
 }
 
@@ -59,9 +59,9 @@
   }
 
   .dropdown-menu {
-    width: 170px;
+    width: 17rem;
     position: absolute;
-    right: -50px;
+    right: -5rem;
   }
 }
 
@@ -83,7 +83,7 @@
   }
 
   @include from-large {
-    margin: 40px 0px;
+    margin: 4rem 0px;
   }
 }
 
@@ -92,7 +92,7 @@
 }
 
 .user-manager {
-  margin: 0 5px;
+  margin: 0 0.5rem;
 }
 
 #update-modal {
@@ -101,16 +101,16 @@
 
 .middle-info {
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
 
   div > h4 {
     text-align: center;
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 300;
-    margin: 0 0 10px 0;
+    margin: 0 0 1rem 0;
 
     @include from-large {
       margin: 0;
@@ -125,11 +125,11 @@
   }
 
   h3, p {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
   }
   li {
-    font-size: 20px;
+    font-size: 2rem;
   }
 
   @include from-large {
@@ -146,15 +146,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 52px;
+  height: 5.2rem;
 
   div > h4 {
     text-align: center;
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 300;
     margin: 0;
-    margin-top: 3.5px !important;
-    margin-bottom: 5px !important;
+    margin-top: 3.0.5rem !important;
+    margin-bottom: 0.5rem !important;
 
     @include from-large {
       text-align: right;
@@ -181,6 +181,9 @@
 }
 
 .middle-info-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   text-align: center;
   min-height: 63px;
 
@@ -196,7 +199,7 @@
 }
 
 #owner, #trainer {
-  font-size: 20px;
+  font-size: 2rem;
   font-weight: 300;
   margin: 0;
   padding: 0 !important;
@@ -204,23 +207,23 @@
 
   li {
     float:left;
-    margin: 0 5px;
+    margin: 0 0.5rem;
 
   }
 }
 
 #owner-session-index {
-  font-size: 20px;
+  font-size: 2rem;
   font-weight: 300;
 
   li {
     display: inline-block;
-    margin: 0 5px;
+    margin: 0 0.5rem;
   }
 }
 
 .fa-arrow-left {
-  font-size: 30px;
+  font-size: 3rem;
 }
 
 #dropdownMenuButton::after {

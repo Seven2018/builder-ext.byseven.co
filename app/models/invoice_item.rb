@@ -68,4 +68,8 @@ class InvoiceItem < ApplicationRecord
       end
     end
   end
+
+  def gross_revenue
+    self.total_amount - self.tax_amount
+  end
 end

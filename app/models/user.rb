@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :comments
   belongs_to :client_company, optional: true
   validates :access_level, inclusion: { in: ['sevener', 'training manager', 'admin', 'super admin'] }
+  require 'uri'
+  require 'net/http'
 
   def fullname
     "#{firstname} #{lastname}"

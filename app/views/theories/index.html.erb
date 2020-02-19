@@ -1,8 +1,8 @@
 <div class="container-seven container-seven-centered">
-  <div id='client-company-index'>
-    <div id="client-company-controls">
-      <h3>Theories List</h3>
-      <div id="client-company-buttons">
+  <div id='page-index'>
+    <div id="page-controls">
+      <h1>Theories List</h1>
+      <div id="page-buttons">
         <%= simple_form_for :search, url: theories_path, method: 'GET' do |f| %>
           <%= f.input :name, placeholder: 'Search', label: false %>
           <% if params[:search] %>
@@ -22,8 +22,8 @@
       <% @theories.each do |theory| %>
         <li>
           <%= link_to theory_path(theory) do %>
-            <div class="theory-card">
-              <div class="theory-card-infos">
+            <div class="index-card-large">
+              <div class="index-card-large-infos">
                 <p style='color:black;'><%= theory.name %></p>
                 <div class="theory-contents">
                   <% theory.contents.order(:title).each do |content| %>

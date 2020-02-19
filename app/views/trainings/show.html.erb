@@ -29,9 +29,9 @@
   <div class="middle-info">
     <div class='middle-info-main'>
       <% if @training.mode == 'Company' %>
-        <h3><i class="fas fa-user-tie"></i> &nbsp; <%= @training.title %></h3>
+        <h1><i class="fas fa-user-tie"></i> &nbsp; <%= @training.title %></h1>
       <% elsif @training.mode == 'School' %>
-        <h3><i class="fas fa-user-graduate"></i> &nbsp; <%= @training.title %></h3>
+        <h1><i class="fas fa-user-graduate"></i> &nbsp; <%= @training.title %></h1>
       <% end %>
       <h4><%="From #{@training.start_date.strftime('%d/%m/%y')} to #{@training.end_date.strftime('%d/%m/%y')}" %></h4>
     </div>
@@ -40,10 +40,10 @@
         <ul id="owner">
           <% @training.users.each do |user| %>
             <li>
-              <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+              <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror="this.onerror=null;this.src='https://i0.wp.com/rouelibrenmaine.fr/wp-content/uploads/2018/10/empty-avatar.png';"></a>
             </li>
             <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-              <div class="modal-dialog" role="document" style="border-radius: 20px">
+              <div class="modal-dialog" role="document" style="border-radius: 2rem">
                 <%= render 'users/consult', user: user, training: @training %>
               </div>
             </div>
@@ -70,7 +70,7 @@
     <%= simple_form_for @training, html: { class: "hidden", id: 'survey-form' } do |f| %>
       <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
         <%= f.input :satisfaction_survey, placeholder: 'Add a link to the survey', value: @training.satisfaction_survey, label: false, input_html: { style: 'width: 200px;'} %>
-        <%= button_tag type: 'submit', class: 'btn btn-add-user', input_html: { style: 'height: 35px' } do %>
+        <%= button_tag type: 'submit', class: 'btn btn-add-user', input_html: { style: 'height: 3.5rem' } do %>
           Update
         <% end %>
       </div>
@@ -87,7 +87,7 @@
             <% session.users.each do |trainer| %>
               <% trainer_array << trainer %>
               <% unless trainer_array.count(trainer) > 1 %>
-                <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm'></a></li>
+                <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm' onerror="this.onerror=null;this.src='https://i0.wp.com/rouelibrenmaine.fr/wp-content/uploads/2018/10/empty-avatar.png';"></a></li>
               <% end %>
             <% end %>
           <% end %>
@@ -111,7 +111,7 @@
               <% if session.start_time && session.end_time %>
                 <div><p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p></div>
                 <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
-                <div><i class="fas fa-users"></i><p style='margin-left: 5px;'><%= session.attendee_number %></p></div>
+                <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendee_number %></p></div>
                 <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
                   <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-astronaut"></i></button>
                   <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
@@ -127,10 +127,10 @@
                     <ul id="owner-session-index">
                       <% session.users.each do |user| %>
                         <li>
-                          <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+                          <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror="this.onerror=null;this.src='https://i0.wp.com/rouelibrenmaine.fr/wp-content/uploads/2018/10/empty-avatar.png';"></a>
                         </li>
                         <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                          <div class="modal-dialog" role="document" style="border-radius: 20px">
+                          <div class="modal-dialog" role="document" style="border-radius: 2rem">
                             <%= render 'users/consult', user: user %>
                           </div>
                         </div>
@@ -167,50 +167,50 @@
 
 <!-- Modal -->
 <div class="modal fade" id="editTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'edit', training: @training %>
   </div>
 </div>
 
 <div class="modal fade" id="copyTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'copy', training: @training %>
   </div>
 </div>
 
 <div class="modal fade" id="newOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
     <%= render 'training_ownerships/new', training_owner: @training_ownership %>
   </div>
 </div>
 
 <div class="modal fade" id="newForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
     <%= render 'forms/new', form: @form %>
   </div>
 </div>
 
 <% @training.sessions.order(:date).each do |session| %>
   <div class="modal fade" id="editSession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <div class="modal-dialog" role="document" style="border-radius: 2rem">
       <%= render '/sessions/edit', session: session %>
     </div>
   </div>
   <div class="modal fade" id="addTrainer<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
+    <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
       <% @session = session %>
       <%= render '/session_trainers/new', session: @session, session_trainer: SessionTrainer.new %>
     </div>
   </div>
   <div class="modal fade" id="copySession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <div class="modal-dialog" role="document" style="border-radius: 2rem">
       <%= render 'sessions/copy', session: session %>
     </div>
   </div>
 <% end %>
 
 <div class="modal fade" id="newSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render '/sessions/new' %>
   </div>
 </div>
@@ -218,7 +218,7 @@
 <% @training.sessions.each do |session| %>
   <% session.users.each do |trainer| %>
     <div class="modal fade" id="consultUser<%= trainer.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog" role="document" style="border-radius: 20px">
+      <div class="modal-dialog" role="document" style="border-radius: 2rem">
         <%= render 'users/consult', user: trainer, training: @training %>
       </div>
     </div>

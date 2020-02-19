@@ -15,12 +15,12 @@
         <%= f.label :client_contact_id, 'Contact', class: 'copy-form-hidden-label' %>
         <%= f.grouped_collection_select :client_contact_id, ClientCompany.all.order(:name), :client_contacts, :name, :id, :name, options = { include_blank: true }, html_options = {} %>
       </div>
-      <div style='display:flex;flex-direction:column;justify-content:center;margin-top:20px;'>
+      <div style='display:flex;flex-direction:column;justify-content:center;margin-top:2rem;'>
         <%= f.input :rename, placeholder: training.title, label: 'Rename' %>
         <%= f.input :start_date, input_html: { class: 'datepicker'} %>
         <%= f.input :end_date, input_html: { class: 'datepicker'} %>
       </div>
-      <div style='display:flex;justify-content:center;margin-top:20px;'>
+      <div style='display:flex;justify-content:center;margin-top:2rem;'>
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
           <i class="fas fa-copy"></i>
         <% end %>

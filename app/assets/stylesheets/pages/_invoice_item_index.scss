@@ -1,16 +1,38 @@
-.item-id, .item-status {
-  // width: 300px !important;
-  color: black !important;
-}
-
 .invoice-card {
+  width: 100%;
+  min-width: 94rem;
+  padding: 1rem;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .invoice-card-link {
+    width: 20%;
+  }
+}
+
+.item-id, .item-status {
+  color: black !important;
+}
+
+.item-id {
+
+  p {
+    overflow-x: hidden;
+    width: 15rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 

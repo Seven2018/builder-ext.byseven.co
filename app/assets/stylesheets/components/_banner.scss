@@ -2,7 +2,7 @@
   height: 100vh;
   max-height: 1080px;
   width: 100vw;
-  max-width: 1440px;
+  max-width: 144rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -14,17 +14,17 @@
   h1 {
     color: $light-gray;
     font-weight: bold;
-    font-size: 45px;
+    font-size: 40.5rem;
   }
   p {
     color: $light-gray;
     opacity: .8;
-    font-size: 25px;
+    font-size: 2.5rem;
     font-weight: lighter;
-    margin-bottom: 30px;
+    margin-bottom: 3rem;
   }
   .btn {
-    padding: 15px 50px;
+    padding: 1.5rem 5rem;
     background-color: $green;
     color: $light-gray;
   }

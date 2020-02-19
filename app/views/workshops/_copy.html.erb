@@ -19,10 +19,10 @@
         <%= f.label :session_id, 'Session', class: 'copy-form-hidden-label' %>
         <%= f.grouped_collection_select :session_id, Training.all, :sessions, :title_for_copy, :id, :title_date, options = {}, html_options = { class: "copy_session_id#{mod.id}" } %>
       </div>
-      <div style='display:flex;justify-content:center;margin-top:20px;'>
+      <div style='display:flex;justify-content:center;margin-top:2rem;'>
         <%= f.input :rename, placeholder: mod.title, label: 'Rename' %>
       </div>
-      <div style='display:flex;justify-content:center;margin-top:20px;'>
+      <div style='display:flex;justify-content:center;margin-top:2rem;'>
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
           <i class="fas fa-copy"></i>
         <% end %>

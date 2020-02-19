@@ -1,8 +1,8 @@
 <div class="container-seven">
-  <div id='client-company-index'>
-    <div id="client-company-controls">
-      <h3>Customers List</h3>
-      <div id="client-company-buttons">
+  <div id='page-index'>
+    <div id="page-controls">
+      <h1>Customers List</h1>
+      <div id="page-buttons">
         <%= simple_form_for :search, url: client_companies_path, method: 'GET' do |f| %>
           <%= f.input :name, placeholder: 'Search', label: false %>
           <% if params[:search] %>
@@ -22,7 +22,7 @@
       <% @client_companies.each do |company| %>
         <li>
           <%= link_to client_company_path(company) do %>
-            <div class="client-company-card">
+            <div class="index-card-large">
               <div class='client-company-name-logo'>
                 <img class='client-company-logo-index' src='<%= "#{company.logo}" %>'>
               </div>

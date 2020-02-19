@@ -1,7 +1,7 @@
 <div class="container-seven">
   <%= link_to client_company_path(@client_contact.client_company), class: 'return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
   <div class="centered-card-show">
-    <div class="client-contact-card-show">
+    <div class="index-card-large-show">
       <div>
         <img src='<%= @client_contact.client_company.logo %>' alt="" class='client-company-logo-show'>
         <div>
@@ -23,7 +23,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="editClientContact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
     <%= render 'edit', client_contact: @client_contact %>
   </div>
 </div>

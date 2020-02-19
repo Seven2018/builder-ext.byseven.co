@@ -19,7 +19,7 @@
           <% end %>
         </div>
         <a class="edit-fafa" data-toggle='modal' data-target='#editLine<%= line.id %>'>
-          <div class="invoice-desc-line-chapter" style='height:40px;background-color:#3AA2AC;'>
+          <div class="invoice-desc-line-chapter" style='height:4rem;background-color:#3AA2AC;'>
             <p><strong><%= line.description %></strong></p>
           </div>
         </a>
@@ -64,7 +64,7 @@
           <!-- Modals -->
           <% unless line.id.nil? %>
             <div class="modal fade" id="editLine<%= line.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+              <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
                 <%= render 'invoice_lines/edit', line: line %>
               </div>
             </div>

@@ -5,12 +5,12 @@
   background-color: #23282e;
   position: fixed;
   bottom: 0px;
-  width: 220px;
+  width: 22rem;
   height: 100vh;
   z-index: 1;
 
   text-align: left;
-  padding-top: 15px;
+  padding-top: 1.5rem;
 
   @include from-large {
     display: flex;
@@ -25,7 +25,7 @@
   position: fixed;
   top: 0px;
   width: 100vw;
-  height: 50px;
+  height: 5rem;
   z-index: 2;
 
   text-align: left;
@@ -59,8 +59,8 @@
 .left-navbar-bottom {
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
-  margin-top: 38px;
+  margin-bottom: 3rem;
+  margin-top: 3.8rem;
 }
 
 .left-buttons {
@@ -82,27 +82,27 @@
   text-decoration: none;
   text-transform: none;
   color: #2d2c2cde;
-  font-size: 18px;
+  font-size: 1.8rem;
 }
 
 .avatar {
-  height: 100px;
-  width: 100px;
+  height: 10rem;
+  width: 10rem;
   object-fit:cover;
   border-radius: 50%;
-  margin-top: 30px;
-  margin-bottom: 38px;
+  margin-top: 3rem;
+  margin-bottom: 3.8rem;
 }
 
 .left-navbar-logo img {
-  width: 100px;
+  width: 10rem;
 }
 
 .left-menu-list {
   display: flex;
   align-items: center;
-  padding: 24px;
-  width: 220px;
+  padding: 2.4rem;
+  width: 22rem;
 
   &:hover {
     background-color: #FDC553;
@@ -110,11 +110,11 @@
 }
 
 .left-menu-list-mobile {
-  width: 20px;
-  height: 20px;
+  width: 2rem;
+  height: 2rem;
 
   i {
-    font-size: 20px;
+    font-size: 2rem;
   }
 }
 
@@ -126,7 +126,7 @@
   min-width: unset;
 
   li {
-    padding: 0 10px;
+    padding: 0 1rem;
   }
 }
 
@@ -136,14 +136,16 @@
 }
 
 .left-buttons {
-  font-size: 8px;
+  font-size: 0.8rem;
   font-weight: lighter;
 }
 
 .left-menu-title {
   text-align: left;
-  margin-left: 20px;
+  margin-left: 2rem;
+
   h4 {
+    font-size: 1.8rem;
     font-weight: 400;
     margin: 0;
   }

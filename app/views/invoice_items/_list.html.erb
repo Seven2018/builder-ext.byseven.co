@@ -1,13 +1,13 @@
 <ul style='list-style: none;'>
   <% @invoice_items.where(type: params[:type]).each do |item| %>
     <li>
-      <%= link_to invoice_item_path(item) do %>
-        <div class="client-company-card invoice-card">
+      <%= link_to invoice_item_path(item), class: 'invoice-card-link' do %>
+        <div class="invoice-card">
           <div class='item-id'>
-            <p><%= item.training.title %></p>
+            <p data-toggle="tooltip" title="<%= item.training.title %>"><%= item.training.title %></p>
             <p><%= item.uuid %></p>
           </div>
-          <a data-toggle='modal' type='button' data-target='#editSending<%= item.id %>' style='cursor:pointer;'>
+          <a class='invoice-card-link' data-toggle='modal' type='button' data-target='#editSending<%= item.id %>' style='cursor:pointer;'>
             <div class="item-id">
               <p>Sending date</p>
               <% if item.sending_date.present? %>
@@ -17,12 +17,12 @@
           </a>
           <!-- MODAL -->
           <div class="modal fade" id="editSending<%= item.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" role="document" style="border-radius: 20px">
+            <div class="modal-dialog" role="document" style="border-radius: 2rem">
               <%= render 'edit_sending', item: item %>
             </div>
           </div>
           <!--  -->
-          <a data-toggle='modal' type='button' data-target='#editDunning<%= item.id %>' style='cursor:pointer;'>
+          <a class='invoice-card-link' data-toggle='modal' type='button' data-target='#editDunning<%= item.id %>' style='cursor:pointer;'>
             <div class="item-id">
               <p>Dunning date</p>
               <% if item.dunning_date.present? %>
@@ -32,12 +32,12 @@
           </a>
           <!-- MODAL -->
           <div class="modal fade" id="editDunning<%= item.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" role="document" style="border-radius: 20px">
+            <div class="modal-dialog" role="document" style="border-radius: 2rem">
               <%= render 'edit_dunning', item: item %>
             </div>
           </div>
           <!--  -->
-          <a data-toggle='modal' type='button' data-target='#editPayment<%= item.id %>' style='cursor:pointer;'>
+          <a class='invoice-card-link' data-toggle='modal' type='button' data-target='#editPayment<%= item.id %>' style='cursor:pointer;'>
             <div class="item-id">
               <p>Payment date</p>
               <% if item.payment_date.present? %>
@@ -47,7 +47,7 @@
           </a>
           <!-- MODAL -->
           <div class="modal fade" id="editPayment<%= item.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" role="document" style="border-radius: 20px">
+            <div class="modal-dialog" role="document" style="border-radius: 2rem">
               <%= render 'edit_payment', item: item %>
             </div>
           </div>

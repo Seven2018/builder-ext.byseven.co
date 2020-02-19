@@ -17,6 +17,7 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     @workshop_module = WorkshopModule.new(workshop_module_params)
     authorize @workshop_module
     @workshop_module.workshop = @workshop
+    @workshop_module.position = @workshop.workshop_modules.count + 1
     if @workshop_module.save
       update_duration
       redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
@@ -51,22 +52,14 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
   end
 
-  # Allows the ordering of modules (position)
+  # Allows the ordering of workshops_modules (position)
   def move_up
     authorize @workshop_module
     @workshop = @workshop_module.workshop
-    # Creates an array of WorkshopModules, ordered by position
-    array = []
-    @workshop.workshop_modules.order('position ASC').each do |mod|
-      array << mod
-    end
-    # Moves a WorkshopModule in the array by switching indexes
     unless @workshop_module.position == 1
-      array.insert((@workshop_module.position - 2), array.delete_at(@workshop_module.position - 1))
-    end
-    # Uses the array to update the WorkshopModules positions
-    array.compact.each do |mod|
-      mod.update(position: array.index(mod) + 1)
+      previous_module = @workshop.workshop_modules.where(position: @workshop_module.position - 1).first
+      previous_module.update(position: @workshop_module.position)
+      @workshop_module.update(position: (@workshop_module.position - 1))
     end
     @workshop_module.save
     respond_to do |format|
@@ -75,22 +68,14 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     end
   end
 
-  # Allows the ordering of modules (position)
+  # Allows the ordering of workshops_modules (position)
   def move_down
     authorize @workshop_module
     @workshop = @workshop_module.workshop
-    # Creates an array of WorkshopModules, ordered by position
-    array = []
-    @workshop.workshop_modules.order('position ASC').each do |mod|
-      array << mod
-    end
-    # Moves a WorkshopModule in the array by switching indexes
-    unless @workshop_module.position == array.compact.count
-      array.insert((@workshop_module.position), array.delete_at(@workshop_module.position - 1))
-    end
-    # Uses the array to update the WorkshopModules positions
-    array.compact.each do |mod|
-      mod.update(position: array.index(mod) + 1)
+    unless @workshop_module.position == WorkshopModule.where(workshop_id: @workshop.id).count
+      next_module = @workshop.workshop_modules.where(position: @workshop_module.position + 1).first
+      next_module.update(position: @workshop_module.position)
+      @workshop_module.update(position: (@workshop_module.position + 1))
     end
     @workshop_module.save
     respond_to do |format|

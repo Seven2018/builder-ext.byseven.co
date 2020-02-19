@@ -4,10 +4,10 @@
       <i class="fas fa-arrow-left"></i>
     <% end %>
   </div>
-  <div id='client-company-index'>
-    <div id="client-company-controls">
-      <h3>Forms List for <%= @training.title %></h3>
-      <div id="client-company-buttons">
+  <div id='page-index'>
+    <div id="page-controls">
+      <h1>Forms List for <%= @training.title %></h1>
+      <div id="page-buttons">
         <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
           <a class='btn btn-edit' data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a>
         <% end %>
@@ -17,8 +17,8 @@
       <% @forms.each do |form| %>
         <li>
           <%= link_to training_form_path(@training, form) do %>
-            <div class="theory-card">
-              <div class="theory-card-infos">
+            <div class="index-card-large">
+              <div class="index-card-large-infos">
                 <p><%= form.title %></p>
                 <div class="theory-contents">
                   <% form.sessions.each do |session| %>
@@ -37,7 +37,7 @@
 <!-- Modal -->
 
 <div class="modal fade" id="newForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
     <%= render 'forms/new', form: @form %>
   </div>
 </div>

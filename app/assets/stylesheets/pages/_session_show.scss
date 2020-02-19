@@ -2,21 +2,21 @@
   position: relative;
   width: 100vw;
   display: flex;
-  margin-top: 50px;
+  margin-top: 5rem;
 
   @include from-large {
-    padding-left: 220px;
+    padding-left: 22rem;
     margin-top: 0;
   }
 }
 
 .session-container {
   flex: 1 0;
-  padding: 30px;
+  padding: 3rem;
   max-width: 100vw;
 
   @include from-large {
-    padding: 50px;
+    padding: 5rem;
   }
 }
 
@@ -26,11 +26,6 @@
   @include from-large {
     text-align: left;
   }
-}
-
-.session-controls {
-  position: absolute;
-  right: 13vw;
 }
 
 #export-btn {
@@ -45,7 +40,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 4rem;
 
   @include from-large {
     padding-right: 60%;
@@ -64,7 +59,7 @@
   position: relative;
 
   ul {
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 300;
     letter-spacing: 0.6px;
     line-height: 1.6;
@@ -78,11 +73,11 @@
 
   .card-session-number {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
+    bottom: 0.5rem;
+    right: 0.5rem;
     margin: 0;
-    height: 50px;
-    width: 50px;
+    height: 5rem;
+    width: 5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,12 +85,12 @@
 
   @include from-large {
     display: block;
-    padding: 0 20px 20px 20px;
+    padding: 0 2rem 2rem 2rem;
   }
 }
 
 .session-header {
-  padding-top: 25px;
+  padding-top: 2.5rem;
   width: 131%;
 }
 
@@ -104,14 +99,14 @@
   justify-content: space-between;
 
   @include from-large {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
   }
 }
 
 .user-fafa {
   border: none;
   padding: 0;
-  margin: 0 5px;
+  margin: 0 0.5rem;
   background-color: rgba(0,0,0,0);
 }
 
@@ -133,13 +128,13 @@ background-color: rgba(0,0,0,0);
 
 .error {
   color: #004A7F;
-  -webkit-border-radius: 10px;
+  -webkit-border-radius: 1rem;
   border: none;
   color: #FFFFFF;
   cursor: pointer;
   display: inline-block;
-  font-size: 20px;
-  padding: 5px 10px;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
   text-align: center;
   text-decoration: none;
   -webkit-animation: glowing 1500ms infinite;
@@ -149,25 +144,25 @@ background-color: rgba(0,0,0,0);
 }
 @-webkit-keyframes glowing {
   0% { color: #B20000; -webkit-text-shadow: 0 0 3px #B20000; }
-  50% { color: #FF0000; -webkit-text-shadow: 0 0 20px #FF0000; }
+  50% { color: #FF0000; -webkit-text-shadow: 0 0 2rem #FF0000; }
   100% { color: #B20000; -webkit-text-shadow: 0 0 3px #B20000; }
 }
 
 @-moz-keyframes glowing {
   0% { color: #B20000; -moz-text-shadow: 0 0 3px #B20000; }
-  50% { color: #FF0000; -moz-text-shadow: 0 0 20px #FF0000; }
+  50% { color: #FF0000; -moz-text-shadow: 0 0 2rem #FF0000; }
   100% { color: #B20000; -moz-text-shadow: 0 0 3px #B20000; }
 }
 
 @-o-keyframes glowing {
   0% { color: #B20000; text-shadow: 0 0 3px #B20000; }
-  50% { color: #FF0000; text-shadow: 0 0 20px #FF0000; }
+  50% { color: #FF0000; text-shadow: 0 0 2rem #FF0000; }
   100% { color: #B20000; text-shadow: 0 0 3px #B20000; }
 }
 
 @keyframes glowing {
   0% { color: #B20000; text-shadow: 0 0 3px #B20000; }
-  50% { color: #FF0000; text-shadow: 0 0 20px #FF0000; }
+  50% { color: #FF0000; text-shadow: 0 0 2rem #FF0000; }
   100% { color: #B20000; text-shadow: 0 0 3px #B20000; }
 }
 
@@ -195,26 +190,26 @@ background-color: rgba(0,0,0,0);
 
 .sidebar-search-close {
   position: absolute;
-  right: 20px;
-  top: 10px;
+  right: 2rem;
+  top: 1rem;
 }
 
 #logs-title {
   cursor: pointer;
-  width: 120px;
+  width: 12rem;
 
   span {
     position: absolute;
     margin-top: 0px;
-    margin-left: 25px;
-    padding: 5px;
+    margin-left: 2.5rem;
+    padding: 0.5rem;
     color: black;
     background: #EDF6FF;
     opacity: 0;
     box-shadow:0 0 2px rgba(0,0,0,.5);
     transform:scale(0) rotate(-12deg);
     transition: all .25s;
-    font-size: 16px;
+    font-size: 1.6rem;
     display: inline;
     overflow-wrap: anywhere;
     white-space: nowrap;
@@ -227,6 +222,6 @@ background-color: rgba(0,0,0,0);
 }
 
 #logs-list {
-  height: 150px;
+  height: 15rem;
   overflow: scroll;
 }

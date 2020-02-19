@@ -1,7 +1,7 @@
 .show-control-links {
 
   a {
-    margin-left: 20px;
+    margin-left: 2rem;
   }
 }
 
@@ -14,11 +14,11 @@
   }
 }
 
-.user-contact-card-show {
+.index-card-small-show {
   width: 100%;
-  margin: 50px 0;
-  padding: 20px;
-  box-shadow: 2px 2px 10px rgba(136,136,136,0.8);
+  margin: 5rem 0;
+  padding: 2rem;
+  box-shadow: 2px 2px 1rem rgba(136,136,136,0.8);
 
   @include from-large {
     width: 50%;
@@ -27,7 +27,7 @@
   div {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
 
     p {
       margin: 0;
@@ -50,6 +50,6 @@
 
 .user-search-close {
   position: absolute;
-  right: 135px;
-  top: 10px;
+  right: 13.5rem;
+  top: 1rem;
 }

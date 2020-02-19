@@ -14,7 +14,7 @@
         <p><%= @content.theme.name %></p>
       <% end %>
     </div>
-    <!-- <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:150px;'></a> -->
+    <!-- <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:15rem;'></a> -->
     <div class='theory-list-title'>
       <p>Theories<button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></button><button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></button></p>
       <div class="theory-list">
@@ -37,25 +37,25 @@
 
 <!-- Modal -->
 <div class="modal fade" id="viewImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg modal-seven" role="document" style="border-radius: 20px">
+  <div class="modal-dialog modal-lg modal-seven" role="document" style="border-radius: 2rem">
     <img src="<%= @content.description %>" alt="">
   </div>
 </div>
 
 <div class="modal fade" id="newTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'theory_contents/new', theory_content: @theory_content %>
   </div>
 </div>
 
 <div class="modal fade" id="destroyTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'theory_contents/destroy', theory_content: @theory_content %>
   </div>
 </div>
 
 <div class="modal fade" id="editContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'edit', theory_content: @theory_content %>
   </div>
 </div>
