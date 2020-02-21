@@ -1,10 +1,10 @@
 <div class="left-navbar left-navbar-builder">
-  <div class="dropdown">
-    <div class="left-navbar-top">
+  <div class="left-navbar-top">
+    <div class="dropdown">
       <% if user_signed_in? %>
         <img src='<%= "#{current_user.picture}" %>' class="avatar dropdown-toggle" id="navbar-wagon-menu" data-toggle="dropdown">
       <% end %>
-      <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
+      <ul class="dropdown-menu dropdown-menu-center navbar-wagon-dropdown-menu">
         <% if user_signed_in? %>
           <li><%= link_to "Profile", user_path(current_user) %></li>
         <% end %>

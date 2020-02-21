@@ -1,4 +1,4 @@
-h1, h2, h3, h4, h5, h6, p, a {
+h1, h2, h3, h4, h4, h6, p, a {
   font-family: 'Open Sans' !important;
 }
 
@@ -14,8 +14,14 @@ h4 {
   }
 }
 
+h5 {
+  @include from-large {
+    font-size: 1.6rem !important;
+  }
+}
+
 h6, label {
-  font-size: 1.2rem;
+  font-size: 1.2rem !important;
 }
 
 p, i {
@@ -32,10 +38,6 @@ a {
   &:hover {
     text-decoration: none;
     color: black;
-  }
-
-  &:active, &:focus {
-    background-color: white !important;
   }
 }
 

@@ -21,7 +21,7 @@ class InvoiceItemsController < ApplicationController
         render(
           pdf: "#{@invoice_item.uuid}",
           layout: 'pdf.html.erb',
-          margin: { bottom: 55, top: 62 },
+          margin: { bottom: 45, top: 62 },
           header: { margin: { top: 0, bottom: 0 }, html: { template: 'invoice_items/header.pdf.erb' } },
           footer: { margin: { top: 0, bottom: 0 }, html: { template: 'invoice_items/footer.pdf.erb' } },
           template: 'invoice_items/show',

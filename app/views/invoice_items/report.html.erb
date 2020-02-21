@@ -1,18 +1,13 @@
 <div class="container-seven">
-  <div class="invoice-item-container-mobile">
-    <h1>Reports - Not available on mobile devices</h1>
-    <a href="/report.csv"><button class="btn btn-edit-red btn-edit-trash">Export <i class="fas fa-file-csv"></i></button></a>
-  </div>
   <div class="report-main">
     <div id="page-controls">
       <h1>Reports</h1>
       <div id="page-buttons">
-        <%= link_to 'Factures', invoice_items_path(type: 'Invoice'), class: 'btn btn-edit-green btn-edit-trash' %>
-        <%= link_to 'Devis', invoice_items_path(type: 'Estimate'), class: 'btn btn-edit btn-edit-trash' %>
+        <%= link_to 'Invoices', invoice_items_path(type: 'Invoice'), class: 'btn btn-edit-green btn-edit-trash' %>
+        <%= link_to 'Estimates', invoice_items_path(type: 'Estimate'), class: 'btn btn-edit btn-edit-trash' %>
         <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><%= link_to 'Upload to Drive', upload_to_sheet_path, method: :post %></li>
-          <li><a href="/report.csv">Export CSV</a></li>
         </ul>
       </div>
     </div>

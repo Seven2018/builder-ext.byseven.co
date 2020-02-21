@@ -3,16 +3,16 @@
   <body id='header-body-pdf'>
     <div class="invoice-header-pdf">
       <% unless @invoice_item.type == 'InvoiceSevener' %>
-        <div>
-          <%= wicked_pdf_image_tag 'logo.png', id: "pdf-logo" %>
-          <P>SEVEN</p>
+        <%= wicked_pdf_image_tag 'logo.png', id: "pdf-logo" %>
+        <div class='invoice-company'>
+          <p>SEVEN</p>
           <p>5, rue Moret</p>
           <p>75011 Paris</p>
           <p>FRANCE</p>
           <p>contact@byseven.co</p>
         </div>
       <% else %>
-        <div>
+        <div class='invoice-company'>
           <h3 style="color:black;"><%= @invoice_item.user.firstname %> <%= @invoice_item.user.lastname %></h3>
           <p><%= @invoice_item.user.address %></p>
           <p><%= @invoice_item.user.email %></p>

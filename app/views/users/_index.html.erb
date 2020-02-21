@@ -23,7 +23,7 @@
         <li>
           <%= link_to user_path(user) do %>
             <div class="index-card-large index-card-small">
-              <img class='client-company-logo-index' src='<%= "#{user.picture}" %>' onerror="this.onerror=null;this.src='https://i0.wp.com/rouelibrenmaine.fr/wp-content/uploads/2018/10/empty-avatar.png';">
+              <img class='client-company-logo-index' src='<%= "#{user.picture}" %>' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
               <div class="client-company-type-address">
                 <p><%= "#{user.firstname} #{user.lastname}" %></p>
                 <div>

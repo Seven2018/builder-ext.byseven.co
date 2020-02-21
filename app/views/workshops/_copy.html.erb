@@ -13,11 +13,11 @@
       </div>
       <div class="copy-form-element">
         <%= f.label :training_id, 'Training', class: 'copy-form-hidden-label' %>
-        <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title_for_copy, options = {}, html_options = { class: "copy_training_id#{mod.id}" } %>
+        <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title,  options = {}, html_options = { class: "copy_training_id#{mod.id}"} %>
       </div>
       <div class="copy-form-element">
         <%= f.label :session_id, 'Session', class: 'copy-form-hidden-label' %>
-        <%= f.grouped_collection_select :session_id, Training.all, :sessions, :title_for_copy, :id, :title_date, options = {}, html_options = { class: "copy_session_id#{mod.id}" } %>
+        <%= f.grouped_collection_select :session_id, Training.all.order(title: :asc), :sessions, :title_for_copy, :id, :title_date, options = {}, html_options = { class: "copy_session_id#{mod.id}" } %>
       </div>
       <div style='display:flex;justify-content:center;margin-top:2rem;'>
         <%= f.input :rename, placeholder: mod.title, label: 'Rename' %>
@@ -44,10 +44,10 @@
             if (options) {
               $('.copy_training_id'+id).html(options)
               $('.copy_training_id'+id).show()
-              training = $('.copy_training_id'+id+' :selected').text()
-              options1 = $(sessions).filter(`optgroup[label='${training}']`).html()
-              $('.copy_session_id'+id).html(options1)
-              $('.copy_session_id'+id).show()
+              // training = $('.copy_training_id'+id+' :selected').text()
+              // options1 = $(sessions).filter(`optgroup[label='${training}']`).html()
+              // $('.copy_session_id'+id).html(options1)
+              // $('.copy_session_id'+id).show()
             } else {
               $('.copy_training_id'+id).empty()
               $('.copy_training_id'+id).hide()

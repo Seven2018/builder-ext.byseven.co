@@ -24,16 +24,15 @@
         <% elsif params[:controller] == 'forms' && params[:action] == 'show' %>
         <% elsif params[:action] == 'viewer' %>
         <% elsif params[:action] == 'export' %>
+        <% elsif !user_signed_in? %>
         <% else %>
           <%= render 'shared/left-navbar' %>
           <%= render 'shared/left-navbar-mobile' %>
         <% end %>
-        <%#= render 'shared/navbar' %>
         <%= render 'shared/flashes' %>
         <%= yield %>
         <%= javascript_include_tag 'application' %>
         <%= javascript_pack_tag 'application' %>
-        <%#= render 'shared/footer' %>
       </div>
     </body>
 </html>

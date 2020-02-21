@@ -7,7 +7,7 @@
   </div>
   <div class="modal-body">
     <%= simple_form_for :edit_dunning, url: marked_as_reminded_invoice_item_path(item), method: 'GET' do |f| %>
-      <%= f.input :sending_date, as: :string, input_html: { class: 'datepicker'} %>
+      <%= f.input :dunning_date, as: :string, input_html: { class: 'datepicker'} %>
       <div style=" display: flex; justify-content: space-between; margin-top: 1rem">
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
           <i class="fas fa-save"></i>

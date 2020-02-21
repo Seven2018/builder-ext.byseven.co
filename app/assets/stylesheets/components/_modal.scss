@@ -1,3 +1,7 @@
+.modal-header {
+  align-items: center !important;
+}
+
 .mod-date {
   display: flex;
   justify-content: space-between;
@@ -59,6 +63,7 @@
 
 .modal {
  overflow-y: auto !important;
+ padding: 0 !important;
 }
 
 .modal-open {

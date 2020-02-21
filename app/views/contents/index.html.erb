@@ -16,7 +16,7 @@
               <a class='btn-link'><i class="fas fa-angle-down"></i></a>
               <p><%= theme.name %></p>
             </div>
-            <div class="content-index-nested collapse" id="collapse<%= theme.id %>">
+            <div class="content-index-nested collapse">
               <% theme.contents.each do |content| %>
                 <div class="content-index-card">
                   <%= link_to content_path(content) do %>

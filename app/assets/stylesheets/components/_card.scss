@@ -61,7 +61,7 @@ $timeline: #115173;
     background-position: center;
     background-repeat: no-repeat;
 
-    h5 {
+    h4 {
       font-size: 1.2rem;
       width: 60%;
     }
@@ -358,7 +358,7 @@ $timeline: #115173;
     &:hover {
       box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
     }
-    h5{
+    h4{
       font-size: 2rem;
       font-weight: 300;
       letter-spacing: 0.6px;
@@ -503,123 +503,6 @@ $timeline: #115173;
   box-shadow: none;
 }
 
-.btn {
-}
-
-input.btn {
-  margin-bottom: 1rem !important;
-}
-
-.return-arrow {
-  min-width: 0 !important;
-  padding: 1.6rem 1.7rem !important;
-  box-shadow: none !important;
-
-  i {
-    font-size: 1.6rem;
-  }
-}
-
-.btn-edit, .btn-edit-red, .btn-edit-green, .btn-edit-grey {
-  opacity: 0.8;
-  width: auto;
-  max-width: none;
-  padding: 1.1rem 1.6rem !important;
-  border-radius: 0.22em;
-  box-sizing: border-box;
-  font-size: 1.4rem !important;
-  font-weight: 800 !important;
-  color: white !important;
-  text-align: center;
-  transition: all 0.1s;
-  outline: none !important;
-  margin-left: 0.5rem !important;
-
-  i {
-    color: white;
-  }
-
-
-  &:hover{
-    opacity: 1;
-    text-decoration: none !important;
-  }
-}
-
-.btn-edit {
-  background-color: $yellow !important;
-}
-
-.btn-edit-red {
-    background-color: #E64259 !important;
-}
-
-.btn-edit-green {
-    background-color: #4AC2C7 !important;
-}
-
-.btn-edit-grey {
-    background-color: #23282E !important;
-}
-
-.btn-edit-pen, .btn-edit-menu {
-  padding: 1.6rem 1.6rem !important;
-  min-width: 0 !important;
-}
-
-.btn-edit-round {
-  min-width: 0 !important;
-  padding: 0.45rem !important;
-  border-radius: 50% !important;
-  background-color: #23282E !important;
-  color: white !important;
-
-  &:hover {
-    background-color: #23282E !important;
-  }
-}
-
-.btn-edit-disk, .btn-edit-trash, .btn-edit-copy {
-  padding: 1.6rem 1.7rem !important;
-  min-width: 0 !important;
-  color: white !important;
-}
-
-.btn-edit-eye {
-  padding: 1.57rem 1.5rem !important;
-  min-width: 0 !important;
-}
-
-.btn-edit-cross {
-  padding: 1.67rem 1.9rem !important;
-  min-width: 0 !important;
-  box-shadow: none !important;
-
-  i {
-    font-size: 1.4rem;
-  }
-}
-
-.btn-add-user {
-  box-shadow: none !important;
-  border-radius: 5.2rem !important;
-  background-color: rgba(0,0,0,0.05) !important;
-  font-size: 1.4rem !important;
-  padding: 1.05rem 1.6rem !important;
-}
-
-.btn-add-user-disabled {
-  box-shadow: none !important;
-  cursor: default !important;
-  background-color: white !important;
-  background-image: none !important;
-
-  &:hover {
-    background-color: white !important;
-    background-image: none !important;
-  }
-}
-
 .card-mods:last-child {
   .card-left {
      -webkit-border-image:
@@ -698,7 +581,7 @@ input.btn {
     &:hover {
       box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
     }
-    h5{
+    h4{
       font-size: 2rem;
       font-weight: 300;
       letter-spacing: 0.6px;

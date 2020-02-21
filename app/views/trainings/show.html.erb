@@ -40,7 +40,7 @@
         <ul id="owner">
           <% @training.users.each do |user| %>
             <li>
-              <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror="this.onerror=null;this.src='https://i0.wp.com/rouelibrenmaine.fr/wp-content/uploads/2018/10/empty-avatar.png';"></a>
+              <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
             </li>
             <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
               <div class="modal-dialog" role="document" style="border-radius: 2rem">
@@ -87,7 +87,7 @@
             <% session.users.each do |trainer| %>
               <% trainer_array << trainer %>
               <% unless trainer_array.count(trainer) > 1 %>
-                <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm' onerror="this.onerror=null;this.src='https://i0.wp.com/rouelibrenmaine.fr/wp-content/uploads/2018/10/empty-avatar.png';"></a></li>
+                <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a></li>
               <% end %>
             <% end %>
           <% end %>
@@ -127,7 +127,7 @@
                     <ul id="owner-session-index">
                       <% session.users.each do |user| %>
                         <li>
-                          <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror="this.onerror=null;this.src='https://i0.wp.com/rouelibrenmaine.fr/wp-content/uploads/2018/10/empty-avatar.png';"></a>
+                          <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
                         </li>
                         <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                           <div class="modal-dialog" role="document" style="border-radius: 2rem">

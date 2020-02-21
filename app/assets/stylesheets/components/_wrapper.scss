@@ -172,3 +172,104 @@ a {
 ul {
   list-style-type: disc;
 }
+
+#container-login {
+  width: 100%;
+  padding: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #login-div {
+    width: 30rem;
+
+    .login-title {
+      padding: 0 4rem;
+      margin-bottom: 3rem;
+    }
+
+    .form-check {
+      height: 3rem;
+      display: flex;
+      align-items: center;
+
+      label {
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  .form-sign-in-options {
+
+    fieldset {
+      margin: 0 !important;
+    }
+
+    a {
+      font-size: 10px;
+    }
+  }
+
+  .form-actions {
+    margin-top: 2rem;
+  }
+
+  .form-check {
+    margin: 0;
+  }
+}
+
+.centered-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-row-between-centered {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-row-between-start {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.flex-row-start-centered {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.flex-row-around-centered {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.flex-column-between-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-column-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column-between-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hidden {
+  display: none !important;
+}

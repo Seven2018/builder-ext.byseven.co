@@ -13,7 +13,7 @@
       </div>
       <div class="copy-form-element">
         <%= f.label :training_id, 'Training', class: 'copy-form-hidden-label' %>
-        <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title_for_copy, options = {}, html_options = { class: "copy_training_id#{mod.id}" } %>
+        <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title, options = {}, html_options = { class: "copy_training_id#{mod.id}" } %>
       </div>
       <div class="copy-form-element">
         <%= f.label :session_id, 'Session', class: 'copy-form-hidden-label' %>

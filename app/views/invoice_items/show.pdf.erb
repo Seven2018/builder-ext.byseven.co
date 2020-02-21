@@ -48,6 +48,7 @@
       <% end %>
       <% unless @invoice_item.invoice_lines.map(&:product).uniq.include?(Product.find(2)) %>
         <br>
+        <br>
         <p>TVA non applicable, art. 293 B du CGI</p>
       <% end %>
       <div class="invoice-total-pdf">
@@ -77,14 +78,18 @@
         <div class="invoice-total-details-pdf">
           <div>
             <p>Total HT Net</p>
-            <p>Total TVA</p>
-            <p style='border-bottom: 2px solid black;'>Total TTC</p>
-            <p>Net à payer en EUR</p>
-          </div>
-          <div style='text-align:right;'>
             <p><%= number_with_precision(total_ht.sum, precision: 2) %></p>
+          </div>
+          <div>
+            <p>Total TVA</p>
             <p><%= number_with_precision(@invoice_item.tax_amount, precision: 2) %></p>
+          </div>
+          <div>
+            <p style='border-bottom: 2px solid black;'>Total TTC</p>
             <p style='border-bottom: 2px solid black;'><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
+          </div>
+          <div>
+            <p>Net à payer en EUR</p>
             <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
           </div>
         </div>

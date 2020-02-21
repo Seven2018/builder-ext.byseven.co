@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     authorize @user
-    @user.picture = 'https://i0.wp.com/rouelibrenmaine.fr/wp-content/uploads/2018/10/empty-avatar.png' unless @user.picture.present?
+    @user.picture = <%= asset_url('empty-avatar.png', type: :image) %> unless @user.picture.present?
     if @user.save
       redirect_to user_path(@user)
     else
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   def update
     authorize @user
     @user.update(user_params)
-    @user.update(picture: 'https://i0.wp.com/rouelibrenmaine.fr/wp-content/uploads/2018/10/empty-avatar.png') unless @user.picture.present?
+    @user.update(picture: <%= asset_url('empty-avatar.png', type: :image) %>) unless @user.picture.present?
     if @user.save
       redirect_to user_path(@user)
     else

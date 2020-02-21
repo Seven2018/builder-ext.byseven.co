@@ -1,0 +1,230 @@
+.user-controls {
+  // width: 280px;
+  // position: relative;
+}
+
+.control-button {
+  border-radius: 50%;
+  // border: 1px solid rgba(115, 133, 152, 0.6);
+  height: 4.8rem;
+  width: 4.8rem;
+  font-size: 1.6rem; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  opacity: 0.6;
+  transition: all 0.8s ease;
+  color: white;
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  &:hover {
+    opacity: 1;
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.control-button-warning {
+  background-color: $orange;
+}
+
+.warning-training {
+  position: absolute;
+  top: 1.5rem;
+  left: 4.2rem;
+}
+
+.warning-client {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.7rem;
+}
+
+.control-button-danger {
+  background-color: $red;
+}
+
+.control-button-add {
+  background-color: $green;
+}
+
+.client-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h3 {
+    margin: 0;
+  }
+  .btn {
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+.text {
+  border-radius: 1rem;
+  width: auto;
+}
+
+.edit-fafa {
+  display: none;
+  border: none;
+  font-size: 2rem;
+  outline: none;
+  color: black;
+  background-color: rgba(0,0,0,0);
+  &:hover {
+    color: black;
+    cursor: pointer;
+  }
+
+  @include from-large {
+    display: inline;
+  }
+}
+
+.add-user {
+  border-radius: 50%;
+  height: 3.5rem;
+  width: 3.5rem;
+  border: 1px solid rgba(0,0,0,0.6);
+  padding: 0;
+  background-color: rgba(0,0,0,0);
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  padding: 6.0.5rem 8.0.5rem !important;
+  box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
+}
+
+.return-arrow {
+  min-width: 0 !important;
+  padding: 1.6rem 1.7rem !important;
+  box-shadow: none !important;
+
+  i {
+    font-size: 1.6rem;
+  }
+}
+
+.btn-edit, .btn-edit-red, .btn-edit-green, .btn-edit-grey {
+  font-family: 'Arial', sans-serif !important;
+  opacity: 0.8;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  color: white !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+
+  i {
+    color: white;
+  }
+
+
+  &:hover{
+    opacity: 1;
+    text-decoration: none !important;
+  }
+}
+
+.btn-edit {
+  background-color: $yellow !important;
+}
+
+.btn-edit-red {
+    background-color: #E64259 !important;
+}
+
+.btn-edit-green {
+    background-color: #4AC2C7 !important;
+}
+
+.btn-edit-grey {
+    background-color: #23282E !important;
+}
+
+.btn-edit-pen, .btn-edit-menu {
+  padding: 1.6rem 1.6rem !important;
+  min-width: 0 !important;
+}
+
+.btn-edit-round {
+  min-width: 0 !important;
+  padding: 0.45rem !important;
+  border-radius: 50% !important;
+  background-color: #23282E !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #23282E !important;
+  }
+}
+
+.btn-edit-disk, .btn-edit-trash, .btn-edit-copy {
+  padding: 1.6rem 1.7rem !important;
+  min-width: 0 !important;
+  color: white !important;
+}
+
+.btn-edit-eye {
+  padding: 1.57rem 1.5rem !important;
+  min-width: 0 !important;
+}
+
+.btn-edit-cross {
+  padding: 1.67rem 1.9rem !important;
+  min-width: 0 !important;
+  box-shadow: none !important;
+
+  i {
+    font-size: 1.4rem;
+  }
+}
+
+.btn-add-user {
+  font-family: 'Arial', sans-serif !important;
+  box-shadow: none !important;
+  border-radius: 5.2rem !important;
+  background-color: rgba(0,0,0,0.05) !important;
+  font-size: 1.4rem !important;
+  padding: 1.05rem 1.6rem !important;
+}
+
+.btn-add-user-disabled {
+  font-family: 'Arial', sans-serif !important;
+  box-shadow: none !important;
+  cursor: default !important;
+  background-color: white !important;
+  background-image: none !important;
+  font-size: 1.4rem !important;
+  padding: 1.05rem 1.6rem !important;
+
+  &:hover {
+    background-color: white !important;
+    background-image: none !important;
+  }
+}
+
+.btn-sign-in {
+  height: 42px;
+  background-color: $yellow !important;
+  border-radius: 2px;
+  box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+}

@@ -39,11 +39,13 @@
   display: flex;
   justify-content: space-around;
   position: relative;
+  padding: 3.4rem 0;
 }
 
 .left-navbar-middle {
   overflow-x: hidden;
   overflow-y: auto;
+  height: 53.2rem;
 }
 
 .left-navbar-middle::-webkit-scrollbar {
@@ -90,8 +92,6 @@
   width: 10rem;
   object-fit:cover;
   border-radius: 50%;
-  margin-top: 3rem;
-  margin-bottom: 3.8rem;
 }
 
 .left-navbar-logo img {
@@ -124,10 +124,16 @@
 
 .dropdown-menu {
   min-width: unset;
+  padding: 1rem !important;
+}
 
-  li {
-    padding: 0 1rem;
-  }
+.dropdown-menu-center {
+  top: 100% !important;
+  right: 0 !important;
+  left: 0 !important;
+  -webkit-transform: translate(0, 0) !important;
+  -o-transform: translate(0, 0) !important;
+  transform: translate(0, 0) !important;
 }
 
 .dropdown-menu-right {
