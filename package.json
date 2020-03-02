@@ -10,11 +10,9 @@
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",
     "sortablejs": "^1.9.0",
+    "trix": "^1.0.0"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.8.0"
-  },
-  "engines": {
-    "yarn": "1.21.1"
   }
 }
