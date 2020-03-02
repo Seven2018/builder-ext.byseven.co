@@ -24,7 +24,6 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     authorize @user
-    @user.picture = <%= asset_url('empty-avatar.png', type: :image) %> unless @user.picture.present?
     if @user.save
       redirect_to user_path(@user)
     else
