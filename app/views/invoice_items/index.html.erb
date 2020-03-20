@@ -14,9 +14,9 @@
     </a>
   </div>
   <% if params[:type] == 'Invoice' %>
-    <h3>Invoices List</h3>
+    <h1>Invoices List</h1>
   <% elsif params[:type] == 'Estimate' %>
-    <h3>Estimates List</h3>
+    <h1>Estimates List</h1>
   <% end %>
   <div class="invoice-list">
     <%= render 'list', invoice_items: @invoice_items %>
@@ -25,7 +25,7 @@
 
 <!-- MODAL -->
 <div class="modal fade" id="exportCSV" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'export_csv' %>
   </div>
 </div>

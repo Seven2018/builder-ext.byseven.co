@@ -3,9 +3,9 @@ $timeline: #115173;
 
 .card {
 
-  height: 250px;
-  width: 350px;
-  margin: 10px;
+  height: 25rem;
+  width: 35rem;
+  margin: 1rem;
   position: relative;
   background-color: rgb(244, 244, 244);
   border: 1px solid #e0e0e0;
@@ -21,13 +21,13 @@ $timeline: #115173;
     height: 75%;
     width: 100%;
     text-align: left;
-    padding: 15px;
+    padding: 1.5rem;
     position: relative;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     h6 {
-      margin: 15px 0;
+      margin: 1.5rem 0;
     }
   }
 
@@ -37,15 +37,15 @@ $timeline: #115173;
 }
 
 .card-sm {
-  height: 150px;
-  width: 150px;
-  margin: 10px 0;
+  height: 15rem;
+  width: 15rem;
+  margin: 1rem 0;
   position: relative;
   background-color: rgb(244, 244, 244);
   border: 1px solid #e0e0e0;
   font-family: 'Roboto';
   font-weight: lighter;
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 1rem rgba(0, 0, 0, 0.1);
   background-color: white;
   transition: all 0.8s ease;
   a {
@@ -55,19 +55,19 @@ $timeline: #115173;
     height: 100%;
     width: 100%;
     text-align: left;
-    padding: 10px;
+    padding: 1rem;
     position: relative;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
-    h5 {
-      font-size: 12px;
+    h4 {
+      font-size: 1.2rem;
       width: 60%;
     }
 
     p {
-      font-size: 12px;
+      font-size: 1.2rem;
       margin: 0;
     }
 
@@ -81,7 +81,7 @@ $timeline: #115173;
   display: none;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 64rem) {
   .card-sm-mobile {
     display: block !important;
   }
@@ -92,37 +92,37 @@ $timeline: #115173;
 }
 
 .client-logo {
-  height: 50px;
-  width: 50px;
+  height: 5rem;
+  width: 5rem;
   object-fit: contain;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 1rem;
+  right: 1rem;
 }
 
 .card-trainers {
-  margin-top: 20px;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 1rem;
+  right: 1rem;
 }
 
 .card-trainer {
-  height: 25px;
-  width: 25px;
+  height: 2.5rem;
+  width: 2.5rem;
   border-radius: 100%;
 }
 
 .card-infos {
-  margin-top: 20px;
+  margin-top: 2rem;
   position: absolute;
-  bottom: 10px;
+  bottom: 1rem;
  .card-infos-elements {
-    margin-top: 5px;
+    margin-top: 0.5rem;
     color: rgb(50,50,50);
-    font-size: 16px;
+    font-size: 1.6rem;
   }
 }
 
@@ -148,7 +148,7 @@ $timeline: #115173;
   background-color: white;
   width: 100%;
   height: auto;
-  box-shadow: 1px 1px 10px rgba(115, 133, 152, 0.6);
+  box-shadow: 1px 1px 1rem rgba(115, 133, 152, 0.6);
   margin: 0 auto;
   text-decoration: none;
   color: black;
@@ -159,7 +159,7 @@ $timeline: #115173;
   .card-main-lg {
     height: auto;
     position: relative;
-    margin-top: 20px;
+    margin-top: 2rem;
     h3 {
       font-family: "Roboto";
       font-weight: 500;
@@ -172,17 +172,17 @@ $timeline: #115173;
 }
 
 .card-footer-lg {
-  height: 50px;
-  padding: 20px;
+  height: 5rem;
+  padding: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 5rem;
   position: relative;
 
   @include from-large {
     height: auto;
-    padding: 20px 0 0 20px;
+    padding: 2rem 0 0 2rem;
     padding-right: 60%;
   }
 
@@ -200,8 +200,8 @@ $timeline: #115173;
   }
 
   button {
-    height: 50px;
-    width: 50px;
+    height: 5rem;
+    width: 5rem;
 
     &:hover {
       background-color: rgba(0,0,0,0.05);
@@ -209,20 +209,20 @@ $timeline: #115173;
 
     &:first-of-type {
       position: absolute;
-      right: 106px;
-      top: 5px;
+      right: 10.6rem;
+      top: 0.5rem;
     }
 
     &:nth-of-type(2) {
       position: absolute;
-      right: 56px;
-      top: 5px;
+      right: 5.6rem;
+      top: 0.5rem;
     }
 
     &:last-child {
       position: absolute;
-      right: 5px;
-      top: 5px;
+      right: 0.5rem;
+      top: 0.5rem;
     }
   }
 }
@@ -236,7 +236,7 @@ $timeline: #115173;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 20px;
+  padding: 2rem;
   position: relative;
 
   a {
@@ -245,27 +245,27 @@ $timeline: #115173;
 
   h3 {
     max-width: 100%;
-    font-size: 20px;
+    font-size: 2rem;
 
     @include from-large {
-      font-size: 24px;
+      font-size: 2.4rem;
     }
   }
 }
 
 .card-link {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 #mods {
   background: white;
 }
 
 #items, #items-viewer {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
     padding-right: 0;
 
     .card-mods {
@@ -286,7 +286,7 @@ $timeline: #115173;
     border-right-style: solid;
     border-right-color: $timeline;
     border-right-width: 4px;
-    width: 150px;
+    width: 15rem;
     position: relative;
     display: none;
 
@@ -303,18 +303,18 @@ $timeline: #115173;
     flex-direction: row;
     align-items: center;
     position: absolute;
-    top: -15px;
-    right: -9.4px;
+    top: -1.5rem;
+    right: -0.94rem;
     color: $blue;
     font-weight: 600;
-    font-size: 23px;
-    // width: 105px !important;
+    font-size: 2.3rem;
+    // width: 100.5rem !important;
   }
 
   .mod-duration {
     color: $blue;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 2rem;
   }
 
   .mod-endtime {
@@ -322,22 +322,22 @@ $timeline: #115173;
     flex-direction: row;
     align-items: center;
     position: absolute;
-    bottom: -15px;
-    right: -9.4px;
+    bottom: -1.5rem;
+    right: -0.94rem;
     color: $blue;
     font-weight: 600;
-    font-size: 23px;
+    font-size: 2.3rem;
   }
 
   .mod-time-mobile {
     top: 40%;
-    left: 54px;
+    left: 5.4rem;
     color: $blue;
     font-weight: 600;
-    font-size: 23px;
+    font-size: 2.3rem;
     text-align: center;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
 
     @include from-large {
       display: none;
@@ -348,18 +348,18 @@ $timeline: #115173;
     display: flex;
     justify-content: space-between;
     width: 100%;
-    box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
-    padding: 10px;
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    box-shadow: 1px 0px 7rem -1.1rem rgba(0, 0, 0, 0.15);
+    padding: 1rem;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 
     &:hover {
-      box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
     }
-    h5{
-      font-size: 20px;
+    h4{
+      font-size: 2rem;
       font-weight: 300;
       letter-spacing: 0.6px;
       line-height: 1.6;
@@ -367,17 +367,17 @@ $timeline: #115173;
 
     @include from-large {
       flex-grow: 1;
-      padding: 20px;
+      padding: 2rem;
     }
   }
 
   .circle {
     border: solid 2px $timeline;
     border-radius: 50%;
-    width: 15px;
-    height: 15px;
+    width: 1.5rem;
+    height: 1.5rem;
     background-color: $timeline;
-    margin-left: 15px;
+    margin-left: 1.5rem;
   }
 
   .align-elements-in-flexbox {
@@ -394,10 +394,10 @@ $timeline: #115173;
     }
 
     i {
-      font-size: 22px;
+      font-size: 2.2rem;
       position: absolute;
-      top: 41px;
-      right: 61px;
+      top: 4.1rem;
+      right: 6.1rem;
       color: #2e353d85;
     }
     ul {
@@ -409,15 +409,15 @@ $timeline: #115173;
 }
 
 .top-mods {
-  margin-bottom: 40px;
+  margin-bottom: 4rem;
   text-align: left;
   h4 {
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 300;
     margin: 0;
   }
   h3 {
-    font-size: 34px;
+    font-size: 3.4rem;
     margin-top: 0;
   }
 }
@@ -425,51 +425,51 @@ $timeline: #115173;
 .duration {
   position: absolute;
   top: 46px;
-  right: 61px;
-  font-size: 15px;
+  right: 6.1rem;
+  font-size: 1.5rem;
 
 }
 
 .message-box {
   background-color: white;
-  margin-top: 50px;
+  margin-top: 5rem;
   text-align: left;
 
   @include from-large {
-    padding-left: 120px;
-    padding-right: 120px;
-    padding-top: 35px;
-    padding-bottom: 31px;
+    padding-left: 12rem;
+    padding-right: 12rem;
+    padding-top: 3.5rem;
+    padding-bottom: 3.1rem;
   }
 
   li{
-    margin-top: 10px;
+    margin-top: 1rem;
   }
   .simple_form{
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
   }
 }
 
 #content_description {
   margin: 0px 1.01562px 0px 0px;
   width: 1408px;
-  height: 70px;
+  height: 7rem;
 }
 
 .log-box{
   text-align: left;
   background-color: white;
-  margin: 30px 0;
+  margin: 3rem 0;
   position: relative;
 
   @include from-large {
-    margin-top: 50px;
+    margin-top: 5rem;
     margin-bottom: 62px;
-    border-bottom-width: 20px;
-    padding-bottom: 30px;
-    padding-top: 30px;
-    padding-left: 120px;
-    padding-right: 120px;
+    border-bottom-width: 2rem;
+    padding-bottom: 3rem;
+    padding-top: 3rem;
+    padding-left: 12rem;
+    padding-right: 12rem;
   }
 }
 
@@ -485,130 +485,22 @@ $timeline: #115173;
 
   h4{
     text-align: left;
-    font-size: 16px;
+    font-size: 1.6rem;
 
     @include from-large {
-      font-size: 20px;
-      padding-bottom: 16px;
+      font-size: 2rem;
+      padding-bottom: 1.6rem;
     }
   }
 }
 
 #card-index:hover {
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.7);
+  box-shadow: 1px 1px 1rem rgba(0, 0, 0, 0.7);
   transition: 0.8s ease;
 }
 
 .card-mods {
   box-shadow: none;
-}
-
-input.btn {
-  margin-bottom: 10px !important;
-}
-
-.return-arrow {
-  min-width: 0 !important;
-  padding: 15.75px 17px !important;
-  box-shadow: none !important;
-
-  i {
-    font-size: 14px;
-  }
-}
-
-.btn-edit, .btn-edit-red, .btn-edit-green, .btn-edit-grey {
-  opacity: 0.8;
-  width: auto;
-  max-width: none;
-  padding: 0.45em 2em;
-  border-radius: 0.22em;
-  box-sizing: border-box;
-  font-weight: 800 !important;
-  color: white !important;
-  text-align: center;
-  transition: all 0.1s;
-  outline: none !important;
-  margin-left: 5px !important;
-  i {
-    color: white;
-  }
-  &:hover{
-    opacity: 1;
-    text-decoration: none !important;
-  }
-}
-
-.btn-edit {
-  background-color: $yellow !important;
-}
-
-.btn-edit-red {
-    background-color: #E64259 !important;
-}
-
-.btn-edit-green {
-    background-color: #4AC2C7 !important;
-}
-
-.btn-edit-grey {
-    background-color: #23282E !important;
-}
-
-.btn-edit-pen, .btn-edit-menu {
-  padding: 16px 16px !important;
-  min-width: 0 !important;
-}
-
-.btn-edit-round {
-  min-width: 0 !important;
-  padding: 5.5px !important;
-  border-radius: 50% !important;
-  background-color: #23282E !important;
-  color: white !important;
-
-  &:hover {
-    background-color: #23282E !important;
-  }
-}
-
-.btn-edit-disk, .btn-edit-trash, .btn-edit-copy {
-  padding: 16px 17px !important;
-  min-width: 0 !important;
-  color: white !important;
-}
-
-.btn-edit-eye {
-  padding: 15.75px 15px !important;
-  min-width: 0 !important;
-}
-
-.btn-edit-cross {
-  padding: 16.75px 19px !important;
-  min-width: 0 !important;
-  box-shadow: none !important;
-
-  i {
-    font-size: 14px;
-  }
-}
-
-.btn-add-user {
-  box-shadow: none !important;
-  border-radius: 52px !important;
-  background-color: rgba(0,0,0,0.05) !important;
-}
-
-.btn-add-user-disabled {
-  box-shadow: none !important;
-  cursor: default !important;
-  background-color: white !important;
-  background-image: none !important;
-
-  &:hover {
-    background-color: white !important;
-    background-image: none !important;
-  }
 }
 
 .card-mods:last-child {
@@ -627,19 +519,19 @@ input.btn {
 }
 .center-button {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 3rem;
 }
 
 .empty-mod {
   text-align: center;
   opacity: 0.5;
   filter: alpha(opacity=50);
-  font-size: 25px;
+  font-size: 2.5rem;
 }
 
 
 #content-modules-items {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
     padding-right: 0;
     .card-mods {
     display: flex;
@@ -660,7 +552,7 @@ input.btn {
     flex-shrink: 0;
     border-right-color: $timeline;
     border-right-width: 4px;
-    width: 150px;
+    width: 15rem;
     position: relative;
   }
   .mod-time {
@@ -669,28 +561,28 @@ input.btn {
     align-items: center;
     position: absolute;
     top: 40%;
-    right: -9.4px;
+    right: -0.94rem;
     color: $blue;
     font-weight: 600;
-    font-size: 23px;
+    font-size: 2.3rem;
   }
   .card-right {
-    width: 700px;
-    box-shadow: 1px 0px 70px -11px rgba(0, 0, 0, 0.15);
-    padding-right: 40px;
-    padding-left: 40px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    width: 70rem;
+    box-shadow: 1px 0px 7rem -1.1rem rgba(0, 0, 0, 0.15);
+    padding-right: 4rem;
+    padding-left: 4rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     cursor: grab;
     &:hover {
-      box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
     }
-    h5{
-      font-size: 20px;
+    h4{
+      font-size: 2rem;
       font-weight: 300;
       letter-spacing: 0.6px;
       line-height: 1.6;
@@ -700,10 +592,10 @@ input.btn {
   .circle {
     border: solid 2px $timeline;
     border-radius: 50%;
-    width: 15px;
-    height: 15px;
+    width: 1.5rem;
+    height: 1.5rem;
     background-color: $timeline;
-    margin-left: 15px;
+    margin-left: 1.5rem;
   }
 
   .align-elements-in-flexbox {
@@ -715,10 +607,10 @@ input.btn {
   .card-description {
     text-align: justify;
     i {
-      font-size: 22px;
+      font-size: 2.2rem;
       position: absolute;
-      top: 41px;
-      right: 61px;
+      top: 4.1rem;
+      right: 6.1rem;
       color: #2e353d85;
     }
   }

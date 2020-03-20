@@ -2,12 +2,12 @@
   border-bottom: none;
   list-style-type: none !important;
   box-shadow: none !important;
-  margin-bottom: 15px !important;
+  margin-bottom: 1.5rem !important;
 }
 
 .nav-tabs > li {
-  margin-bottom: 10px;
-  margin-right: 12px;
+  margin-bottom: 1rem;
+  margin-right: 1.2rem;
 
   &:last-child {
     margin-right: 0;
@@ -18,13 +18,13 @@
   padding-left: 0;
   padding-right: 0;
   color: black;
-  font-size: 14px;
+  font-size: 1.4rem;
   text-decoration: none;
 
   @include from-large {
-    margin-left: 15px;
-    margin-right: 15px;
-    font-size: 20px;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    font-size: 2rem;
   }
 }
 
@@ -34,10 +34,6 @@
   font-weight: 500;
 }
 
-// .nav-tabs > li > a:hover {
-//   border-color: transparent;
-// }
-
 .nav-tabs > li > a:hover {
   border-bottom: 4px solid rgba(255, 193, 92, 0.7);
 }
@@ -46,12 +42,12 @@
   .calendar-tabs {
 
     &:first-child {
-      margin-right: 10px;
+      margin-right: 1rem;
     }
   }
 
   .calendar-tabs-div {
     justify-content: center !important;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
   }
 }

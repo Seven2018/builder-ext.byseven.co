@@ -16,7 +16,7 @@
         </h4>
       </div>
     </div>
-    <div id="mods" style="min-height: 70vh;">
+    <div id="workshops-viewer" style="min-height: 70vh;">
       <div id="items-viewer">
         <% if @session.workshops.empty? %>
           <div class="empty-mod">
@@ -40,7 +40,7 @@
             </div>
             <div class="card-right card-right-viewer">
               <div class="card-category">
-                <%= link_to workshop_viewer_path(mod) do %>
+                <%= link_to training_session_workshop_viewer_path(@session.training, @session, mod) do %>
                   <h4><%= "#{mod.title} - (#{mod.duration} min)" %></h4>
                 <% end %>
               </div>

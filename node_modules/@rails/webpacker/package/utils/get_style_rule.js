@@ -1,17 +1,9 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { resolve } = require('path')
-const devServer = require('../dev_server')
 const config = require('../config')
 
-const inDevServer = process.argv.find(v => v.includes('webpack-dev-server'))
-const isHMR = inDevServer && (devServer && devServer.hmr)
-
 const styleLoader = {
-  loader: 'style-loader',
-  options: {
-    hmr: isHMR,
-    sourceMap: true
-  }
+  loader: 'style-loader'
 }
 
 const getStyleRule = (test, modules = false, preprocessors = []) => {
@@ -21,8 +13,9 @@ const getStyleRule = (test, modules = false, preprocessors = []) => {
       options: {
         sourceMap: true,
         importLoaders: 2,
-        localIdentName: '[name]__[local]___[hash:base64:5]',
-        modules
+        modules: modules ? {
+          localIdentName: '[name]__[local]___[hash:base64:5]'
+        } : false
       }
     },
     {
@@ -44,7 +37,9 @@ const getStyleRule = (test, modules = false, preprocessors = []) => {
   }
 
   // sideEffects - See https://github.com/webpack/webpack/issues/6571
-  return Object.assign({}, { test, use, sideEffects: !modules }, options)
+  return {
+    test, use, sideEffects: !modules, ...options
+  }
 }
 
 module.exports = getStyleRule

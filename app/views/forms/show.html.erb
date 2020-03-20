@@ -12,7 +12,7 @@
   <div id='attendee-form'>
     <% status = !params[:search].nil? %>
     <div id="attendee-form-title">
-      <h3>Formulaire d'inscription</h3>
+      <h1>Formulaire d'inscription</h1>
       <h2 style='color: #FFC451;'><strong><%= @training.title %></strong></h2>
     </div>
     <% if !user_signed_in? %>
@@ -46,7 +46,7 @@
           <div class="session-form-card-right">
             <div>
               <h3><strong><%= session.title %></strong></h3>
-              <h5><%= session.date.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %> <br> <%= session.room %> <br> <%= session.address %> </h5>
+              <h4><%= session.date.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %> <br> <%= session.room %> <br> <%= session.address %> </h4>
             </div>
             <p class='session-teaser'><%= session.teaser.html_safe %></p>
             <div class="session-form-control">
@@ -100,7 +100,7 @@
 <!-- Modal -->
 
 <div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
     <%= render 'forms/edit', form: @form, training: @form.training %>
   </div>
 </div>

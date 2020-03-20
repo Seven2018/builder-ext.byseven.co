@@ -2,7 +2,7 @@
   background-image: none !important;
 
   input, select {
-    padding: 6px 12px !important;
+    padding: 0.6rem 1.2rem !important;
   }
 }
 
@@ -12,22 +12,22 @@ input:focus {
 
 .form-div {
   position: relative;
-  margin: 50px 0;
+  margin: 5rem 0;
 }
 
 .form-label {
   width: 100%;
   height: 100%;
   position: absolute;
-  top: 0px;
-  padding-left: 13px;
-  padding-top: 7px;
+  top: 0;
+  padding-left: 1.3rem;
+  padding-top: 0.7rem;
   color: #9DABBA;
   transition: all 0.4s ease;
 }
 
 .form-label-active {
-  transform: translateY(-37px);
+  transform: translateY(-3.7rem);
   color: black;
   transition: all 0.4s ease;
 }
@@ -36,7 +36,7 @@ input:focus {
   display: flex;
 
   input {
-    margin-right: 10px;
+    margin-right: 1rem;
   }
 }
 
@@ -46,7 +46,7 @@ input:focus {
     display: flex;
 
     label {
-      margin-left: 5px;
+      margin-left: 0.5rem;
     }
   }
 }
@@ -55,4 +55,8 @@ input:focus {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+}
+
+.form-check-input {
+  margin-top: 0 !important;
 }

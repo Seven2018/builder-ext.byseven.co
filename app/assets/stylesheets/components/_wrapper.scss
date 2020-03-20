@@ -1,19 +1,20 @@
-
 html {
   display: flex;
   justify-content: center;
   overflow: -moz-scrollbars-vertical;
-  overflow-y: scroll;
+  height: 100%;
+  overflow-y: scroll !important;
+  font-size: 62.5%;
 }
 
 body {
   display: flex;
   justify-content: center;
   position: relative;
-  max-width: 1440px !important;
+  max-width: 144rem !important;
   width: 100vw !important;
-  margin: 0px !important;
-  padding: 0px !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 a {
@@ -32,41 +33,109 @@ a {
 }
 
 .container-seven {
-  margin-top: 50px;
+  margin-top: 5rem;
   width: 100%;
-  min-height: calc(100vh-50px);
-  padding: 30px;
+  min-height: calc(100vh-5rem);
+  padding: 3rem;
   position: relative;
 
   @include from-large {
     margin-top: 0;
-    margin: 0 220px;
+    margin-left: 22rem;
     min-height: 100vh;
-    padding: 50px;
+    padding: 5rem 27rem 5rem 5rem;
     overflow: auto;
-    min-width: 1080px;
+    min-width: 108rem;
   }
 }
 
 .container-seven-monthly-calendar {
 
   @include from-large {
-    margin: 0 0 0 220px !important;
+    margin: 0 0 0 22rem !important;
   }
 }
 
 .container-new-form {
-  margin-top: 30px;
+  margin-top: 3rem;
   width: 100%;
   min-height: 100vh;
   background-color: white;
-  padding: 50px;
+  padding: 5rem;
 
   @include from-large {
     margin-top: 0;
-    margin-left: 220px;
-    min-width: 1080px;
-    padding: 85px 400px;
+    margin-left: 22rem;
+    min-width: 108rem;
+    padding: 8.5rem 40rem;
+  }
+}
+
+#page-index {
+  width: 100%;
+
+  @include from-large {
+    width: auto;
+  }
+}
+
+#page-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  @include from-large {
+    width: 100%;
+    flex-direction: row;
+    margin-bottom: 5rem;
+  }
+
+  div {
+    display: flex;
+  }
+
+  div > a {
+    margin-left: 2rem;
+  }
+}
+
+#page-buttons {
+  position: relative;
+}
+
+.index-card-large {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 2rem 0;
+  transition: all 0.1s ease;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
+
+  p {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include from-large {
+    padding: 2rem;
+  }
+}
+
+.index-card-small > div {
+  width: 70%;
+
+  div {
+    width: 60%;
   }
 }
 
@@ -76,7 +145,7 @@ a {
 }
 
 #left-side {
-  width: 220px;
+  width: 22rem;
   display: none;
 
   @include from-large {
@@ -85,21 +154,122 @@ a {
 }
 
 #right-side {
-  // width: calc(100vw - 220px);
-  min-width: 900px;
+  // width: calc(100vw - 22rem);
+  min-width: 90rem;
 }
 
 .flex-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 
   a {
-    margin-left: 10px;
+    margin-left: 1rem;
   }
 }
 
 ul {
   list-style-type: disc;
+}
+
+#container-login {
+  width: 100%;
+  padding: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #login-div {
+    width: 30rem;
+
+    .login-title {
+      padding: 0 4rem;
+      margin-bottom: 3rem;
+    }
+
+    .form-check {
+      height: 3rem;
+      display: flex;
+      align-items: center;
+
+      label {
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  .form-sign-in-options {
+
+    fieldset {
+      margin: 0 !important;
+    }
+
+    a {
+      font-size: 10px;
+    }
+  }
+
+  .form-actions {
+    margin-top: 2rem;
+  }
+
+  .form-check {
+    margin: 0;
+  }
+}
+
+.centered-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-row-between-centered {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-row-between-start {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.flex-row-start-centered {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.flex-row-around-centered {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.flex-column-between-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-column-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column-between-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hidden {
+  display: none !important;
 }

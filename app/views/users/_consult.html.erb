@@ -5,8 +5,8 @@
     <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body">
-    <div style='text-align: center;margin-bottom: 10px;'>
-      <img src='<%= user.picture %>' alt="" class='client-company-logo-show'>
+    <div style='text-align: center;margin-bottom: 1rem;'>
+      <img src='<%= user.picture %>' alt="" class='client-company-logo-show' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
       <p>Lastname: <strong><%=  user.lastname %></strong></p>
       <p>Firstname: <strong><%=  user.firstname %></strong></p>
       <p>Email: <%= user.email %></p>

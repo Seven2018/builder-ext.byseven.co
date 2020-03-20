@@ -21,7 +21,7 @@ class InvoiceItemsController < ApplicationController
         render(
           pdf: "#{@invoice_item.uuid}",
           layout: 'pdf.html.erb',
-          margin: { bottom: 55, top: 62 },
+          margin: { bottom: 45, top: 62 },
           header: { margin: { top: 0, bottom: 0 }, html: { template: 'invoice_items/header.pdf.erb' } },
           footer: { margin: { top: 0, bottom: 0 }, html: { template: 'invoice_items/footer.pdf.erb' } },
           template: 'invoice_items/show',
@@ -51,7 +51,7 @@ class InvoiceItemsController < ApplicationController
   # Creates a chart (Numbers) of InvoicesItems, for reporting purposes (gem)
   def report
     @invoice_items = InvoiceItem.all
-    @invoice_items_grid = InvoiceItemsGrid.new(params[:invoice_items_grid])
+    # @invoice_items_grid = InvoiceItemsGrid.new(params[:invoice_items_grid])
     authorize @invoice_items
     respond_to do |format|
       format.html

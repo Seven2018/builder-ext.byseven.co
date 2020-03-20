@@ -1,8 +1,8 @@
 <div class="container-seven container-seven-centered">
-  <div id='client-company-index'>
-    <div id="client-company-controls">
-      <h3>Users list</h3>
-      <div id="client-company-buttons">
+  <div id='page-index'>
+    <div id="page-controls">
+      <h1>Users list</h1>
+      <div id="page-buttons">
         <%= simple_form_for :search, url: users_path, method: 'GET' do |f| %>
           <%= f.input :name, placeholder: 'Search', label: false %>
           <% if params[:search] %>
@@ -22,8 +22,8 @@
       <% @users.each do |user| %>
         <li>
           <%= link_to user_path(user) do %>
-            <div class="client-contact-card user-contact-card">
-              <img class='client-company-logo-index' src='<%= "#{user.picture}" %>'>
+            <div class="index-card-large index-card-small">
+              <img class='client-company-logo-index' src='<%= "#{user.picture}" %>' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
               <div class="client-company-type-address">
                 <p><%= "#{user.firstname} #{user.lastname}" %></p>
                 <div>

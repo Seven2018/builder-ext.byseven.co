@@ -1,13 +1,11 @@
 <div class="container-seven container-seven-viewer">
-  <%= link_to workshop_viewer_path(@workshop_module.workshop) do %>
+  <%= link_to training_session_workshop_viewer_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop) do %>
     <i class="fas fa-arrow-left"></i>
   <% end %>
-  <h2><%= @workshop_module.title %></h2>
+  <h1><%= @workshop_module.title %></h1>
 
   <p><%= @workshop_module.instructions.html_safe %></p>
   <p><%= @workshop_module.duration %> minutes</p>
-  <p><%= @workshop_module.url1 %></p>
-  <p><%= @workshop_module.url2 %></p>
   <p><%= @workshop_module.logistics %></p>
  <% if @workshop_module.action1 %>
       <p>Action 1 (participant) : <%= @workshop_module.action1.name %></p>

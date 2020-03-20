@@ -88,18 +88,10 @@ class WorkshopsController < ApplicationController
   def move_up
     authorize @workshop
     @session = @workshop.session
-    # Creates an array of Workshops, ordered by position
-    array = []
-    @session.workshops.order('position ASC').each do |workshop|
-      array << workshop
-    end
-    # Moves a WorkshopModule in the array by switching indexes
     unless @workshop.position == 1
-      array.insert((@workshop.position - 2), array.delete_at(@workshop.position - 1))
-    end
-    # Uses the array to update the WorkshopModules positions
-    array.compact.each do |workshop|
-      workshop.update(position: array.index(workshop) + 1)
+      previous_workshop = @session.workshops.where(position: @workshop.position - 1).first
+      previous_workshop.update(position: @workshop.position)
+      @workshop.update(position: (@workshop.position - 1))
     end
     @workshop.save
     respond_to do |format|
@@ -112,18 +104,10 @@ class WorkshopsController < ApplicationController
   def move_down
     authorize @workshop
     @session = @workshop.session
-    # Creates an array of Workshops, ordered by position
-    array = []
-    @session.workshops.order('position ASC').each do |workshop|
-      array << workshop
-    end
-    # Moves a WorkshopModule in the array by switching indexes
-    unless @workshop.position == array.compact.count
-      array.insert((@workshop.position), array.delete_at(@workshop.position - 1))
-    end
-    # Uses the array to update the WorkshopModules positions
-    array.compact.each do |workshop|
-      workshop.update(position: array.index(workshop) + 1)
+    unless @workshop.position == Workshop.where(session_id: @session.id).count
+      next_workshop = @session.workshops.where(position: @workshop.position + 1).first
+      next_workshop.update(position: @workshop.position)
+      @workshop.update(position: (@workshop.position + 1))
     end
     @workshop.save
     respond_to do |format|
@@ -131,15 +115,6 @@ class WorkshopsController < ApplicationController
       format.js
     end
   end
-
-  # def move
-  #   authorize @workshop
-  #   @session = @workshop.session
-  #   if @workshop.insert_at(params[:position].to_i)
-  #   else
-  #     raise
-  #   end
-  # end
 
   # "View" mode
   def viewer

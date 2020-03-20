@@ -1,38 +1,5 @@
 //INDEX
 
-#client-company-index {
-  width: 100%;
-
-  @include from-large {
-    width: auto;
-  }
-}
-
-#client-company-controls {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  @include from-large {
-    width: 100%;
-    flex-direction: row;
-    margin-bottom: 50px;
-  }
-
-  div {
-    display: flex;
-  }
-
-  div > a {
-    margin-left: 20px;
-  }
-}
-
-#client-company-buttons {
-  position: relative;
-}
-
 #client-contact-controls {
   display: flex;
   flex-direction: column;
@@ -42,7 +9,7 @@
   @include from-large {
     width: 50%;
     flex-direction: row;
-    margin-bottom: 50px;
+    margin-bottom: 5rem;
   }
 
   div {
@@ -50,7 +17,7 @@
   }
 
   div > a {
-    margin-left: 20px;
+    margin-left: 2rem;
   }
 }
 
@@ -79,35 +46,9 @@
   }
 }
 
-.client-company-card, .client-contact-card, .theory-card, .action-card {
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0;
-  padding: 20px 0;
-  transition: all 0.1s ease;
-
-  &:hover {
-    background-color: rgba(0,0,0,0.05);
-  }
-
-  div {
-
-    p {
-      margin: 0;
-    }
-  }
-
-  @include from-large {
-    padding: 20px;
-  }
-}
-
 .client-company-logo-index {
-  height:50px;
-  width:50px;
+  height:5rem;
+  width:5rem;
   background-color: rgba(0,0,0,0);
   object-fit: cover;
 }
@@ -119,7 +60,7 @@
 }
 
 .client-company-type-address {
-  margin-left: 30px;
+  margin-left: 3rem;
 
   @include from-large {
     margin-left: 10%;
@@ -145,8 +86,8 @@
 
 .client-company-search-close {
   position: absolute;
-  right: 175px;
-  top: 10px;
+  right: 170.5rem;
+  top: 0.5rem;
 }
 
 //-------------------------------------------------------------------
@@ -160,11 +101,11 @@
   justify-content: center;
 }
 
-.client-company-card-show, .client-contact-card-show {
+.index-card-large-show, .index-card-large-show {
   width: 100%;
-  margin: 50px 0;
-  padding: 20px;
-  box-shadow: 2px 2px 10px rgba(136,136,136,0.8);
+  margin: 5rem 0;
+  padding: 2rem;
+  box-shadow: 2px 2px 1rem rgba(136,136,136,0.8);
 
   @include from-large {
     width: 50%;
@@ -174,7 +115,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
 
     p {
       margin: 0;
@@ -198,19 +139,12 @@
   object-fit: cover;
 }
 
-.user-contact-card > div {
-  width: 70%;
-
-  div {
-    width: 60%;
-  }
-}
 
 .client-contact-info {
-  margin-left: 30px;
+  margin-left: 3rem;
 
   @include from-large {
-    margin-left: 120px;
+    margin-left: 12rem;
   }
 }
 

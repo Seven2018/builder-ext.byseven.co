@@ -1,6 +1,6 @@
 .simple-calendar {
 
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 64rem) {
     table {
     width:100%;
     }
@@ -30,8 +30,8 @@
     width: 100%;
 
     td {
-      padding-right: 10px !important;
-      padding-left: 10px !important;
+      padding-right: 1rem !important;
+      padding-left: 1rem !important;
     }
   }
 
@@ -111,7 +111,7 @@
 
 .calendar-heading {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 }
 
 .prev-month, .next-month {

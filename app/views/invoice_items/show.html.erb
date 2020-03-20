@@ -1,6 +1,6 @@
 <div class="container-session-show">
   <div class="invoice-item-container-mobile">
-    <h3><%= @invoice_item.training.client_contact.client_company.name %> : <%= @invoice_item.uuid %></h3>
+    <h1><%= @invoice_item.training.client_contact.client_company.name %> : <%= @invoice_item.uuid %></h1>
     <%= link_to invoice_item_path(@invoice_item, format: :pdf) do %>
       <button class="btn btn-edit btn-edit-red">
         Export <i class="fas fa-file-pdf"></i>
@@ -171,13 +171,13 @@
 <!-- MODALS -->
 
 <div class="modal fade" id="copyInvoiceItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'invoice_items/copy', invoice_item: @invoice_item %>
   </div>
 </div>
 
 <div class="modal fade" id="editClient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'invoice_items/edit_client', invoice_item: @invoice_item %>
   </div>
 </div>

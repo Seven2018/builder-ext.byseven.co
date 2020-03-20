@@ -9,11 +9,11 @@
     <%= simple_form_for [session.training, session] do |f| %>
       <div class='mod-date'>
         <%= f.input :title %>
-        <%= f.input :attendee_number, input_html: { min: 0, style: 'width:120px;' }, label: 'Participants', default: 0 %>
+        <%= f.input :attendee_number, input_html: { min: 0, style: 'width:12rem;' }, label: 'Participants', default: 0 %>
       </div>
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
-        <%= f.input :duration, label: "Duration (hours)", input_html: { min: 0, style: 'width:120px;' }, default: 0 %>
+        <%= f.input :duration, label: "Duration (hours)", input_html: { min: 0, style: 'width:12rem;' }, default: 0 %>
       </div>
       <div class='mod-date'>
         <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: 'timepicker'}, default: Time.parse('9:00') %>

@@ -13,7 +13,7 @@
   <div class='theory-description'><%= @theory.description.html_safe %></div>
   <p class='theory-show-references'><%= @theory.references.html_safe unless @theory.references.nil? %></p>
   <br>
-  <h5>Workshops</h5>
+  <h4>Workshops</h4>
   <div style='display: flex;flex-direction:column;'>
     <% @theory.contents.order(:title).each do |content| %>
       <%= link_to content.title, content_path(content) %>

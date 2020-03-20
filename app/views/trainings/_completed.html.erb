@@ -6,8 +6,8 @@
         <div class="card" id="card-index">
           <div class="card-main">
             <%= link_to training_path(training), class: 'stretched-link' do %>
-              <div class='client-logo' style="background-image: url(<%= training.client_contact.client_company.logo %>); background-size: 50px 50px; background-repeat: no-repeat;"></div>
-              <h5 style='max-width: 175px;'><%= training.title %></h5>
+              <div class='client-logo' style="background-image: url(<%= training.client_contact.client_company.logo %>); background-size: 5rem 5rem; background-repeat: no-repeat;"></div>
+              <h5 style='max-width: 18rem;'><%= training.title %></h5>
               <% result_term << training %>
               <div class="card-infos">
                 <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.start_date.strftime('%d/%m/%y')} to #{training.end_date.strftime('%d/%m/%y')}" %>
@@ -18,7 +18,7 @@
           <div class="card-footer">
             <div>
               <% training.users.each do |owner| %>
-                <img class='avatar-xs' src="<%= owner.picture %>" alt='<%= "#{owner.firstname.capitalize} #{owner.lastname.upcase}" %>'>
+                <img class='avatar-xs' src="<%= owner.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
               <% end %>
             </div>
             <div>
@@ -29,7 +29,7 @@
                 <% end %>
               <% end %>
               <% trainer_array.uniq.first(3) do |trainer| %>
-                <img class='avatar-xs' src="<%= trainer.picture %>">
+                <img class='avatar-xs' src="<%= trainer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
               <% end %>
               <% if trainer_array.uniq.count > 3 %>
                 <button class='btn btn-edit-menu btn-edit-round'><i class='fas fa-ellipsis-h'></i></button>
@@ -44,7 +44,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
       <div class="card">
         <div class="card-main">
-          <%= "Empty" %>
+          <h5><%= "Empty" %></h5>
         </div>
         <div class="card-footer"></div>
       </div>

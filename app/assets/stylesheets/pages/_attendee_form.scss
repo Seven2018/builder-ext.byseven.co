@@ -1,7 +1,7 @@
 .container-seven-form {
   width: 100%;
   min-height: 100vh;
-  padding: 20px;
+  padding: 2rem;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@
 
   @include from-large {
     min-width: 1080px;
-    padding: 30px;
+    padding: 3rem;
   }
 
   h2 {
@@ -27,8 +27,8 @@
 
 #attendee-form-title {
   text-align: center;
-  margin-top: 50px;
-  margin-bottom: 30px;
+  margin-top: 5rem;
+  margin-bottom: 3rem;
 }
 
 #attendee-form-logo {
@@ -41,10 +41,10 @@
   }
 
   img {
-    height: 75px;
+    height: 70.5rem;
 
     @include from-large {
-      height: 150px;
+      height: 15rem;
     }
   }
 }
@@ -53,31 +53,31 @@
   height: 600px;
   width: 300px;
   background-color: white;
-  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
 
   @include from-large {
-    height: 450px;
+    height: 45rem;
     width: 900px;
     flex-direction: row;
   }
 
   h3 {
     color: #FFC451;
-    font-size : 20px;
+    font-size : 2rem;
 
     @include from-large {
-      font-size: 24px;
+      font-size: 2.4rem;
     }
   }
 
   .session-teaser {
     text-align: left;
-    font-size: 12px;
+    font-size: 1.2rem;
 
     @include from-large {
-      font-size: 16px;
+      font-size: 1.6rem;
     }
   }
 }
@@ -87,8 +87,8 @@
   width: 300px;
 
   @include from-large {
-    height: 450px;
-    width: 450px;
+    height: 45rem;
+    width: 45rem;
   }
 }
 
@@ -100,51 +100,51 @@
   background-position: right 20% bottom 45%;
 
   @include from-large {
-    height: 450px;
-    width: 450px;
+    height: 45rem;
+    width: 45rem;
   }
 }
 
 .session-form-card-right {
   height: 300px;
   width: 300px;
-  padding: 0 5px;
+  padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   @include from-large {
-    height: 450px;
-    width: 450px;
-    padding: 20px;
+    height: 45rem;
+    width: 45rem;
+    padding: 2rem;
   }
 
-  h5, p {
-    font-size: 12px;
+  h4, p {
+    font-size: 1.2rem;
     margin: 0;
 
     @include from-large {
-      font-size: 16px;
+      font-size: 1.6rem;
     }
   }
 }
 
 .session-form-control {
   a {
-    margin: 10px 0;
-    font-size: 12px;
+    margin: 1rem 0;
+    font-size: 1.2rem;
 
     @include from-large {
-      font-size: 16px;
+      font-size: 1.6rem;
     }
   }
 
   p {
     margin: 0;
-    font-size: 12px;
+    font-size: 1.2rem;
 
     @include from-large {
-      font-size: 16px;
+      font-size: 1.6rem;
     }
   }
 }

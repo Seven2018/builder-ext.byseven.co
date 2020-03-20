@@ -3,8 +3,11 @@
   <h1 class="title-pdf"><%= @session.training.title %></h1>
   <div class='session-details-list-pdf'>
     <h3 class="session-details-pdf"><%= @session.title %></h3>
-    <p class="session-details-pdf"><%= @session.date.strftime("%d/%m/%y") %> de <%= @session.start_time.strftime("%H:%M") %> à <%= @session.end_time.strftime("%H:%M") %></p>
-    <p class="session-details-pdf">Client: <%= @session.training.client_contact.client_company.name %></p>
+    <div>
+      <p class="session-details-pdf"><%= @session.date.strftime("%d/%m/%y") %> de <%= @session.start_time.strftime("%H:%M") %> à <%= @session.end_time.strftime("%H:%M") %></p>
+      <p class="session-details-pdf">Client: <%= @session.training.client_contact.client_company.name %></p>
+      <p class="session-details-pdf">Questionnaire: <%= @session.training.satisfaction_survey %></p>
+    </div>
   </div>
   <br>
   <% time = @session.start_time %>
@@ -15,7 +18,7 @@
     <% time += workshop.duration*60 %>
   <% end %>
   <% workshop.workshop_modules.order('position ASC').each do |mod| %>
-    <div class="module-card-pdf" style='border: 1px solid black;padding: 15px;margin-bottom: 30px;'>
+    <div class="module-card-pdf" style='border: 1px solid black;padding: 1.5rem;margin-bottom: 3rem;'>
       <h4 style='margin-top: 0;'><%= time.strftime("%H:%M") %> - <%= mod.title %> - <%= mod.duration %> min</h4>
       <% time += mod.duration*60 %>
       <%= mod.instructions.html_safe %>

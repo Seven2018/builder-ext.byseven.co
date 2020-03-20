@@ -25,7 +25,7 @@
       <% end %>
     </div>
     <% unless @workshop.title.split(' ').first == 'Pause' %>
-      <!-- <a class='edit-fafa' data-toggle='modal' data-target='#viewImage'><img src="<%= @workshop.description %>" alt="" style='height:150px;'></a> -->
+      <!-- <a class='edit-fafa' data-toggle='modal' data-target='#viewImage'><img src="<%= @workshop.description %>" alt="" style='height:15rem;'></a> -->
       <div class='theory-list-title'>
         <p>Linked Theories
           <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
@@ -43,7 +43,7 @@
             <% end %>
             <% i += 1 %>
             <div class="modal fade" id="theory-<%= theory.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
+              <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
                 <div class="modal-content">
                   <div class="modal-header">
                     <div id="modal-title" style=" display: flex; justify-content: space-between;">
@@ -76,25 +76,25 @@
 
 <!-- Modal -->
 <div class="modal fade" id="editMod" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'edit', mod: @workshop %>
   </div>
 </div>
 
 <div class="modal fade" id="viewImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <img src="<%= @workshop.description %>" alt="">
   </div>
 </div>
 
 <div class="modal fade" id="newTheoryWorkshop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'theory_workshops/new', theory_workshop: @theory_workshop %>
   </div>
 </div>
 
 <div class="modal fade" id="destroyTheoryWorkshop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'theory_workshops/destroy', theory_workshop: @theory_workshop %>
   </div>
 </div>
