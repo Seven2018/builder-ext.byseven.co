@@ -62,6 +62,7 @@
     width: 17rem;
     position: absolute;
     right: -5rem;
+    padding: 0;
   }
 }
 
@@ -124,7 +125,7 @@
     justify-content: center;
   }
 
-  h3, p {
+  h3 {
     font-size: 2.4rem;
     margin-bottom: 1rem;
   }
@@ -183,7 +184,7 @@
 .middle-info-main {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   text-align: center;
   min-height: 63px;
 
@@ -192,9 +193,9 @@
     width: 60%;
   }
 
-  p {
-    font-weight: 600;
-    color: gray;
+  h3, p {
+    padding-right: 2rem;
+    margin: 0;
   }
 }
 

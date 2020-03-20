@@ -18,9 +18,9 @@
         </div>
       </div>
       <p><%= @client_company.name %></p>
-      <% @client_company.address.split(',').each do |el| %>
-        <p style='margin:0;'><%= el %></p>
-      <% end %>
+      <p style='margin:0;'><%= @client_company.address %></p>
+      <p style='margin:0;'><%= @client_company.zipcode %></p>
+      <p style='margin:0;'><%= @client_company.city %></p>
       <br>
       <p><%= @client_company.client_company_type %></p>
       <p><%= @client_company.description %></p>

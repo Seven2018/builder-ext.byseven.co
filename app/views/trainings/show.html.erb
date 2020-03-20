@@ -29,11 +29,11 @@
   <div class="middle-info">
     <div class='middle-info-main'>
       <% if @training.mode == 'Company' %>
-        <h1><i class="fas fa-user-tie"></i> &nbsp; <%= @training.title %></h1>
+        <h3><%= @training.title %></h3>
       <% elsif @training.mode == 'School' %>
-        <h1><i class="fas fa-user-graduate"></i> &nbsp; <%= @training.title %></h1>
+        <h3><%= @training.title %></h3>
       <% end %>
-      <h4><%="From #{@training.start_date.strftime('%d/%m/%y')} to #{@training.end_date.strftime('%d/%m/%y')}" %></h4>
+      <p><%="From #{@training.start_date.strftime('%d/%m/%y')} to #{@training.end_date.strftime('%d/%m/%y')}" %></p>
     </div>
     <div>
       <div style="display: table;margin: 0 auto">

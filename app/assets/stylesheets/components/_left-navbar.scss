@@ -124,7 +124,15 @@
 
 .dropdown-menu {
   min-width: unset;
-  padding: 1rem !important;
+  padding: 0 !important;
+
+  li {
+    padding: 0.5rem 1rem;
+  }
+
+  li:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
 }
 
 .dropdown-menu-center {

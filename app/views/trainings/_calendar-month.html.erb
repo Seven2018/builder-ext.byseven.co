@@ -9,7 +9,7 @@
             <div class="card-sm" id="card-index">
               <div class="card-main-sm">
                 <div class='client-logo' style="background-image: url(<%= session.training.client_contact.client_company.logo %>); background-size: 5rem 5rem; background-repeat: no-repeat;"></div>
-                <h4><%= session.training.title %></h4>
+                <p style='max-width: 10rem;'><strong><%= session.training.title %></strong></p>
                 <div class="card-infos">
                   <div class='card-infos-elements'><p><%= "#{session.start_time.strftime('%H:%M')} - #{session.end_time.strftime('%H:%M')}" %></p>
                   </div>

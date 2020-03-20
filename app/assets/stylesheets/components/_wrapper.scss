@@ -41,9 +41,9 @@ a {
 
   @include from-large {
     margin-top: 0;
-    margin: 0 22rem;
+    margin-left: 22rem;
     min-height: 100vh;
-    padding: 5rem;
+    padding: 5rem 27rem 5rem 5rem;
     overflow: auto;
     min-width: 108rem;
   }
