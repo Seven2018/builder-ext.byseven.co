@@ -1,7 +1,7 @@
 <div class="row" style="background-color: white; margin-right: 0;">
   <% result_term = [] %>
-  <% @trainings.order('end_date DESC').each do |training| %>
-    <% if training.end_date < Date.today %>
+  <% @trainings.joins(:sessions).order(date: :desc).uniq.each do |training| %>
+    <% if training.sessions.order(date: :desc).first.date < Date.today %>
       <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
         <div class="card" id="card-index">
           <div class="card-main">
@@ -10,7 +10,7 @@
               <h5 style='max-width: 18rem;'><%= training.title %></h5>
               <% result_term << training %>
               <div class="card-infos">
-                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.start_date.strftime('%d/%m/%y')} to #{training.end_date.strftime('%d/%m/%y')}" %>
+                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first.date.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')}" %>
                 </div>
               </div>
             <% end %>

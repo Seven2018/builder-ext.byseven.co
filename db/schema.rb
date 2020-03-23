@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_14_100037) do
+ActiveRecord::Schema.define(version: 2020_03_20_110743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,6 +181,12 @@ ActiveRecord::Schema.define(version: 2020_01_14_100037) do
     t.index ["product_id"], name: "index_invoice_lines_on_product_id"
   end
 
+  create_table "invoice_seveners", force: :cascade do |t|
+    t.string "sevener_fullname"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.decimal "price", precision: 15, scale: 10
@@ -283,8 +289,6 @@ ActiveRecord::Schema.define(version: 2020_01_14_100037) do
 
   create_table "trainings", force: :cascade do |t|
     t.string "title"
-    t.date "start_date"
-    t.date "end_date"
     t.bigint "client_contact_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

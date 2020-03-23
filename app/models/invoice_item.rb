@@ -1,5 +1,5 @@
 class InvoiceItem < ApplicationRecord
-  belongs_to :client_company
+  belongs_to :client_company, optional: true
   belongs_to :training, optional: true
   belongs_to :user, optional: true
   has_many :invoice_lines, dependent: :destroy
@@ -47,7 +47,7 @@ class InvoiceItem < ApplicationRecord
   # end
 
   def self.to_csv
-    attributes = %w(Date Journal Compte_Général Compte_Auxiliaire Référence Libellé Débit Crédit)
+    attributes = %w(Date Journal Compte_Général Compte_Auxiliaire Référence Libellé Débit Crédit Comptes_Produits)
     CSV.generate(headers: true) do |csv|
       csv << attributes
       all.each do |item|
@@ -64,7 +64,13 @@ class InvoiceItem < ApplicationRecord
           debit = ''
           credit = -(item.total_amount)
         end
-        csv << [date, journal, gen_account, aux_account, invoice_num, company_label, debit, credit]
+        products = ''
+        item.invoice_lines.each do |line|
+          if line.product&.reference.present?
+            products += "#{line.product.reference} - #{line.net_amount}\n"
+          end
+        end
+        csv << [date, journal, gen_account, aux_account, invoice_num, company_label, debit, credit, products]
       end
     end
   end

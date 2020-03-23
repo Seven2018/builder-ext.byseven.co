@@ -9,8 +9,6 @@
   <%= simple_form_for @training do |f| %>
     <%= f.input :title %>
     <%= f.input :client_contact_id, :collection => ClientContact.all.joins(:client_company).order('client_companies.name ASC, client_contacts.name ASC'), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name.split.map(&:capitalize).join(' ')}" }, :label => 'Customer contact', :include_blank => false %>
-    <%= f.input :start_date, as: :string, required: true, input_html: { value: Date.today, class: "datepicker" }, label: 'Start date' %>
-    <%= f.input :end_date, as: :string, input_html: { value: (Date.today + 1.months), class: "datepicker" }, label: 'End date' %>
     <div class='form-group' style='display:flex;justify-content:space-between;'>
       <%= f.label :mode %>
       <div style='width:75%;display:flex;justify-content: space-around;align-items:center;'>
