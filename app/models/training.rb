@@ -7,16 +7,15 @@ class Training < ApplicationRecord
   has_many :invoice_items
   has_many :invoices
   has_many :forms, dependent: :destroy
-  validates :title, :start_date, :end_date, presence: true
-  validate :end_date_after_start_date
+  validates :title, presence: true
   accepts_nested_attributes_for :training_ownerships
 
   def start_time
-    self.start_date
+    self.sessions&.order(date: :asc)&.first&.date
   end
 
   def end_time
-    self.end_date
+    self.sessions&.order(date: :asc)&.last&.date
   end
 
   def client_company
@@ -39,15 +38,5 @@ class Training < ApplicationRecord
       end
     end
     trainers.uniq
-  end
-
-  private
-
-  def end_date_after_start_date
-    return if end_date.blank? || start_date.blank?
-
-    if end_date < start_date
-      errors.add(:end_date, "must be after the start date")
-    end
   end
 end

@@ -1,7 +1,7 @@
 <div class="row" style="background-color: white; margin-right: 0;">
   <% result_term = [] %>
   <% @trainings.joins(:sessions).order(date: :desc).uniq.each do |training| %>
-    <% if training.sessions.order(date: :desc).first.date < Date.today %>
+    <% if training.sessions.order(date: :asc).last.date < Date.today %>
       <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
         <div class="card" id="card-index">
           <div class="card-main">
