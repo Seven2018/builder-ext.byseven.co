@@ -24,7 +24,11 @@ class Training < ApplicationRecord
   end
 
   def title_for_copy
-    self.title + ' - ' + self.end_date.strftime('%d/%m/%y')
+    if self.sessions.empty?
+      self.title + ' - ' + self.created_at.strftime('%d/%m/%y')
+    else
+      self.title + ' - ' + self.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')
+    end
   end
 
   def trainers
