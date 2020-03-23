@@ -67,7 +67,7 @@ class InvoiceItem < ApplicationRecord
         products = ''
         item.invoice_lines.each do |line|
           if line.product&.reference.present?
-            products += "#{line.product.reference} - #{line.net_amount}\n"
+            products += "#{line.product.reference} - #{line.net_amount}€\n"
           end
         end
         csv << [date, journal, gen_account, aux_account, invoice_num, company_label, debit, credit, products]
