@@ -27,7 +27,8 @@
       <div id="report_weekly_hours">
         <% hours_count = 0 %>
         <% Session.where("date > ? AND date < ?", Time.now.beginning_of_week, Time.now.end_of_week).each do |session| %>
-          <% hours_count += session.duration * session.session_trainers.count %>
+          <% hours_count += session.duration * session.session_trainers.count if session.session_trainers.count >= 1 %>
+          <% hours_count += session.duration if session.session_trainers.count == 0 %>
         <% end %>
         <p>Hours of Training this week: <%= hours_count %>h</p>
       </div>

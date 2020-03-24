@@ -34,7 +34,7 @@
       <% elsif @training.mode == 'School' %>
         <h3><%= @training.title %></h3>
       <% end %>
-      <p><%="From #{@training.sessions.order(date: :asc).first.date.strftime('%d/%m/%y')} to #{@training.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')}" %></p>
+      <p><%="From #{@training.sessions.order(date: :asc).first&.date&.strftime('%d/%m/%y')} to #{@training.sessions.order(date: :asc).last&.date&.strftime('%d/%m/%y')}" %></p>
     </div>
     <div>
       <div style="display: table;margin: 0 auto">

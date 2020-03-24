@@ -196,7 +196,8 @@ class InvoiceItemsController < ApplicationController
   def upload_to_sheet
     @invoice_items = InvoiceItem.where({ created_at: Time.current.beginning_of_year..Time.current.end_of_year }).order(:created_at)
     authorize @invoice_items
-    session = GoogleDrive::Session.from_service_account_key("client_secret.json")
+    # session = GoogleDrive::Session.from_service_account_key("client_secret.json")
+    session = GoogleDrive::Session.from_config("client_secret.json")
     spreadsheet = session.spreadsheet_by_title("Copie de Seven Numbers #{Time.current.year}")
     worksheet = spreadsheet.worksheets.first
     row = 2

@@ -160,7 +160,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_110743) do
     t.string "uuid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "dunning_date"
+    t.datetime "dunning_date"
     t.index ["client_company_id"], name: "index_invoice_items_on_client_company_id"
     t.index ["training_id"], name: "index_invoice_items_on_training_id"
     t.index ["user_id"], name: "index_invoice_items_on_user_id"
@@ -179,12 +179,6 @@ ActiveRecord::Schema.define(version: 2020_03_20_110743) do
     t.integer "position"
     t.index ["invoice_item_id"], name: "index_invoice_lines_on_invoice_item_id"
     t.index ["product_id"], name: "index_invoice_lines_on_product_id"
-  end
-
-  create_table "invoice_seveners", force: :cascade do |t|
-    t.string "sevener_fullname"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "products", force: :cascade do |t|
@@ -320,11 +314,6 @@ ActiveRecord::Schema.define(version: 2020_03_20_110743) do
     t.boolean "vat"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "client_company_id"
-    t.string "employee_id"
-    t.string "provider"
-    t.string "uid"
-    t.index ["client_company_id"], name: "index_users_on_client_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -386,7 +375,6 @@ ActiveRecord::Schema.define(version: 2020_03_20_110743) do
   add_foreign_key "training_ownerships", "trainings"
   add_foreign_key "training_ownerships", "users"
   add_foreign_key "trainings", "client_contacts"
-  add_foreign_key "users", "client_companies"
   add_foreign_key "workshop_modules", "users"
   add_foreign_key "workshop_modules", "workshops"
   add_foreign_key "workshops", "sessions"
