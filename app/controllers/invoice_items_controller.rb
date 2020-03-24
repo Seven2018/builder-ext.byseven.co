@@ -201,8 +201,8 @@ class InvoiceItemsController < ApplicationController
     worksheet = spreadsheet.worksheets.first
     row = 2
       @invoice_items.each do |item|
-        startdate = item.training.start_date.strftime('%d/%m/%y')
-        enddate = item.training.end_date.strftime('%d/%m/%y')
+        startdate = item.training.sessions.order(date: :asc).first.date.strftime('%d/%m/%y')
+        enddate = item.training.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')
         client = item.client_company.name
         training_name = item.training.title
         trello = ''
