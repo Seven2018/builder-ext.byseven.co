@@ -8,7 +8,7 @@ class InvoiceItemsController < ApplicationController
     @invoice_items = InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date]).order(:created_at) if params[:export].present?
     respond_to do |format|
       format.html
-      format.csv { send_data @invoice_items.to_csv, filename: "Facture SEVEN #{params[:export][:start_date].strftime('%d%m%y')} - #{params[:export][:end_date].strftime('%d%m%y')}" }
+      format.csv { send_data @invoice_items.to_csv, filename: "Facture SEVEN #{params[:export][:start_date].split('-').join('')} - #{params[:export][:end_date].split('-').join('')}" }
     end
   end
 
