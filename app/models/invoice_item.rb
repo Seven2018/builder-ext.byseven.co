@@ -1,5 +1,5 @@
 class InvoiceItem < ApplicationRecord
-  belongs_to :client_company
+  belongs_to :client_company, optional: true
   belongs_to :training, optional: true
   belongs_to :user, optional: true
   has_many :invoice_lines, dependent: :destroy
@@ -57,14 +57,22 @@ class InvoiceItem < ApplicationRecord
         aux_account = item.client_company.reference
         invoice_num = item.uuid
         item.client_company.client_company_type = 'School' ? company_label = "#{item.client_company.name}" : company_label = "#{item.client_company.name} TVA"
-        if item.total_amount > 0
-          debit = item.total_amount
-          credit = ''
-        else
-          debit = ''
-          credit = -(item.total_amount)
+        # if item.total_amount > 0
+        #   debit = item.total_amount
+        #   credit = ''
+        # else
+        #   debit = ''
+        #   credit = -(item.total_amount)
+        # end
+        debit = item.total_amount
+        csv << [date, journal, gen_account, aux_account, invoice_num, company_label, debit, '']
+        item.invoice_lines.each do |line|
+          if line.product&.reference.present?
+            credit = line&.net_amount * line&.quantity
+            csv << [date, journal, line.product&.reference, '', invoice_num, company_label, '', credit]
+          end
         end
-        csv << [date, journal, gen_account, aux_account, invoice_num, company_label, debit, credit]
+        csv << [date, journal, '44571130', '', invoice_num, company_label, '', item.tax_amount] if item.tax_amount?
       end
     end
   end

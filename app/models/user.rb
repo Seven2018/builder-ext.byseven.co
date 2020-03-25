@@ -3,9 +3,9 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
   devise :omniauthable, omniauth_providers: [:google_oauth2]
-  has_many :training_ownerships
+  has_many :training_ownerships, dependent: :destroy
   has_many :trainings, through: :training_ownerships
-  has_many :session_trainers
+  has_many :session_trainers, dependent: :destroy
   has_many :sessions, through: :session_trainers
   has_many :workshop_modules
   has_many :comments

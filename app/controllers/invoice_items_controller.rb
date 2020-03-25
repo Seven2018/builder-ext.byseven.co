@@ -8,7 +8,7 @@ class InvoiceItemsController < ApplicationController
     @invoice_items = InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date]).order(:created_at) if params[:export].present?
     respond_to do |format|
       format.html
-      format.csv { send_data @invoice_items.to_csv, filename: 'Numbers 2020' }
+      format.csv { send_data @invoice_items.to_csv, filename: "Facture SEVEN #{params[:export][:start_date].split('-').join('')} - #{params[:export][:end_date].split('-').join('')}" }
     end
   end
 
@@ -196,13 +196,14 @@ class InvoiceItemsController < ApplicationController
   def upload_to_sheet
     @invoice_items = InvoiceItem.where({ created_at: Time.current.beginning_of_year..Time.current.end_of_year }).order(:created_at)
     authorize @invoice_items
-    session = GoogleDrive::Session.from_service_account_key("client_secret.json")
+    # session = GoogleDrive::Session.from_service_account_key("client_secret.json")
+    session = GoogleDrive::Session.from_config("client_secret.json")
     spreadsheet = session.spreadsheet_by_title("Copie de Seven Numbers #{Time.current.year}")
     worksheet = spreadsheet.worksheets.first
     row = 2
       @invoice_items.each do |item|
-        startdate = item.training.start_date.strftime('%d/%m/%y')
-        enddate = item.training.end_date.strftime('%d/%m/%y')
+        startdate = item.training.sessions.order(date: :asc).first.date.strftime('%d/%m/%y')
+        enddate = item.training.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')
         client = item.client_company.name
         training_name = item.training.title
         trello = ''

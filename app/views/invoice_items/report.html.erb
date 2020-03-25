@@ -14,5 +14,24 @@
     <p>Billed this year: <%= number_with_precision(@invoice_items.where("created_at > ? AND created_at < ?", Time.now.beginning_of_year, Time.now.end_of_year).map(&:gross_revenue).sum, precision: 2) %>€</p>
     <p>Billed this month: <%= number_with_precision(@invoice_items.where("created_at > ? AND created_at < ?", Time.now.beginning_of_month, Time.now.end_of_month).map(&:gross_revenue).sum, precision: 2) %>€</p>
     <p>Unpaid this year: <%= number_with_precision(@invoice_items.where("created_at > ? AND created_at < ?", Time.now.beginning_of_year, Time.now.end_of_year).where(payment_date: nil).map(&:gross_revenue).sum, precision: 2) %>€</p>
+    <br>
+    <div>
+      <div id="report_monthly_hour_search">
+
+      </div>
+      <div id="report_monthly_hours">
+        <p>Hours of Training this month: <%= Session.where("date > ? AND date < ?", Time.now.beginning_of_month, Time.now.end_of_month).map(&:duration).sum %>h</p>
+      </div>
+    </div>
+    <div>
+      <div id="report_weekly_hours">
+        <% hours_count = 0 %>
+        <% Session.where("date > ? AND date < ?", Time.now.beginning_of_week, Time.now.end_of_week).each do |session| %>
+          <% hours_count += session.duration * session.session_trainers.count if session.session_trainers.count >= 1 %>
+          <% hours_count += session.duration if session.session_trainers.count == 0 %>
+        <% end %>
+        <p>Hours of Training this week: <%= hours_count %>h</p>
+      </div>
+    </div>
   </div>
 </div>

@@ -9,7 +9,7 @@ class TrainingsController < ApplicationController
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
       if params[:search]
         @trainings = policy_scope(Training)
-        @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.sort_by(&:start_date)
+        @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.sort_by(&:start_time)
       else
         @trainings = policy_scope(Training)
       end
@@ -51,8 +51,9 @@ class TrainingsController < ApplicationController
     @training = Training.new(training_params)
     @training_ownership = TrainingOwnership.new(user: current_user, training: @training)
     authorize @training
-    @training.refid = "#{Time.current.strftime('%y')}-#{'%04d' % (Training.where(end_date: Time.current.beginning_of_year..Time.current.end_of_year).count + 1)}"
+    @training.refid = "#{Time.current.strftime('%y')}-#{'%04d' % (Training.where(created_at: Time.current.beginning_of_year..Time.current.end_of_year).count + 1)}"
     if @training.save && @training_ownership.save
+      Session.new(title: 'Session 1', date: @training.created_at, duration: 0, training_id: @training.id)
       redirect_to training_path(@training)
     else
       render :new
@@ -84,13 +85,11 @@ class TrainingsController < ApplicationController
     @client_contact = ClientContact.find(params[:copy][:client_contact_id])
     @new_training = Training.new(@training.attributes.except("id", "created_at", "updated_at", "client_contact_id"))
     @new_training.title = params[:copy][:rename] if params[:copy][:rename].present?
-    @new_training.start_date = params[:copy][:start_date] if params[:copy][:start_date].present?
-    @new_training.end_date = params[:copy][:end_date] if params[:copy][:end_date].present?
     @new_training.client_contact_id = @client_contact.id
     if @new_training.save
       @training.sessions.each do |session|
         new_session = Session.create(session.attributes.except("id", "created_at", "updated_at", "training_id", "date", "address", "room"))
-        new_session.update(training_id: @new_training.id, date: @new_training.start_date)
+        new_session.update(training_id: @new_training.id, date: Date.today)
         session.workshops.each do |workshop|
           new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
           new_workshop.update(session_id: new_session.id)
@@ -113,6 +112,6 @@ class TrainingsController < ApplicationController
   end
 
   def training_params
-    params.require(:training).permit(:title, :start_date, :end_date, :client_contact_id, :mode, :satisfaction_survey)
+    params.require(:training).permit(:title, :client_contact_id, :mode, :satisfaction_survey)
   end
 end

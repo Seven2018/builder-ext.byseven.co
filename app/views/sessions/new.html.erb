@@ -12,7 +12,7 @@
       <%= f.input :attendee_number, input_html: { value: 0, min: 0, style: 'width:12rem;' }, label: 'Participants' %>
     </div>
     <div class="mod-date">
-      <%= f.input :date, as: :string, input_html: { value: @training.start_date, class: 'datepicker'} %>
+      <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
       <%= f.input :duration, label: "Duration (hours)", input_html: { value: 0, min: 0, style: 'width:12rem;' }, allow_blank: false %>
     </div>
     <div class='mod-date'>
