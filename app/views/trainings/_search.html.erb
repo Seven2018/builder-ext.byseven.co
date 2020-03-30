@@ -7,8 +7,10 @@
             <div class='client-logo' style="background-image: url(<%= training.client_contact.client_company.logo %>); background-size: 5rem 5rem; background-repeat: no-repeat;"></div>
             <h5 style='max-width: 18rem;'><%= training.title %></h5>
             <div class="card-infos">
-              <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first.date.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')}" %>
-              </div>
+              <% if training.sessions.present? %>
+                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first.date.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')}" %>
+                </div>
+              <% end %>
             </div>
           <% end %>
         </div>
