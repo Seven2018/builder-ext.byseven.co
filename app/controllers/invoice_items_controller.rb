@@ -124,7 +124,7 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     @training = Training.find(params[:copy][:training_id])
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "training_id", "client_company_id", "status", "sending_date", "payment_date", "dunning_date"))
-    new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+715)
+    new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715)
     new_invoice_item.training_id = @training.id
     new_invoice_item.client_company_id = @training.client_company.id
     if new_invoice_item.save

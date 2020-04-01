@@ -48,6 +48,11 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     authorize @workshop_module
     @workshop = @workshop_module.workshop
     @workshop_module.destroy
+    position = 1
+    @workshop.workshop_moduless.order(position: :asc).each do |mod|
+      mod.update(position: position)
+      position += 1
+    end
     update_duration
     redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
   end

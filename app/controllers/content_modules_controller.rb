@@ -46,6 +46,11 @@ class ContentModulesController < ApplicationController
     authorize @content_module
     @content = Content.find(params[:content_id])
     @content_module.destroy
+    position = 1
+    @content.content_moduless.order(position: :asc).each do |mod|
+      mod.update(position: position)
+      position += 1
+    end
     update_duration
     redirect_to content_path(@content)
   end
