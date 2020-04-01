@@ -49,7 +49,7 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     @workshop = @workshop_module.workshop
     @workshop_module.destroy
     position = 1
-    @workshop.workshop_moduless.order(position: :asc).each do |mod|
+    @workshop.workshop_modules.order(position: :asc).each do |mod|
       mod.update(position: position)
       position += 1
     end
