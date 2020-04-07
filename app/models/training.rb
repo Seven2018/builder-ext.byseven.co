@@ -18,6 +18,10 @@ class Training < ApplicationRecord
     self.sessions&.order(date: :asc)&.last&.date
   end
 
+  def self.numbers_scope(starts_at = Date.today.beginning_of_year, ends_at = Date.today.end_of_year)
+    Training.joins(:sessions).where('sessions.date < ?', ends_at).where('sessions.date > ?', starts_at)
+  end
+
   def client_company
     self.client_contact.client_company
   end

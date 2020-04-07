@@ -53,6 +53,10 @@ class InvoiceItemPolicy < ApplicationPolicy
     ['super admin', 'admin'].include? user.access_level
   end
 
+  def edit_client?
+    ['super admin', 'admin'].include? user.access_level
+  end
+
   private
 
   def check_access
