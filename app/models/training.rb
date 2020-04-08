@@ -19,7 +19,7 @@ class Training < ApplicationRecord
   end
 
   def self.numbers_scope(starts_at = Date.today.beginning_of_year, ends_at = Date.today.end_of_year)
-    Training.joins(:sessions).where('sessions.date < ?', ends_at).where('sessions.date > ?', starts_at)
+    Training.joins(:sessions).where('sessions.date < ?', ends_at).where('sessions.date > ?', starts_at).uniq
   end
 
   def client_company
@@ -32,6 +32,14 @@ class Training < ApplicationRecord
     else
       self.title + ' - ' + Training.where(title: self.title).count.to_s
     end
+  end
+
+  def owners
+    self.training_ownerships.where(user_type: 'Owner').map(&:user)
+  end
+
+  def writers
+    self.training_ownerships.where(user_type: 'Writer').map(&:user)
   end
 
   def trainers

@@ -7,14 +7,14 @@ class TrainingOwnershipsController < ApplicationController
     # Select all Users whose checkbox is checked and create a TrainingOwner
     array = params[:training][:user_ids].drop(1).map(&:to_i)
     array.each do |ind|
-      if TrainingOwnership.where(training_id: @training.id, user_id: ind).empty?
-        TrainingOwnership.create(training_id: @training.id, user_id: ind)
+      if TrainingOwnership.where(training_id: @training.id, user_id: ind, user_type: 'Owner').empty?
+        TrainingOwnership.create(training_id: @training.id, user_id: ind, user_type: 'Owner')
       end
     end
     # Select all Users whose checkbox is unchecked and destroy their TrainingOwner, if existing
     (User.ids - array).each do |ind|
-      unless TrainingOwnership.where(training_id: @training.id, user_id: ind).empty?
-        TrainingOwnership.where(training_id: @training.id, user_id: ind).first.destroy
+      unless TrainingOwnership.where(training_id: @training.id, user_id: ind, user_type: 'Owner').empty?
+        TrainingOwnership.where(training_id: @training.id, user_id: ind, user_type: 'Owner').first.destroy
       end
     end
     redirect_back(fallback_location: root_path)

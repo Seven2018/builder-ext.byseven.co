@@ -1,3 +1,18 @@
+#numbers_training_header {
+  margin-bottom: 3rem;
+
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  form {
+    max-width: 50rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
 #numbers_training {
   height: 100rem;
   width: 112rem;
@@ -5,9 +20,7 @@
 }
 
 #numbers_training_headers {
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  border: 1px solid black;
   width: 100%;
 
   p {
@@ -20,7 +33,9 @@
 
   div {
     display: flex;
-    border: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
   }
 
   div > p {

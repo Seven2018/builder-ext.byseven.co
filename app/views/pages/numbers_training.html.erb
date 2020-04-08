@@ -1,0 +1,67 @@
+<div class="container-seven-large">
+  <div id="numbers_training_header">
+    <h1>Numbers : Training</h1>
+    <br>
+    <%= simple_form_for :numbers_training, url: numbers_training_path, method: 'GET' do |f| %>
+      <%= f.input :starts_at, as: :string, input_html: { class: 'datepicker', value: Date.today.beginning_of_year }, label: 'Starting date' %>
+      <%= f.input :ends_at, as: :string, input_html: { class: 'datepicker', value: Date.today }, label: 'Ending date' %>
+      <%= f.submit 'Filter' %>
+    <% end %>
+    <div id="numbers_training_header_data">
+      <% total_hours = 0 %>
+      <% @trainings.each do |training| %>
+        <% total_hours += training.sessions.map(&:duration).sum %>
+      <% end %>
+      <p>Hours of training : <%= total_hours %>h</p>
+    </div>
+  </div>
+  <div id="numbers_training" class="table-container" role="table" aria-label="Trainings">
+    <div id="numbers_training_headers" class="flex-table header" role="rowgroup">
+      <p class="flex-row">Title</p>
+      <p class="flex-row">Client</p>
+      <p class="flex-row">Dates</p>
+      <p class="flex-row">Owner</p>
+      <p class="flex-row">Trainers</p>
+      <p class="flex-row">Hours</p>
+      <p class="flex-row">Invoices</p>
+      <p class="flex-row">Sales</p>
+      <p class="flex-row">Comments</p>
+    </div>
+    <div id="numbers_training_data">
+      <% @trainings.each do |training| %>
+        <div class="flex-table" role="rowgroup">
+          <p class="flex-row" role="cell"><%= link_to training.title, training_path(training) %></p>
+          <p class="flex-row" role="cell"><%= training.client_company.name %></p>
+          <p class="flex-row" role="cell"><%= training.sessions.order(date: :asc)&.first&.date&.strftime('%d/%m/%y') %> - <%= training.sessions.order(date: :asc)&.first&.date&.strftime('%d/%m/%y') %></p>
+          <p class="flex-row" role="cell"><%= training.users.first&.fullname %></p>
+          <p class="flex-row" role="cell">
+            <% training&.trainers.each do |trainer| %>
+              <span data-toggle="tooltip" title="<%= trainer.fullname %>"><%= trainer.fullname %></span> <br>
+            <% end %>
+          </p>
+          <p class="flex-row" role="cell"><%= training.sessions.map(&:duration).sum %></p>
+          <p class="flex-row" role="cell">
+            <% training.invoice_items.order(created_at: :asc).each do |invoice| %>
+              <% if invoice.type == 'Invoice' %>
+                <%= link_to "#{invoice.uuid}", invoice_item_path(invoice) %> <br>
+              <% end %>
+            <% end %>
+          </p>
+          <p class="flex-row" role="cell">
+            <% result = 0 %>
+            <% training.invoice_items.each do |invoice| %>
+              <% if invoice.type == 'Invoice' %>
+                <% invoice.invoice_lines.each do |line| %>
+                  <% if [1, 2, 3, 7, 9].include?(line.product.id) %>
+                    <% result += (line.net_amount * line.quantity)%>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+            <%= number_with_precision(result, precision: 2) %>€
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
