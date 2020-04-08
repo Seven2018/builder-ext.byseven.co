@@ -32,7 +32,7 @@
         <div class="flex-table" role="rowgroup">
           <p class="flex-row" role="cell"><%= link_to training.title, training_path(training) %></p>
           <p class="flex-row" role="cell"><%= training.client_company.name %></p>
-          <p class="flex-row" role="cell"><%= training.sessions.order(date: :asc)&.first&.date&.strftime('%d/%m/%y') %> - <%= training.sessions.order(date: :asc)&.first&.date&.strftime('%d/%m/%y') %></p>
+          <p class="flex-row" role="cell"><%= training.sessions.order(date: :asc)&.first&.date&.strftime('%d/%m/%y') %> - <%= training.sessions.order(date: :asc)&.last&.date&.strftime('%d/%m/%y') %></p>
           <p class="flex-row" role="cell"><%= training.users.first&.fullname %></p>
           <p class="flex-row" role="cell">
             <% training&.trainers.each do |trainer| %>
