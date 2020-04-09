@@ -2,7 +2,7 @@
   <div class="training-info-headers">
     <%= link_to contents_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
     <div class="show-control-links">
-      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+      <% if ['super admin', 'admin', 'training manager', 'sevener+'].include? current_user.access_level %>
         <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' data-target='#editContent'><i class="fas fa-pen"></i></a>
       <% end %>
     </div>
