@@ -1,0 +1,66 @@
+<div class="container-seven-large">
+  <div id="numbers_activity_header">
+    <h1>Numbers : Training</h1>
+    <br>
+    <%= simple_form_for :numbers_activity, url: numbers_activity_path, method: 'GET' do |f| %>
+      <%= f.input :starts_at, as: :string, input_html: { class: 'datepicker', value: Date.today.beginning_of_year }, label: 'Starting date' %>
+      <%= f.input :ends_at, as: :string, input_html: { class: 'datepicker', value: Date.today }, label: 'Ending date' %>
+      <%= f.submit 'Filter' %>
+    <% end %>
+    <div id="numbers_activity_header_data">
+      <% total_hours = 0 %>
+      <% @trainings.each do |training| %>
+        <% training.sessions.where('date >= ?', @starts_at).where('date <= ?', @ends_at).order(date: :asc).each do |session| %>
+          <% total_hours += session.duration * session.session_trainers.count %>
+        <% end %>
+      <% end %>
+      <p>Hours of training : <%= total_hours %>h</p>
+    </div>
+  </div>
+  <div id="numbers_activity" class="table-container" role="table" aria-label="Trainings">
+    <div id="numbers_activity_headers" class="flex-table header" role="rowgroup">
+      <p class="flex-row">Title</p>
+      <p class="flex-row">Client</p>
+      <p class="flex-row">Dates</p>
+      <p class="flex-row">Owner</p>
+      <p class="flex-row">Trainers</p>
+      <p class="flex-row">Hours</p>
+      <p class="flex-row">Comments</p>
+    </div>
+    <div id="numbers_activity_data">
+      <% @trainings.each do |training| %>
+        <div class="flex-table" role="rowgroup">
+          <p class="flex-row" role="cell"><%= link_to training.title, training_path(training) %></p>
+          <p class="flex-row" role="cell"><%= training.client_company.name %></p>
+          <p class="flex-row" role="cell">
+            <% training.sessions.where('date >= ?', @starts_at).where('date <= ?', @ends_at).order(date: :asc).each do |session| %>
+              <%= session.date.strftime('%d/%m/%y') %><br>
+              <% i = 1 %>
+              <% session.session_trainers.each do |trainer| %>
+                <% if i > 1 %>
+                  <br>
+                <% end %>
+                <% i += 1 %>
+              <% end %>
+            <% end %>
+          </p>
+          <p class="flex-row" role="cell"><%= training.owners.first&.fullname %></p>
+          <p class="flex-row" role="cell">
+            <% training.sessions.where('date >= ?', @starts_at).where('date <= ?', @ends_at).order(date: :asc).each do |session| %>
+              <% session.session_trainers.map(&:user).each do |trainer| %>
+                <span data-toggle="tooltip" title="<%= trainer.fullname %>"><%= trainer.fullname %></span> <br>
+              <% end %>
+            <% end %>
+          </p>
+          <p class="flex-row" role="cell">
+            <% training.sessions.where('date >= ?', @starts_at).where('date <= ?', @ends_at).order(date: :asc).each do |session| %>
+              <% session.session_trainers.each do |trainer| %>
+                <%= session.duration %> <br>
+              <% end %>
+            <% end %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

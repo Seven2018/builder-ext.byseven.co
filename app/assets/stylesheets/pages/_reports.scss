@@ -1,4 +1,4 @@
-#numbers_training_header {
+#numbers_activity_header {
   margin-bottom: 3rem;
 
   h1 {
@@ -13,23 +13,23 @@
   }
 }
 
-#numbers_training {
+#numbers_activity {
   height: 100rem;
   width: 112rem;
   overflow: scroll;
 }
 
-#numbers_training_headers {
+#numbers_activity_headers {
   border: 1px solid black;
   width: 100%;
 
   p {
-    width: 12rem;
+    width: 15.5rem;
     text-align: center;
   }
 }
 
-#numbers_training_data {
+#numbers_activity_data {
 
   div {
     display: flex;
@@ -39,7 +39,7 @@
   }
 
   div > p {
-    width: 12rem;
+    width: 15.5rem;
     margin: 0;
     text-align: center;
     border-right: 1px solid black;
