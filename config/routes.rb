@@ -64,6 +64,7 @@ Rails.application.routes.draw do
       resources :comments, only: [:create, :destroy]
     end
     resources :training_ownerships, only: [:create, :destroy]
+    post 'new_writer', to: 'training_ownerships#new_writer', as: 'new_writer'
     resources :forms, only: [:index, :show, :create, :update, :destroy]
   end
   resources :attendees, only: [:new, :create]

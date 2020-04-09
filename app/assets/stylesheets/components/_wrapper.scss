@@ -255,6 +255,12 @@ ul {
   align-items: center;
 }
 
+.flex-row-end-centered {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .flex-row-start-start {
   display: flex;
   justify-content: flex-start;

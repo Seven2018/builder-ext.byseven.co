@@ -8,7 +8,7 @@
   <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
     <%= simple_form_for [@training, @training_ownership] do |f| %>
       <div id='checkbox' style=" display:flex;justify-content:space-between;flex-direction:column;">
-        <%= collection_check_boxes(:training, :user_ids, User.where.not(access_level: %w[sevener HR employee]).order('firstname ASC'), :id, :fullname) do |b| %>
+        <%= collection_check_boxes(:training, :owner_ids, User.where.not(access_level: %w[sevener HR employee]).order('firstname ASC'), :id, :fullname) do |b| %>
           <%= b.label class: 'label-checkbox', style: 'color:black;' do %>
             <%= b.check_box + b.text %>
           <% end %>

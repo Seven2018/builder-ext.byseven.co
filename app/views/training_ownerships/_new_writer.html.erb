@@ -1,0 +1,42 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style="display:flex;justify-content:center;text-align:center;">
+      <h3 class="modal-title" id="myModalLabel"><%= "Writers (max : 5)" %></h3>
+    </div>
+    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
+    <%= simple_form_for :writers, url: training_new_writer_path(@training, @training_ownership) do |f| %>
+      <div id='checkbox2' style=" display:flex;justify-content:space-between;flex-direction:column;">
+        <%= collection_check_boxes(:training, :writer_ids, User.where.not(access_level: %w[sevener HR employee]).order('firstname ASC'), :id, :fullname) do |b| %>
+          <%= b.label class: 'label-checkbox', style: 'color:black;' do %>
+            <%= b.check_box + b.text %>
+          <% end %>
+        <% end %>
+      </div>
+      <script>
+        var $cs=$('#checkbox2 input:checkbox:checked');
+          if ($cs.length > 4) {
+            $('#checkbox2 input:checkbox:not(:checked)').attr("disabled", true);
+            $('#checkbox2 input:checkbox:not(:checked)').parent().css("color", "gray");
+          }
+        $('#checkbox2 input:checkbox').change(function () {
+          var $cs=$('#checkbox2 input:checkbox:checked');
+          if ($cs.length > 4) {
+            $('#checkbox2 input:checkbox:not(:checked)').attr("disabled", true);
+            $('#checkbox2 input:checkbox:not(:checked)').parent().css("color", "gray");
+          }
+          else{
+            $('#checkbox2 input:checkbox').attr("disabled", false);
+            $('#checkbox2 input:checkbox').parent().css("color", "black");
+          }
+        });
+      </script>
+      <div style="display:flex;justify-content:center;margin-top:3rem;">
+        <%= button_tag :submit, class: 'btn btn-edit-green btn-edit-disk' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

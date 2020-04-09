@@ -38,8 +38,16 @@ class Training < ApplicationRecord
     self.training_ownerships.where(user_type: 'Owner').map(&:user)
   end
 
+  def owner_ids
+    self.training_ownerships.where(user_type: 'Owner').map(&:user_id)
+  end
+
   def writers
     self.training_ownerships.where(user_type: 'Writer').map(&:user)
+  end
+
+  def writer_ids
+    self.training_ownerships.where(user_type: 'Writer').map(&:user_id)
   end
 
   def trainers
