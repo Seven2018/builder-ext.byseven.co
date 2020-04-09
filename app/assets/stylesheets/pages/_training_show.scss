@@ -40,9 +40,6 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
-  :first-child {
-    text-align: left;
-  }
 
   @include from-large {
     margin-bottom: 3rem;
@@ -54,7 +51,7 @@
 
   @include from-large {
     position: relative;
-    display: inline-block;
+    display: flex;
     vertical-align: middle;
   }
 

@@ -1,4 +1,4 @@
-<div class="container-seven">
+<div class="container-seven-large">
   <div class="training-info-headers">
     <%= link_to client_companies_path, class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
@@ -16,7 +16,7 @@
     <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
     <%= f.input :logo, label: 'Logo URL' %>
     <div class="center-button">
-      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
         <i class="fas fa-save"></i>
       <% end %>
     </div>

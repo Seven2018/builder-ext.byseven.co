@@ -5,6 +5,12 @@
 
   @include from-large {
     display: block;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    width: 22rem;
+    height: 0;
+    z-index: 1;
   }
 }
 
@@ -25,6 +31,15 @@
     width: 22rem;
   }
 }
+
+#close_library {
+  height: 2.5rem;
+  width: 2.5rem;
+  position: absolute;
+  top: 12.5px;
+  right: 0;
+}
+
 .nav-side-menu .brand {
   line-height: 5rem;
   display: block;

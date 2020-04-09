@@ -3,7 +3,7 @@
     <div id="modal-title" style=" display: flex; justify-content: space-between;">
       <h3 class="modal-title" id="myModalLabel"><%= "Remove a theory" %></h3>
     </div>
-    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @theory_workshop], url: training_session_workshop_theory_workshop_path(@workshop.session.training, @workshop.session, @workshop), method: :delete do |f| %>

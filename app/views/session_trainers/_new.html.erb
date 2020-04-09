@@ -3,7 +3,7 @@
     <div id="modal-title" style="display:flex;justify-content:center;text-align:center;">
       <h3 class="modal-title" id="myModalLabel"><%= "Trainers" %></h3>
     </div>
-    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
     <%= simple_form_for [@session.training, @session, session_trainer] do |f| %>
@@ -15,7 +15,7 @@
           <% end %>
         </div>
         <div style="display:flex;justify-content:center;margin-top:3rem;">
-          <%= button_tag :submit, class: 'btn btn-edit-green btn-edit-disk' do %>
+          <%= button_tag :submit, class: 'btn btn-edit-green btn-icon' do %>
             <i class="fas fa-save"></i>
           <% end %>
         </div>

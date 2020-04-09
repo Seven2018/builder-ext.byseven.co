@@ -1,8 +1,8 @@
-<div class="container-seven-form">
+<div class="container-seven-large-form">
   <div class="training-info-headers">
     <% if user_signed_in? && (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
       <%= link_to training_forms_path(@training), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
-      <a class="btn btn-edit btn-edit-pen" data-toggle='modal' type='button' data-target='#editForm'><i class="fas fa-pen"></i></a>
+      <a class="btn btn-icon" data-toggle='modal' type='button' data-target='#editForm'><i class="fas fa-pen"></i></a>
     <% end %>
   </div>
   <div id='attendee-form-logo'>
@@ -37,7 +37,7 @@
     <% end %>
   </div>
   <% if (!@form.sessions.nil? && params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
-    <div class='container-seven-form'>
+    <div class='container-seven-large-form'>
       <% @form.sessions.order('date ASC').each do |session| %>
         <div class="session-form-card center-button">
           <div class="session-form-card-left">

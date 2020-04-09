@@ -3,7 +3,7 @@
     <div id="modal-title" style=" display: flex; justify-content: space-between;">
       <h3 class="modal-title" id="myModalLabel">Copy <%= session.title %> to :</h3>
     </div>
-    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for :copy, url: training_copy_session_path(session.training, session), method: 'GET' do |f| %>
@@ -20,11 +20,11 @@
         <%= f.input :date, input_html: { class: 'datepicker'} %>
       </div>
       <div style='display:flex;justify-content:center;margin-top:2rem;'>
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
           <i class="fas fa-copy"></i>
         <% end %>
         <%= link_to training_copy_here_session_path(session.training, session), method: 'GET' do %>
-          <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+          <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
             <i class="fas fa-clipboard"></i>
           <% end %>
         <% end %>
@@ -48,7 +48,7 @@
                 $('.copy_training_id'+id).hide()
               }
             });
-            $('.btn-edit-cross').click(function() {
+            $('.btn-icon').click(function() {
               $(".copy").each(function() {
                 this.reset();
               });

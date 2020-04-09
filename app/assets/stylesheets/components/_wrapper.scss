@@ -33,7 +33,7 @@ a {
   justify-content: space-between;
 }
 
-.container-seven, .container-seven-large {
+.container-seven-large {
   margin-top: 5rem;
   width: 100%;
   min-height: calc(100vh-5rem);
@@ -49,19 +49,13 @@ a {
   }
 }
 
-.container-seven {
-  @include from-large {
-    padding: 5rem 27rem 5rem 5rem;
-  }
-}
-
 .container-seven-large {
   @include from-large {
     padding: 5rem;
   }
 }
 
-.container-seven-monthly-calendar {
+.container-seven-large-monthly-calendar {
 
   @include from-large {
     margin: 0 0 0 22rem !important;
