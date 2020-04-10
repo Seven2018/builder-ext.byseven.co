@@ -12,7 +12,7 @@
                 </div>
               <% end %>
             </div>
-            <% if params[:user] %>
+            <% if params[:user] || (params[:search] && params[:search][:user]) %>
               <% if training.owners.include?(@user) %>
                 <span style='color:#CA3A4E;margin-right:1rem;'><strong>Owner</strong></span>
               <% end %>
