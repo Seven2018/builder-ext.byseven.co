@@ -14,7 +14,7 @@
   }
 }
 
-.nav-tabs > li > a {
+.nav-tabs > li > a, .nav-tabs > li > p {
   padding-left: 0;
   padding-right: 0;
   color: black;
@@ -28,7 +28,7 @@
   }
 }
 
-.nav-tabs > li > a.active {
+.nav-tabs > li > a.active, .nav-tabs > li > p.active {
   background-color: transparent;
   border-bottom: 4px solid #ffc15c;
   font-weight: 500;

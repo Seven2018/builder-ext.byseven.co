@@ -12,6 +12,17 @@
               <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first.date.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')}" %>
               </div>
             </div>
+            <% if params[:user] || params[:search][:user] %>
+              <% if training.owners.include?(@user) %>
+                <span style='color:#CA3A4E;margin-right:1rem;'><strong>Owner</strong></span>
+              <% end %>
+              <% if training.writers.include?(@user) %>
+                <span style='color:#FBC84B;margin-right:1rem;'><strong>Writer</strong></span>
+              <% end %>
+              <% if training.trainers.include?(@user) %>
+                <span style='color:#41AAAE;margin-right:1rem;'><strong>Trainer</strong></span>
+              <% end %>
+            <% end %>
           <% end %>
         </div>
         <div class="card-footer">
