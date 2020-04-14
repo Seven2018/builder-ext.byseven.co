@@ -2,7 +2,7 @@
   <div class="modal-header">
     <div id="modal-title" style=" display: flex; justify-content: space-between;">
     </div>
-    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body">
     <div style='text-align: center;margin-bottom: 1rem;'>
@@ -18,8 +18,10 @@
     <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
       <div style='text-align: center;'>
         <% training = @training if @training %>
-        <% if params[:controller] == 'trainings' && training.users.include?(user) %>
+        <% if params[:controller] == 'trainings' && training.owners.include?(user) %>
           <%= link_to 'Remove from owners', training_training_ownership_path(training, TrainingOwnership.find_by(training_id: training.id, user_id: user.id), user_id: user.id), method: :delete, class: 'btn' %>
+        <% elsif params[:controller] == 'trainings' && training.writers.include?(user) %>
+          <%= link_to 'Remove from writers', training_training_ownership_path(training, TrainingOwnership.find_by(training_id: training.id, user_id: user.id), user_id: user.id), method: :delete, class: 'btn' %>
         <% elsif params[:controller] == 'sessions' %>
           <%= link_to 'Remove from trainers', training_session_session_trainer_path(@session.training, @session, SessionTrainer.find_by(session_id: @session.id, user_id: user.id), user_id: user.id), method: :delete, class: 'btn' %>
         <% end %>

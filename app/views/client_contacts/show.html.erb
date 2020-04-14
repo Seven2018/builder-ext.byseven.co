@@ -1,4 +1,4 @@
-<div class="container-seven">
+<div class="container-seven-large">
   <%= link_to client_company_path(@client_contact.client_company), class: 'return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
   <div class="centered-card-show">
     <div class="index-card-large-show">
@@ -7,7 +7,7 @@
         <div>
           <div class="show-control-links">
             <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-              <button class="edit-fafa btn btn-edit btn-edit-pen" data-toggle='modal' data-target='#editClientContact'><i class="fas fa-pen"></i></button>
+              <button class="btn btn-edit-yellow btn-icon" data-toggle='modal' data-target='#editClientContact'><i class="fas fa-pen"></i></button>
             <% end %>
           </div>
         </div>

@@ -1,4 +1,4 @@
-<div class="container-seven">
+<div class="container-seven-large">
   <div class="training-info-headers">
     <%= link_to theories_path, class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
@@ -13,11 +13,11 @@
     <%= f.label :references %>
     <%= f.cktext_area :references %>
     <div style=" display: flex; justify-content: space-between;">
-      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
         <i class="fas fa-save"></i>
       <% end %>
       <%= link_to theory_path(@theory), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-        <button class="btn btn-edit-red btn-edit-trash">
+        <button class="btn btn-edit-red btn-icon">
           <i class="fas fa-trash-alt"></i>
         </button>
       <% end %>

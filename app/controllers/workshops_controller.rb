@@ -62,6 +62,11 @@ class WorkshopsController < ApplicationController
     authorize @workshop
     @session = @workshop.session
     @workshop.destroy
+    position = 1
+    @session.workshops.order(position: :asc).each do |workshop|
+      workshop.update(position: position)
+      position += 1
+    end
     respond_to do |format|
       format.html {redirect_to training_session_path(@workshop.session.training, @workshop.session)}
       format.js
@@ -78,6 +83,7 @@ class WorkshopsController < ApplicationController
         contentmod.save
       end
       redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
+      flash[:notice] = "Workshop saved in database."
       @success = true
     else
       flash[:alert] = "An error has occured."

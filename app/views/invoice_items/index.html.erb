@@ -1,4 +1,4 @@
-<div class="container-seven">
+<div class="container-seven-large">
   <div class="training-info-headers">
     <% if params[:training_id] %>
       <%= link_to training_path(Training.find(params[:training_id])), class: 'btn return-arrow' do %>
@@ -10,7 +10,7 @@
       <% end %>
     <% end %>
     <a data-toggle='modal' type='button' data-target='#exportCSV' style='cursor:pointer;'>
-      <button class="btn btn-edit-red btn-edit-trash">Export <i class="fas fa-file-csv"></i></button>
+      <button class="btn btn-edit-red btn-icon">Export <i class="fas fa-file-csv"></i></button>
     </a>
   </div>
   <% if params[:type] == 'Invoice' %>

@@ -66,7 +66,7 @@ class InvoiceItemsController < ApplicationController
     @invoice = InvoiceItem.new(training_id: params[:training_id].to_i, client_company_id: params[:client_company_id].to_i, type: params[:type])
     authorize @invoice
     # ttributes a invoice number to the InvoiceItem
-    @invoice.type == 'Invoice' ? @invoice.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+715) : @invoice.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Estimate.count+1)
+    @invoice.type == 'Invoice' ? @invoice.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715) : @invoice.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count+1)
     @invoice.status = 'En attente'
       # @invoice.type == 'Invoice' ? @invoice.status = 'Non payée' : @invoice.status = 'En attente'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
@@ -124,7 +124,7 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     @training = Training.find(params[:copy][:training_id])
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "training_id", "client_company_id", "status", "sending_date", "payment_date", "dunning_date"))
-    new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+715)
+    new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715)
     new_invoice_item.training_id = @training.id
     new_invoice_item.client_company_id = @training.client_company.id
     if new_invoice_item.save

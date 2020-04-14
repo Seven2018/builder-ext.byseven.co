@@ -1,7 +1,11 @@
 class InvoiceItemPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.all
+      if ['super admin', 'admin', 'training manager'].include? user.access_level
+        scope.all
+      else
+        raise Pundit::NotAuthorizedError, 'not allowed to view this action'
+      end
     end
   end
 
@@ -50,6 +54,10 @@ class InvoiceItemPolicy < ApplicationPolicy
   end
 
   def report?
+    ['super admin', 'admin'].include? user.access_level
+  end
+
+  def edit_client?
     ['super admin', 'admin'].include? user.access_level
   end
 

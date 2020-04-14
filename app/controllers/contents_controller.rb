@@ -34,8 +34,8 @@ class ContentsController < ApplicationController
   end
 
   def destroy
-    @content.destroy
     authorize @content
+    @content.destroy
     redirect_to contents_path
   end
 

@@ -1,4 +1,4 @@
-<div class="container-seven">
+<div class="container-seven-large">
   <div class="training-info-headers">
     <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
@@ -18,7 +18,7 @@
     <%= f.input :action2_id, collection: Action.all, allow_blank: true, label: 'Action 2' %>
     <%= f.input :comments, input_html: { style: 'width:100%;' } %>
     <div class="center-button">
-      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
         <i class="fas fa-save"></i>
       <% end %>
     </div>

@@ -1,16 +1,16 @@
-<div class="container-seven">
+<div class="container-seven-large">
   <div class="training-info-headers">
     <%= link_to training_session_path(@workshop.session.training, @workshop.session, anchor: @workshop.id), class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-      <div class="training-info-headers-buttons">
-        <button class="btn btn-edit btn-edit-pen" data-toggle='modal' data-target='#editMod'><i class="fas fa-pen"></i></button>
-        <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: "btn btn-edit btn-edit-red btn-edit-trash", method: :delete, data: { confirm: 'Are you sure ?'} do %>
+      <div class="training-info-headers-buttons flex-row-between-centered">
+        <button class="btn btn-edit-yellow btn-icon" data-toggle='modal' data-target='#editMod'><i class="fas fa-pen"></i></button>
+        <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: "btn btn-edit btn-edit-red btn-icon", method: :delete, data: { confirm: 'Are you sure ?'} do %>
           <i class="fas fa-trash-alt"></i>
         <% end %>
         <% unless @workshop.title.split(' ').first == 'Pause' %>
-          <%= link_to training_session_save_workshop_path(@workshop.session.training, @workshop.session), data: { confirm: 'Do you want to save this workshop in the Database ?' }, class: 'btn btn-edit-green btn-edit-disk' do %>
+          <%= link_to training_session_save_workshop_path(@workshop.session.training, @workshop.session), data: { confirm: 'Do you want to save this workshop in the Database ?' }, class: 'btn btn-edit-green btn-icon' do %>
             <i class="fas fa-cloud-upload-alt"></i>
           <% end %>
         <% end %>

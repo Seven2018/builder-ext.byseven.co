@@ -1,4 +1,4 @@
-<div class="container-seven">
+<div class="container-seven-large">
   <div id="page-controls">
     <%= link_to client_companies_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
   </div>
@@ -8,8 +8,8 @@
         <img src='<%= @client_company.logo %>' alt="" class='client-company-logo-show'>
         <div class="training-info-headers-buttons">
           <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-            <a class="edit-fafa btn btn-edit btn-edit-pen" data-toggle='modal' data-target='#editClientCompany'><i class="fas fa-pen"></i></a>
-            <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+            <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' data-target='#editClientCompany'><i class="fas fa-pen"></i></a>
+            <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
             <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li><%= link_to 'Invoices List', invoice_items_path(client_company_id: @client_company.id, type: 'Invoice') %></li>
               <li><%= link_to 'Estimates List', invoice_items_path(client_company_id: @client_company.id, type: 'Estimate') %></li>

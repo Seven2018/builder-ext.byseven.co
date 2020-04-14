@@ -1,13 +1,13 @@
-<div class="container-seven">
+<div class="container-seven-large">
   <div class="training-info-headers">
     <%= link_to trainings_path, class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <div class="training-info-headers-buttons">
-        <a class="btn btn-edit btn-edit-pen" data-toggle='modal' type='button' data-target='#editTraining'><i class="fas fa-pen"></i></a>
-        <a class='btn btn-edit-green btn-edit-copy' data-toggle='modal' data-target='#copyTraining'><i class="fas fa-copy"></i></a>
-        <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+      <div class="training-info-headers-buttons flex-row-between-centered">
+        <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editTraining'><i class="fas fa-pen"></i></a>
+        <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#copyTraining'><i class="fas fa-copy"></i></a>
+        <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><%= link_to 'New estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
           <li><%= link_to 'Estimates List', invoice_items_path(training_id: @training.id, type: 'Estimate') %></li>
@@ -36,10 +36,10 @@
       <% end %>
       <p><%="From #{@training.sessions.order(date: :asc).first&.date&.strftime('%d/%m/%y')} to #{@training.sessions.order(date: :asc).last&.date&.strftime('%d/%m/%y')}" %></p>
     </div>
-    <div>
-      <div style="display: table;margin: 0 auto">
+    <div class='middle-info-user'>
+      <div>
         <ul id="owner">
-          <% @training.users.each do |user| %>
+          <% @training.owners.each do |user| %>
             <li>
               <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
             </li>
@@ -60,6 +60,33 @@
               <li><button class='btn btn-add-user btn-add-user-disabled'>Owners</button></li>
             <% else %>
               <li><button class='btn btn-add-user btn-add-user-disabled'>Owner</button></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+      <div>
+        <ul id="writer">
+          <% @training.writers.each do |user| %>
+            <li>
+              <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
+            </li>
+            <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog" role="document" style="border-radius: 2rem">
+                <%= render 'users/consult', user: user, training: @training %>
+              </div>
+            </div>
+          <% end %>
+          <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
+            <% if @training.users.count > 1 %>
+              <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newWriter'>Writers</button></li>
+            <% else %>
+              <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newWriter'>Writer</button></li>
+            <% end %>
+          <% else %>
+            <% if @training.users.count > 1 %>
+              <li><button class='btn btn-add-user btn-add-user-disabled'>Writers</button></li>
+            <% else %>
+              <li><button class='btn btn-add-user btn-add-user-disabled'>Writer</button></li>
             <% end %>
           <% end %>
         </ul>
@@ -181,7 +208,13 @@
 
 <div class="modal fade" id="newOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
-    <%= render 'training_ownerships/new', training_owner: @training_ownership %>
+    <%= render 'training_ownerships/new_owner', training_owner: @training_ownership %>
+  </div>
+</div>
+
+<div class="modal fade" id="newWriter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
+    <%= render 'training_ownerships/new_writer', training_owner: @training_ownership %>
   </div>
 </div>
 

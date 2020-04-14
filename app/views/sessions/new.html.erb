@@ -1,4 +1,4 @@
-<div class="container-seven">
+<div class="container-seven-large">
   <div class="training-info-headers">
     <%= link_to training_path(@training), class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
@@ -22,7 +22,7 @@
     <%= f.label :description %>
     <%= f.cktext_area :description, input_html: { style: "width: 100%; heigth: 5rem;"} %>
     <div class="center-button">
-      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
         <i class="fas fa-save"></i>
       <% end %>
     </div>

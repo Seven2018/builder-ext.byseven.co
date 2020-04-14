@@ -4,11 +4,11 @@
       <%= link_to training_path(@session.training), class: 'btn return-arrow' do %>
         <i class="fas fa-arrow-left"></i>
       <% end %>
-      <div>
+      <div class='flex-row-between-centered'>
         <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-          <a class='edit-fafa btn btn-edit btn-edit-pen' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
+          <a class='btn btn-edit-yellow btn-icon' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
         <% end %>
-        <button class='btn btn-edit-grey btn-edit-menu dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+        <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><%= link_to 'View mode', training_session_viewer_path(@session.training, @session) %></li>
           <li><%= link_to 'Export PDF', training_session_path(@session.training, @session, format: :pdf), target: :_blank %></li>
@@ -17,6 +17,9 @@
             <li><%= link_to 'Presence Sheet', training_session_presence_sheet_path(@session.training, @session, format: :pdf), target: :_blank %></li>
           <% end %>
         </ul>
+        <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+          <button id='show_library' class='btn btn-edit-green btn-icon'><i class="fas fa-book"></i></i></button>
+        <% end %>
       </div>
     </div>
     <div class="middle-info">
@@ -95,8 +98,9 @@
     </script>
   </div>
   <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @session.description.nil? %>
-    <div class="nav-side-menu-container">
+    <div id='library' class="nav-side-menu-container">
       <div class="nav-side-menu">
+        <a id="close_library" class='centered-item'><i class="fas fa-times"></i></a>
         <div class="brand">Workshops</div>
         <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
         <div class="menu-list">
@@ -182,6 +186,20 @@
       </div>
     </div>
   <% end %>
+</div>
+
+<script>
+  var button_show = document.getElementById('show_library');
+  var button_close = document.getElementById('close_library');
+  var library = document.getElementById('library');
+  button_show.addEventListener('click', (event) => {
+    library.style.height = '100vh';
+  })
+  button_close.addEventListener('click', (event) => {
+    library.style.height = '0px';
+  })
+</script>
+
 <div class="modal fade" id="editSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
     <%= render 'edit', session: @session %>

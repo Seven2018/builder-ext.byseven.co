@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # get 'session_trainers/new'
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  get 'numbers_activity', to: 'pages#numbers_activity', as: 'numbers_activity'
   resources :users
   root to: 'pages#home'
   get 'survey', to: 'pages#survey', as: 'survey'
@@ -63,6 +64,7 @@ Rails.application.routes.draw do
       resources :comments, only: [:create, :destroy]
     end
     resources :training_ownerships, only: [:create, :destroy]
+    post 'new_writer', to: 'training_ownerships#new_writer', as: 'new_writer'
     resources :forms, only: [:index, :show, :create, :update, :destroy]
   end
   resources :attendees, only: [:new, :create]

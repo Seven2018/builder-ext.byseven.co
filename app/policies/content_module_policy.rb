@@ -6,31 +6,31 @@ class ContentModulePolicy < ApplicationPolicy
   end
 
   def create?
-    check_access
+    check_access_sevener
   end
 
   def show?
-    check_access
+    check_access_sevener
   end
 
   def edit?
-    check_access
+    check_access_sevener
   end
 
   def update?
-    check_access
+    check_access_sevener
   end
 
   def destroy?
-    check_access
+    check_access_sevener
   end
 
   def move_up?
-    check_access
+    check_access_sevener
   end
 
   def move_down?
-    check_access
+    check_access_sevener
   end
 
   def save?
@@ -41,5 +41,9 @@ class ContentModulePolicy < ApplicationPolicy
 
   def check_access
     ['super admin', 'admin', 'training manager'].include? user.access_level
+  end
+
+  def check_access_sevener
+    ['super admin', 'admin', 'training manager', 'sevener+'].include? user.access_level
   end
 end

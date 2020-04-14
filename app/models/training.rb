@@ -18,16 +18,36 @@ class Training < ApplicationRecord
     self.sessions&.order(date: :asc)&.last&.date
   end
 
+  def self.numbers_scope(starts_at = Date.today.beginning_of_year, ends_at = Date.today.end_of_year)
+    Training.joins(:sessions).where('sessions.date < ?', ends_at).where('sessions.date > ?', starts_at).uniq
+  end
+
   def client_company
     self.client_contact.client_company
   end
 
   def title_for_copy
     if self.sessions.empty?
-      self.title + ' - ' + self.created_at.strftime('%d/%m/%y')
+      self.title + ' - ' + Training.where(title: self.title).count.to_s
     else
-      self.title + ' - ' + self.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')
+      self.title + ' - ' + Training.where(title: self.title).count.to_s
     end
+  end
+
+  def owners
+    self.training_ownerships.where(user_type: 'Owner').map(&:user)
+  end
+
+  def owner_ids
+    self.training_ownerships.where(user_type: 'Owner').map(&:user_id)
+  end
+
+  def writers
+    self.training_ownerships.where(user_type: 'Writer').map(&:user)
+  end
+
+  def writer_ids
+    self.training_ownerships.where(user_type: 'Writer').map(&:user_id)
   end
 
   def trainers

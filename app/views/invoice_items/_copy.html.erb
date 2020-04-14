@@ -3,7 +3,7 @@
     <div id="modal-title" style=" display: flex; justify-content: space-between;">
       <h3 class="modal-title" id="myModalLabel">Copy <%= invoice_item.uuid %> to :</h3>
     </div>
-    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for :copy, url: copy_invoice_item_path(invoice_item), method: 'GET' do |f| %>
@@ -16,7 +16,7 @@
         <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title, options = {}, html_options = { class: "copy_training_id" } %>
       </div>
       <div style='display:flex;justify-content:center;margin-top:2rem;'>
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-edit-disk' do %>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
           <i class="fas fa-copy"></i>
         <% end %>
       </div>
@@ -39,7 +39,7 @@
               $('.copy_training_id').hide()
             }
           });
-          $('.btn-edit-cross').click(function() {
+          $('.btn-icon').click(function() {
             $(".copy").each(function() {
               this.reset();
             });

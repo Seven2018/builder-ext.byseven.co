@@ -46,7 +46,7 @@
           </div>
         <% end %>
       <% end %>
-      <% unless @invoice_item.invoice_lines.map(&:product).uniq.include?(Product.find(2)) %>
+      <% if @invoice_item.tax_amount == 0 %>
         <br>
         <br>
         <p>TVA non applicable, art. 293 B du CGI</p>

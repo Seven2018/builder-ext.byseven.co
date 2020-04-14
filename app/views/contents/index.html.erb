@@ -1,8 +1,8 @@
-<div class="container-seven container-seven-centered">
+<div class="container-seven-large container-seven-large-centered">
   <div>
     <div class='flex-title'>
       <h1>Workshops List</h1>
-      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+      <% if ['super admin', 'admin', 'training manager', 'sevener+'].include? current_user.access_level %>
         <%= link_to new_content_path do %>
           <button class="btn btn-edit">New workshop</button>
         <% end %>

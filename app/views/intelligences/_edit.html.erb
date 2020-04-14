@@ -3,7 +3,7 @@
     <div id="modal-title" style=" display: flex; justify-content: space-between;">
       <h3 class="modal-title" id="myModalLabel"><%= @intelligence.name %></h3>
     </div>
-    <button type="button" class="btn btn-edit-cross" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body">
     <%= simple_form_for @intelligence do |f| %>

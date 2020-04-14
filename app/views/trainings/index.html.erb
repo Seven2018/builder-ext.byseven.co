@@ -1,27 +1,24 @@
-<div class="container-seven" style="background-color: white">
-  <h1 id='dashboard-title'><%= "Trainings Dashboard" %></h1>
-  <div class="trainings-title">
-    <ul class="nav nav-tabs">
-      <% if params[:search] %>
-        <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
-        <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
-      <% elsif params[:tab].nil? || params[:tab] == 'upcoming' %>
-        <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li>
-        <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
-      <% elsif params[:tab] == 'completed' %>
-        <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
-        <li role="presentation"><a href="#completed" data-toggle="tab" class="active">Completed</a></li>
-      <% end %>
-      <% if (['super admin', 'admin', 'training manager', 'sevener'].include? current_user.access_level) %>
-        <li><%= link_to "Calendar", index_week_path %></li>
-      <% end %>
-    </ul>
-    <div id='training-buttons'>
-      <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
-        <%= f.input :title, placeholder: 'Search', label: false %>
-        <% if params[:search] %>
-          <%= link_to trainings_path, class: 'training-search-close' do %>
-            <i class="far fa-times-circle"></i>
+<div class="container-seven-large" style="background-color: white">
+  <div id="page-controls">
+    <h1>Trainings</h1>
+    <div id="page-buttons">
+      <% if params[:user] %>
+        <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
+          <%= f.input :title, placeholder: 'Search', label: false %>
+          <%= f.input :user, as: :hidden, input_html: { value: params[:user] } %>
+          <% if params[:search] %>
+            <%= link_to trainings_path, class: 'training-search-close' do %>
+              <i class="far fa-times-circle"></i>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
+          <%= f.input :title, placeholder: 'Search', label: false %>
+          <% if params[:search] %>
+            <%= link_to trainings_path, class: 'training-search-close' do %>
+              <i class="far fa-times-circle"></i>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
@@ -31,6 +28,44 @@
         <% end %>
       <% end %>
     </div>
+  </div>
+  <div id="trainings_user_filter" class='flex-row-start-centered'>
+    <% if params[:user].present? %>
+      <%= link_to 'All', trainings_path, class: 'avatar-sm centered-item avatar_filter_all avatar_filter_all_unselected' %>
+    <% else %>
+      <%= link_to 'All', trainings_path, class: 'avatar-sm centered-item avatar_filter_all' %>
+    <% end %>
+    <% User.where.not(access_level: %w[sevener+ sevener]).each do |user| %>
+      <% if (params[:user] == user.id&.to_s) || (params[:search] && params[:search][:user] == user.id&.to_s) %>
+        <%= link_to trainings_path(user: user.id) do %>
+          <img src="<%= user.picture %>" alt="" class='avatar-sm'>
+        <% end %>
+      <% else %>
+         <%= link_to trainings_path(user: user.id) do %>
+          <img src="<%= user.picture %>" alt="" class='avatar-sm' style='opacity: 0.6;'>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="trainings-title">
+    <% if params[:search] %>
+      <ul class="nav nav-tabs">
+        <li><p class="active">Search</p></li>
+      </ul>
+    <% else %>
+      <ul class="nav nav-tabs">
+        <% if params[:tab].nil? || params[:tab] == 'upcoming' %>
+          <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li>
+          <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
+        <% elsif params[:tab] == 'completed' %>
+          <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
+          <li role="presentation"><a href="#completed" data-toggle="tab" class="active">Completed</a></li>
+        <% end %>
+        <% if (['super admin', 'admin', 'training manager', 'sevener'].include? current_user.access_level) %>
+          <li><%= link_to "Calendar", index_week_path %></li>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
   <div class="tab-content">
     <% if params[:search] %>
