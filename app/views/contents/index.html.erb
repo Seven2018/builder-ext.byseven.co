@@ -1,6 +1,6 @@
 <div class="container-seven-large container-seven-large-centered">
-  <div>
-    <div class='flex-title'>
+  <div id='page-index'>
+    <div id="page-controls">
       <h1>Workshops List</h1>
       <% if ['super admin', 'admin', 'training manager', 'sevener+'].include? current_user.access_level %>
         <%= link_to new_content_path do %>

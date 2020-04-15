@@ -1,5 +1,5 @@
 <div class="container-seven-large-form">
-  <div class="training-info-headers">
+  <div id='page-controls'>
     <% if user_signed_in? && (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
       <%= link_to training_forms_path(@training), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
       <a class="btn btn-icon" data-toggle='modal' type='button' data-target='#editForm'><i class="fas fa-pen"></i></a>

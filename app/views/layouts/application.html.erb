@@ -22,10 +22,10 @@
         <% if params[:controller] == "pages" && params[:action] == "home" %>
         <% elsif params[:controller] == 'attendees' %>
         <% elsif params[:controller] == 'forms' && params[:action] == 'show' %>
-        <% elsif params[:action] == 'viewer' %>
         <% elsif params[:action] == 'export' %>
         <% elsif !user_signed_in? %>
         <% else %>
+          <%= render 'shared/navbar' %>
           <%= render 'shared/left-navbar' %>
           <%= render 'shared/left-navbar-mobile' %>
         <% end %>

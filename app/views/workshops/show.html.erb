@@ -1,10 +1,10 @@
 <div class="container-seven-large">
-  <div class="training-info-headers">
+  <div id='page-controls'>
     <%= link_to training_session_path(@workshop.session.training, @workshop.session, anchor: @workshop.id), class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-      <div class="training-info-headers-buttons flex-row-between-centered">
+      <div class="page-controls-buttons flex-row-between-centered">
         <button class="btn btn-edit-yellow btn-icon" data-toggle='modal' data-target='#editMod'><i class="fas fa-pen"></i></button>
         <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: "btn btn-edit btn-edit-red btn-icon", method: :delete, data: { confirm: 'Are you sure ?'} do %>
           <i class="fas fa-trash-alt"></i>

@@ -2,7 +2,7 @@
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #23282e;
+  background-color: #F1F3F4;
   position: fixed;
   bottom: 0px;
   width: 22rem;
@@ -10,7 +10,7 @@
   z-index: 1;
 
   text-align: left;
-  padding-top: 1.5rem;
+  padding-top: 5rem;
 
   @include from-large {
     display: flex;
@@ -36,10 +36,10 @@
 }
 
 .left-navbar-top {
+  min-height: 8rem;
   display: flex;
-  justify-content: space-around;
-  position: relative;
-  padding: 3.4rem 0;
+  justify-content: center;
+  align-items: center;
 }
 
 .left-navbar-middle {
@@ -66,7 +66,7 @@
 }
 
 .left-buttons {
-  color: white;
+  color: black;
 }
 
 .left-buttons-mobile {
@@ -80,10 +80,22 @@
   }
 }
 
+.left-menu-list.active {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  width: 220px;
+  background-color: #FDC553;
+
+  i, h4 {
+    color: white;
+  }
+}
+
 .left-navbar a {
   text-decoration: none;
   text-transform: none;
-  color: #2d2c2cde;
+  color: black;
   font-size: 1.8rem;
 }
 
@@ -106,6 +118,11 @@
 
   &:hover {
     background-color: #FDC553;
+    color: white;
+  }
+
+  p {
+    margin: 0;
   }
 }
 

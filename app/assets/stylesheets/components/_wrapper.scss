@@ -2,7 +2,6 @@ html {
   display: flex;
   justify-content: center;
   overflow: -moz-scrollbars-vertical;
-  height: 100%;
   overflow-y: scroll !important;
   font-size: 62.5%;
 }
@@ -15,7 +14,6 @@ body {
   width: 100vw !important;
   margin: 0 !important;
   padding: 0 !important;
-  height:100%;
 }
 
 a {
@@ -29,29 +27,22 @@ a {
 
 .wrapper {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  height: 100%;
 }
 
 .container-seven-large {
   margin-top: 5rem;
   width: 100%;
   min-height: calc(100vh-5rem);
-  padding: 3rem;
+  padding: 0 3rem;
   position: relative;
 
   @include from-large {
     margin-top: 0;
     margin-left: 22rem;
     min-height: 100vh;
-    overflow: auto;
-    min-width: 108rem;
-  }
-}
-
-.container-seven-large {
-  @include from-large {
-    padding: 5rem;
+    max-width: 122rem;
+    width: calc(100vw-22rem);
   }
 }
 
@@ -86,15 +77,26 @@ a {
 }
 
 #page-controls {
+  position: sticky;
+  top: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
+  border-bottom: 1px solid #DADCE0;
+  height: 8rem;
+  background-color: white;
+  z-index: 10;
 
   @include from-large {
     width: 100%;
     flex-direction: row;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+  }
+
+  form, input, button {
+    height: 4rem !important;
   }
 
   div {

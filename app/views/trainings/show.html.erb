@@ -1,10 +1,10 @@
 <div class="container-seven-large">
-  <div class="training-info-headers">
+  <div id='page-controls'>
     <%= link_to trainings_path, class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <div class="training-info-headers-buttons flex-row-between-centered">
+      <div class="page-controls-buttons flex-row-between-centered">
         <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editTraining'><i class="fas fa-pen"></i></a>
         <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#copyTraining'><i class="fas fa-copy"></i></a>
         <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>

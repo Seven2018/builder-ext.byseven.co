@@ -6,7 +6,7 @@
     <div class="index-card-large-show">
       <div>
         <img src='<%= @client_company.logo %>' alt="" class='client-company-logo-show'>
-        <div class="training-info-headers-buttons">
+        <div class="page-controls-buttons">
           <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
             <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' data-target='#editClientCompany'><i class="fas fa-pen"></i></a>
             <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>

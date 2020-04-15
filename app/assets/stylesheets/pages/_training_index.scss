@@ -63,6 +63,13 @@
 
 #trainings_user_filter {
 
+  .avatar-sm {
+
+    &:hover {
+      opacity: 1 !important;
+    }
+  }
+
   a {
     margin-right: 1rem;
   }
