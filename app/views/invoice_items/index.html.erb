@@ -1,5 +1,5 @@
 <div class="container-seven-large">
-  <div class="training-info-headers">
+  <div id='page-controls'>
     <% if params[:training_id] %>
       <%= link_to training_path(Training.find(params[:training_id])), class: 'btn return-arrow' do %>
         <i class="fas fa-arrow-left"></i>

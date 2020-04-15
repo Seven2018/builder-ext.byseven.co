@@ -29,24 +29,7 @@
   }
 }
 
-.training-info-headers {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 1rem;
-  p {
-    margin: 0;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-
-  @include from-large {
-    margin-bottom: 3rem;
-  }
-}
-
-.training-info-headers-buttons {
+.page-controls-buttons {
   display: none;
 
   @include from-large {

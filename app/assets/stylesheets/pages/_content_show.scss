@@ -4,7 +4,9 @@
 
 .module-card {
   box-shadow: 1px 0px 7rem -1.1rem rgba(0, 0, 0, 0.15);
-  margin: 2rem 0;
+  margin: 3rem 5rem;
+  padding: 2rem;
+  position: relative;
 
   &:hover {
     box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
@@ -51,7 +53,7 @@
     /* Font */
     /* Emoji fonts are added to visualise them nicely in Internet Explorer. */
     font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
-    font-size: 12px;
+    font-size: 14px;
 
     /* Text color */
     color: #333;
@@ -72,10 +74,11 @@
 
     p, a, ul, ol, li, span {
       margin: 13px 0;
+      font-size: 14px;
     }
 
     .cke_editable {
-      font-size: 13px;
+      font-size: 16px;
       line-height: 1.6;
 
       /* Fix for missing scrollbars with RTL texts. (#10488) */

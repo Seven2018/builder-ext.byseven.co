@@ -108,9 +108,18 @@
 }
 
 .return-arrow {
+  height: 4rem;
+  width: 4rem;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0 !important;
   min-width: 0 !important;
-  padding: 1.6rem 1.7rem !important;
   box-shadow: none !important;
+
+  &::after {
+    z-index: 100;
+  }
 
   i {
     font-size: 1.6rem;

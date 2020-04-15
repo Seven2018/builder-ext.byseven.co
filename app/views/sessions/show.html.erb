@@ -1,102 +1,100 @@
-<div class="container-session-show">
-  <div class="session-container">
-    <div class="training-info-headers">
-      <%= link_to training_path(@session.training), class: 'btn return-arrow' do %>
-        <i class="fas fa-arrow-left"></i>
-      <% end %>
-      <div class='flex-row-between-centered'>
-        <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-          <a class='btn btn-edit-yellow btn-icon' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
-        <% end %>
-        <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
-        <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><%= link_to 'View mode', training_session_viewer_path(@session.training, @session) %></li>
-          <li><%= link_to 'Export PDF', training_session_path(@session.training, @session, format: :pdf), target: :_blank %></li>
-          <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-            <li><%= link_to 'Participants List', export_attendees_path(@session.training, @session) %></li>
-            <li><%= link_to 'Presence Sheet', training_session_presence_sheet_path(@session.training, @session, format: :pdf), target: :_blank %></li>
-          <% end %>
-        </ul>
-        <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-          <button id='show_library' class='btn btn-edit-green btn-icon'><i class="fas fa-book"></i></i></button>
-        <% end %>
-      </div>
-    </div>
-    <div class="middle-info">
-      <div class="middle-info-main">
-        <h3 id='session-title'><%= @session.title %>
-        </h3>
-      </div>
-      <div>
-        <div style="display: table;margin: 0 auto">
-          <ul id='owner'>
-            <% @session.users.each do |user| %>
-              <li>
-                <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
-              </li>
-            <% end %>
-            <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
-              <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
-            <% else %>
-              <li><button class='btn btn-add-user btn-add-user-disabled'>Trainers</button></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="session-info">
-      <% if @session.start_time && @session.end_time %>
-        <p> <%="#{@session.date.strftime('%d/%m/%y')}"%> </p>
-        <div><p><%= " #{@session.start_time.strftime("%k:%M")} to #{@session.end_time.strftime("%k:%M")}" %></p></div>
-        <i class="fas fa-users"> <%= @session.attendee_number %></i>
-      <% end %>
-    </div>
-    <div id="mods" style="min-height: 70vh;">
-      <% if !@session.description.nil? %>
-        <%= @session.description.html_safe %>
-      <% else %>
-        <%= render 'workshops/index', session: @session %>
-      <% end %>
-    </div>
-    <div class="comment-box">
-      <div class="message-box">
-        <h4>Ajouter un message</h4>
-        <%= simple_form_for [@session.training, @session, @comment] do |f| %>
-          <%= f.input :object, placeholder: "Objet", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
-          <%= f.input :content, placeholder: "Message", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
-          <div class='center-button'> <%= f.submit 'Publier', class: 'btn btn-edit'%> </div>
-        <% end %>
-      </div>
-      <div class='log-box'>
-        <h4>Messages</h4>
-        <ul>
-          <% @session.comments.each do |comment| %>
-            <% if comment.object != "Log" %>
-              <li class="logs-message"><%= "#{comment.object} on #{comment.created_at.strftime(("%d/%m/%Y at %H:%M"))} by #{comment.user.firstname}" %>
-                <br>
-                <%= "#{comment.content}" %>
-              </li>
-              <% end %>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-    <% if  ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-      <div class="log-box">
-        <h4 id='logs-title'>Log Records<span>Click to see</span></h4>
-        <div id='logs-list' class='hidden'>
-          <%= render 'comments', session: @session  %>
-        </div>
-      </div>
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to training_path(@session.training), class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
     <% end %>
-    <script>
-      button = document.getElementById('logs-title');
-      list = document.getElementById('logs-list');
-      button.addEventListener('click', (event) => {
-        list.classList.toggle('hidden');
-      })
-    </script>
+    <div class='flex-row-between-centered'>
+      <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+        <a class='btn btn-edit-yellow btn-icon' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
+      <% end %>
+      <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+      <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><%= link_to 'View mode', training_session_viewer_path(@session.training, @session) %></li>
+        <li><%= link_to 'Export PDF', training_session_path(@session.training, @session, format: :pdf), target: :_blank %></li>
+        <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+          <li><%= link_to 'Participants List', export_attendees_path(@session.training, @session) %></li>
+          <li><%= link_to 'Presence Sheet', training_session_presence_sheet_path(@session.training, @session, format: :pdf), target: :_blank %></li>
+        <% end %>
+      </ul>
+      <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+        <button id='show_library' class='btn btn-edit-green btn-icon'><i class="fas fa-book"></i></i></button>
+      <% end %>
+    </div>
   </div>
+  <div class="middle-info">
+    <div class="middle-info-main">
+      <h3 id='session-title'><%= @session.title %>
+      </h3>
+    </div>
+    <div>
+      <div style="display: table;margin: 0 auto">
+        <ul id='owner'>
+          <% @session.users.each do |user| %>
+            <li>
+              <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+            </li>
+          <% end %>
+          <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
+            <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
+          <% else %>
+            <li><button class='btn btn-add-user btn-add-user-disabled'>Trainers</button></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="session-info">
+    <% if @session.start_time && @session.end_time %>
+      <p> <%="#{@session.date.strftime('%d/%m/%y')}"%> </p>
+      <div><p><%= " #{@session.start_time.strftime("%k:%M")} to #{@session.end_time.strftime("%k:%M")}" %></p></div>
+      <i class="fas fa-users"> <%= @session.attendee_number %></i>
+    <% end %>
+  </div>
+  <div id="mods" style="min-height: 70vh;">
+    <% if !@session.description.nil? %>
+      <%= @session.description.html_safe %>
+    <% else %>
+      <%= render 'workshops/index', session: @session %>
+    <% end %>
+  </div>
+  <div class="comment-box">
+    <div class="message-box">
+      <h4>Ajouter un message</h4>
+      <%= simple_form_for [@session.training, @session, @comment] do |f| %>
+        <%= f.input :object, placeholder: "Objet", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
+        <%= f.input :content, placeholder: "Message", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
+        <div class='center-button'> <%= f.submit 'Publier', class: 'btn btn-edit'%> </div>
+      <% end %>
+    </div>
+    <div class='log-box'>
+      <h4>Messages</h4>
+      <ul>
+        <% @session.comments.each do |comment| %>
+          <% if comment.object != "Log" %>
+            <li class="logs-message"><%= "#{comment.object} on #{comment.created_at.strftime(("%d/%m/%Y at %H:%M"))} by #{comment.user.firstname}" %>
+              <br>
+              <%= "#{comment.content}" %>
+            </li>
+            <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <% if  ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+    <div class="log-box">
+      <h4 id='logs-title'>Log Records<span>Click to see</span></h4>
+      <div id='logs-list' class='hidden'>
+        <%= render 'comments', session: @session  %>
+      </div>
+    </div>
+  <% end %>
+  <script>
+    button = document.getElementById('logs-title');
+    list = document.getElementById('logs-list');
+    button.addEventListener('click', (event) => {
+      list.classList.toggle('hidden');
+    })
+  </script>
   <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @session.description.nil? %>
     <div id='library' class="nav-side-menu-container">
       <div class="nav-side-menu">
