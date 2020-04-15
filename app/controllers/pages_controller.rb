@@ -4,6 +4,9 @@ class PagesController < ApplicationController
   def home
   end
 
+  def overlord
+  end
+
   def survey
     redirect_to 'https://docs.google.com/forms/d/1knOYJWvoVV7T3IVCbNqoMtTbgMiDG6zroZSPrRJm5vY/edit'
   end

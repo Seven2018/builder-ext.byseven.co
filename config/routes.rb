@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   # get 'session_trainers/new'
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   get 'numbers_activity', to: 'pages#numbers_activity', as: 'numbers_activity'
+  get 'overlord', to: 'pages#overlord', as: 'overlord'
   resources :users
   root to: 'pages#home'
   get 'survey', to: 'pages#survey', as: 'survey'

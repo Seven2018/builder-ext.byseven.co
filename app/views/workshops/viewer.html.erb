@@ -5,21 +5,24 @@
     <% end %>
     <h4><%= @workshop.title %></h4>
   </div>
-
-    <% @workshop.workshop_modules.order(position: :asc).each do |mod| %>
-      <div class='module-card'>
-        <a name="<%= mod&.id %>" class="workshop-view-mode-anchor"></a>
-        <div>
-          <p><%= link_to mod.title, training_session_workshop_workshop_module_viewer_path(@workshop.session.training, @workshop.session, @workshop, mod) %> - (<%= mod.duration %> min)</p>
-        </div>
-        <%= mod.instructions.html_safe %>
-        <% if mod.action1 %>
-          <p>Action 1 (participant) : <%= mod.action1.name %></p>
-        <% end %>
-        <% if mod.action2 %>
-          <p>Action 2 (participant) : <%= mod.action2.name %></p>
-        <% end %>
+  <% @workshop.workshop_modules.order(position: :asc).each do |mod| %>
+    <div class='module-card'>
+      <div class="module-card-viewer-title">
+        <p><%= mod.title %> - (<%= mod.duration %> min)</p>
       </div>
-    <% end %>
-
+      <div class="module-card-viewer-blocks flex-column-start-centered">
+        <div>Riri</div>
+        <div>Fifi</div>
+        <div>Loulou</div>
+      </div>
+      <a name="<%= mod&.id %>" class="workshop-view-mode-anchor"></a>
+      <%= mod.instructions.html_safe %>
+      <% if mod.action1 %>
+        <p>Action 1 (participant) : <%= mod.action1.name %></p>
+      <% end %>
+      <% if mod.action2 %>
+        <p>Action 2 (participant) : <%= mod.action2.name %></p>
+      <% end %>
+    </div>
+  <% end %>
 </div>

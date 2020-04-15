@@ -1,0 +1,66 @@
+#overlord-navbar {
+  height: 5rem;
+  padding: 0 5rem;
+  border-bottom: 1px solid black;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: white;
+}
+
+.overlord-container {
+  // background-image: url('https://learn.byseven.co/assets/img/home-page.jpg');
+  // background-size: cover;
+  background-color: black;
+  padding: 5rem;
+}
+
+.overlord-presentation, .overlord-contact-form {
+  padding: 3rem;
+  width: 40%;
+  border: 1px solid black;
+  // background-color: white;
+  height: 54rem;
+  color: white;
+}
+
+.overlord-contact-form {
+  textarea {
+    border: 1px solid white;
+    color: white;
+
+    &:focus {
+      border-color: white;
+      box-shadow: none !important;
+    }
+  }
+
+  input {
+    width: 40%;
+    color: white !important;
+
+    &::placeholder {
+      color: white !important;
+    }
+
+    &:focus {
+      border-color: white;
+    }
+  }
+
+  button {
+    margin-top: 2rem;
+    color: white;
+    border: 1px solid white;
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+}
+
+.overlord-clients {
+  height: 5rem;
+  padding: 0 5rem;
+}
