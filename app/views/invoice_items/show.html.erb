@@ -7,13 +7,13 @@
       </button>
     <% end %>
   </div>
-  <div class="session-container invoice-item-container">
+  <div class="container-seven-large invoice-item-container">
     <div id='page-controls'>
       <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
       <div class="page-controls-buttons">
         <button class='btn btn-edit-green btn-icon invoiceitem_copy' data-toggle='modal' data-target='#copyInvoiceItem'><i class="fas fa-copy"></i></button>
         <%= link_to invoice_item_path(@invoice_item, format: :pdf), target: :_blank do %>
-          <button class="btn btn-icon" id='export-btn'>
+          <button class="btn btn-edit-yellow btn-icon" id='export-btn'>
             <i class="fas fa-file-pdf"></i>
           </button>
         <% end %>
