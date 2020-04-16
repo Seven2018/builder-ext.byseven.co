@@ -31,7 +31,7 @@ a {
 }
 
 .container-seven-large {
-  margin-top: 5rem;
+  margin-top: 8rem;
   width: 100%;
   min-height: calc(100vh-5rem);
   padding: 0 3rem;
@@ -42,7 +42,7 @@ a {
     margin-left: 22rem;
     min-height: 100vh;
     max-width: 122rem;
-    width: calc(100vw-22rem);
+    width: calc(100vw - 22rem);
   }
 }
 
@@ -90,7 +90,7 @@ a {
 
   @include from-large {
     max-width: 116rem;
-    width: 100%;
+    width: calc(100vw - 28rem);
     flex-direction: row;
     margin-bottom: 3rem;
     padding-bottom: 2rem;

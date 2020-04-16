@@ -9,7 +9,8 @@
   z-index: 10;
   border-bottom: 1px solid black;
   padding: 0 !important;
-  min-width: calc(100% - 22rem);
+  width: 100vw;
+  max-width: 144rem;
 }
 
 .navbar .navbar-collapse {
