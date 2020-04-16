@@ -1,4 +1,4 @@
-<div class="container-session-show">
+<div class="container-seven-large">
   <div class="invoice-item-container-mobile">
     <h1><%= @invoice_item.training.client_contact.client_company.name %> : <%= @invoice_item.uuid %></h1>
     <%= link_to invoice_item_path(@invoice_item, format: :pdf) do %>
@@ -7,7 +7,7 @@
       </button>
     <% end %>
   </div>
-  <div class="container-seven-large invoice-item-container">
+  <div class="invoice-item-container">
     <div id='page-controls'>
       <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
       <div class="page-controls-buttons">
