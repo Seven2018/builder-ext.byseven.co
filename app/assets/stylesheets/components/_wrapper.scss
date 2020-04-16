@@ -102,10 +102,12 @@ a {
 
   div {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   div > a {
-    margin-left: 2rem;
+    // margin-left: 2rem;
   }
 }
 

@@ -22,6 +22,7 @@
             <i class="fas fa-file-invoice-dollar"></i>
           </button>
         <% end %>
+        <a id='show_library' class='btn btn-edit-grey btn-icon'><i class="fas fa-book"></i></i></a>
       </div>
     </div>
     <div class="invoice-header">
@@ -146,8 +147,9 @@
       </div>
     <% end %>
   </div>
-  <div class="nav-side-menu-container">
+  <div id='library' class="nav-side-menu-container">
     <div class="nav-side-menu">
+      <a id="close_library" class='centered-item'><i class="fas fa-times"></i></a>
       <div class="brand">Products</div>
       <div class="menu-list">
         <ul id="product-list">
@@ -167,6 +169,17 @@
     </div>
   </div>
 </div>
+<script>
+  var button_show = document.getElementById('show_library');
+  var button_close = document.getElementById('close_library');
+  var library = document.getElementById('library');
+  button_show.addEventListener('click', (event) => {
+    library.style.height = '100vh';
+  })
+  button_close.addEventListener('click', (event) => {
+    library.style.height = '0px';
+  })
+</script>
 
 <!-- MODALS -->
 
