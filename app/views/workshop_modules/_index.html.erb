@@ -2,7 +2,7 @@
   <h2>Modules</h2>
   <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
     <%= link_to new_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop) do %>
-      <button class="btn btn-edit">New Module</button>
+      <button class="btn btn-edit-yellow">New Module</button>
     <% end %>
   <% end %>
 </div>

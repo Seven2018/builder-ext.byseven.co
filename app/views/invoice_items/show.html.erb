@@ -2,7 +2,7 @@
   <div class="invoice-item-container-mobile">
     <h1><%= @invoice_item.training.client_contact.client_company.name %> : <%= @invoice_item.uuid %></h1>
     <%= link_to invoice_item_path(@invoice_item, format: :pdf) do %>
-      <button class="btn btn-edit btn-edit-red">
+      <button class="btn btn-edit-yellowbtn-edit-red">
         Export <i class="fas fa-file-pdf"></i>
       </button>
     <% end %>

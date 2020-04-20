@@ -13,7 +13,7 @@
         <% end %>
         <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
           <%= link_to new_client_company_path do %>
-            <button class="btn btn-edit">New Customer</button>
+            <button class="btn btn-edit-yellow">New Customer</button>
           <% end %>
         <% end %>
       </div>

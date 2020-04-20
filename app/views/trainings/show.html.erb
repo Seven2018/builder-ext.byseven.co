@@ -23,7 +23,7 @@
       </div>
     <% elsif @training.session_trainers.where(user_id: current_user.id).any? %>
         <%# link_to new_sevener_invoice_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'InvoiceSevener'), method: :post do %>
-          <!-- <button class="btn btn-edit">Create my invoice</button> -->
+          <!-- <button class="btn btn-edit-yellow">Create my invoice</button> -->
         <%# end %>
     <% end %>
   </div>
@@ -186,9 +186,9 @@
   </div>
   <div class="training-info-footer">
     <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && (@training.mode == 'Company' || @training.mode.nil?) %>
-      <a class='btn btn-edit' id='add-session-button' data-toggle='modal' data-target='#newSession'>Add a session</a>
+      <a class='btn btn-edit-yellow' id='add-session-button' data-toggle='modal' data-target='#newSession'>Add a session</a>
       <% elsif (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.mode == 'School'%>
-      <%= link_to 'Add a session', new_training_session_path(@training), class: 'btn btn-edit' %>
+      <%= link_to 'Add a session', new_training_session_path(@training), class: 'btn btn-edit-yellow' %>
     <% end %>
   </div>
 </div>

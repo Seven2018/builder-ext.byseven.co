@@ -9,7 +9,7 @@
       <h1>Forms List for <%= @training.title %></h1>
       <div id="page-buttons">
         <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-          <a class='btn btn-edit' data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a>
+          <a class='btn btn-edit-yellow' data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a>
         <% end %>
       </div>
     </div>

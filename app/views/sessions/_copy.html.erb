@@ -13,50 +13,47 @@
       </div>
       <div class="copy-form-element">
         <%= f.label :training_id, 'Training', class: 'copy-form-hidden-label' %>
-        <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title, options = {}, html_options = { class: "copy_training_id#{session.id}" } %>
-      </div>
-      <div style='display:flex;flex-direction:column;justify-content:center;margin-top:2rem;'>
-        <%= f.input_field :rename, placeholder: session.title, label: 'Rename' %>
-        <%= f.input :date, input_html: { class: 'datepicker'} %>
+        <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title,  options = {}, html_options = { class: "copy_training_id#{session.id}"} %>
       </div>
       <div style='display:flex;justify-content:center;margin-top:2rem;'>
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
           <i class="fas fa-copy"></i>
         <% end %>
-        <%= link_to training_copy_here_session_path(session.training, session), method: 'GET' do %>
-          <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
-            <i class="fas fa-clipboard"></i>
-          <% end %>
-        <% end %>
       </div>
-        <script>
-          $('.session_copy').click(function() {
-            id = $(this).attr('id');
-            $('.copy-form-hidden-label').hide()
-            $('.copy_training_id'+id).hide()
-            trainings = $('.copy_training_id'+id).html()
-            reset = $('.copy_training_id'+id).html()
-            $('.copy_client_company_id'+id).change(function() {
-              client_company = $('.copy_client_company_id'+id+' :selected').text()
-              options = $(trainings).filter(`optgroup[label='${client_company}']`).html()
-              $('.copy-form-hidden-label').show()
-              if (options) {
-                $('.copy_training_id'+id).html(options)
-                $('.copy_training_id'+id).show()
-              } else {
-                $('.copy_training_id'+id).empty()
-                $('.copy_training_id'+id).hide()
-              }
-            });
-            $('.btn-icon').click(function() {
-              $(".copy").each(function() {
-                this.reset();
-              });
-              $('.copy_training_id'+id).html(reset)
+      <script>
+        $('.return-arrow').click(function() {
+          id = $(this).attr('id');
+          $('.copy-form-hidden-label').hide()
+          $('.copy_training_id'+id).hide()
+          trainings = $('.copy_training_id'+id).html()
+          reset = $('.copy_training_id'+id).html()
+          $('.copy_client_company_id'+id).change(function() {
+            client_company = $('.copy_client_company_id'+id+' :selected').text()
+            options = $(trainings).filter(`optgroup[label='${client_company}']`).html()
+            $('.copy-form-hidden-label').show()
+            if (options) {
+              $('.copy_training_id'+id).html(options)
+              $('.copy_training_id'+id).show()
+              // training = $('.copy_training_id'+id+' :selected').text()
+              // options1 = $(sessions).filter(`optgroup[label='${training}']`).html()
+              // $('.copy_session_id'+id).html(options1)
+              // $('.copy_session_id'+id).show()
+            } else {
+              $('.copy_training_id'+id).empty()
               $('.copy_training_id'+id).hide()
-            })
+            }
           });
-        </script>
+          $('.btn-icon').click(function() {
+            $(".copy").each(function() {
+              this.reset();
+            });
+            $('.copy_training_id'+id).html(reset)
+
+            $('.copy_training_id'+id).hide()
+
+          })
+        });
+      </script>
     <% end %>
   </div>
 </div>

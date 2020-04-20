@@ -51,28 +51,30 @@ class InvoiceItem < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << attributes
       all.each do |item|
-        date = item.created_at.strftime('%d/%m/%Y')
-        journal = 'VE'
-        gen_account = '41100000'
-        aux_account = item.client_company.reference
-        invoice_num = item.uuid
-        item.client_company.client_company_type = 'School' ? company_label = "#{item.client_company.name}" : company_label = "#{item.client_company.name} TVA"
-        # if item.total_amount > 0
-        #   debit = item.total_amount
-        #   credit = ''
-        # else
-        #   debit = ''
-        #   credit = -(item.total_amount)
-        # end
-        debit = item.total_amount
-        csv << [date, journal, gen_account, aux_account, invoice_num, company_label, debit, '']
-        item.invoice_lines.each do |line|
-          if line.product&.reference.present?
-            credit = line&.net_amount * line&.quantity
-            csv << [date, journal, line.product&.reference, '', invoice_num, company_label, '', credit]
+        if item.type == 'Invoice'
+          date = item.created_at.strftime('%d/%m/%Y')
+          journal = 'VE'
+          gen_account = '41100000'
+          aux_account = item.client_company.reference
+          invoice_num = item.uuid
+          item.client_company.client_company_type = 'School' ? company_label = "#{item.client_company.name}" : company_label = "#{item.client_company.name} TVA"
+          # if item.total_amount > 0
+          #   debit = item.total_amount
+          #   credit = ''
+          # else
+          #   debit = ''
+          #   credit = -(item.total_amount)
+          # end
+          debit = item.total_amount
+          csv << [date, journal, gen_account, aux_account, invoice_num, company_label, debit, '']
+          item.invoice_lines.each do |line|
+            if line.product&.reference.present?
+              credit = line&.net_amount * line&.quantity
+              csv << [date, journal, line.product&.reference, '', invoice_num, company_label, '', credit]
+            end
           end
+          csv << [date, journal, '44571130', '', invoice_num, company_label, '', item.tax_amount] if item.tax_amount?
         end
-        csv << [date, journal, '44571130', '', invoice_num, company_label, '', item.tax_amount] if item.tax_amount?
       end
     end
   end

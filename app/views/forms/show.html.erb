@@ -31,7 +31,7 @@
           <% controller.redirect_to new_attendee_path(training_id: @training.id, form_id: @form.id, email: params[:search][:email]) %>
         <% else %>
           <%= f.input :email, label: 'Adresse email' %>
-          <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit' %> </p>
+          <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
         <% end %>
       <% end %>
     <% end %>

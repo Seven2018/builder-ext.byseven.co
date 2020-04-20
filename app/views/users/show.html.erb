@@ -8,8 +8,8 @@
         </div>
         <div class="show-control-links" style='display:flex;flex-direction:row;'>
           <% if current_user.access_level == 'super admin' || @user == current_user || (current_user.access_level == 'admin' && @user.access_level == 'sevener') %>
-            <a class="button edit-fafa" data-toggle='modal' data-target='#editUser'><button class='btn btn-edit'>Edit Profile</button></a>
-            <a class="button edit-fafa" data-toggle='modal' data-target='#editPassword'><button class='btn btn-edit'>Change Password</button></a>
+            <a class="button edit-fafa" data-toggle='modal' data-target='#editUser'><button class='btn btn-edit-yellow'>Edit Profile</button></a>
+            <a class="button edit-fafa" data-toggle='modal' data-target='#editPassword'><button class='btn btn-edit-yellow'>Change Password</button></a>
           <% end %>
         </div>
       </div>

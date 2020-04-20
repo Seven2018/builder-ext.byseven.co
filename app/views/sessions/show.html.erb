@@ -63,7 +63,7 @@
       <%= simple_form_for [@session.training, @session, @comment] do |f| %>
         <%= f.input :object, placeholder: "Objet", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
         <%= f.input :content, placeholder: "Message", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
-        <div class='center-button'> <%= f.submit 'Publier', class: 'btn btn-edit'%> </div>
+        <div class='center-button'> <%= f.submit 'Publier', class: 'btn btn-edit-yellow'%> </div>
       <% end %>
     </div>
     <div class='log-box'>

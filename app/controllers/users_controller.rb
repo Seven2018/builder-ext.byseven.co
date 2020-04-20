@@ -86,20 +86,11 @@ class UsersController < ApplicationController
   end
 
   def index_function(parameter)
-    if ['super admin', 'admin', 'training manager'].include? (current_user.access_level)
-      if params[:search]
-        @users = (parameter.where('lower(firstname) LIKE ?', "%#{params[:search][:name].downcase}%") + parameter.where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%"))
-        @users = @users.sort_by{ |user| user.lastname } if @users.present?
-      else
-        @users = parameter.order('lastname ASC')
-      end
-    elsif current_user.access_level == 'HR'
-      if params[:search]
-        @users = (parameter.where(client_company_id: current_user.client_company.id).where('lower(firstname) LIKE ?', "%#{params[:search][:name].downcase}%") + parameter.where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%"))
-        @users = @users.sort_by{ |user| user.lastname } if @users.present?
-      else
-        @users = parameter.where(client_company_id: current_user.client_company.id).order('lastname ASC')
-      end
+    if params[:search]
+      @users = (parameter.where('lower(firstname) LIKE ?', "%#{params[:search][:name].downcase}%") + parameter.where('lower(lastname) LIKE ?', "%#{params[:search][:name].downcase}%"))
+      @users = @users.sort_by{ |user| user.lastname } if @users.present?
+    else
+      @users = parameter.order(lastname: :asc)
     end
   end
 end
