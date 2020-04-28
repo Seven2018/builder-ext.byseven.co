@@ -8,11 +8,12 @@
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [@training, Form.new] do |f| %>
       <%= f.input :title %>
-      <%= collection_check_boxes(:form, :session_ids, @training.sessions.order('date ASC'), :id, :title) do |b| %>
+      <%= collection_check_boxes(:form, :session_ids, @training.sessions.order('date ASC').where.not(attendee_number: nil), :id, :title) do |b| %>
         <%= b.label class: 'label-checkbox', style: 'color:black;' do %>
           <%= b.check_box + b.text %>
         <% end %>
       <% end %>
+      <p>Reminder : Sessions must have an max number of participant to be visible here</p>
       <div style="display:flex;justify-content:center;margin-top:3rem;">
         <%= button_tag :submit, class: 'btn btn-edit-green btn-icon' do %>
           <i class="fas fa-save"></i>

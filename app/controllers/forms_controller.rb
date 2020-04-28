@@ -14,7 +14,7 @@ class FormsController < ApplicationController
     authorize @form
     @training = @form.training
     user = current_user
-    Attendee.create(firstname: user.firstname, lastname: user.lastname, email: user.email, client_company_id: user.client_company.id, employee_id: user.employee_id) if user_signed_in? && Attendee.where(email: user.email).empty?
+    # Attendee.create(firstname: user.firstname, lastname: user.lastname, email: user.email, client_company_id: user.client_company.id, employee_id: user.employee_id) if user_signed_in? && Attendee.where(email: user.email).empty?
   end
 
   # Creates a form, linking Sessions via the results of a checkbox collection
