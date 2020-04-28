@@ -1,4 +1,4 @@
-#numbers_activity_header {
+#numbers_activity_header, #numbers_sales_header {
   margin-bottom: 3rem;
 
   h1 {
@@ -13,13 +13,13 @@
   }
 }
 
-#numbers_activity {
+#numbers_activity, #numbers_sales {
   height: 100rem;
   width: 112rem;
   overflow: scroll;
 }
 
-#numbers_activity_headers {
+#numbers_activity_headers, #numbers_sales_headers {
   border: 1px solid black;
   width: 100%;
 
@@ -30,6 +30,29 @@
 }
 
 #numbers_activity_data {
+
+  div {
+    display: flex;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+  }
+
+  div > p {
+    width: 15.5rem;
+    margin: 0;
+    text-align: center;
+    border-right: 1px solid black;
+
+    &:nth-of-type(5) {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+}
+
+#numbers_sales_data {
 
   div {
     display: flex;

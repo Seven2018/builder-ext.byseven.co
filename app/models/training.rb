@@ -59,4 +59,38 @@ class Training < ApplicationRecord
     end
     trainers.uniq
   end
+
+  def self.numbers_activity_csv(starts_at, ends_at)
+    attributes = %w(Title Client Dates Owner Trainers Hours Comments)
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      all.each do |item|
+        title = item.title
+        client = item.client_company.name
+        dates = ""
+        owner = ""
+        trainers = ""
+        hours = ""
+        comments = ""
+        item.sessions.where('date >= ?', starts_at.to_date).where('date <= ?', ends_at.to_date).order(date: :asc).each do |session|
+          dates += session.date.strftime('%d/%m/%y') + "\n"
+          i = 1
+          session.session_trainers.map(&:user).each do |trainer|
+            trainers += trainer.fullname + "\n"
+            hours += session.duration.to_s + "\n"
+            if i > 1
+              dates += session.date.strftime('%d/%m/%y') + "\n"
+            end
+            i += 1
+          end
+        end
+        item.owners.each do |user|
+          owner += user.fullname + "\n"
+        end
+        unless dates.empty?
+          csv << [title, client, dates, owner, trainers, hours, comments]
+        end
+      end
+    end
+  end
 end

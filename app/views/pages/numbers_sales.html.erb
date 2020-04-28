@@ -1,0 +1,111 @@
+<div class="container-seven-large">
+  <div id="page-controls">
+    <h1>Numbers : Sales</h1>
+    <div id="page-buttons">
+
+    </div>
+  </div>
+  <div id="numbers_sales_header">
+    <br>
+    <%= simple_form_for :numbers_sales, url: numbers_sales_path, method: 'GET' do |f| %>
+      <%= f.input :starts_at, as: :string, input_html: { class: 'datepicker', value: Date.today.beginning_of_year }, label: 'Starting date' %>
+      <%= f.input :ends_at, as: :string, input_html: { class: 'datepicker', value: Date.today }, label: 'Ending date' %>
+      <%= f.submit 'Filter' %>
+    <% end %>
+    <div id="numbers_sales_header_data">
+      <% sales = 0 %>
+      <% @invoices.each do |invoice| %>
+        <% sales += invoice.gross_revenue %>
+      <% end %>
+      <p>Gross Revenue : <%= sales %>€</p>
+    </div>
+  </div>
+  <div id="numbers_sales" class="table-container" role="table" aria-label="Trainings">
+    <div id="numbers_sales_headers" class="flex-table header" role="rowgroup">
+      <p class="flex-row">Title</p>
+      <p class="flex-row">Client</p>
+      <p class="flex-row">Unit</p>
+      <p class="flex-row">Unit type</p>
+      <p class="flex-row">Unit price</p>
+      <p class="flex-row">Variable revenue</p>
+      <p class="flex-row">Fixed revenue</p>
+      <p class="flex-row">Deposit</p>
+      <p class="flex-row">Tax</p>
+      <p class="flex-row">Billed Expenses</p>
+      <p class="flex-row">Other Expenses</p>
+      <p class="flex-row">Billed Revenue</p>
+      <p class="flex-row">Invoice number</p>
+      <p class="flex-row">Creating date</p>
+      <p class="flex-row">Sending date</p>
+      <p class="flex-row">Dunning date</p>
+      <p class="flex-row">Payment date</p>
+      <p class="flex-row">Comments</p>
+    </div>
+    <div id="numbers_sales_data">
+      <% @invoices.each do |invoice| %>
+        <div class="flex-table" role="rowgroup">
+          <p class="flex-row" role="cell"><%= link_to invoice.training.title, training_path(invoice.training) %></p>
+          <p class="flex-row" role="cell"><%= invoice.training.client_company.name %></p>
+          <p class="flex-row" role="cell">
+            <%= invoice.invoice_lines.where(product_id: [1, 2, 9]).first.quantity %>
+          </p>
+          <p class="flex-row" role="cell">
+            <% if invoice.invoice_lines.where(product_id: 1).present? %>
+              <%= 'h' %>
+            <% elsif invoice.invoice_lines.where(product_id: 2).present? %>
+              <%= 'd' %>
+            <% end %>
+          </p>
+          <p class="flex-row" role="cell">
+            <% if invoice.invoice_lines.where(product_id: 1).present? %>
+              <%= invoice.invoice_lines.where(product_id: 1).first&.net_amount %>
+            <% elsif invoice.invoice_lines.where(product_id: 2).present? %>
+              <%= invoice.invoice_lines.where(product_id: 2).first&.net_amount %>
+            <% end %>
+          </p>
+          <p class="flex-row" role="cell">
+            <% variable_revenue = invoice.invoice_lines.where(product_id: [1, 2]).first&.net_amount %>
+            <%= variable_revenue %>
+          </p>
+          <p class="flex-row" role="cell">
+            <% fixed_revenue = 0 %>
+            <% invoice.invoice_lines.where(product_id: 3).each do |line| %>
+              <% fixed_revenue += line.net_amount * line.quantity %>
+            <% end %>
+            <%= fixed_revenue %>
+          </p>
+          <p class="flex-row" role="cell">
+            <% deposit = 0 %>
+            <% invoice.invoice_lines.where(product_id: 8).each do |line| %>
+              <% deposit += line.net_amount * line.quantity %>
+            <% end %>
+            <%= deposit %>
+          </p>
+          <p class="flex-row" role="cell">
+            <%= invoice.tax_amount %>
+          </p>
+          <p class="flex-row" role="cell">
+            <% expenses = 0 %>
+            <% invoice.invoice_lines.where(product_id: [4,5,6]).each do |line| %>
+              <% expenses += line.net_amount * line.quantity %>
+            <% end %>
+            <%= expenses %>
+          </p>
+          <p class="flex-row" role="cell">
+            <%= variable_revenue + fixed_revenue + expenses %>
+          </p>
+          <p class="flex-row" role="cell">
+            <%= invoice.uuid %>
+          </p>
+          <p class="flex-row" role="cell"><%= invoice.created_at.strftime('%d/%m/%Y') %></p>
+          <p class="flex-row" role="cell"><%= invoice.sending_date&.strftime('%d/%m/%Y') %></p>
+          <p class="flex-row" role="cell"><%= invoice.dunning_date&.strftime('%d/%m/%Y') %></p>
+          <p class="flex-row" role="cell"><%= invoice.payment_date&.strftime('%d/%m/%Y') %></p>
+          <p class="flex-row" role="cell">
+
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

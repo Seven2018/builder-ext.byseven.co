@@ -6,7 +6,7 @@
     <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
       <div class="page-controls-buttons flex-row-between-centered">
         <button class="btn btn-edit-yellow btn-icon" data-toggle='modal' data-target='#editMod'><i class="fas fa-pen"></i></button>
-        <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: "btn btn-edit-yellowbtn-edit-red btn-icon", method: :delete, data: { confirm: 'Are you sure ?'} do %>
+        <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: "btn btn-edit-red btn-icon", method: :delete, data: { confirm: 'Are you sure ?'} do %>
           <i class="fas fa-trash-alt"></i>
         <% end %>
         <% unless @workshop.title.split(' ').first == 'Pause' %>
