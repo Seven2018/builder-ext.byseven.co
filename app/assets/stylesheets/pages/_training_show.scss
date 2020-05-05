@@ -22,7 +22,7 @@
 .training-info {
   background-color: white;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 5rem;
 
   @include from-large {
     text-align: left;
@@ -50,6 +50,7 @@
   display: flex;
   justify-content: center;
   z-index: 1001;
+  margin-bottom: 5rem;
 
   @include from-large {
     justify-content: flex-end;

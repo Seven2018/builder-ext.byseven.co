@@ -17,7 +17,7 @@
         <% end %>
       </ul>
       <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-        <button id='show_library' class='btn btn-edit-green btn-icon'><i class="fas fa-book"></i></i></button>
+        <button class='show_library btn btn-edit-green btn-icon'><i class="fas fa-book"></i></button>
       <% end %>
     </div>
   </div>
@@ -57,13 +57,22 @@
       <%= render 'workshops/index', session: @session %>
     <% end %>
   </div>
+  <div class="session-info-footer">
+    <% if ['super admin', 'admin', 'training manager, sevener+'].include? current_user.access_level %>
+      <button class='show_library btn btn-edit-yellow'>Add a Workshop</button>
+    <% else %>
+      <%= link_to training_session_workshops_path(@session.training, @session), method: :post, remote: true do %>
+        <button class='btn btn-edit-yellow'>Add a Workshop</button>
+      <% end %>
+    <% end %>
+  </div>
   <div class="comment-box">
     <div class="message-box">
       <h4>Ajouter un message</h4>
       <%= simple_form_for [@session.training, @session, @comment] do |f| %>
         <%= f.input :object, placeholder: "Objet", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
         <%= f.input :content, placeholder: "Message", input_html: { style: "width: 100%; heigth: 50px;"}, label: false %>
-        <div class='center-button'> <%= f.submit 'Publier', class: 'btn btn-edit-yellow'%> </div>
+        <div class='center-button'> <%= f.submit 'Publier', class: 'btn btn-edit-yellow'%></div>
       <% end %>
     </div>
     <div class='log-box'>
@@ -187,11 +196,13 @@
 </div>
 
 <script>
-  var button_show = document.getElementById('show_library');
+  var button_show = document.querySelectorAll('.show_library');
   var button_close = document.getElementById('close_library');
   var library = document.getElementById('library');
-  button_show.addEventListener('click', (event) => {
-    library.style.height = '100vh';
+  button_show.forEach(function(item) {
+    item.addEventListener('click', (event) => {
+      library.style.height = '100vh';
+    })
   })
   button_close.addEventListener('click', (event) => {
     library.style.height = '0px';

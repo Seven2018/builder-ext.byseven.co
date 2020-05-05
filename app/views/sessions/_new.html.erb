@@ -8,16 +8,16 @@
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [@training, Session.new] do |f| %>
       <div class='mod-date'>
-        <%= f.input :title %>
-        <%= f.input :attendee_number, input_html: { min: 0, style: 'width:12rem;' }, label: 'Participants', default: 0 %>
+        <%= f.input :title, input_html: { style: 'width:30rem;' } %>
+        <%= f.input :attendee_number, input_html: { min: 0, style: 'width:11rem;' }, label: 'Participants', default: 0 %>
       </div>
       <div class="mod-date">
-        <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
-        <%= f.input :duration, label: "Duration (hours)", input_html: { min: 0, style: 'width:12rem;' }, default: 0, allow_blank: false %>
+        <%= f.input :date, as: :string, input_html: { class: 'datepicker', style: 'width:11rem;'} %>
+        <%= f.input :duration, label: "Duration (hours)", input_html: { min: 0, style: 'width:11rem;' }, default: 0, allow_blank: false %>
       </div>
       <div class='mod-date'>
-        <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: 'timepicker'}, default: Time.parse('9:00') %>
-        <%= f.input :end_time, label: 'End time', as: :time, minute_step: 15, input_html: { class: 'timepicker'}, default: Time.parse('17:00') %>
+        <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: 'timepicker', style: 'width:5rem;'}, default: Time.parse('9:00') %>
+        <%= f.input :end_time, label: 'End time', as: :time, minute_step: 15, input_html: { class: 'timepicker', style: 'width:5rem;'}, default: Time.parse('17:00') %>
       </div>
       <%= f.input :address %>
       <%= f.input :room %>
