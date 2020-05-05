@@ -1,20 +1,22 @@
-<div class="container-new-form">
+<div class="container-seven-large">
   <div id='page-controls'>
     <%= link_to trainings_path, class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
   </div>
-  <h3>Add a new training</h3>
+  <div class="container-new-form">
+    <h3>New Training</h3>
 
-  <%= simple_form_for @training do |f| %>
-    <%= f.input :title %>
-    <%= f.input :client_contact_id, :collection => ClientContact.all.joins(:client_company).order('client_companies.name ASC, client_contacts.name ASC'), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name.split.map(&:capitalize).join(' ')}" }, :label => 'Customer contact', :include_blank => false %>
-    <div class='form-group' style='display:flex;justify-content:space-between;'>
-      <%= f.label :mode %>
-      <div style='width:75%;display:flex;justify-content: space-around;align-items:center;'>
-        <%= f.collection_radio_buttons :mode, [['Company', 'Company'], ['School', 'School']], :first, :last, checked: ['Company', 'Company'] %>
+    <%= simple_form_for @training do |f| %>
+      <%= f.input :title %>
+      <%= f.input :client_contact_id, :collection => ClientContact.all.joins(:client_company).order('client_companies.name ASC, client_contacts.name ASC'), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name.split.map(&:capitalize).join(' ')}" }, :label => 'Customer contact', :include_blank => false %>
+      <div class='form-group' style='display:flex;justify-content:space-between;'>
+        <%= f.label :mode %>
+        <div style='width:75%;display:flex;justify-content: space-around;align-items:center;'>
+          <%= f.collection_radio_buttons :mode, [['Company', 'Company'], ['School', 'School']], :first, :last, checked: ['Company', 'Company'] %>
+        </div>
       </div>
-    </div>
-    <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow' %> </p>
-  <% end %>
+      <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow' %> </p>
+    <% end %>
+  </div>
 </div>

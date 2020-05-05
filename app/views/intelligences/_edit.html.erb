@@ -10,16 +10,14 @@
       <%= f.input :name %>
       <%= f.input :description, as: :text, :input_html => {:rows => 10} %>
   </div>
-  <div class="modal-footer">
-    <div>
-      <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow' %>
-      <% end %>
-      <%= link_to intelligence_path(intelligence), method: :delete, data: { confirm: 'Are you sure ?'} do %>
-          <button class="btn btn-edit-yellow">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        <% end %>
-    </div>
+  <div class="modal-control">
+    <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow', data: { toggle: 'tooltip' }, title: 'Save' %>
+    <% end %>
+    <%= link_to intelligence_path(intelligence), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
+      <button class="btn btn-edit-yellow">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    <% end %>
   </div>
 
     </div>

@@ -13,23 +13,23 @@
       </div>
       <div class='module-card-controls'>
         <p><%= mod.duration %> min</p>
-        <%= link_to edit_content_content_module_path(mod.content, mod), class: 'btn return-arrow' do %>
+        <%= link_to edit_content_content_module_path(mod.content, mod), data: { toggle: 'tooltip' }, title: 'Edit', class: 'btn return-arrow' do %>
           <i class="fas fa-pen"></i>
         <% end %>
-        <%= link_to content_content_module_path(mod.content, mod), method: :delete, data: { confirm: 'Are you sure ?'}, class: 'btn return-arrow' do %>
+        <%= link_to content_content_module_path(mod.content, mod), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete', class: 'btn return-arrow' do %>
           <i class="fas fa-trash-alt"></i>
         <% end %>
         <% if mod.position == 1 %>
           <a class='btn return-arrow'><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
         <% else %>
-          <%= link_to content_move_up_content_module_path(mod.content, mod), remote: true, class: 'btn return-arrow' do %>
+          <%= link_to content_move_up_content_module_path(mod.content, mod), data: { toggle: 'tooltip' }, title: 'Move up', remote: true, class: 'btn return-arrow' do %>
             <i class="fas fa-arrow-up"></i>
           <% end %>
         <% end %>
         <% if mod.position ==  @content.content_modules.count %>
           <a class='btn return-arrow'><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
         <% else %>
-          <%= link_to content_move_down_content_module_path(mod.content, mod), remote: true, class: 'btn return-arrow' do %>
+          <%= link_to content_move_down_content_module_path(mod.content, mod), data: { toggle: 'tooltip' }, title: 'Move down', remote: true, class: 'btn return-arrow' do %>
             <i class="fas fa-arrow-down"></i>
           <% end %>
         <% end %>

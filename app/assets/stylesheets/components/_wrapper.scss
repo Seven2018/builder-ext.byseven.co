@@ -40,7 +40,7 @@ a {
   @include from-large {
     padding-top: 3rem;
     margin-left: 22rem;
-    min-height: 100vh;
+    min-height: calc(100vh - 13rem);
     max-width: 122rem;
     width: calc(100vw - 22rem);
   }
@@ -62,9 +62,32 @@ a {
 
   @include from-large {
     margin-top: 0;
-    margin-left: 22rem;
     min-width: 108rem;
-    padding: 8.5rem 40rem;
+    min-height: 50vh;
+    padding: 5rem 40rem;
+  }
+
+  h3, div.form-group {
+    margin-bottom: 3rem;
+  }
+}
+
+.container-new-form-large {
+  margin-top: 3rem;
+  width: 100%;
+  min-height: 100vh;
+  background-color: white;
+  padding: 5rem;
+
+  @include from-large {
+    margin-top: 0;
+    min-width: 108rem;
+    min-height: 50vh;
+    padding: 0 5rem;
+  }
+
+  h3, div.form-group {
+    margin-bottom: 3rem;
   }
 }
 

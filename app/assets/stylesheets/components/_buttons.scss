@@ -114,8 +114,9 @@
   justify-content: center !important;
   align-items: center !important;
   padding: 0 !important;
-  min-width: 0 !important;
   box-shadow: none !important;
+  min-width: 4rem !important;
+  min-height: 4rem !important;
 
   &::after {
     z-index: 100;
@@ -176,7 +177,8 @@
   justify-content: center !important;
   align-items: center !important;
   padding: 0 !important;
-  min-width: 0 !important;
+  min-width: 4rem !important;
+  min-height: 4rem !important;
 
   &::after {
     z-index: 100;

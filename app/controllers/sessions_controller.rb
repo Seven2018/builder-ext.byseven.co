@@ -108,6 +108,7 @@ class SessionsController < ApplicationController
   def copy_here
     authorize @session
     new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at"))
+    new_session.date = @session.date + 1.days
     if new_session.save
       @session.workshops.each do |workshop|
         new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))

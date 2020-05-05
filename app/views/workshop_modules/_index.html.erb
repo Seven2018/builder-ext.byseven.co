@@ -18,25 +18,25 @@
             <a data-toggle='modal' data-target='#consultUser<%= mod.user.id %>'><img src='<%= "#{mod.user.picture}" %>' alt="" class='avatar-sm avatar-workshop-module-card'></a>
           <% end %>
           <p><%= mod.duration %> min</p>
-          <%= link_to edit_training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), class: 'btn return-arrow' do %>
+          <%= link_to edit_training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), data: { toggle: 'tooltip' }, title: 'Edit', class: 'btn return-arrow' do %>
             <i class="fas fa-pen"></i>
           <% end %>
           <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-            <a data-toggle='modal' data-target='#copyWorkshopModule<%= mod.id %>'><button class='btn return-arrow' id="<%= mod.id %>"><i class="fas fa-copy"></i></button></a>
-            <%= link_to training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), method: :delete, data: { confirm: 'Are you sure ?'}, class: 'btn return-arrow' do %>
+            <a data-toggle='modal' data-target='#copyWorkshopModule<%= mod.id %>'><button class='btn return-arrow' id="<%= mod.id %>" data-toggle='tooltip' title='Copy'><i class="fas fa-copy"></i></button></a>
+            <%= link_to training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete', class: 'btn return-arrow' do %>
               <i class="fas fa-trash-alt"></i>
             <% end %>
             <% if mod.position == 1 %>
               <a class='btn return-arrow'><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
             <% else %>
-              <%= link_to training_session_workshop_move_up_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), remote: true, class: 'btn return-arrow' do %>
+              <%= link_to training_session_workshop_move_up_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), remote: true, data: { toggle: 'tooltip' }, title: 'Move up', class: 'btn return-arrow' do %>
                 <i class="fas fa-arrow-up"></i>
               <% end %>
             <% end %>
             <% if mod.position ==  @workshop.workshop_modules.count %>
               <a class='btn return-arrow'><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
             <% else %>
-              <%= link_to training_session_workshop_move_down_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), remote: true, class: 'btn return-arrow' do %>
+              <%= link_to training_session_workshop_move_down_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), remote: true, data: { toggle: 'tooltip' }, title: 'Move down', class: 'btn return-arrow' do %>
                 <i class="fas fa-arrow-down"></i>
               <% end %>
             <% end %>

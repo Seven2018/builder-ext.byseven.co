@@ -15,8 +15,8 @@
         <%= f.label :training_id, 'Training', class: 'copy-form-hidden-label' %>
         <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title, options = {}, html_options = { class: "copy_training_id" } %>
       </div>
-      <div style='display:flex;justify-content:center;margin-top:2rem;'>
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
+      <div class='modal-control'>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Copy' do %>
           <i class="fas fa-copy"></i>
         <% end %>
       </div>

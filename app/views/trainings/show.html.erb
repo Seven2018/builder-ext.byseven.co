@@ -5,8 +5,8 @@
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <div class="page-controls-buttons flex-row-between-centered">
-        <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editTraining'><i class="fas fa-pen"></i></a>
-        <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#copyTraining'><i class="fas fa-copy"></i></a>
+        <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editTraining' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
+        <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#copyTraining' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></a>
         <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><%= link_to 'New estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
@@ -95,13 +95,15 @@
   </div>
   <div class="middle-info2">
     <p id='survey-link' class='btn btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
-    <%= simple_form_for @training, html: { class: "hidden", id: 'survey-form' } do |f| %>
-      <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
-        <%= f.input :satisfaction_survey, placeholder: 'Add a link to the survey', value: @training.satisfaction_survey, label: false, input_html: { style: 'width: 200px;'} %>
-        <%= button_tag type: 'submit', class: 'btn btn-add-user', input_html: { style: 'height: 3.5rem' } do %>
-          Update
-        <% end %>
-      </div>
+    <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+      <%= simple_form_for @training, html: { class: "hidden", id: 'survey-form' } do |f| %>
+        <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
+          <%= f.input :satisfaction_survey, placeholder: 'Add a link to the survey', value: @training.satisfaction_survey, label: false, input_html: { style: 'width: 200px;'} %>
+          <%= button_tag type: 'submit', class: 'btn btn-add-user', input_html: { style: 'height: 3.5rem' } do %>
+            Update
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
     <div>
       <% trainers = 0 %>
@@ -115,7 +117,7 @@
             <% session.users.each do |trainer| %>
               <% trainer_array << trainer %>
               <% unless trainer_array.count(trainer) > 1 %>
-                <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>'><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a></li>
+                <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>' data-toggle="tooltip" title="User Infos"><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a></li>
               <% end %>
             <% end %>
           <% end %>
@@ -141,9 +143,9 @@
                 <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
                 <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendee_number %></p></div>
                 <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
-                  <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>'><i class="fas fa-user-astronaut"></i></button>
-                  <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>'><i class="fas fa-pen"></i></button>
-                  <button class='edit-fafa session_copy' id="<%= session.id %>" data-toggle='modal' data-target='#copySession<%= session.id %>'><i class="fas fa-copy"></i></button>
+                  <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>' data-toggle="tooltip" title="Add Trainer"><i class="fas fa-user-astronaut"></i></button>
+                  <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></button>
+                  <button class='edit-fafa session_copy' id="<%= session.id %>" data-toggle='modal' data-target='#copySession<%= session.id %>' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></button>
                 <% end %>
               <% end %>
             </div>
@@ -265,11 +267,13 @@
   <% end %>
 <% end %>
 
-<script>
-  survey = document.getElementById('survey-link');
-  form = document.getElementById('survey-form');
-  survey.addEventListener('click', (event) => {
-    survey.classList.toggle('hidden');
-    form.classList.toggle('hidden');
-  })
-</script>
+<% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+  <script>
+    survey = document.getElementById('survey-link');
+    form = document.getElementById('survey-form');
+    survey.addEventListener('click', (event) => {
+      survey.classList.toggle('hidden');
+      form.classList.toggle('hidden');
+    })
+  </script>
+<% end %>
