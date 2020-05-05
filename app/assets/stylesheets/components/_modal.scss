@@ -42,6 +42,12 @@
   }
 }
 
+.modal-control {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 3rem;
+}
+
 .fa-user-plus {
   color: black;
   margin: 0;

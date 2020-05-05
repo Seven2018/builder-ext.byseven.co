@@ -5,7 +5,7 @@
     <% end %>
     <div class='flex-row-between-centered'>
       <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-        <a class='btn btn-edit-yellow btn-icon' data-toggle='modal' data-target='#editSession'><i class="fas fa-pen"></i></a>
+        <a class='btn btn-edit-yellow btn-icon' data-toggle='modal' data-target='#editSession' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
       <% end %>
       <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
       <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -17,7 +17,7 @@
         <% end %>
       </ul>
       <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-        <button class='show_library btn btn-edit-green btn-icon'><i class="fas fa-book"></i></button>
+        <button class='show_library btn btn-edit-green btn-icon' data-toggle="tooltip" title="Library"><i class="fas fa-book"></i></button>
       <% end %>
     </div>
   </div>
@@ -229,12 +229,3 @@
   </div>
 <% end %>
 </div>
-
-
-<!-- Modals -->
-
-<script>
-  $(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-  });
-</script>
