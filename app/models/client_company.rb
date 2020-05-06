@@ -11,7 +11,11 @@ class ClientCompany < ApplicationRecord
     end
     array = array.flatten(1).sort_by{ |x| x.title }
     array.map do |training|
-      training.title = training.title + ' - ' + Training.where(title: training.title).count.to_s
+      if training.sessions.empty?
+        training.title = training.title + ' : ' + Training.where(title: training.title).count.to_s + '(empty)'
+      else
+        training.title = training.title + ' : ' + training.sessions.order(date: :asc).first.date.strftime('%d/%m/%y') + ' - ' + training.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')
+      end
     end
     array
   end

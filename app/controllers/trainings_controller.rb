@@ -99,8 +99,8 @@ class TrainingsController < ApplicationController
     @new_training.client_contact_id = @client_contact.id
     if @new_training.save
       @training.sessions.each do |session|
-        new_session = Session.create(session.attributes.except("id", "created_at", "updated_at", "training_id", "date", "address", "room"))
-        new_session.update(training_id: @new_training.id, date: Date.today)
+        new_session = Session.create(session.attributes.except("id", "created_at", "updated_at", "training_id", "address", "room"))
+        new_session.update(training_id: @new_training.id)
         session.workshops.each do |workshop|
           new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
           new_workshop.update(session_id: new_session.id)

@@ -51,7 +51,9 @@
     </div>
     <div class='module-card-controls'>
       <a class="btn return-arrow" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>' data-toggle='tooltip' title='Edit'><i class="fas fa-pen"></i></a>
-      <button data-toggle='modal' data-target='#copyWorkshop<%= mod.id %>' class='btn return-arrow' id="<%= mod.id %>" data-toggle='tooltip' title='Copy'><i class="fas fa-copy"></i></button>
+      <%= link_to training_session_copy_form_workshop_path(mod.session.training, mod.session, mod), class: 'btn return-arrow btn-copy', data: { toggle: 'tooltip' }, title: 'Copy' do %>
+        <i class="fas fa-copy"></i>
+      <% end %>
       <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete', remote: true, class: 'btn return-arrow' do %>
         <i class="fas fa-trash-alt"></i>
       <% end %>
@@ -77,12 +79,6 @@
 <div class="modal fade" id="editWorkshop<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'workshops/edit', mod: mod  %>
-  </div>
-</div>
-
-<div class="modal fade" id="copyWorkshop<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 2rem">
-    <%= render 'workshops/copy', mod: mod %>
   </div>
 </div>
 <!-- End Modal -->

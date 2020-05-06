@@ -1,5 +1,5 @@
 class WorkshopModulesController < ApplicationController
-before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :move_up, :move_down, :viewer, :copy]
+before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :move_up, :move_down, :viewer, :copy_form, :copy]
 
   def show
     authorize @workshop_module
@@ -91,6 +91,10 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
 
   # "View" mode
   def viewer
+    authorize @workshop_module
+  end
+
+  def copy_form
     authorize @workshop_module
   end
 

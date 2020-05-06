@@ -41,6 +41,10 @@ class WorkshopPolicy < ApplicationPolicy
     true
   end
 
+  def copy_form?
+    check_access
+  end
+
   def copy?
     check_access
   end

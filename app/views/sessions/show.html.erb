@@ -6,6 +6,7 @@
     <div class='flex-row-between-centered'>
       <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
         <a class='btn btn-edit-yellow btn-icon' data-toggle='modal' data-target='#editSession' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
+        <button class='btn btn-edit-red btn-icon' id='btn-copy' data-toggle='modal' data-target='#copySession' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></button>
       <% end %>
       <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
       <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -50,7 +51,7 @@
       <i class="fas fa-users"> <%= @session.attendee_number %></i>
     <% end %>
   </div>
-  <div id="mods" style="min-height: 70vh;">
+  <div id="mods" style="min-height: 50vh;">
     <% if !@session.description.nil? %>
       <%= @session.description.html_safe %>
     <% else %>
@@ -212,6 +213,12 @@
 <div class="modal fade" id="editSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
     <%= render 'edit', session: @session %>
+  </div>
+</div>
+
+<div class="modal fade" id="copySession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" style="border-radius: 2rem">
+    <%= render 'sessions/copy', session: @session %>
   </div>
 </div>
 

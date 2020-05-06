@@ -28,9 +28,9 @@ class Training < ApplicationRecord
 
   def title_for_copy
     if self.sessions.empty?
-      self.title + ' - ' + Training.where(title: self.title).count.to_s
+      self.title + ' : ' + Training.where(title: self.title).count.to_s + '(empty)'
     else
-      self.title + ' - ' + Training.where(title: self.title).count.to_s
+      self.title + ' : ' + self.sessions.order(date: :asc).first.date.strftime('%d/%m/%y') + ' - ' + self.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')
     end
   end
 

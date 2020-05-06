@@ -6,6 +6,7 @@
     <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody">
+
     <%= simple_form_for :copy, url: training_session_workshop_copy_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), method: 'GET' do |f| %>
       <div class="copy-form-element">
         <%= f.label :client_company_id, 'Client' %>

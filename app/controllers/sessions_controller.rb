@@ -83,12 +83,15 @@ class SessionsController < ApplicationController
   end
 
   def copy
-    raise
     authorize @session
     training = Training.find(params[:copy][:training_id])
     new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at", "training_id", "address", "room"))
-    new_session.title = params[:copy][:rename] unless params[:copy][:rename].empty?
-    new_session.date = params[:copy][:date] unless params[:copy][:date].empty?
+    # new_session.title = params[:copy][:rename] unless params[:copy][:rename].empty?
+    # new_session.date = params[:copy][:date] unless params[:copy][:date].empty?
+    training.sessions.empty? ? (new_session.date = Date.today) : (new_session.date = training.sessions&.order(date: :asc)&.last&.date + 1.days)
+    new_session.training_id = training.id
+    new_session.address = ''
+    new_session.room = ''
     new_session.training_id = training.id
     if new_session.save
       @session.workshops.each do |workshop|
