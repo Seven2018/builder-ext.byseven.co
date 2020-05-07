@@ -121,6 +121,13 @@ class SessionTrainersController < ApplicationController
     redirect_to redirect_path(list: trainers_list, session_id: "|#{@session.id}|", to_delete: "%#{event_to_delete}%")
   end
 
+  def create_all
+    @session_trainer = SessionTrainer.new
+    authorize @session_trainer
+    @session = Session.find(params[:session_id])
+    event_to_delete = ''
+  end
+
   private
 
   def client_options

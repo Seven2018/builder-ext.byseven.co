@@ -127,6 +127,7 @@ class InvoiceItemsController < ApplicationController
     new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715)
     new_invoice_item.training_id = @training.id
     new_invoice_item.client_company_id = @training.client_company.id
+    new_invoice_item.status = 'En attente'
     if new_invoice_item.save
       @invoice_item.invoice_lines.each do |line|
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
