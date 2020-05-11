@@ -14,8 +14,8 @@
             <% end %>
           <% end %>
         </div>
-        <div style="display:flex;justify-content:center;margin-top:3rem;">
-          <%= button_tag :submit, class: 'btn btn-edit-green btn-icon' do %>
+        <div class='modal-control'>
+          <%= button_tag :submit, class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
             <i class="fas fa-save"></i>
           <% end %>
         </div>

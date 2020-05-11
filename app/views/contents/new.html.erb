@@ -4,15 +4,13 @@
       <i class="fas fa-arrow-left"></i>
     <% end %>
   </div>
-  <h3>Add a new Workshop</h3>
+  <div class="container-new-form">
+    <h3>Add a new Workshop</h3>
 
-  <%= simple_form_for @content do |f| %>
-    <%= f.input :title %>
-    <%= f.association :theme, collection: Theme.order('name ASC'), include_blank: false, allow_blank: false %>
-    <div class="center-button">
-      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
-        <i class="fas fa-save"></i>
-      <% end %>
-    </div>
-  <% end %>
+    <%= simple_form_for @content do |f| %>
+      <%= f.input :title %>
+      <%= f.association :theme, collection: Theme.order('name ASC'), include_blank: false, allow_blank: false %>
+      <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow' %> </p>
+    <% end %>
+  </div>
 </div>

@@ -22,13 +22,13 @@
       <div style='display:flex;justify-content:center;margin-top:2rem;'>
         <%= f.input :rename, placeholder: mod.title, label: 'Rename' %>
       </div>
-      <div style='display:flex;justify-content:center;margin-top:2rem;'>
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
+      <div class='modal-control'>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Copy' do %>
           <i class="fas fa-copy"></i>
         <% end %>
       </div>
       <script>
-        $('.return-arrow').click(function() {
+        $('.btn-copy').click(function() {
           id = $(this).attr('id');
           $('.copy-form-hidden-label').hide()
           $('.copy_training_id'+id).hide()

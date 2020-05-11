@@ -62,6 +62,7 @@ class TrainingsController < ApplicationController
     @training_ownership = TrainingOwnership.new(user: current_user, training: @training)
     authorize @training
     @training.refid = "#{Time.current.strftime('%y')}-#{'%04d' % (Training.where(created_at: Time.current.beginning_of_year..Time.current.end_of_year).count + 1)}"
+    @training.satisfaction_survey = 'shorturl.at/gqwCZ'
     if @training.save && @training_ownership.save
       Session.new(title: 'Session 1', date: @training.created_at, duration: 0, training_id: @training.id)
       redirect_to training_path(@training)
@@ -98,8 +99,8 @@ class TrainingsController < ApplicationController
     @new_training.client_contact_id = @client_contact.id
     if @new_training.save
       @training.sessions.each do |session|
-        new_session = Session.create(session.attributes.except("id", "created_at", "updated_at", "training_id", "date", "address", "room"))
-        new_session.update(training_id: @new_training.id, date: Date.today)
+        new_session = Session.create(session.attributes.except("id", "created_at", "updated_at", "training_id", "address", "room"))
+        new_session.update(training_id: @new_training.id)
         session.workshops.each do |workshop|
           new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
           new_workshop.update(session_id: new_session.id)

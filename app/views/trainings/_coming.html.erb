@@ -27,7 +27,7 @@
         </div>
         <div class="card-footer">
           <div>
-            <% training.users.each do |owner| %>
+            <% training.users.uniq.each do |owner| %>
               <img class='avatar-xs' src="<%= owner.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
             <% end %>
           </div>
@@ -35,7 +35,9 @@
             <% trainer_array = [] %>
             <% training.sessions.each do |session| %>
               <% session.users.each do |trainer| %>
-                <% trainer_array << trainer %>
+                <% unless training.users.include?(trainer) %>
+                  <% trainer_array << trainer %>
+                <% end %>
               <% end %>
             <% end %>
             <% trainer_array.uniq.first(3) do |trainer| %>

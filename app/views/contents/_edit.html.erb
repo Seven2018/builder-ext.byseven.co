@@ -9,11 +9,11 @@
     <%= simple_form_for @content do |f| %>
       <%= f.input :title %>
       <%= f.association :theme, collection: Theme.all, selected: @content.theme_id %>
-      <div style=" display: flex; justify-content: space-between;">
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
+      <div class='modal-control'>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
           <i class="fas fa-save"></i>
         <% end %>
-        <%= link_to content_path(@content), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+        <%= link_to content_path(@content), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
           <button class="btn btn-edit-red btn-icon">
             <i class="fas fa-trash-alt"></i>
           </button>

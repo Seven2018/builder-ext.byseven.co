@@ -9,8 +9,8 @@
     <%= simple_form_for :edit_client, url: edit_client_invoice_item_path(@invoice_item), method: 'GET' do |f| %>
       <%= f.label :client_company_id, 'OPCO' %>
       <%= f.collection_select :client_company_id, ClientCompany.where(client_company_type: 'OPCO').order(:name), :id, :name, options = { include_blank: true } %>
-      <div style=" display: flex; justify-content: space-between; margin-top: 1rem">
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
+      <div class='modal-control'>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
           <i class="fas fa-save"></i>
         <% end %>
       </div>

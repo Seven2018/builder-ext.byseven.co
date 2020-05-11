@@ -56,6 +56,10 @@
   align-items: center;
 }
 
+.invoice-desc-line {
+  padding-left : 3rem;
+}
+
 .invoice-desc-line-chapter {
   height: 4rem;
   background-color: #3AA2AC;
@@ -74,13 +78,13 @@
   display: flex;
   flex-direction: column !important;
   position: absolute;
-  left: -3.1rem;
+  left: 0;
   top: 0;
 }
 
 .invoice-line-comments {
   color: black;
-  padding-left: 1rem;
+  padding-left: 4rem;
   margin-bottom: 2rem;
 
   &:hover, a:hover {

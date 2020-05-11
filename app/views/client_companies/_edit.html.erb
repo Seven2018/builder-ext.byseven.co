@@ -16,11 +16,11 @@
       <%= f.input :client_company_type, label: "Type", collection: ["Company", "School", "OPCO"], include_blank: false %>
       <%= f.input :description, :input_html => {:rows => 5} %>
       <%= f.input :logo, label: 'Logo URL' %>
-      <div style=" display: flex; justify-content: space-between;">
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
+      <div class='modal-control'>
+        <%= button_tag type: 'submit', data: { toggle: 'tooltip' }, title: 'Save', class: 'btn btn-edit-green btn-icon' do %>
           <i class="fas fa-save"></i>
         <% end %>
-        <%= link_to client_company_path(@client_company), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+        <%= link_to client_company_path(@client_company), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
           <button class="btn btn-edit-red btn-icon">
             <i class="fas fa-trash-alt"></i>
           </button>

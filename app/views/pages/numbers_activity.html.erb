@@ -1,6 +1,11 @@
 <div class="container-seven-large">
+  <div id="page-controls">
+    <h1>Numbers : Activity</h1>
+    <div id="page-buttons">
+      <%= link_to 'Export', numbers_activity_path(format: :csv, starts: @starts_at, ends: @ends_at), class: 'btn btn-edit-green' %>
+    </div>
+  </div>
   <div id="numbers_activity_header">
-    <h1>Numbers : Training</h1>
     <br>
     <%= simple_form_for :numbers_activity, url: numbers_activity_path, method: 'GET' do |f| %>
       <%= f.input :starts_at, as: :string, input_html: { class: 'datepicker', value: Date.today.beginning_of_year }, label: 'Starting date' %>

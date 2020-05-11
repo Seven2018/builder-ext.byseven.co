@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   # get 'session_trainers/new'
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   get 'numbers_activity', to: 'pages#numbers_activity', as: 'numbers_activity'
+  get 'numbers_sales', to: 'pages#numbers_sales', as: 'numbers_sales'
+  get 'overlord', to: 'pages#overlord', as: 'overlord'
   resources :users
   root to: 'pages#home'
   get 'survey', to: 'pages#survey', as: 'survey'
@@ -50,12 +52,14 @@ Rails.application.routes.draw do
       get 'workshop_viewer/:id', to: 'workshops#viewer', as: 'workshop_viewer'
       get 'workshop/:id/move_up', to: "workshops#move_up", as: "move_up_workshop"
       get 'workshop/:id/move_down', to: "workshops#move_down", as: "move_down_workshop"
+      get 'workshop/:id/copy_form', to: "workshops#copy_form", as: "copy_form_workshop"
       get 'workshop/:id/copy', to: "workshops#copy", as: "copy_workshop"
       resources :workshops, only: [:show, :create, :edit, :update, :destroy] do
         resources :workshop_modules
         get 'workshop_module_viewer/:id', to: 'workshop_modules#viewer', as: 'workshop_module_viewer'
         get 'workshop_module/:id/move_up', to: "workshop_modules#move_up", as: "move_up_workshop_module"
         get 'workshop_module/:id/move_down', to: "workshop_modules#move_down", as: "move_down_workshop_module"
+        get 'workshop_module/:id/copy_form', to: 'workshop_modules#copy_form', as: 'copy_form_workshop_module'
         get 'workshop_module/:id/copy', to: 'workshop_modules#copy', as: 'copy_workshop_module'
         resources :theory_workshops, only: [:create, :destroy]
       end

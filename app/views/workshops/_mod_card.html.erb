@@ -49,29 +49,29 @@
         <p class='error'>Attention au rythme</p>
       <% end %>
     </div>
-    <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-      <div class='module-card-controls'>
-        <a class="btn return-arrow" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>'><i class="fas fa-pen"></i></a>
-        <button data-toggle='modal' data-target='#copyWorkshop<%= mod.id %>' class='btn return-arrow' id="<%= mod.id %>"><i class="fas fa-copy"></i></button>
-        <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?'}, remote: true, class: 'btn return-arrow' do %>
-          <i class="fas fa-trash-alt"></i>
+    <div class='module-card-controls'>
+      <a class="btn return-arrow" data-toggle='modal' data-target='#editWorkshop<%= mod.id %>' data-toggle='tooltip' title='Edit'><i class="fas fa-pen"></i></a>
+      <%= link_to training_session_copy_form_workshop_path(mod.session.training, mod.session, mod), class: 'btn return-arrow btn-copy', data: { toggle: 'tooltip' }, title: 'Copy' do %>
+        <i class="fas fa-copy"></i>
+      <% end %>
+      <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete', remote: true, class: 'btn return-arrow' do %>
+        <i class="fas fa-trash-alt"></i>
+      <% end %>
+      <% if mod.position == 1 %>
+        <a class='btn return-arrow'><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
+      <% else %>
+        <%= link_to training_session_move_up_workshop_path(mod.session.training, mod.session, mod), data: { toggle: 'tooltip' }, title: 'Move up', remote: true, class: 'btn return-arrow' do %>
+          <i class="fas fa-arrow-up"></i>
         <% end %>
-        <% if mod.position == 1 %>
-          <a class='btn return-arrow'><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
-        <% else %>
-          <%= link_to training_session_move_up_workshop_path(mod.session.training, mod.session, mod), remote: true, class: 'btn return-arrow' do %>
-            <i class="fas fa-arrow-up"></i>
-          <% end %>
+      <% end %>
+      <% if mod.position ==  @session.workshops.count %>
+        <a class='btn return-arrow'><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
+      <% else %>
+        <%= link_to training_session_move_down_workshop_path(mod.session.training, mod.session, mod), data: { toggle: 'tooltip' }, title: 'Move down', remote: true, class: 'btn return-arrow' do %>
+          <i class="fas fa-arrow-down"></i>
         <% end %>
-        <% if mod.position ==  @session.workshops.count %>
-          <a class='btn return-arrow'><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
-        <% else %>
-          <%= link_to training_session_move_down_workshop_path(mod.session.training, mod.session, mod), remote: true, class: 'btn return-arrow' do %>
-            <i class="fas fa-arrow-down"></i>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 
@@ -79,12 +79,6 @@
 <div class="modal fade" id="editWorkshop<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'workshops/edit', mod: mod  %>
-  </div>
-</div>
-
-<div class="modal fade" id="copyWorkshop<%= mod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 2rem">
-    <%= render 'workshops/copy', mod: mod %>
   </div>
 </div>
 <!-- End Modal -->

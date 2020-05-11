@@ -17,7 +17,7 @@
     <%= f.input :action2_id, collection: Action.all, label: 'Action 2' %>
     <%= f.input :comments, input_html: { style: 'width:100%;' } %>
     <p class="center-button">
-      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
         <i class="fas fa-save"></i>
       <% end %>
     </p>

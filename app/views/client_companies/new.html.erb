@@ -4,21 +4,19 @@
       <i class="fas fa-arrow-left"></i>
     <% end %>
   </div>
-  <h3>Add a client company or school</h3>
-  <%= simple_form_for @client_company do |f| %>
-    <%= f.input :name %>
-    <div style='display:flex;justify-content:space-between;'>
-      <%= f.input :address, placeholder: 'ex: 5 rue Moret' %>
-      <%= f.input :zipcode, input_html: { maxlength: 5 } %>
-      <%= f.input :city, placeholder: 'ex: Paris' %>
-    </div>
-    <%= f.input :client_company_type, collection: ["Company", "School", "OPCO"], include_blank: false %>
-    <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
-    <%= f.input :logo, label: 'Logo URL' %>
-    <div class="center-button">
-      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
-        <i class="fas fa-save"></i>
-      <% end %>
-    </div>
-  <% end %>
+  <div class="container-new-form-large">
+    <h3>Add a client company or school</h3>
+    <%= simple_form_for @client_company do |f| %>
+      <%= f.input :name %>
+      <div style='display:flex;justify-content:space-between;'>
+        <%= f.input :address, placeholder: 'ex: 5 rue Moret' %>
+        <%= f.input :zipcode, input_html: { maxlength: 5 } %>
+        <%= f.input :city, placeholder: 'ex: Paris' %>
+      </div>
+      <%= f.input :client_company_type, collection: ["Company", "School", "OPCO"], include_blank: false %>
+      <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
+      <%= f.input :logo, label: 'Logo URL' %>
+      <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow' %> </p>
+    <% end %>
+  </div>
 </div>

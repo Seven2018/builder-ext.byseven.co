@@ -13,7 +13,7 @@
         <% end %>
         <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
           <%= link_to new_theory_path do %>
-            <button class="btn btn-edit">New Theory</button>
+            <button class="btn btn-edit-yellow">New Theory</button>
           <% end %>
         <% end %>
       </div>

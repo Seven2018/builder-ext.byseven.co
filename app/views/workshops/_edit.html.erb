@@ -19,11 +19,11 @@
       </div>
       <%= f.label :description %>
       <%= f.text_area :description, style: 'width: 100%; height: 300px;' %>
-      <div style=" display: flex; justify-content: space-between;">
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
+      <div class='modal-control'>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
           <i class="fas fa-save"></i>
         <% end %>
-        <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+        <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?', toggle: 'tooltip' }, title: 'Save' do %>
           <button class="btn btn-edit-red btn-icon">
             <i class="fas fa-trash-alt"></i>
           </button>

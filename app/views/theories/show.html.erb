@@ -3,7 +3,7 @@
     <%= link_to theories_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
     <div class="show-control-links">
       <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-        <%= link_to edit_theory_path, class: 'btn btn-edit-yellow btn-icon' do %>
+        <%= link_to edit_theory_path, data: { toggle: 'tooltip' }, title: 'Edit', class: 'btn btn-edit-yellow btn-icon' do %>
           <i class="fas fa-pen"></i>
         <% end %>
       <% end %>

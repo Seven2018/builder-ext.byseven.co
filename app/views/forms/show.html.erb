@@ -1,8 +1,8 @@
 <div class="container-seven-large-form">
-  <div id='page-controls'>
+  <div id='page-controls-form'>
     <% if user_signed_in? && (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
       <%= link_to training_forms_path(@training), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
-      <a class="btn btn-icon" data-toggle='modal' type='button' data-target='#editForm'><i class="fas fa-pen"></i></a>
+      <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editForm'><i class="fas fa-pen"></i></a>
     <% end %>
   </div>
   <div id='attendee-form-logo'>
@@ -31,7 +31,7 @@
           <% controller.redirect_to new_attendee_path(training_id: @training.id, form_id: @form.id, email: params[:search][:email]) %>
         <% else %>
           <%= f.input :email, label: 'Adresse email' %>
-          <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit' %> </p>
+          <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
         <% end %>
       <% end %>
     <% end %>

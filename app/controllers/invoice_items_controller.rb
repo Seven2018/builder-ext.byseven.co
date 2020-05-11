@@ -5,7 +5,7 @@ class InvoiceItemsController < ApplicationController
   def index
     @invoice_items = policy_scope(InvoiceItem)
     index_filtered
-    @invoice_items = InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date]).order(:created_at) if params[:export].present?
+    @invoice_items = InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date]).order(:uuid) if params[:export].present?
     respond_to do |format|
       format.html
       format.csv { send_data @invoice_items.to_csv, filename: "Facture SEVEN #{params[:export][:start_date].split('-').join('')} - #{params[:export][:end_date].split('-').join('')}" }
@@ -127,6 +127,7 @@ class InvoiceItemsController < ApplicationController
     new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715)
     new_invoice_item.training_id = @training.id
     new_invoice_item.client_company_id = @training.client_company.id
+    new_invoice_item.status = 'En attente'
     if new_invoice_item.save
       @invoice_item.invoice_lines.each do |line|
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
@@ -149,7 +150,7 @@ class InvoiceItemsController < ApplicationController
   def credit
     authorize @invoice_item
     credit = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at"))
-    credit.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.count+715)
+    credit.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count + 715)
     if credit.save
       @invoice_item.invoice_lines.each do |line|
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
