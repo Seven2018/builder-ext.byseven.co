@@ -33,7 +33,7 @@
   <% if (params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
     <div class='container-seven-large-form'>
       <div class="session-form-card-special center-button">
-        <div class="session-form-card-left">
+        <div class="session-form-card-left-special">
           <img src="/assets/big_mamma_1.png" alt="" style='height:100%;width:100%;object-fit:cover;'>
         </div>
         <div class="session-form-card-right-special">
@@ -69,11 +69,19 @@
                 <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
               <% end %>
             </div>
+            <div class="flex-row-between-centered" style='width: 100%;'>
+              <p>Je suis intéressé mais pas disponible sur les dates proposées</p>
+              <% if AttendeeInterest.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, training_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').id).empty? %>
+                <%= link_to 'Je suis interessé', new_attendee_interest_path(training_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').id, attendee_id: Attendee.find_by(email: params[:search][:email]).id) , method: :post, class: 'btn btn-edit-yellow'%>
+              <% else %>
+                <%= link_to 'Je ne suis plus interessé', destroy_attendee_interest_path(training_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').id, attendee_id: Attendee.find_by(email: params[:search][:email]).id) , method: :delete, class: 'btn btn-edit-yellow'%>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
       <div class="session-form-card-special center-button">
-        <div class="session-form-card-left">
+        <div class="session-form-card-left-special">
           <img src="/assets/big_mamma_2.png" alt="" style='height:100%;width:100%;object-fit:cover;'>
         </div>
         <div class="session-form-card-right-special">
@@ -109,11 +117,19 @@
                 <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
               <% end %>
             </div>
+            <div class="flex-row-between-centered" style='width: 100%;'>
+              <p>Je suis intéressé mais pas disponible sur les dates proposées</p>
+              <% if AttendeeInterest.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, training_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').id).empty? %>
+                <%= link_to 'Je suis interessé', new_attendee_interest_path(training_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').id, attendee_id: Attendee.find_by(email: params[:search][:email]).id) , method: :post, class: 'btn btn-edit-yellow'%>
+              <% else %>
+                <%= link_to 'Je ne suis plus interessé', destroy_attendee_interest_path(training_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').id, attendee_id: Attendee.find_by(email: params[:search][:email]).id) , method: :delete, class: 'btn btn-edit-yellow'%>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
       <div class="session-form-card-special center-button">
-        <div class="session-form-card-left">
+        <div class="session-form-card-left-special">
           <img src="/assets/big_mamma_3.png" alt="" style='height:100%;width:100%;object-fit:cover;'>
         </div>
         <div class="session-form-card-right-special">
@@ -146,6 +162,14 @@
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
               <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3]).present? %>
                 <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+              <% end %>
+            </div>
+            <div class="flex-row-between-centered" style='width: 100%;'>
+              <p>Je suis intéressé mais pas disponible sur les dates proposées</p>
+              <% if AttendeeInterest.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, training_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').id).empty? %>
+                <%= link_to 'Je suis interessé', new_attendee_interest_path(training_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').id, attendee_id: Attendee.find_by(email: params[:search][:email]).id) , method: :post, class: 'btn btn-edit-yellow'%>
+              <% else %>
+                <%= link_to 'Je ne suis plus interessé', destroy_attendee_interest_path(training_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').id, attendee_id: Attendee.find_by(email: params[:search][:email]).id) , method: :delete, class: 'btn btn-edit-yellow'%>
               <% end %>
             </div>
           </div>

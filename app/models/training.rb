@@ -4,6 +4,7 @@ class Training < ApplicationRecord
   has_many :training_ownerships, dependent: :destroy
   has_many :users, through: :training_ownerships
   has_many :session_trainers, through: :sessions
+  has_many :attendee_interests, dependent: :destroy
   has_many :invoice_items
   has_many :invoices
   has_many :forms, dependent: :destroy

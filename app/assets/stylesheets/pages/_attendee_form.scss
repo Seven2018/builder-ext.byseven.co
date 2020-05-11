@@ -127,7 +127,7 @@
   flex-direction: column;
 
   @include from-large {
-    height: 45rem;
+    height: 55rem;
     width: 100%;
     flex-direction: row;
   }
@@ -157,6 +157,16 @@
 
   @include from-large {
     height: 45rem;
+    min-width: 45rem;
+  }
+}
+
+.session-form-card-left-special {
+  height: 300px;
+  width: 300px;
+
+  @include from-large {
+    height: 55rem;
     min-width: 45rem;
   }
 }
@@ -204,10 +214,10 @@
   padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
 
   @include from-large {
-    height: 45rem;
+    height: 55rem;
     width: 100%;
     padding: 2rem;
   }

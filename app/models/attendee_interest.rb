@@ -1,0 +1,2 @@
+class AttendeeInterest < ApplicationRecord
+end

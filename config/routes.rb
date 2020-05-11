@@ -85,7 +85,8 @@ Rails.application.routes.draw do
   # end
   get '/linkedin_scrape', to: 'users#linkedin_scrape', as: 'linkedin_scrape'
   get '/linkedin_scrape_callback', to: 'users#linkedin_scrape_callback', as: 'linkedin_scrape_callback'
-
+  post 'new_attendee_interest', to: 'attendee_interests#create', as: 'new_attendee_interest'
+  delete 'delete_attendee_interest', to: 'attendee_interests#destroy', as: 'destroy_attendee_interest'
   post 'new_session_attendee/big_mamma', to: 'session_attendees#create_big_mamma', as: 'new_big_mamma_session_attendee'
   delete 'delete_session_attendee/big_mamma', to: 'session_attendees#destroy_big_mamma', as: 'destroy_big_mamma_session_attendee'
 end
