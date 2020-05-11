@@ -20,6 +20,18 @@ class AttendeesController < ApplicationController
     end
   end
 
+  def create_big_mamma
+    @attendee = Attendee.new(attendee_params)
+    authorize @attendee
+    @attendee.update(client_company_id: ClientCompany.find_by(name: 'BIG MAMMA'))
+    if @attendee.save
+      redirect_to big_mamma_path(search: {email: @attendee.email})
+      flash[:notice] = 'Compte créé avec succès'
+    else
+      flash[:notice] = 'Erreur'
+    end
+  end
+
   # Creates new Attendees from an imported list
   def import
     @attendees = Attendee.import(params[:file])

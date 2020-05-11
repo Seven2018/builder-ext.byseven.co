@@ -1,10 +1,13 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:home, :survey]
+  skip_before_action :authenticate_user!, only: [:home, :survey, :big_mamma]
 
   def home
   end
 
   def overlord
+  end
+
+  def big_mamma
   end
 
   def survey

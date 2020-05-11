@@ -38,52 +38,43 @@
   </div>
   <% if (!@form.sessions.nil? && params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
     <div class='container-seven-large-form'>
-      <% @form.sessions.order('date ASC').each do |session| %>
-        <div class="session-form-card center-button">
-          <div class="session-form-card-left">
-            <img src="<%= session.image %>" alt="" style='height:100%;width:100%;object-fit:cover;'>
-          </div>
-          <div class="session-form-card-right">
-            <div>
-              <h3><strong><%= session.title %></strong></h3>
-              <h4><%= session.date.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %> <br> <%= session.room %> <br> <%= session.address %> </h4>
+      <% @form.sessions.order(date: :asc).sort_by(&:title).each do |session| %>
+        <% if @form.sessions.where(title: session.title).first == session %>
+          <div class="session-form-card center-button">
+            <div class="session-form-card-left">
+              <img src="<%= session.image %>" alt="" style='height:100%;width:100%;object-fit:cover;'>
             </div>
-            <p class='session-teaser'><%= session.teaser.html_safe %></p>
-            <div class="session-form-control">
-              <% if user_signed_in? && ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-                <p>Réservations : <%= session.attendees.count %> / <%= session.attendee_number %></p>
-              <% elsif (session.attendees.count >= session.attendee_number) && ((user_signed_in? && session.attendees.where(email: current_user.email).empty?) || (status && session.attendees.where(email: params[:search][:email]).empty?)) %>
-                <% if session.title.end_with?("NÉGOCIATION : DÉCOUVRIR LES TECHNIQUES DES FORCES SPÉCIALES") %>
-                  <p>Session complète <br> Ouverture d’une autre session prochainement</p>
-                <% elsif current_user.access_level == 'HR' %>
-                  <p>Réservations : <%= session.attendees.count %> / <%= session.attendee_number %></p>
-                <% else %>
-                  <p>Plus de places disponibles</p>
+            <div class="session-form-card-right">
+              <div>
+                <h3><strong><%= session.title %></strong></h3>
+                <h4><%= session.room %> <br> <%= session.address %> </h4>
+              </div>
+              <p class='session-teaser'><%= session.teaser.html_safe %></p>
+              <div class="session-form-control flex-column-between-left">
+                <h4>Dates disponibles</h4>
+                <% @form.sessions.where(title: session.title).each do |session_date| %>
+                  <div class="flex-row-between-centered" style='width: 100%;'>
+                    <% if user_signed_in? && ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+                      <p><%= session_date.date %> - Réservations : <%= session_date.attendees.count %> / <%= session_date.attendee_number %></p>
+                    <% elsif (session_date.attendees.count >= session_date.attendee_number) && ((user_signed_in? && session_date.attendees.where(email: current_user.email).empty?) || (status && session_date.attendees.where(email: params[:search][:email]).empty?)) %>
+                        <p><%= session_date.date %> : Plus de places disponibles</p>
+                    <% elsif (params[:search] && session_date.attendees.where(email: params[:search][:email]).empty?) %>
+                      <h4><%= session.date.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></h4>
+                      <% if SessionAttendee.joins(:attendee).where(attendees: {email: params[:search][:email]}, session_id: @form.sessions.where(title: session.title).map(&:id)).empty? %>
+                        <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session_date.id, attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+                      <% else %>
+                        <a class="btn btn-edit-green disabled" style='opacity: 0.7;'>S'inscrire</a>
+                      <% end %>
+                    <% elsif status %>
+                      <h4><%= session.date.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></h4>
+                      <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session_date.id, attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session_date.title}. Continuer ?"}, class: 'btn btn-edit-red' %>
+                    <% end %>
+                  </div>
                 <% end %>
-              <% elsif (params[:search] && session.attendees.where(email: params[:search][:email]).empty?) %>
-                <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session.id, attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
-                <% available = session.attendee_number - session.attendees.count %>
-                <% if available > 1 %>
-                  <p>Plus que <%= session.attendee_number - session.attendees.count %> places disponibles</p>
-                <% else %>
-                  <p>Plus que 1 place disponible</p>
-                <% end %>
-              <% elsif user_signed_in? && session.attendees.where(email: current_user.email).empty? %>
-                <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session.id, attendee_id: Attendee.find_by(email: current_user.email).id), method: :post, class: 'btn btn-edit-green' %>
-                <% available = session.attendee_number - session.attendees.count %>
-                <% if available > 1 %>
-                  <p>Plus que <%= session.attendee_number - session.attendees.count %> places disponibles</p>
-                <% else %>
-                  <p>Plus que 1 place disponible</p>
-                <% end %>
-              <% elsif user_signed_in? && !session.attendees.where(email: current_user.email).empty? %>
-                <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session.id, attendee_id: Attendee.find_by(email: current_user.email).id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session.title}. Continer ?"}, class: 'btn btn-edit-red' %>
-              <% elsif status%>
-                <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session.id, attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session.title}. Continer ?"}, class: 'btn btn-edit-red' %>
-              <% end %>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% end %>

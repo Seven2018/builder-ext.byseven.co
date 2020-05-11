@@ -10,7 +10,7 @@
   @include from-large {
     min-width: 1080px;
     padding: 3rem;
-    margin-top: 13rem;
+    margin-top: 3rem;
   }
 
   h2 {
@@ -118,13 +118,46 @@
   }
 }
 
+.session-form-card-special {
+  height: 600px;
+  width: 300px;
+  background-color: white;
+  box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+
+  @include from-large {
+    height: 45rem;
+    width: 100%;
+    flex-direction: row;
+  }
+
+  h3 {
+    color: #FFC451;
+    font-size : 2rem;
+
+    @include from-large {
+      font-size: 2.4rem;
+    }
+  }
+
+  .session-teaser {
+    text-align: left;
+    font-size: 1.2rem;
+
+    @include from-large {
+      font-size: 1.6rem;
+    }
+  }
+}
+
 .session-form-card-left {
   height: 300px;
   width: 300px;
 
   @include from-large {
     height: 45rem;
-    width: 45rem;
+    min-width: 45rem;
   }
 }
 
@@ -162,6 +195,38 @@
     @include from-large {
       font-size: 1.6rem;
     }
+  }
+}
+
+.session-form-card-right-special {
+  height: 300px;
+  width: 300px;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  @include from-large {
+    height: 45rem;
+    width: 100%;
+    padding: 2rem;
+  }
+
+  h4, p {
+    font-size: 1.2rem;
+    margin: 0;
+
+    @include from-large {
+      font-size: 1.6rem;
+    }
+  }
+
+  .session-form-card-title {
+    margin-bottom: 2rem;
+  }
+
+  .session-teaser {
+    margin-bottom: 2rem;
   }
 }
 

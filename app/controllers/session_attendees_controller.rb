@@ -1,5 +1,5 @@
 class SessionAttendeesController < ApplicationController
-  before_action :authenticate_user!, except: [:destroy, :create]
+  before_action :authenticate_user!, except: [:destroy, :create, :create_big_mamma, :destroy_big_mamma]
 
   def create
     @session = Session.find(params[:session_id])
@@ -17,6 +17,26 @@ class SessionAttendeesController < ApplicationController
     authorize @session_attendee
     @session_attendee.destroy
     flash[:notice] = "Vous êtes désinscrit de la session #{@session_attendee.session.title}."
+    redirect_back(fallback_location: root_path)
+  end
+
+  def create_big_mamma
+    skip_authorization
+    sessions = params[:sessions_ids]
+    sessions.each do |session|
+      SessionAttendee.create(session_id: session, attendee_id: params[:attendee_id])
+    end
+    flash[:notice] = "Vous êtes désormais inscrit à la formation #{Session.find(sessions.first).training.title.split('-').last}."
+    redirect_back(fallback_location: root_path)
+  end
+
+  def destroy_big_mamma
+    skip_authorization
+    sessions = params[:sessions_ids]
+    sessions.each do |session|
+      SessionAttendee.find_by(session_id: session, attendee_id: params[:attendee_id]).destroy
+    end
+    flash[:notice] = "Vous êtes désinscrit de la formation #{Session.find(sessions.first).training.title.split('-').last}."
     redirect_back(fallback_location: root_path)
   end
 end

@@ -59,7 +59,6 @@ class TrainingsController < ApplicationController
 
   def create
     @training = Training.new(training_params)
-    @training_ownership = TrainingOwnership.new(user: current_user, training: @training)
     authorize @training
     @training.refid = "#{Time.current.strftime('%y')}-#{'%04d' % (Training.where(created_at: Time.current.beginning_of_year..Time.current.end_of_year).count + 1)}"
     @training.satisfaction_survey = 'shorturl.at/gqwCZ'

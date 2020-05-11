@@ -1,0 +1,156 @@
+<div class="container-seven-large-form">
+  <div id='attendee-form-logo'>
+    <%= image_tag "SEVENLOGO_SQUARE2.png" %>
+    <img src="https://media.glassdoor.com/sqll/1563896/big-mamma-groupe-squarelogo-1511525722768.png" alt="" >
+  </div>
+  <div id='attendee-form'>
+    <% status = !params[:search].nil? %>
+    <div id="attendee-form-title">
+      <h1>Formulaire d'inscription</h1>
+      <h2 style='color: #FFC451;'><strong></strong></h2>
+    </div>
+    <% if !user_signed_in? %>
+      <%= simple_form_for :search, url: big_mamma_path, method: 'GET' do |f| %>
+        <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
+          <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
+          <div style='display:flex;justify-content:space-around;'>
+            <%= f.input :firstname, label: 'Prénom', input_html: { value: attendee.firstname}, disabled: true, required: false %>
+            <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname}, disabled: true, required: false %>
+          </div>
+          <div style='display:flex;justify-content:space-around;'>
+            <%= f.input :employee_id, label: 'N°ID', input_html: { value: attendee.employee_id }, disabled: true, required: false %>
+            <%= f.input :email, input_html: { value: attendee.email }, disabled: true, required: false %>
+          </div>
+        <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
+          <% controller.redirect_to new_big_mamma_attendee_path(client_company_id: ClientCompany.find_by(name: 'BIG MAMMA'), email: params[:search][:email]) %>
+        <% else %>
+          <%= f.input :email, label: 'Adresse email' %>
+          <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  <% if (params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
+    <div class='container-seven-large-form'>
+      <div class="session-form-card-special center-button">
+        <div class="session-form-card-left">
+          <img src="/assets/big_mamma_1.png" alt="" style='height:100%;width:100%;object-fit:cover;'>
+        </div>
+        <div class="session-form-card-right-special">
+          <div class="session-form-card-title">
+            <h4>FORMATION : FIDELISER SA CLIENTELE</h4>
+          </div>
+          <p class='session-teaser'>Quoi de plus gratifiant que de recevoir dans son restaurant une clientèle d’habitués ? Ils reviennent, le  sourire aux lèvres, s’attabler, comme de vieux amis ont plaisir à se retrouver ! <br><br>
+
+            L’art de fidéliser sa clientèle requiert travail et précision, tout comme l’art culinaire et celui du service.
+          Dans cet atelier vous découvrirez les grands principes de la relation commerciale : les 3 tensions, la pression du temps, la confiance,  la réputation et leurs mise en application concrète dans le monde de la restauration. <br><br>
+
+            Au travers de simulations engageantes vous en apprendrez plus sur ces rouages qui influencent votre quotidien et serez en mesure de les appréhender plutôt que de les subir.
+          </p>
+          <div class="session-form-control flex-column-between-left">
+            <h4>Dates disponibles</h4>
+            <div class="flex-row-between-centered" style='width: 100%;'>
+              <p>14 Mai de 10h à 12h30 & 15 Mai de 10h à 12h30</p>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3]).present? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1]).empty? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1]).present? %>
+                <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+              <% end %>
+            </div>
+            <div class="flex-row-between-centered" style='width: 100%;'>
+              <p>22 Mai Mai de 10h à 12h30 & de 14h à 16h30</p>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1]).present? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3]).empty? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3]).present? %>
+                <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="session-form-card-special center-button">
+        <div class="session-form-card-left">
+          <img src="/assets/big_mamma_2.png" alt="" style='height:100%;width:100%;object-fit:cover;'>
+        </div>
+        <div class="session-form-card-right-special">
+          <div class="session-form-card-title">
+            <h4>FORMATION : GERER UN CLIENT DIFFICILE</h4>
+          </div>
+          <p class='session-teaser'>Il n’est pas de client difficile, seulement des clients exigeants !
+            Plus facile à dire qu’à faire : gérer un client exigeant en plein rush peut s’avérer très difficile. <br><br>
+
+            Dans cet atelier vous serez confrontés à des mises en situations réelles et découvrirez la  méthodologie en 6 points permettant de passer d’un état Émotionnel à un état  Rationnel. <br><br>
+
+            Par un enchaînement de partage d’expériences sur des situations vécues vous découvrirez les réflexes qui vous permettront à minima de ne pas envenimer une  situation difficile  si ce n’est, au mieux, d’en sortir grandis avec votre interlocuteur.
+          </p>
+          <div class="session-form-control flex-column-between-left">
+            <h4>Dates disponibles</h4>
+            <div class="flex-row-between-centered" style='width: 100%;'>
+              <p>14 Mai de 14h à 16h30 & 15 Mai de 14h à 16h30</p>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3]).present? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1]).empty? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1]).present? %>
+                <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+              <% end %>
+            </div>
+            <div class="flex-row-between-centered" style='width: 100%;'>
+              <p>18 Mai de 10h à 12h30 & 19 Mai de 10h à 12h30</p>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1]).present? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3]).empty? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3]).present? %>
+                <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="session-form-card-special center-button">
+        <div class="session-form-card-left">
+          <img src="/assets/big_mamma_3.png" alt="" style='height:100%;width:100%;object-fit:cover;'>
+        </div>
+        <div class="session-form-card-right-special">
+          <div class="session-form-card-title">
+            <h4>FORMATION : S’ORGANISER EFFICACEMENT</h4>
+          </div>
+          <p class='session-teaser'>“On ne voit jamais ce qu’on a fait, toujours ce qu’il reste à faire.” – Marie Curie <br><br>
+
+            Adapté à la réalité du terrain, cet atelier vous fera découvrir comment mettre en place une organisation efficace pour servir les clients grâce à la matrice d’Eisenhower. <br><br>
+
+            Afin de mettre en place une gestion stratégique de votre temps, vous serez amenés à travailler sur les notions d’urgence et d’importance et prendrez des pour-actions concrets qui auront un impact immédiat sur votre rapidité d’exécution.
+          </p>
+          <div class="session-form-control flex-column-between-left">
+            <h4>Dates disponibles</h4>
+            <div class="flex-row-between-centered" style='width: 100%;'>
+              <p>18 Mai de 14h à 16h30 & 19 Mai de 14h à 16h30</p>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3]).present? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1]).empty? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1]).present? %>
+                <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+              <% end %>
+            </div>
+            <div class="flex-row-between-centered" style='width: 100%;'>
+              <p>20 Mai Mai de 10h à 12h30 & de 14h à 16h30</p>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1]).present? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3]).empty? %>
+                <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+              <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3]).present? %>
+                <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
