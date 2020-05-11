@@ -51,7 +51,7 @@
             <h4>Dates disponibles</h4>
             <div class="flex-row-between-centered" style='width: 100%;'>
               <p>14 Mai de 10h à 12h30 & 15 Mai de 10h à 12h30</p>
-              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3]).present? %>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3]).present? || SessionAttendee.where(title: ['BIG MAMMA - GERER UN CLIENT DIFFICILE', 'BIG MAMMA - S’ORGANISER EFFICACEMENT'], attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 1 %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
               <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1]).empty? %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
@@ -61,7 +61,7 @@
             </div>
             <div class="flex-row-between-centered" style='width: 100%;'>
               <p>22 Mai Mai de 10h à 12h30 & de 14h à 16h30</p>
-              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1]).present? %>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1]).present? || SessionAttendee.where(title: ['BIG MAMMA - GERER UN CLIENT DIFFICILE', 'BIG MAMMA - S’ORGANISER EFFICACEMENT'], attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 1 %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
               <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3]).empty? %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - FIDELISER SA CLIENTELE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
@@ -99,7 +99,7 @@
             <h4>Dates disponibles</h4>
             <div class="flex-row-between-centered" style='width: 100%;'>
               <p>14 Mai de 14h à 16h30 & 15 Mai de 14h à 16h30</p>
-              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3]).present? %>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3]).present? || SessionAttendee.where(title: ['BIG MAMMA - FIDELISER SA CLIENTELE', 'BIG MAMMA - S’ORGANISER EFFICACEMENT'], attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 1 %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
               <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1]).empty? %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
@@ -109,7 +109,7 @@
             </div>
             <div class="flex-row-between-centered" style='width: 100%;'>
               <p>18 Mai de 10h à 12h30 & 19 Mai de 10h à 12h30</p>
-              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1]).present? %>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1]).present? || SessionAttendee.where(title: ['BIG MAMMA - FIDELISER SA CLIENTELE', 'BIG MAMMA - S’ORGANISER EFFICACEMENT'], attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 1 %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
               <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3]).empty? %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - GERER UN CLIENT DIFFICILE').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
@@ -146,7 +146,7 @@
             <h4>Dates disponibles</h4>
             <div class="flex-row-between-centered" style='width: 100%;'>
               <p>18 Mai de 14h à 16h30 & 19 Mai de 14h à 16h30</p>
-              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3]).present? %>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3]).present? || SessionAttendee.where(title: ['BIG MAMMA - FIDELISER SA CLIENTELE', 'BIG MAMMA - GERER UN CLIENT DIFFICILE'], attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 1 %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
               <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1]).empty? %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
@@ -156,7 +156,7 @@
             </div>
             <div class="flex-row-between-centered" style='width: 100%;'>
               <p>20 Mai Mai de 10h à 12h30 & de 14h à 16h30</p>
-              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1]).present? %>
+              <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1]).present? || SessionAttendee.where(title: ['BIG MAMMA - FIDELISER SA CLIENTELE', 'BIG MAMMA - GERER UN CLIENT DIFFICILE'], attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 1 %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
               <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3]).empty? %>
                 <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: Training.find_by(title: 'BIG MAMMA - S’ORGANISER EFFICACEMENT').sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
