@@ -21,6 +21,10 @@ class InvoiceItemPolicy < ApplicationPolicy
     check_access
   end
 
+  def copy_here?
+    check_access
+  end
+
   def credit?
     ['super admin', 'admin'].include? user.access_level
   end

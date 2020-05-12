@@ -1,5 +1,5 @@
 class InvoiceItemsController < ApplicationController
-  before_action :set_invoice_item, only: [:show, :edit, :copy, :edit_client, :credit, :marked_as_send, :marked_as_paid, :marked_as_reminded, :destroy]
+  before_action :set_invoice_item, only: [:show, :edit, :copy, :copy_here, :edit_client, :credit, :marked_as_send, :marked_as_paid, :marked_as_reminded, :destroy]
 
   # Indexes with a filter option (see below)
   def index
@@ -15,11 +15,16 @@ class InvoiceItemsController < ApplicationController
   # Shows an InvoiceItem in html or pdf version
   def show
     authorize @invoice_item
+    if @invoice_item.invoice_lines.where(description: 'Nom').present?
+      uuid = @invoice_item.uuid + ' - ' + @invoice_item.invoice_lines.where(description: 'Nom').first.comments.split('>')[1].split('<')[0]
+    else
+      uuid = @invoice_item.uuid
+    end
     respond_to do |format|
       format.html
       format.pdf do
         render(
-          pdf: "#{@invoice_item.uuid}",
+          pdf: "#{uuid}",
           layout: 'pdf.html.erb',
           margin: { bottom: 45, top: 62 },
           header: { margin: { top: 0, bottom: 0 }, html: { template: 'invoice_items/header.pdf.erb' } },
@@ -124,9 +129,33 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     @training = Training.find(params[:copy][:training_id])
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "training_id", "client_company_id", "status", "sending_date", "payment_date", "dunning_date"))
-    new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715)
+    if @invoice_item.type == 'Invoice'
+      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715)
+    else
+      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count)
+    end
     new_invoice_item.training_id = @training.id
     new_invoice_item.client_company_id = @training.client_company.id
+    new_invoice_item.status = 'En attente'
+    if new_invoice_item.save
+      @invoice_item.invoice_lines.each do |line|
+        new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
+        new_invoice_line.update(invoice_item_id: new_invoice_item.id)
+      end
+      redirect_to invoice_item_path(new_invoice_item)
+    else
+      raise
+    end
+  end
+
+  def copy_here
+    authorize @invoice_item
+    new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
+    if @invoice_item.type == 'Invoice'
+      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715)
+    else
+      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count)
+    end
     new_invoice_item.status = 'En attente'
     if new_invoice_item.save
       @invoice_item.invoice_lines.each do |line|

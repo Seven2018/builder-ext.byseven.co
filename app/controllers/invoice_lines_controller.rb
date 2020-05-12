@@ -8,6 +8,8 @@ class InvoiceLinesController < ApplicationController
       @invoiceline = InvoiceLine.new(invoice_item_id: @invoice_item.id, product_id: @product.id, description: @product.name, quantity: 1, net_amount: @product.price, tax_amount: @product.tax, position: @invoice_item.invoice_lines.count + 1)
     elsif params[:type] == 'Chapter'
       @invoiceline = InvoiceLine.new(invoice_item_id: @invoice_item.id, description: 'Chapter', position: @invoice_item.invoice_lines.count + 1, comments: 'chapter')
+    elsif params[:description] == 'Nom'
+      @invoiceline = InvoiceLine.new(invoice_item_id: @invoice_item.id, description: 'Nom', position: @invoice_item.invoice_lines.count + 1)
     else
       @invoiceline = InvoiceLine.new(invoice_item_id: @invoice_item.id, description: 'Commentaires', position: @invoice_item.invoice_lines.count + 1)
     end

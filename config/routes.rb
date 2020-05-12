@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   end
   resources :invoice_items, only: [:index, :show, :edit, :update]
   get 'invoice_item/:id/copy', to: 'invoice_items#copy', as: 'copy_invoice_item'
+  get 'invoice_item/:id/copy_here', to: 'invoice_items#copy_here', as: 'copy_here_invoice_item'
   get 'invoice_item/:id/edit_client', to: 'invoice_items#edit_client', as: 'edit_client_invoice_item'
   get 'invoice_item/:id/credit', to: 'invoice_items#credit', as: 'credit_invoice_item'
   get 'invoices', to: 'invoice_items#invoice_index', as: 'invoices'
