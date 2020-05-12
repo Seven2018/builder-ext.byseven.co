@@ -19,7 +19,7 @@
       </div>
     </div>
     <ul class="client-contact-list">
-      <% @users.order(lastname: :asc).each do |user| %>
+      <% @users.each do |user| %>
         <li>
           <%= link_to user_path(user) do %>
             <div class="index-card-large index-card-small">
