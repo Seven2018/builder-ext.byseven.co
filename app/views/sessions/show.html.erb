@@ -210,6 +210,13 @@
   })
 </script>
 
+<% if params[:search].present? %>
+  <script>
+    var library = document.getElementById('library');
+    library.style.height = '100vh';
+  </script>
+<% end %>
+
 <div class="modal fade" id="editSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
     <%= render 'edit', session: @session %>
