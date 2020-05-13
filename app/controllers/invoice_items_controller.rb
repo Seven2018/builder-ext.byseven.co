@@ -182,7 +182,12 @@ class InvoiceItemsController < ApplicationController
   # Allows to change the ClientCompany of an InvoiceItem (OPCO cases)
   def edit_client
     authorize @invoice_item
-    @invoice_item.update(client_company_id: params[:edit_client][:client_company_id])
+    company = ClientCompany.find(params[:client_company_id])
+    if company.client_company_type == 'Company'
+      @invoice_item.update(client_company_id: company.opco_id, description: "#{company.id}")
+    elsif company.client_company_type == 'OPCO'
+      @invoice_item.update(client_company_id: @invoice_item.description.to_i, description: nil)
+    end
     redirect_to invoice_item_path(@invoice_item)
   end
 

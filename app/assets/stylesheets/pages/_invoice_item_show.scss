@@ -41,9 +41,9 @@
 }
 
 .invoice-item-button-opco {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: absolute !important;
+  top: .5rem;
+  right: .5rem;
 }
 
 #invoice-desc-header {

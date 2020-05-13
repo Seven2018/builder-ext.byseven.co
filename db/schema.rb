@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_11_153629) do
+ActiveRecord::Schema.define(version: 2020_05_13_085845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2020_05_11_153629) do
     t.string "zipcode"
     t.string "city"
     t.string "reference"
+    t.integer "opco_id"
   end
 
   create_table "client_contacts", force: :cascade do |t|

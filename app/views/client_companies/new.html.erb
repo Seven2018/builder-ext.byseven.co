@@ -14,9 +14,22 @@
         <%= f.input :city, placeholder: 'ex: Paris' %>
       </div>
       <%= f.input :client_company_type, collection: ["Company", "School", "OPCO"], include_blank: false %>
+      <%= f.input :opco_id, label: "OPCO", collection: ClientCompany.where(client_company_type: 'OPCO'), include_blank: true %>
       <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
       <%= f.input :logo, label: 'Logo URL' %>
       <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow' %> </p>
     <% end %>
   </div>
 </div>
+
+<script>
+  type = document.getElementById('client_company_client_company_type');
+  opco = document.querySelector('.client_company_opco_id');
+  type.addEventListener('change', (event) => {
+    if (type.value == 'Company') {
+      opco.classList.remove('hidden');
+    } else {
+      opco.classList.add('hidden');
+    }
+  });
+</script>

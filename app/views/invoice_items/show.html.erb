@@ -65,7 +65,11 @@
     </div>
     <div class="invoice-client">
       <% unless @invoice_item.type == 'InvoiceSevener' %>
-        <button class='invoice-item-button-opco' data-toggle='modal' data-target='#editClient'>OPCO ?</button>
+        <% if @invoice_item.client_company.client_company_type == 'Company' && @invoice_item.client_company.opco_id.present? %>
+          <%= link_to 'OPCO', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change to OPCO' %>
+        <% elsif @invoice_item.client_company.client_company_type == 'OPCO' && @invoice_item.description.present? %>
+            <%= link_to 'Client', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change back to Client' %>
+        <% end %>
         <div>
           <p><%= @invoice_item.client_company.name %></p>
           <p><%= @invoice_item.client_company.address %></p>
