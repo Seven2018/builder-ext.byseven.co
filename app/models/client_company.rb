@@ -3,7 +3,7 @@ class ClientCompany < ApplicationRecord
   has_many :invoice_items
   has_many :attendees, dependent: :destroy
   # has_one :children, class_name: "ClientCompany", foreign_key: "opco_id"
-  belongs_to :opco, class_name: "ClientCompany"
+  belongs_to :opco, class_name: "ClientCompany", optional: true
   validates :client_company_type, inclusion: { in: %w(Company School OPCO) }
 
   def trainings_for_copy
