@@ -7,7 +7,7 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for training do |f| %>
-      <%= f.input :title %>
+      <%= f.input :title, placeholder: 'ex : Intelligence Economique - Mai 2020' %>
       <%= f.input :client_contact_id, :collection => ClientContact.all.joins(:client_company).order('client_companies.name ASC, client_contacts.name ASC'), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name}" }, :label => 'Customer contact', :include_blank => false %>
       <div class='form-group' style='display:flex;justify-content:space-between;'>
         <%= f.label :mode %>
