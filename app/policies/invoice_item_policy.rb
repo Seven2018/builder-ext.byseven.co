@@ -41,6 +41,10 @@ class InvoiceItemPolicy < ApplicationPolicy
     check_access
   end
 
+  def new_estimate?
+    check_access
+  end
+
   def marked_as_send?
     check_access
   end

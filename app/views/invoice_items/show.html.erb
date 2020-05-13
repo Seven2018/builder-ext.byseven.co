@@ -1,6 +1,6 @@
 <div class="container-seven-large">
   <div class="invoice-item-container-mobile">
-    <h1><%= @invoice_item.training.client_contact.client_company.name %> : <%= @invoice_item.uuid %></h1>
+    <h1><%= @invoice_item.client_company.name %> : <%= @invoice_item.uuid %></h1>
     <%= link_to invoice_item_path(@invoice_item, format: :pdf) do %>
       <button class="btn btn-edit-yellowbtn-edit-red">
         Export <i class="fas fa-file-pdf"></i>
@@ -9,7 +9,11 @@
   </div>
   <div class="invoice-item-container">
     <div id='page-controls'>
-      <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+      <% if @invoice_item.training.present? %>
+        <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+      <% else %>
+        <%= link_to client_company_path(@invoice_item.client_company), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+      <% end %>
       <div class="page-controls-buttons">
         <button class='btn btn-edit-green btn-icon invoiceitem_copy' data-toggle='modal' data-toggle='tooltip' data-target='#copyInvoiceItem' title='Copy Invoice'><i class="fas fa-copy"></i></button>
         <%= link_to invoice_item_path(@invoice_item, format: :pdf), target: :_blank do %>

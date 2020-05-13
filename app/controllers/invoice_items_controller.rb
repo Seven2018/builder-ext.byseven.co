@@ -124,6 +124,17 @@ class InvoiceItemsController < ApplicationController
     redirect_to invoice_item_path(@sevener_invoice) if @sevener_invoice.save
   end
 
+
+  def new_estimate
+    @client_company = ClientCompany.find(params[:client_company_id])
+    @estimate = InvoiceItem.new(client_company_id: params[:client_company_id].to_i, type: 'Estimate')
+    authorize @estimate
+    @estimate.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count+1)
+    if @estimate.save
+      redirect_to invoice_item_path(@estimate)
+    end
+  end
+
   # Allows the duplication of an InvoiceItem
   def copy
     authorize @invoice_item
