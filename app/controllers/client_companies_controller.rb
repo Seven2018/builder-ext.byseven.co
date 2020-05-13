@@ -19,7 +19,6 @@ before_action :set_clientcompany, only: [:show, :edit, :update, :destroy]
   def create
     @client_company = ClientCompany.new(clientcompany_params)
     authorize @client_company
-    raise
     @client_company.save ? (redirect_to client_company_path(@client_company)) : (render :new)
   end
 
