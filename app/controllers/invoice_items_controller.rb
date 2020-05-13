@@ -303,7 +303,7 @@ class InvoiceItemsController < ApplicationController
     elsif params[:type] == 'Invoice' && params[:client_company_id]
       @invoice_items = Invoice.where(client_company_id: params[:client_company_id].to_i).order('id DESC')
     elsif params[:type] == 'Estimate' && params[:client_company_id]
-      @invoice_items = Estimate.where(client_company_id: params[:client_company_id].to_i).order('id DESC')
+      @invoice_items = Estimate.where(client_company_id: params[:client_company_id].to_i).or(Estimate.where(description: params[:client_company_id])).order('id DESC')
     end
   end
 
