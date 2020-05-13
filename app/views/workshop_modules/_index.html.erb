@@ -22,7 +22,6 @@
             <i class="fas fa-pen"></i>
           <% end %>
           <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-            <a data-toggle='modal' data-target='#copyWorkshopModule<%= mod.id %>'><button class='btn return-arrow' id="<%= mod.id %>" data-toggle='tooltip' title='Copy'><i class="fas fa-copy"></i></button></a>
             <%= link_to training_session_workshop_copy_form_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), class: 'btn return-arrow', data: { toggle: 'tooltip' }, title: 'Copy' do %>
               <i class="fas fa-copy"></i>
             <% end %>
