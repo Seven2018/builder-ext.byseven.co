@@ -141,9 +141,9 @@ class InvoiceItemsController < ApplicationController
     @training = Training.find(params[:copy][:training_id])
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "training_id", "client_company_id", "status", "sending_date", "payment_date", "dunning_date"))
     if @invoice_item.type == 'Invoice'
-      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715)
+      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+716)
     else
-      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count)
+      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count+1)
     end
     new_invoice_item.training_id = @training.id
     new_invoice_item.client_company_id = @training.client_company.id
@@ -163,9 +163,9 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
     if @invoice_item.type == 'Invoice'
-      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715)
+      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+716)
     else
-      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count)
+      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count+1)
     end
     new_invoice_item.status = 'En attente'
     if new_invoice_item.save

@@ -148,6 +148,12 @@
                   <%= link_to training_copy_here_session_path(session.training, session), data: { toggle: 'tooltip', confirm: 'Do you want to duplicate this session within this training ?' }, title: 'Duplicate here' do %>
                     <button class='edit-fafa session_copy'><i class="fas fa-copy"></i></button>
                   <% end %>
+                <% else %>
+                  <button class="edit-fafa disabled" data-toggle="tooltip" title="Disabled"><i class="fas fa-user-astronaut"></i></button>
+                  <button class="edit-fafa disabled" data-toggle="tooltip" title="Disabled"><i class="fas fa-pen"></i></button>
+                  <a class='disabled' data-toggle="tooltip" title="Disabled">
+                    <button class='edit-fafa session_copy disabled'><i class="fas fa-copy"></i></button>
+                  </a>
                 <% end %>
               <% end %>
             </div>
