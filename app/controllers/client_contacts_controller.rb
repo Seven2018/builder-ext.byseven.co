@@ -38,7 +38,7 @@ class ClientContactsController < ApplicationController
   def destroy
     @client_contact.destroy
     authorize @client_contact
-    redirect_to client_contacts_path
+    redirect_to client_company_path(@client_contact.client_company)
   end
 
   private
