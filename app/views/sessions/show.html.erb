@@ -6,7 +6,9 @@
     <div class='flex-row-between-centered'>
       <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
         <a class='btn btn-edit-yellow btn-icon' data-toggle='modal' data-target='#editSession' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
-        <button class='btn btn-edit-red btn-icon' id='btn-copy' data-toggle='modal' data-target='#copySession' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></button>
+        <%= link_to training_copy_form_session_path(@session.training, @session), class: 'btn btn-edit-green btn-icon', data: {toggle: 'tooltip'}, title: 'Copy Session' do %>
+          <i class="fas fa-copy"></i>
+        <% end %>
       <% end %>
       <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
       <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -18,7 +20,7 @@
         <% end %>
       </ul>
       <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-        <button class='show_library btn btn-edit-green btn-icon' data-toggle="tooltip" title="Library"><i class="fas fa-book"></i></button>
+        <button class='show_library btn btn-edit-blue btn-icon' data-toggle="tooltip" title="Library"><i class="fas fa-book"></i></button>
       <% end %>
     </div>
   </div>

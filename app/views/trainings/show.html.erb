@@ -12,7 +12,7 @@
           <li><%= link_to 'New estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
           <li><%= link_to 'Estimates List', invoice_items_path(training_id: @training.id, type: 'Estimate') %></li>
           <li><%= link_to 'New invoice', new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
-          <li><a data-toggle='modal' type='button' data-target='#newSevenerInvoice' style='cursor:pointer;'>New Sevener Invoice</a></li>
+          <!-- <li><a data-toggle='modal' type='button' data-target='#newSevenerInvoice' style='cursor:pointer;'>New Sevener Invoice</a></li> -->
           <li><%= link_to 'Invoices List', invoice_items_path(training_id: @training.id, type: 'Invoice') %></li>
           <% if @training.forms.empty? %>
             <li><a data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a></li>
@@ -145,7 +145,7 @@
                 <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
                   <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>' data-toggle="tooltip" title="Add Trainer"><i class="fas fa-user-astronaut"></i></button>
                   <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></button>
-                  <%= link_to training_copy_here_session_path(session.training, session), data: { toggle: 'tooltip', confirm: 'Do you want to duplicate this session within this training ?' }, title: 'Duplicate here' do %>
+                  <%= link_to training_copy_form_session_path(session.training, session), data: { toggle: 'tooltip'}, title: 'Copy Session' do %>
                     <button class='edit-fafa session_copy'><i class="fas fa-copy"></i></button>
                   <% end %>
                 <% else %>

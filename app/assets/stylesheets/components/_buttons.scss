@@ -127,7 +127,7 @@
   }
 }
 
-.btn-edit-yellow, .btn-edit-red, .btn-edit-green, .btn-edit-grey {
+.btn-edit-yellow, .btn-edit-red, .btn-edit-green, .btn-edit-grey, .btn-edit-blue {
   font-family: 'Arial', sans-serif !important;
   opacity: 0.8;
   width: auto;
@@ -159,11 +159,15 @@
 }
 
 .btn-edit-red {
-    background-color: #E64259 !important;
+  background-color: #E64259 !important;
 }
 
 .btn-edit-green {
-    background-color: #4AC2C7 !important;
+  background-color: #4AC2C7 !important;
+}
+
+.btn-edit-blue {
+  background-color: #739DBF !important;
 }
 
 .btn-edit-grey {

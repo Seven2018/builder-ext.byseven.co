@@ -1,6 +1,6 @@
 <div class="row" style="background-color: white; margin-right: 0;">
   <% result_staff = [] %>
-  <% Session.where(training_id: @trainings.map(&:id)).select{|u|u.session_trainers == []}.map{|v|v.training}.uniq.each do |training| %>
+  <% Session.where(training_id: @trainings.map(&:id)).where('date >= ?', Date.today).select{|u|u.session_trainers == []}.map{|v|v.training}.uniq.each do |training| %>
     <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
       <div class="card" id="card-index">
         <div class="card-main">

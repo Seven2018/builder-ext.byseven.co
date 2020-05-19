@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer, :copy, :copy_here, :presence_sheet]
+  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer, :copy_form, :copy, :copy_here, :presence_sheet]
 
   # Shows an InvoiceItem in html or pdf version
   def show
@@ -81,6 +81,10 @@ class SessionsController < ApplicationController
 
   # Shows a Session in "viewer mode"
   def viewer
+    authorize @session
+  end
+
+  def copy_form
     authorize @session
   end
 
