@@ -31,7 +31,7 @@ class SessionTrainersController < ApplicationController
       session = Session.find(id.to_i)
 
       # Creates the event to be added to one or several calendars
-      day = session.date
+      day = session&.date
       event = Google::Apis::CalendarV3::Event.new({
         start: {
           date_time: day.to_s+'T'+session.start_time.strftime('%H:%M:%S'),
@@ -118,7 +118,11 @@ class SessionTrainersController < ApplicationController
       trainers_list += "#{user.id},"
     end
 
-    redirect_to redirect_path(list: trainers_list, session_id: "|#{@session.id}|", to_delete: "%#{event_to_delete}%")
+    if @session.date.present?
+      redirect_to redirect_path(list: trainers_list, session_id: "|#{@session.id}|", to_delete: "%#{event_to_delete}%")
+    else
+      redirect_back(fallback_location: root_path)
+    end
   end
 
   def create_all

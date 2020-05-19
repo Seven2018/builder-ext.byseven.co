@@ -39,7 +39,7 @@
           <p class="flex-row" role="cell"><%= training.client_company.name %></p>
           <p class="flex-row" role="cell">
             <% training.sessions.where('date >= ?', @starts_at).where('date <= ?', @ends_at).order(date: :asc).each do |session| %>
-              <%= session.date.strftime('%d/%m/%y') %><br>
+              <%= session&.date&.strftime('%d/%m/%y') %><br>
               <% i = 1 %>
               <% session.session_trainers.each do |trainer| %>
                 <% if i > 1 %>

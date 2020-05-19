@@ -46,7 +46,7 @@
   </div>
   <div class="session-info">
     <% if @session.start_time && @session.end_time %>
-      <p> <%="#{@session.date.strftime('%d/%m/%y')}"%> </p>
+      <p> <%="#{@session&.date&.strftime('%d/%m/%y')}"%> </p>
       <div><p><%= " #{@session.start_time.strftime("%k:%M")} to #{@session.end_time.strftime("%k:%M")}" %></p></div>
       <i class="fas fa-users"> <%= @session.attendee_number %></i>
     <% end %>

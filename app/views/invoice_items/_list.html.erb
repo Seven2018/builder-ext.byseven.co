@@ -15,7 +15,7 @@
             <div class="item-id">
               <p>Sending date</p>
               <% if item.sending_date.present? %>
-                <p><%= item.sending_date.strftime('%d/%m/%y') %></p>
+                <p><%= item.sending_date&.strftime('%d/%m/%y') %></p>
               <% end %>
             </div>
           </a>
@@ -30,7 +30,7 @@
             <div class="item-id">
               <p>Dunning date</p>
               <% if item.dunning_date.present? %>
-                <p><%= item.dunning_date.strftime('%d/%m/%y') %></p>
+                <p><%= item.dunning_date&.strftime('%d/%m/%y') %></p>
               <% end %>
             </div>
           </a>
@@ -45,7 +45,7 @@
             <div class="item-id">
               <p>Payment date</p>
               <% if item.payment_date.present? %>
-                <p><%= item.payment_date.strftime('%d/%m/%y') %></p>
+                <p><%= item.payment_date&.strftime('%d/%m/%y') %></p>
               <% end %>
             </div>
           </a>

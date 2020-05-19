@@ -57,9 +57,23 @@
         <% if params[:tab].nil? || params[:tab] == 'upcoming' %>
           <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li>
           <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
+          <li role="presentation"><a href="#to_date" data-toggle="tab">To Date</a></li>
+          <li role="presentation"><a href="#to_staff" data-toggle="tab">To Staff</a></li>
         <% elsif params[:tab] == 'completed' %>
           <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
           <li role="presentation"><a href="#completed" data-toggle="tab" class="active">Completed</a></li>
+          <li role="presentation"><a href="#to_date" data-toggle="tab">To Date</a></li>
+          <li role="presentation"><a href="#to_staff" data-toggle="tab">To Staff</a></li>
+        <% elsif params[:tab] == 'to_date' %>
+          <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
+          <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
+          <li role="presentation"><a href="#to_date" data-toggle="tab" class="active">To Date</a></li>
+          <li role="presentation"><a href="#to_staff" data-toggle="tab">To Staff</a></li>
+        <% elsif params[:tab] == 'to_staff' %>
+          <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
+          <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
+          <li role="presentation"><a href="#to_date" data-toggle="tab">To Date</a></li>
+          <li role="presentation"><a href="#to_staff" data-toggle="tab" class="active">To Staff</a></li>
         <% end %>
         <% if (['super admin', 'admin', 'training manager', 'sevener'].include? current_user.access_level) %>
           <li><%= link_to "Calendar", index_week_path %></li>
@@ -79,12 +93,50 @@
       <div role="tabpanel" class="tab-pane" id="completed">
         <%= render 'completed', trainings: @trainings %>
       </div>
+      <div role="tabpanel" class="tab-pane" id="to_date">
+        <%= render 'to_date', trainings: @trainings %>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="to_staff">
+        <%= render 'to_staff', trainings: @trainings %>
+      </div>
     <% elsif params[:tab] == 'completed' %>
       <div role="tabpanel" class="tab-pane" id="upcoming">
         <%= render 'coming', trainings: @trainings %>
       </div>
       <div role="tabpanel" class="tab-pane active" id="completed">
         <%= render 'completed', trainings: @trainings %>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="to_date">
+        <%= render 'to_date', trainings: @trainings %>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="to_staff">
+        <%= render 'to_staff', trainings: @trainings %>
+      </div>
+    <% elsif params[:tab] == 'to_date' %>
+      <div role="tabpanel" class="tab-pane" id="upcoming">
+        <%= render 'coming', trainings: @trainings %>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="completed">
+        <%= render 'completed', trainings: @trainings %>
+      </div>
+      <div role="tabpanel" class="tab-pane active" id="to_date">
+        <%= render 'to_date', trainings: @trainings %>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="to_staff">
+        <%= render 'to_staff', trainings: @trainings %>
+      </div>
+    <% elsif params[:tab] == 'to_staff' %>
+      <div role="tabpanel" class="tab-pane" id="upcoming">
+        <%= render 'coming', trainings: @trainings %>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="completed">
+        <%= render 'completed', trainings: @trainings %>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="to_date">
+        <%= render 'to_date', trainings: @trainings %>
+      </div>
+      <div role="tabpanel" class="tab-pane active" id="to_staff">
+        <%= render 'to_staff', trainings: @trainings %>
       </div>
     <% end %>
   </div>

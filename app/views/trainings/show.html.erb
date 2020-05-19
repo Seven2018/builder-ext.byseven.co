@@ -139,7 +139,7 @@
           <div class="card-lg">
             <div class="card-footer-lg">
               <% if session.start_time && session.end_time %>
-                <div><p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p></div>
+                <div><p> <%="#{session&.date&.strftime('%d/%m/%y')}"%> </p></div>
                 <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
                 <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendee_number %></p></div>
                 <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>

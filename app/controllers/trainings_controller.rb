@@ -3,7 +3,7 @@ class TrainingsController < ApplicationController
 
   def index
     @sessions = Session.all
-    @session_trainer = SessionTrainer.new
+    # @session_trainer = SessionTrainer.new
     @form = Form.new
     # Index with 'search' option and global visibility for SEVEN Users
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)

@@ -248,8 +248,8 @@ class InvoiceItemsController < ApplicationController
     worksheet = spreadsheet.worksheets.first
     row = 2
       @invoice_items.each do |item|
-        startdate = item.training.sessions.order(date: :asc).first.date.strftime('%d/%m/%y')
-        enddate = item.training.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')
+        startdate = item.training.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')
+        enddate = item.training.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')
         client = item.client_company.name
         training_name = item.training.title
         trello = ''
@@ -273,9 +273,9 @@ class InvoiceItemsController < ApplicationController
         vat = item.tax_amount
         revenue = item.total_amount
         num = item.uuid
-        sending = item.sending_date.strftime('%d/%m/%y') if item.sending_date.present?
-        dunning = item.dunning_date.strftime('%d/%m/%y') if item.dunning_date.present?
-        payment = item.payment_date.strftime('%d/%m/%y') if item.payment_date.present?
+        sending = item.sending_date&.strftime('%d/%m/%y') if item.sending_date.present?
+        dunning = item.dunning_date&.strftime('%d/%m/%y') if item.dunning_date.present?
+        payment = item.payment_date&.strftime('%d/%m/%y') if item.payment_date.present?
         worksheet.insert_rows(row, [[startdate, enddate, client, training_name, trello, unit, nature, unit_price, variable, fixed, caution, vat, expenses, expenses_out, description, revenue, num, sending, dunning, payment]])
         row += 1
         item.training.trainers.each do |trainer|

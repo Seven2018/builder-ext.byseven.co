@@ -62,8 +62,10 @@ class SessionsController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    if @session.save
+    if @session.save && (params[:session][:date].present?)
       redirect_to redirect_path(session_id: "|#{@session.id}|", list: trainers_list, to_delete: "%#{event_to_delete}%")
+    elsif @session.save
+      redirect_to training_path(@session.training)
     else
       redirect_to training_path(@session.training)
       flash[:alert] = 'Something went wrong, please verify all parameters (ex: is the new session date included in the training period ?)'
@@ -87,8 +89,8 @@ class SessionsController < ApplicationController
     training = Training.find(params[:copy][:training_id])
     new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at", "training_id", "address", "room"))
     # new_session.title = params[:copy][:rename] unless params[:copy][:rename].empty?
-    # new_session.date = params[:copy][:date] unless params[:copy][:date].empty?
-    training.sessions.empty? ? (new_session.date = Date.today) : (new_session.date = training.sessions&.order(date: :asc)&.last&.date + 1.days)
+    # new_session&.date = params[:copy][:date] unless params[:copy][:date].empty?
+    training.sessions.empty? ? (new_session&.date = Date.today) : (new_session&.date = training.sessions&.order(date: :asc)&.last&.date + 1.days)
     new_session.training_id = training.id
     new_session.address = ''
     new_session.room = ''
@@ -111,7 +113,7 @@ class SessionsController < ApplicationController
   def copy_here
     authorize @session
     new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at"))
-    new_session.date = @session.date + 1.days
+    new_session&.date = @session&.date + 1.days
     if new_session.save
       @session.workshops.each do |workshop|
         new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))

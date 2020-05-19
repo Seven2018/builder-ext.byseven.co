@@ -8,7 +8,7 @@
             <h5 style='max-width: 18rem;'><%= training.title %></h5>
             <div class="card-infos">
               <% if training.sessions.present? %>
-                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first.date.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')}" %>
+                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
                 </div>
               <% end %>
             </div>
