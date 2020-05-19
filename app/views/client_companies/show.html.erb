@@ -22,8 +22,7 @@
       </div>
       <p><%= @client_company.name %></p>
       <p style='margin:0;'><%= @client_company.address %></p>
-      <p style='margin:0;'><%= @client_company.zipcode %></p>
-      <p style='margin:0;'><%= @client_company.city %></p>
+      <p style='margin:0;'><%= "#{@client_company.zipcode} #{@client_company.city}" %></p>
       <br>
       <p><%= @client_company.client_company_type %></p>
       <p><%= @client_company.description %></p>

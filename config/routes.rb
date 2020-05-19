@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :client_companies, path: '/companies' do
     resources :client_contacts, path: '/contacts'
   end
-  resources :invoice_items, only: [:index, :show, :edit, :update]
+  resources :invoice_items, only: [:index, :show, :edit, :update, :destroy]
   get 'invoice_item/:id/copy', to: 'invoice_items#copy', as: 'copy_invoice_item'
   get 'invoice_item/:id/copy_here', to: 'invoice_items#copy_here', as: 'copy_here_invoice_item'
   get 'invoice_item/:id/edit_client', to: 'invoice_items#edit_client', as: 'edit_client_invoice_item'

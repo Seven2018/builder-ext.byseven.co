@@ -15,17 +15,21 @@
         <%= link_to client_company_path(@invoice_item.client_company), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
       <% end %>
       <div class="page-controls-buttons">
-        <button class='btn btn-edit-green btn-icon invoiceitem_copy' data-toggle='modal' data-toggle='tooltip' data-target='#copyInvoiceItem' title='Copy Invoice'><i class="fas fa-copy"></i></button>
         <%= link_to invoice_item_path(@invoice_item, format: :pdf), target: :_blank do %>
           <button class="btn btn-edit-yellow btn-icon" id='export-btn' data-toggle="tooltip" title="Export to PDF">
             <i class="fas fa-file-pdf"></i>
           </button>
         <% end %>
-        <%= link_to credit_invoice_item_path(@invoice_item), data: {toggle: 'tooltip'}, title: 'Credit Note' do %>
-          <button class="btn btn-edit-red btn-icon">
-            <i class="fas fa-file-invoice-dollar"></i>
-          </button>
+        <% if @invoice_item.type == 'Invoice' %>
+          <%= link_to credit_invoice_item_path(@invoice_item), class: "btn btn-edit-red btn-icon", data: {toggle: 'tooltip'}, title: 'Credit Note' do %>
+              <i class="fas fa-file-invoice-dollar"></i>
+          <% end %>
+        <% elsif @invoice_item.type == 'Estimate' %>
+          <%= link_to invoice_item_path(@invoice_item), method: :delete, data: {confirm: 'Are you sure ?'}, class: 'btn btn-edit-red btn-icon' do %>
+            <i class="fas fa-trash-alt"></i>
+          <% end %>
         <% end %>
+        <button class='btn btn-edit-green btn-icon invoiceitem_copy' data-toggle='modal' data-toggle='tooltip' data-target='#copyInvoiceItem' title='Copy Invoice'><i class="fas fa-copy"></i></button>
         <a id='show_library' class='btn btn-edit-grey btn-icon' data-toggle="tooltip" title="Show Products"><i class="fas fa-book"></i></i></a>
       </div>
     </div>

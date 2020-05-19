@@ -6,6 +6,9 @@
     <div class='flex-row-between-centered'>
       <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
         <a class='btn btn-edit-yellow btn-icon' data-toggle='modal' data-target='#editSession' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
+        <%= link_to training_session_path(@session.training, @session), class: "btn btn-edit-red btn-icon", method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
+          <i class="fas fa-trash-alt"></i>
+        <% end %>
         <%= link_to training_copy_form_session_path(@session.training, @session), class: 'btn btn-edit-green btn-icon', data: {toggle: 'tooltip'}, title: 'Copy Session' do %>
           <i class="fas fa-copy"></i>
         <% end %>

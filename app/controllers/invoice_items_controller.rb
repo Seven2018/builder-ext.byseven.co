@@ -129,8 +129,16 @@ class InvoiceItemsController < ApplicationController
     @client_company = ClientCompany.find(params[:client_company_id])
     @estimate = InvoiceItem.new(client_company_id: params[:client_company_id].to_i, type: 'Estimate')
     authorize @estimate
-    @estimate.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count+1)
+    Estimate.all.count != 0 ? (@estimate.uuid = "DE#{Date.today.strftime('%Y')}" + (Estimate.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@estimate.uuid = "DE#{Date.today.strftime('%Y')}00001")
     if @estimate.save
+      if @client_company.client_company_type == 'Company'
+        product = Product.find(2)
+        InvoiceLine.create(invoice_item: @estimate, description: product.name, quantity: 0, net_amount: product.price, tax_amount: product.tax, position: 1)
+      elsif @client_company.client_company_type == 'School'
+        product = Product.find(1)
+        quantity = 0
+        InvoiceLine.create(invoice_item: @estimate, description: product.name, quantity: 0, net_amount: product.price, tax_amount: product.tax, position: 1)
+    end
       redirect_to invoice_item_path(@estimate)
     end
   end
@@ -290,6 +298,12 @@ class InvoiceItemsController < ApplicationController
     worksheet.save
     redirect_back(fallback_location: root_path)
     flash[:notice] = "Uploadé avec succès"
+  end
+
+  def destroy
+    authorize @invoice_item
+    @invoice_item.destroy
+    redirect_to client_company_path(@invoice_item.client_company)
   end
 
   private
