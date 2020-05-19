@@ -133,11 +133,11 @@ class InvoiceItemsController < ApplicationController
     if @estimate.save
       if @client_company.client_company_type == 'Company'
         product = Product.find(2)
-        InvoiceLine.create(invoice_item: @estimate, description: product.name, quantity: 0, net_amount: product.price, tax_amount: product.tax, position: 1)
+        InvoiceLine.create(invoice_item: @estimate, description: product.name, quantity: 0, net_amount: product.price, tax_amount: product.tax, position: 1, product_id: 2)
       elsif @client_company.client_company_type == 'School'
         product = Product.find(1)
         quantity = 0
-        InvoiceLine.create(invoice_item: @estimate, description: product.name, quantity: 0, net_amount: product.price, tax_amount: product.tax, position: 1)
+        InvoiceLine.create(invoice_item: @estimate, description: product.name, quantity: 0, net_amount: product.price, tax_amount: product.tax, position: 1, product_id: 1)
     end
       redirect_to invoice_item_path(@estimate)
     end
