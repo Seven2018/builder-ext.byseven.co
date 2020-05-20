@@ -83,6 +83,8 @@ Rails.application.routes.draw do
   get '/redirect', to: 'session_trainers#redirect', as: 'redirect'
   get '/callback', to: 'session_trainers#callback', as: 'callback'
   get '/calendars', to: 'session_trainers#calendars', as: 'calendars'
+  get '/remove_session_trainers', to: 'session_trainers#remove_session_trainers', as: 'remove_session_trainers'
+  get '/remove_training_trainers', to: 'session_trainers#remove_training_trainers', as: 'remove_training_trainers'
   # devise_scope :user do
   #   get '/users/auth/linkedin/callback', to: 'users/omniauth_callbacks#linkedin', as: 'linkedin_auth'
   # end
