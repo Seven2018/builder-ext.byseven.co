@@ -71,7 +71,7 @@ class InvoiceItemsController < ApplicationController
     @invoice = InvoiceItem.new(training_id: params[:training_id].to_i, client_company_id: params[:client_company_id].to_i, type: params[:type])
     authorize @invoice
     # ttributes a invoice number to the InvoiceItem
-    @invoice.type == 'Invoice' ? @invoice.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+715) : @invoice.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count+1)
+    Invoice.all.count != 0 ? (@invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (Invoice.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
     @invoice.status = 'En attente'
       # @invoice.type == 'Invoice' ? @invoice.status = 'Non payée' : @invoice.status = 'En attente'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
@@ -149,9 +149,9 @@ class InvoiceItemsController < ApplicationController
     @training = Training.find(params[:copy][:training_id])
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "training_id", "client_company_id", "status", "sending_date", "payment_date", "dunning_date"))
     if @invoice_item.type == 'Invoice'
-      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+716)
+      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}" + (Invoice.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     else
-      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count+1)
+      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}" + (Estimate.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     end
     new_invoice_item.training_id = @training.id
     new_invoice_item.client_company_id = @training.client_company.id
@@ -171,9 +171,9 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
     if @invoice_item.type == 'Invoice'
-      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count+716)
+      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}" + (Invoice.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     else
-      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Estimate').count+1)
+      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}" + (Estimate.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     end
     new_invoice_item.status = 'En attente'
     if new_invoice_item.save

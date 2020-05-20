@@ -78,19 +78,19 @@
         <div class="invoice-total-details-pdf">
           <div>
             <p>Total HT Net</p>
-            <p style='text-align: right;width: 5rem;'><%= number_with_delimiter(number_with_precision(total_ht.sum, precision: 2), delimiter: " ") %></p>
+            <p style='text-align: right;width: 7rem;'><%= number_with_delimiter(number_with_precision(total_ht.sum, precision: 2), delimiter: " ") %></p>
           </div>
           <div>
             <p>Total TVA</p>
-            <p style='text-align: right;width: 5rem;'><%= number_with_delimiter(number_with_precision(@invoice_item.tax_amount, precision: 2), delimiter: " ") %></p>
+            <p style='text-align: right;width: 7rem;'><%= number_with_delimiter(number_with_precision(@invoice_item.tax_amount, precision: 2), delimiter: " ") %></p>
           </div>
           <div>
             <p style='border-bottom: 2px solid black;'>Total TTC</p>
-            <p style='border-bottom: 2px solid black;text-align: right;width: 5rem;'><%= number_with_delimiter(number_with_precision(@invoice_item.total_amount, precision: 2), delimiter: " ") %></p>
+            <p style='border-bottom: 2px solid black;text-align: right;width: 7rem;'><%= number_with_delimiter(number_with_precision(@invoice_item.total_amount, precision: 2), delimiter: " ") %></p>
           </div>
           <div>
             <p>Net à payer en EUR</p>
-            <p style='text-align: right;width: 5rem;'><%= number_with_delimiter(number_with_precision(@invoice_item.total_amount, precision: 2), delimiter: " ") %></p>
+            <p style='text-align: right;width: 7rem;'><%= number_with_delimiter(number_with_precision(@invoice_item.total_amount, precision: 2), delimiter: " ") %></p>
           </div>
         </div>
       </div>
