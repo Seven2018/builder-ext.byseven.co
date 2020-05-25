@@ -60,7 +60,7 @@ class TrainingsController < ApplicationController
   def create
     @training = Training.new(training_params)
     authorize @training
-    @training.refid = "#{Time.current.strftime('%y')}-#{'%04d' % (Training.where(created_at: Time.current.beginning_of_year..Time.current.end_of_year).count + 1)}"
+    @training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
     @training.satisfaction_survey = 'shorturl.at/gqwCZ'
     @training.title = ClientContact.find(params[:training][:client_contact_id]).client_company.name + ' - ' + params[:training][:title]
     if @training.save
@@ -96,6 +96,7 @@ class TrainingsController < ApplicationController
     @client_contact = ClientContact.find(params[:copy][:client_contact_id])
     @new_training = Training.new(@training.attributes.except("id", "created_at", "updated_at", "client_contact_id"))
     @new_training.title = params[:copy][:rename] if params[:copy][:rename].present?
+    @new_training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
     @new_training.client_contact_id = @client_contact.id
     if @new_training.save
       @training.sessions.each do |session|

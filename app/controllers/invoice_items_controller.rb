@@ -70,8 +70,12 @@ class InvoiceItemsController < ApplicationController
     @client_company = ClientCompany.find(params[:client_company_id])
     @invoice = InvoiceItem.new(training_id: params[:training_id].to_i, client_company_id: params[:client_company_id].to_i, type: params[:type])
     authorize @invoice
-    # ttributes a invoice number to the InvoiceItem
-    Invoice.all.count != 0 ? (@invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (Invoice.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
+    # attributes a invoice number to the InvoiceItem
+    if params[:type] == 'Invoice'
+      Invoice.all.count != 0 ? (@invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (Invoice.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
+    elsif params[:type] == 'Estimate'
+      Estimate.all.count != 0 ? (@invoice.uuid = "DE#{Date.today.strftime('%Y')}" + (Invoice.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "DE#{Date.today.strftime('%Y')}00001")
+    end
     @invoice.status = 'En attente'
       # @invoice.type == 'Invoice' ? @invoice.status = 'Non payée' : @invoice.status = 'En attente'
     # Fills the created InvoiceItem with InvoiceLines, according Training data

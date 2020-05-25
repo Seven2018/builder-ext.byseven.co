@@ -11,9 +11,12 @@
       <div style='display:flex;justify-content:space-between;'>
         <%= f.input :address, placeholder: 'ex: 5 rue Moret' %>
         <%= f.input :zipcode, input_html: { maxlength: 5 } %>
-        <%= f.input :city, placeholder: 'ex: Paris' %>
+        <%= f.input :city, placeholder: 'ex: Paris', input_html: {style: 'width:15rem;'} %>
       </div>
-      <%= f.input :client_company_type, label: "Type", collection: ["Company", "School", "OPCO"], include_blank: false %>
+      <div style='display:flex;justify-content:space-between;'>
+        <%= f.input :client_company_type, label: "Type", collection: ["Company", "School", "OPCO"], include_blank: false, input_html: {style: 'width:10rem;'} %>
+        <%= f.input :unit_price, label: 'Price / unit (€)', input_html: {style: 'width:15rem;', value: 2400} %>
+      </div>
       <%= f.input :opco_id, label: "OPCO", collection: ClientCompany.where(client_company_type: 'OPCO'), include_blank: true %>
       <%= f.input :description, :input_html => {:rows => 5} %>
       <%= f.input :logo, label: 'Logo URL' %>
@@ -34,11 +37,15 @@
 <script>
   type = document.getElementById('client_company_client_company_type');
   opco = document.querySelector('.client_company_opco_id');
+  price = document.getElementById('client_company_unit_price');
   type.addEventListener('change', (event) => {
     if (type.value == 'Company') {
       opco.classList.remove('hidden');
+      price.setAttribute('value', 2400);
+
     } else {
       opco.classList.add('hidden');
+      price.setAttribute('value', 0);
     }
   });
 </script>

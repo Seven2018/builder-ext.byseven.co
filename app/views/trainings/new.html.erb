@@ -10,6 +10,10 @@
     <%= simple_form_for @training do |f| %>
       <%= f.input :title, placeholder: 'ex : Intelligence Economique - Mai 2020' %>
       <%= f.input :client_contact_id, :collection => ClientContact.all.joins(:client_company).order('client_companies.name ASC, client_contacts.name ASC'), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name.split.map(&:capitalize).join(' ')}" }, :label => 'Customer contact', :include_blank => false %>
+      <div style='display:flex;justify-content:space-between;'>
+        <%= f.input :unit_price %>
+        <%= f.input :vat, as: :radio_buttons %>
+      </div>
       <div class='form-group' style='display:flex;justify-content:space-between;'>
         <%= f.label :mode %>
         <div style='width:75%;display:flex;justify-content: space-around;align-items:center;'>
@@ -20,3 +24,12 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  client = document.getElementById('training_client_contact_id');
+  price = document.getElementById('training_unit_price');
+  client.addEventListener('change', (event) => {
+    value = client.value;
+    price.setAttribute('value', '<%= j ClientContact.find(value).client_company.unit_price %>');
+  })
+</script>

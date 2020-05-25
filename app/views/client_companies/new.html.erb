@@ -9,12 +9,15 @@
     <%= simple_form_for @client_company do |f| %>
       <%= f.input :name %>
       <div style='display:flex;justify-content:space-between;'>
-        <%= f.input :address, placeholder: 'ex: 5 rue Moret' %>
-        <%= f.input :zipcode, input_html: { maxlength: 5 } %>
-        <%= f.input :city, placeholder: 'ex: Paris' %>
+        <%= f.input :address, placeholder: 'ex: 5 rue Moret', input_html: { style: 'width: 20rem;'} %>
+        <%= f.input :zipcode, input_html: { maxlength: 5, style: 'width: 20rem;' } %>
+        <%= f.input :city, placeholder: 'ex: Paris', input_html: { style: 'width: 20rem;'} %>
       </div>
-      <%= f.input :client_company_type, collection: ["Company", "School", "OPCO"], include_blank: false %>
-      <%= f.input :opco_id, label: "OPCO", collection: ClientCompany.where(client_company_type: 'OPCO'), include_blank: true %>
+      <div style='display:flex;justify-content:space-between;'>
+        <%= f.input :client_company_type, collection: ["Company", "School", "OPCO"], include_blank: false, input_html: { style: 'width: 15rem;'} %>
+        <%= f.input :opco_id, label: "OPCO", collection: ClientCompany.where(client_company_type: 'OPCO'), include_blank: true, input_html: { style: 'width: 15rem;'} %>
+        <%= f.input :unit_price, label: 'Price / unit', input_html: { style: 'width: 15rem;'} %>
+      </div>
       <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
       <%= f.input :logo, label: 'Logo URL' %>
       <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow' %> </p>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_085845) do
+ActiveRecord::Schema.define(version: 2020_05_20_152223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_085845) do
     t.string "city"
     t.string "reference"
     t.integer "opco_id"
+    t.float "unit_price"
   end
 
   create_table "client_contacts", force: :cascade do |t|
@@ -300,6 +301,9 @@ ActiveRecord::Schema.define(version: 2020_05_13_085845) do
     t.string "mode"
     t.string "satisfaction_survey"
     t.string "refid"
+    t.float "unit_price"
+    t.boolean "vat"
+    t.string "gdrive_link"
     t.index ["client_contact_id"], name: "index_trainings_on_client_contact_id"
   end
 

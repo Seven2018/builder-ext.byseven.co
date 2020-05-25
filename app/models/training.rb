@@ -9,6 +9,7 @@ class Training < ApplicationRecord
   has_many :invoices
   has_many :forms, dependent: :destroy
   validates :title, presence: true
+  validates :vat, inclusion: { in: [ true, false ] }
   accepts_nested_attributes_for :training_ownerships
 
   def start_time
