@@ -12,7 +12,7 @@
       <h2 style='color: #FFC451;'><strong></strong></h2>
     </div>
     <% if !user_signed_in? %>
-      <%= simple_form_for :search, url: kea_partners_c_path, method: 'GET' do |f| %>
+      <%= simple_form_for :search, url: kea_partners_m_path, method: 'GET' do |f| %>
         <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
           <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
           <div style='display:flex;justify-content:space-around;'>
@@ -34,5 +34,5 @@
   <% if params[:search].present? %>
     <% attendee = Attendee.find_by(email: params[:search][:email]) %>
   <% end %>
-  <%= render 'kea_partners_c_partial', training: training, sessions: sessions, attendee: attendee %>
+  <%= render 'kea_partners_m_partial', training: training, sessions: sessions, attendee: attendee %>
 </div>

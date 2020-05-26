@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_20_152223) do
+ActiveRecord::Schema.define(version: 2020_05_26_143050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,11 +56,13 @@ ActiveRecord::Schema.define(version: 2020_05_20_152223) do
   end
 
   create_table "attendee_interests", force: :cascade do |t|
-    t.bigint "training_id", null: false
+    t.bigint "training_id"
     t.bigint "attendee_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "session_id"
     t.index ["attendee_id"], name: "index_attendee_interests_on_attendee_id"
+    t.index ["session_id"], name: "index_attendee_interests_on_session_id"
     t.index ["training_id"], name: "index_attendee_interests_on_training_id"
   end
 
@@ -365,6 +367,7 @@ ActiveRecord::Schema.define(version: 2020_05_20_152223) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendee_interests", "attendees"
+  add_foreign_key "attendee_interests", "sessions"
   add_foreign_key "attendee_interests", "trainings"
   add_foreign_key "attendees", "client_companies"
   add_foreign_key "client_contacts", "client_companies"

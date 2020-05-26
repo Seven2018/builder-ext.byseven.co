@@ -5,11 +5,7 @@
         <div class="invoice-card">
           <div class='item-id'>
             <p><%= item.uuid %></p>
-            <% if item.training.present? %>
-              <p data-toggle="tooltip" title="<%= item.training.title %>"><%= item.training.title %></p>
-            <% else %>
-              <p><%= item.invoice_lines.first&.description %></p>
-            <% end %>
+            <p><%= item.client_company.name %></p>
           </div>
           <a class='invoice-card-link' data-toggle='modal' type='button' data-target='#editSending<%= item.id %>' style='cursor:pointer;'>
             <div class="item-id">

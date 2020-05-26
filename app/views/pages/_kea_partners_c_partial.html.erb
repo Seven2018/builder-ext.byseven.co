@@ -1,0 +1,86 @@
+<% if (params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
+    <div class='container-seven-large-form'>
+      <div class="session-form-card-special center-button">
+        <div class="session-form-card-left-special">
+
+        </div>
+        <div class="session-form-card-right-special">
+          <div class="session-form-card-title">
+            <h4>5 WAYS TO CONTROL YOUR TIME</h4>
+          </div>
+          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod. Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam. Maecenas finibus, ligula nec dapibus tristique, lectus diam tempor leo, ac rhoncus odio sem ut est. Mauris erat odio, ullamcorper sit amet convallis bibendum, ornare quis orci.<br><br>
+
+           Nulla ullamcorper ornare tristique. Sed sit amet dictum tortor. Proin lobortis nisi ac vestibulum egestas. Duis porttitor lectus quam, in aliquet elit vehicula eget. Suspendisse ultrices congue risus, lacinia facilisis risus. Curabitur vitae ante sed urna efficitur viverra. Vivamus vel dui vel sem tincidunt consequat vel et diam.
+          </p>
+          <div class="session-form-control flex-column-between-left">
+            <%= simple_form_for :create_attendees, url: test_session_attendee_path(attendee_id: attendee.id), method: 'GET' do |f| %>
+              <div class="flex-column-between-left">
+                <% if SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[0].id, sessions[1].id])&.first&.session_id&.to_s.present? %>
+                  <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[0].id, sessions[1].id])&.first&.session_id&.to_s %>
+                <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[0].id).present? %>
+                  <% checked = 'Interested' %>
+                <% end %>
+                <%= f.collection_radio_buttons :choice, [['Le 04 Juin 2020 : 9h-12h', sessions[0].id] ,['Le 10 Juin 2020 : 9h-12h', sessions[1].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
+                  <div class="flex-row-between-centered radio" style='width:83rem;'>
+                    <p class='form_radio_label'>
+                      <label class="radio_container"><%= b.text %>
+                        <%= b.radio_button %>
+                        <span class="checkmark"></span>
+                      </label>
+                    </p>
+                  </div>
+                <% end %>
+                <%= hidden_field_tag(:attendee_id, attendee.id) %>
+                <%= hidden_field_tag(:training_id, sessions[0].training.id) %>
+                <%= hidden_field_tag(:sessions_ids, sessions[0].id) %>
+              </div>
+              <div class="flex-row-end-centered">
+                <%= f.submit 'Valider', class: 'btn btn-edit-yellow' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="session-form-card-special center-button">
+        <div class="session-form-card-left-special">
+
+        </div>
+        <div class="session-form-card-right-special">
+          <div class="session-form-card-title">
+            <h4>LEARNING DESIGN THINKING - LEAD CREATIVE CHANGE IN YOUR ORGANIZATION</h4>
+          </div>
+          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod. Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam. Maecenas finibus, ligula nec dapibus tristique, lectus diam tempor leo, ac rhoncus odio sem ut est. Mauris erat odio, ullamcorper sit amet convallis bibendum, ornare quis orci.<br><br>
+
+           Nulla ullamcorper ornare tristique. Sed sit amet dictum tortor. Proin lobortis nisi ac vestibulum egestas. Duis porttitor lectus quam, in aliquet elit vehicula eget. Suspendisse ultrices congue risus, lacinia facilisis risus. Curabitur vitae ante sed urna efficitur viverra. Vivamus vel dui vel sem tincidunt consequat vel et diam.
+          </p>
+          <div class="session-form-control flex-column-between-left">
+            <%= simple_form_for :create_attendees, url: test_session_attendee_path(attendee_id: attendee.id), method: 'GET' do |f| %>
+              <div class="flex-column-between-left">
+                <% if SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[2].id, sessions[3].id])&.first&.session_id&.to_s.present? %>
+                  <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[2].id, sessions[3].id])&.first&.session_id&.to_s %>
+                <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[2].id).present? %>
+                  <% checked = 'Interested' %>
+                <% end %>
+                <%= f.collection_radio_buttons :choice, [['Le 04 Juin 2020 : 14h-17h', sessions[2].id] ,['Le 10 Juin 2020 : 9h-12h', sessions[3].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
+                  <div class="flex-row-between-centered radio" style='width:83rem;'>
+                    <p class='form_radio_label'>
+                      <label class="radio_container"><%= b.text %>
+                        <%= b.radio_button %>
+                        <span class="checkmark"></span>
+                      </label>
+                    </p>
+                  </div>
+                <% end %>
+                <%= hidden_field_tag(:attendee_id, attendee.id) %>
+                <%= hidden_field_tag(:training_id, sessions[2].training.id) %>
+                <%= hidden_field_tag(:sessions_ids, sessions[2].id) %>
+              </div>
+              <div class="flex-row-end-centered">
+                <%= f.submit 'Valider', class: 'btn btn-edit-yellow' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>

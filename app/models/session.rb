@@ -8,6 +8,7 @@ class Session < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :session_forms, dependent: :destroy
   has_many :forms, through: :session_forms
+  has_many :attendee_interests, dependent: :destroy
   validates :title, :duration, presence: true
   accepts_nested_attributes_for :session_trainers
   default_scope { order(:date, :start_time) }
