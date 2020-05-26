@@ -124,6 +124,6 @@ class TrainingsController < ApplicationController
   end
 
   def training_params
-    params.require(:training).permit(:title, :client_contact_id, :mode, :satisfaction_survey)
+    params.require(:training).permit(:title, :client_contact_id, :mode, :satisfaction_survey, :unit_price, :vat)
   end
 end
