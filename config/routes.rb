@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'numbers_activity', to: 'pages#numbers_activity', as: 'numbers_activity'
   get 'numbers_sales', to: 'pages#numbers_sales', as: 'numbers_sales'
   get 'overlord', to: 'pages#overlord', as: 'overlord'
-  get 'inscriptions_big_mamma', to: 'pages#big_mamma', as: 'big_mamma'
+  get 'inscriptions_kea_partners_c', to: 'pages#kea_partners_c', as: 'kea_partners_c'
   resources :users
   root to: 'pages#home'
   get 'survey', to: 'pages#survey', as: 'survey'
@@ -78,7 +78,7 @@ Rails.application.routes.draw do
   resources :attendees, only: [:new, :create]
   post 'attendees/import', to: 'attendees#import', as: 'import_attendees'
   get 'training/:training_id/session/:id/attendees/export.csv', to: 'attendees#export', as: 'export_attendees'
-  post 'attendee/big_mamma', to: 'attendees#create_big_mamma', as: 'new_big_mamma_attendees'
+  post 'attendee/kea_partners', to: 'attendees#create_kea_partners', as: 'new_kea_partners_attendees'
   resources :session_forms, only: [:create, :destroy]
   get '/redirect', to: 'session_trainers#redirect', as: 'redirect'
   get '/callback', to: 'session_trainers#callback', as: 'callback'
@@ -92,6 +92,6 @@ Rails.application.routes.draw do
   get '/linkedin_scrape_callback', to: 'users#linkedin_scrape_callback', as: 'linkedin_scrape_callback'
   post 'new_attendee_interest', to: 'attendee_interests#create', as: 'new_attendee_interest'
   delete 'delete_attendee_interest', to: 'attendee_interests#destroy', as: 'destroy_attendee_interest'
-  post 'new_session_attendee/big_mamma', to: 'session_attendees#create_big_mamma', as: 'new_big_mamma_session_attendee'
-  delete 'delete_session_attendee/big_mamma', to: 'session_attendees#destroy_big_mamma', as: 'destroy_big_mamma_session_attendee'
+  post 'new_session_attendee/kea_partners', to: 'session_attendees#create_kea_partners', as: 'new_kea_partners_session_attendee'
+  delete 'delete_session_attendee/kea_partners', to: 'session_attendees#destroy_kea_partners', as: 'destroy_kea_partners_session_attendee'
 end

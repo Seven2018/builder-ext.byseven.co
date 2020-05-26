@@ -1,5 +1,5 @@
 class SessionAttendeesController < ApplicationController
-  before_action :authenticate_user!, except: [:destroy, :create, :create_big_mamma, :destroy_big_mamma]
+  before_action :authenticate_user!, except: [:destroy, :create, :create_kea_partners, :destroy_kea_partners]
 
   def create
     @session = Session.find(params[:session_id])
@@ -20,7 +20,7 @@ class SessionAttendeesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  def create_big_mamma
+  def create_kea_partners
     skip_authorization
     sessions = params[:sessions_ids]
     sessions.each do |session|
@@ -30,7 +30,7 @@ class SessionAttendeesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  def destroy_big_mamma
+  def destroy_kea_partners
     skip_authorization
     sessions = params[:sessions_ids]
     sessions.each do |session|

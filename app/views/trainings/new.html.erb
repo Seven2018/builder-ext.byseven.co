@@ -25,11 +25,3 @@
   </div>
 </div>
 
-<script>
-  client = document.getElementById('training_client_contact_id');
-  price = document.getElementById('training_unit_price');
-  client.addEventListener('change', (event) => {
-    value = client.value;
-    price.setAttribute('value', '<%= j ClientContact.find(value).client_company.unit_price %>');
-  })
-</script>

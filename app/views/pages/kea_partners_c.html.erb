@@ -1,7 +1,7 @@
 <div class="container-seven-large-form">
   <div id='attendee-form-logo'>
     <%= image_tag "SEVENLOGO_SQUARE2.png" %>
-    <img src="https://media.glassdoor.com/sqll/1563896/big-mamma-groupe-squarelogo-1511525722768.png" alt="" >
+    <img src="https://media.glassdoor.com/sqll/365366/kea-and-partners-squarelogo-1466439693008.png" alt="" >
   </div>
   <div id='attendee-form'>
     <% status = !params[:search].nil? %>
@@ -10,7 +10,7 @@
       <h2 style='color: #FFC451;'><strong></strong></h2>
     </div>
     <% if !user_signed_in? %>
-      <%= simple_form_for :search, url: big_mamma_path, method: 'GET' do |f| %>
+      <%= simple_form_for :search, url: kea_partners_path, method: 'GET' do |f| %>
         <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
           <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
           <div style='display:flex;justify-content:space-around;'>
@@ -18,11 +18,10 @@
             <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname}, disabled: true, required: false %>
           </div>
           <div style='display:flex;justify-content:space-around;'>
-            <%= f.input :employee_id, label: 'N°ID', input_html: { value: attendee.employee_id }, disabled: true, required: false %>
             <%= f.input :email, input_html: { value: attendee.email }, disabled: true, required: false %>
           </div>
         <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
-          <% controller.redirect_to new_big_mamma_attendee_path(client_company_id: ClientCompany.find_by(name: 'BIG MAMMA'), email: params[:search][:email]) %>
+          <% controller.redirect_to new_kea_partners_attendee_path(client_company_id: ClientCompany.find_by(name: 'BIG MAMMA'), email: params[:search][:email]) %>
         <% else %>
           <%= f.input :email, label: 'Adresse email' %>
           <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
@@ -30,14 +29,14 @@
       <% end %>
     <% end %>
   </div>
-  <% training_1 = Training.find_by(refid: '20-0071') %>
-  <% training_2 = Training.find_by(refid: '20-0072') %>
-  <% training_3 = Training.find_by(refid: '20-0073') %>
+  <% training_1 = Training.find_by(refid: '20-0002') %>
+  <% sessions = training_1.sessions.order(date: :asc) %>
+  <% attendee = Attendee.find_by(email: params[:search][:email]) %>
   <% if (params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
     <div class='container-seven-large-form'>
       <div class="session-form-card-special center-button">
         <div class="session-form-card-left-special">
-          <%= image_tag "big_mamma_1.png", style: 'height:100%;width:100%;object-fit:cover;' %>
+          <%= image_tag "kea_partners_1.png", style: 'height:100%;width:100%;object-fit:cover;' %>
         </div>
         <div class="session-form-card-right-special">
           <div class="session-form-card-title">
@@ -53,17 +52,20 @@
           <div class="session-form-control flex-column-between-left">
             <h4>Dates disponibles</h4>
               <div class="flex-row-between-centered" style='width: 100%;'>
-                <p>14 Mai de 10h à 12h30 & 15 Mai de 10h à 12h30</p>
                 <% if user_signed_in? %>
                   <p>Participants inscrits : <%= training_1.sessions[0]&.attendees&.count  %></p>
                 <% else %>
-                  <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_1.sessions.ids[0..1]).present? %>
-                    <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: training_1.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
-                  <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_1.sessions.ids[2..3]).present? || SessionAttendee.joins(session: :training).where(trainings: {title: ['BIG MAMMA - GERER UN CLIENT DIFFICILE', 'BIG MAMMA - S’ORGANISER EFFICACEMENT']}, attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 3 %>
-                    <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_1.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
-                  <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_1.sessions.ids[0..1]).empty? %>
-                    <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_1.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+                  <% if sessions[7].attendees.include?() %>
+                    <div class="flex-row-between-centered">
+                      <p>Le 04 Juin 2020 : 9h-12h</p>
+                      <%= link_to "S'inscrire", new_session_attendee_path(session_id: sessions[0], attendee_id: attendee.id), method: :post, class: 'btn btn-edit-green' %>
+                    </div>
+                  <% else %>
+
                   <% end %>
+                  <div class="flex-row-between-centered"></div>
+                    <p>Le 10 Juin 2020 : 9h-12h</p>
+                    <%= link_to "S'inscrire", new_session_attendee_path(session_id: sessions[7], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
                 <% end %>
               </div>
               <div class="flex-row-between-centered" style='width: 100%;'>
@@ -72,11 +74,11 @@
                   <p>Participants inscrits : <%= training_1.sessions[2]&.attendees&.count  %></p>
                 <% else %>
                   <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_1.sessions.ids[2..3]).present? %>
-                    <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: training_1.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+                    <%= link_to "Se désinscrire", destroy_kea_partners_session_attendee_path(sessions_ids: training_1.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
                   <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_1.sessions.ids[0..1]).present? || SessionAttendee.joins(session: :training).where(trainings: {title: ['BIG MAMMA - GERER UN CLIENT DIFFICILE', 'BIG MAMMA - S’ORGANISER EFFICACEMENT']}, attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 3 %>
-                    <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_1.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+                    <%= link_to "S'inscrire", new_kea_partners_session_attendee_path(sessions_ids: training_1.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
                   <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_1.sessions.ids[2..3]).empty? %>
-                    <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_1.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+                    <%= link_to "S'inscrire", new_kea_partners_session_attendee_path(sessions_ids: training_1.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
                   <% end %>
                 <% end %>
               </div>
@@ -97,7 +99,7 @@
       </div>
       <div class="session-form-card-special center-button">
         <div class="session-form-card-left-special">
-          <%= image_tag "big_mamma_2.png", style: 'height:100%;width:100%;object-fit:cover;' %>
+          <%= image_tag "kea_partners_2.png", style: 'height:100%;width:100%;object-fit:cover;' %>
         </div>
         <div class="session-form-card-right-special">
           <div class="session-form-card-title">
@@ -118,11 +120,11 @@
                 <p>Participants inscrits : <%= training_2.sessions[0]&.attendees&.count  %></p>
               <% else %>
                 <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_2.sessions.ids[0..1]).present? %>
-                  <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: training_2.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+                  <%= link_to "Se désinscrire", destroy_kea_partners_session_attendee_path(sessions_ids: training_2.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
                 <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_2.sessions.ids[2..3]).present? || SessionAttendee.joins(session: :training).where(trainings: {title: ['BIG MAMMA - FIDELISER SA CLIENTELE', 'BIG MAMMA - S’ORGANISER EFFICACEMENT']}, attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 3 %>
-                  <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_2.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+                  <%= link_to "S'inscrire", new_kea_partners_session_attendee_path(sessions_ids: training_2.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
                 <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_2.sessions.ids[0..1]).empty? %>
-                  <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_2.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+                  <%= link_to "S'inscrire", new_kea_partners_session_attendee_path(sessions_ids: training_2.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
                 <% end %>
               <% end %>
             </div>
@@ -132,11 +134,11 @@
                 <p>Participants inscrits : <%= training_2.sessions[2]&.attendees&.count  %></p>
               <% else %>
                 <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_2.sessions.ids[2..3]).present? %>
-                  <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: training_2.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+                  <%= link_to "Se désinscrire", destroy_kea_partners_session_attendee_path(sessions_ids: training_2.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
                 <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_2.sessions.ids[0..1]).present? || SessionAttendee.joins(session: :training).where(trainings: {title: ['BIG MAMMA - FIDELISER SA CLIENTELE', 'BIG MAMMA - S’ORGANISER EFFICACEMENT']}, attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 3 %>
-                  <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_2.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+                  <%= link_to "S'inscrire", new_kea_partners_session_attendee_path(sessions_ids: training_2.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
                 <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_2.sessions.ids[2..3]).empty? %>
-                  <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_2.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+                  <%= link_to "S'inscrire", new_kea_partners_session_attendee_path(sessions_ids: training_2.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
                 <% end %>
               <% end %>
             </div>
@@ -157,7 +159,7 @@
       </div>
       <div class="session-form-card-special center-button">
         <div class="session-form-card-left-special">
-          <%= image_tag "big_mamma_3.png", style: 'height:100%;width:100%;object-fit:cover;' %>
+          <%= image_tag "kea_partners_3.png", style: 'height:100%;width:100%;object-fit:cover;' %>
         </div>
         <div class="session-form-card-right-special">
           <div class="session-form-card-title">
@@ -177,11 +179,11 @@
                 <p>Participants inscrits : <%= training_3.sessions[0]&.attendees&.count  %></p>
               <% else %>
                 <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_3.sessions.ids[0..1]).present? %>
-                  <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: training_3.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+                  <%= link_to "Se désinscrire", destroy_kea_partners_session_attendee_path(sessions_ids: training_3.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
                 <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_3.sessions.ids[2..3]).present? || SessionAttendee.joins(session: :training).where(trainings: {title: ['BIG MAMMA - FIDELISER SA CLIENTELE', 'BIG MAMMA - GERER UN CLIENT DIFFICILE']}, attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 3 %>
-                  <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_3.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+                  <%= link_to "S'inscrire", new_kea_partners_session_attendee_path(sessions_ids: training_3.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
                 <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_3.sessions.ids[0..1]).empty? %>
-                  <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_3.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+                  <%= link_to "S'inscrire", new_kea_partners_session_attendee_path(sessions_ids: training_3.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
                 <% end %>
               <% end %>
             </div>
@@ -191,11 +193,11 @@
                 <p>Participants inscrits : <%= training_3.sessions[2]&.attendees&.count  %></p>
               <% else %>
                 <% if SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_3.sessions.ids[2..3]).present? %>
-                  <%= link_to "Se désinscrire", destroy_big_mamma_session_attendee_path(sessions_ids: training_3.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
+                  <%= link_to "Se désinscrire", destroy_kea_partners_session_attendee_path(sessions_ids: training_3.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, class: 'btn btn-edit-red' %>
                 <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_3.sessions.ids[0..1]).present? || SessionAttendee.joins(session: :training).where(trainings: {title: ['BIG MAMMA - FIDELISER SA CLIENTELE', 'BIG MAMMA - GERER UN CLIENT DIFFICILE']}, attendee_id: Attendee.find_by(email: params[:search][:email]).id).count > 3 %>
-                  <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_3.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
+                  <%= link_to "S'inscrire", new_kea_partners_session_attendee_path(sessions_ids: training_3.sessions.ids[0..1], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green disabled', style: 'opacity: 0.5;' %>
                 <% elsif SessionAttendee.where(attendee_id: Attendee.find_by(email: params[:search][:email]).id, session_id: training_3.sessions.ids[2..3]).empty? %>
-                  <%= link_to "S'inscrire", new_big_mamma_session_attendee_path(sessions_ids: training_3.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+                  <%= link_to "S'inscrire", new_kea_partners_session_attendee_path(sessions_ids: training_3.sessions.ids[2..3], attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
                 <% end %>
               <% end %>
             </div>
