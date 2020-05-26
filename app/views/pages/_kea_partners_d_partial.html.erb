@@ -2,7 +2,7 @@
     <div class='container-seven-large-form'>
       <div class="session-form-card-special center-button">
         <div class="session-form-card-left-special">
-
+          <%= image_tag "kea_3.png", style: 'height:100%;width:100%;object-fit:cover;' %>
         </div>
         <div class="session-form-card-right-special">
           <div class="session-form-card-title">
@@ -20,7 +20,7 @@
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[4].id).present? %>
                   <% checked = 'Interested' %>
                 <% end %>
-                <%= f.collection_radio_buttons :choice, [['Le 05 Juin 2020 : 14h-17h', sessions[4].id] ,['Le 10 Juin 2020 : 14h-17h', sessions[5].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice, [["Le 05 Juin 2020 : 14h-17h (#{sessions[4].attendee_number-sessions[4].attendees.count} places disponibles)", sessions[4].id] ,["Le 10 Juin 2020 : 14h-17h (#{sessions[5].attendee_number-sessions[5].attendees.count} places disponibles)", sessions[5].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio" style='width:83rem;'>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -43,7 +43,7 @@
       </div>
       <div class="session-form-card-special center-button">
         <div class="session-form-card-left-special">
-
+          <%= image_tag "kea_4.png", style: 'height:100%;width:100%;object-fit:cover;' %>
         </div>
         <div class="session-form-card-right-special">
           <div class="session-form-card-title">
@@ -61,7 +61,7 @@
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[6].id).present? %>
                   <% checked = 'Interested' %>
                 <% end %>
-                <%= f.collection_radio_buttons :choice, [['Le 08 Juin 2020 : 14h-17h', sessions[6].id] ,['Le 11 Juin 2020 : 9h-12h', sessions[7].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice, [["Le 08 Juin 2020 : 14h-17h (#{sessions[6].attendee_number-sessions[6].attendees.count} places disponibles)", sessions[6].id] ,["Le 11 Juin 2020 : 9h-12h (#{sessions[7].attendee_number-sessions[7].attendees.count} places disponibles)", sessions[7].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio" style='width:83rem;'>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -84,7 +84,7 @@
       </div>
       <div class="session-form-card-special center-button">
         <div class="session-form-card-left-special">
-
+          <%= image_tag "kea_6.jpg", style: 'height:100%;width:100%;object-fit:cover;' %>
         </div>
         <div class="session-form-card-right-special">
           <div class="session-form-card-title">
@@ -102,7 +102,7 @@
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[10].id).present? %>
                   <% checked = 'Interested' %>
                 <% end %>
-                <%= f.collection_radio_buttons :choice, [['Le 09 Juin 2020 : 14h-17h', sessions[10].id] ,['Le 12 Juin 2020 : 9h-12h', sessions[11].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice, [["Le 09 Juin 2020 : 14h-17h (#{sessions[10].attendee_number-sessions[10].attendees.count} places disponibles)", sessions[10].id] ,["Le 12 Juin 2020 : 9h-12h (#{sessions[11].attendee_number-sessions[11].attendees.count} places disponibles)", sessions[11].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio" style='width:83rem;'>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -125,7 +125,7 @@
       </div>
       <div class="session-form-card-special center-button">
         <div class="session-form-card-left-special">
-
+          <%= image_tag "kea_7.png", style: 'height:100%;width:100%;object-fit:cover;' %>
         </div>
         <div class="session-form-card-right-special">
           <div class="session-form-card-title">
@@ -143,7 +143,7 @@
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[12].id).present? %>
                   <% checked = 'Interested' %>
                 <% end %>
-                <%= f.collection_radio_buttons :choice, [['Le 09 Juin 2020 : 14h-17h', sessions[12].id] ,['Le 12 Juin 2020 : 14h-17h', sessions[13].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice, [["Le 09 Juin 2020 : 14h-17h (#{sessions[12].attendee_number-sessions[12].attendees.count} places disponibles)", sessions[12].id] ,["Le 12 Juin 2020 : 14h-17h (#{sessions[13].attendee_number-sessions[13].attendees.count} places disponibles)", sessions[13].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio" style='width:83rem;'>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
