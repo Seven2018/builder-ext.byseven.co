@@ -127,7 +127,7 @@
   }
 }
 
-.btn-edit-yellow, .btn-edit-red, .btn-edit-green, .btn-edit-grey, .btn-edit-blue {
+.btn-edit-yellow, .btn-edit-red, .btn-edit-green, .btn-edit-grey, .btn-edit-blue, .btn-submit-disabled {
   font-family: 'Arial', sans-serif !important;
   opacity: 0.8;
   width: auto;
@@ -326,5 +326,14 @@
 
   &:hover {
     background-color: rgba(0,0,0,0) !important;
+  }
+}
+
+.btn-submit-disabled {
+  cursor: default !important;
+  background-color: rgba(0,0,0,0.3) !important;
+
+  &:hover {
+
   }
 }
