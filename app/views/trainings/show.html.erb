@@ -144,7 +144,7 @@
               <% if session.start_time && session.end_time %>
                 <div><p> <%="#{session&.date&.strftime('%d/%m/%y')}"%> </p></div>
                 <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
-                <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendee_number %></p></div>
+                <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendees.count %>/<%= session.attendee_number %></p></div>
                 <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
                   <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>' data-toggle="tooltip" title="Add Trainer"><i class="fas fa-user-astronaut"></i></button>
                   <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></button>

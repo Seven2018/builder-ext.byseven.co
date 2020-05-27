@@ -43,10 +43,11 @@ class AttendeesController < ApplicationController
   # Exports a list of Attendees attending the current Session
   def export
     @attendees = Attendee.joins(:session_attendees).where(session_attendees: {session_id: params[:id]})
+    session = Session.find(params[:id])
     skip_authorization
     respond_to do |format|
       format.html
-      format.csv { send_data @attendees.to_csv}
+      format.csv { send_data @attendees.to_csv, :filename => "Participants - #{session.training.title} - #{session.title} - #{session.date.strftime('%d%m%Y')}.csv"}
     end
   end
 
