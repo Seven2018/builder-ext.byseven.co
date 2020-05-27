@@ -44,17 +44,23 @@ class SessionAttendeesController < ApplicationController
   def test
     skip_authorization
     training = Training.find(params[:training_id])
+    raise
+    sessions_ids = params[:sessions_ids].split(',').map{|x|x.to_i}
     if params[:create_attendees][:choice] == 'Interested'
       new_interest = AttendeeInterest.create(session_id: params[:sessions_ids], attendee_id: params[:attendee_id])
-      SessionAttendee.where(attendee_id: params[:attendee_id], session_id: training.sessions.ids).destroy_all
+      SessionAttendee.where(attendee_id: params[:attendee_id], session_id: sessions_ids).destroy_all
+    elsif params[:create_attendees][:choice] == 'Not interested'
+      AttendeeInterest.where(session_id: params[:sessions_ids], attendee_id: params[:attendee_id]).destroy_all
+      SessionAttendee.where(attendee_id: params[:attendee_id], session_id: sessions_ids).destroy_all
     else
       AttendeeInterest.where(session_id: params[:sessions_ids], attendee_id: params[:attendee_id]).destroy_all
-      SessionAttendee.where(attendee_id: params[:attendee_id], session_id: training.sessions.ids).destroy_all
+      SessionAttendee.where(attendee_id: params[:attendee_id], session_id: sessions_ids).destroy_all
       session_attendee = SessionAttendee.create(session_id: params[:create_attendees][:choice].to_i, attendee_id: params[:attendee_id])
     end
     redirect_back(fallback_location: root_path)
     if params[:create_attendees][:choice] == 'Interested'
       flash[:notice] = "Votre interêt pour la formation #{training.title} a bien été pris en compte."
+    elsif params[:create_attendees][:choice] == 'Not interested'
     else
       flash[:notice] = "Vous êtes désormais inscrit à la session #{session_attendee.session.title} du #{session_attendee.session.date.strftime('%d/%m/%Y')}."
     end

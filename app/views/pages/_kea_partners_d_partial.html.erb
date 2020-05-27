@@ -19,8 +19,10 @@
                   <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[4].id, sessions[5].id])&.first&.session_id&.to_s %>
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[4].id).present? %>
                   <% checked = 'Interested' %>
+                <% else %>
+                  <% checked = 'Not interested' %>
                 <% end %>
-                <%= f.collection_radio_buttons :choice, [["Le 05 Juin 2020 : 14h-17h (#{sessions[4].attendee_number-sessions[4].attendees.count} places disponibles)", sessions[4].id] ,["Le 10 Juin 2020 : 14h-17h (#{sessions[5].attendee_number-sessions[5].attendees.count} places disponibles)", sessions[5].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice, [["Le 05 Juin 2020 : 14h-17h (#{sessions[4].attendee_number-sessions[4].attendees.count} places disponibles)", sessions[4].id] ,["Le 10 Juin 2020 : 14h-17h (#{sessions[5].attendee_number-sessions[5].attendees.count} places disponibles)", sessions[5].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio" style='width:83rem;'>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -32,7 +34,7 @@
                 <% end %>
                 <%= hidden_field_tag(:attendee_id, attendee.id) %>
                 <%= hidden_field_tag(:training_id, sessions[4].training.id) %>
-                <%= hidden_field_tag(:sessions_ids, sessions[4].id) %>
+                <%= hidden_field_tag(:sessions_ids, "#{sessions[4].id},#{sessions[5].id}") %>
               </div>
               <div class="flex-row-end-centered">
                 <%= f.submit 'Valider', class: 'btn btn-edit-yellow' %>
@@ -60,8 +62,10 @@
                   <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[6].id, sessions[7].id])&.first&.session_id&.to_s %>
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[6].id).present? %>
                   <% checked = 'Interested' %>
+                <% else %>
+                  <% checked = 'Not interested' %>
                 <% end %>
-                <%= f.collection_radio_buttons :choice, [["Le 08 Juin 2020 : 14h-17h (#{sessions[6].attendee_number-sessions[6].attendees.count} places disponibles)", sessions[6].id] ,["Le 11 Juin 2020 : 9h-12h (#{sessions[7].attendee_number-sessions[7].attendees.count} places disponibles)", sessions[7].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice, [["Le 08 Juin 2020 : 14h-17h (#{sessions[6].attendee_number-sessions[6].attendees.count} places disponibles)", sessions[6].id] ,["Le 11 Juin 2020 : 9h-12h (#{sessions[7].attendee_number-sessions[7].attendees.count} places disponibles)", sessions[7].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio" style='width:83rem;'>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -73,7 +77,7 @@
                 <% end %>
                 <%= hidden_field_tag(:attendee_id, attendee.id) %>
                 <%= hidden_field_tag(:training_id, sessions[6].training.id) %>
-                <%= hidden_field_tag(:sessions_ids, sessions[6].id) %>
+                <%= hidden_field_tag(:sessions_ids, "#{sessions[6].id},#{sessions[7].id}") %>
               </div>
               <div class="flex-row-end-centered">
                 <%= f.submit 'Valider', class: 'btn btn-edit-yellow' %>
@@ -101,8 +105,10 @@
                   <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[10].id, sessions[11].id])&.first&.session_id&.to_s %>
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[10].id).present? %>
                   <% checked = 'Interested' %>
+                <% else %>
+                  <% checked = 'Not interested' %>
                 <% end %>
-                <%= f.collection_radio_buttons :choice, [["Le 09 Juin 2020 : 14h-17h (#{sessions[10].attendee_number-sessions[10].attendees.count} places disponibles)", sessions[10].id] ,["Le 12 Juin 2020 : 9h-12h (#{sessions[11].attendee_number-sessions[11].attendees.count} places disponibles)", sessions[11].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice, [["Le 09 Juin 2020 : 14h-17h (#{sessions[10].attendee_number-sessions[10].attendees.count} places disponibles)", sessions[10].id] ,["Le 12 Juin 2020 : 9h-12h (#{sessions[11].attendee_number-sessions[11].attendees.count} places disponibles)", sessions[11].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio" style='width:83rem;'>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -114,7 +120,7 @@
                 <% end %>
                 <%= hidden_field_tag(:attendee_id, attendee.id) %>
                 <%= hidden_field_tag(:training_id, sessions[10].training.id) %>
-                <%= hidden_field_tag(:sessions_ids, sessions[10].id) %>
+                <%= hidden_field_tag(:sessions_ids, "#{sessions[10].id},#{sessions[11].id}") %>
               </div>
               <div class="flex-row-end-centered">
                 <%= f.submit 'Valider', class: 'btn btn-edit-yellow' %>
@@ -142,8 +148,10 @@
                   <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[12].id, sessions[13].id])&.first&.session_id&.to_s %>
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[12].id).present? %>
                   <% checked = 'Interested' %>
+                <% else %>
+                  <% checked = 'Not interested' %>
                 <% end %>
-                <%= f.collection_radio_buttons :choice, [["Le 09 Juin 2020 : 14h-17h (#{sessions[12].attendee_number-sessions[12].attendees.count} places disponibles)", sessions[12].id] ,["Le 12 Juin 2020 : 14h-17h (#{sessions[13].attendee_number-sessions[13].attendees.count} places disponibles)", sessions[13].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice, [["Le 09 Juin 2020 : 14h-17h (#{sessions[12].attendee_number-sessions[12].attendees.count} places disponibles)", sessions[12].id] ,["Le 12 Juin 2020 : 14h-17h (#{sessions[13].attendee_number-sessions[13].attendees.count} places disponibles)", sessions[13].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio" style='width:83rem;'>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -155,7 +163,7 @@
                 <% end %>
                 <%= hidden_field_tag(:attendee_id, attendee.id) %>
                 <%= hidden_field_tag(:training_id, sessions[12].training.id) %>
-                <%= hidden_field_tag(:sessions_ids, sessions[12].id) %>
+                <%= hidden_field_tag(:sessions_ids, "#{sessions[12].id},#{sessions[13].id}") %>
               </div>
               <div class="flex-row-end-centered">
                 <%= f.submit 'Valider', class: 'btn btn-edit-yellow' %>
