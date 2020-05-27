@@ -81,8 +81,7 @@ class SessionAttendeesController < ApplicationController
         SessionAttendee.create(session_id: value.to_i, attendee_id: params[:attendee_id])
       end
     end
-    redirect_back(fallback_location: root_path)
-    flash[:notice] = "Vos inscriptions ont bien été prises en compte."
+    redirect_to kea_partners_thanks_path(search: {email: Attendee.find(params[:attendee_id]).email})
   end
 end
 

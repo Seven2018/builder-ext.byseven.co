@@ -1,0 +1,58 @@
+<div class="container-seven-large-form">
+  <div id='attendee-form-logo'>
+    <%= image_tag "SEVENLOGO_SQUARE2.png" %>
+    <img src="https://media.glassdoor.com/sqll/365366/kea-and-partners-squarelogo-1466439693008.png" alt="" >
+  </div>
+  <% training = Training.find_by(refid: '20-0088') %>
+  <% sessions = training.sessions.sort_by{|x|x.id} %>
+  <div id='attendee-form'>
+    <% status = !params[:search].nil? %>
+    <div id="attendee-form-title">
+      <h1>Formations SEVEN : Inscription</h1>
+      <br>
+    </div>
+    <% if !user_signed_in? %>
+      <%= simple_form_for :search, url: kea_partners_c_path, method: 'GET' do |f| %>
+        <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
+          <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
+          <div style='display:flex;justify-content:space-around;'>
+            <%= f.input :firstname, label: 'Prénom', input_html: { value: attendee.firstname}, disabled: true, required: false %>
+            <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname}, disabled: true, required: false %>
+          </div>
+          <div style='display:flex;justify-content:space-around;'>
+            <%= f.input :email, input_html: { value: attendee.email }, disabled: true, required: false %>
+          </div>
+        <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
+          <% controller.redirect_to new_kea_partners_attendee_path(training_id: training.id, email: params[:search][:email]) %>
+        <% else %>
+          <%= f.input :email, label: 'Adresse email' %>
+          <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  <% if params[:search].present? %>
+    <% attendee = Attendee.find_by(email: params[:search][:email]) %>
+  <% end %>
+  <div class='attendee-form-thanks'>
+    <p>Félicitations <%= attendee.firstname.capitalize %>!</p>
+    <p>Vous êtes désormais inscrit aux ateliers suivants:</p>
+    <ul>
+      <% Session.joins(:session_attendees).where(session_attendees: {attendee_id: attendee.id, session_id: sessions.map{|x|x.id}}).each do |session| %>
+        <li><p><%= "#{session.title} - le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}" %></p></li>
+      <% end %>
+    </ul>
+    <br><br>
+    <p>Nous avons bien pris en compte votre interet pour les ateliers:</p>
+    <ul>
+      <% Session.joins(:attendee_interests).where(attendee_interests: {session_id: sessions.map{|x|x.id}, attendee_id: attendee.id}).each do |session| %>
+        <li><p><%= session.title %></p></li>
+      <% end %>
+    </ul>
+    <br><br>
+    <p>Si vous souhaitez modifier vos inscriptions, veuillez cliquer sur le bouton suivant:</p>
+    <div class="centered-item" style='margin: 3rem 0;'>
+      <%= link_to 'Modifier', :back, class: 'btn btn-edit-yellow' %>
+    </div>
+  </div>
+</div>

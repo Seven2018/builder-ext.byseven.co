@@ -8,8 +8,9 @@
   <div id='attendee-form'>
     <% status = !params[:search].nil? %>
     <div id="attendee-form-title">
-      <h1>Formulaire d'inscription</h1>
-      <h2 style='color: #FFC451;'><strong></strong></h2>
+      <h1>Formations SEVEN : Inscription</h1>
+      <br>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.</p>
     </div>
     <% if !user_signed_in? %>
       <%= simple_form_for :search, url: kea_partners_c_path, method: 'GET' do |f| %>
@@ -44,9 +45,7 @@
           <div class="session-form-card-title">
             <h4>5 WAYS TO CONTROL YOUR TIME</h4>
           </div>
-          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod. Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam. Maecenas finibus, ligula nec dapibus tristique, lectus diam tempor leo, ac rhoncus odio sem ut est. Mauris erat odio, ullamcorper sit amet convallis bibendum, ornare quis orci.<br><br>
-
-           Nulla ullamcorper ornare tristique. Sed sit amet dictum tortor. Proin lobortis nisi ac vestibulum egestas. Duis porttitor lectus quam, in aliquet elit vehicula eget. Suspendisse ultrices congue risus, lacinia facilisis risus. Curabitur vitae ante sed urna efficitur viverra. Vivamus vel dui vel sem tincidunt consequat vel et diam.
+          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.<br><br>Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam.
           </p>
           <div class="session-form-control flex-column-between-left">
             <%= simple_form_for :create_attendees, url: test_session_attendee_path(attendee_id: attendee.id), method: 'GET' do |f| %>
@@ -59,7 +58,7 @@
                   <% checked = 'Not interested' %>
                 <% end %>
                 <%= f.collection_radio_buttons :choice1, [["Le 04 Juin 2020 : 9h-12h (#{sessions[0].attendee_number-sessions[0].attendees.count} places disponibles)", sessions[0].id] ,["Le 10 Juin 2020 : 9h-12h (#{sessions[1].attendee_number-sessions[1].attendees.count} places disponibles)" , sessions[1].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
-                  <div class="flex-row-between-centered radio" style='width:83rem;'>
+                  <div class="flex-row-between-centered radio"kea_partners>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
                         <%= b.radio_button %>
@@ -80,9 +79,7 @@
           <div class="session-form-card-title">
             <h4>LEARNING DESIGN THINKING - LEAD CREATIVE CHANGE IN YOUR ORGANIZATION</h4>
           </div>
-          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod. Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam. Maecenas finibus, ligula nec dapibus tristique, lectus diam tempor leo, ac rhoncus odio sem ut est. Mauris erat odio, ullamcorper sit amet convallis bibendum, ornare quis orci.<br><br>
-
-           Nulla ullamcorper ornare tristique. Sed sit amet dictum tortor. Proin lobortis nisi ac vestibulum egestas. Duis porttitor lectus quam, in aliquet elit vehicula eget. Suspendisse ultrices congue risus, lacinia facilisis risus. Curabitur vitae ante sed urna efficitur viverra. Vivamus vel dui vel sem tincidunt consequat vel et diam.
+          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.<br><br>Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam.
           </p>
           <div class="session-form-control flex-column-between-left">
             <div class="flex-column-between-left">
@@ -94,7 +91,7 @@
                 <% checked = 'Not interested' %>
               <% end %>
               <%= f.collection_radio_buttons :choice2, [["Le 04 Juin 2020 : 14h-17h (#{sessions[2].attendee_number-sessions[2].attendees.count} places disponibles)", sessions[2].id] ,["Le 10 Juin 2020 : 9h-12h (#{sessions[3].attendee_number-sessions[3].attendees.count} places disponibles)", sessions[3].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
-                <div class="flex-row-between-centered radio" style='width:83rem;'>
+                <div class="flex-row-between-centered radio">
                   <p class='form_radio_label'>
                     <label class="radio_container"><%= b.text %>
                       <%= b.radio_button %>
@@ -109,8 +106,8 @@
           </div>
         </div>
       </div>
-          <div class="flex-row-end-centered" style='margin-top: 3rem;'>
-            <%= f.submit 'Valider', class: 'btn btn-edit-yellow btn-submit-disabled' %>
+          <div class="flex-row-end-centered" style='margin: 3rem 0;'>
+            <%= f.submit 'Valider', class: 'btn btn-edit-yellow-large btn-submit btn-submit-disabled' %>
           </div>
         <% end %>
     </div>

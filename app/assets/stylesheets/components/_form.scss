@@ -75,19 +75,21 @@ input:focus {
  /* Customize the label (the container) */
 .radio_container {
   text-align: left;
+  width: auto;
   display: block;
   position: relative;
   margin-bottom: 12px;
   cursor: pointer;
+  padding-left: 4rem;
   font-size: 22px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 
-  @include from-large {
-    width: 83rem;
-  }
+  // @include from-large {
+  //   width: 83rem;
+  // }
 }
 
 /* Hide the browser's default radio button */
@@ -103,12 +105,11 @@ input:focus {
 .checkmark {
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   height: 25px;
   width: 25px;
   background-color: #eee;
   border-radius: 50%;
-  margin-left: 2rem;
 }
 
 /* On mouse-over, add a grey background color */

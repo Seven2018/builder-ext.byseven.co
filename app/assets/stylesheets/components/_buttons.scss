@@ -234,7 +234,7 @@
   }
 }
 
-.btn-edit, .btn-edit-yellow {
+.btn-edit, .btn-edit-yellow, .btn-edit-yellow-large {
   background-color: $yellow !important;
 }
 
@@ -290,6 +290,33 @@
   }
 }
 
+.btn-edit-yellow-large {
+  font-family: 'Arial', sans-serif !important;
+  opacity: 0.8;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  color: white !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+
+  i {
+    color: white;
+  }
+
+
+  &:hover{
+    opacity: 1;
+    text-decoration: none !important;
+  }
+}
+
 .btn-add-user {
   font-family: 'Arial', sans-serif !important;
   box-shadow: none !important;
@@ -332,8 +359,4 @@
 .btn-submit-disabled {
   cursor: default !important;
   background-color: rgba(0,0,0,0.3) !important;
-
-  &:hover {
-
-  }
 }

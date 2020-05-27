@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:home, :survey, :kea_partners_c, :kea_partners_m, :kea_partners_d]
+  skip_before_action :authenticate_user!, only: [:home, :survey, :kea_partners_c, :kea_partners_m, :kea_partners_d, :kea_partners_thanks]
 
   def home
   end
@@ -14,6 +14,9 @@ class PagesController < ApplicationController
   end
 
   def kea_partners_d
+  end
+
+  def kea_partners_thanks
   end
 
   def survey
