@@ -6,11 +6,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 3rem;
 
   @include from-large {
     min-width: 1080px;
     padding: 3rem;
-    margin-top: 3rem;
   }
 
   h2 {
@@ -69,15 +69,20 @@
 
 #attendee-form-logo {
   width: 100%;
-  display: inherit;
+  display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  align-items: center;
 
   @include from-large {
+    display: inherit;
+    flex-direction: row;
     width: 50%;
   }
 
   img {
-    height: 70.5rem;
+    height: auto;
+    width: 15rem;
 
     @include from-large {
       height: 15rem;
@@ -119,12 +124,16 @@
 }
 
 .session-form-card-special {
-  height: 600px;
+  height: auto;
   width: 300px;
   background-color: white;
   box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
+
+  @include from-medium {
+    width: 45rem;
+  }
 
   @include from-large {
     height: 55rem;
@@ -164,6 +173,11 @@
 .session-form-card-left-special {
   height: 300px;
   width: 300px;
+
+  @include from-medium {
+    height: 45rem;
+    min-width: 45rem;
+  }
 
   @include from-large {
     height: 55rem;
@@ -209,12 +223,17 @@
 }
 
 .session-form-card-right-special {
-  height: 300px;
+  height: auto;
   width: 300px;
-  padding: 0 0.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @include from-medium {
+    width: 45rem;
+  }
+
 
   @include from-large {
     height: 55rem;
@@ -241,6 +260,16 @@
 }
 
 .session-form-control {
+  div, form, span, p {
+    max-width: 100%;
+  }
+
+  span {
+    @include from-medium{
+      margin-bottom: 1rem;
+    }
+  }
+
   a {
     margin: 1rem 0;
     font-size: 1.2rem;
@@ -250,13 +279,17 @@
     }
   }
 
-  p {
+  p, label {
     margin: 0;
     font-size: 1.2rem;
 
     @include from-large {
       font-size: 1.6rem;
     }
+  }
+
+  label {
+    padding-right: 4rem;
   }
 }
 

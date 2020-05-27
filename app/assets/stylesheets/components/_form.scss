@@ -66,6 +66,7 @@ input:focus {
 }
 
 .form_radio_label {
+  width: 100%;
   label {
     font-size: 1.6rem !important;
   }
@@ -73,7 +74,6 @@ input:focus {
 
  /* Customize the label (the container) */
 .radio_container {
-  width: 83rem;
   text-align: left;
   display: block;
   position: relative;
@@ -84,6 +84,10 @@ input:focus {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  @include from-large {
+    width: 83rem;
+  }
 }
 
 /* Hide the browser's default radio button */
@@ -104,6 +108,7 @@ input:focus {
   width: 25px;
   background-color: #eee;
   border-radius: 50%;
+  margin-left: 2rem;
 }
 
 /* On mouse-over, add a grey background color */
