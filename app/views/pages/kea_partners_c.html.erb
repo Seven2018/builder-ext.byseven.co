@@ -3,8 +3,14 @@
     <%= image_tag "SEVENLOGO_SQUARE2.png" %>
     <img src="https://media.glassdoor.com/sqll/365366/kea-and-partners-squarelogo-1466439693008.png" alt="" >
   </div>
-  <% training = Training.find_by(refid: '20-0088') %>
+  <% training = Training.find_by(refid: '20-0003') %>
   <% sessions = training.sessions.sort_by{|x|x.id} %>
+  <% if params[:search].present? %>
+    <% attendee = Attendee.find_by(email: params[:search][:email]) %>
+    <% if params[:modify].nil? && (SessionAttendee.where(session_id: training.sessions.ids, attendee_id: attendee.id).present? || AttendeeInterest.where(attendee_id: attendee.id, session_id: training.sessions.ids)) %>
+      <%controller.redirect_to kea_partners_thanks_path(search: {email: attendee.email}) %>
+    <% end %>
+  <% end %>
   <div id='attendee-form'>
     <% status = !params[:search].nil? %>
     <div id="attendee-form-title">
@@ -16,12 +22,10 @@
       <%= simple_form_for :search, url: kea_partners_c_path, method: 'GET' do |f| %>
         <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
           <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
-          <div style='display:flex;justify-content:space-around;'>
-            <%= f.input :firstname, label: 'Prénom', input_html: { value: attendee.firstname}, disabled: true, required: false %>
-            <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname}, disabled: true, required: false %>
-          </div>
-          <div style='display:flex;justify-content:space-around;'>
-            <%= f.input :email, input_html: { value: attendee.email }, disabled: true, required: false %>
+          <div class='flex-column-between-centered'>
+            <%= f.input :firstname, label: 'Prénom', input_html: { value: attendee.firstname, style: 'width:30rem;'}, disabled: true, required: false %>
+            <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname, style: 'width:30rem;'}, disabled: true, required: false %>
+            <%= f.input :email, input_html: { value: attendee.email, style: 'width:30rem;' }, disabled: true, required: false %>
           </div>
         <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
           <% controller.redirect_to new_kea_partners_attendee_path(training_id: training.id, email: params[:search][:email]) %>
@@ -32,9 +36,6 @@
       <% end %>
     <% end %>
   </div>
-  <% if params[:search].present? %>
-    <% attendee = Attendee.find_by(email: params[:search][:email]) %>
-  <% end %>
   <% if (params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
     <div class='container-seven-large-form'>
       <div class="session-form-card-special center-button">
@@ -43,7 +44,7 @@
         </div>
         <div class="session-form-card-right-special">
           <div class="session-form-card-title">
-            <h4>5 WAYS TO CONTROL YOUR TIME</h4>
+            <h4>Savoir dire non ou comment gérer ses priorités</h4>
           </div>
           <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.<br><br>Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam.
           </p>
@@ -77,7 +78,7 @@
         </div>
         <div class="session-form-card-right-special">
           <div class="session-form-card-title">
-            <h4>LEARNING DESIGN THINKING - LEAD CREATIVE CHANGE IN YOUR ORGANIZATION</h4>
+            <h4>Innover par le design thinking</h4>
           </div>
           <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.<br><br>Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam.
           </p>
