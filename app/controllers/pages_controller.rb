@@ -8,15 +8,15 @@ class PagesController < ApplicationController
   end
 
   def kea_partners_c
-    session[:my_previous_url] = URI(request.referer || '').path
+    session[:my_previous_url] = kea_partners_c_path
   end
 
   def kea_partners_m
-    session[:my_previous_url] = URI(request.referer || '').path
+    session[:my_previous_url] = kea_partners_m_path
   end
 
   def kea_partners_d
-    session[:my_previous_url] = URI(request.referer || '').path
+    session[:my_previous_url] = kea_partners_d_path
   end
 
   def kea_partners_thanks
