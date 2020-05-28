@@ -123,11 +123,8 @@
 
   .session-teaser {
     text-align: left;
-    font-size: 1.2rem;
-
-    @include from-large {
-      font-size: 1.6rem;
-    }
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
   }
 }
 
@@ -161,6 +158,8 @@
 
   .session-teaser {
     text-align: left;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
   }
 }
 

@@ -57,6 +57,7 @@
                 <% else %>
                     <% checked = 'Not interested' %>
                 <% end %>
+                <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
                 <%= f.collection_radio_buttons :choice1, [["Le 04 Juin 2020 : 14h-17h (#{sessions[2].attendee_number-sessions[2].attendees.count} places disponibles)", sessions[2].id] ,["Le 10 Juin 2020 : 9h-12h (#{sessions[3].attendee_number-sessions[3].attendees.count} places disponibles)", sessions[3].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio"kea_partners>
                     <p class='form_radio_label'>
@@ -90,6 +91,7 @@
                 <% else %>
                     <% checked = 'Not interested' %>
                 <% end %>
+                <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
                 <%= f.collection_radio_buttons :choice2, [["Le 05 Juin 2020 : 14h-17h (#{sessions[4].attendee_number-sessions[4].attendees.count} places disponibles)", sessions[4].id] ,["Le 10 Juin 2020 : 14h-17h (#{sessions[5].attendee_number-sessions[5].attendees.count} places disponibles)", sessions[5].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio"kea_partners>
                     <p class='form_radio_label'>
@@ -123,6 +125,7 @@
                 <% else %>
                     <% checked = 'Not interested' %>
                 <% end %>
+                <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
                 <%= f.collection_radio_buttons :choice3, [["Le 08 Juin 2020 : 14h-17h (#{sessions[8].attendee_number-sessions[8].attendees.count} places disponibles)", sessions[8].id] ,["Le 11 Juin 2020 : 9h-12h (#{sessions[9].attendee_number-sessions[9].attendees.count} places disponibles)", sessions[9].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio"kea_partners>
                     <p class='form_radio_label'>
@@ -156,6 +159,7 @@
                 <% else %>
                     <% checked = 'Not interested' %>
                 <% end %>
+                <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
                 <%= f.collection_radio_buttons :choice4, [["Le 09 Juin 2020 : 14h-17h (#{sessions[12].attendee_number-sessions[12].attendees.count} places disponibles)", sessions[12].id] ,["Le 12 Juin 2020 : 14h-17h (#{sessions[13].attendee_number-sessions[13].attendees.count} places disponibles)", sessions[13].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio"kea_partners>
                     <p class='form_radio_label'>

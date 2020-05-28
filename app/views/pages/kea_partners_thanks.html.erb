@@ -34,24 +34,16 @@
   <% end %>
   <div class='attendee-form-thanks'>
     <p><strong>Félicitations <%= attendee.firstname.capitalize %> !</strong></p>
-    <% if SessionAttendee.where(attendee_id: attendee.id, session_id: training.sessions.ids).present? %>
-      <p>Vous êtes désormais inscrit aux ateliers suivants:</p>
-      <ul>
-        <% Session.joins(:session_attendees).where(session_attendees: {attendee_id: attendee.id, session_id: sessions.map{|x|x.id}}).each do |session| %>
-          <li><p><%= "#{session.title} - le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}" %></p></li>
+    <p>Les informations ci-dessous ont bien été enregistrées :</p>
+    <ul>
+      <% sessions.each do |session| %>
+        <% if session.attendees.include?(attendee) %>
+          <li><p><%= "#{session.title} : inscrit(e) le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}" %></p></li>
+        <% elsif session.attendee_interests.where(attendee_id: attendee.id).present? %>
+          <li><p><%= "#{session.title} : intéressé mais pas disponible aux dates indiquées" %></p></li>
         <% end %>
-      </ul>
-      <br><br>
-    <% end %>
-    <% if AttendeeInterest.where(attendee_id: attendee.id, session_id: training.sessions.ids).present? %>
-      <p>Nous avons bien pris en compte votre interet pour les ateliers:</p>
-      <ul>
-        <% Session.joins(:attendee_interests).where(attendee_interests: {session_id: sessions.map{|x|x.id}, attendee_id: attendee.id}).each do |session| %>
-          <li><p><%= session.title %></p></li>
-        <% end %>
-      </ul>
-      <br><br>
-    <% end %>
+      <% end %>
+    </ul>
     <p>Si vous souhaitez modifier vos inscriptions, veuillez cliquer sur le bouton suivant:</p>
     <div class="centered-item" style='margin: 3rem 0;'>
       <%= link_to 'Modifier', "#{session[:my_previous_url]}?search[email]=#{attendee.email}&modify=yes", class: 'btn btn-edit-yellow' %>
