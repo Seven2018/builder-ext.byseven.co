@@ -1,6 +1,6 @@
 class Attendee < ApplicationRecord
   belongs_to :client_company
-  has_many :session_attendees
+  has_many :session_attendees, dependent: :destroy
   has_many :sessions, through: :session_attendees
   has_many :attendee_interests, dependent: :destroy
   validates :firstname, :lastname, :email, presence: true

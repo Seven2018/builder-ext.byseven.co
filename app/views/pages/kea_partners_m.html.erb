@@ -7,20 +7,22 @@
   <% sessions = training.sessions.sort_by{|x|x.id} %>
   <% if params[:search].present? %>
     <% attendee = Attendee.find_by(email: params[:search][:email]) %>
-    <% if params[:modify].nil? && (SessionAttendee.where(session_id: training.sessions.ids, attendee_id: attendee.id).present? || AttendeeInterest.where(attendee_id: attendee.id, session_id: training.sessions.ids)) %>
-      <%controller.redirect_to kea_partners_thanks_path(search: {email: attendee.email}) %>
-    <% end %>
   <% end %>
   <div id='attendee-form'>
     <% status = !params[:search].nil? %>
     <div id="attendee-form-title">
       <h1>Formulaire d'inscription</h1>
+      <br>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.</p>
       <h2 style='color: #FFC451;'><strong></strong></h2>
     </div>
     <% if !user_signed_in? %>
       <%= simple_form_for :search, url: kea_partners_m_path, method: 'GET' do |f| %>
         <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
           <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
+          <% if params[:modify].nil? && (SessionAttendee.where(session_id: training.sessions.ids, attendee_id: attendee.id)&.present? || AttendeeInterest.where(attendee_id: attendee.id, session_id: training.sessions.ids))&.present? %>
+            <%controller.redirect_to kea_partners_thanks_path(search: {email: attendee.email}) %>
+          <% end %>
           <div class='flex-column-between-centered'>
             <%= f.input :firstname, label: 'Prénom', input_html: { value: attendee.firstname, style: 'width:30rem;'}, disabled: true, required: false %>
             <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname, style: 'width:30rem;'}, disabled: true, required: false %>
@@ -29,6 +31,8 @@
         <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
           <% controller.redirect_to new_kea_partners_attendee_path(training_id: training.id, email: params[:search][:email]) %>
         <% else %>
+          <p>Veuillez entrer votre adresse email pour continuer</p>
+          <br>
           <%= f.input :email, label: 'Adresse email' %>
           <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
         <% end %>

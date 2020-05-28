@@ -81,7 +81,8 @@ Rails.application.routes.draw do
   resources :attendees, only: [:new, :create]
   post 'attendees/import', to: 'attendees#import', as: 'import_attendees'
   get 'training/:training_id/session/:id/attendees/export.csv', to: 'attendees#export', as: 'export_attendees'
-  get 'attendee/kea_partners', to: 'attendees#create_kea_partners', as: 'new_kea_partners_attendee'
+  get 'attendee/new_kea_partners', to: 'attendees#new_kea_partners', as: 'new_kea_partners_attendee'
+  post 'attendee/create_kea_partners', to: 'attendees#create_kea_partners', as: 'create_kea_partners_attendee'
   resources :session_forms, only: [:create, :destroy]
   get '/redirect', to: 'session_trainers#redirect', as: 'redirect'
   get '/callback', to: 'session_trainers#callback', as: 'callback'

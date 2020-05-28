@@ -1,6 +1,6 @@
 class AttendeesController < ApplicationController
   before_action :set_training, only: [:form]
-  before_action :authenticate_user!, except: [:form, :new, :create, :create_kea_partners]
+  before_action :authenticate_user!, except: [:form, :new, :create, :new_kea_partners, :create_kea_partners]
   invisible_captcha only: [:create], honeypot: :subtitle
 
   def new
@@ -20,12 +20,18 @@ class AttendeesController < ApplicationController
     end
   end
 
-  def create_kea_partners_c
+  def new_kea_partners
+    skip_authorization
+    @attendee = Attendee.new
+    session[:my_previous_url] = URI(request.referer || '').path
+  end
+
+  def create_kea_partners
+    skip_authorization
     @attendee = Attendee.new(attendee_params)
-    authorize @attendee
-    @attendee.update(client_company_id: ClientCompany.find_by(name: 'KEA PARTNERS'))
+    @attendee.client_company_id = ClientCompany.find_by(name: 'KEA PARTNERS').id
     if @attendee.save
-      redirect_to kea_partners_c_path(search: {email: @attendee.email})
+      redirect_to "#{params[:redirect]}?search[email]=#{@attendee.email}"
       flash[:notice] = 'Compte créé avec succès'
     else
       flash[:notice] = 'Erreur'
