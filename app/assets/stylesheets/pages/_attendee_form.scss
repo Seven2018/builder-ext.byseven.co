@@ -6,7 +6,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem;
 
   @include from-large {
     min-width: 1080px;
@@ -55,6 +54,7 @@
 
 #attendee-form {
   width: 100%;
+  text-align:center;
 
   @include from-large {
     width: 500px;

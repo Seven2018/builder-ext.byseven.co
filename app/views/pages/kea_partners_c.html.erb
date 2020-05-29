@@ -13,7 +13,6 @@
     <div id="attendee-form-title">
       <h1>Formations SEVEN : Inscription</h1>
       <br>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.</p>
     </div>
     <% if !user_signed_in? %>
       <%= simple_form_for :search, url: kea_partners_c_path, method: 'GET' do |f| %>
@@ -38,6 +37,7 @@
       <% end %>
     <% end %>
   </div>
+  <p style='margin:5rem 0 0 0;'>Bienvenue ! Merci de sélectionner les modules de formations qui vous intéressent. A très bientôt, L’équipe Seven</p>
   <% if (params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
     <div class='container-seven-large-form'>
       <div class="session-form-card-special center-button">
