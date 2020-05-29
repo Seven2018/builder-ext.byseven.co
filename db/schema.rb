@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_26_143050) do
+ActiveRecord::Schema.define(version: 2020_05_28_171015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,8 +164,8 @@ ActiveRecord::Schema.define(version: 2020_05_26_143050) do
     t.bigint "training_id"
     t.bigint "user_id"
     t.string "type"
-    t.decimal "total_amount", precision: 15, scale: 10
-    t.decimal "tax_amount", precision: 15, scale: 10
+    t.decimal "total_amount", precision: 16, scale: 8
+    t.decimal "tax_amount", precision: 16, scale: 8
     t.string "status"
     t.string "description"
     t.datetime "sending_date"
@@ -183,8 +183,8 @@ ActiveRecord::Schema.define(version: 2020_05_26_143050) do
     t.string "description"
     t.text "comments"
     t.float "quantity"
-    t.decimal "net_amount", precision: 15, scale: 10
-    t.decimal "tax_amount", precision: 15, scale: 10
+    t.decimal "net_amount", precision: 16, scale: 8
+    t.decimal "tax_amount", precision: 16, scale: 8
     t.bigint "invoice_item_id"
     t.bigint "product_id"
     t.datetime "created_at", null: false

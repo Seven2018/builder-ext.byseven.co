@@ -49,7 +49,8 @@
           <div class="session-form-card-title">
             <h4>Innover par le design thinking</h4>
           </div>
-          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.<br><br>Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam.
+          <p class='session-teaser'>Au cours de cet atelier les participants découvriront, sur la base de leurs problématiques quotidiennes, les concepts de base du Design Thinking. <br><br>
+          Les participants pratiqueront la méthodologie pour découvrir comment innover dans leur métier et affronter un univers changeant
           </p>
           <div class="session-form-control flex-column-between-left">
             <%= simple_form_for :create_attendees, url: test_session_attendee_path(attendee_id: attendee.id), method: 'GET', html: {id: 'form_1'} do |f| %>
@@ -62,7 +63,7 @@
                     <% checked = 'Not interested' %>
                 <% end %>
                 <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
-                <%= f.collection_radio_buttons :choice1, [["Le 04 Juin 2020 : 14h-17h (#{sessions[2].attendee_number-sessions[2].attendees.count} places disponibles)", sessions[2].id] ,["Le 10 Juin 2020 : 9h-12h (#{sessions[3].attendee_number-sessions[3].attendees.count} places disponibles)", sessions[3].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice1, [["Le 04 Juin 2020 : 14h-17h (#{sessions[2].attendee_number-sessions[2].attendees.count} places disponibles)", sessions[2].id] ,["Le 10 Juin 2020 : 9h30-12h30 (#{sessions[3].attendee_number-sessions[3].attendees.count} places disponibles)", sessions[3].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio"kea_partners>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -84,7 +85,7 @@
           <div class="session-form-card-title">
             <h4>Transmettre avec les 7 intelligences</h4>
           </div>
-          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.<br><br>Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam.
+          <p class='session-teaser'>A l’aide de la théorie des intelligences multiples d’Howard Gardner, les participants découvriront comment rythmer les interactions avec leurs interlocuteurs et adapter leur discours pour convaincre et animer avec impact. <br><br> Que ce soit lors de réunions, de discours ou de formations, ils découvriront également comment exploiter avec succès la courbe de l'attention pour capter leur auditoire.
           </p>
           <div class="session-form-control flex-column-between-left">
               <div class="flex-column-between-left">
@@ -118,7 +119,8 @@
           <div class="session-form-card-title">
             <h4>Manager selon la situation</h4>
           </div>
-          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.<br><br>Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam.
+          <p class='session-teaser'>Manager une équipe ne se fait pas à l'instinct. Il y a des bonnes pratiques qui ont fait leur preuve. <br><br>
+          Dans cet atelier les participants découvriront comment le Management Situationnel et le Delegation Poker peuvent fluidifier les communications, engager les équipes et faire grandir les collaborateurs.
           </p>
           <div class="session-form-control flex-column-between-left">
               <div class="flex-column-between-left">
@@ -130,7 +132,7 @@
                     <% checked = 'Not interested' %>
                 <% end %>
                 <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
-                <%= f.collection_radio_buttons :choice3, [["Le 08 Juin 2020 : 14h-17h (#{sessions[8].attendee_number-sessions[8].attendees.count} places disponibles)", sessions[8].id] ,["Le 11 Juin 2020 : 9h-12h (#{sessions[9].attendee_number-sessions[9].attendees.count} places disponibles)", sessions[9].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice3, [["Le 08 Juin 2020 : 14h-17h (#{sessions[8].attendee_number-sessions[8].attendees.count} places disponibles)", sessions[8].id] ,["Le 11 Juin 2020 : 9h30-12h30 (#{sessions[9].attendee_number-sessions[9].attendees.count} places disponibles)", sessions[9].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio"kea_partners>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -152,7 +154,8 @@
           <div class="session-form-card-title">
             <h4>Construire son personal branding</h4>
           </div>
-          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.<br><br>Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam.
+          <p class='session-teaser'>Pour développer son personnal branding, sur les réseaux sociaux ou lors de moments d'échanges physiques informels, il faut d'abord faire un travail sur soi pour identifier le ou les messages qui sont importants pour soi. <br><br>
+          Il faut ensuite travailler son storytelling et utiliser les leviers d'influence pour développer efficacement son réseau.
           </p>
           <div class="session-form-control flex-column-between-left">
               <div class="flex-column-between-left">

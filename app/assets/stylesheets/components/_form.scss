@@ -92,6 +92,10 @@ input:focus {
   // }
 }
 
+.radio_container {
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
 /* Hide the browser's default radio button */
 .radio_container input {
   position: absolute;

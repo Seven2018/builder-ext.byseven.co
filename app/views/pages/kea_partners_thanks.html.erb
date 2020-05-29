@@ -44,7 +44,7 @@
     <p>Les informations ci-dessous ont bien été enregistrées :</p>
     <ul>
       <% empty_sessions = [] %>
-      <%= duplicate_sessions = [] %>
+      <% duplicate_sessions = [] %>
       <% sessions.each do |session| %>
         <% if session.attendees.include?(attendee) %>
           <li><p><%= "#{session.title} : inscrit(e) le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}" %></p></li>

@@ -48,7 +48,8 @@
           <div class="session-form-card-title">
             <h4>Savoir dire non ou comment gérer ses priorités</h4>
           </div>
-          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.<br><br>Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam.
+          <p class='session-teaser'>Pour gagner en efficacité il est important de s’organiser individuellement et de savoir quand dire non à ses interlocuteurs. <br><br>
+            Dans cet atelier les participants mettront en place des pour-actions concrets qui auront un impact immédiat sur leur capacité à gérer et prioriser les demandes qui leur sont faites, tout en conservant une bonne relation avec leurs différents interlocuteurs.
           </p>
           <div class="session-form-control flex-column-between-left">
             <%= simple_form_for :create_attendees, url: test_session_attendee_path(attendee_id: attendee.id), method: 'GET' do |f| %>
@@ -61,7 +62,7 @@
                   <% checked = 'Not interested' %>
                 <% end %>
                 <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
-                <%= f.collection_radio_buttons :choice1, [["Le 04 Juin 2020 : 9h-12h (#{sessions[0].attendee_number-sessions[0].attendees.count} places disponibles)", sessions[0].id] ,["Le 10 Juin 2020 : 9h-12h (#{sessions[1].attendee_number-sessions[1].attendees.count} places disponibles)" , sessions[1].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
+                <%= f.collection_radio_buttons :choice1, [["Le 04 Juin 2020 : 9h30-12h30 (#{sessions[0].attendee_number-sessions[0].attendees.count} places disponibles)", sessions[0].id] ,["Le 10 Juin 2020 : 9h30-12h30 (#{sessions[1].attendee_number-sessions[1].attendees.count} places disponibles)" , sessions[1].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio"kea_partners>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -83,7 +84,8 @@
           <div class="session-form-card-title">
             <h4>Innover par le design thinking</h4>
           </div>
-          <p class='session-teaser'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non consectetur dolor. Donec viverra id libero nec finibus. Aliquam condimentum nec ante tristique euismod.<br><br>Quisque turpis tellus, tristique vitae felis ut, tristique posuere augue. Sed eget nunc at lacus lacinia consectetur ac et arcu. Suspendisse non cursus elit, ut eleifend quam.
+          <p class='session-teaser'>Au cours de cet atelier les participants découvriront, sur la base de leurs problématiques quotidiennes, les concepts de base du Design Thinking. <br> <br>
+          Les participants pratiqueront la méthodologie pour découvrir comment innover dans leur métier et affronter un univers changeant.
           </p>
           <div class="session-form-control flex-column-between-left">
             <div class="flex-column-between-left">
@@ -95,7 +97,7 @@
                 <% checked = 'Not interested' %>
               <% end %>
               <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
-              <%= f.collection_radio_buttons :choice2, [["Le 04 Juin 2020 : 14h-17h (#{sessions[2].attendee_number-sessions[2].attendees.count} places disponibles)", sessions[2].id] ,["Le 10 Juin 2020 : 9h-12h (#{sessions[3].attendee_number-sessions[3].attendees.count} places disponibles)", sessions[3].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
+              <%= f.collection_radio_buttons :choice2, [["Le 04 Juin 2020 : 14h-17h (#{sessions[2].attendee_number-sessions[2].attendees.count} places disponibles)", sessions[2].id] ,["Le 10 Juin 2020 : 9h30-12h30 (#{sessions[3].attendee_number-sessions[3].attendees.count} places disponibles)", sessions[3].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
                 <div class="flex-row-between-centered radio">
                   <p class='form_radio_label'>
                     <label class="radio_container"><%= b.text %>
