@@ -3,7 +3,7 @@
     <%= image_tag "SEVENLOGO_SQUARE2.png" %>
     <img src="https://media.glassdoor.com/sqll/365366/kea-and-partners-squarelogo-1466439693008.png" alt="" >
   </div>
-  <% training = Training.find_by(refid: '20-0088') %>
+  <% training = Training.find_by(refid: '20-0003') %>
   <% sessions = training.sessions.sort_by{|x|x.id} %>
   <% if params[:search].present? %>
     <% attendee = Attendee.find_by(email: params[:search][:email]) %>
@@ -11,7 +11,7 @@
   <div id='attendee-form'>
     <% status = !params[:search].nil? %>
     <div id="attendee-form-title">
-      <h1>Formations SEVEN : Inscription</h1>
+      <h1 style='line-height:1.3;'>Formulaire d’inscription aux formations SEVEN</h1>
       <br>
     </div>
     <% if !user_signed_in? %>
@@ -37,7 +37,9 @@
       <% end %>
     <% end %>
   </div>
-  <p style='margin:5rem 0 0 0;'>Bienvenue ! Merci de sélectionner les modules de formations qui vous intéressent. A très bientôt, L’équipe Seven</p>
+  <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
+    <h4 style='margin:5rem 0 0 0;'>Bienvenue ! Merci de sélectionner les modules de formations qui vous intéressent. A très bientôt, L’équipe Seven</h4>
+  <% end %>
   <% if (params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
     <div class='container-seven-large-form'>
       <div class="session-form-card-special center-button">
