@@ -29,9 +29,8 @@
               <div class="client-company-infos">
                 <div class="client-company-type-address">
                   <p><%= company.name %></p>
-                  <% company.address.split(',').each do |el| %>
-                    <p><%= el %></p>
-                  <% end %>
+                  <%= company.address %>
+                  <%= "#{company.zipcode} #{company.city}" %>
                 </div>
                 <div class="client-company-client-contact-list">
                   <% company.client_contacts.first(3).each do |contact| %>

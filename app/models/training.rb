@@ -4,10 +4,13 @@ class Training < ApplicationRecord
   has_many :training_ownerships, dependent: :destroy
   has_many :users, through: :training_ownerships
   has_many :session_trainers, through: :sessions
+  has_many :attendee_interests, dependent: :destroy
   has_many :invoice_items
   has_many :invoices
   has_many :forms, dependent: :destroy
+  has_many :attendee_interests, dependent: :destroy
   validates :title, presence: true
+  validates :vat, inclusion: { in: [ true, false ] }
   accepts_nested_attributes_for :training_ownerships
 
   def start_time
@@ -30,7 +33,7 @@ class Training < ApplicationRecord
     if self.sessions.empty?
       self.title + ' : ' + Training.where(title: self.title).count.to_s + '(empty)'
     else
-      self.title + ' : ' + self.sessions.order(date: :asc).first.date.strftime('%d/%m/%y') + ' - ' + self.sessions.order(date: :asc).last.date.strftime('%d/%m/%y')
+      self.title + ' : ' + self.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y') + ' - ' + self.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')
     end
   end
 
@@ -73,13 +76,13 @@ class Training < ApplicationRecord
         hours = ""
         comments = ""
         item.sessions.where('date >= ?', starts_at.to_date).where('date <= ?', ends_at.to_date).order(date: :asc).each do |session|
-          dates += session.date.strftime('%d/%m/%y') + "\n"
+          dates += session&.date&.strftime('%d/%m/%y') + "\n"
           i = 1
           session.session_trainers.map(&:user).each do |trainer|
             trainers += trainer.fullname + "\n"
             hours += session.duration.to_s + "\n"
             if i > 1
-              dates += session.date.strftime('%d/%m/%y') + "\n"
+              dates += session&.date&.strftime('%d/%m/%y') + "\n"
             end
             i += 1
           end

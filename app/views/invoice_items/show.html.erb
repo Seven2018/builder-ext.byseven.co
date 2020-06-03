@@ -1,6 +1,6 @@
 <div class="container-seven-large">
   <div class="invoice-item-container-mobile">
-    <h1><%= @invoice_item.training.client_contact.client_company.name %> : <%= @invoice_item.uuid %></h1>
+    <h1><%= @invoice_item.client_company.name %> : <%= @invoice_item.uuid %></h1>
     <%= link_to invoice_item_path(@invoice_item, format: :pdf) do %>
       <button class="btn btn-edit-yellowbtn-edit-red">
         Export <i class="fas fa-file-pdf"></i>
@@ -9,20 +9,28 @@
   </div>
   <div class="invoice-item-container">
     <div id='page-controls'>
-      <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+      <% if @invoice_item.training.present? %>
+        <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+      <% else %>
+        <%= link_to client_company_path(@invoice_item.client_company), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+      <% end %>
       <div class="page-controls-buttons">
-        <button class='btn btn-edit-green btn-icon invoiceitem_copy' data-toggle='modal' data-target='#copyInvoiceItem'><i class="fas fa-copy"></i></button>
         <%= link_to invoice_item_path(@invoice_item, format: :pdf), target: :_blank do %>
-          <button class="btn btn-edit-yellow btn-icon" id='export-btn'>
+          <button class="btn btn-edit-yellow btn-icon" id='export-btn' data-toggle="tooltip" title="Export to PDF">
             <i class="fas fa-file-pdf"></i>
           </button>
         <% end %>
-        <%= link_to credit_invoice_item_path(@invoice_item) do %>
-          <button class="btn btn-edit-red btn-icon">
-            <i class="fas fa-file-invoice-dollar"></i>
-          </button>
+        <% if @invoice_item.type == 'Invoice' %>
+          <%= link_to credit_invoice_item_path(@invoice_item), class: "btn btn-edit-red btn-icon", data: {toggle: 'tooltip'}, title: 'Credit Note' do %>
+              <i class="fas fa-file-invoice-dollar"></i>
+          <% end %>
+        <% elsif @invoice_item.type == 'Estimate' %>
+          <%= link_to invoice_item_path(@invoice_item), method: :delete, data: {confirm: 'Are you sure ?'}, class: 'btn btn-edit-red btn-icon' do %>
+            <i class="fas fa-trash-alt"></i>
+          <% end %>
         <% end %>
-        <a id='show_library' class='btn btn-edit-grey btn-icon'><i class="fas fa-book"></i></i></a>
+        <button class='btn btn-edit-green btn-icon invoiceitem_copy' data-toggle='modal' data-toggle='tooltip' data-target='#copyInvoiceItem' title='Copy Invoice'><i class="fas fa-copy"></i></button>
+        <a id='show_library' class='btn btn-edit-grey btn-icon' data-toggle="tooltip" title="Show Products"><i class="fas fa-book"></i></i></a>
       </div>
     </div>
     <div class="invoice-header">
@@ -61,7 +69,11 @@
     </div>
     <div class="invoice-client">
       <% unless @invoice_item.type == 'InvoiceSevener' %>
-        <button class='invoice-item-button-opco' data-toggle='modal' data-target='#editClient'>OPCO ?</button>
+        <% if @invoice_item.client_company.client_company_type == 'Company' && @invoice_item.client_company.opco_id.present? %>
+          <%= link_to 'OPCO', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change to OPCO' %>
+        <% elsif @invoice_item.client_company.client_company_type == 'OPCO' && @invoice_item.description.present? %>
+            <%= link_to 'Client', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change back to Client' %>
+        <% end %>
         <div>
           <p><%= @invoice_item.client_company.name %></p>
           <p><%= @invoice_item.client_company.address %></p>
@@ -163,6 +175,9 @@
           <% end %>
           <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post do %>
             <li>Commentaires</li>
+          <% end %>
+          <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id, description: 'Nom'), method: :post do %>
+            <li>Nom du participant</li>
           <% end %>
         </ul>
       </div>

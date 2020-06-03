@@ -10,8 +10,8 @@ class InvoiceItem < ApplicationRecord
   #   CSV.generate(headers: true) do |csv|
   #     csv << attributes
   #     all.each do |item|
-  #       startdate = item.training.start_date.strftime('%d/%m/%y')
-  #       enddate = item.training.end_date.strftime('%d/%m/%y')
+  #       startdate = item.training.start_date&.strftime('%d/%m/%y')
+  #       enddate = item.training.end_date&.strftime('%d/%m/%y')
   #       client = item.client_company.name
   #       training_name = item.training.title
   #       trello = ''
@@ -35,9 +35,9 @@ class InvoiceItem < ApplicationRecord
   #       vat = item.tax_amount
   #       revenue = item.total_amount
   #       num = item.uuid
-  #       sending = item.sending_date.strftime('%d/%m/%y') if item.sending_date.present?
-  #       dunning = item.dunning_date.strftime('%d/%m/%y') if item.dunning_date.present?
-  #       payment = item.payment_date.strftime('%d/%m/%y') if item.payment_date.present?
+  #       sending = item.sending_date&.strftime('%d/%m/%y') if item.sending_date.present?
+  #       dunning = item.dunning_date&.strftime('%d/%m/%y') if item.dunning_date.present?
+  #       payment = item.payment_date&.strftime('%d/%m/%y') if item.payment_date.present?
   #       csv << [startdate, enddate, client, training_name, trello, unit, nature, unit_price, variable, fixed, caution, vat, expenses, expenses_out, description, revenue, num, sending, dunning, payment]
   #       item.training.trainers.each do |trainer|
   #         csv << [startdate, enddate, client, training_name, trello, '', '', '', '', '', '', '', '', '', '', '', '', '', '', "","", "#{trainer.firstname} #{trainer.lastname}", '01/01/20', '480', '01/01/20']
@@ -58,13 +58,6 @@ class InvoiceItem < ApplicationRecord
           aux_account = item.client_company.reference
           invoice_num = item.uuid
           item.client_company.client_company_type = 'School' ? company_label = "#{item.client_company.name}" : company_label = "#{item.client_company.name} TVA"
-          # if item.total_amount > 0
-          #   debit = item.total_amount
-          #   credit = ''
-          # else
-          #   debit = ''
-          #   credit = -(item.total_amount)
-          # end
           debit = item.total_amount
           csv << [date, journal, gen_account, aux_account, invoice_num, company_label, debit, '']
           item.invoice_lines.each do |line|
@@ -115,9 +108,9 @@ class InvoiceItem < ApplicationRecord
         billed_revenue = var_revenue + fixed_revenue + billed_exp
         uuid = item.uuid
         created_at = item.created_at.strftime('%d/%m/%Y')
-        sending_date = item.sending_date.strftime('%d/%m/%Y')
-        dunning_date = item.dunning_date.strftime('%d/%m/%Y')
-        payment__date = item.payment_date.strftime('%d/%m/%Y')
+        sending_date = item.sending_date&.strftime('%d/%m/%Y')
+        dunning_date = item.dunning_date&.strftime('%d/%m/%Y')
+        payment__date = item.payment_date&.strftime('%d/%m/%Y')
         comments = ""
         csv << [title, client, unit, unit_type, unit_price, var_revenue, fixed_revenue, deposit, tax, billed_exp, other_exp, billed_revenue, uuid, created_at, sending_date, dunning_date, payment_date, comments]
       end

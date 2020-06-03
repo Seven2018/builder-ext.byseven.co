@@ -127,7 +127,7 @@
   }
 }
 
-.btn-edit-yellow, .btn-edit-red, .btn-edit-green, .btn-edit-grey {
+.btn-edit-yellow, .btn-edit-red, .btn-edit-green, .btn-edit-grey, .btn-edit-blue, .btn-submit-disabled {
   font-family: 'Arial', sans-serif !important;
   opacity: 0.8;
   width: auto;
@@ -154,16 +154,100 @@
   }
 }
 
-.btn-edit, .btn-edit-yellow {
+.btn-edit-checkbox {
+  font-family: 'Arial', sans-serif !important;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+
+  i {
+    color: white;
+  }
+
+
+  &:hover{
+    background-image: none !important;
+    text-decoration: none !important;
+
+    i {
+    color: #4AC2C7;
+    }
+  }
+}
+
+.btn-edit-checkbox-checked {
+  font-family: 'Arial', sans-serif !important;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+
+  i {
+    color: #4AC2C7;
+  }
+
+
+  &:hover{
+    background-image: none !important;
+    text-decoration: none !important;
+
+    i {
+    color: white;
+    }
+  }
+}
+
+.btn-edit-checkbox-disabled {
+  font-family: 'Arial', sans-serif !important;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  opacity: 1 !important;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    opacity: 1 !important;
+  }
+}
+
+.btn-edit, .btn-edit-yellow, .btn-edit-yellow-large {
   background-color: $yellow !important;
 }
 
 .btn-edit-red {
-    background-color: #E64259 !important;
+  background-color: #E64259 !important;
 }
 
 .btn-edit-green {
-    background-color: #4AC2C7 !important;
+  background-color: #4AC2C7 !important;
+}
+
+.btn-edit-blue {
+  background-color: #739DBF !important;
 }
 
 .btn-edit-grey {
@@ -186,7 +270,7 @@
 }
 
 .btn-icon {
-  color: white !important;
+  color: white;
 }
 
 .btn-icon-close {
@@ -203,6 +287,33 @@
 
   &:hover {
     background-color: #23282E !important;
+  }
+}
+
+.btn-edit-yellow-large {
+  font-family: 'Arial', sans-serif !important;
+  opacity: 0.8;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  color: white !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+
+  i {
+    color: white;
+  }
+
+
+  &:hover{
+    opacity: 1;
+    text-decoration: none !important;
   }
 }
 
@@ -235,4 +346,17 @@
   background-color: $yellow !important;
   border-radius: 2px;
   box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+}
+
+.disabled {
+  cursor: default !important;
+
+  &:hover {
+    background-color: rgba(0,0,0,0) !important;
+  }
+}
+
+.btn-submit-disabled {
+  cursor: default !important;
+  background-color: rgba(0,0,0,0.3) !important;
 }

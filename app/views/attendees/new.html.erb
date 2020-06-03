@@ -9,10 +9,6 @@
         <span class='form-label'>Nom</span>
         <%= f.input :lastname, label: false %>
       </div>
-      <div class="form-div">
-        <span class='form-label'>N°WWID</span>
-        <%= f.input :employee_id, label: false %>
-      </div>
       <div class="form-div" id='form-div-mail'>
         <span class='form-label'>Adresse email</span>
         <%= f.input :email, label: false, input_html: { value: params[:email] ? params[:email].downcase : '' } %>

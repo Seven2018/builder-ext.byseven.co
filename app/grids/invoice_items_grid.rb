@@ -26,10 +26,10 @@ class InvoiceItemsGrid
   #
 
   column(:start_date, header: 'Début') do |record|
-    record.training.start_date.strftime('%d/%m/%y')
+    record.training.start_date&.strftime('%d/%m/%y')
   end
   column(:end_date, header: 'Fin') do |record|
-    record.training.end_date.strftime('%d/%m/%y')
+    record.training.end_date&.strftime('%d/%m/%y')
   end
   column(:client_company, header: 'Nom client') do |record|
     record.client_company.name
@@ -92,16 +92,16 @@ class InvoiceItemsGrid
   end
   column :uuid
   column :created_at do
-    self.created_at.to_date.strftime('%d/%m/%y')
+    self.created_at.to_date&.strftime('%d/%m/%y')
   end
   column :sending_date do
-    self.sending_date.to_date.strftime('%d/%m/%y') if self.sending_date.present?
+    self.sending_date.to_date&.strftime('%d/%m/%y') if self.sending_date.present?
   end
   column :dunning_date do
-    self.dunning_date.to_date.strftime('%d/%m/%y') if self.dunning_date.present?
+    self.dunning_date.to_date&.strftime('%d/%m/%y') if self.dunning_date.present?
   end
   column :payment_date do
-    self.payment_date.to_date.strftime('%d/%m/%y') if self.payment_date.present?
+    self.payment_date.to_date&.strftime('%d/%m/%y') if self.payment_date.present?
   end
   column(:trainers, header: 'Intervenants') do |record|
     if record.uuid[0] == 'F'

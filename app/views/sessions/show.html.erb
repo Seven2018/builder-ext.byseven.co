@@ -6,7 +6,12 @@
     <div class='flex-row-between-centered'>
       <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
         <a class='btn btn-edit-yellow btn-icon' data-toggle='modal' data-target='#editSession' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
-        <button class='btn btn-edit-red btn-icon' id='btn-copy' data-toggle='modal' data-target='#copySession' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></button>
+        <%= link_to remove_session_trainers_path(session_id: @session.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
+          <i class="fas fa-trash-alt"></i>
+        <% end %>
+        <%= link_to training_copy_form_session_path(@session.training, @session), class: 'btn btn-edit-green btn-icon', data: {toggle: 'tooltip'}, title: 'Copy Session' do %>
+          <i class="fas fa-copy"></i>
+        <% end %>
       <% end %>
       <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
       <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -18,7 +23,7 @@
         <% end %>
       </ul>
       <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-        <button class='show_library btn btn-edit-green btn-icon' data-toggle="tooltip" title="Library"><i class="fas fa-book"></i></button>
+        <button class='show_library btn btn-edit-blue btn-icon' data-toggle="tooltip" title="Library"><i class="fas fa-book"></i></button>
       <% end %>
     </div>
   </div>
@@ -46,9 +51,9 @@
   </div>
   <div class="session-info">
     <% if @session.start_time && @session.end_time %>
-      <p> <%="#{@session.date.strftime('%d/%m/%y')}"%> </p>
+      <p> <%="#{@session&.date&.strftime('%d/%m/%y')}"%> </p>
       <div><p><%= " #{@session.start_time.strftime("%k:%M")} to #{@session.end_time.strftime("%k:%M")}" %></p></div>
-      <i class="fas fa-users"> <%= @session.attendee_number %></i>
+      <i class="fas fa-users"> <%= @session.attendees.count %>/<%= @session.attendee_number %></i>
     <% end %>
   </div>
   <div id="mods" style="min-height: 50vh;">
@@ -209,6 +214,13 @@
     library.style.height = '0px';
   })
 </script>
+
+<% if params[:search].present? %>
+  <script>
+    var library = document.getElementById('library');
+    library.style.height = '100vh';
+  </script>
+<% end %>
 
 <div class="modal fade" id="editSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">

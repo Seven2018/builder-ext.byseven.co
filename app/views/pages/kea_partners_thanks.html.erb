@@ -1,0 +1,68 @@
+<div class="container-seven-large-form">
+  <div id='attendee-form-logo'>
+    <%= image_tag "SEVENLOGO_SQUARE2.png" %>
+    <img src="https://media.glassdoor.com/sqll/365366/kea-and-partners-squarelogo-1466439693008.png" alt="" >
+  </div>
+  <% training = Training.find_by(refid: '20-0088') %>
+  <% sessions = training.sessions.sort_by{|x|x.id} %>
+  <% if session[:my_previous_url] == kea_partners_c_path %>
+    <% sessions = sessions.slice(0,4) %>
+  <% elsif session[:my_previous_url] == kea_partners_d_path %>
+    <% sessions = sessions.slice(4,2) + sessions.slice(6,2) + sessions.slice(10,2) + sessions.slice(12,2)%>
+  <% elsif session[:my_previous_url] == kea_partners_m_path %>
+    <% sessions = sessions.slice(2,2) + sessions.slice(4,2) + sessions.slice(8,2) + sessions.slice(12,2)%>
+  <% end %>
+  <div id='attendee-form'>
+    <% status = !params[:search].nil? %>
+    <div id="attendee-form-title">
+      <h1>Formations SEVEN : Inscription</h1>
+      <br>
+    </div>
+    <% if !user_signed_in? %>
+      <%= simple_form_for :search, url: kea_partners_c_path, method: 'GET' do |f| %>
+        <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
+          <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
+          <div class='flex-column-between-centered'>
+            <%= f.input :firstname, label: 'Prénom', input_html: { value: attendee.firstname, style: 'width:30rem;'}, disabled: true, required: false %>
+            <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname, style: 'width:30rem;'}, disabled: true, required: false %>
+            <%= f.input :email, input_html: { value: attendee.email, style: 'width:30rem;'}, disabled: true, required: false %>
+          </div>
+        <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
+          <% controller.redirect_to new_kea_partners_attendee_path(training_id: training.id, email: params[:search][:email]) %>
+        <% else %>
+          <%= f.input :email, label: 'Adresse email' %>
+          <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  <% if params[:search].present? %>
+    <% attendee = Attendee.find_by(email: params[:search][:email]) %>
+  <% end %>
+  <div class='attendee-form-thanks'>
+    <p><strong>Félicitations <%= attendee.firstname.capitalize %> !</strong></p>
+    <p>Les informations ci-dessous ont bien été enregistrées :</p>
+    <ul>
+      <% empty_sessions = [] %>
+      <% duplicate_sessions = [] %>
+      <% sessions.each do |session| %>
+        <% if session.attendees.include?(attendee) %>
+          <li><p><%= "#{session.title} : inscrit(e) le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}" %></p></li>
+          <% duplicate_sessions << session.title %>
+        <% elsif session.attendee_interests.where(attendee_id: attendee.id).present? %>
+          <li><p><%= "#{session.title} : intéressé mais pas disponible aux dates indiquées" %></p></li>
+          <% duplicate_sessions << session.title %>
+        <% else %>
+          <% empty_sessions << session.title %>
+        <% end %>
+      <% end %>
+      <% (empty_sessions.uniq - duplicate_sessions.uniq).each do |title| %>
+        <li><p><%= "#{title} : ne souhaite pas participer" %></p></li>
+      <% end %>
+    </ul>
+    <p>Si vous souhaitez modifier vos inscriptions, veuillez cliquer sur le bouton suivant:</p>
+    <div class="centered-item" style='margin: 3rem 0;'>
+      <%= link_to 'Modifier', "#{session[:my_previous_url]}?search[email]=#{attendee.email}&modify=yes", class: 'btn btn-edit-yellow' %>
+    </div>
+  </div>
+</div>

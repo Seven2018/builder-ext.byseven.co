@@ -7,8 +7,14 @@
   </div>
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for training do |f| %>
-      <%= f.input :title %>
+      <%= f.input :title, placeholder: 'ex : Intelligence Economique - Mai 2020' %>
       <%= f.input :client_contact_id, :collection => ClientContact.all.joins(:client_company).order('client_companies.name ASC, client_contacts.name ASC'), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name}" }, :label => 'Customer contact', :include_blank => false %>
+      <div style='display:flex;justify-content:space-between;'>
+        <%= f.input :unit_price %>
+        <div class="flex-row-around-centered">
+          <%= f.input :vat, as: :radio_buttons, checked: false, label: 'VAT' %>
+        </div>
+      </div>
       <div class='form-group' style='display:flex;justify-content:space-between;'>
         <%= f.label :mode %>
         <div style='width:75%;display:flex;justify-content: space-around;'>
@@ -18,11 +24,6 @@
       <div class='modal-control'>
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
           <i class="fas fa-save"></i>
-        <% end %>
-        <%= link_to training_path(training), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
-          <button class="btn btn-edit-red btn-icon">
-            <i class="fas fa-trash-alt"></i>
-          </button>
         <% end %>
       </div>
     <% end %>

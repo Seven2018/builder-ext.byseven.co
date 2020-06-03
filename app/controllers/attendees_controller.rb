@@ -1,6 +1,6 @@
 class AttendeesController < ApplicationController
   before_action :set_training, only: [:form]
-  before_action :authenticate_user!, except: [:form, :new, :create]
+  before_action :authenticate_user!, except: [:form, :new, :create, :new_kea_partners, :create_kea_partners]
   invisible_captcha only: [:create], honeypot: :subtitle
 
   def new
@@ -20,6 +20,24 @@ class AttendeesController < ApplicationController
     end
   end
 
+  def new_kea_partners
+    skip_authorization
+    @attendee = Attendee.new
+    session[:my_previous_url] = URI(request.referer || '').path
+  end
+
+  def create_kea_partners
+    skip_authorization
+    @attendee = Attendee.new(attendee_params)
+    @attendee.client_company_id = ClientCompany.find_by(name: 'KEA PARTNERS').id
+    if @attendee.save
+      redirect_to "#{params[:redirect]}?search[email]=#{@attendee.email}"
+      flash[:notice] = 'Compte créé avec succès'
+    else
+      flash[:notice] = 'Erreur'
+    end
+  end
+
   # Creates new Attendees from an imported list
   def import
     @attendees = Attendee.import(params[:file])
@@ -31,10 +49,11 @@ class AttendeesController < ApplicationController
   # Exports a list of Attendees attending the current Session
   def export
     @attendees = Attendee.joins(:session_attendees).where(session_attendees: {session_id: params[:id]})
+    session = Session.find(params[:id])
     skip_authorization
     respond_to do |format|
       format.html
-      format.csv { send_data @attendees.to_csv}
+      format.csv { send_data @attendees.to_csv, :filename => "Participants - #{session.training.title} - #{session.title} - #{session.date.strftime('%d%m%Y')}.csv"}
     end
   end
 

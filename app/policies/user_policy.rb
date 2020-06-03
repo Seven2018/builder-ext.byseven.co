@@ -18,11 +18,11 @@ class UserPolicy < ApplicationPolicy
   end
 
   def edit?
-    check_access
+    true
   end
 
   def update?
-    check_access
+    true
   end
 
   def destroy?
@@ -32,6 +32,6 @@ class UserPolicy < ApplicationPolicy
   private
 
   def check_access
-    ['super admin', 'admin', 'training manager', 'HR'].include? user.access_level
+    ['super admin', 'admin', 'training manager'].include? user.access_level
   end
 end

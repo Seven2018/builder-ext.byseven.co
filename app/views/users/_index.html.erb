@@ -19,7 +19,25 @@
       </div>
     </div>
     <ul class="client-contact-list">
-      <% @users.order(lastname: :asc).each do |user| %>
+      <h3>Seven</h3>
+      <% @users.where(access_level: ['super admin', 'admin', 'training manager']).each do |user| %>
+        <li>
+          <%= link_to user_path(user) do %>
+            <div class="index-card-large index-card-small">
+              <img class='client-company-logo-index' src='<%= "#{user.picture}" %>' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <div class="client-company-type-address">
+                <p><%= "#{user.lastname.upcase} #{user.firstname}" %></p>
+                <div>
+                  <p><%= user.email %></p>
+                  <p><%= user.access_level.capitalize %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+      <h3 style='margin-top: 3rem;'>Seveners</h3>
+      <% @users.where(access_level: ['sevener+', 'sevener']).each do |user| %>
         <li>
           <%= link_to user_path(user) do %>
             <div class="index-card-large index-card-small">

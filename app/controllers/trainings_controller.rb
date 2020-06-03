@@ -3,7 +3,7 @@ class TrainingsController < ApplicationController
 
   def index
     @sessions = Session.all
-    @session_trainer = SessionTrainer.new
+    # @session_trainer = SessionTrainer.new
     @form = Form.new
     # Index with 'search' option and global visibility for SEVEN Users
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
@@ -59,11 +59,11 @@ class TrainingsController < ApplicationController
 
   def create
     @training = Training.new(training_params)
-    @training_ownership = TrainingOwnership.new(user: current_user, training: @training)
     authorize @training
-    @training.refid = "#{Time.current.strftime('%y')}-#{'%04d' % (Training.where(created_at: Time.current.beginning_of_year..Time.current.end_of_year).count + 1)}"
+    @training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
     @training.satisfaction_survey = 'shorturl.at/gqwCZ'
-    if @training.save && @training_ownership.save
+    @training.title = ClientContact.find(params[:training][:client_contact_id]).client_company.name + ' - ' + params[:training][:title]
+    if @training.save
       Session.new(title: 'Session 1', date: @training.created_at, duration: 0, training_id: @training.id)
       redirect_to training_path(@training)
     else
@@ -96,6 +96,7 @@ class TrainingsController < ApplicationController
     @client_contact = ClientContact.find(params[:copy][:client_contact_id])
     @new_training = Training.new(@training.attributes.except("id", "created_at", "updated_at", "client_contact_id"))
     @new_training.title = params[:copy][:rename] if params[:copy][:rename].present?
+    @new_training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
     @new_training.client_contact_id = @client_contact.id
     if @new_training.save
       @training.sessions.each do |session|
@@ -123,6 +124,6 @@ class TrainingsController < ApplicationController
   end
 
   def training_params
-    params.require(:training).permit(:title, :client_contact_id, :mode, :satisfaction_survey)
+    params.require(:training).permit(:title, :client_contact_id, :mode, :satisfaction_survey, :unit_price, :vat)
   end
 end

@@ -1,10 +1,25 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:home, :survey]
+  skip_before_action :authenticate_user!, only: [:home, :survey, :kea_partners_c, :kea_partners_m, :kea_partners_d, :kea_partners_thanks]
 
   def home
   end
 
   def overlord
+  end
+
+  def kea_partners_c
+    session[:my_previous_url] = kea_partners_c_path
+  end
+
+  def kea_partners_m
+    session[:my_previous_url] = kea_partners_m_path
+  end
+
+  def kea_partners_d
+    session[:my_previous_url] = kea_partners_d_path
+  end
+
+  def kea_partners_thanks
   end
 
   def survey

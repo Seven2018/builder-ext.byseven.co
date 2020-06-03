@@ -18,7 +18,7 @@
     <%= f.input :action1_id, collection: Action.all, allow_blank: false, label: 'Action 1' %>
     <%= f.input :action2_id, collection: Action.all, allow_blank: true, label: 'Action 2' %>
     <%= f.input :comments, input_html: { style: 'width:100%;' } %>
-    <div class="center-button">
+    <div class="center-button" style='margin-bottom: 3rem;'>
       <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
         <i class="fas fa-save"></i>
       <% end %>

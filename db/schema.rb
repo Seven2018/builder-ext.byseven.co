@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_122321) do
+ActiveRecord::Schema.define(version: 2020_05_28_171015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,17 @@ ActiveRecord::Schema.define(version: 2020_04_08_122321) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "attendee_interests", force: :cascade do |t|
+    t.bigint "training_id"
+    t.bigint "attendee_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "session_id"
+    t.index ["attendee_id"], name: "index_attendee_interests_on_attendee_id"
+    t.index ["session_id"], name: "index_attendee_interests_on_session_id"
+    t.index ["training_id"], name: "index_attendee_interests_on_training_id"
+  end
+
   create_table "attendees", force: :cascade do |t|
     t.string "firstname"
     t.string "lastname"
@@ -77,6 +88,8 @@ ActiveRecord::Schema.define(version: 2020_04_08_122321) do
     t.string "zipcode"
     t.string "city"
     t.string "reference"
+    t.integer "opco_id"
+    t.float "unit_price"
   end
 
   create_table "client_contacts", force: :cascade do |t|
@@ -151,8 +164,8 @@ ActiveRecord::Schema.define(version: 2020_04_08_122321) do
     t.bigint "training_id"
     t.bigint "user_id"
     t.string "type"
-    t.decimal "total_amount", precision: 15, scale: 10
-    t.decimal "tax_amount", precision: 15, scale: 10
+    t.decimal "total_amount", precision: 16, scale: 8
+    t.decimal "tax_amount", precision: 16, scale: 8
     t.string "status"
     t.string "description"
     t.datetime "sending_date"
@@ -170,8 +183,8 @@ ActiveRecord::Schema.define(version: 2020_04_08_122321) do
     t.string "description"
     t.text "comments"
     t.float "quantity"
-    t.decimal "net_amount", precision: 15, scale: 10
-    t.decimal "tax_amount", precision: 15, scale: 10
+    t.decimal "net_amount", precision: 16, scale: 8
+    t.decimal "tax_amount", precision: 16, scale: 8
     t.bigint "invoice_item_id"
     t.bigint "product_id"
     t.datetime "created_at", null: false
@@ -290,6 +303,9 @@ ActiveRecord::Schema.define(version: 2020_04_08_122321) do
     t.string "mode"
     t.string "satisfaction_survey"
     t.string "refid"
+    t.float "unit_price"
+    t.boolean "vat"
+    t.string "gdrive_link"
     t.index ["client_contact_id"], name: "index_trainings_on_client_contact_id"
   end
 
@@ -350,6 +366,9 @@ ActiveRecord::Schema.define(version: 2020_04_08_122321) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "attendee_interests", "attendees"
+  add_foreign_key "attendee_interests", "sessions"
+  add_foreign_key "attendee_interests", "trainings"
   add_foreign_key "attendees", "client_companies"
   add_foreign_key "client_contacts", "client_companies"
   add_foreign_key "comments", "sessions"

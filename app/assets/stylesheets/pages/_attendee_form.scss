@@ -6,11 +6,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 3rem;
 
   @include from-large {
     min-width: 1080px;
     padding: 3rem;
-    margin-top: 13rem;
   }
 
   h2 {
@@ -64,23 +64,36 @@
 #attendee-form-title {
   text-align: center;
   margin-top: 5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 5rem;
 }
 
 #attendee-form-logo {
   width: 100%;
-  display: inherit;
+  display: flex;
+  flex-direction: row;
   justify-content: space-around;
+  align-items: center;
+
+  @include from-medium {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    width: 75%;
+  }
 
   @include from-large {
+    display: inherit;
+    flex-direction: row;
     width: 50%;
   }
 
   img {
-    height: 70.5rem;
+    height: auto;
+    width: 10rem;
 
-    @include from-large {
-      height: 15rem;
+    @include from-medium {
+      width: 15rem;
     }
   }
 }
@@ -110,11 +123,43 @@
 
   .session-teaser {
     text-align: left;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.session-form-card-special {
+  // height: 90rem;
+  // width: 30rem;
+  background-color: white;
+  box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+
+  @include from-medium {
+    // width: 45rem;
+    // height: 90rem;
+  }
+
+  @include from-large {
+    // height: 55rem;
+    // width: 110rem;
+    flex-direction: row;
+  }
+
+  h3 {
+    color: #FFC451;
+    font-size : 2rem;
 
     @include from-large {
-      font-size: 1.6rem;
+      font-size: 2.4rem;
     }
+  }
+
+  .session-teaser {
+    text-align: left;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
   }
 }
 
@@ -124,7 +169,24 @@
 
   @include from-large {
     height: 45rem;
+    min-width: 45rem;
+  }
+}
+
+.session-form-card-left-special {
+  height: 90vw;
+  width: 90vw;
+
+  @include from-medium {
+    height: 45rem;
     width: 45rem;
+  }
+
+  @include from-large {
+    height: 35vw;
+    width: 35vw;
+    min-height: 48rem;
+    min-width: 48rem;
   }
 }
 
@@ -165,7 +227,49 @@
   }
 }
 
+.session-form-card-right-special {
+  height: auto;
+  min-height: 90vw;
+  width: 90vw;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @include from-medium {
+    height: 45rem;
+    width: 45rem;
+    min-height: 45rem;
+  }
+
+
+  @include from-large {
+    height: 35vw;
+    width: 35vw;
+    min-height: 48rem;
+    min-width: 48rem;
+    padding: 2rem;
+  }
+
+  h4, p {
+    font-size: 1.6rem;
+    margin: 0;
+
+    @include from-medium {
+      font-size: 1.6rem;
+    }
+  }
+}
+
 .session-form-control {
+  div, form, span, p {
+    max-width: 100%;
+  }
+
+  span {
+    margin-bottom: 1rem;
+  }
+
   a {
     margin: 1rem 0;
     font-size: 1.2rem;
@@ -175,7 +279,7 @@
     }
   }
 
-  p {
+  p, label {
     margin: 0;
     font-size: 1.2rem;
 
@@ -191,5 +295,26 @@
 
   @include from-large {
     display: block;
+  }
+}
+
+.attendee-form-thanks {
+  margin-top: 5rem;
+  height: auto;
+  width: 30rem;
+  padding: 2rem;
+  background-color: white;
+  box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
+
+  @include from-medium {
+    width: 45rem;
+  }
+
+  @include from-large {
+    width: 65rem;
+  }
+
+  li {
+    list-style-type: disc;
   }
 }

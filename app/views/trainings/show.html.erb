@@ -6,14 +6,18 @@
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <div class="page-controls-buttons flex-row-between-centered">
         <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editTraining' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
+        <%= link_to remove_training_trainers_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
+          <i class="fas fa-trash-alt"></i>
+        <% end %>
         <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#copyTraining' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></a>
         <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
         <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><%= link_to 'New estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
           <li><%= link_to 'Estimates List', invoice_items_path(training_id: @training.id, type: 'Estimate') %></li>
           <li><%= link_to 'New invoice', new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
-          <li><a data-toggle='modal' type='button' data-target='#newSevenerInvoice' style='cursor:pointer;'>New Sevener Invoice</a></li>
+          <!-- <li><a data-toggle='modal' type='button' data-target='#newSevenerInvoice' style='cursor:pointer;'>New Sevener Invoice</a></li> -->
           <li><%= link_to 'Invoices List', invoice_items_path(training_id: @training.id, type: 'Invoice') %></li>
+          <li><%= link_to 'Orders List', invoice_items_path(training_id: @training.id, type: 'Order') %></li>
           <% if @training.forms.empty? %>
             <li><a data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a></li>
           <% else %>
@@ -139,15 +143,21 @@
           <div class="card-lg">
             <div class="card-footer-lg">
               <% if session.start_time && session.end_time %>
-                <div><p> <%="#{session.date.strftime('%d/%m/%y')}"%> </p></div>
+                <div><p> <%="#{session&.date&.strftime('%d/%m/%y')}"%> </p></div>
                 <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
-                <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendee_number %></p></div>
+                <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendees.count %>/<%= session.attendee_number %></p></div>
                 <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
                   <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>' data-toggle="tooltip" title="Add Trainer"><i class="fas fa-user-astronaut"></i></button>
                   <button class="edit-fafa" data-toggle='modal' data-target='#editSession<%= session.id %>' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></button>
-                  <%= link_to training_copy_here_session_path(session.training, session), data: { toggle: 'tooltip', confirm: 'Do you want to duplicate this session within this training ?' }, title: 'Duplicate here' do %>
+                  <%= link_to training_copy_form_session_path(session.training, session), data: { toggle: 'tooltip'}, title: 'Copy Session' do %>
                     <button class='edit-fafa session_copy'><i class="fas fa-copy"></i></button>
                   <% end %>
+                <% else %>
+                  <button class="edit-fafa disabled" data-toggle="tooltip" title="Disabled"><i class="fas fa-user-astronaut"></i></button>
+                  <button class="edit-fafa disabled" data-toggle="tooltip" title="Disabled"><i class="fas fa-pen"></i></button>
+                  <a class='disabled' data-toggle="tooltip" title="Disabled">
+                    <button class='edit-fafa session_copy disabled'><i class="fas fa-copy"></i></button>
+                  </a>
                 <% end %>
               <% end %>
             </div>

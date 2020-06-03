@@ -9,6 +9,9 @@
         <div class="page-controls-buttons">
           <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
             <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' data-target='#editClientCompany' title='Edit'><i class="fas fa-pen"></i></a>
+            <%= link_to new_estimate_path(client_company_id: @client_company.id), method: :post, class: 'btn btn-edit-red btn-icon', data: {toggle: 'tooltip'}, title: 'New Estimate' do %>
+              <i class="fas fa-file-invoice-dollar"></i>
+            <% end %>
             <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
             <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li><%= link_to 'Invoices List', invoice_items_path(client_company_id: @client_company.id, type: 'Invoice') %></li>
@@ -19,8 +22,7 @@
       </div>
       <p><%= @client_company.name %></p>
       <p style='margin:0;'><%= @client_company.address %></p>
-      <p style='margin:0;'><%= @client_company.zipcode %></p>
-      <p style='margin:0;'><%= @client_company.city %></p>
+      <p style='margin:0;'><%= "#{@client_company.zipcode} #{@client_company.city}" %></p>
       <br>
       <p><%= @client_company.client_company_type %></p>
       <p><%= @client_company.description %></p>

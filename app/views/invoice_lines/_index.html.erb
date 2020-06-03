@@ -46,7 +46,7 @@
           <div  class="invoice-desc-line">
             <p><strong><%= line.description %></strong></p>
               <div>
-                <% if line.product %>
+                <% if line.product.present? %>
                   <p><%= line.quantity %></p>
                   <p><%= number_with_precision(line.net_amount, precision: 2) %></p>
                   <p><%= number_with_precision(line.net_amount * line.quantity, precision: 2) %></p>
