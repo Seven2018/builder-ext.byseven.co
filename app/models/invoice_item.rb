@@ -58,13 +58,6 @@ class InvoiceItem < ApplicationRecord
           aux_account = item.client_company.reference
           invoice_num = item.uuid
           item.client_company.client_company_type = 'School' ? company_label = "#{item.client_company.name}" : company_label = "#{item.client_company.name} TVA"
-          # if item.total_amount > 0
-          #   debit = item.total_amount
-          #   credit = ''
-          # else
-          #   debit = ''
-          #   credit = -(item.total_amount)
-          # end
           debit = item.total_amount
           csv << [date, journal, gen_account, aux_account, invoice_num, company_label, debit, '']
           item.invoice_lines.each do |line|

@@ -103,29 +103,26 @@ class InvoiceItemsController < ApplicationController
   # Creates a new InvoiceItem (Sevener PoV), proposing a pre-filled version to be edited if necessary
   def new_sevener_invoice
     @training = Training.find(params[:training_id])
-    @client_company = ClientCompany.find(params[:client_company_id])
-    @sevener_invoice = InvoiceItem.new(training_id: params[:training_id].to_i, client_company_id: params[:client_company_id].to_i, issue_date: Date.today, due_date: Date.today + 1.months, user_id: current_user.id, type: 'InvoiceSevener')
+    sevener = User.find(params[:new_order][:user])
+    @sevener_invoice = InvoiceItem.new(training_id: params[:training_id].to_i, client_company_id: @training.client_company.id, user_id: sevener.id, type: 'Order')
     authorize @sevener_invoice
     # Attributes a invoice number to the InvoiceItem
-    @sevener_invoice.uuid = "#{current_user.firstname[0]}#{current_user.lastname[0]}#{Date.today.strftime('%Y')}%05d" % (InvoiceSevener.where(user_id: current_user.id).count+1)
+    InvoiceItem.where(type: 'Order').all.count != 0 ? (@sevener_invoice.uuid = "BC#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Order').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@sevener_invoice.uuid = "BC#{Date.today.strftime('%Y')}00001")
     # Fills the created InvoiceItem with InvoiceLines, according Training data
+    quantity = 0
+    @training.sessions.joins(:session_trainers).where(session_trainers: {user_id: sevener.id}).each do |session|
+      quantity += session.duration
+    end
     if @training.client_contact.client_company.client_company_type == 'Entreprise'
       product = Product.find(10)
-      quantity = 0
-      @training.sessions.each do |session|
-        session.duration < 4 ? quantity += 0.5 : quantity += 1
-      end
-      InvoiceLine.create(invoice_item: @sevener_invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, position: 1)
     else
       product = Product.find(11)
-      quantity = 0
-      @training.sessions.each do |session|
-        quantity += session.duration
-      end
-      InvoiceLine.create(invoice_item: @sevener_invoice, description: product.name, quantity: quantity, net_amount: product.price, tax_amount: product.tax, position: 1)
     end
-    update_price(@sevener_invoice)
-    redirect_to invoice_item_path(@sevener_invoice) if @sevener_invoice.save
+    if @sevener_invoice.save
+      InvoiceLine.create(invoice_item: @sevener_invoice, description: @training.title, quantity: quantity, net_amount: product.price, tax_amount: 0, product_id: product.id, position: 1)
+      update_price(@sevener_invoice)
+      redirect_to invoice_item_path(@sevener_invoice)
+    end
   end
 
 
@@ -133,7 +130,7 @@ class InvoiceItemsController < ApplicationController
     @client_company = ClientCompany.find(params[:client_company_id])
     @estimate = InvoiceItem.new(client_company_id: params[:client_company_id].to_i, type: 'Estimate')
     authorize @estimate
-    Estimate.all.count != 0 ? (@estimate.uuid = "DE#{Date.today.strftime('%Y')}" + (Estimate.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@estimate.uuid = "DE#{Date.today.strftime('%Y')}00001")
+    Estimate.all.count != 0 ? (@estimate.uuid = "DE#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Estimate').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@estimate.uuid = "DE#{Date.today.strftime('%Y')}00001")
     if @estimate.save
       if @client_company.client_company_type == 'Company'
         product = Product.find(2)
@@ -155,7 +152,7 @@ class InvoiceItemsController < ApplicationController
     if @invoice_item.type == 'Invoice'
       new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}" + (Invoice.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     else
-      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}" + (Estimate.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
+      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Estimate').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     end
     new_invoice_item.training_id = @training.id if @training.present?
     new_invoice_item.client_company_id = params[:copy][:client_company_id]
@@ -175,7 +172,7 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
     if @invoice_item.type == 'Invoice'
-      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}" + (Invoice.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
+      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     else
       new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}" + (Estimate.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     end
@@ -322,6 +319,8 @@ class InvoiceItemsController < ApplicationController
       @invoice_items = Invoice.where(client_company_id: params[:client_company_id].to_i).order('id DESC')
     elsif params[:type] == 'Estimate' && params[:client_company_id]
       @invoice_items = Estimate.where(client_company_id: params[:client_company_id].to_i).or(Estimate.where(description: params[:client_company_id])).order('id DESC')
+    elsif params[:type] == 'Order'
+      @invoice_items = InvoiceItem.where(training_id: params[:training_id], type: 'Order')
     end
   end
 

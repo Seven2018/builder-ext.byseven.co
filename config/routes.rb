@@ -1,29 +1,42 @@
 Rails.application.routes.draw do
   # get 'session_trainers/new'
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+
+  # PAGES
+  root to: 'pages#home'
+  get 'survey', to: 'pages#survey', as: 'survey'
   get 'numbers_activity', to: 'pages#numbers_activity', as: 'numbers_activity'
   get 'numbers_sales', to: 'pages#numbers_sales', as: 'numbers_sales'
+  get 'dashboard_sevener', to: 'pages#dashboard_sevener', as: 'dashboard_sevener'
   get 'overlord', to: 'pages#overlord', as: 'overlord'
   get 'inscriptions_kea_partners_c', to: 'pages#kea_partners_c', as: 'kea_partners_c'
   get 'inscriptions_kea_partners_m', to: 'pages#kea_partners_m', as: 'kea_partners_m'
   get 'inscriptions_kea_partners_d', to: 'pages#kea_partners_d', as: 'kea_partners_d'
   get 'inscriptions_kea_partners_thanks', to: 'pages#kea_partners_thanks', as: 'kea_partners_thanks'
+
+  # USERS
   resources :users
-  root to: 'pages#home'
-  get 'survey', to: 'pages#survey', as: 'survey'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  # resources :intelligences
+
+  # ACTIONS
   resources :actions
+
+  # THEORIES
   resources :theories
+
+  # CONTENTS
   resources :contents, only: [:index, :show, :new, :create, :update, :destroy] do
     resources :content_modules, only: [:show, :new, :create, :edit, :update, :destroy]
       get 'content_module/:id/move_up', to: 'content_modules#move_up', as: 'move_up_content_module'
       get 'content_module/:id/move_down', to: 'content_modules#move_down', as: 'move_down_content_module'
     resources :theory_contents, only: [:create, :destroy]
   end
+
+  # CLIENT COMPANIES
   resources :client_companies, path: '/companies' do
     resources :client_contacts, path: '/contacts'
   end
+
+  # INVOICE ITEMS
   resources :invoice_items, only: [:index, :show, :edit, :update, :destroy]
   get 'invoice_item/:id/copy', to: 'invoice_items#copy', as: 'copy_invoice_item'
   get 'invoice_item/:id/copy_here', to: 'invoice_items#copy_here', as: 'copy_here_invoice_item'
@@ -47,6 +60,8 @@ Rails.application.routes.draw do
   get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
   get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
   get 'training/:id/copy', to: 'trainings#copy', as: 'copy_training'
+
+  # TRAININGS
   resources :trainings do
     get 'session_viewer/:id', to: 'sessions#viewer', as: 'session_viewer'
     get 'session/:id/copy', to: 'sessions#copy', as: 'copy_session'
@@ -78,25 +93,35 @@ Rails.application.routes.draw do
     post 'new_writer', to: 'training_ownerships#new_writer', as: 'new_writer'
     resources :forms, only: [:index, :show, :create, :update, :destroy]
   end
+
+  # ATTENDEES
   resources :attendees, only: [:new, :create]
   post 'attendees/import', to: 'attendees#import', as: 'import_attendees'
   get 'training/:training_id/session/:id/attendees/export.csv', to: 'attendees#export', as: 'export_attendees'
   get 'attendee/new_kea_partners', to: 'attendees#new_kea_partners', as: 'new_kea_partners_attendee'
   post 'attendee/create_kea_partners', to: 'attendees#create_kea_partners', as: 'create_kea_partners_attendee'
+  post 'new_session_attendee/kea_partners', to: 'session_attendees#create_kea_partners', as: 'new_kea_partners_session_attendee'
+  delete 'delete_session_attendee/kea_partners', to: 'session_attendees#destroy_kea_partners', as: 'destroy_kea_partners_session_attendee'
+  get 'test', to: 'session_attendees#test', as: 'test_session_attendee'
+
+  # ATTENDEES INTERESTS
+  post 'new_attendee_interest', to: 'attendee_interests#create', as: 'new_attendee_interest'
+  delete 'delete_attendee_interest', to: 'attendee_interests#destroy', as: 'destroy_attendee_interest'
+
+  # FORMS
   resources :session_forms, only: [:create, :destroy]
+
+  # TRAINERS
   get '/redirect', to: 'session_trainers#redirect', as: 'redirect'
   get '/callback', to: 'session_trainers#callback', as: 'callback'
   get '/calendars', to: 'session_trainers#calendars', as: 'calendars'
   get '/remove_session_trainers', to: 'session_trainers#remove_session_trainers', as: 'remove_session_trainers'
   get '/remove_training_trainers', to: 'session_trainers#remove_training_trainers', as: 'remove_training_trainers'
+
+  # LINKEDIN
+  get '/linkedin_scrape', to: 'users#linkedin_scrape', as: 'linkedin_scrape'
+  get '/linkedin_scrape_callback', to: 'users#linkedin_scrape_callback', as: 'linkedin_scrape_callback'
   # devise_scope :user do
   #   get '/users/auth/linkedin/callback', to: 'users/omniauth_callbacks#linkedin', as: 'linkedin_auth'
   # end
-  get '/linkedin_scrape', to: 'users#linkedin_scrape', as: 'linkedin_scrape'
-  get '/linkedin_scrape_callback', to: 'users#linkedin_scrape_callback', as: 'linkedin_scrape_callback'
-  post 'new_attendee_interest', to: 'attendee_interests#create', as: 'new_attendee_interest'
-  delete 'delete_attendee_interest', to: 'attendee_interests#destroy', as: 'destroy_attendee_interest'
-  post 'new_session_attendee/kea_partners', to: 'session_attendees#create_kea_partners', as: 'new_kea_partners_session_attendee'
-  delete 'delete_session_attendee/kea_partners', to: 'session_attendees#destroy_kea_partners', as: 'destroy_kea_partners_session_attendee'
-  get 'test', to: 'session_attendees#test', as: 'test_session_attendee'
 end

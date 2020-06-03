@@ -9,9 +9,16 @@
         <i class="fas fa-arrow-left"></i>
       <% end %>
     <% end %>
-    <a data-toggle='modal' type='button' data-target='#exportCSV' style='cursor:pointer;'>
-      <button class="btn btn-edit-red">Export <i class="fas fa-file-csv"></i></button>
-    </a>
+    <div class='flex-row-between-centered'>
+      <% if params[:type] == 'Order' %>
+        <a data-toggle='modal' type='button' data-target='#newOrder' style='cursor:pointer;'>
+        <button class="btn btn-edit-yellow">Create Order</i></button>
+      </a>
+      <% end %>
+      <a data-toggle='modal' type='button' data-target='#exportCSV' style='cursor:pointer;'>
+        <button class="btn btn-edit-red">Export <i class="fas fa-file-csv"></i></button>
+      </a>
+    </div>
   </div>
   <% if params[:type] == 'Invoice' %>
     <h1>Invoices List</h1>
@@ -27,6 +34,12 @@
 <div class="modal fade" id="exportCSV" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document" style="border-radius: 2rem">
     <%= render 'export_csv' %>
+  </div>
+</div>
+
+<div class="modal fade" id="newOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+    <%= render 'invoice_items/new_order', training: Training.find(params[:training_id]) %>
   </div>
 </div>
 <!--  -->
