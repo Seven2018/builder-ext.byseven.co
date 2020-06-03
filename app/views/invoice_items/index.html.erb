@@ -37,9 +37,11 @@
   </div>
 </div>
 
-<div class="modal fade" id="newOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
-    <%= render 'invoice_items/new_order', training: Training.find(params[:training_id]) %>
+<% if params[:type] == 'Order' %>
+  <div class="modal fade" id="newOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+      <%= render 'invoice_items/new_order', training: Training.find(params[:training_id]) %>
+    </div>
   </div>
-</div>
+<% end %>
 <!--  -->

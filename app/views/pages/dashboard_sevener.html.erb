@@ -1,0 +1,16 @@
+<div class="container-seven-large" style="background-color: white">
+  <div id="page-controls">
+    <% if params[:user].present? %>
+      <h1>My Dashboard</h1>
+    <% else %>
+      <h1>Seveners</h1>
+    <% end %>
+    <div id="page-buttons">
+      <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
+        <a href="" class="btn btn-edit-yellow">
+          Filter
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div>

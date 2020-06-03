@@ -26,6 +26,9 @@ class PagesController < ApplicationController
     redirect_to 'https://docs.google.com/forms/d/1knOYJWvoVV7T3IVCbNqoMtTbgMiDG6zroZSPrRJm5vY/edit'
   end
 
+  def dashboard_sevener
+  end
+
   def numbers_activity
     if params[:numbers_activity].present?
       @starts_at = params[:numbers_activity][:starts_at]
