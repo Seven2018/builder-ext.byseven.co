@@ -35,9 +35,15 @@
     <div class="invoice-client">
       <% unless @invoice_item.type == 'InvoiceSevener' %>
         <div>
-          <p><%= @invoice_item.client_company.name %></p>
-          <p><%= @invoice_item.client_company.address %></p>
-          <p><%= @invoice_item.client_company.zipcode %> <%= @invoice_item.client_company.city %></p>
+          <% if @invoice_item&.training&.client_contact.billing_contact.present? %>
+            <p><%= @invoice_item&.training&.client_contact.billing_contact %></p>
+            <p><%= @invoice_item&.training&.client_contact.billing_address %></p>
+            <p><%= @invoice_item&.training&.client_contact.billing_zipcode %> <%= @invoice_item&.training&.client_contact.billing_city %></p>
+          <% else %>
+            <p><%= @invoice_item.client_company.name %></p>
+            <p><%= @invoice_item.client_company.address %></p>
+            <p><%= @invoice_item.client_company.zipcode %> <%= @invoice_item.client_company.city %></p>
+          <% end %>
         </div>
       <% else %>
         <div>
