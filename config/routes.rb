@@ -57,9 +57,6 @@ Rails.application.routes.draw do
   resources :invoice_lines, only: [:create, :edit, :update, :destroy]
   get 'invoice_line/:id/move_up', to: 'invoice_lines#move_up', as: 'move_up_invoice_line'
   get 'invoice_line/:id/move_down', to: 'invoice_lines#move_down', as: 'move_down_invoice_line'
-  get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
-  get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
-  get 'training/:id/copy', to: 'trainings#copy', as: 'copy_training'
 
   # TRAININGS
   resources :trainings do
@@ -93,6 +90,11 @@ Rails.application.routes.draw do
     post 'new_writer', to: 'training_ownerships#new_writer', as: 'new_writer'
     resources :forms, only: [:index, :show, :create, :update, :destroy]
   end
+  # get 'trainings_completed', to: 'trainings#index_completed', as: 'index_completed'
+  get 'trainings_completed', to: 'trainings#index_completed', as: 'index_completed'
+  get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
+  get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
+  get 'training/:id/copy', to: 'trainings#copy', as: 'copy_training'
 
   # ATTENDEES
   resources :attendees, only: [:new, :create]

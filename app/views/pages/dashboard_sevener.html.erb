@@ -1,16 +1,51 @@
 <div class="container-seven-large" style="background-color: white">
   <div id="page-controls">
-    <% if params[:user].present? %>
-      <h1>My Dashboard</h1>
-    <% else %>
-      <h1>Seveners</h1>
-    <% end %>
+    <h1>Seveners</h1>
     <div id="page-buttons">
       <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
-        <a href="" class="btn btn-edit-yellow">
+        <a data-toggle='modal' type='button' data-target='#filterSevener' class="btn btn-edit-yellow">
           Filter
         </a>
       <% end %>
     </div>
   </div>
+  <div id="sevener_total_training_hours" style='max-width: 25rem;'>
+    <% if params[:filter] && params[:filter][:user].present? %>
+      <p>Hours of Training</p>
+      <div class="flex-row-between-centered">
+        <p>Last 30 days : </p>
+        <p><%= Session.joins(:session_trainers).where(session_trainers: {user_id: params[:filter][:user]}).where('date < ?', Date.today).where('date > ?', Date.today - 30.days).uniq.map(&:duration).sum %> h</p>
+      </div>
+      <div class="flex-row-between-centered">
+        <p>This year : </p>
+        <p><%= Session.joins(:session_trainers).where(session_trainers: {user_id: params[:filter][:user]}).where('date < ?', Date.today).where('date > ?', Date.today.beginning_of_year).uniq.map(&:duration).sum %> h</p>
+      </div>
+      <div class="flex-row-between-centered">
+        <p>Total : </p>
+        <p><%= Session.joins(:session_trainers).where(session_trainers: {user_id: params[:filter][:user]}).where('date < ?', Date.today).uniq.map(&:duration).sum %> h</p>
+      </div>
+    <% end %>
+  </div>
+  <div>
+    <p>Coming Sessions</p>
+    <% Session.joins(:session_trainers).where(session_trainers: {user_id: params[:filter][:user]}).where('date >= ?', Date.today).each do |session| %>
+      <div class="invoice-card">
+        <p><%= session.training.title %></p>
+        <p><%= session.duration %> h</p>
+        <p><%= session.date.strftime('%d/%m/%Y') %></p>
+      </div>
+    <% end %>
+  </div>
+  <div>
+    <p>Invoices status</p>
+
+  </div>
 </div>
+
+<!-- Modals -->
+<div class="modal fade" id="filterSevener" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
+    <%= render 'filter_sevener' %>
+  </div>
+</div>
+<!--  -->

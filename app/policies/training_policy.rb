@@ -9,6 +9,10 @@ class TrainingPolicy < ApplicationPolicy
     end
   end
 
+  def index_completed?
+    true
+  end
+
   def index_week?
     true
   end

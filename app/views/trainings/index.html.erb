@@ -91,7 +91,8 @@
         <%= render 'coming', trainings: @trainings %>
       </div>
       <div role="tabpanel" class="tab-pane" id="completed">
-        <%= render 'completed', trainings: @trainings %>
+        <% RenderAsync.configuration.jquery = true %>
+        <%= render_async index_completed_path %>
       </div>
       <div role="tabpanel" class="tab-pane" id="to_date">
         <%= render 'to_date', trainings: @trainings %>

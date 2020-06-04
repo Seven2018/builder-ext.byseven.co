@@ -29,6 +29,29 @@ class TrainingsController < ApplicationController
     end
   end
 
+  def index_completed
+    if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
+      if params[:search]
+        if params[:search][:user]
+          @trainings = ((Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).where("lower(trainings.title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
+          @user = User.find(params[:search][:user])
+        else
+          @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
+        end
+      elsif params[:user]
+        @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]}))
+        @user = User.find(params[:user])
+      else
+        @trainings = Training.all
+      end
+    # Index for Sevener Users, with limited visibility
+    else
+      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}")
+    end
+    authorize @trainings
+    render partial: "index_completed"
+  end
+
   # Index with weekly calendar view
   def index_week
     @trainings = Training.all
@@ -62,7 +85,7 @@ class TrainingsController < ApplicationController
     authorize @training
     @training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
     @training.satisfaction_survey = 'shorturl.at/gqwCZ'
-    @training.title = ClientContact.find(params[:training][:client_contact_id]).client_company.name + ' - ' + params[:training][:title]
+    # @training.title = ClientContact.find(params[:training][:client_contact_id]).client_company.name + ' - ' + params[:training][:title]
     if @training.save
       Session.new(title: 'Session 1', date: @training.created_at, duration: 0, training_id: @training.id)
       redirect_to training_path(@training)

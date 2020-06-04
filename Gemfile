@@ -33,6 +33,7 @@ gem "acts_as_tree"
 gem "simple_calendar", "~> 2.0"
 gem 'google_drive'
 gem 'datagrid'
+gem 'render_async'
 gem 'image_processing'
 gem 'invisible_captcha'
 gem 'bootstrap',     '4.1.1'
