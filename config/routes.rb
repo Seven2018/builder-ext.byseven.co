@@ -86,6 +86,7 @@ Rails.application.routes.draw do
       resources :session_attendees, only: [:create, :destroy]
       resources :comments, only: [:create, :destroy]
     end
+    get 'session_trainers/create_all', to: 'session_trainers#create_all', as: 'create_all_session_trainers'
     resources :training_ownerships, only: [:create, :destroy]
     post 'new_writer', to: 'training_ownerships#new_writer', as: 'new_writer'
     resources :forms, only: [:index, :show, :create, :update, :destroy]

@@ -9,6 +9,10 @@ class SessionTrainerPolicy < ApplicationPolicy
     check_access
   end
 
+  def create_all?
+    check_access
+  end
+
   def destroy?
     check_access
   end

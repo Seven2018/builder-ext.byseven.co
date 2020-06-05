@@ -126,9 +126,11 @@
             <% end %>
           <% end %>
           <% if trainer_array.uniq.count > 1 %>
-            <li><button class='btn btn-add-user-disabled'>Trainers</button></li>
+            <!-- <li><button class='btn btn-add-user-disabled'>Trainers</button></li> -->
+            <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newTrainers'>Trainers</button></li>
           <% else %>
-            <li><button class='btn btn-add-user-disabled'>Trainer</button></li>
+            <!-- <li><button class='btn btn-add-user-disabled'>Trainer</button></li> -->
+            <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newTrainers'>Trainers</button></li>
           <% end %>
         </ul>
       </div>
@@ -229,6 +231,12 @@
 <div class="modal fade" id="newWriter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
     <%= render 'training_ownerships/new_writer', training_owner: @training_ownership %>
+  </div>
+</div>
+
+<div class="modal fade" id="newTrainers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
+    <%= render 'session_trainers/new_trainers', training: @training %>
   </div>
 </div>
 

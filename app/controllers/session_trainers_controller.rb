@@ -27,25 +27,6 @@ class SessionTrainersController < ApplicationController
     # Get the targeted session
     session_ids = Base64.decode64(params[:state]).split('|')[1].split(',')
     training = Session.find(session_ids[0]).training
-    session_ids.each do |id|
-      begin
-        session = Session.find(id.to_i)
-
-        # Creates the event to be added to one or several calendars
-        day = session&.date
-        event = Google::Apis::CalendarV3::Event.new({
-          start: {
-            date_time: day.to_s+'T'+session.start_time.strftime('%H:%M:%S'),
-            time_zone: 'Europe/Paris',
-          },
-          end: {
-            date_time: day.to_s+'T'+session.end_time.strftime('%H:%M:%S'),
-            time_zone: 'Europe/Paris',
-          },
-          summary: session.training.client_company.name.upcase + " - " + session.training.title
-        })
-      rescue
-      end
       # Calendars ids
       calendars_ids = ['yahya.fallah@byseven.co', 'brice.chapuis@byseven.co', 'thomas.fraudet@byseven.co', 'jorick.roustan@byseven.co', 'mathilde.meurer@byseven.co', 'vum1670hi88jgei65u5uedb988@group.calendar.google.com']
 
@@ -80,22 +61,40 @@ class SessionTrainersController < ApplicationController
         list = command.split(',')
         # Creates the event in all the targeted calendars
         list.each do |ind|
-          if %w(1 2 3 4 5).include?(ind)
-            create_calendar_id(ind, session.id, event, service, calendars_ids)
-          else
-            sevener = User.find(ind)
-            initials = sevener.firstname.first.upcase + sevener.lastname.first.upcase
-            event.summary = session.training.client_company.name.upcase + " - " + session.training.title + " - " + initials
-            event.id = SecureRandom.hex(32)
-            session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first
-            session_trainer.update(calendar_uuid: event.id)
-            service.insert_event(calendars_ids[5], event)
+          Session.where(id: session_ids).each do |session|
+            begin
+
+              # Creates the event to be added to one or several calendars
+              day = session&.date
+              event = Google::Apis::CalendarV3::Event.new({
+                start: {
+                  date_time: day.to_s+'T'+session.start_time.strftime('%H:%M:%S'),
+                  time_zone: 'Europe/Paris',
+                },
+                end: {
+                  date_time: day.to_s+'T'+session.end_time.strftime('%H:%M:%S'),
+                  time_zone: 'Europe/Paris',
+                },
+                summary: session.training.client_company.name.upcase + " - " + session.training.title
+              })
+            rescue
+            end
+            if %w(1 2 3 4 5).include?(ind)
+                create_calendar_id(ind, session.id, event, service, calendars_ids)
+            else
+              sevener = User.find(ind)
+              initials = sevener.firstname.first.upcase + sevener.lastname.first.upcase
+              event.summary = session.training.client_company.name.upcase + " - " + session.training.title + " - " + initials
+              event.id = SecureRandom.hex(32)
+              session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first
+              session_trainer.update(calendar_uuid: event.id)
+              service.insert_event(calendars_ids[5], event)
+            end
           end
         end
         redirect_to training_path(training)
         return
       end
-    end
   end
 
   # Allows management of SessionTrainers through a checkbox collection
@@ -138,8 +137,40 @@ class SessionTrainersController < ApplicationController
   def create_all
     @session_trainer = SessionTrainer.new
     authorize @session_trainer
-    @session = Session.find(params[:session_id])
+    training = Training.find(params[:training_id])
     event_to_delete = ''
+    sessions_ids = ''
+    training.sessions.each do |session|
+      SessionTrainer.where(session_id: session.id).each do |trainer|
+        event_to_delete+=trainer.user_id.to_s+':'+trainer.calendar_uuid+',' if trainer.calendar_uuid.present?
+      end
+      sessions_ids += session.id.to_s + ','
+    end
+    event_to_delete = event_to_delete[0...-1]
+    # Select all Users whose checkbox is checked and create a SessionTrainer
+    array = params[:training][:user_ids].drop(1).map(&:to_i)
+    array.each do |ind|
+      training.sessions.each do |session|
+        if SessionTrainer.where(session_id: session.id, user_id: ind).empty?
+          SessionTrainer.create(session_id: session.id, user_id: ind)
+        end
+      end
+    end
+    # Select all Users whose checkbox is unchecked and destroy their SessionTrainer, if existing
+    (User.ids - array).each do |ind|
+      training.sessions.each do |session|
+        unless SessionTrainer.where(session_id: session.id, user_id: ind).empty?
+          SessionTrainer.where(session_id: session.id, user_id: ind).first.destroy
+        end
+      end
+    end
+
+    trainers_list = ''
+    training.trainers.each do |user|
+      trainers_list += "#{user.id},"
+    end
+
+    redirect_to redirect_path(list: trainers_list, session_id: "|#{training.sessions.ids.join(',')}|", to_delete: "%#{event_to_delete}%")
   end
 
   def remove_session_trainers

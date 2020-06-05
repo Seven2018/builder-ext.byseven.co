@@ -61,8 +61,20 @@ input:focus {
   width: 100%;
 }
 
+.form-check {
+  display: flex !important;
+  align-items:center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  input {
+    margin-right: 1rem !important;
+  }
+}
+
 .form-check-input {
   margin-top: 0 !important;
+  margin-right: 3rem !important;
 }
 
 .form_radio_label {
