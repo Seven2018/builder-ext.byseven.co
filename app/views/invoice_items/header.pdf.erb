@@ -35,7 +35,7 @@
     <div class="invoice-client">
       <% unless @invoice_item.type == 'InvoiceSevener' %>
         <div>
-          <% if @invoice_item&.training&.client_contact.billing_contact.present? %>
+          <% if @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? %>
             <p><%= @invoice_item&.training&.client_contact.billing_contact %></p>
             <p><%= @invoice_item&.training&.client_contact.billing_address %></p>
             <p><%= @invoice_item&.training&.client_contact.billing_zipcode %> <%= @invoice_item&.training&.client_contact.billing_city %></p>
