@@ -4,13 +4,12 @@
     <img src="https://media.glassdoor.com/sqll/365366/kea-and-partners-squarelogo-1466439693008.png" alt="" >
   </div>
   <% training = Training.find_by(refid: '20-0088') %>
-  <% sessions = training.sessions.sort_by{|x|x.id} %>
   <% if session[:my_previous_url] == kea_partners_c_path %>
-    <% sessions = sessions.slice(0,4) %>
+    <% sessions = training.sessions.order(:date).where(title: ["Maîtriser les lois du temps et la matrice d'Eisenhower", "Innover par le design thinking"])%>
   <% elsif session[:my_previous_url] == kea_partners_d_path %>
-    <% sessions = sessions.slice(4,2) + sessions.slice(6,2) + sessions.slice(10,2) + sessions.slice(12,2)%>
+    <% sessions = training.sessions.order(:date).where(title: ["Transmettre avec les 7 intelligences d'Howard Gardner", "Préparer une négociation", "Communiquer efficacement et motiver ses équipes", "Mettre en avant ses compétences et construire son réseau professionnel"])%>
   <% elsif session[:my_previous_url] == kea_partners_m_path %>
-    <% sessions = sessions.slice(2,2) + sessions.slice(4,2) + sessions.slice(8,2) + sessions.slice(12,2)%>
+    <% sessions = training.sessions.order(:date).where(title: ["Innover par le design thinking", "Transmettre avec les 7 intelligences d'Howard Gardner", "Manager selon la situation avec les styles directifs, persuasifs, participatifs et délégatifs", "Mettre en avant ses compétences et construire son réseau professionnel"])%>
   <% end %>
   <div id='attendee-form'>
     <% status = !params[:search].nil? %>
@@ -49,10 +48,16 @@
         <% if session.attendees.include?(attendee) %>
           <li><p><%= "#{session.title} : inscrit(e) le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}" %></p></li>
           <% duplicate_sessions << session.title %>
-        <% elsif session.attendee_interests.where(attendee_id: attendee.id).present? %>
+        <% end %>
+      <% end %>
+      <% sessions.each do |session| %>
+        <% if session.attendee_interests.where(attendee_id: attendee.id).present? %>
           <li><p><%= "#{session.title} : intéressé mais pas disponible aux dates indiquées" %></p></li>
           <% duplicate_sessions << session.title %>
-        <% else %>
+        <% end %>
+      <% end %>
+      <% sessions.each do |session| %>
+        <% if !session.attendees.include?(attendee) && !session.attendee_interests.where(attendee_id: attendee.id).present? %>
           <% empty_sessions << session.title %>
         <% end %>
       <% end %>

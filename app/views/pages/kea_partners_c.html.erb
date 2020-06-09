@@ -56,15 +56,22 @@
           <div class="session-form-control flex-column-between-left">
             <%= simple_form_for :create_attendees, url: test_session_attendee_path(attendee_id: attendee.id), method: 'GET' do |f| %>
               <div class="flex-column-between-left">
-                <% if SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[0].id, sessions[1].id])&.first&.session_id&.to_s.present? %>
-                  <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[0].id, sessions[1].id])&.first&.session_id&.to_s %>
-                <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[0].id).present? %>
+                <% sessions1 = training.sessions.where(title: "Maîtriser les lois du temps et la matrice d'Eisenhower").order(:date).reject{|s| s.attendee_number - s.attendees.count <= 0} %>
+                <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions1.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
+                  <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions1.first(2).map(&:id))&.first&.session_id&.to_s %>
+                <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions1[0].id).present? %>
                   <% checked = 'Interested' %>
                 <% else %>
                   <% checked = 'Not interested' %>
                 <% end %>
                 <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
-                <%= f.collection_radio_buttons :choice1, [["Le 04 Juin 2020 : 9h30-12h30 (#{sessions[0].attendee_number-sessions[0].attendees.count} places disponibles)", sessions[0].id] ,["Le 10 Juin 2020 : 9h30-12h30 (#{sessions[1].attendee_number-sessions[1].attendees.count} places disponibles)" , sessions[1].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
+                <% selection = [] %>
+                <% other_options = [['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']] %>
+                <% sessions1.first(2).each do |x| %>
+                  <% el = ["Le #{x.date.strftime('%d/%m/%Y')} : #{x.start_time.strftime('%Hh%M')}-#{x.end_time.strftime('%Hh%M')} (#{x.attendee_number-x.attendees.count} places disponibles)", x.id] %>
+                  <% selection << el %>
+                <% end %>
+                <%= f.collection_radio_buttons :choice1, (selection + other_options),:last, :first, checked: checked do |b| %>
                   <div class="flex-row-between-centered radio"kea_partners>
                     <p class='form_radio_label'>
                       <label class="radio_container"><%= b.text %>
@@ -91,15 +98,22 @@
           </p>
           <div class="session-form-control flex-column-between-left">
             <div class="flex-column-between-left">
-              <% if SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[2].id, sessions[3].id])&.first&.session_id&.to_s.present? %>
-                <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: [sessions[2].id, sessions[3].id])&.first&.session_id&.to_s %>
-              <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions[2].id).present? %>
+              <% sessions2 = training.sessions.where(title: "Innover par le design thinking").order(:date).reject{|s| s.attendee_number - s.attendees.count <= 0} %>
+              <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions2.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
+                <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions2.first(2).map(&:id))&.first&.session_id&.to_s %>
+              <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions2[0].id).present? %>
                 <% checked = 'Interested' %>
               <% else %>
                 <% checked = 'Not interested' %>
               <% end %>
               <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
-              <%= f.collection_radio_buttons :choice2, [["Le 04 Juin 2020 : 14h-17h (#{sessions[2].attendee_number-sessions[2].attendees.count} places disponibles)", sessions[2].id] ,["Le 10 Juin 2020 : 9h30-12h30 (#{sessions[3].attendee_number-sessions[3].attendees.count} places disponibles)", sessions[3].id], ['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']],:last, :first, checked: checked do |b| %>
+              <% selection = [] %>
+              <% other_options = [['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']] %>
+              <% sessions2.first(2).each do |x| %>
+                <% el = ["Le #{x.date.strftime('%d/%m/%Y')} : #{x.start_time.strftime('%Hh%M')}-#{x.end_time.strftime('%Hh%M')} (#{x.attendee_number-x.attendees.count} places disponibles)", x.id] %>
+                <% selection << el %>
+              <% end %>
+              <%= f.collection_radio_buttons :choice2, (selection + other_options),:last, :first, checked: checked do |b| %>
                 <div class="flex-row-between-centered radio">
                   <p class='form_radio_label'>
                     <label class="radio_container"><%= b.text %>
@@ -110,7 +124,7 @@
                 </div>
               <% end %>
               <%= hidden_field_tag(:attendee_id, attendee.id) %>
-              <%= hidden_field_tag(:sessions_ids, {'choice1'=> [sessions[0].id,sessions[1].id], 'choice2'=> [sessions[2].id,sessions[3].id]}) %>
+              <%= hidden_field_tag(:sessions_ids, {choice1: sessions1.first(2).map(&:id), choice2: sessions2.first(2).map(&:id)}) %>
             </div>
           </div>
         </div>

@@ -68,7 +68,7 @@ class SessionAttendeesController < ApplicationController
   def test
     skip_authorization
     params[:create_attendees].each do |choice, value|
-      sessions_ids = eval(params[:sessions_ids])[choice]
+      sessions_ids = eval(params[:sessions_ids])[choice.to_sym]
       if value == 'Interested'
         new_interest = AttendeeInterest.create(session_id: sessions_ids.first, attendee_id: params[:attendee_id])
         SessionAttendee.where(attendee_id: params[:attendee_id], session_id: sessions_ids).destroy_all
