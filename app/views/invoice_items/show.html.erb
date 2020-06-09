@@ -75,7 +75,7 @@
             <%= link_to 'Client', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change back to Client' %>
         <% end %>
         <div>
-          <% if @invoice_item&.training&.client_contact.billing_contact.present? %>
+          <% if @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? %>
             <p><%= @invoice_item&.training&.client_contact.billing_contact %></p>
             <p><%= @invoice_item&.training&.client_contact.billing_address %></p>
             <p><%= @invoice_item&.training&.client_contact.billing_zipcode %> <%= @invoice_item&.training&.client_contact.billing_city %></p>
