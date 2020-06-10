@@ -75,7 +75,7 @@ class SessionTrainersController < ApplicationController
                   date_time: day.to_s+'T'+session.end_time.strftime('%H:%M:%S'),
                   time_zone: 'Europe/Paris',
                 },
-                summary: session.training.client_company.name.upcase + " - " + session.training.title
+                summary: session.training.title
               })
             rescue
             end

@@ -10,7 +10,7 @@
       <%= f.input :title, placeholder: 'ex : Intelligence Economique - Mai 2020' %>
       <%= f.input :client_contact_id, :collection => ClientContact.all.joins(:client_company).order('client_companies.name ASC, client_contacts.name ASC'), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name}" }, :label => 'Customer contact', :include_blank => false %>
       <div style='display:flex;justify-content:space-between;'>
-        <%= f.input :unit_price %>
+        <%= f.input :unit_price, input_html: {value: training.client_company.unit_price || '0'} %>
         <div class="flex-row-around-centered">
           <%= f.input :vat, as: :radio_buttons, checked: false, label: 'VAT' %>
         </div>
