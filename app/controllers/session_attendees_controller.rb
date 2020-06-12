@@ -1,6 +1,17 @@
 class SessionAttendeesController < ApplicationController
   before_action :authenticate_user!, except: [:destroy, :create, :create_kea_partners, :destroy_kea_partners, :test]
 
+  def link_attendees
+    skip_authorization
+    session = Session.find(params[:id])
+    attendee_ids = params[:session][:attendee_ids][1..-1]
+    attendee_ids.each do |attendee_id|
+      SessionAttendee.create(session_id: session.id, attendee_id: attendee_id)
+    end
+    redirect_to training_session_path(session.training, session)
+    flash[:notice] = "Participants added to #{session.title}"
+  end
+
   def create
     @session = Session.find(params[:session_id])
     @attendee = Attendee.find(params[:attendee_id])

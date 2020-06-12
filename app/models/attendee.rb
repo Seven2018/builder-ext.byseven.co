@@ -24,9 +24,23 @@ class Attendee < ApplicationRecord
     end
   end
 
+  def self.to_csv_template
+    CSV.generate do |csv|
+      column_names = ["firstname", "lastname", "employee_id", "email", "client_company_id"]
+      csv << column_names
+      all.each do |result|
+        csv << result.attributes.values_at(*column_names)
+      end
+    end
+  end
+
   def make_capitalize
     self.firstname.capitalize!
     self.lastname.upcase!
     self.email.downcase!
+  end
+
+  def fullname
+    "#{firstname} #{lastname}"
   end
 end

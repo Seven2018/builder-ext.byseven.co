@@ -140,6 +140,11 @@ class TrainingsController < ApplicationController
     end
   end
 
+  def redirect_docusign
+    skip_authorization
+    redirect_to "https://account-d.docusign.com/oauth/auth?response_type=token&scope=signature&client_id=ce366c33-e8f1-4aa7-a8eb-a83fbffee4ca&redirect_uri=http://localhost:3000/docusign/callback"
+  end
+
   private
 
   def set_training

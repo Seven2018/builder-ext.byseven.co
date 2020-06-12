@@ -1,6 +1,6 @@
 class AttendeesController < ApplicationController
   before_action :set_training, only: [:form]
-  before_action :authenticate_user!, except: [:form, :new, :create, :new_kea_partners, :create_kea_partners]
+  before_action :authenticate_user!, except: [:form, :new, :create, :new_kea_partners, :create_kea_partners, :template_csv]
   invisible_captcha only: [:create], honeypot: :subtitle
 
   def new
@@ -54,6 +54,15 @@ class AttendeesController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { send_data @attendees.to_csv, :filename => "Participants - #{session.training.title} - #{session.title} - #{session.date.strftime('%d%m%Y')}.csv"}
+    end
+  end
+
+  def template_csv
+    skip_authorization
+    client_company_id = ClientCompany.find(params[:client_company_id]).id
+    @attendees = Attendee.where(client_company_id: client_company_id)
+    respond_to do |format|
+      format.csv { send_data @attendees.to_csv_template, :filename => "Template import participants SEVEN.csv"}
     end
   end
 

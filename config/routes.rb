@@ -34,6 +34,8 @@ Rails.application.routes.draw do
   # CLIENT COMPANIES
   resources :client_companies, path: '/companies' do
     resources :client_contacts, path: '/contacts'
+    get 'new_attendees', to: 'client_companies#new_attendees', as: 'new_attendees'
+    get 'create_attendees', to: 'client_companies#create_attendees', as: 'create_attendees'
   end
 
   # INVOICE ITEMS
@@ -91,14 +93,15 @@ Rails.application.routes.draw do
     post 'new_writer', to: 'training_ownerships#new_writer', as: 'new_writer'
     resources :forms, only: [:index, :show, :create, :update, :destroy]
   end
-  # get 'trainings_completed', to: 'trainings#index_completed', as: 'index_completed'
   get 'trainings_completed', to: 'trainings#index_completed', as: 'index_completed'
   get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
   get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
   get 'training/:id/copy', to: 'trainings#copy', as: 'copy_training'
+  get 'training/redirect_docusign', to: 'trainings#redirect_docusign', as: 'redirect_docusign'
 
   # ATTENDEES
-  resources :attendees, only: [:new, :create]
+  resources :attendees, only: [:index, :new, :create]
+  get 'attendees/template_csv', to: 'attendees#template_csv', as: 'template_csv_attendees'
   post 'attendees/import', to: 'attendees#import', as: 'import_attendees'
   get 'training/:training_id/session/:id/attendees/export.csv', to: 'attendees#export', as: 'export_attendees'
   get 'attendee/new_kea_partners', to: 'attendees#new_kea_partners', as: 'new_kea_partners_attendee'
@@ -106,6 +109,9 @@ Rails.application.routes.draw do
   post 'new_session_attendee/kea_partners', to: 'session_attendees#create_kea_partners', as: 'new_kea_partners_session_attendee'
   delete 'delete_session_attendee/kea_partners', to: 'session_attendees#destroy_kea_partners', as: 'destroy_kea_partners_session_attendee'
   get 'test', to: 'session_attendees#test', as: 'test_session_attendee'
+
+  # SESSION ATTENDEES
+  post 'session/:id/session_attendees/link_attendees', to: 'session_attendees#link_attendees', as: 'link_attendees'
 
   # ATTENDEES INTERESTS
   post 'new_attendee_interest', to: 'attendee_interests#create', as: 'new_attendee_interest'
