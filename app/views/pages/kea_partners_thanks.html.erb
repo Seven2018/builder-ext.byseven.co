@@ -3,7 +3,7 @@
     <%= image_tag "SEVENLOGO_SQUARE2.png" %>
     <img src="https://media.glassdoor.com/sqll/365366/kea-and-partners-squarelogo-1466439693008.png" alt="" >
   </div>
-  <% training = Training.find_by(refid: '20-0003') %>
+  <% training = Training.find_by(refid: '20-0088') %>
   <% if session[:my_previous_url] == kea_partners_c_path %>
     <% sessions = training.sessions.order(:date).where(title: ["Maîtriser les lois du temps et la matrice d'Eisenhower", "Innover par le design thinking"])%>
   <% elsif session[:my_previous_url] == kea_partners_d_path %>

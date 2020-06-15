@@ -1,4 +1,4 @@
-<% training = Training.find_by(refid: '20-0003') %>
+<% training = Training.find_by(refid: '20-0088') %>
 <% sessions = training.sessions.sort_by{|x|x.id} %>
 <% if params[:auth_token] == training.client_company.auth_token %>
   <div class="container-seven-large-form">
