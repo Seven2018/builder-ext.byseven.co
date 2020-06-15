@@ -20,7 +20,7 @@
     <body>
      <div class='<%= "wrapper" unless params[:controller] == "pages" && params[:action] == "home" %>'>
         <% if params[:controller] == "pages" && params[:action] == "home" %>
-        <% elsif params[:controller] == 'attendees' %>
+        <% elsif params[:controller] == 'attendees' && params[:action] == !'index'%>
         <% elsif params[:controller] == 'forms' && params[:action] == 'show' %>
         <% elsif params[:action] == 'export' %>
         <% elsif params[:action] == 'overlord' %>

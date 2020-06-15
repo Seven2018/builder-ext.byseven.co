@@ -1,7 +1,17 @@
 class AttendeesController < ApplicationController
   before_action :set_training, only: [:form]
-  before_action :authenticate_user!, except: [:form, :new, :create, :new_kea_partners, :create_kea_partners, :template_csv]
+  before_action :set_attendee, only: [:show]
+  before_action :authenticate_user!, except: [:form, :new, :create, :new_kea_partners, :create_kea_partners, :template_csv, :import]
   invisible_captcha only: [:create], honeypot: :subtitle
+
+  def index
+    @client_company = ClientCompany.find(params[:client_company_id]) if params[:client_company_id].present?
+    params[:client_company_id].present? ? @attendees = policy_scope(Attendee).where(client_company_id: @client_company.id) : @attendees = policy_scope(ClientCompany)
+  end
+
+  def show
+    authorize @attendee
+  end
 
   def new
     @attendee = Attendee.new
@@ -74,5 +84,9 @@ class AttendeesController < ApplicationController
 
   def set_training
     @training = Training.find(params[:training_id])
+  end
+
+  def set_attendee
+    @attendee = Attendee.find(params[:id])
   end
 end

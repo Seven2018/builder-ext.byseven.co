@@ -43,4 +43,12 @@ class Attendee < ApplicationRecord
   def fullname
     "#{firstname} #{lastname}"
   end
+
+  def trainings
+    trainings = []
+    self.session_attendees.each do |session_attendee|
+      trainings << session_attendee.session.training
+    end
+    trainings.uniq
+  end
 end

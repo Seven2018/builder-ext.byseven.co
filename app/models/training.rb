@@ -63,6 +63,16 @@ class Training < ApplicationRecord
     trainers.uniq
   end
 
+  def attendees
+    attendees = []
+    self.sessions.each do |session|
+      session.session_attendees.each do |session_attendee|
+        attendees << session_attendee.attendee
+      end
+    end
+    attendees.uniq
+  end
+
   def self.numbers_activity_csv(starts_at, ends_at)
     attributes = %w(Title Client Dates Owner Trainers Hours Comments)
     CSV.generate(headers: true) do |csv|

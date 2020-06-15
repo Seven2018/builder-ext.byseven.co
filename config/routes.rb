@@ -100,7 +100,7 @@ Rails.application.routes.draw do
   get 'training/redirect_docusign', to: 'trainings#redirect_docusign', as: 'redirect_docusign'
 
   # ATTENDEES
-  resources :attendees, only: [:index, :new, :create]
+  resources :attendees, only: [:index, :show, :new, :create]
   get 'attendees/template_csv', to: 'attendees#template_csv', as: 'template_csv_attendees'
   post 'attendees/import', to: 'attendees#import', as: 'import_attendees'
   get 'training/:training_id/session/:id/attendees/export.csv', to: 'attendees#export', as: 'export_attendees'
@@ -112,6 +112,7 @@ Rails.application.routes.draw do
 
   # SESSION ATTENDEES
   post 'session/:id/session_attendees/link_attendees', to: 'session_attendees#link_attendees', as: 'link_attendees'
+  post 'training/:id/session_attendees/link_attendees', to: 'session_attendees#link_attendees_to_training', as: 'link_attendees_to_training'
 
   # ATTENDEES INTERESTS
   post 'new_attendee_interest', to: 'attendee_interests#create', as: 'new_attendee_interest'
