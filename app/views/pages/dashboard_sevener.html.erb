@@ -28,7 +28,19 @@
   </div>
   <div>
     <p>Coming Sessions</p>
-    <% Session.joins(:session_trainers).where(session_trainers: {user_id: params[:filter][:user]}).where('date >= ?', Date.today).each do |session| %>
+    <% params[:filter].present? ? coming = Session.joins(:session_trainers).where(session_trainers: {user_id: params[:filter][:user]}).where('date >= ?', Date.today) : coming = Session.joins(:session_trainers).where(session_trainers: {user_id: current_user.id}).where('date >= ?', Date.today) %>
+    <% coming.each do |session| %>
+      <div class="invoice-card">
+        <p><%= session.training.title %></p>
+        <p><%= session.duration %> h</p>
+        <p><%= session.date.strftime('%d/%m/%Y') %></p>
+      </div>
+    <% end %>
+  </div>
+  <div>
+    <p>Completed Sessions</p>
+    <% params[:filter].present? ? completed = Session.joins(:session_trainers).where(session_trainers: {user_id: params[:filter][:user]}).where('date < ?', Date.today) : completed = Session.joins(:session_trainers).where(session_trainers: {user_id: current_user.id}).where('date < ?', Date.today) %>
+    <% completed.each do |session| %>
       <div class="invoice-card">
         <p><%= session.training.title %></p>
         <p><%= session.duration %> h</p>
@@ -38,7 +50,14 @@
   </div>
   <div>
     <p>Invoices status</p>
-
+    <% params[:filter].present? ? invoices = InvoiceItem.where(type: 'Order', user_id: params[:filter][:user]).order('id DESC') : invoices = InvoiceItem.where(type: 'Order', user_id: current_user.id).order('id DESC') %>
+    <% invoices.each do |invoice| %>
+      <div class="invoice-card">
+        <p><%= invoice.uuid %></p>
+        <p><%= invoice.updated_at %> h</p>
+        <p><%= invoice.status %></p>
+      </div>
+    <% end %>
   </div>
 </div>
 

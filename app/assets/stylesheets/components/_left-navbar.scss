@@ -4,7 +4,7 @@
   justify-content: space-between;
   background-color: #F1F3F4;
   position: fixed;
-  bottom: 0px;
+  top: 0px;
   width: 22rem;
   height: 100vh;
   z-index: 1;
@@ -45,7 +45,7 @@
 .left-navbar-middle {
   overflow-x: hidden;
   overflow-y: auto;
-  height: 53.2rem;
+  flex: 1;
 }
 
 .left-navbar-middle::-webkit-scrollbar {

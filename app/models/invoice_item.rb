@@ -2,6 +2,7 @@ class InvoiceItem < ApplicationRecord
   belongs_to :client_company, optional: true
   belongs_to :training, optional: true
   belongs_to :user, optional: true
+  has_one :session_trainers
   has_many :invoice_lines, dependent: :destroy
   self.inheritance_column = :_type_disabled
 

@@ -112,7 +112,11 @@ class SessionTrainersController < ApplicationController
     array = params[:session][:user_ids].drop(1).map(&:to_i)
     array.each do |ind|
       if SessionTrainer.where(session_id: @session.id, user_id: ind).empty?
-        SessionTrainer.create(session_id: @session.id, user_id: ind)
+        if @session.training.client_contact.client_company.client_company_type == 'Company'
+          session_trainer = SessionTrainer.create(session_id: @session.id, user_id: ind, unit_price: 80)
+        else
+          session_trainer = SessionTrainer.create(session_id: @session.id, user_id: ind, unit_price: 40)
+        end
       end
     end
     # Select all Users whose checkbox is unchecked and destroy their SessionTrainer, if existing
@@ -152,7 +156,11 @@ class SessionTrainersController < ApplicationController
     array.each do |ind|
       training.sessions.each do |session|
         if SessionTrainer.where(session_id: session.id, user_id: ind).empty?
-          SessionTrainer.create(session_id: session.id, user_id: ind)
+          if training.client_contact.client_company.client_company_type == 'Company'
+            session_trainer = SessionTrainer.create(session_id: session.id, user_id: ind, unit_price: 80)
+          else
+            session_trainer = SessionTrainer.create(session_id: session.id, user_id: ind, unit_price: 40)
+          end
         end
       end
     end

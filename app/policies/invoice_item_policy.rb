@@ -14,7 +14,7 @@ class InvoiceItemPolicy < ApplicationPolicy
   end
 
   def show?
-    check_access
+    true
   end
 
   def copy?
@@ -34,11 +34,11 @@ class InvoiceItemPolicy < ApplicationPolicy
   end
 
   def new_invoice_item?
-    check_access
+    true
   end
 
   def new_sevener_invoice?
-    check_access
+    true
   end
 
   def new_estimate?
@@ -59,6 +59,10 @@ class InvoiceItemPolicy < ApplicationPolicy
 
   def upload_to_sheet?
     check_access
+  end
+
+  def upload_to_drive?
+    true
   end
 
   def report?

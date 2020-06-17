@@ -8,7 +8,7 @@
   <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
     <%= simple_form_for :link, url: link_attendees_to_training_path(training) do |f| %>
       <div style="display:flex;justify-content:space-between;flex-direction:column;">
-        <p><%= @session.training.client_company.name %></p>
+        <p><%= training.client_company.name %></p>
         <% checked = [] %>
         <% training.attendees.each {|x| checked << x.id } %>
         <%= f.input_field :attendee_ids, as: :check_boxes, collection: Attendee.where(client_company_id: training.client_contact.client_company.id).order('lastname ASC').map{|x|["#{x.firstname} #{x.lastname}", x.id]}, checked: checked %>

@@ -1,121 +1,123 @@
-<div class="container-seven-large">
-  <div class="invoice-item-container-mobile">
-    <h1><%= @invoice_item.client_company.name %> : <%= @invoice_item.uuid %></h1>
-    <%= link_to invoice_item_path(@invoice_item, format: :pdf) do %>
-      <button class="btn btn-edit-yellowbtn-edit-red">
-        Export <i class="fas fa-file-pdf"></i>
-      </button>
-    <% end %>
-  </div>
-  <div class="invoice-item-container">
-    <div id='page-controls'>
-      <% if @invoice_item.training.present? %>
-        <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
-      <% else %>
-        <%= link_to client_company_path(@invoice_item.client_company), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+<% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) || @invoice_item.user_id == current_user.id %>
+  <div class="container-seven-large">
+    <div class="invoice-item-container-mobile">
+      <h1><%= @invoice_item.client_company.name %> : <%= @invoice_item.uuid %></h1>
+      <%= link_to invoice_item_path(@invoice_item, format: :pdf) do %>
+        <button class="btn btn-edit-yellowbtn-edit-red">
+          Export <i class="fas fa-file-pdf"></i>
+        </button>
       <% end %>
-      <div class="page-controls-buttons">
-        <%= link_to invoice_item_path(@invoice_item, format: :pdf), target: :_blank do %>
-          <button class="btn btn-edit-yellow btn-icon" id='export-btn' data-toggle="tooltip" title="Export to PDF">
-            <i class="fas fa-file-pdf"></i>
-          </button>
-        <% end %>
-        <% if @invoice_item.type == 'Invoice' %>
-          <%= link_to credit_invoice_item_path(@invoice_item), class: "btn btn-edit-red btn-icon", data: {toggle: 'tooltip'}, title: 'Credit Note' do %>
-              <i class="fas fa-file-invoice-dollar"></i>
-          <% end %>
-        <% elsif @invoice_item.type == 'Estimate' %>
-          <%= link_to invoice_item_path(@invoice_item), method: :delete, data: {confirm: 'Are you sure ?'}, class: 'btn btn-edit-red btn-icon' do %>
-            <i class="fas fa-trash-alt"></i>
-          <% end %>
-        <% end %>
-        <button class='btn btn-edit-green btn-icon invoiceitem_copy' data-toggle='modal' data-toggle='tooltip' data-target='#copyInvoiceItem' title='Copy Invoice'><i class="fas fa-copy"></i></button>
-        <a id='show_library' class='btn btn-edit-grey btn-icon' data-toggle="tooltip" title="Show Products"><i class="fas fa-book"></i></i></a>
-      </div>
     </div>
-    <div class="invoice-header">
-      <% unless @invoice_item.type == 'InvoiceSevener' %>
-        <div>
-          <h3 style="color:black;">SAS SEVEN</h3>
-          <p>5, rue Moret</p>
-          <p>75011 Paris</p>
-          <p>FRANCE</p>
-          <p>contact@byseven.co</p>
-        </div>
-      <% else %>
-        <div>
-          <h3 style="color:black;"><%= @invoice_item.user.firstname %> <%= @invoice_item.user.lastname %></h3>
-          <p><%= @invoice_item.user.address %></p>
-          <p><%= @invoice_item.user.email %></p>
-          <p>SIRET : <%= @invoice_item.user.siret %></p>
-        </div>
-      <% end %>
-      <div>
-        <% if @invoice_item.type == 'Invoice' %>
-          <% if @invoice_item.total_amount < 0 %>
-            <h1>Avoir</h1>
-          <% else %>
-            <h1>Facture</h1>
-          <% end %>
-        <% elsif @invoice_item.type == 'InvoiceSevener' %>
-          <h1>Bon de commande</h1>
+    <div class="invoice-item-container">
+      <div id='page-controls'>
+        <% if ['sevener+', 'sevener'].include?(current_user.access_level) %>
+          <%= link_to sevener_billing_path(@invoice_item.training), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+        <% elsif @invoice_item.training.present? %>
+          <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
         <% else %>
-          <h1>Devis</h1>
+          <%= link_to client_company_path(@invoice_item.client_company), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
         <% end %>
-        <p>n° <%= @invoice_item.uuid %></p>
-        <p>Du <%= @invoice_item.created_at.strftime('%d/%m/%Y') %></p>
-        <p>Etablie en Euro</p>
+        <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+          <div class="page-controls-buttons">
+            <%= link_to invoice_item_path(@invoice_item, format: :pdf), target: :_blank do %>
+              <button class="btn btn-edit-yellow btn-icon" id='export-btn' data-toggle="tooltip" title="Export to PDF">
+                <i class="fas fa-file-pdf"></i>
+              </button>
+            <% end %>
+            <% if @invoice_item.type == 'Invoice' %>
+              <%= link_to credit_invoice_item_path(@invoice_item), class: "btn btn-edit-red btn-icon", data: {toggle: 'tooltip'}, title: 'Credit Note' do %>
+                  <i class="fas fa-file-invoice-dollar"></i>
+              <% end %>
+            <% elsif @invoice_item.type == 'Estimate' %>
+              <%= link_to invoice_item_path(@invoice_item), method: :delete, data: {confirm: 'Are you sure ?'}, class: 'btn btn-edit-red btn-icon' do %>
+                <i class="fas fa-trash-alt"></i>
+              <% end %>
+            <% end %>
+            <button class='btn btn-edit-green btn-icon invoiceitem_copy' data-toggle='modal' data-toggle='tooltip' data-target='#copyInvoiceItem' title='Copy Invoice'><i class="fas fa-copy"></i></button>
+            <a id='show_library' class='btn btn-edit-grey btn-icon' data-toggle="tooltip" title="Show Products"><i class="fas fa-book"></i></i></a>
+          </div>
+        <% end %>
       </div>
-    </div>
-    <div class="invoice-client">
-      <% unless @invoice_item.type == 'InvoiceSevener' %>
-        <% if @invoice_item.client_company.client_company_type == 'Company' && @invoice_item.client_company.opco_id.present? %>
-          <%= link_to 'OPCO', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change to OPCO' %>
-        <% elsif @invoice_item.client_company.client_company_type == 'OPCO' && @invoice_item.description.present? %>
-            <%= link_to 'Client', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change back to Client' %>
+      <div class="invoice-header">
+        <% unless @invoice_item.type == 'Order' %>
+          <div>
+            <h3 style="color:black;">SAS SEVEN</h3>
+            <p>5, rue Moret</p>
+            <p>75011 Paris</p>
+            <p>FRANCE</p>
+            <p>contact@byseven.co</p>
+          </div>
+        <% else %>
+          <div>
+            <h3 style="color:black;"><%= @invoice_item.user.firstname %> <%= @invoice_item.user.lastname %></h3>
+            <p><%= @invoice_item.user.address %></p>
+            <p><%= @invoice_item.user.email %></p>
+            <% if @invoice_item.user.siret.present? %>
+              <p>SIRET : <%= @invoice_item.user.siret %></p>
+            <% end %>
+          </div>
         <% end %>
         <div>
-          <% if @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? %>
-            <p><%= @invoice_item&.training&.client_contact.billing_contact %></p>
-            <p><%= @invoice_item&.training&.client_contact.billing_address %></p>
-            <p><%= @invoice_item&.training&.client_contact.billing_zipcode %> <%= @invoice_item&.training&.client_contact.billing_city %></p>
+          <% if @invoice_item.type == 'Invoice' %>
+            <% if @invoice_item.total_amount < 0 %>
+              <h1>Avoir</h1>
+            <% else %>
+              <h1>Facture</h1>
+            <% end %>
+          <% elsif @invoice_item.type == 'Order' %>
+            <h1>Template</h1>
           <% else %>
-            <p><%= @invoice_item.client_company.name %></p>
-            <p><%= @invoice_item.client_company.address %></p>
-            <p><%= @invoice_item.client_company.zipcode %> <%= @invoice_item.client_company.city %></p>
+            <h1>Devis</h1>
           <% end %>
+          <p>n° <%= @invoice_item.uuid %></p>
+          <p>Du <%= @invoice_item.created_at.strftime('%d/%m/%Y') %></p>
+          <p>Etablie en Euro</p>
         </div>
-      <% else %>
-        <div>
-          <p>SEVEN SAS</p>
-          <p>5, rue Moret 75011 Paris</p>
-        </div>
-      <% end %>
-    </div>
-    <div class="invoice-desc-line" id='invoice-desc-header'>
-      <p>Désignation</p>
-      <div>
-        <p>Qté</p>
-        <p>PU HT</p>
-        <p>Montant HT</p>
-        <p>%TVA</p>
       </div>
-    </div>
-    <div id="invoice-line-render">
-      <%= render 'invoice_lines/index', invoice_item: @invoice_item %>
-    </div>
-    <% if @invoice_item.client_company.client_company_type == 'Ecole' %>
-      <br>
-      <p>TVA non applicable, art. 293 B du CGI</p>
-    <% end %>
-    <div class="invoice-total">
-      <div class=invoice-total-due-date>
+      <div class="invoice-client">
+        <% unless @invoice_item.type == 'Order' %>
+          <% if @invoice_item.client_company.client_company_type == 'Company' && @invoice_item.client_company.opco_id.present? %>
+            <%= link_to 'OPCO', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change to OPCO' %>
+          <% elsif @invoice_item.client_company.client_company_type == 'OPCO' && @invoice_item.description.present? %>
+              <%= link_to 'Client', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change back to Client' %>
+          <% end %>
+          <div>
+            <% if @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? %>
+              <p><%= @invoice_item&.training&.client_contact.billing_contact %></p>
+              <p><%= @invoice_item&.training&.client_contact.billing_address %></p>
+              <p><%= @invoice_item&.training&.client_contact.billing_zipcode %> <%= @invoice_item&.training&.client_contact.billing_city %></p>
+            <% else %>
+              <p><%= @invoice_item.client_company.name %></p>
+              <p><%= @invoice_item.client_company.address %></p>
+              <p><%= @invoice_item.client_company.zipcode %> <%= @invoice_item.client_company.city %></p>
+            <% end %>
+          </div>
+        <% else %>
+          <div>
+            <p>SEVEN SAS</p>
+            <p>5, rue Moret</p>
+            <p>75011 Paris</p>
+          </div>
+        <% end %>
+      </div>
+      <div class="invoice-desc-line" id='invoice-desc-header'>
+        <p>Désignation</p>
         <div>
-          <p>Echéance(s)</p>
-          <p>Montant</p>
+          <p>Qté</p>
+          <p>PU HT</p>
+          <p>Montant HT</p>
+          <p>%TVA</p>
         </div>
-        <div>
-          <p><%= (@invoice_item.created_at + 1.months).strftime('%d/%m/%Y') %></p>
+      </div>
+      <div id="invoice-line-render">
+        <%= render 'invoice_lines/index', invoice_item: @invoice_item %>
+      </div>
+      <% if @invoice_item.client_company.client_company_type == 'School' %>
+        <br>
+        <p>TVA non applicable, art. 293 B du CGI</p>
+      <% end %>
+      <div class="invoice-total">
+        <div class=invoice-total-due-date>
           <% total_net = [] %>
           <% total_ht = [] %>
           <% total_tva = [] %>
@@ -129,91 +131,104 @@
           <% @invoice_item.tax_amount = total_tva.sum %>
           <% @invoice_item.total_amount = total_net.sum %>
           <% @invoice_item.save %>
-          <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
-        </div>
-      </div>
-      <div class="invoice-total-details">
-        <div>
-          <p>Total HT Net</p>
-          <p>Total TVA</p>
-          <p>Total TTC</p>
-          <p>Net à payer en EUR</p>
-        </div>
-        <div>
-          <p><%= number_with_precision(total_ht.sum, precision: 2) %></p>
-          <p><%= number_with_precision(@invoice_item.tax_amount, precision: 2) %></p>
-          <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
-          <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
-        </div>
-      </div>
-    </div>
-    <% unless @invoice_item.type == 'InvoiceSevener' %>
-      <div class="invoice-bank-statement">
-        <p>Déclaration d'activité sous le numéro 11 92 20487 92 auprès du Préfet d'IDF</p>
-        <p>Domiciliation Bancaire : CIC Paris République</p>
-        <p>Banque : 3006 Guichet : 10011 N° Compte : 00020287201 Clé : 36</p>
-        <p>IBAN : FR76 3006 6100 1100 0202 8720 136</p>
-        <p>BIC : CMCIFRPP</p>
-      </div>
-      <div class="invoice-footer">
-        <p>SAS - RCS : Paris - Siret : 80396439400024 - APE : 8559A - ID TVA : FR28 803964394</p>
-        <p>Pas d'escompte pour paiement anticipé, passée la date d'échéance, tout paiement différé entraîne l'application d'une pénalité de 3 fois le taux d'intérêt légal (loi 2008-776 du 04/08/2008) ainsi qu'une indemnité forfaitaire pour frais de recouvrement de 40 euros (Décret 2012-1115 du 02/10/2012).</p>
-      </div>
-    <% else %>
-      <div>
-        <p>TVA non applicable, article 293b du CGI</p>
-      </div>
-    <% end %>
-  </div>
-  <div id='library' class="nav-side-menu-container">
-    <div class="nav-side-menu">
-      <a id="close_library" class='centered-item'><i class="fas fa-times"></i></a>
-      <div class="brand">Products</div>
-      <div class="menu-list">
-        <ul id="product-list">
-          <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id, type: 'Chapter'), method: :post do %>
-            <li>Chapter</li>
+          <% if @invoice_item.type == 'Order' %>
+            <p>TVA non applicable, article 293b du CGI</p>
+          <% else %>
+            <div>
+              <p>Echéance(s)</p>
+              <p>Montant</p>
+            </div>
+            <div>
+              <p><%= (@invoice_item.created_at + 1.months).strftime('%d/%m/%Y') %></p>
+              <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
+            </div>
           <% end %>
-          <% Product.all.each do |product| %>
-            <%= link_to invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post do %>
-              <li><%= product.name %></li>
+        </div>
+        <div class="invoice-total-details">
+          <div>
+            <p>Total HT Net</p>
+            <p>Total TVA</p>
+            <p>Total TTC</p>
+            <p>Net à payer en EUR</p>
+          </div>
+          <div>
+            <p><%= number_with_precision(total_ht.sum, precision: 2) %></p>
+            <p><%= number_with_precision(@invoice_item.tax_amount, precision: 2) %></p>
+            <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
+            <p><%= number_with_precision(@invoice_item.total_amount, precision: 2) %></p>
+          </div>
+        </div>
+      </div>
+      <% unless @invoice_item.type == 'Order' %>
+        <div class="invoice-bank-statement">
+          <p>Déclaration d'activité sous le numéro 11 92 20487 92 auprès du Préfet d'IDF</p>
+          <p>Domiciliation Bancaire : CIC Paris République</p>
+          <p>Banque : 3006 Guichet : 10011 N° Compte : 00020287201 Clé : 36</p>
+          <p>IBAN : FR76 3006 6100 1100 0202 8720 136</p>
+          <p>BIC : CMCIFRPP</p>
+        </div>
+        <div class="invoice-footer">
+          <p>SAS - RCS : Paris - Siret : 80396439400024 - APE : 8559A - ID TVA : FR28 803964394</p>
+          <p>Pas d'escompte pour paiement anticipé, passée la date d'échéance, tout paiement différé entraîne l'application d'une pénalité de 3 fois le taux d'intérêt légal (loi 2008-776 du 04/08/2008) ainsi qu'une indemnité forfaitaire pour frais de recouvrement de 40 euros (Décret 2012-1115 du 02/10/2012).</p>
+        </div>
+      <% end %>
+    </div>
+    <div id='library' class="nav-side-menu-container">
+      <div class="nav-side-menu">
+        <a id="close_library" class='centered-item'><i class="fas fa-times"></i></a>
+        <div class="brand">Products</div>
+        <div class="menu-list">
+          <ul id="product-list">
+            <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id, type: 'Chapter'), method: :post do %>
+              <li>Chapter</li>
             <% end %>
-          <% end %>
-          <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post do %>
-            <li>Commentaires</li>
-          <% end %>
-          <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id, description: 'Nom'), method: :post do %>
-            <li>Nom du participant</li>
-          <% end %>
-        </ul>
+            <% Product.all.each do |product| %>
+              <%= link_to invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post do %>
+                <li><%= product.name %></li>
+              <% end %>
+            <% end %>
+            <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post do %>
+              <li>Commentaires</li>
+            <% end %>
+            <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id, description: 'Nom'), method: :post do %>
+              <li>Nom du participant</li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<script>
-  var button_show = document.getElementById('show_library');
-  var button_close = document.getElementById('close_library');
-  var library = document.getElementById('library');
-  button_show.addEventListener('click', (event) => {
-    library.style.height = '100vh';
-  })
-  button_close.addEventListener('click', (event) => {
-    library.style.height = '0px';
-  })
-</script>
+  <script>
+    var button_show = document.getElementById('show_library');
+    var button_close = document.getElementById('close_library');
+    var library = document.getElementById('library');
+    button_show.addEventListener('click', (event) => {
+      library.style.height = '100vh';
+    })
+    button_close.addEventListener('click', (event) => {
+      library.style.height = '0px';
+    })
+  </script>
 
-<!-- MODALS -->
+  <!-- MODALS -->
 
-<div class="modal fade" id="copyInvoiceItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 2rem">
-    <%= render 'invoice_items/copy', invoice_item: @invoice_item %>
+  <div class="modal fade" id="copyInvoiceItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document" style="border-radius: 2rem">
+      <%= render 'invoice_items/copy', invoice_item: @invoice_item %>
+    </div>
   </div>
-</div>
 
-<div class="modal fade" id="editClient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 2rem">
-    <%= render 'invoice_items/edit_client', invoice_item: @invoice_item %>
+  <div class="modal fade" id="editClient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document" style="border-radius: 2rem">
+      <%= render 'invoice_items/edit_client', invoice_item: @invoice_item %>
+    </div>
   </div>
-</div>
 
-<!--  -->
+  <!--  -->
+<% else %>
+  <div class="container-seven-large-form">
+    <div id='attendee-form-logo'>
+      <h3>You are not allowed to access this page.</h3>
+    </div>
+  </div>
+<% end %>

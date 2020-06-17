@@ -49,6 +49,10 @@ class TrainingPolicy < ApplicationPolicy
     check_access
   end
 
+  def sevener_billing?
+    true
+  end
+
   private
 
   def check_access

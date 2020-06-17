@@ -5,7 +5,6 @@
 
 .control-button {
   border-radius: 50%;
-  // border: 1px solid rgba(115, 133, 152, 0.6);
   height: 4.8rem;
   width: 4.8rem;
   font-size: 1.6rem; /* Set a font size */
@@ -359,4 +358,8 @@
 .btn-submit-disabled {
   cursor: default !important;
   background-color: rgba(0,0,0,0.3) !important;
+}
+
+#search_title, #search_name {
+  margin-right: 1rem;
 }

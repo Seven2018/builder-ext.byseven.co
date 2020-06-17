@@ -54,6 +54,8 @@ Rails.application.routes.draw do
   get 'invoice_items/:id/marked_as_paid', to: 'invoice_items#marked_as_paid', as: 'marked_as_paid_invoice_item'
   get 'invoice_items/:id/marked_as_reminded', to: 'invoice_items#marked_as_reminded', as: 'marked_as_reminded_invoice_item'
   get 'invoice_items/export_to_csv', to: 'invoice_items#export_to_csv', as: 'export_to_csv_invoice_items'
+  post 'redirect_upload_to_drive', to: 'invoice_items#redirect_upload_to_drive', as: 'redirect_upload_to_drive'
+  post 'upload_to_drive', to: 'invoice_items#upload_to_drive', as: 'upload_to_drive'
   post 'upload_to_sheet', to: 'invoice_items#upload_to_sheet', as: 'upload_to_sheet'
   get 'report', to: 'invoice_items#report', as: 'report'
   resources :invoice_lines, only: [:create, :edit, :update, :destroy]
@@ -96,7 +98,8 @@ Rails.application.routes.draw do
   get 'trainings_completed', to: 'trainings#index_completed', as: 'index_completed'
   get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
   get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
-  get 'training/:id/copy', to: 'trainings#copy', as: 'copy_training'
+  get 'trainings/:id/copy', to: 'trainings#copy', as: 'copy_training'
+  get 'trainings/:id/sevener_billing', to: 'trainings#sevener_billing', as: 'sevener_billing'
   get 'training/redirect_docusign', to: 'trainings#redirect_docusign', as: 'redirect_docusign'
 
   # ATTENDEES

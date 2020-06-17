@@ -90,7 +90,19 @@
   &:hover, a:hover {
     text-decoration: none;
     color: black;
-    cursor: help
+    cursor: help;
+  }
+}
+
+.invoice-line-comments-disabled {
+  color: black;
+  padding-left: 4rem;
+  margin-bottom: 2rem;
+
+  &:hover, a:hover {
+    text-decoration: none;
+    color: black;
+    cursor: not-allowed;
   }
 }
 

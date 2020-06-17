@@ -64,7 +64,7 @@ input:focus {
 .form-check {
   display: flex !important;
   align-items:center !important;
-  margin: 0 !important;
+  margin: 0;
   padding: 0 !important;
 
   input {
@@ -158,4 +158,24 @@ input:focus {
   height: 9px;
   border-radius: 50%;
   background: white;
+}
+
+
+form.billing {
+  margin-left: 5rem;
+
+  .form-check {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+
+    p {
+      margin: 0;
+    }
+  }
 }

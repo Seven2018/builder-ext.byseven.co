@@ -1,0 +1,87 @@
+<div class="container-seven-large">
+  <div id="page-controls">
+    <%= link_to training_path(@training), class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <div class="middle-info">
+    <% collection = @training.sessions.joins(:session_trainers).where(session_trainers: {user_id: @user.id}) %>
+    <% disabled = @training.sessions.joins(:session_trainers).where(session_trainers: {user_id: @user.id}).where.not(session_trainers: {invoice_item_id: nil}).map(&:id) %>
+    <div class='flex-row-between-centered' style='width:100%;margin-bottom:3rem;'>
+      <h3><%= @training.title %></h3>
+      <h3><%= '%.2f' % SessionTrainer.where(session_id: @training.sessions.ids, user_id: @user.id).first.unit_price %>€/h</h3>
+    </div>
+  </div>
+  <div class="sevener-billing-info">
+    <%= simple_form_for :billing, url: new_sevener_invoice_path(training_id: @training.id) do |f| %>
+      <%= f.input_field :sessions_ids, as: :check_boxes, collection: collection.map{|x|["<p>#{x.title}</p><p>#{x.date.strftime('%d/%m/%Y')}</p><p>#{x.duration}h</p><p>#{x.session_trainers.where(user_id: @user.id).first.status}</p>".html_safe, x.id]}, disabled: disabled %>
+      <div class='modal-control'>
+        <%= f.button :submit, 'Create Order', class: 'btn btn-edit-green btn-create-order btn-submit-disabled', disabled: true do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="sevener-billing-info">
+    <p>Orders Created</p>
+    <ul style='list-style: none;'>
+      <% InvoiceItem.where(type: 'Order', user_id: @user.id, training_id: @training.id).each do |item| %>
+        <li>
+          <%= link_to invoice_item_path(item), class: 'invoice-card-link' do %>
+            <div class="invoice-card">
+              <div class='item-id'>
+                <p><strong><%= item.uuid %></strong></p>
+                <p><%= item.client_company.name %></p>
+              </div>
+              <div class="item-id">
+                <p><strong>Creation date</strong></p>
+                <p><%= item.created_at.strftime('%d/%m/%y') %></p>
+              </div>
+              <div class="item-id">
+                <p><strong>Payment date</strong></p>
+                <% if item.payment_date.present? %>
+                  <p><%= item.payment_date&.strftime('%d/%m/%y') %></p>
+                <% end %>
+              </div>
+              <div class='item-id'>
+                <p><strong>Amount</strong></p>
+                <p><%= number_with_precision(item.total_amount, precision: 2) %>€</p>
+              </div>
+              <div class="item-id">
+                <p><strong>Status</strong></p>
+                <% if item.payment_date.present? %>
+                  <p>Paid</p>
+                <% elsif item.dunning_date.present? %>
+                  <p>Reminded</p>
+                <% elsif item.sending_date.present? %>
+                  <p>Send</p>
+                <% end %>
+              </div>
+              </div>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <%= form_tag upload_to_drive_path(invoice_item_id: InvoiceItem.last.id), multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag 'Upload' %>
+  <% end %>
+  </div>
+</div>
+
+<script>
+  button = document.querySelector('.btn-create-order');
+  inputs = document.querySelectorAll('input[type="checkbox"]');
+  inputs.forEach(function(input) {
+    input.addEventListener('change', (event) => {
+      if (Array.prototype.slice.call(inputs).some(x => x.checked)) {
+        button.classList.remove('btn-submit-disabled');
+        button.disabled = false;
+      } else {
+        button.classList.add('btn-submit-disabled');
+        button.disabled = true;
+      }
+    });
+  });
+</script>
