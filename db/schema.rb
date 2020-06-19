@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_15_120659) do
+ActiveRecord::Schema.define(version: 2020_06_18_135403) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,6 +232,7 @@ ActiveRecord::Schema.define(version: 2020_06_15_120659) do
     t.float "unit_price"
     t.string "status"
     t.bigint "invoice_item_id"
+    t.string "type"
     t.index ["invoice_item_id"], name: "index_session_trainers_on_invoice_item_id"
     t.index ["session_id"], name: "index_session_trainers_on_session_id"
     t.index ["user_id"], name: "index_session_trainers_on_user_id"

@@ -41,6 +41,7 @@ gem 'docusign_esign'
 gem 'bootstrap',     '4.1.1'
 gem 'material-sass', git: 'https://github.com/bricechapuis/material-sass'
 gem 'exception_handler', '~> 0.8.0.0'
+gem 'airrecord'
 
 
 gem 'dotenv-rails', groups: [:development, :test]

@@ -69,6 +69,15 @@ class InvoiceItemsController < ApplicationController
     @invoice_items = InvoiceItem.all
     # @invoice_items_grid = InvoiceItemsGrid.new(params[:invoice_items_grid])
     authorize @invoice_items
+
+    Sevener.all.each do |sevener|
+      test = User.find_by(email: sevener['Mail'])
+      raise
+      sevener['builder_id'] = test.id if test.present?
+      sevener.save if test.present?
+    end
+
+
     respond_to do |format|
       format.html
       format.csv { send_data @invoice_items_grid.to_csv }

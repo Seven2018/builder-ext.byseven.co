@@ -62,33 +62,56 @@ class SessionTrainersController < ApplicationController
         # Creates the event in all the targeted calendars
         list.each do |ind|
           Session.where(id: session_ids).each do |session|
+            day = session&.date
+            events = []
             begin
-
-              # Creates the event to be added to one or several calendars
-              day = session&.date
-              event = Google::Apis::CalendarV3::Event.new({
-                start: {
-                  date_time: day.to_s+'T'+session.start_time.strftime('%H:%M:%S'),
-                  time_zone: 'Europe/Paris',
-                },
-                end: {
-                  date_time: day.to_s+'T'+session.end_time.strftime('%H:%M:%S'),
-                  time_zone: 'Europe/Paris',
-                },
-                summary: session.training.title
-              })
+              break_position = session.workshops.find_by(title: 'Pause Déjeuner')&.position
+              if break_position.nil?
+                # Creates the event to be added to one or several calendars
+                events << Google::Apis::CalendarV3::Event.new({
+                  start: {
+                    date_time: day.to_s+'T'+session.start_time.strftime('%H:%M:%S'),
+                    time_zone: 'Europe/Paris',
+                  },
+                  end: {
+                    date_time: day.to_s+'T'+session.end_time.strftime('%H:%M:%S'),
+                    time_zone: 'Europe/Paris',
+                  },
+                  summary: session.training.title
+                })
+              else
+                morning = [session.start_time]
+                morning_duration = session.workshops.where('position < ?', break_position).map(&:duration).sum
+                morning << session.start_time + morning_duration.minutes
+                afternoon = [session.end_time - session.workshops.where('position > ?', break_position).map(&:duration).sum.minutes, session.end_time]
+                [morning, afternoon].each do |event|
+                  events << Google::Apis::CalendarV3::Event.new({
+                  start: {
+                    date_time: day.to_s+'T'+event.first.strftime('%H:%M:%S'),
+                    time_zone: 'Europe/Paris',
+                  },
+                  end: {
+                    date_time: day.to_s+'T'+event.last.strftime('%H:%M:%S'),
+                    time_zone: 'Europe/Paris',
+                  },
+                  summary: session.training.title
+                })
+                end
+              end
+              events.each do |event|
+                if %w(1 2 3 4 5).include?(ind)
+                    create_calendar_id(ind, session.id, event, service, calendars_ids)
+                else
+                  sevener = User.find(ind)
+                  initials = sevener.firstname.first.upcase + sevener.lastname.first.upcase
+                  event.summary = session.training.client_company.name.upcase + " - " + session.training.title + " - " + initials
+                  event.id = SecureRandom.hex(32)
+                  session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first
+                  session_trainer.calendar_uuid.nil? ? session_trainer.update(calendar_uuid: event.id) : session_trainer.update(calendar_uuid: session_trainer.calendar_uuid + ' - ' + event.id)
+                  service.insert_event(calendars_ids[5], event)
+                end
+              end
             rescue
-            end
-            if %w(1 2 3 4 5).include?(ind)
-                create_calendar_id(ind, session.id, event, service, calendars_ids)
-            else
-              sevener = User.find(ind)
-              initials = sevener.firstname.first.upcase + sevener.lastname.first.upcase
-              event.summary = session.training.client_company.name.upcase + " - " + session.training.title + " - " + initials
-              event.id = SecureRandom.hex(32)
-              session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first
-              session_trainer.update(calendar_uuid: event.id)
-              service.insert_event(calendars_ids[5], event)
             end
           end
         end
@@ -211,6 +234,13 @@ class SessionTrainersController < ApplicationController
     redirect_to redirect_path(session_id: "|#{sessions_ids[0...-1]}|", list: 'purge_training', to_delete: "%#{event_to_delete}%")
   end
 
+  def update
+    @session_trainer = SessionTrainer.find(:id)
+    authorize @session_trainer
+    @session_trainer.update(session_trainer_params)
+    @session_trainer ? redirect_to request.referrer
+  end
+
   private
 
   def client_options
@@ -227,7 +257,11 @@ class SessionTrainersController < ApplicationController
   def create_calendar_id(user_id, session_id, event, service, array)
     event.id = SecureRandom.hex(32)
     session_trainer = SessionTrainer.where(user_id: user_id, session_id: session_id).first
-    session_trainer.update(calendar_uuid: event.id)
+    session_trainer.calendar_uuid.nil? ? session_trainer.update(calendar_uuid: event.id) : session_trainer.update(calendar_uuid: session_trainer.calendar_uuid + ' - ' + event.id)
     service.insert_event(array[user_id.to_i - 1], event)
+  end
+
+  def session_trainer_params
+    params.require(:session_trainer).permit(:type, :unit_price)
   end
 end
