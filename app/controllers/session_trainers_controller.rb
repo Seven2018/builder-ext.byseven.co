@@ -238,7 +238,7 @@ class SessionTrainersController < ApplicationController
     @session_trainer = SessionTrainer.find(:id)
     authorize @session_trainer
     @session_trainer.update(session_trainer_params)
-    @session_trainer ? (redirect_to request.referrer)
+    redirect_to request.referrer if @session_trainer.present?
   end
 
   private
