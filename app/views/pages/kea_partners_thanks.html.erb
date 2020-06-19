@@ -67,7 +67,8 @@
     </ul>
     <p>Si vous souhaitez modifier vos inscriptions, veuillez cliquer sur le bouton suivant:</p>
     <div class="centered-item" style='margin: 3rem 0;'>
-      <%= link_to 'Modifier', "#{session[:my_previous_url]}?search[email]=#{attendee.email}&modify=yes", class: 'btn btn-edit-yellow' %>
+      <% token = attendee.client_company.auth_token %>
+      <%= link_to 'Modifier', "#{session[:my_previous_url]}?search[email]=#{attendee.email}&modify=yes&auth_token=#{token}", class: 'btn btn-edit-yellow' %>
     </div>
   </div>
 </div>

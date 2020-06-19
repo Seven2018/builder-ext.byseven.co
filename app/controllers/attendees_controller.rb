@@ -41,7 +41,7 @@ class AttendeesController < ApplicationController
     @attendee = Attendee.new(attendee_params)
     @attendee.client_company_id = ClientCompany.find_by(name: 'KEA PARTNERS').id
     if @attendee.save
-      redirect_to "#{params[:redirect]}?search[email]=#{@attendee.email}"
+      redirect_to "#{params[:redirect]}?search[email]=#{@attendee.email}&auth_token=#{@attendee.client_company.auth_token}"
       flash[:notice] = 'Compte créé avec succès'
     else
       flash[:notice] = 'Erreur'

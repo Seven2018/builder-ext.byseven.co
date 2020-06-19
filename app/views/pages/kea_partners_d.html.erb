@@ -1,6 +1,6 @@
 <% training = Training.find_by(refid: '20-0088') %>
 <% sessions = training.sessions.sort_by{|x|x.id} %>
-<% if params[:auth_token] == training.client_company.auth_token %>
+<% if params[:auth_token] == training.client_company.auth_token || (params[:search].present? && params[:search][:auth_token]) %>
   <div class="container-seven-large-form">
     <div id='attendee-form-logo'>
       <%= image_tag "SEVENLOGO_SQUARE2.png" %>
@@ -34,6 +34,7 @@
             <p>Veuillez entrer votre adresse email pour continuer</p>
             <br>
             <%= f.input :email, label: 'Adresse email' %>
+            <%= f.hidden_field :auth_token, :value => params[:auth_token] %>
             <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
           <% end %>
         <% end %>
