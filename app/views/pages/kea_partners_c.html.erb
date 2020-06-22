@@ -89,18 +89,18 @@
         </div>
         <div class="session-form-card-special center-button">
           <div class="session-form-card-left-special">
-            <%= image_tag "kea_2.png", style: 'height:100%;width:100%;object-fit:cover;' %>
+            <%= image_tag "kea_9.png", style: 'height:100%;width:100%;object-fit:cover;' %>
           </div>
           <div class="session-form-card-right-special">
             <div class="session-form-card-title">
-              <h4>Innover par le design thinking - 1ère Partie</h4>
+              <h4>Identifier les besoins réels avec le Design Thinking</h4>
             </div>
-            <p class='session-teaser'>Au cours de cet atelier les participants découvriront, sur la base de leurs problématiques quotidiennes, les concepts de base du Design Thinking. <br> <br>
-            Les participants pratiqueront la méthodologie pour découvrir comment innover dans leur métier et affronter un univers changeant.
+            <p class='session-teaser'>Dans cet atelier les participants découvriront comment le Design Thinking peut leur permettre d'écouter et comprendre au mieux leur cible, qu'il soient clients, consommateurs ou une toute autre population. <br><br>
+            Ils se serviront du Design Thinking pour construire des personas et identifier les besoins réels de leur cible.
             </p>
             <div class="session-form-control flex-column-between-left">
               <div class="flex-column-between-left">
-                <% sessions2 = training.sessions.where(title: "Innover par le design thinking - 1ère Partie").order(:date).reject{|s| s.attendee_number - s.attendees.count <= 0} %>
+                <% sessions2 = training.sessions.where(title: "Identifier les besoins réels avec le Design Thinking").order(:date).reject{|s| s.attendee_number - s.attendees.count <= 0} %>
                 <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions2.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
                   <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions2.first(2).map(&:id))&.first&.session_id&.to_s %>
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions2[0].id).present? %>
@@ -135,14 +135,14 @@
           </div>
           <div class="session-form-card-right-special">
             <div class="session-form-card-title">
-              <h4>Innover par le design thinking - 2nde Partie</h4>
+              <h4>Innover par le design thinking</h4>
             </div>
-            <p class='session-teaser'>Au cours de cet atelier les participants découvriront, sur la base de leurs problématiques quotidiennes, les concepts de base du Design Thinking. <br> <br>
-            Les participants pratiqueront la méthodologie pour découvrir comment innover dans leur métier et affronter un univers changeant.
+            <p class='session-teaser'>Au cours de cet atelier les participants découvriront comment innover dans leur métier et affronter un univers changeant. <br><br>
+            Ils utiliseront la méthodologie pour générer de large montants d'idées innovantes et construiront des prototypes de nouveaux produits ou services.
             </p>
             <div class="session-form-control flex-column-between-left">
               <div class="flex-column-between-left">
-                <% sessions3 = training.sessions.where(title: "Innover par le design thinking - 2nde Partie").order(:date).reject{|s| s.attendee_number - s.attendees.count <= 0} %>
+                <% sessions3 = training.sessions.where(title: "Innover par le design thinking").order(:date).reject{|s| s.attendee_number - s.attendees.count <= 0} %>
                 <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions3.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
                   <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions3.first(2).map(&:id))&.first&.session_id&.to_s %>
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions3[0].id).present? %>

@@ -216,7 +216,7 @@
                     </div>
                   <% end %>
                   <%= hidden_field_tag(:attendee_id, attendee.id) %>
-                  <%= hidden_field_tag(:sessions_ids, {choice1: [sessions[2].id,sessions[3].id], choice2: [sessions[4].id,sessions[5].id], choice3: [sessions[8].id,sessions[9].id], choice4: [sessions[12].id,sessions[13].id]}) %>
+                  <%= hidden_field_tag(:sessions_ids, {choice1: sessions1.first(2).map(&:id), choice2: sessions2.first(2).map(&:id), choice3: sessions3.first(2).map(&:id), choice4: sessions4.first(2).map(&:id)}) %>
                 </div>
             </div>
           </div>
