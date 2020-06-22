@@ -128,7 +128,11 @@ class SessionTrainersController < ApplicationController
     # Lists all pre-existing SessionTrainers, to be deleted
     event_to_delete = ''
     SessionTrainer.where(session_id: @session.id).each do |trainer|
-      event_to_delete+=trainer.user_id.to_s+':'+trainer.calendar_uuid+',' if trainer.calendar_uuid.present?
+      if trainer.calendar_uuid.present?
+        trainer.calendar_uuid.split(' - ').each do |event_id|
+          event_to_delete+=trainer.user_id.to_s+':'+event_id+',' if trainer.calendar_uuid.present?
+        end
+      end
     end
     event_to_delete = event_to_delete[0...-1]
     # Select all Users whose checkbox is checked and create a SessionTrainer
@@ -169,7 +173,11 @@ class SessionTrainersController < ApplicationController
     sessions_ids = ''
     training.sessions.each do |session|
       SessionTrainer.where(session_id: session.id).each do |trainer|
-        event_to_delete+=trainer.user_id.to_s+':'+trainer.calendar_uuid+',' if trainer.calendar_uuid.present?
+        if trainer.calendar_uuid.present?
+          trainer.calendar_uuid.split(' - ').each do |event_id|
+            event_to_delete+=trainer.user_id.to_s+':'+event_id+',' if trainer.calendar_uuid.present?
+          end
+        end
       end
       sessions_ids += session.id.to_s + ','
     end

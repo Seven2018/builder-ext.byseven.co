@@ -58,7 +58,11 @@ class SessionsController < ApplicationController
 
     event_to_delete = ''
     SessionTrainer.where(session_id: @session.id).each do |trainer|
-      event_to_delete+=trainer.user_id.to_s+':'+trainer.calendar_uuid+',' if trainer.calendar_uuid.present?
+      if trainer.calendar_uuid.present?
+        trainer.calendar_uuid.split(' - ').each do |event_id|
+          event_to_delete+=trainer.user_id.to_s+':'+event_id+',' if trainer.calendar_uuid.present?
+        end
+      end
     end
     event_to_delete = event_to_delete[0...-1]
 
