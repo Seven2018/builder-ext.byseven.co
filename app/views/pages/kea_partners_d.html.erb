@@ -47,18 +47,19 @@
       <div class='container-seven-large-form'>
         <div class="session-form-card-special center-button">
           <div class="session-form-card-left-special">
-            <%= image_tag "kea_3.png", style: 'height:100%;width:100%;object-fit:cover;' %>
+            <%= image_tag "kea_6.jpg", style: 'height:100%;width:100%;object-fit:cover;' %>
           </div>
           <div class="session-form-card-right-special">
             <div class="session-form-card-title">
-              <h4>Transmettre avec les 7 intelligences d'Howard Gardner</h4>
+              <h4>Communiquer efficacement et motiver ses équipes</h4>
             </div>
-            <p class='session-teaser'>A l’aide de la théorie des intelligences multiples d’Howard Gardner, les participants découvriront comment rythmer les interactions avec leurs interlocuteurs et adapter leur discours pour convaincre et animer avec impact. <br><br> Que ce soit lors de réunions, de discours ou de formations, ils découvriront également comment exploiter avec succès la courbe de l'attention pour capter leur auditoire.
+            <p class='session-teaser'>Pitcher devant un client ou des collaborateurs nécessite une bonne maîtrise de son sujet ainsi qu'une bonne lecture des différents profils qui composent l'auditoire. <br><br>
+            Dans cet atelier les participants définiront leur profil de communiquant et travailleront sur leurs propres leviers de motivations.
             </p>
             <div class="session-form-control flex-column-between-left">
               <%= simple_form_for :create_attendees, url: test_session_attendee_path(attendee_id: attendee.id), method: 'GET' do |f| %>
                 <div class="flex-column-between-left">
-                  <% sessions1_all = training.sessions.where(title: "Transmettre avec les 7 intelligences d'Howard Gardner").order(:date) %>
+                  <% sessions1_all = training.sessions.where(title: "Communiquer efficacement et motiver ses équipes").order(:date) %>
                   <% sessions1 = sessions1_all.reject{|s| s.attendee_number - s.attendees.count <= 0} %>
                   <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions1.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
                     <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions1.first(2).map(&:id))&.first&.session_id&.to_s %>
@@ -133,18 +134,18 @@
         </div>
         <div class="session-form-card-special center-button">
           <div class="session-form-card-left-special">
-            <%= image_tag "kea_6.jpg", style: 'height:100%;width:100%;object-fit:cover;' %>
+            <%= image_tag "kea_7.png", style: 'height:100%;width:100%;object-fit:cover;' %>
           </div>
           <div class="session-form-card-right-special">
             <div class="session-form-card-title">
-              <h4>Communiquer efficacement et motiver ses équipes</h4>
+              <h4>Networking</h4>
             </div>
-            <p class='session-teaser'>Pitcher devant un client ou des collaborateurs nécessite une bonne maîtrise de son sujet ainsi qu'une bonne lecture des différents profils qui composent l'auditoire. <br><br>
-            Dans cet atelier les participants définiront leur profil de communiquant et travailleront sur leurs propres leviers de motivations.
+            <p class='session-teaser'>Pour développer son personnal branding, sur les réseaux sociaux ou lors de moments d'échanges physiques informels, il faut d'abord faire un travail sur soi pour identifier le ou les messages qui sont importants pour soi. <br><br>
+            Il faut ensuite travailler son storytelling et utiliser les leviers d'influence pour développer efficacement son réseau.
             </p>
             <div class="session-form-control flex-column-between-left">
                 <div class="flex-column-between-left">
-                  <% sessions3_all = training.sessions.where(title: "Communiquer efficacement et motiver ses équipes").order(:date) %>
+                  <% sessions3_all = training.sessions.where(title: "Networking").order(:date) %>
                   <% sessions3 = sessions3_all.reject{|s| s.attendee_number - s.attendees.count <= 0} %>
                   <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions3.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
                     <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions3.first(2).map(&:id))&.first&.session_id&.to_s %>
@@ -180,14 +181,14 @@
           </div>
           <div class="session-form-card-right-special">
             <div class="session-form-card-title">
-              <h4>Mettre en avant ses compétences et construire son réseau professionnel</h4>
+              <h4>Construire son personal branding</h4>
             </div>
             <p class='session-teaser'>Pour développer son personnal branding, sur les réseaux sociaux ou lors de moments d'échanges physiques informels, il faut d'abord faire un travail sur soi pour identifier le ou les messages qui sont importants pour soi. <br><br>
             Il faut ensuite travailler son storytelling et utiliser les leviers d'influence pour développer efficacement son réseau.
             </p>
             <div class="session-form-control flex-column-between-left">
                 <div class="flex-column-between-left">
-                  <% sessions4_all = training.sessions.where(title: "Mettre en avant ses compétences et construire son réseau professionnel").order(:date) %>
+                  <% sessions4_all = training.sessions.where(title: "Construire son personal branding").order(:date) %>
                   <% sessions4 = sessions4_all.reject{|s| s.attendee_number - s.attendees.count <= 0} %>
                   <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions4.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
                     <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions4.first(2).map(&:id))&.first&.session_id&.to_s %>

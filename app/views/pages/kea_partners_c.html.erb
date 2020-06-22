@@ -93,14 +93,14 @@
           </div>
           <div class="session-form-card-right-special">
             <div class="session-form-card-title">
-              <h4>Innover par le design thinking</h4>
+              <h4>Innover par le design thinking - 1ère Partie</h4>
             </div>
             <p class='session-teaser'>Au cours de cet atelier les participants découvriront, sur la base de leurs problématiques quotidiennes, les concepts de base du Design Thinking. <br> <br>
             Les participants pratiqueront la méthodologie pour découvrir comment innover dans leur métier et affronter un univers changeant.
             </p>
             <div class="session-form-control flex-column-between-left">
               <div class="flex-column-between-left">
-                <% sessions2 = training.sessions.where(title: "Innover par le design thinking").order(:date).reject{|s| s.attendee_number - s.attendees.count <= 0} %>
+                <% sessions2 = training.sessions.where(title: "Innover par le design thinking - 1ère Partie").order(:date).reject{|s| s.attendee_number - s.attendees.count <= 0} %>
                 <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions2.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
                   <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions2.first(2).map(&:id))&.first&.session_id&.to_s %>
                 <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions2[0].id).present? %>
@@ -125,13 +125,98 @@
                     </p>
                   </div>
                 <% end %>
-                <%= hidden_field_tag(:attendee_id, attendee.id) %>
-                <%= hidden_field_tag(:sessions_ids, {choice1: sessions1.first(2).map(&:id), choice2: sessions2.first(2).map(&:id)}) %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="session-form-card-special center-button">
+          <div class="session-form-card-left-special">
+            <%= image_tag "kea_2.png", style: 'height:100%;width:100%;object-fit:cover;' %>
+          </div>
+          <div class="session-form-card-right-special">
+            <div class="session-form-card-title">
+              <h4>Innover par le design thinking - 2nde Partie</h4>
+            </div>
+            <p class='session-teaser'>Au cours de cet atelier les participants découvriront, sur la base de leurs problématiques quotidiennes, les concepts de base du Design Thinking. <br> <br>
+            Les participants pratiqueront la méthodologie pour découvrir comment innover dans leur métier et affronter un univers changeant.
+            </p>
+            <div class="session-form-control flex-column-between-left">
+              <div class="flex-column-between-left">
+                <% sessions3 = training.sessions.where(title: "Innover par le design thinking - 2nde Partie").order(:date).reject{|s| s.attendee_number - s.attendees.count <= 0} %>
+                <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions3.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
+                  <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions3.first(2).map(&:id))&.first&.session_id&.to_s %>
+                <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions3[0].id).present? %>
+                  <% checked = 'Interested' %>
+                <% else %>
+                  <% checked = 'Not interested' %>
+                <% end %>
+                <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
+                <% selection = [] %>
+                <% other_options = [['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']] %>
+                <% sessions3.first(2).each do |x| %>
+                  <% el = ["Le #{x.date.strftime('%d/%m/%Y')} : #{x.start_time.strftime('%Hh%M')}-#{x.end_time.strftime('%Hh%M')} (#{x.attendee_number-x.attendees.count} places disponibles)", x.id] %>
+                  <% selection << el %>
+                <% end %>
+                <%= f.collection_radio_buttons :choice3, (selection + other_options),:last, :first, checked: checked do |b| %>
+                  <div class="flex-row-between-centered radio">
+                    <p class='form_radio_label'>
+                      <label class="radio_container"><%= b.text %>
+                        <%= b.radio_button %>
+                        <span class="checkmark"></span>
+                      </label>
+                    </p>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="session-form-card-special center-button">
+          <div class="session-form-card-left-special">
+            <%= image_tag "kea_8.png", style: 'height:100%;width:100%;object-fit:cover;' %>
+          </div>
+          <div class="session-form-card-right-special">
+            <div class="session-form-card-title">
+              <h4>Avoir de l'impact à l'oral</h4>
+            </div>
+            <p class='session-teaser'>Des règles bien précises régissent la formulation d’un message clair et impactant. <br>
+            Dans cet atelier les participants découvriront, sous la forme d’un jeu d’énigmes, les trois piliers qui composent la communication. <br>
+            Les participants pratiqueront la méthodologie pour découvrir comment innover dans leur métier et affronter un univers changeant.
+            </p>
+            <div class="session-form-control flex-column-between-left">
+              <div class="flex-column-between-left">
+                <% sessions4 = training.sessions.where(title: "Avoir de l'impact à l'oral").order(:date).reject{|s| s.attendee_number - s.attendees.count <= 0} %>
+                <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions4.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
+                  <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions4.first(2).map(&:id))&.first&.session_id&.to_s %>
+                <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions4[0].id).present? %>
+                  <% checked = 'Interested' %>
+                <% else %>
+                  <% checked = 'Not interested' %>
+                <% end %>
+                <p class='session-teaser'>Indiquez votre choix pour la date de la formation :</p>
+                <% selection = [] %>
+                <% other_options = [['Je suis interessé mais pas disponible à ces dates', 'Interested'], ['Je ne souhaite pas participer à cet atelier', 'Not interested']] %>
+                <% sessions4.first(2).each do |x| %>
+                  <% el = ["Le #{x.date.strftime('%d/%m/%Y')} : #{x.start_time.strftime('%Hh%M')}-#{x.end_time.strftime('%Hh%M')} (#{x.attendee_number-x.attendees.count} places disponibles)", x.id] %>
+                  <% selection << el %>
+                <% end %>
+                <%= f.collection_radio_buttons :choice4, (selection + other_options),:last, :first, checked: checked do |b| %>
+                  <div class="flex-row-between-centered radio">
+                    <p class='form_radio_label'>
+                      <label class="radio_container"><%= b.text %>
+                        <%= b.radio_button %>
+                        <span class="checkmark"></span>
+                      </label>
+                    </p>
+                  </div>
+                <% end %>
               </div>
             </div>
           </div>
         </div>
             <div class="flex-row-end-centered" style='margin: 3rem 0;'>
+              <%= hidden_field_tag(:attendee_id, attendee.id) %>
+              <%= hidden_field_tag(:sessions_ids, {choice1: sessions1.first(2).map(&:id), choice2: sessions2.first(2).map(&:id), choice3: sessions3.first(2).map(&:id), choice4: sessions4.first(2).map(&:id)}) %>
               <%= f.submit 'Valider', class: 'btn btn-edit-yellow-large btn-submit btn-submit-disabled' %>
             </div>
           <% end %>
