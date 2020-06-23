@@ -8,4 +8,3 @@ class Sevener < Airrecord::Table
     self['Nom Complet']
   end
 end
-

@@ -7,6 +7,26 @@ class PagesController < ApplicationController
   def overlord
   end
 
+  def contact_form
+    unless params[:email_2].present?
+      contact = IncomingContact.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message])
+      IncomingContactMailer.with(user: User.find(2)).new_incoming_contact(contact).deliver
+    else
+      IncomingSpam.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message])
+    end
+    redirect_to 'https://learn.byseven.co/thank-you.html'
+  end
+
+  def contact_form_seven_x_bam
+    unless params[:email_2].present?
+      contact = IncomingContactBam.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message], 'Choice' => params[:choice])
+      IncomingContactMailer.with(user: User.find(2)).new_incoming_contact(contact).deliver
+    else
+      IncomingSpam.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message])
+    end
+    redirect_to 'https://learn.byseven.co/thank-you.html'
+  end
+
   def kea_partners_c
     session[:my_previous_url] = kea_partners_c_path
   end

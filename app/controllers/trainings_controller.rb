@@ -109,8 +109,8 @@ class TrainingsController < ApplicationController
   end
 
   def destroy
-    @training.destroy
     authorize @training
+    @training.destroy
     redirect_to trainings_path
   end
 
