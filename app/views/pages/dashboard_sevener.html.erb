@@ -50,12 +50,17 @@
   </div>
   <div>
     <p>Invoices status</p>
-    <% params[:filter].present? ? invoices = InvoiceItem.where(type: 'Order', user_id: params[:filter][:user]).order('id DESC') : invoices = InvoiceItem.where(type: 'Order', user_id: current_user.id).order('id DESC') %>
+    <% params[:filter].present? ? invoices = InvoiceSevener.all(filter: '{Mail (from Seveners)} = "#{User.find(params[:filter][:user].email)}"') : invoices = InvoiceSevener.all.select{|x| x['Mail (from Seveners)'] == [current_user.email]} %>
     <% invoices.each do |invoice| %>
       <div class="invoice-card">
-        <p><%= invoice.uuid %></p>
-        <p><%= invoice.updated_at %> h</p>
-        <p><%= invoice.status %></p>
+        <p><%= Training.find_by(refid: invoice['Training Refid']).title %></p>
+        <p><%= invoice['Invoice_id'] %></p>
+        <p><%= invoice['Date'] %></p>
+        <% if invoice['Paid'].nil? %>
+          <p>Pending</p>
+        <% else %>
+          <p>Paid</p>
+        <% end %>
       </div>
     <% end %>
   </div>

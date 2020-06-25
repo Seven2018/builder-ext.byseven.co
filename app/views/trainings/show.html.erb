@@ -28,9 +28,7 @@
       </div>
     <% else %>
       <div class="page-controls-buttons flex-row-between-centered">
-        <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
-        <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
-        </ul>
+        <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#reviewSevener' data-toggle="tooltip" title="Review"><i class="fas fa-copy"></i></a>
       </div>
     <% end %>
   </div>
@@ -259,7 +257,7 @@
 
 <div class="modal fade" id="newSevenerInvoice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
-    <%= render 'invoice_items/new_sevener_invoice', form: @form %>
+    <%# render 'invoice_items/new_sevener_invoice', form: @form %>
   </div>
 </div>
 
@@ -297,6 +295,14 @@
       </div>
     </div>
   <% end %>
+<% end %>
+
+<% if ['sevener+', 'sevener'].include?(current_user.access_level) %>
+  <div class="modal fade" id="reviewSevener" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document" style="border-radius: 20px">
+      <%= render 'invoice_items/review_sevener', training: @training, sevener: current_user %>
+    </div>
+  </div>
 <% end %>
 
 <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
