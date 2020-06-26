@@ -152,7 +152,16 @@ class TrainingsController < ApplicationController
 
   def import_airtable
     OverviewCard.all.each do |card|
-      # if card['Export to Builder']
+      if card['Export to Builder']
+        if card['Reference SEVEN'].present?
+
+        else
+          if card['Customer Contact']['Builder_id'].nil?
+
+          # Training.create(title: card['Title'], )
+          end
+        end
+      end
     end
   end
 
