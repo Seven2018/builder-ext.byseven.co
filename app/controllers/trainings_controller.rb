@@ -151,18 +151,27 @@ class TrainingsController < ApplicationController
   end
 
   def import_airtable
+    skip_authorization
     OverviewCard.all.each do |card|
-      if card['Export to Builder']
+      if card['Export to Builder'] == 'To be exported'
+        # raise
         if card['Reference SEVEN'].present?
-
+          # Training.find_by(refid: card['Reference SEVEN'])
         else
-          if card['Customer Contact']['Builder_id'].nil?
-
-          # Training.create(title: card['Title'], )
+          contact = OverviewContact.find(card['Customer Contact'].join)['Builder_id']
+          if contact.nil?
+            company = contact['Company/School']
+            if company.nil?
+              company = ClientCompany.create(name: company['Name'], address: company['address'], zipcode: company['Zipcode'], city: company['City'], client_company_type: company['Type'])
+            end
+            contact = ClientContact.create(name: contact['Name'], email: contact['Email'], client_company_id: company.id)
           end
+          Training.create(title: card['Title'], client_contact_id: contact.id, refid: "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}", satisfaction_survey: 'https://learn.byseven.co/survey')
         end
+        card['Export to Builder'] = 'Exported'
       end
     end
+    redirect_to trainings_path
   end
 
   private

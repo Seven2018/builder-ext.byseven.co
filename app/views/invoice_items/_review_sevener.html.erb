@@ -12,8 +12,8 @@
         <p><%= session.title %></p>
         <p><%= session.duration %></p>
         <% total_duration += session.duration %>
-        <% unit_price = session.session_trainers.where(user_id: current_user.id).unit_price %>
-        <p><%= session.session_trainers.where(user_id: current_user.id).unit_price %></p>
+        <% unit_price = session.session_trainers.find_by(user_id: current_user.id).unit_price %>
+        <p><%= unit_price %></p>
       </div>
       <div>
         <p>Total duration : <%= total_duration %></p>
