@@ -49,7 +49,7 @@
                 <h3><strong><%= session.title %></strong></h3>
                 <h4><%= session.room %> <br> <%= session.address %> </h4>
               </div>
-              <p class='session-teaser'><%= session.teaser.html_safe %></p>
+              <div class='session-teaser'><%= session.teaser.html_safe %></div>
               <div class="session-form-control flex-column-between-left">
                 <h4>Dates disponibles</h4>
                 <% @form.sessions.where(title: session.title).each do |session_date| %>
@@ -59,14 +59,14 @@
                     <% elsif (session_date.attendees.count >= session_date.attendee_number) && ((user_signed_in? && session_date.attendees.where(email: current_user.email).empty?) || (status && session_date.attendees.where(email: params[:search][:email]).empty?)) %>
                         <p><%= session_date.date %> : Plus de places disponibles</p>
                     <% elsif (params[:search] && session_date.attendees.where(email: params[:search][:email]).empty?) %>
-                      <h4><%= session&.date&.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></h4>
+                      <p><%= session&.date&.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></p>
                       <% if SessionAttendee.joins(:attendee).where(attendees: {email: params[:search][:email]}, session_id: @form.sessions.where(title: session.title).map(&:id)).empty? %>
                         <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session_date.id, attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
                       <% else %>
                         <a class="btn btn-edit-green disabled" style='opacity: 0.7;'>S'inscrire</a>
                       <% end %>
                     <% elsif status %>
-                      <h4><%= session&.date&.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></h4>
+                      <p><%= session&.date&.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></p>
                       <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session_date.id, attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session_date.title}. Continuer ?"}, class: 'btn btn-edit-red' %>
                     <% end %>
                   </div>
