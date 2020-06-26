@@ -21,8 +21,6 @@
           <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
             <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
             <div class='flex-column-between-centered'>
-              <%= f.input :firstname, label: 'Prénom', input_html: { value: attendee.firstname, style: 'width:30rem;'}, disabled: true, required: false %>
-              <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname, style: 'width:30rem;'}, disabled: true, required: false %>
               <%= f.input :email, input_html: { value: attendee.email, style: 'width:30rem;' }, disabled: true, required: false %>
             </div>
           <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>

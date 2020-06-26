@@ -150,6 +150,12 @@ class TrainingsController < ApplicationController
     redirect_to "https://account-d.docusign.com/oauth/auth?response_type=token&scope=signature&client_id=ce366c33-e8f1-4aa7-a8eb-a83fbffee4ca&redirect_uri=http://localhost:3000/docusign/callback"
   end
 
+  def import_airtable
+    OverviewCard.all.each do |card|
+      # if card['Export to Builder']
+    end
+  end
+
   private
 
   def set_training
