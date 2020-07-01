@@ -58,7 +58,7 @@ class InvoiceItem < ApplicationRecord
           gen_account = '41100000'
           aux_account = item.client_company.reference
           invoice_num = item.uuid
-          if item.client_company.client_company_type = 'School'
+          if item.client_company.client_company_type == 'School'
             company_label = "#{item.client_company.name}"
           else
             if item.training.client_contact.billing_contact.present? && (item.client_company == item.training.client_company)
