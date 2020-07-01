@@ -107,7 +107,7 @@ class SessionsController < ApplicationController
     new_session.room = ''
     new_session.training_id = training.id
     if new_session.save
-      new_session.# training.export_airtable
+      # new_session.training.export_airtable
       @session.workshops.each do |workshop|
         new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
         new_workshop.update(session_id: new_session.id)
@@ -127,7 +127,7 @@ class SessionsController < ApplicationController
     new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at"))
     new_session&.date = @session&.date
     if new_session.save
-      new_session.# training.export_airtable
+      # new_session.training.export_airtable
       @session.workshops.each do |workshop|
         new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
         new_workshop.update(session_id: new_session.id)
