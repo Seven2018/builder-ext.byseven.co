@@ -62,7 +62,7 @@ class InvoiceItem < ApplicationRecord
             company_label = "#{item.client_company.name}"
           else
             if item.training.client_contact.billing_contact.present? && (item.client_company == item.training.client_company)
-              company_label = "#{item.client_contact.billing_contact} TVA"
+              company_label = "#{item.training.client_contact.billing_contact} TVA"
             else
               company_label = "#{item.client_company.name} TVA"
             end
