@@ -160,7 +160,7 @@ class SessionTrainersController < ApplicationController
 
     if @session.date.present?
       redirect_to redirect_path(list: trainers_list, session_id: "|#{@session.id}|", to_delete: "%#{event_to_delete}%")
-      @session.training.export_airtable
+      # @session.# training.export_airtable
     else
       redirect_back(fallback_location: root_path)
     end
@@ -210,7 +210,7 @@ class SessionTrainersController < ApplicationController
       trainers_list += "#{user.id},"
     end
 
-    training.export_airtable
+    # training.export_airtable
     redirect_to redirect_path(list: trainers_list, session_id: "|#{training.sessions.ids.join(',')}|", to_delete: "%#{event_to_delete}%")
   end
 
@@ -224,7 +224,7 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    @session.training.export_airtable
+    # @session.# training.export_airtable
     redirect_to redirect_path(session_id: "|#{@session.id}|", list: 'purge_session', to_delete: "%#{event_to_delete}%")
   end
 
@@ -242,7 +242,7 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    training.export_airtable
+    # training.export_airtable
     redirect_to redirect_path(session_id: "|#{sessions_ids[0...-1]}|", list: 'purge_training', to_delete: "%#{event_to_delete}%")
   end
 

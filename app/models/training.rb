@@ -131,9 +131,9 @@ class Training < ApplicationRecord
     end
     seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
     if seveners
-      self.trainers.where(access_level: ['sevener+', 'sevener']).each do |user|
-        unit_price = SessionTrainer.find_by(user_id: user.id, session_id: session.id).unit_price
-        seveners_to_pay += "[ ] #{user.fullname} : #{user.hours(self)}h x #{unit_price}€ = #{session.duration*unit_price}€\n"
+      self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
+        unit_price = SessionTrainer.find_by(user_id: user.id, session_id: self.sessions.ids).unit_price
+        seveners_to_pay += "[ ] #{user.fullname} : #{user.hours(self)}h x #{unit_price}€ = #{user.hours(self)*unit_price}€\n"
       end
     else
       seveners_to_pay += "[ ] Aucun\n"
@@ -157,10 +157,9 @@ class Training < ApplicationRecord
       card = OverviewCard.create("Title" => self.title, "Reference SEVEN" => self.refid, "VAT" => self.vat, "Unit Price" => self.unit_price, "Details" => details, 'Export to Builder' => 'Updated')
       card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
       contact = OverviewContact.all.select{|x| x['Name'] == self.client_contact.name}
-      client = OverviewClient.all.select{|x| x['Name'] == @training.client_contact.client_company.name}
+      client = OverviewClient.all.select{|x| x['Name'] == self.client_contact.client_company.name}
       if contact.present?
-        card['Customer Contact'] = contact.first
-        card['Company/School'] = contact.first['Company/School']
+        card['Customer Contact'] = [contact.first.id]
       else
         builder_client = @training.client_contact.client_company
         unless client.present?
