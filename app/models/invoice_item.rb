@@ -61,7 +61,7 @@ class InvoiceItem < ApplicationRecord
           if item.client_company.client_company_type = 'School'
             company_label = "#{item.client_company.name}"
           else
-            if item.training.client_contact.billing_contact.present? && (item.client_company != item.training.client_company)
+            if item.training.client_contact.billing_contact.present? && (item.client_company == item.training.client_company)
               company_label = "#{item.client_contact.billing_contact} TVA"
             else
               company_label = "#{item.client_company.name} TVA"
