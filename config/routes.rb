@@ -104,6 +104,7 @@ Rails.application.routes.draw do
   get 'trainings/:id/sevener_billing', to: 'trainings#sevener_billing', as: 'sevener_billing'
   get 'training/redirect_docusign', to: 'trainings#redirect_docusign', as: 'redirect_docusign'
   get 'import_airtable', to: 'trainings#import_airtable', as: 'import_airtable'
+  get 'trainings/:id/export_airtable', to: 'trainings#export_airtable', as: 'export_airtable'
 
   # ATTENDEES
   resources :attendees, only: [:index, :show, :new, :create]

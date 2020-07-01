@@ -53,6 +53,10 @@ class TrainingPolicy < ApplicationPolicy
     true
   end
 
+  def export_airtable?
+    check_access
+  end
+
   private
 
   def check_access

@@ -106,4 +106,77 @@ class Training < ApplicationRecord
       end
     end
   end
+
+  def export_airtable
+    existing_card = OverviewCard.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
+    details = "Détail des sessions (date, horaires, intervenants):\n\n"
+    seveners_to_pay = "Seveners à payer :\n"
+    seven_invoices = "Factures SEVEN :\n"
+    self.invoice_items.where(type: 'Invoice').order(:id).each do |invoice|
+      invoice.status == 'Paid' ? seven_invoices += "[x] #{invoice.uuid}" : seven_invoices += "[ ] #{invoice.uuid}"
+    end
+    to_date, to_staff, seveners = false, false, false
+    self.sessions.each do |session|
+      if session.date.present?
+        details += "- #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}"
+        if session.session_trainers.present?
+          details += " - #{(session.session_trainers.map{|x| x.initials}).join(', ')}\n"
+        else
+          details += " - A STAFFER\n"
+          to_staff = true
+        end
+      else
+        to_date = true
+      end
+    end
+    seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
+    if seveners
+      self.trainers.where(access_level: ['sevener+', 'sevener']).each do |user|
+        unit_price = SessionTrainer.find_by(user_id: user.id, session_id: session.id).unit_price
+        seveners_to_pay += "[ ] #{user.fullname} : #{user.hours(self)}h x #{unit_price}€ = #{session.duration*unit_price}€\n"
+      end
+    else
+      seveners_to_pay += "[ ] Aucun\n"
+    end
+    if existing_card.present?
+      existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
+      existing_card['Details'] = details
+      if to_date
+        existing_card['Status'] = 'En attente (dates) - ALL'
+      elsif to_staff
+        existing_card['Status'] = 'En attente (staff) - ALL'
+      elsif seveners
+        existing_card['Status'] = 'En attente réalisation (avec sevener)'
+      else
+        existing_card['Status'] = 'En attente réalisation (sans sevener)'
+      end
+      existing_card['Seveners to pay'] = seveners_to_pay
+      existing_card['Seven Invoices'] = seven_invoices
+      existing_card.save
+    else
+      card = OverviewCard.create("Title" => self.title, "Reference SEVEN" => self.refid, "VAT" => self.vat, "Unit Price" => self.unit_price, "Details" => details, 'Export to Builder' => 'Updated')
+      card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
+      contact = OverviewContact.all.select{|x| x['Name'] == self.client_contact.name}
+      client = OverviewClient.all.select{|x| x['Name'] == @training.client_contact.client_company.name}
+      if contact.present?
+        card['Customer Contact'] = contact.first
+        card['Company/School'] = contact.first['Company/School']
+      else
+        builder_client = @training.client_contact.client_company
+        unless client.present?
+          new_client = OverviewClient.create('Name' => builder_client.name, 'Type' => builder_client.client_company_type, 'Address' => builder_client.address, 'Zipcode' => builder_client.zipcode, 'City' => builder_client.city, 'Builder_id' => builder_client.id)
+          new_client.save
+          new_contact = OverviewContact.create('Name' => @training.client_contact.name, 'Email' => @training.client_contact.email, 'Builder_id' => @training.client_contact.id, 'Company/School' => [new_client.id])
+          new_contact.save
+          card['Customer Contact'] = [new_contact.id]
+        else
+          new_contact = OverviewContact.create('Name' => @training.client_contact.name, 'Email' => @training.client_contact.email, 'Builder_id' => @training.client_contact.id, 'Company/School' => [client.first.id])
+          card['Customer Contact'] = [new_contact.id]
+        end
+      end
+      card['Seveners to pay'] = seveners_to_pay
+      card['Seven Invoices'] = seven_invoices
+      card.save
+    end
+  end
 end
