@@ -30,11 +30,12 @@ class Training < ApplicationRecord
   end
 
   def title_for_copy
-    if self.sessions.empty?
-      self.title + ' : ' + Training.where(title: self.title).count.to_s + '(empty)'
-    else
-      self.title + ' : ' + self.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y') + ' - ' + self.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')
-    end
+    # if self.sessions.empty?
+    #   self.title + ' : ' + Training.where(title: self.title).count.to_s + '(empty)'
+    # else
+    #   self.title + ' : ' + self.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y') + ' - ' + self.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')
+    # end
+    self.title + ' : ' + self.refid
   end
 
   def owners
@@ -110,7 +111,7 @@ class Training < ApplicationRecord
   def export_airtable
     existing_card = OverviewCard.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
     details = "Détail des sessions (date, horaires, intervenants):\n\n"
-    seveners_to_pay = "Seveners à payer :\n"
+    seveners_to_pay = ""
     seven_invoices = "Factures SEVEN :\n"
     self.invoice_items.where(type: 'Invoice').order(:id).each do |invoice|
       invoice.status == 'Paid' ? seven_invoices += "[x] #{invoice.uuid}" : seven_invoices += "[ ] #{invoice.uuid}"
