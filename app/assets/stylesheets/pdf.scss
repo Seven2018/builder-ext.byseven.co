@@ -74,7 +74,7 @@ h3, p {
 .module-card-pdf {
   padding: 0 1.5rem;
   margin-bottom: 3rem;
-  page-break-inside: avoid;
+  page-break-after: always;
 }
 
 .content-intel-pdf {
