@@ -17,12 +17,12 @@ h3, p {
 
   p {
     font-size: 16px;
-    font-family: 'Times New Roman' !important;
+    font-family: 'Asap Condensed', sans-serif !important;
   }
 
   h3 {
     font-size: 24px !important;
-    font-family: 'Times New Roman' !important;
+    font-family: 'Asap Condensed', sans-serif !important;
   }
 }
 
@@ -34,7 +34,7 @@ h3, p {
 
 
 .title-pdf, .title-presence-sheet-pdf {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Asap Condensed', sans-serif !important;
   padding: 3px;
   border-bottom: 2px solid black;
   text-align: center;
@@ -46,18 +46,18 @@ h3, p {
 }
 
 .session-details-pdf {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Asap Condensed', sans-serif !important;
 }
 
 .training-details-pdf {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Asap Condensed', sans-serif !important;
   text-align: center;
   font-style: italic;
   margin-top: -1.5rem
 }
 
 .content-details-pdf {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Asap Condensed', sans-serif !important;
   border-bottom: 1px solid #000;
   border-bottom-width: 1px;
   em {
@@ -78,7 +78,7 @@ h3, p {
 }
 
 .content-intel-pdf {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Asap Condensed', sans-serif !important;
   font-style: italic;
   // margin-top: -1.5rem;
 }

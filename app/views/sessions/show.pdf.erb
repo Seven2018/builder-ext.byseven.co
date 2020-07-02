@@ -12,7 +12,7 @@
   <br>
   <% time = @session.start_time %>
   <% @session.workshops.each do |workshop| %>
-  <h3 class="content-details-pdf"><%= time.strftime("%H:%M") %> - <%= workshop.title %> (<em><%= workshop.duration %> min</em>)</h3>
+  <h3 class="content-details-pdf"><%= time.strftime("%H:%M") %> - <%= workshop.title %> - <em><%= workshop.duration %> min</em></h3>
   <br>
   <% if workshop.title.start_with?('Pause') %>
     <% time += workshop.duration*60 %>
