@@ -61,7 +61,7 @@ h3, p {
   border-bottom: 1px solid #000;
   border-bottom-width: 1px;
   em {
-    color: red;
+    color: #FEC554;
   }
 }
 
@@ -72,9 +72,9 @@ h3, p {
 }
 
 .module-card-pdf {
-  border: 1px solid black;
   padding: 0 1.5rem;
   margin-bottom: 3rem;
+  page-break-inside: avoid;
 }
 
 .content-intel-pdf {
@@ -84,11 +84,11 @@ h3, p {
 }
 
 p.logistics-pdf {
-  color: green;
+  color: #3AA2AD;
 }
 
 #action-pdf {
-  color: orange
+  color: #96B8DB;
 }
 
 //INVOICE
