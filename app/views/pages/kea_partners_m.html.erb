@@ -1,4 +1,4 @@
-<% training = Training.find_by(refid: '20-0157') %>
+<% training = Training.find_by(refid: '2020-0157') %>
 <% sessions = training.sessions.sort_by{|x|x.id} %>
 <% if params[:auth_token] == training.client_company.auth_token || params[:auth_token] == ClientCompany.find_by(name: 'SEVEN').auth_token || (params[:search].present? && params[:search][:auth_token]) %>
   <div class="container-seven-large-form">
@@ -6,7 +6,7 @@
       <%= image_tag "SEVENLOGO_SQUARE2.png" %>
       <img src="https://media.glassdoor.com/sqll/365366/kea-and-partners-squarelogo-1466439693008.png" alt="" >
     </div>
-    <% training = Training.find_by(refid: '20-0157') %>
+    <% training = Training.find_by(refid: '2020-0157') %>
     <% sessions = training.sessions.sort_by{|x|x.id} %>
     <% if params[:search].present? %>
       <% attendee = Attendee.find_by(email: params[:search][:email]) %>
