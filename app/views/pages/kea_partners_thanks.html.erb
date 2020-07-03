@@ -7,7 +7,7 @@
   <% if session[:my_previous_url] == kea_partners_c_path %>
     <% sessions = training.sessions.order(:date).where(title: ["Maîtriser les lois du temps et la matrice d'Eisenhower", "Avoir de l'impact à l'oral"])%>
   <% elsif session[:my_previous_url] == kea_partners_d_path %>
-    <% sessions = training.sessions.order(:date).where(title: ["Mettre en avant ses compétences et construire son réseau professionnel", "Manager selon la situation avec les styles directifs, persuasifs, participatifs et délégatifs"])%>
+    <% sessions = training.sessions.order(:date).where(title: ["Mettre en avant ses compétences et construire son réseau professionnel", "Manager selon la situation et faire grandir ses équipes"])%>
   <% elsif session[:my_previous_url] == kea_partners_m_path %>
     <% sessions = training.sessions.order(:date).where(title: ["Préparer une négociation", "Communiquer efficacement et motiver ses équipes"])%>
   <% end %>

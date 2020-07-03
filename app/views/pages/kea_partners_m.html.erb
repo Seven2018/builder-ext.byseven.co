@@ -63,7 +63,7 @@
               <%= simple_form_for :create_attendees, url: test_session_attendee_path(attendee_id: attendee.id), method: 'GET' do |f| %>
                 <div class="flex-column-between-left">
                   <% sessions1_all = training.sessions.where(title: "Communiquer efficacement et motiver ses équipes").order(:date) %>
-                  <% sessions1 = sessions1_all.reject{|s| s.attendee_number - s.attendees.count <= 0} %>
+                  <% sessions1 = sessions1_all[1..-1].reject{|s| s.attendee_number - s.attendees.count <= 0} %>
                   <% if SessionAttendee.where(attendee_id: attendee.id, session_id: sessions1.first(2).map(&:id))&.first&.session_id&.to_s.present? %>
                     <% checked = SessionAttendee.where(attendee_id: attendee.id, session_id: sessions1.first(2).map(&:id))&.first&.session_id&.to_s %>
                   <% elsif AttendeeInterest.where(attendee_id: attendee.id, session_id: sessions1_all[0].id).present? %>
