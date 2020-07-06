@@ -9,7 +9,13 @@
             <h5 style='max-width: 18rem;'><%= training.title %></h5>
             <% result_fut << training %>
             <div class="card-infos">
-              <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
+              <% ['sevener+', 'sevener'].include?(current_user.access_level) ? sessions = training.sessions.joins(:session_trainers).where(session_trainers: {user_id: current_user.id}) : sessions = training.sessions %>
+              <div class='card-infos-elements'>
+                <% if sessions.count == 1 %>
+                  <i class="far fa-calendar-alt"></i><%= "  On #{sessions.first.date.strftime('%d/%m/%y')}" %>
+                <% else %>
+                  <i class="far fa-calendar-alt"></i><%= "  From #{sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
+                <% end %>
               </div>
             </div>
             <% if params[:user] || (params[:search] && params[:search][:user]) %>

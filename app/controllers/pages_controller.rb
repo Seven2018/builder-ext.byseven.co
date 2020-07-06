@@ -49,6 +49,56 @@ class PagesController < ApplicationController
   def dashboard_sevener
   end
 
+  def airtable_import_users
+    OverviewUser.all.each do |user|
+      if user['Builder_id'].nil?
+        new_user = User.new(firstname: user['Firstname'], lastname: user['Lastname'], email: user['Email'], access_level: 'sevener', password: 'tititoto')
+        new_user.save
+      end
+    end
+    redirect_back(fallback_location: root_path)
+    flash[:notice] = "Data imported from Airtable."
+  end
+
+  def airtable_import_clients
+    OverviewClient.all.each do |client|
+      if client['Builder_id'].nil?
+        company = ClientCompany.new(name: client['Name'], client_company_type: client['Type'], address: client['Address'], zipcode: client['Zipcode'], city: client['City'], auth_token: SecureRandom.hex(5).upcase)
+        company.opco_id = OverviewOpco.find(client['OPCO'].join) if client['OPCO'].present?
+        company.save
+        client['Builder_id'] = company.id
+        client.save
+      else
+        company = ClientCompany.find(client['Builder_id'])
+        company.update(name: client['Name'], client_company_type: client['Type'], address: client['Address'], zipcode: client['Zipcode'], city: client['City'], opco_id: OverviewOpco.find(client['OPCO'].join))
+      end
+    end
+
+    # OverviewOpco.all.each do |opco|
+    #   if opco['Builder_id'].nil?
+    #     company = ClientCompany.new(name: client['Name'], client_company_type: 'OPCO', address: client['Address'], zipcode: client['Zipcode'], city: client['City'], auth_token: SecureRandom.hex(5).upcase)
+    #   else
+    #     company = ClientCompany.find(opco['Builder_id'])
+    #     company.update(name: client['Name'], client_company_type: client['Type'], address: client['Address'], zipcode: client['Zipcode'], city: client['City'])
+    #   end
+    #   company.save
+    # end
+
+    OverviewContact.all.each do |contact|
+      if contact['Builder_id'].nil?
+        new_contact = ClientContact.new(name: contact['Firstname']+' '+contact['Lastname'], email: contact['Email'], client_company_id: OverviewClient.find(contact['Company/School'].join)['Builder_id'])
+        new_contact.save
+        contact['Builder_id'] = new_contact.id
+        contact.save
+      else
+        existing_contact = ClientContact.find(contact['Builder_id'])
+        existing_contact.update(name: contact['Firstname']+contact['Lastname'], email: contact['Email'], client_company_id: OverviewClient.find(contact['Company/School'].join)['Builder_id'])
+      end
+    end
+    redirect_back(fallback_location: root_path)
+    flash[:notice] = "Data imported from Airtable."
+  end
+
   def numbers_activity
     if params[:numbers_activity].present?
       @starts_at = params[:numbers_activity][:starts_at]

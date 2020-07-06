@@ -16,6 +16,12 @@ Rails.application.routes.draw do
   get 'inscriptions_kea_partners_d', to: 'pages#kea_partners_d', as: 'kea_partners_d'
   get 'inscriptions_kea_partners_thanks', to: 'pages#kea_partners_thanks', as: 'kea_partners_thanks'
 
+  # AIRTABLE
+  get 'airtable_import_users', to: 'pages#airtable_import_users', as: 'airtable_import_users'
+  get 'airtable_import_clients', to: 'pages#airtable_import_clients', as: 'airtable_import_clients'
+  get 'import_airtable', to: 'trainings#import_airtable', as: 'import_airtable'
+  get 'trainings/:id/export_airtable', to: 'trainings#export_airtable', as: 'export_airtable'
+
   # USERS
   resources :users
 
@@ -103,8 +109,6 @@ Rails.application.routes.draw do
   get 'trainings/:id/copy', to: 'trainings#copy', as: 'copy_training'
   get 'trainings/:id/sevener_billing', to: 'trainings#sevener_billing', as: 'sevener_billing'
   get 'training/redirect_docusign', to: 'trainings#redirect_docusign', as: 'redirect_docusign'
-  get 'import_airtable', to: 'trainings#import_airtable', as: 'import_airtable'
-  get 'trainings/:id/export_airtable', to: 'trainings#export_airtable', as: 'export_airtable'
 
   # ATTENDEES
   resources :attendees, only: [:index, :show, :new, :create]
