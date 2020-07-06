@@ -54,6 +54,7 @@ class SessionAttendeesController < ApplicationController
       format.html {redirect_back(fallback_location: root_path)}
       format.js
     end
+    NewAttendeeMailer.with(user: User.find(2)).new_attendee(@session_attendee).deliver
     redirect_back(fallback_location: root_path)
   end
 

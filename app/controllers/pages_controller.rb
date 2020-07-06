@@ -99,6 +99,100 @@ class PagesController < ApplicationController
     flash[:notice] = "Data imported from Airtable."
   end
 
+  def import_airtable
+    skip_authorization
+    OverviewCard.all.each do |card|
+      if card['Export to Builder'] == 'To be exported'
+        contact = OverviewContact.find(card['Customer Contact'].join)
+        company = OverviewClient.find(contact['Company/School'].join)
+        if card['Reference SEVEN'].present?
+          training = Training.find_by(refid: card['Reference SEVEN'])
+          training.update(title: card['Title'], vat: vat, unit_price: card['Unit Price'])
+        else
+          if contact['Builder_id'].nil?
+            if company['Builder_id'].nil?
+              new_company = ClientCompany.create(name: company['Name'], address: company['Address'], zipcode: company['Zipcode'], city: company['City'], client_company_type: company['Type'], description: '')
+              company['Builder_id'] = new_company.id
+              company.save
+            end
+            new_contact = ClientContact.new(name: contact['Name'], email: contact['Email'], client_company_id: new_company.id, title: '', role_description: '')
+            new_contact.save
+            contact['Builder_id'] = new_contact.id
+            contact.save
+          else
+            new_contact = ClientContact.find(contact['Builder_id'])
+          end
+          company['Type'] == 'School' ? vat = false : vat = true
+          training = Training.create(title: card['Title'], client_contact_id: new_contact.id, refid: "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}", satisfaction_survey: 'https://learn.byseven.co/survey', vat: vat, unit_price: card['Unit Price'])
+          Session.create(title: 'Session 1', date: training.created_at, duration: 0, training_id: training.id)
+        end
+        card['Export to Builder'] = 'Exported'
+        card['Reference SEVEN'] = training.refid
+        card.save
+      end
+    end
+    redirect_to trainings_path
+  end
+
+  # def export_airtable
+  #   authorize @training
+  #   existing_card = OverviewCard.all.select{|x| x['Reference SEVEN'] == @training.refid}&.first
+  #   details = "Détail des sessions (date, horaires, intervenants):\n\n"
+  #   to_date, to_staff, seveners = false, false, false
+  #   @training.sessions.each do |session|
+  #     if session.date.present?
+  #       details += "- #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}"
+  #       if session.session_trainers.present?
+  #         details += " - #{(session.session_trainers.map{|x| x.initials}).join(', ')}\n"
+  #       else
+  #         details += " - A STAFFER\n"
+  #         to_staff = true
+  #       end
+  #     else
+  #       to_date = true
+  #     end
+  #     sevener = true if session.users.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
+  #   end
+  #   if existing_card.present?
+  #     existing_card['Due Date'] = @training.end_time.strftime('%Y-%m-%d') if @training.end_time.present?
+  #     existing_card['Details'] = details
+  #     if to_date
+  #       existing_card['Status'] = 'En attente (dates) - ALL'
+  #     elsif to_staff
+  #       existing_card['Status'] = 'En attente (staff) - ALL'
+  #     elsif sevener
+  #       existing_card['Status'] = 'En attente réalisation (avec sevener)'
+  #     else
+  #       existing_card['Status'] = 'En attente réalisation (sans sevener)'
+  #     end
+  #     existing_card.save
+  #   else
+  #     card = OverviewCard.create("Title" => @training.title, "Reference SEVEN" => @training.refid, "VAT" => @training.vat, "Unit Price" => @training.unit_price, "Details" => details, 'Export to Builder' => 'Updated')
+  #     card['Due Date'] = @training.end_time.strftime('%Y-%m-%d') if @training.end_time.present?
+  #     raise
+  #     contact = OverviewContact.all.select{|x| x['Name'] == @training.client_contact.name}
+  #     client = OverviewClient.all.select{|x| x['Name'] == @training.client_contact.client_company.name}
+  #     if contact.present?
+  #       card['Customer Contact'] = contact.first
+  #       card['Company/School'] = contact.first['Company/School']
+  #     else
+  #       builder_client = @training.client_contact.client_company
+  #       unless client.present?
+  #         new_client = OverviewClient.create('Name' => builder_client.name, 'Type' => builder_client.client_company_type, 'Address' => builder_client.address, 'Zipcode' => builder_client.zipcode, 'City' => builder_client.city, 'Builder_id' => builder_client.id)
+  #         new_client.save
+  #         new_contact = OverviewContact.create('Name' => @training.client_contact.name, 'Email' => @training.client_contact.email, 'Builder_id' => @training.client_contact.id, 'Company/School' => [new_client.id])
+  #         new_contact.save
+  #         card['Customer Contact'] = [new_contact.id]
+  #       else
+  #         new_contact = OverviewContact.create('Name' => @training.client_contact.name, 'Email' => @training.client_contact.email, 'Builder_id' => @training.client_contact.id, 'Company/School' => [client.first.id])
+  #         card['Customer Contact'] = [new_contact.id]
+  #       end
+  #     end
+  #     card.save
+  #   end
+  #   redirect_to training_path(@training)
+  # end
+
   def numbers_activity
     if params[:numbers_activity].present?
       @starts_at = params[:numbers_activity][:starts_at]
