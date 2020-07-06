@@ -119,7 +119,7 @@
                     <% el = ["Le #{x.date.strftime('%d/%m/%Y')} : #{x.start_time.strftime('%Hh%M')}-#{x.end_time.strftime('%Hh%M')} (#{x.attendee_number-x.attendees.count} places disponibles)", x.id] %>
                     <% selection << el %>
                   <% end %>
-                  <%= f.collection_radio_buttons :choice3, (selection + other_options),:last, :first, checked: checked do |b| %>
+                  <%= f.collection_radio_buttons :choice2, (selection + other_options),:last, :first, checked: checked do |b| %>
                     <div class="flex-row-between-centered radio"kea_partners>
                       <p class='form_radio_label'>
                         <label class="radio_container"><%= b.text %>
