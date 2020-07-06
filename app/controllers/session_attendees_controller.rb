@@ -103,7 +103,7 @@ class SessionAttendeesController < ApplicationController
         AttendeeInterest.where(session_id: sessions_ids, attendee_id: params[:attendee_id]).destroy_all
         SessionAttendee.where(attendee_id: params[:attendee_id], session_id: sessions_ids).destroy_all
         new_session_attendee = SessionAttendee.create(session_id: value.to_i, attendee_id: params[:attendee_id])
-        NewAttendeeMailer.with(user: User.find(2)).new_attendee(new_session_attendee).deliver
+        # NewAttendeeMailer.with(user: User.find(2)).new_attendee(new_session_attendee).deliver
       end
     end
     redirect_to kea_partners_thanks_path(search: {email: Attendee.find(params[:attendee_id]).email})
