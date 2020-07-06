@@ -45,7 +45,7 @@
     <% end %>
     <% if (params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
       <div class='container-seven-large-form'>
-                <div class="session-form-card-special center-button">
+        <div class="session-form-card-special center-button">
           <div class="session-form-card-left-special">
             <%= image_tag "kea_7.png", style: 'height:100%;width:100%;object-fit:cover;' %>
           </div>
