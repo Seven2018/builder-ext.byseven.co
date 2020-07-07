@@ -66,7 +66,7 @@ class InvoiceItemsController < ApplicationController
 
   # Creates a chart (Numbers) of InvoicesItems, for reporting purposes (gem)
   def report
-    @invoice_items = InvoiceItem.all
+    @invoice_items = InvoiceItem.where(type: 'Invoice')
     # @invoice_items_grid = InvoiceItemsGrid.new(params[:invoice_items_grid])
     authorize @invoice_items
     respond_to do |format|
