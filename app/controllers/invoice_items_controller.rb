@@ -66,7 +66,8 @@ class InvoiceItemsController < ApplicationController
 
   # Creates a chart (Numbers) of InvoicesItems, for reporting purposes (gem)
   def report
-    params[:date].present? ? @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", params[:date].beginning_of_year, params[:date].end_of_year) : @invoice_items = InvoiceItem.where(type: 'Invoice')
+    raise
+    params[:date].present? ? @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
     # @invoice_items_grid = InvoiceItemsGrid.new(params[:invoice_items_grid])
     authorize @invoice_items
     respond_to do |format|
@@ -271,7 +272,8 @@ class InvoiceItemsController < ApplicationController
         product = Product.find(1)
         quantity = 0
         InvoiceLine.create(invoice_item: @estimate, description: product.name, quantity: 0, net_amount: product.price, tax_amount: product.tax, position: 1, product_id: 1)
-    end
+      end
+      update_price(@estimate)
       redirect_to invoice_item_path(@estimate)
     end
   end

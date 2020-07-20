@@ -1,32 +1,62 @@
 <div class="modal-content">
   <div class="modal-header">
     <div id="modal-title" style=" display: flex; justify-content: space-between;">
-      <h3 class="modal-title" id="myModalLabel">Send an Invoice</h3>
+      <% if @invoice_item.type == 'Estimate' %>
+        <h3 class="modal-title" id="myModalLabel">Send an Estimate</h3>
+      <% else %>
+        <h3 class="modal-title" id="myModalLabel">Send an Invoice</h3>
+      <% end %>
     </div>
     <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body">
     <%= simple_form_for :invoice_mail, url: send_invoice_mail_path(@invoice_item), method: 'GET' do |f| %>
-      <%= f.input :to, collection: @invoice_item.training.client_contact.client_company.client_contacts, label_method: :name, value_method: :email, include_blank: false %>
+      <% if @invoice_item.type == 'Estimate' %>
+        <%= f.input :to, collection: @invoice_item.client_company.client_contacts, label_method: :name, value_method: :email, include_blank: false %>
+      <% else %>
+        <%= f.input :to, collection: @invoice_item.training.client_contact.client_company.client_contacts, label_method: :name, value_method: :email, include_blank: false %>
+      <% end %>
       <br>
-      <%= f.input :subjet, input_html: {value: "SEVEN : Facture #{@invoice_item.uuid}"} %>
+      <% if @invoice_item.type == 'Estimate' %>
+        <%= f.input :subjet, input_html: {value: "SEVEN : Devis #{@invoice_item.uuid}"} %>
+      <% else %>
+        <%= f.input :subjet, input_html: {value: "SEVEN : Facture #{@invoice_item.uuid}"} %>
+      <% end %>
       <br>
       <%= f.label :body %>
-      <%= f.cktext_area :body, style: 'width: 100%; height: 300px;', value:  "<p>Bonjour,<br />\r\n" +
-    "<br />\r\n" +
-    "Veuillez trouver ci-joint la facture #{@invoice_item.uuid} concernant la formation #{@invoice_item.training.title} du #{@invoice_item.training.start_time.strftime('%d/%m/%Y')} au #{@invoice_item.training.end_time.strftime('%d/%m/%Y')}.<br />\r\n" +
-    "<br />\r\n" +
-    "En vous souhaitant une bonne r&eacute;ception.<br />\r\n" +
-    "<br />\r\n" +
-    "Bien &agrave; vous<br />\r\n" +
-    "<br />\r\n" +
-    "&nbsp;</p>\r\n" +
-    "<a href='learn.byseven.co'>learn.byseven.co</a><br>\r\n" +
-    "<br />\r\n" +
-    "<img src='https://learn.byseven.co/assets/img/LOGO-LEARN-02.png' alt='' width='166'
-      height='37'>
-    <br>"
-     %>
+      <% if @invoice_item.type == 'Estimate' %>
+        <%= f.cktext_area :body, style: 'width: 100%; height: 300px;', value:  "<p>Bonjour,<br />\r\n" +
+      "<br />\r\n" +
+      "Veuillez trouver ci-joint notre devis #{@invoice_item.uuid}.<br />\r\n" +
+      "<br />\r\n" +
+      "En vous souhaitant une bonne r&eacute;ception.<br />\r\n" +
+      "<br />\r\n" +
+      "Bien &agrave; vous<br />\r\n" +
+      "<br />\r\n" +
+      "&nbsp;</p>\r\n" +
+      "<a href='learn.byseven.co'>learn.byseven.co</a><br>\r\n" +
+      "<br />\r\n" +
+      "<img src='https://learn.byseven.co/assets/img/LOGO-LEARN-02.png' alt='' width='166'
+        height='37'>
+      <br>"
+       %>
+      <% else %>
+        <%= f.cktext_area :body, style: 'width: 100%; height: 300px;', value:  "<p>Bonjour,<br />\r\n" +
+      "<br />\r\n" +
+      "Veuillez trouver ci-joint la facture #{@invoice_item.uuid} concernant la formation #{@invoice_item.training.title} du #{@invoice_item.training.start_time.strftime('%d/%m/%Y')} au #{@invoice_item.training.end_time.strftime('%d/%m/%Y')}.<br />\r\n" +
+      "<br />\r\n" +
+      "En vous souhaitant une bonne r&eacute;ception.<br />\r\n" +
+      "<br />\r\n" +
+      "Bien &agrave; vous<br />\r\n" +
+      "<br />\r\n" +
+      "&nbsp;</p>\r\n" +
+      "<a href='learn.byseven.co'>learn.byseven.co</a><br>\r\n" +
+      "<br />\r\n" +
+      "<img src='https://learn.byseven.co/assets/img/LOGO-LEARN-02.png' alt='' width='166'
+        height='37'>
+      <br>"
+       %>
+      <% end %>
       <div class='modal-control'>
         <%= button_tag type: 'submit', class: 'btn btn-edit-orange btn-icon', data: { toggle: 'tooltip' }, title: 'Send' do %>
           <i class="fas fa-envelope"></i>

@@ -85,7 +85,7 @@
               <%= link_to 'Client', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change back to Client' %>
           <% end %>
           <div>
-            <% airtable_contact = OverviewContact.all.select{|x|x['Builder_id'] == @invoice_item.training.client_contact.id}.first %>
+            <% airtable_contact = OverviewContact.all.select{|x|x['Builder_id'] == @invoice_item.training&.client_contact&.id}&.first %>
             <% airtable_billing_contact = OverviewBillingContact.all.select{|x| x.id == airtable_contact['Billing Contact'].join} if airtable_contact.present? %>
             <% if @invoice_item.training.present? && airtable_billing_contact.present? %>
               <p><%= airtable_billing_contact['Company/School Service'] %></p>
