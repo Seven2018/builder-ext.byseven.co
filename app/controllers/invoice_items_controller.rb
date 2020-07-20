@@ -66,7 +66,7 @@ class InvoiceItemsController < ApplicationController
 
   # Creates a chart (Numbers) of InvoicesItems, for reporting purposes (gem)
   def report
-    @invoice_items = InvoiceItem.where(type: 'Invoice')
+    params[:date].present? ? @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", params[:date].beginning_of_year, params[:date].end_of_year) : @invoice_items = InvoiceItem.where(type: 'Invoice')
     # @invoice_items_grid = InvoiceItemsGrid.new(params[:invoice_items_grid])
     authorize @invoice_items
     respond_to do |format|
@@ -109,6 +109,114 @@ class InvoiceItemsController < ApplicationController
     if @invoice.save
       redirect_to invoice_item_path(@invoice)
     end
+  end
+
+  def new_airtable_invoice_item
+    @training = Training.find(params[:training_id])
+    airtable_training = OverviewCard.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    @client_company = ClientCompany.find(params[:client_company_id])
+    @invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @client_company.id, type: params[:type])
+    skip_authorization
+    # attributes a invoice number to the InvoiceItem
+    if params[:type] == 'Invoice'
+      InvoiceItem.where(type: 'Invoice').count != 0 ? (@invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
+    elsif params[:type] == 'Estimate'
+      InvoiceItem.where(type: 'Estimate').count != 0 ? (@invoice.uuid = "DE#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Estimate').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "DE#{Date.today.strftime('%Y')}00001")
+    end
+    @invoice.status = 'En attente'
+    # Fills the created InvoiceItem with InvoiceLines, according Training data
+    @training.client_contact.client_company.client_company_type == 'Company' ? product = Product.find(2) : product = Product.find(1)
+    line = InvoiceLine.new(invoice_item: @invoice, description: @training.title, quantity: airtable_training['Unit Number'], net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
+    comments = "<br>Détail des séances (date, horaires, intervenant(s)) :<br><br>"
+    @training.sessions.each do |session|
+      lunch = session.workshops.find_by(title: 'Pause Déjeuner')
+      if lunch.present?
+        morning = session.workshops.where('position < ?', lunch.position)
+        afternoon = session.workshops.where('position > ?', lunch.position)
+        comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} : #{session.users.map{|x|x.fullname}.join(', ')}<br>" if session.date.present?
+      else
+        comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} : #{session.users.map{|x|x.fullname}.join(', ')}<br>" if session.date.present?
+      end
+    end
+    line.comments = comments
+    line.save
+    if airtable_training['Preparation'].present?
+      preparation = Product.find(3)
+      InvoiceLine.create(invoice_item: @invoice, description: 'Préparation formation', quantity: 1, net_amount: airtable_training['Preparation'], tax_amount: preparation.tax, product_id: preparation.id, position: 2)
+    end
+    update_price(@invoice)
+    if @invoice.save
+      redirect_to invoice_item_path(@invoice)
+    end
+  end
+
+  def new_airtable_invoice_item_by_trainer
+    skip_authorization
+    @training = Training.find(params[:training_id])
+    airtable_training = OverviewCard.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    @client_company = ClientCompany.find(params[:client_company_id])
+    @training.trainers.each do |trainer|
+      new_invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @client_company.id, type: 'Invoice')
+      InvoiceItem.where(type: 'Invoice').count != 0 ? (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
+      comments = "<br>Intervenant(e) : #{trainer.fullname}<br><br>Détail des séances (date, horaires) :<br>"
+      quantity = 0
+      @training.sessions.joins(:session_trainers).where(session_trainers: {user_id: trainer.id}).each do |session|
+        lunch = session.workshops.find_by(title: 'Pause Déjeuner')
+        if lunch.present?
+          morning = session.workshops.where('position < ?', lunch.position)
+          afternoon = session.workshops.where('position > ?', lunch.position)
+          comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+        else
+          comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+        end
+        if airtable_training['Unit Type'] == 'Half day'
+          session.workshops.find_by(title: 'Pause Déjeuner').present? ? quantity += 1 : quantity += 0.5
+        elsif airtable_training['Unit Type'] == 'Hour'
+          quantity += session.duration
+        end
+      end
+      @training.client_contact.client_company.client_company_type == 'Company' ? product = Product.find(2) : product = Product.find(1)
+      new_line = InvoiceLine.new(invoice_item: new_invoice, description: @training.title, quantity: quantity, net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
+      new_line.comments = comments
+      new_line.save
+      new_invoice.save
+      update_price(new_invoice)
+    end
+    redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
+  end
+
+  def new_airtable_invoice_item_by_attendee
+    skip_authorization
+    @training = Training.find(params[:training_id])
+    airtable_training = OverviewCard.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    if airtable_training['Unit Type'] == 'Participant'
+      @client_company = ClientCompany.find(params[:client_company_id])
+      @training.attendees.each do |attendee|
+        new_invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @client_company.id, type: 'Invoice')
+        InvoiceItem.where(type: 'Invoice').count != 0 ? (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
+        comments = "<br>Participant(e) : #{attendee.fullname}<br><br>Détail des séances (date, horaires) :<br>"
+        @training.sessions.each do |session|
+          if session.session_attendees.where(attendee_id: attendee.id).present?
+            lunch = session.workshops.find_by(title: 'Pause Déjeuner')
+            if lunch.present?
+              morning = session.workshops.where('position < ?', lunch.position)
+              afternoon = session.workshops.where('position > ?', lunch.position)
+              comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+            else
+              comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+            end
+          end
+        end
+        @training.client_contact.client_company.client_company_type == 'Company' ? product = Product.find(2) : product = Product.find(1)
+        new_line = InvoiceLine.new(invoice_item: new_invoice, description: @training.title, quantity: 1, net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
+        new_line.comments = comments
+        new_line.save
+        new_invoice.save
+        update_price(new_invoice)
+      end
+    end
+    redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
+    flash[:alert] = "This training unit type is not defined as 'Participant' in Airtable." unless airtable_training['Unit Type'] == 'Participant'
   end
 
   # Creates a new InvoiceItem (Sevener PoV), proposing a pre-filled version to be edited if necessary
@@ -228,7 +336,7 @@ class InvoiceItemsController < ApplicationController
   def credit
     authorize @invoice_item
     credit = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at"))
-    credit.uuid = "FA#{Date.today.strftime('%Y')}%05d" % (Invoice.where(type: 'Invoice').count + 715)
+    credit.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     if credit.save
       @invoice_item.invoice_lines.each do |line|
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
@@ -239,6 +347,10 @@ class InvoiceItemsController < ApplicationController
     else
       raise
     end
+  end
+
+  def send_invoice_mail
+    raise
   end
 
   # Marks an InvoiceItem as send

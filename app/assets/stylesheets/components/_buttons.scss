@@ -126,7 +126,7 @@
   }
 }
 
-.btn-edit-yellow, .btn-edit-red, .btn-edit-green, .btn-edit-grey, .btn-edit-blue, .btn-submit-disabled {
+.btn-edit-yellow, .btn-edit-red, .btn-edit-green, .btn-edit-grey, .btn-edit-blue, .btn-edit-orange, .btn-submit-disabled {
   font-family: 'Arial', sans-serif !important;
   opacity: 0.8;
   width: auto;
@@ -251,6 +251,10 @@
 
 .btn-edit-grey {
     background-color: #23282E !important;
+}
+
+.btn-edit-orange {
+    background-color: #FF8E66 !important;
 }
 
 .btn-icon, .btn-icon-close {

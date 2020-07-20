@@ -24,6 +24,9 @@
                 <i class="fas fa-file-pdf"></i>
               </button>
             <% end %>
+            <button class='btn btn-edit-orange btn-icon' data-toggle='modal' data-toggle='tooltip' data-target='#sendInvoiceItem' title='Send Invoice'>
+              <i class="fas fa-envelope"></i>
+            </button>
             <% if @invoice_item.type == 'Invoice' %>
               <%= link_to credit_invoice_item_path(@invoice_item), class: "btn btn-edit-red btn-icon", data: {toggle: 'tooltip'}, title: 'Credit Note' do %>
                   <i class="fas fa-file-invoice-dollar"></i>
@@ -82,7 +85,14 @@
               <%= link_to 'Client', edit_client_invoice_item_path(client_company_id: @invoice_item.client_company.id), class: 'btn invoice-item-button-opco', data: {toggle: 'tooltip'}, title: 'Change back to Client' %>
           <% end %>
           <div>
-            <% if @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? %>
+            <% airtable_contact = OverviewContact.all.select{|x|x['Builder_id'] == @invoice_item.training.client_contact.id}.first %>
+            <% airtable_billing_contact = OverviewBillingContact.all.select{|x| x.id == airtable_contact['Billing Contact'].join} if airtable_contact.present? %>
+            <% if @invoice_item.training.present? && airtable_billing_contact.present? %>
+              <p><%= airtable_billing_contact['Company/School Service'] %></p>
+              <p><%= airtable_billing_contact['Address'] %></p>
+              <p><%= airtable_billing_contact['Zipcode'] %> <%= airtable_billing_contact['City'] %></p>
+              <p></p>
+            <% elsif @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? %>
               <p><%= @invoice_item&.training&.client_contact.billing_contact %></p>
               <p><%= @invoice_item&.training&.client_contact.billing_address %></p>
               <p><%= @invoice_item&.training&.client_contact.billing_zipcode %> <%= @invoice_item&.training&.client_contact.billing_city %></p>
@@ -218,11 +228,18 @@
     </div>
   </div>
 
+  <div class="modal fade" id="sendInvoiceItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+      <%= render 'invoice_items/send_invoice', invoice_item: @invoice_item %>
+    </div>
+  </div>
+
   <div class="modal fade" id="editClient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document" style="border-radius: 2rem">
       <%= render 'invoice_items/edit_client', invoice_item: @invoice_item %>
     </div>
   </div>
+
 
   <!--  -->
 <% else %>

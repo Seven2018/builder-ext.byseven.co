@@ -14,11 +14,11 @@ class Training < ApplicationRecord
   accepts_nested_attributes_for :training_ownerships
 
   def start_time
-    self.sessions&.order(date: :asc)&.first&.date
+    self.sessions&.order(date: :asc)&.reject{|x|x.date == nil}&.first&.date
   end
 
   def end_time
-    self.sessions&.order(date: :asc)&.last&.date
+    self.sessions&.order(date: :asc)&.reject{|x|x.date == nil}&.last&.date
   end
 
   def self.numbers_scope(starts_at = Date.today.beginning_of_year, ends_at = Date.today.end_of_year)

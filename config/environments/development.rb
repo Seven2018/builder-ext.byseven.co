@@ -68,4 +68,21 @@ Rails.application.configure do
    :authentication       => "plain",
   :enable_starttls_auto => true
   }
+  # config.action_mailer.delivery_method = :google_http_actionmailer
+
+  # config.action_mailer.google_http_actionmailer_settings = {
+  #   authorization: ...,
+  #   client_options: {
+  #     application_name: "Seven Builder",
+  #     application_version: "1.5",
+  #   },
+  #   request_options: {
+  #     retries: 5,
+  #     header: ...,
+  #   },
+  #   message_options: {
+  #     fields: ...,
+  #     content_type: ...,
+  #   }
+  # }
 end

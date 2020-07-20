@@ -9,7 +9,7 @@ class PagesController < ApplicationController
 
   def contact_form
     unless params[:email_2].present?
-      contact = IncomingContact.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message])
+      contact = IncomingContact.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message], 'Training' => params[:training], 'Date' => DateTime.now.strftime('%Y-%m-%d'))
       IncomingContactMailer.with(user: User.find(2)).new_incoming_contact(contact).deliver
     else
       IncomingSpam.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message])
