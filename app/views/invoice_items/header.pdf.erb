@@ -33,8 +33,10 @@
       </div>
     </div>
     <div class="invoice-client">
-      <% unless @invoice_item.type == 'InvoiceSevener' %>
+      <% unless @invoice_item.type == 'Order' %>
         <div>
+          <% airtable_contact = OverviewContact.all.select{|x|x['Builder_id'] == @invoice_item.training&.client_contact&.id}&.first %>
+          <% airtable_billing_contact = OverviewBillingContact.all.select{|x| x.id == airtable_contact['Billing Contact'].join} if airtable_contact.present? %>
           <% if @invoice_item.training.present? && airtable_billing_contact.present? %>
             <p><%= airtable_billing_contact['Company/School Service'] %></p>
             <p><%= airtable_billing_contact['Address'] %></p>
