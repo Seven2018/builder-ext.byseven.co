@@ -14,7 +14,7 @@
     <%= simple_form_for :date, url: report_path, method: :get do |f| %>
       <%# f.select :date, Date.today.year-5 .. Date.today.year, selected: Date.today.year %>
       <div class="flex-row-between-centered" style='max-width: 40rem;'>
-        <% if params[:date][:start_date] && params[:date][:end_date] %>
+        <% if params[:date].present? && params[:date][:start_date].present? && params[:date][:end_date].present? %>
           <%= f.input :start_date, as: :string, input_html: { class: 'datepicker', value: params[:date][:start_date].to_date, style: 'width:10rem;'} %>
           <%= f.input :end_date, as: :string, input_html: { class: 'datepicker', value: params[:date][:end_date].to_date, style: 'width:10rem;'} %>
         <% else %>
@@ -24,9 +24,14 @@
         <%= button_tag 'Filter', type: 'submit', class: 'btn btn-edit-green', data: { toggle: 'tooltip' }, title: 'Save' %>
       </div>
     <% end %>
-    <p>Billed this year: <%= number_with_precision(@invoice_items.where("created_at > ? AND created_at < ?", Time.now.beginning_of_year, Time.now.end_of_year).map(&:gross_revenue).sum, precision: 2) %>€</p>
-    <p>Billed this month: <%= number_with_precision(@invoice_items.where("created_at > ? AND created_at < ?", Time.now.beginning_of_month, Time.now.end_of_month).map(&:gross_revenue).sum, precision: 2) %>€</p>
-    <p>Unpaid this year: <%= number_with_precision(@invoice_items.where("created_at > ? AND created_at < ?", Time.now.beginning_of_year, Time.now.end_of_year).where(payment_date: nil).map(&:gross_revenue).sum, precision: 2) %>€</p>
+    <% if params[:date].present? %>
+      <p>Billed during this period: <%= number_with_precision(@invoice_items.map(&:gross_revenue).sum, precision: 2) %>€</p>
+      <p>Unpaid during this period: <%= number_with_precision(@invoice_items.select{|x|x.payment_date == nil}.map(&:gross_revenue).sum, precision: 2) %>€</p>
+    <% else %>
+      <p>Billed this year: <%= number_with_precision(@invoice_items.map(&:gross_revenue).sum, precision: 2) %>€</p>
+      <p>Billed this month: <%= number_with_precision(InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", Time.now.beginning_of_month, Time.now.end_of_month).map(&:gross_revenue).sum, precision: 2) %>€</p>
+      <p>Unpaid this year: <%= number_with_precision(@invoice_items.select{|x|x.payment_date == nil}.map(&:gross_revenue).sum, precision: 2) %>€</p>
+    <% end %>
     <br>
     <div>
       <div id="report_monthly_hour_search">

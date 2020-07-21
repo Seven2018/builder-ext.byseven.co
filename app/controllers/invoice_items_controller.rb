@@ -66,7 +66,6 @@ class InvoiceItemsController < ApplicationController
 
   # Creates a chart (Numbers) of InvoicesItems, for reporting purposes (gem)
   def report
-    raise
     params[:date].present? ? @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
     # @invoice_items_grid = InvoiceItemsGrid.new(params[:invoice_items_grid])
     authorize @invoice_items
