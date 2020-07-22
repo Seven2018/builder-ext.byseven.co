@@ -148,6 +148,50 @@ class TrainingsController < ApplicationController
     params[:filter].present? ? @user = User.find(params[:filter][:user]) : @user = current_user
   end
 
+  def certificate
+    skip_authorization
+    @attendee = params[:attendee][:name]
+    set_training
+    respond_to do |format|
+      format.pdf do
+        render(
+          pdf: "#{@training.title} - Certificat de réalisation - #{@attendee}",
+          layout: 'pdf.html.erb',
+          template: 'pdfs/certificate',
+          margin: { bottom: 30 },
+          footer: { margin: { top: 0, bottom: 0 }, html: { template: 'pdfs/certificate_footer.pdf.erb' } },
+          show_as_html: params.key?('debug'),
+          page_size: 'A4',
+          encoding: 'utf8',
+          dpi: 300,
+          zoom: 1,
+        )
+      end
+    end
+  end
+
+  def certificate_rs
+    skip_authorization
+    @attendee = params[:attendee][:name]
+    set_training
+    respond_to do |format|
+      format.pdf do
+        render(
+          pdf: "#{@training.title} - Certificat de réalisation - #{@attendee}",
+          layout: 'pdf.html.erb',
+          template: 'pdfs/certificate_rs',
+          margin: { bottom: 30 },
+          footer: { margin: { top: 0, bottom: 0 }, html: { template: 'pdfs/certificate_rs_footer.pdf.erb' } },
+          show_as_html: params.key?('debug'),
+          page_size: 'A4',
+          encoding: 'utf8',
+          dpi: 300,
+          zoom: 1,
+        )
+      end
+    end
+  end
+
   def redirect_docusign
     skip_authorization
     redirect_to "https://account-d.docusign.com/oauth/auth?response_type=token&scope=signature&client_id=ce366c33-e8f1-4aa7-a8eb-a83fbffee4ca&redirect_uri=http://localhost:3000/docusign/callback"

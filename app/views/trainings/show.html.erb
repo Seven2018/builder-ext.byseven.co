@@ -21,12 +21,13 @@
           <li><%= link_to 'New invoice Airtable by Participant', new_airtable_invoiceitem_by_attendee_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
           <!-- <li><a data-toggle='modal' type='button' data-target='#newSevenerInvoice' style='cursor:pointer;'>New Sevener Invoice</a></li> -->
           <li><%= link_to 'Invoices List', invoice_items_path(training_id: @training.id, type: 'Invoice') %></li>
-          <li><%= link_to 'Orders List', invoice_items_path(training_id: @training.id, type: 'Order') %></li>
+          <li><%# link_to 'Orders List', invoice_items_path(training_id: @training.id, type: 'Order') %></li>
           <% if @training.forms.empty? %>
             <li><a data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a></li>
           <% else %>
             <li><%= link_to 'Forms list', training_forms_path(@training) %></li>
           <% end %>
+          <li><a data-toggle='modal' data-target='#createCertificate' data-toggle="tooltip" title="Create certificate">Create certificate</a></li>
         </ul>
       </div>
     <% else %>
@@ -287,6 +288,12 @@
 <div class="modal fade" id="addAttendees" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document" style="border-radius: 20px">
     <%= render 'session_attendees/new_all', training: @training %>
+  </div>
+</div>
+
+<div class="modal fade" id="createCertificate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'trainings/new_certificate', training: @training %>
   </div>
 </div>
 
