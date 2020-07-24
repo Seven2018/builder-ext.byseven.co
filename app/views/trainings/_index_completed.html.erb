@@ -1,7 +1,7 @@
 <div class="row" style="background-color: white; margin-right: 0;">
   <% result_term = [] %>
-  <% @trainings.joins(:sessions).order(date: :desc).uniq.each do |training| %>
-    <% if training.sessions.where.not(sessions: {date: nil}).order(date: :asc).last.date < Date.today %>
+  <% @trainings.select{|x| x.end_time.present? && x.end_time < Date.today}.each do |training| %>
+    <% if training.sessions.where(date: nil).empty? %>
       <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
         <div class="card" id="card-index">
           <div class="card-main">

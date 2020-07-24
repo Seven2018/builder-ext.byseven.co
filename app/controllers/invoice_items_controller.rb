@@ -67,8 +67,8 @@ class InvoiceItemsController < ApplicationController
   # Creates a chart (Numbers) of InvoicesItems, for reporting purposes (gem)
   def report
     params[:date].present? ? @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
-    # @invoice_items_grid = InvoiceItemsGrid.new(params[:invoice_items_grid])
     authorize @invoice_items
+    params[:date].present? ? @sessions = Session.where("date > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @sessions = Session.where("date > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
     respond_to do |format|
       format.html
       format.csv { send_data @invoice_items_grid.to_csv }
@@ -113,7 +113,7 @@ class InvoiceItemsController < ApplicationController
 
   def new_airtable_invoice_item
     @training = Training.find(params[:training_id])
-    airtable_training = OverviewCard.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
     @client_company = ClientCompany.find(params[:client_company_id])
     @invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @client_company.id, type: params[:type])
     skip_authorization
@@ -153,7 +153,7 @@ class InvoiceItemsController < ApplicationController
   def new_airtable_invoice_item_by_trainer
     skip_authorization
     @training = Training.find(params[:training_id])
-    airtable_training = OverviewCard.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
     @client_company = ClientCompany.find(params[:client_company_id])
     @training.trainers.each do |trainer|
       new_invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @client_company.id, type: 'Invoice')
@@ -188,7 +188,7 @@ class InvoiceItemsController < ApplicationController
   def new_airtable_invoice_item_by_attendee
     skip_authorization
     @training = Training.find(params[:training_id])
-    airtable_training = OverviewCard.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
     if airtable_training['Unit Type'] == 'Participant'
       @client_company = ClientCompany.find(params[:client_company_id])
       @training.attendees.each do |attendee|

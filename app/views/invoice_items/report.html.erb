@@ -12,7 +12,6 @@
       </div>
     </div>
     <%= simple_form_for :date, url: report_path, method: :get do |f| %>
-      <%# f.select :date, Date.today.year-5 .. Date.today.year, selected: Date.today.year %>
       <div class="flex-row-between-centered" style='max-width: 40rem;'>
         <% if params[:date].present? && params[:date][:start_date].present? && params[:date][:end_date].present? %>
           <%= f.input :start_date, as: :string, input_html: { class: 'datepicker', value: params[:date][:start_date].to_date, style: 'width:10rem;'} %>
@@ -27,6 +26,12 @@
     <% if params[:date].present? %>
       <p>Billed during this period: <%= number_with_precision(@invoice_items.map(&:gross_revenue).sum, precision: 2) %>€</p>
       <p>Unpaid during this period: <%= number_with_precision(@invoice_items.select{|x|x.payment_date == nil}.map(&:gross_revenue).sum, precision: 2) %>€</p>
+      <br>
+      <p>Paid by companies : <%= number_with_precision(@invoice_items.select{|x|x.payment_date != nil}.select{|x|x.client_company.client_company_type == 'Company'}.map(&:gross_revenue).sum, precision: 2) %></p>
+      <p>Paid by OPCOs : <%= number_with_precision(@invoice_items.select{|x|x.payment_date != nil}.select{|x|x.client_company.client_company_type == 'OPCO'}.map(&:gross_revenue).sum, precision: 2) %></p>
+      <p>Paid by training providers : <%= number_with_precision(@invoice_items.select{|x|x.payment_date != nil}.select{|x|[5, 30].include?(x.client_company.id)}.map(&:gross_revenue).sum, precision: 2) %></p>
+      <br>
+      <p>Person trained :<%= @sessions.map{|x|x.participant_number}.sum %></p>
     <% else %>
       <p>Billed this year: <%= number_with_precision(@invoice_items.map(&:gross_revenue).sum, precision: 2) %>€</p>
       <p>Billed this month: <%= number_with_precision(InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", Time.now.beginning_of_month, Time.now.end_of_month).map(&:gross_revenue).sum, precision: 2) %>€</p>

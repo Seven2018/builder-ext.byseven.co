@@ -26,6 +26,10 @@
         <%= link_to new_training_path do %>
           <button class="btn btn-edit-yellow">New Training</button>
         <% end %>
+        <% last_update = OverviewTraining.all.select{|x| x['Builder Update'].present?}.sort{|x,y| x['Builder Update'].to_date <=> y['Builder Update'].to_date}.first %>
+        <%= link_to import_airtable_path do %>
+          <button class="btn btn-edit-green" data-toggle="tooltip" title="Last Update : <%= last_update['Builder Update'].to_time.strftime('%d/%m/%Y at %H:%M') %>">Update from Airtable</button>
+        <% end %>
       <% end %>
     </div>
   </div>

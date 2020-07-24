@@ -89,7 +89,6 @@ class TrainingsController < ApplicationController
     # @training.title = ClientContact.find(params[:training][:client_contact_id]).client_company.name + ' - ' + params[:training][:title]
     if @training.save
       Session.create(title: 'Session 1', date: @training.created_at, duration: 0, training_id: @training.id)
-      # @# training.export_airtable
       redirect_to training_path(@training)
     else
       render :new
@@ -98,13 +97,14 @@ class TrainingsController < ApplicationController
 
   def edit
     authorize @training
+    @training.export_airtable
   end
 
   def update
     authorize @training
     @training.update(training_params)
     if @training.save
-      # @# training.export_airtable
+      @training.export_airtable
       redirect_to training_path(@training)
     else
       render :edit

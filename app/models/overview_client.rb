@@ -5,5 +5,5 @@ class OverviewClient < Airrecord::Table
   self.table_name = 'Partners'
 
   has_many :overview_contact, class: "OverviewContact", column: "Name"
-  has_many :overview_card, class: "OverviewCard", column: "Title"
+  has_many :overview_card, class: "OverviewTraining", column: "Title"
 end

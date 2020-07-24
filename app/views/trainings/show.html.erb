@@ -38,11 +38,7 @@
   </div>
   <div class="middle-info">
     <div class='middle-info-main'>
-      <% if @training.mode == 'Company' %>
-        <h3><%= @training.title %></h3>
-      <% elsif @training.mode == 'School' %>
-        <h3><%= @training.title %></h3>
-      <% end %>
+      <h3><%= @training.title %></h3>
       <p><%="From #{@training.sessions.order(date: :asc).first&.date&.strftime('%d/%m/%y')} to #{@training.sessions.order(date: :asc).last&.date&.strftime('%d/%m/%y')}" %></p>
     </div>
     <div class='middle-info-user'>

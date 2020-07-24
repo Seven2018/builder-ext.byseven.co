@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   # AIRTABLE
   get 'airtable_import_users', to: 'pages#airtable_import_users', as: 'airtable_import_users'
   get 'airtable_import_clients', to: 'pages#airtable_import_clients', as: 'airtable_import_clients'
-  get 'import_airtable', to: 'trainings#import_airtable', as: 'import_airtable'
-  get 'trainings/:id/export_airtable', to: 'trainings#export_airtable', as: 'export_airtable'
+  get 'import_airtable', to: 'pages#import_airtable', as: 'import_airtable'
+  get 'trainings/:id/export_airtable', to: 'pages#export_airtable', as: 'export_airtable'
 
   # USERS
   resources :users

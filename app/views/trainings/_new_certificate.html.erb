@@ -6,7 +6,7 @@
     <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody">
-    <%= simple_form_for :attendee, url: certificate_rs_training_path(id: training.id, format: :pdf), target: :_blank do |f| %>
+    <%= simple_form_for :attendee, url: certificate_training_path(id: training.id, format: :pdf), target: :_blank do |f| %>
       <%= f.label "Please enter the participant's fullname" %>
       <%= f.input :name, label: false %>
       <div class='modal-control'>
