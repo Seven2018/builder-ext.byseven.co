@@ -84,7 +84,10 @@ class TrainingsController < ApplicationController
   def create
     @training = Training.new(training_params)
     authorize @training
-    @training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
+    begin
+      @training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
+    rescue
+    end
     @training.satisfaction_survey = 'https://learn.byseven.co/survey'
     # @training.title = ClientContact.find(params[:training][:client_contact_id]).client_company.name + ' - ' + params[:training][:title]
     if @training.save
