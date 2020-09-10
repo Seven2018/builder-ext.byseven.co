@@ -28,7 +28,7 @@ class SessionTrainersController < ApplicationController
     session_ids = Base64.decode64(params[:state]).split('|')[1].split(',')
     training = Session.find(session_ids[0]).training
       # Calendars ids
-      calendars_ids = ['yahya.fallah@byseven.co', 'brice.chapuis@byseven.co', 'thomas.fraudet@byseven.co', 'jorick.roustan@byseven.co', 'mathilde.meurer@byseven.co', 'vum1670hi88jgei65u5uedb988@group.calendar.google.com']
+      calendars_ids = { 1 => 'yahya.fallah@byseven.co', 2 => 'brice.chapuis@byseven.co', 3 => 'thomas.fraudet@byseven.co', 4 => 'jorick.roustan@byseven.co', 5 => 'mathilde.meurer@byseven.co', 'other' => 'vum1670hi88jgei65u5uedb988@group.calendar.google.com', 39 => 'julie.falhun@byseven.co'}
 
       # Lists the users and the events ids of the events to be deleted
       to_delete_string = Base64.decode64(params[:state]).split('|').last.split('%').last
@@ -38,10 +38,10 @@ class SessionTrainersController < ApplicationController
         key = pair.split(':')[0]
         value = pair.split(':')[1]
         begin
-          if %w(1 2 3 4 5).include?(key)
-            service.delete_event(calendars_ids[key.to_i - 1], value) if value.present?
+          if %w(1 2 3 4 5 39).include?(key)
+            service.delete_event(calendars_ids[key], value) if value.present?
           else
-            service.delete_event(calendars_ids[5], value) if value.present?
+            service.delete_event(calendars_ids['other'], value) if value.present?
           end
         rescue
         end
@@ -99,7 +99,7 @@ class SessionTrainersController < ApplicationController
                 end
               end
               events.each do |event|
-                if %w(1 2 3 4 5).include?(ind)
+                if %w(1 2 3 4 5 39).include?(ind)
                     create_calendar_id(ind, session.id, event, service, calendars_ids)
                 else
                   sevener = User.find(ind)
@@ -108,7 +108,7 @@ class SessionTrainersController < ApplicationController
                   event.id = SecureRandom.hex(32)
                   session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first
                   session_trainer.calendar_uuid.nil? ? session_trainer.update(calendar_uuid: event.id) : session_trainer.update(calendar_uuid: session_trainer.calendar_uuid + ' - ' + event.id)
-                  service.insert_event(calendars_ids[5], event)
+                  service.insert_event(calendars_ids['other'], event)
                 end
               end
             rescue
@@ -159,8 +159,8 @@ class SessionTrainersController < ApplicationController
     end
 
     if @session.date.present?
+      @session.training.export_airtable
       redirect_to redirect_path(list: trainers_list, session_id: "|#{@session.id}|", to_delete: "%#{event_to_delete}%")
-      # @session.# training.export_airtable
     else
       redirect_back(fallback_location: root_path)
     end
@@ -210,7 +210,7 @@ class SessionTrainersController < ApplicationController
       trainers_list += "#{user.id},"
     end
 
-    # training.export_airtable
+    training.export_airtable
     redirect_to redirect_path(list: trainers_list, session_id: "|#{training.sessions.ids.join(',')}|", to_delete: "%#{event_to_delete}%")
   end
 
@@ -224,7 +224,7 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    # @session.# training.export_airtable
+    @session.training.export_airtable
     redirect_to redirect_path(session_id: "|#{@session.id}|", list: 'purge_session', to_delete: "%#{event_to_delete}%")
   end
 
@@ -242,7 +242,7 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    # training.export_airtable
+    training.export_airtable
     redirect_to redirect_path(session_id: "|#{sessions_ids[0...-1]}|", list: 'purge_training', to_delete: "%#{event_to_delete}%")
   end
 
@@ -266,11 +266,11 @@ class SessionTrainersController < ApplicationController
     }
   end
 
-  def create_calendar_id(user_id, session_id, event, service, array)
+  def create_calendar_id(user_id, session_id, event, service, hash)
     event.id = SecureRandom.hex(32)
     session_trainer = SessionTrainer.where(user_id: user_id, session_id: session_id).first
     session_trainer.calendar_uuid.nil? ? session_trainer.update(calendar_uuid: event.id) : session_trainer.update(calendar_uuid: session_trainer.calendar_uuid + ' - ' + event.id)
-    service.insert_event(array[user_id.to_i - 1], event)
+    service.insert_event(hash[user_id], event)
   end
 
   def session_trainer_params

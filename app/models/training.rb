@@ -137,6 +137,13 @@ class Training < ApplicationRecord
         self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
           unit_price = SessionTrainer.find_by(user_id: user.id, session_id: self.sessions.ids).unit_price
           seveners_to_pay += "[ ] #{user.fullname} : #{user.hours(self)}h x #{unit_price}€ = #{user.hours(self)*unit_price}€\n"
+          trainer = OverviewUser.all.select{|x| x['Builder_id'] == user.id }&.first
+          intervention = OverviewIntervention.all.select{|x| x['Training_refid'] == self.refid && x['User_id'] == user.id}&.first
+          unless intervention.nil?
+            intervention = OverviewIntervention.create('Training' => [existing_card.id], 'User' => [trainer.id], 'Billing Type' => 'Hourly', 'Training_refid' => self.refid, 'User_id' => user.id)
+            self.client_contact.client_company.client_company_type == 'Company' ? intervention['Rate'] = 80 : intervention['Rate'] = 40
+          end
+          intervention['Number of hours'] = user.hours(self)
         end
       else
         seveners_to_pay += "[ ] Aucun\n"

@@ -60,6 +60,8 @@
               <p>Reminded</p>
             <% elsif item.sending_date.present? %>
               <p>Send</p>
+            <% elsif item.status == 'Cancelled' %>
+              <p style='color:red'>Cancelled</p>
             <% end %>
           </div>
         </div>
