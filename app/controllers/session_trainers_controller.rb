@@ -270,7 +270,7 @@ class SessionTrainersController < ApplicationController
     event.id = SecureRandom.hex(32)
     session_trainer = SessionTrainer.where(user_id: user_id, session_id: session_id).first
     session_trainer.calendar_uuid.nil? ? session_trainer.update(calendar_uuid: event.id) : session_trainer.update(calendar_uuid: session_trainer.calendar_uuid + ' - ' + event.id)
-    service.insert_event(hash[user_id], event)
+    service.insert_event(hash[user_id.to_i], event)
   end
 
   def session_trainer_params
