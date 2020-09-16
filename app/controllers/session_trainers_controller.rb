@@ -160,9 +160,12 @@ class SessionTrainersController < ApplicationController
     end
 
     if @session.date.present?
-      @session.training.export_airtable
-      @session.training.export_trainer_airtable
-      @session.training.export_numbers_activity
+      begin
+        @session.training.export_airtable
+        @session.training.export_trainer_airtable
+        @session.training.export_numbers_activity
+      rescue
+      end
       redirect_to redirect_path(list: trainers_list, session_id: "|#{@session.id}|", to_delete: "%#{event_to_delete}%")
     else
       redirect_back(fallback_location: root_path)
