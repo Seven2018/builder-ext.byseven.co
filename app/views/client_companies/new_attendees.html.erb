@@ -1,0 +1,81 @@
+<% if params[:auth_token] == @client_company.auth_token %>
+  <div class="container-seven-large-form">
+    <div id='attendee-form-logo'>
+      <%= image_tag "SEVENLOGO_SQUARE2.png" %>
+      <img src="<%= @client_company.logo %>" alt="" >
+    </div>
+    <div class="container-new-form">
+      <h3>Create a new Participant account</h3>
+      <%= simple_form_for :attendee, url: client_company_create_attendees_path(@client_company) do |f| %>
+        <div class="form-div">
+          <span class='form-label'>Prénom</span>
+          <%= f.input :firstname, label: false %>
+        </div>
+        <div class="form-div">
+          <span class='form-label'>Nom</span>
+          <%= f.input :lastname, label: false %>
+        </div>
+        <div class="form-div" id='form-div-mail'>
+          <span class='form-label'>Adresse email</span>
+          <%= f.input :email, label: false, input_html: { value: params[:email] ? params[:email].downcase : '' } %>
+          <%= invisible_captcha :subtitle, :attendee %>
+          <%= f.hidden_field :training_id, value: params[:training_id] %>
+          <%= f.hidden_field :form_id, value: params[:form_id] %>
+        </div>
+        <div class="center-button">
+          <%= f.button :submit, "Inscrire", class: 'btn btn-edit-yellow' %>
+        </div>
+      <% end %>
+    </div>
+    <div class="flex-row-between-centered">
+      <%= link_to template_csv_attendees_path(client_company_id: @client_company.id, format: :csv), target: :_blank do %>
+        <p class="btn btn-edit-green">Template</p>
+      <% end %>
+      <button class="btn btn-edit-blue" id='import-button'>
+        Import from file
+      </button>
+    </div>
+    <div id="form-import" class='hidden'>
+      <%= form_tag import_attendees_path, multipart: true do %>
+        <%= file_field_tag :file %>
+        <%= submit_tag 'Import CSV' %>
+      <% end %>
+    </div>
+  </div>
+  <script>
+    button = document.getElementById('import-button');
+    form = document.getElementById('form-import');
+    button.addEventListener('click', (event) => {
+      form.classList.toggle('hidden');
+    });
+  </script>
+  <script>
+    const field = document.querySelectorAll('.form-div');
+    field.forEach(function(div){
+      let span = div.querySelector('.form-label');
+      let input = div.getElementsByTagName('input')[0];
+       if (input.value !== '') {
+        span.classList.add('form-label-active')
+      }
+      div.addEventListener('focusin', (event) => {
+        input.focus();
+        span.classList.add('form-label-active')
+      })
+      span.addEventListener('click', (event) => {
+        input.focus();
+        span.classList.add('form-label-active')
+      });
+      div.addEventListener('focusout', (event) => {
+        if (input.value === '') {
+          span.classList.remove('form-label-active')
+        }
+      });
+    })
+  </script>
+<% else %>
+  <div class="container-seven-large-form">
+    <div id='attendee-form-logo'>
+      <h3>You are not allowed to access this page.</h3>
+    </div>
+  </div>
+<% end %>

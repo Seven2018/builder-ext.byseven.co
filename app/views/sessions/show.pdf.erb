@@ -12,13 +12,13 @@
   <br>
   <% time = @session.start_time %>
   <% @session.workshops.each do |workshop| %>
-  <h3 class="content-details-pdf"><%= time.strftime("%H:%M") %> - <%= workshop.title %> (<em><%= workshop.duration %> min</em>)</h3>
+  <h3 class="content-details-pdf"><%= time.strftime("%H:%M") %> - <%= workshop.title %> - <em><%= workshop.duration %> min</em></h3>
   <br>
   <% if workshop.title.start_with?('Pause') %>
     <% time += workshop.duration*60 %>
   <% end %>
   <% workshop.workshop_modules.order('position ASC').each do |mod| %>
-    <div class="module-card-pdf" style='border: 1px solid black;padding: 1.5rem;margin-bottom: 3rem;'>
+    <div class="module-card-pdf">
       <h4 style='margin-top: 0;'><%= time.strftime("%H:%M") %> - <%= mod.title %> - <%= mod.duration %> min</h4>
       <% time += mod.duration*60 %>
       <%= mod.instructions.html_safe %>

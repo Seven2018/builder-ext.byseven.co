@@ -1,0 +1,25 @@
+<%= wicked_pdf_image_tag 'logo.png', id: "pdf-logo" %>
+<div class="container" style='text-align:center;'>
+  <h1 class="title-pdf">PARCHEMIN DE CERTIFICATION</h1>
+  <div class='session-details-list-pdf'>
+    <br>
+    <pre class="session-details-pdf"><strong>Le directeur de l'organisme certificateur SEVEN atteste que</strong></pre>
+    <br>
+    <pre><%= @attendee %></pre>
+    <pre>Né(e) le xx/xx/xx à xxxx</pre>
+    <br>
+    <pre>A satisfait l'ensemble des obligations pour la delivrance de la certification</pre>
+    <h3><strong>TECHNIQUES DE NEGOCIATION CONSTRUCTIVE</strong></h3>
+    <br>
+    <pre>enregistrée au Répertoire Spécifique, par décision du xxxx xxxx xxxx</pre>
+  </div>
+  <br><br>
+  <pre>Date et lieu de délivrance : xx/xx/xx à xxxx</pre>
+  <div style='position:relative;'>
+    <div style='position:absolute;top: 10px; left:50px;text-align:left;'>
+      <pre><strong>Le directeur de l'organisme certificateur SEVEN</strong></pre>
+      <pre>Thomas Fraudet</pre>
+    </div>
+    <pre style='position:absolute;top: 10px; right:70px'><strong>Le bénéficiaire</strong></pre>
+  </div>
+</div>

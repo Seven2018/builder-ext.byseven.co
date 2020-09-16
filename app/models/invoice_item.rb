@@ -2,6 +2,7 @@ class InvoiceItem < ApplicationRecord
   belongs_to :client_company, optional: true
   belongs_to :training, optional: true
   belongs_to :user, optional: true
+  has_one :session_trainers
   has_many :invoice_lines, dependent: :destroy
   self.inheritance_column = :_type_disabled
 
@@ -57,7 +58,15 @@ class InvoiceItem < ApplicationRecord
           gen_account = '41100000'
           aux_account = item.client_company.reference
           invoice_num = item.uuid
-          item.client_company.client_company_type = 'School' ? company_label = "#{item.client_company.name}" : company_label = "#{item.client_company.name} TVA"
+          if item.client_company.client_company_type == 'School'
+            company_label = "#{item.client_company.name}"
+          else
+            if item.training.client_contact.billing_contact.present? && (item.client_company == item.training.client_company)
+              company_label = "#{item.training.client_contact.billing_contact} TVA"
+            else
+              company_label = "#{item.client_company.name} TVA"
+            end
+          end
           debit = item.total_amount
           csv << [date, journal, gen_account, aux_account, invoice_num, company_label, debit, '']
           item.invoice_lines.each do |line|

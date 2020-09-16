@@ -1,97 +1,103 @@
-<div class="container-seven-large-form">
-  <div id='page-controls-form'>
+<% if params[:auth_token] == @training.client_company.auth_token || params[:auth_token] == ClientCompany.find_by(name: 'SEVEN').auth_token || (params[:search].present? && params[:search][:auth_token]) %>
+  <div class="container-seven-large-form">
     <% if user_signed_in? && (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
-      <%= link_to training_forms_path(@training), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
-      <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editForm'><i class="fas fa-pen"></i></a>
+      <div id='page-controls-form'>
+        <%= link_to training_forms_path(@training), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+        <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editForm'><i class="fas fa-pen"></i></a>
+      </div>
     <% end %>
-  </div>
-  <div id='attendee-form-logo'>
-    <%= image_tag "SEVENLOGO_SQUARE2.png" %>
-    <img src="<%= @training.client_contact.client_company.logo %>" alt="" >
-  </div>
-  <div id='attendee-form'>
-    <% status = !params[:search].nil? %>
-    <div id="attendee-form-title">
-      <h1>Formulaire d'inscription</h1>
-      <h2 style='color: #FFC451;'><strong><%= @training.title %></strong></h2>
+    <div id='attendee-form-logo'>
+      <%= image_tag "SEVENLOGO_SQUARE2.png" %>
+      <img src="<%= @training.client_contact.client_company.logo %>" alt="" >
     </div>
-    <% if !user_signed_in? %>
-      <%= simple_form_for :search, url: training_form_path(@training, @form), method: 'GET' do |f| %>
-        <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
-          <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
-          <div style='display:flex;justify-content:space-around;'>
-            <%= f.input :firstname, label: 'Prénom', input_html: { value: attendee.firstname}, disabled: true, required: false %>
-            <%= f.input :lastname, label: 'Nom', input_html: { value: attendee.lastname}, disabled: true, required: false %>
-          </div>
-          <div style='display:flex;justify-content:space-around;'>
-            <%= f.input :employee_id, label: 'N°WWID', input_html: { value: attendee.employee_id }, disabled: true, required: false %>
-            <%= f.input :email, input_html: { value: attendee.email }, disabled: true, required: false %>
-          </div>
-        <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
-          <% controller.redirect_to new_attendee_path(training_id: @training.id, form_id: @form.id, email: params[:search][:email]) %>
-        <% else %>
-          <%= f.input :email, label: 'Adresse email' %>
-          <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
+    <div id='attendee-form'>
+      <% status = !params[:search].nil? %>
+      <div id="attendee-form-title">
+        <h1>Formulaire d'inscription</h1>
+        <h2 style='color: #FFC451;'><strong><%= @training.title %></strong></h2>
+      </div>
+      <% if !user_signed_in? %>
+        <%= simple_form_for :search, url: training_form_path(@training, @form, auth_token: params[:auth_token]), method: 'GET' do |f| %>
+          <% if status && !Attendee.where(email: params[:search][:email]).empty? %>
+            <% attendee = Attendee.where(email: params[:search][:email]).first if params[:search] %>
+            <div class='flex-column-between-centered'>
+              <%= f.input :email, input_html: { value: attendee.email, style: 'width:30rem;' }, disabled: true, required: false %>
+            </div>
+          <% elsif status && Attendee.where(email: params[:search][:email]).empty? %>
+            <% controller.redirect_to new_attendee_path(training_id: @training.id, form_id: @form.id, email: params[:search][:email]) %>
+          <% else %>
+            <%= f.input :email, label: 'Adresse email' %>
+            <%= f.hidden_field :auth_token, :value => params[:auth_token] %>
+            <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
-  </div>
-  <% if (!@form.sessions.nil? && params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
-    <div class='container-seven-large-form'>
-      <% @form.sessions.order(date: :asc).sort_by(&:title).each do |session| %>
-        <% if @form.sessions.where(title: session.title).first == session %>
-          <div class="session-form-card center-button">
-            <div class="session-form-card-left">
-              <img src="<%= session.image %>" alt="" style='height:100%;width:100%;object-fit:cover;'>
-            </div>
-            <div class="session-form-card-right">
-              <div>
-                <h3><strong><%= session.title %></strong></h3>
-                <h4><%= session.room %> <br> <%= session.address %> </h4>
+    </div>
+    <% if (!@form.sessions.nil? && params[:search] && !Attendee.where(email: params[:search][:email]).empty?) || user_signed_in? %>
+      <div>
+        <% @form.sessions.order(date: :asc).sort_by(&:title).each do |session| %>
+          <% if @form.sessions.where(title: session.title).first == session %>
+            <div class="session-form-card center-button">
+              <div class="session-form-card-left">
+                <img src="<%= session.image %>" alt="" style='height:100%;width:100%;object-fit:cover;'>
               </div>
-              <p class='session-teaser'><%= session.teaser.html_safe %></p>
-              <div class="session-form-control flex-column-between-left">
-                <h4>Dates disponibles</h4>
-                <% @form.sessions.where(title: session.title).each do |session_date| %>
-                  <div class="flex-row-between-centered" style='width: 100%;'>
-                    <% if user_signed_in? && ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-                      <p><%= session_date.date %> - Réservations : <%= session_date.attendees.count %> / <%= session_date.attendee_number %></p>
-                    <% elsif (session_date.attendees.count >= session_date.attendee_number) && ((user_signed_in? && session_date.attendees.where(email: current_user.email).empty?) || (status && session_date.attendees.where(email: params[:search][:email]).empty?)) %>
-                        <p><%= session_date.date %> : Plus de places disponibles</p>
-                    <% elsif (params[:search] && session_date.attendees.where(email: params[:search][:email]).empty?) %>
-                      <h4><%= session&.date&.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></h4>
-                      <% if SessionAttendee.joins(:attendee).where(attendees: {email: params[:search][:email]}, session_id: @form.sessions.where(title: session.title).map(&:id)).empty? %>
-                        <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session_date.id, attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
-                      <% else %>
-                        <a class="btn btn-edit-green disabled" style='opacity: 0.7;'>S'inscrire</a>
+              <div class="session-form-card-right">
+                <div>
+                  <h3><strong><%= session.title %></strong></h3>
+                  <h4><%= session.room %> <br> <%= session.address %> </h4>
+                </div>
+                <div class='session-teaser'><%= session.teaser.html_safe %></div>
+                <div class="session-form-control flex-column-between-left">
+                  <% unless user_signed_in? && ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+                    <h4>Date(s) disponible(s)</h4>
+                  <% end %>
+                  <% @form.sessions.where(title: session.title).each do |session_date| %>
+                    <div class="flex-row-between-centered" style='width: 100%;height:56px;'>
+                      <% if user_signed_in? && ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+                        <p><%= session_date.date %> - Réservations : <%= session_date.attendees.count %> / <%= session_date.attendee_number %></p>
+                      <% elsif (session_date.attendees.count >= session_date.attendee_number) && ((user_signed_in? && session_date.attendees.where(email: current_user.email).empty?) || (status && session_date.attendees.where(email: params[:search][:email]).empty?)) %>
+                          <p><%= session&.date&.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></p><p>Plus de place disponible</p>
+                      <% elsif (params[:search] && session_date.attendees.where(email: params[:search][:email]).empty?) %>
+                        <p><%= session&.date&.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></p>
+                        <% if SessionAttendee.joins(:attendee).where(attendees: {email: params[:search][:email]}, session_id: @form.sessions.where(title: session.title).map(&:id)).empty? %>
+                          <%= link_to "S'inscrire", training_session_session_attendees_path(@training, session, session_id: session_date.id, attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :post, class: 'btn btn-edit-green' %>
+                        <% else %>
+                          <a class="btn btn-edit-green disabled" style='opacity: 0.7;'>S'inscrire</a>
+                        <% end %>
+                      <% elsif status %>
+                        <p><%= session&.date&.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></p>
+                        <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session_date.id, attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session_date.title}. Continuer ?"}, class: 'btn btn-edit-red' %>
                       <% end %>
-                    <% elsif status %>
-                      <h4><%= session&.date&.strftime('%d/%m/%y') %> de <%= session.start_time.strftime('%H:%M') %> à <%= session.end_time.strftime('%H:%M') %></h4>
-                      <%= link_to "Se désinscrire", training_session_session_attendee_path(@training, session, @session_attendee, session_id: session_date.id, attendee_id: Attendee.find_by(email: params[:search][:email]).id), method: :delete, data: { confirm: "Vous êtes sur le point de vous désinscrire de la session #{session_date.title}. Continuer ?"}, class: 'btn btn-edit-red' %>
-                    <% end %>
-                  </div>
-                <% end %>
+                    </div>
+                  <% end %>
+                </div>
               </div>
             </div>
-          </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    <div id="form-import">
+      <% if user_signed_in? && (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
+        <%= form_tag import_attendees_path, multipart: true do %>
+          <%= file_field_tag :file %>
+          <%= submit_tag 'Import CSV' %>
         <% end %>
       <% end %>
     </div>
-  <% end %>
-  <div id="form-import">
-    <% if user_signed_in? && (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
-      <%= form_tag import_attendees_path, multipart: true do %>
-        <%= file_field_tag :file %>
-        <%= submit_tag 'Import CSV' %>
-      <% end %>
-    <% end %>
   </div>
-</div>
 
-<!-- Modal -->
+  <!-- Modal -->
 
-<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
-    <%= render 'forms/edit', form: @form, training: @form.training %>
+  <div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
+      <%= render 'forms/edit', form: @form, training: @form.training %>
+    </div>
   </div>
-</div>
+<% else %>
+  <div class="container-seven-large-form">
+    <div id='attendee-form-logo'>
+      <h3>You are not allowed to access this page.</h3>
+    </div>
+  </div>
+<% end %>

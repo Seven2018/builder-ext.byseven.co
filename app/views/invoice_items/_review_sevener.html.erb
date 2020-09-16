@@ -1,0 +1,24 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel">Status</h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <% total_duration = 0 %>
+    <% training.sessions.joins(:session_trainers).where(session_trainers: {user_id: current_user.id}).each do |session| %>
+      <div class="flex-row-between-center">
+        <p><%= session.title %></p>
+        <p><%= session.duration %></p>
+        <% total_duration += session.duration %>
+        <% unit_price = session.session_trainers.find_by(user_id: current_user.id).unit_price %>
+        <p><%= unit_price %></p>
+      </div>
+      <div>
+        <p>Total duration : <%= total_duration %></p>
+        <p>Total amount : <%= total_duration * unit_price %></p>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<%= wicked_pdf_image_tag 'logo.png', id: "pdf-logo" %>
+<div class="container">
+  <h1 class="title-pdf">CERTIFICAT DE REALISATION</h1>
+  <div class='session-details-list-pdf'>
+    <p class="session-details-pdf"><strong>Je, soussigné(e) :</strong> Thomas FRAUDET, Directeur Général</p>
+    <p><strong>représentant légal du dispensateur de formation :</strong> SEVEN</p>
+    <p><strong>atteste que :</strong></p>
+    <br>
+    <div class="flex-row-between-centered">
+      <pre>     Mme/M.                                        <%= @attendee %></pre>
+    </div>
+    <div class="flex-row-between-centered">
+      <pre>     Salarié(e) de l'entreprise                    <%= @training.client_contact.client_company.name %></pre>
+    </div>
+    <div class="flex-row-between-centered">
+      <pre>     a suivi l'action de formation                 <%= @training.title %></pre>
+    </div>
+  </div>
+  <br>
+  <p>Nature de l'action de formation :</p>
+  <br>
+  <pre>     [x]       action de formation</pre>
+  <pre>     [   ]      bilan de compétences</pre>
+  <pre>     [   ]      action de VAE</pre>
+  <pre>     [   ]      action de formation par apprentissage</pre>
+  <br>
+  <p>qui s'est déroulée du <%= @training.start_time.strftime('%d/%m/%Y') %> au <%= @training.end_time.strftime('%d/%m/%Y') %></p>
+  <p>pour une durée totale de <%= @training.sessions.map(&:duration).sum %> heures.</p>
+  <br><br>
+  <p>
+    Sans préjudice des délais imposés par les règles fiscales, comptables ou
+    commerciales, je m’engage à conserver l’ensemble des pièces justificatives
+    qui ont permis d’établir le présent certificat pendant une durée de 3 ans à
+    compter de la fin de l’année du dernier paiement. En cas de cofinancement
+    des fonds européens la durée de conservation est étendue conformément
+    aux obligations conventionnelles spécifiques.
+  </p>
+  <br><br>
+  <p>Date, lieu et signature :</p>
+  <pre>     Paris, le <%= Date.today.strftime('%d/%m/%Y') %></pre>
+  <div style='position:relative;'>
+    <h2 style='position:absolute;top: 10px; left:30px'>Signature</h2>
+    <h2 style='position:absolute;top: 10px; right:50px'>Cachet</h2>
+  </div>
+</div>

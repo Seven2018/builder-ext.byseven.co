@@ -1,7 +1,17 @@
 class AttendeesController < ApplicationController
   before_action :set_training, only: [:form]
-  before_action :authenticate_user!, except: [:form, :new, :create, :new_kea_partners, :create_kea_partners]
+  before_action :set_attendee, only: [:show]
+  before_action :authenticate_user!, except: [:form, :new, :create, :new_kea_partners, :create_kea_partners, :template_csv, :import]
   invisible_captcha only: [:create], honeypot: :subtitle
+
+  def index
+    @client_company = ClientCompany.find(params[:client_company_id]) if params[:client_company_id].present?
+    params[:client_company_id].present? ? @attendees = policy_scope(Attendee).where(client_company_id: @client_company.id) : @attendees = policy_scope(ClientCompany)
+  end
+
+  def show
+    authorize @attendee
+  end
 
   def new
     @attendee = Attendee.new
@@ -13,7 +23,7 @@ class AttendeesController < ApplicationController
     authorize @attendee
     @attendee.update(client_company_id: Training.find(params[:attendee][:training_id].to_i).client_contact.client_company.id)
     if @attendee.save
-      redirect_to training_form_path(Training.find(params[:attendee][:training_id].to_i), Form.find(params[:attendee][:form_id].to_i), search: {email: @attendee.email})
+      redirect_to training_form_path(Training.find(params[:attendee][:training_id].to_i), Form.find(params[:attendee][:form_id].to_i), search: {email: @attendee.email}, auth_token: @attendee.client_company.auth_token)
       flash[:notice] = 'Compte créé avec succès'
     else
       flash[:notice] = 'Erreur'
@@ -31,7 +41,7 @@ class AttendeesController < ApplicationController
     @attendee = Attendee.new(attendee_params)
     @attendee.client_company_id = ClientCompany.find_by(name: 'KEA PARTNERS').id
     if @attendee.save
-      redirect_to "#{params[:redirect]}?search[email]=#{@attendee.email}"
+      redirect_to "#{params[:redirect]}?search[email]=#{@attendee.email}&auth_token=#{@attendee.client_company.auth_token}"
       flash[:notice] = 'Compte créé avec succès'
     else
       flash[:notice] = 'Erreur'
@@ -57,6 +67,15 @@ class AttendeesController < ApplicationController
     end
   end
 
+  def template_csv
+    skip_authorization
+    client_company_id = ClientCompany.find(params[:client_company_id]).id
+    @attendees = Attendee.where(client_company_id: client_company_id)
+    respond_to do |format|
+      format.csv { send_data @attendees.to_csv_template, :filename => "Template import participants SEVEN.csv"}
+    end
+  end
+
   private
 
   def attendee_params
@@ -65,5 +84,9 @@ class AttendeesController < ApplicationController
 
   def set_training
     @training = Training.find(params[:training_id])
+  end
+
+  def set_attendee
+    @attendee = Attendee.find(params[:id])
   end
 end

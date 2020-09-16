@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style type='text/css' media='screen'>
+      @media screen {
+        @font-face {
+          font-family: 'Lato';
+          font-style: normal;
+          font-weight: 400;
+          src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+        }
+      }
+
+      body {
+        font-family: "Lato", Sans-Serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      img {
+        margin: 0 10px;
+      }
+
+      .mailer-banner {
+          width: 100%;
+          height: 100px;
+          background-color: #F1F3F4;
+          display:table;
+      }
+
+      .mailer-banner-row {
+        height: 100%;
+        width: 100%;
+        vertical-align: middle;
+        text-align: center;
+        display:table-cell;
+      }
+
+      .mailer-container {
+        width: 100%;
+        display:table;
+        padding: 50px 0;
+      }
+
+      .mailer-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        min-width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mailer-banner">
+      <div class="mailer-banner-row">
+        <div>
+          <img src="https://seven-builder.herokuapp.com/assets/SEVENLOGO_SQUARE2-a44cb6d1cbb9826cadb919090ba706b19dea5ac9b8e2962a030523b034994ae1.png" alt="" height='50px' style="vertical-align:middle">
+        </div>
+      </div>
+    </div>
+    <div class="mailer-container">
+      <div class="mailer-text">
+        <h2>Hello, <%= @user.firstname %></h2>
+        <br>
+        <p>Nous avons reçu une nouvelle demande entrante via learn.byseven.co</p>
+        <p>Voici les informations collectées :</p>
+        <div style='display:flex;flex-direction:column;justify-content:space-between;align-items:left; max-width:700px;width:50%;'>
+          <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;'>
+            <p>Nom : </p>
+            <p><%= @contact['Name'] %></p>
+          </div>
+          <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;'>
+            <p>Email : </p>
+            <p><%= @contact['Email'] %></p>
+          </div>
+          <% if @contact['Choice'].present? %>
+            <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;'>
+            <p>Choice : </p>
+            <p><%= @contact['Choice'] %></p>
+          </div>
+          <% end %>
+          <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start;'>
+            <p>Message : </p>
+            <p style='max-width: 75%;'><%= @contact['Message'] %></p>
+          </div>
+        </div>
+        <br>
+         <a href="<%= @url %>">Tableau Airtable</a>
+        <br>
+        <p>Bonne journée</p>
+      </div>
+    </div>
+  </body>
+</html>

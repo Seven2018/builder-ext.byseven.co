@@ -1,0 +1,25 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style="display:flex;justify-content:center;text-align:center;">
+      <h3 class="modal-title" id="myModalLabel"><%= "Trainers" %></h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
+    <%= simple_form_for :filter, url: dashboard_sevener_path, method: 'GET' do |f| %>
+        <div style=" display:flex;justify-content:space-between;flex-direction:column;">
+          <p>Seven</p>
+          <%= f.collection_radio_buttons(:user, User.where(access_level: ['sevener+', 'sevener']).order(:firstname).map{|x| [x.id, "#{x.firstname} #{x.lastname}"]}, :first, :last) do |b| %>
+            <%= b.label class: 'label-checkbox' do %>
+              <%= b.radio_button + b.text %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class='modal-control'>
+          <%= button_tag :submit, class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Filter' do %>
+            <i class="fas fa-save"></i>
+          <% end %>
+        </div>
+      <% end %>
+  </div>
+</div>

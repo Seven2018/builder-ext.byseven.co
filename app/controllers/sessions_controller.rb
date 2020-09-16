@@ -37,6 +37,7 @@ class SessionsController < ApplicationController
     authorize @session
     @session.training = @training
     if @session.save
+      @training.export_airtable
       redirect_to training_path(@training)
     end
   end
@@ -58,13 +59,19 @@ class SessionsController < ApplicationController
 
     event_to_delete = ''
     SessionTrainer.where(session_id: @session.id).each do |trainer|
-      event_to_delete+=trainer.user_id.to_s+':'+trainer.calendar_uuid+',' if trainer.calendar_uuid.present?
+      if trainer.calendar_uuid.present?
+        trainer.calendar_uuid.split(' - ').each do |event_id|
+          event_to_delete+=trainer.user_id.to_s+':'+event_id+',' if trainer.calendar_uuid.present?
+        end
+      end
     end
     event_to_delete = event_to_delete[0...-1]
 
     if @session.save && (params[:session][:date].present?)
+      @training.export_airtable
       redirect_to redirect_path(session_id: "|#{@session.id}|", list: trainers_list, to_delete: "%#{event_to_delete}%")
     elsif @session.save
+      @training.export_airtable
       redirect_to training_path(@session.training)
     else
       redirect_to training_path(@session.training)
@@ -76,6 +83,7 @@ class SessionsController < ApplicationController
     @training = Training.find(params[:training_id])
     authorize @session
     @session.destroy
+    @training.export_airtable
     redirect_to training_path(@training)
   end
 
@@ -94,12 +102,13 @@ class SessionsController < ApplicationController
     new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at", "training_id", "address", "room"))
     # new_session.title = params[:copy][:rename] unless params[:copy][:rename].empty?
     # new_session&.date = params[:copy][:date] unless params[:copy][:date].empty?
-    training.sessions.empty? ? (new_session&.date = Date.today) : (new_session&.date = training.sessions&.order(date: :asc)&.last&.date + 1.days)
+    training.sessions.empty? ? (new_session&.date = Date.today) : (new_session&.date = @session&.date)
     new_session.training_id = training.id
     new_session.address = ''
     new_session.room = ''
     new_session.training_id = training.id
     if new_session.save
+      # new_session.training.export_airtable
       @session.workshops.each do |workshop|
         new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
         new_workshop.update(session_id: new_session.id)
@@ -108,6 +117,7 @@ class SessionsController < ApplicationController
           new_mod.update(workshop_id: new_workshop.id)
         end
       end
+      training.export_airtable
       redirect_to training_path(training)
     else
       raise
@@ -117,8 +127,9 @@ class SessionsController < ApplicationController
   def copy_here
     authorize @session
     new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at"))
-    new_session&.date = @session&.date + 1.days
+    new_session&.date = @session&.date
     if new_session.save
+      # new_session.training.export_airtable
       @session.workshops.each do |workshop|
         new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
         new_workshop.update(session_id: new_session.id)
@@ -127,6 +138,7 @@ class SessionsController < ApplicationController
           new_mod.update(workshop_id: new_workshop.id)
         end
       end
+      @session.training.export_airtable
       redirect_to training_path(@session.training)
     else
       raise

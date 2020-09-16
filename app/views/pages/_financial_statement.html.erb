@@ -1,0 +1,17 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style="display:flex;justify-content:center;text-align:center;">
+      <h3 class="modal-title" id="myModalLabel">Financial Statement</h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
+    <p>Amount paid by companies : <%= invoices.joins(:client_companies).where(client_companies: {client_company_type: 'Company'}, status: 'Paid').map{|invoice| invoice.total_amount - invoice.tax_amount}.sum %></p>
+    <p>Amount paid by Opcos : <%= invoices.joins(:client_companies).where(client_companies: {client_company_type: 'OPCO'}, status: 'Paid').map{|invoice| invoice.total_amount - invoice.tax_amount}.sum %></p>
+    <p>Amount paid by other training organization : <%= invoices.where(client_company_id: [5,20], status: 'Paid').map{|invoice| invoice.total_amount - invoice.tax_amount}.sum %></p>
+    <br>
+    <p>People trained : <%= sessions.joins(training: :client_company).where(client_company: {client_company_type: ['Company','OPCO']}).map(&:participant_number).sum %></p>
+    <p>Trainers : <%= sessions.map(&:users).sum.uniq.count %></p>
+    <p>Hours of training : <%= sessions.map(&:duration).sum %></p>
+  </div>
+</div>

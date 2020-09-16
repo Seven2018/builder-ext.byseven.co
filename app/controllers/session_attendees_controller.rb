@@ -1,6 +1,30 @@
 class SessionAttendeesController < ApplicationController
   before_action :authenticate_user!, except: [:destroy, :create, :create_kea_partners, :destroy_kea_partners, :test]
 
+  def link_attendees
+    skip_authorization
+    session = Session.find(params[:id])
+    attendee_ids = params[:session][:attendee_ids][1..-1]
+    attendee_ids.each do |attendee_id|
+      SessionAttendee.create(session_id: session.id, attendee_id: attendee_id)
+    end
+    redirect_to training_session_path(session.training, session)
+    flash[:notice] = "Participants added to #{session.title}"
+  end
+
+  def link_attendees_to_training
+    skip_authorization
+    training = Training.find(params[:id])
+    attendee_ids = params[:link][:attendee_ids][1..-1]
+    attendee_ids.each do |attendee_id|
+      training.sessions.each do |session|
+        SessionAttendee.create(session_id: session.id, attendee_id: attendee_id)
+      end
+    end
+    redirect_to training_path(training)
+    flash[:notice] = "Participants added to #{training.title}"
+  end
+
   def create
     @session = Session.find(params[:session_id])
     @attendee = Attendee.find(params[:attendee_id])
@@ -68,7 +92,7 @@ class SessionAttendeesController < ApplicationController
   def test
     skip_authorization
     params[:create_attendees].each do |choice, value|
-      sessions_ids = eval(params[:sessions_ids])[choice]
+      sessions_ids = eval(params[:sessions_ids])[choice.to_sym]
       if value == 'Interested'
         new_interest = AttendeeInterest.create(session_id: sessions_ids.first, attendee_id: params[:attendee_id])
         SessionAttendee.where(attendee_id: params[:attendee_id], session_id: sessions_ids).destroy_all
@@ -78,7 +102,8 @@ class SessionAttendeesController < ApplicationController
       else
         AttendeeInterest.where(session_id: sessions_ids, attendee_id: params[:attendee_id]).destroy_all
         SessionAttendee.where(attendee_id: params[:attendee_id], session_id: sessions_ids).destroy_all
-        SessionAttendee.create(session_id: value.to_i, attendee_id: params[:attendee_id])
+        new_session_attendee = SessionAttendee.create(session_id: value.to_i, attendee_id: params[:attendee_id])
+        # NewAttendeeMailer.with(user: User.find(2)).new_attendee(new_session_attendee).deliver
       end
     end
     redirect_to kea_partners_thanks_path(search: {email: Attendee.find(params[:attendee_id]).email})

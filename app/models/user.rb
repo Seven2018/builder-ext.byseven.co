@@ -18,6 +18,10 @@ class User < ApplicationRecord
     "#{firstname} #{lastname}"
   end
 
+  def hours(training)
+    Session.joins(:session_trainers).where(session_trainers: {session_id: training.sessions.ids, user_id: self.id}).map(&:duration).sum
+  end
+
   def self.from_omniauth(access_token)
     data = access_token.info
     user = User.where(email: data['email']).first

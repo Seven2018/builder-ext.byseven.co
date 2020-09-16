@@ -14,6 +14,7 @@
             <% end %>
             <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
             <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><%= link_to 'Participants List', attendees_path(client_company_id: @client_company.id) %></li>
               <li><%= link_to 'Invoices List', invoice_items_path(client_company_id: @client_company.id, type: 'Invoice') %></li>
               <li><%= link_to 'Estimates List', invoice_items_path(client_company_id: @client_company.id, type: 'Estimate') %></li>
             </ul>

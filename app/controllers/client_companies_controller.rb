@@ -1,5 +1,6 @@
 class ClientCompaniesController < ApplicationController
 before_action :set_clientcompany, only: [:show, :edit, :update, :destroy]
+before_action :authenticate_user!, except: [:new_attendees, :create_attendees]
 
   # Index with "search" option
   def index
@@ -36,6 +37,15 @@ before_action :set_clientcompany, only: [:show, :edit, :update, :destroy]
     @client_company.destroy
     authorize @client_company
     redirect_to client_companies_path
+  end
+
+  def new_attendees
+    skip_authorization
+    @client_company = ClientCompany.find(params[:client_company_id])
+  end
+
+  def create_attendees
+    skip_authorization
   end
 
   private

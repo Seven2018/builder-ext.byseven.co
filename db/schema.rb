@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_28_171015) do
+ActiveRecord::Schema.define(version: 2020_06_18_135403) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 2020_05_28_171015) do
     t.string "reference"
     t.integer "opco_id"
     t.float "unit_price"
+    t.string "auth_token"
   end
 
   create_table "client_contacts", force: :cascade do |t|
@@ -228,6 +229,11 @@ ActiveRecord::Schema.define(version: 2020_05_28_171015) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "calendar_uuid"
+    t.float "unit_price"
+    t.string "status"
+    t.bigint "invoice_item_id"
+    t.string "type"
+    t.index ["invoice_item_id"], name: "index_session_trainers_on_invoice_item_id"
     t.index ["session_id"], name: "index_session_trainers_on_session_id"
     t.index ["user_id"], name: "index_session_trainers_on_user_id"
   end
@@ -385,6 +391,7 @@ ActiveRecord::Schema.define(version: 2020_05_28_171015) do
   add_foreign_key "session_attendees", "sessions"
   add_foreign_key "session_forms", "forms"
   add_foreign_key "session_forms", "sessions"
+  add_foreign_key "session_trainers", "invoice_items"
   add_foreign_key "session_trainers", "sessions"
   add_foreign_key "session_trainers", "users"
   add_foreign_key "sessions", "trainings"

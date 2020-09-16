@@ -1,0 +1,25 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style="display:flex;justify-content:center;text-align:center;">
+      <h3 class="modal-title" id="myModalLabel">Add Participants</h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
+    <%= simple_form_for :link, url: link_attendees_path(session) do |f| %>
+      <div style="display:flex;justify-content:space-between;flex-direction:column;">
+        <p><%= @session.training.client_company.name %></p>
+        <%= collection_check_boxes(:session, :attendee_ids, Attendee.where(client_company_id: @session.training.client_company.id), :id, :fullname) do |b| %>
+          <%= b.label class: 'label-checkbox' do %>
+            <%= b.check_box + b.text %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class='modal-control'>
+        <%= button_tag :submit, class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

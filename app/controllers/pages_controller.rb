@@ -1,10 +1,32 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:home, :survey, :kea_partners_c, :kea_partners_m, :kea_partners_d, :kea_partners_thanks]
+  skip_before_action :authenticate_user!, only: [:home, :survey, :kea_partners_c, :kea_partners_m, :kea_partners_d, :kea_partners_thanks, :contact_form, :contact_form_seven_x_bam]
 
   def home
   end
 
   def overlord
+  end
+
+  def contact_form
+    unless params[:email_2].present? || params[:email].empty?
+      contact = IncomingContact.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message], 'Training' => params[:training], 'Date' => DateTime.now.strftime('%Y-%m-%d'))
+      IncomingContactMailer.with(user: User.find(2)).new_incoming_contact(contact).deliver
+      IncomingContactMailer.with(user: User.find(3)).new_incoming_contact(contact).deliver
+      IncomingContactMailer.with(user: User.find(4)).new_incoming_contact(contact).deliver
+    else
+      IncomingSpam.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message])
+    end
+    redirect_to 'https://learn.byseven.co/thank-you.html'
+  end
+
+  def contact_form_seven_x_bam
+    unless params[:email_2].present?
+      contact = IncomingContactBam.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message], 'Choice' => params[:choice])
+      IncomingContactMailer.with(user: User.find(2)).new_incoming_contact(contact).deliver
+    else
+      IncomingSpam.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message])
+    end
+    redirect_to 'https://learn.byseven.co/thank-you.html'
   end
 
   def kea_partners_c
@@ -24,6 +46,96 @@ class PagesController < ApplicationController
 
   def survey
     redirect_to 'https://docs.google.com/forms/d/1knOYJWvoVV7T3IVCbNqoMtTbgMiDG6zroZSPrRJm5vY/edit'
+  end
+
+  def dashboard_sevener
+  end
+
+  def airtable_import_users
+    OverviewUser.all.each do |user|
+      if user['Builder_id'].nil?
+        new_user = User.new(firstname: user['Firstname'], lastname: user['Lastname'], email: user['Email'], access_level: 'sevener', password: 'tititoto')
+        new_user.save
+      end
+    end
+    redirect_back(fallback_location: root_path)
+    flash[:notice] = "Data imported from Airtable."
+  end
+
+  def airtable_import_clients
+    OverviewClient.all.each do |client|
+      if client['Builder_id'].nil?
+        company = ClientCompany.new(name: client['Name'], client_company_type: client['Type'], address: client['Address'], zipcode: client['Zipcode'], city: client['City'], auth_token: SecureRandom.hex(5).upcase)
+        company.opco_id = OverviewOpco.find(client['OPCO'].join) if client['OPCO'].present?
+        company.save
+        client['Builder_id'] = company.id
+        client.save
+      else
+        company = ClientCompany.find(client['Builder_id'])
+        company.update(name: client['Name'], client_company_type: client['Type'], address: client['Address'], zipcode: client['Zipcode'], city: client['City'], opco_id: OverviewOpco.find(client['OPCO'].join))
+      end
+    end
+
+    # OverviewOpco.all.each do |opco|
+    #   if opco['Builder_id'].nil?
+    #     company = ClientCompany.new(name: client['Name'], client_company_type: 'OPCO', address: client['Address'], zipcode: client['Zipcode'], city: client['City'], auth_token: SecureRandom.hex(5).upcase)
+    #   else
+    #     company = ClientCompany.find(opco['Builder_id'])
+    #     company.update(name: client['Name'], client_company_type: client['Type'], address: client['Address'], zipcode: client['Zipcode'], city: client['City'])
+    #   end
+    #   company.save
+    # end
+
+    OverviewContact.all.each do |contact|
+      if contact['Builder_id'].nil?
+        new_contact = ClientContact.new(name: contact['Firstname']+' '+contact['Lastname'], email: contact['Email'], client_company_id: OverviewClient.find(contact['Company/School'].join)['Builder_id'])
+        new_contact.save
+        contact['Builder_id'] = new_contact.id
+        contact.save
+      else
+        existing_contact = ClientContact.find(contact['Builder_id'])
+        existing_contact.update(name: contact['Firstname']+contact['Lastname'], email: contact['Email'], client_company_id: OverviewClient.find(contact['Company/School'].join)['Builder_id'])
+      end
+    end
+    redirect_back(fallback_location: root_path)
+    flash[:notice] = "Data imported from Airtable."
+  end
+
+  def import_airtable
+    skip_authorization
+    OverviewTraining.all.each do |card|
+      if card['Status'] != 'Filon - ALL' && !card['Builder_id'].present?
+        contact = OverviewContact.find(card['Partner Contact'].join)
+        company = OverviewClient.find(contact['Company/School'].join)
+        if card['Reference SEVEN'].present?
+          training = Training.find_by(refid: card['Reference SEVEN'])
+          training.update(title: card['Title'], vat: vat, unit_price: card['Unit Price'])
+        else
+          if contact['Builder_id'].nil?
+            if company['Builder_id'].nil?
+              new_company = ClientCompany.create(name: company['Name'], address: company['Address'], zipcode: company['Zipcode'], city: company['City'], client_company_type: company['Type'], description: '')
+              company['Builder_id'] = new_company.id
+              company.save
+            end
+            new_contact = ClientContact.new(name: contact['Firstname'] + ' ' + contact['Lastname'], email: contact['Email'], client_company_id: company['Builder_id'], title: '', role_description: '')
+            new_contact.save
+            contact['Builder_id'] = new_contact.id
+            contact.save
+          end
+          company['Type'] == 'School' ? vat = false : vat = true
+          vat = true if card['VAT'] == true
+          training = Training.new(title: card['Title'], client_contact_id: contact['Builder_id'], refid: "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}", satisfaction_survey: 'https://learn.byseven.co/survey', vat: vat, unit_price: card['Unit Price'].to_f, mode: 'Company')
+          Session.create(title: 'Session 1', duration: 0, training_id: training.id) if training.save
+        end
+        if training.valid?
+          card['Reference SEVEN'] = training.refid
+          card['Builder_id'] = training.id
+          card['Builder Update'] = Time.now.utc.iso8601(3)
+          card.save
+        end
+      end
+    end
+    redirect_to trainings_path
   end
 
   def numbers_activity

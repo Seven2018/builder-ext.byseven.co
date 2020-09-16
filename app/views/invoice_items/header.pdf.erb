@@ -33,11 +33,23 @@
       </div>
     </div>
     <div class="invoice-client">
-      <% unless @invoice_item.type == 'InvoiceSevener' %>
+      <% unless @invoice_item.type == 'Order' %>
         <div>
-          <p><%= @invoice_item.client_company.name %></p>
-          <p><%= @invoice_item.client_company.address %></p>
-          <p><%= @invoice_item.client_company.zipcode %> <%= @invoice_item.client_company.city %></p>
+          <% airtable_contact = OverviewContact.all.select{|x|x['Builder_id'] == @invoice_item.training&.client_contact&.id}&.first %>
+          <% airtable_billing_contact = OverviewBillingContact.all.select{|x| x.id == airtable_contact['Billing Contact'].join} if airtable_contact.present? %>
+          <% if @invoice_item.training.present? && airtable_billing_contact.present? %>
+            <p><%= airtable_billing_contact['Company/School Service'] %></p>
+            <p><%= airtable_billing_contact['Address'] %></p>
+            <p><%= airtable_billing_contact['Zipcode'] %> <%= airtable_billing_contact['City'] %></p>
+          <% elsif @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? %>
+            <p><%= @invoice_item&.training&.client_contact.billing_contact %></p>
+            <p><%= @invoice_item&.training&.client_contact.billing_address %></p>
+            <p><%= @invoice_item&.training&.client_contact.billing_zipcode %> <%= @invoice_item&.training&.client_contact.billing_city %></p>
+          <% else %>
+            <p><%= @invoice_item.client_company.name %></p>
+            <p><%= @invoice_item.client_company.address %></p>
+            <p><%= @invoice_item.client_company.zipcode %> <%= @invoice_item.client_company.city %></p>
+          <% end %>
         </div>
       <% else %>
         <div>

@@ -52,6 +52,7 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     @workshop.workshop_modules.order(position: :asc).each do |mod|
       mod.update(position: position)
       position += 1
+      mod.save
     end
     update_duration
     redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
@@ -104,10 +105,10 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     # Targeted Workshop
     @workshop = Workshop.find(params[:copy][:workshop_id])
     # Creates the copy, and rename it if applicable
-    @new_workshop_module = WorkshopModule.new(@workshop_module.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
+    @new_workshop_module = WorkshopModule.new(@workshop_module.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id", "position"))
     @new_workshop_module.title = params[:copy][:rename] if params[:copy][:rename].present?
-    @new_workshop_module.workshop_id = @workshop.id
     @new_workshop_module.position = @workshop.workshop_modules.count + 1
+    @new_workshop_module.workshop_id = @workshop.id
     if @new_workshop_module.save
       update_duration
       redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)

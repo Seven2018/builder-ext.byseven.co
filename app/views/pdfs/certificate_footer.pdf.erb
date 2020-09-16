@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      function subst() {
+            var vars={};
+            var x=window.location.search.substring(1).split('&');
+            for (var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+
+            if (vars['page'] == vars['topage']) {
+                document.querySelector('.footer-pdf').classList.remove('hidden');
+            }
+        }
+    </script>
+  </head>
+  <body onload="subst()">
+    <div class="footer-pdf hidden">
+      <div style='border-top: 1px solid black;padding-top: 10px;'>
+        <p>Dans le cadre des formations à distance prendre en compte la réalisation des
+            activités pédagogiques et le temps estimé pour les réaliser.
+        </p>
+      </div>
+      <div class="invoice-footer">
+        <h4>SEVEN - 5 rue Moret, 75011 Paris - SIRET 803 964 394 00024 -</h4>
+        <h4>https://learn.byseven.co</h4>
+      </div>
+    </div>
+  </body>
+</html>

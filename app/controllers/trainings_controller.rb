@@ -1,5 +1,5 @@
 class TrainingsController < ApplicationController
-  before_action :set_training, only: [:show, :edit, :update, :update_survey, :destroy, :copy]
+  before_action :set_training, only: [:show, :edit, :update, :update_survey, :destroy, :copy, :sevener_billing, :invoice_form, :export_airtable]
 
   def index
     @sessions = Session.all
@@ -27,6 +27,30 @@ class TrainingsController < ApplicationController
     else
       @trainings = policy_scope(Training).joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}")
     end
+  end
+
+  def index_completed
+    if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
+      if params[:search]
+        if params[:search][:user]
+          @trainings = ((Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).where("lower(trainings.title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
+          @user = User.find(params[:search][:user])
+        else
+          @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
+        end
+      elsif params[:user]
+        @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]}))
+        @user = User.find(params[:user])
+      else
+        @trainings = Training.all
+      end
+    # Index for Sevener Users, with limited visibility
+    else
+      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}")
+      # @trainings = Training.joins(sessions: :session_trainers).where(session_trainers: {user_id: current_user.id})
+    end
+    authorize @trainings
+    render partial: "index_completed"
   end
 
   # Index with weekly calendar view
@@ -60,11 +84,14 @@ class TrainingsController < ApplicationController
   def create
     @training = Training.new(training_params)
     authorize @training
-    @training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
-    @training.satisfaction_survey = 'shorturl.at/gqwCZ'
-    @training.title = ClientContact.find(params[:training][:client_contact_id]).client_company.name + ' - ' + params[:training][:title]
+    begin
+      @training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
+    rescue
+    end
+    @training.satisfaction_survey = 'https://learn.byseven.co/survey'
+    # @training.title = ClientContact.find(params[:training][:client_contact_id]).client_company.name + ' - ' + params[:training][:title]
     if @training.save
-      Session.new(title: 'Session 1', date: @training.created_at, duration: 0, training_id: @training.id)
+      Session.create(title: 'Session 1', date: @training.created_at, duration: 0, training_id: @training.id)
       redirect_to training_path(@training)
     else
       render :new
@@ -73,12 +100,14 @@ class TrainingsController < ApplicationController
 
   def edit
     authorize @training
+    @training.export_airtable
   end
 
   def update
     authorize @training
     @training.update(training_params)
     if @training.save
+      @training.export_airtable
       redirect_to training_path(@training)
     else
       render :edit
@@ -86,8 +115,8 @@ class TrainingsController < ApplicationController
   end
 
   def destroy
-    @training.destroy
     authorize @training
+    @training.destroy
     redirect_to trainings_path
   end
 
@@ -115,6 +144,66 @@ class TrainingsController < ApplicationController
     else
       raise
     end
+  end
+
+  def sevener_billing
+    authorize @training
+    params[:filter].present? ? @user = User.find(params[:filter][:user]) : @user = current_user
+  end
+
+  def invoice_form
+    authorize @training
+    @user = OverviewUser.all.select{|x| x['Builder_id'] == current_user.id}&.first
+    @airtable_training = OverviewTraining.all.select{|x| x['Builder_id'] == @training.id}&.first
+  end
+
+  def certificate
+    skip_authorization
+    @attendee = params[:attendee][:name]
+    set_training
+    respond_to do |format|
+      format.pdf do
+        render(
+          pdf: "#{@training.title} - Certificat de réalisation - #{@attendee}",
+          layout: 'pdf.html.erb',
+          template: 'pdfs/certificate',
+          margin: { bottom: 30 },
+          footer: { margin: { top: 0, bottom: 0 }, html: { template: 'pdfs/certificate_footer.pdf.erb' } },
+          show_as_html: params.key?('debug'),
+          page_size: 'A4',
+          encoding: 'utf8',
+          dpi: 300,
+          zoom: 1,
+        )
+      end
+    end
+  end
+
+  def certificate_rs
+    skip_authorization
+    @attendee = params[:attendee][:name]
+    set_training
+    respond_to do |format|
+      format.pdf do
+        render(
+          pdf: "#{@training.title} - Certificat de réalisation - #{@attendee}",
+          layout: 'pdf.html.erb',
+          template: 'pdfs/certificate_rs',
+          margin: { bottom: 30 },
+          footer: { margin: { top: 0, bottom: 0 }, html: { template: 'pdfs/certificate_rs_footer.pdf.erb' } },
+          show_as_html: params.key?('debug'),
+          page_size: 'A4',
+          encoding: 'utf8',
+          dpi: 300,
+          zoom: 1,
+        )
+      end
+    end
+  end
+
+  def redirect_docusign
+    skip_authorization
+    redirect_to "https://account-d.docusign.com/oauth/auth?response_type=token&scope=signature&client_id=ce366c33-e8f1-4aa7-a8eb-a83fbffee4ca&redirect_uri=http://localhost:3000/docusign/callback"
   end
 
   private

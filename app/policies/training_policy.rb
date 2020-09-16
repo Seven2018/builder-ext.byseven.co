@@ -9,6 +9,10 @@ class TrainingPolicy < ApplicationPolicy
     end
   end
 
+  def index_completed?
+    true
+  end
+
   def index_week?
     true
   end
@@ -42,6 +46,18 @@ class TrainingPolicy < ApplicationPolicy
   end
 
   def copy?
+    check_access
+  end
+
+  def sevener_billing?
+    true
+  end
+
+  def invoice_form?
+    true
+  end
+
+  def export_airtable?
     check_access
   end
 

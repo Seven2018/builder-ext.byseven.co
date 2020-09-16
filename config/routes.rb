@@ -9,10 +9,19 @@ Rails.application.routes.draw do
   get 'numbers_sales', to: 'pages#numbers_sales', as: 'numbers_sales'
   get 'dashboard_sevener', to: 'pages#dashboard_sevener', as: 'dashboard_sevener'
   get 'overlord', to: 'pages#overlord', as: 'overlord'
+  get 'contact_form', to: 'pages#contact_form', as: 'contact_form'
+  get 'contact_form_seven_x_bam', to: 'pages#contact_form_seven_x_bam', as: 'contact_form_seven_x_bam'
   get 'inscriptions_kea_partners_c', to: 'pages#kea_partners_c', as: 'kea_partners_c'
   get 'inscriptions_kea_partners_m', to: 'pages#kea_partners_m', as: 'kea_partners_m'
   get 'inscriptions_kea_partners_d', to: 'pages#kea_partners_d', as: 'kea_partners_d'
   get 'inscriptions_kea_partners_thanks', to: 'pages#kea_partners_thanks', as: 'kea_partners_thanks'
+
+  # AIRTABLE
+  get 'airtable_import_users', to: 'pages#airtable_import_users', as: 'airtable_import_users'
+  get 'airtable_import_clients', to: 'pages#airtable_import_clients', as: 'airtable_import_clients'
+  get 'import_airtable', to: 'pages#import_airtable', as: 'import_airtable'
+  get 'trainings/:id/export_airtable', to: 'pages#export_airtable', as: 'export_airtable'
+  get 'airtable_partners_form', to:'pages#airtable_partners_form', as: 'airtable_partners_form'
 
   # USERS
   resources :users
@@ -34,6 +43,8 @@ Rails.application.routes.draw do
   # CLIENT COMPANIES
   resources :client_companies, path: '/companies' do
     resources :client_contacts, path: '/contacts'
+    get 'new_attendees', to: 'client_companies#new_attendees', as: 'new_attendees'
+    get 'create_attendees', to: 'client_companies#create_attendees', as: 'create_attendees'
   end
 
   # INVOICE ITEMS
@@ -44,6 +55,10 @@ Rails.application.routes.draw do
   get 'invoice_item/:id/credit', to: 'invoice_items#credit', as: 'credit_invoice_item'
   get 'invoices', to: 'invoice_items#invoice_index', as: 'invoices'
   post 'new_invoice_item', to: 'invoice_items#new_invoice_item', as: 'new_invoiceitem'
+  post 'new_airtable_invoice_item', to: 'invoice_items#new_airtable_invoice_item', as: 'new_airtable_invoiceitem'
+  post 'new_airtable_invoice_item_by_trainer', to: 'invoice_items#new_airtable_invoice_item_by_trainer', as: 'new_airtable_invoiceitem_by_trainer'
+  post 'new_airtable_invoice_item_by_attendee', to: 'invoice_items#new_airtable_invoice_item_by_attendee', as: 'new_airtable_invoiceitem_by_attendee'
+  get 'send_invoice_mail', to: 'invoice_items#send_invoice_mail', as: 'send_invoice_mail'
   post 'new_sevener_invoice', to: 'invoice_items#new_sevener_invoice', as: 'new_sevener_invoice'
   post 'new_estimate', to: 'invoice_items#new_estimate', as: 'new_estimate'
   get 'estimates', to: 'invoice_items#estimate_index', as: 'estimates'
@@ -52,14 +67,13 @@ Rails.application.routes.draw do
   get 'invoice_items/:id/marked_as_paid', to: 'invoice_items#marked_as_paid', as: 'marked_as_paid_invoice_item'
   get 'invoice_items/:id/marked_as_reminded', to: 'invoice_items#marked_as_reminded', as: 'marked_as_reminded_invoice_item'
   get 'invoice_items/export_to_csv', to: 'invoice_items#export_to_csv', as: 'export_to_csv_invoice_items'
+  post 'redirect_upload_to_drive', to: 'invoice_items#redirect_upload_to_drive', as: 'redirect_upload_to_drive'
+  post 'upload_to_drive', to: 'invoice_items#upload_to_drive', as: 'upload_to_drive'
   post 'upload_to_sheet', to: 'invoice_items#upload_to_sheet', as: 'upload_to_sheet'
   get 'report', to: 'invoice_items#report', as: 'report'
   resources :invoice_lines, only: [:create, :edit, :update, :destroy]
   get 'invoice_line/:id/move_up', to: 'invoice_lines#move_up', as: 'move_up_invoice_line'
   get 'invoice_line/:id/move_down', to: 'invoice_lines#move_down', as: 'move_down_invoice_line'
-  get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
-  get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
-  get 'training/:id/copy', to: 'trainings#copy', as: 'copy_training'
 
   # TRAININGS
   resources :trainings do
@@ -89,13 +103,24 @@ Rails.application.routes.draw do
       resources :session_attendees, only: [:create, :destroy]
       resources :comments, only: [:create, :destroy]
     end
+    get 'session_trainers/create_all', to: 'session_trainers#create_all', as: 'create_all_session_trainers'
     resources :training_ownerships, only: [:create, :destroy]
     post 'new_writer', to: 'training_ownerships#new_writer', as: 'new_writer'
     resources :forms, only: [:index, :show, :create, :update, :destroy]
   end
+  get 'trainings_completed', to: 'trainings#index_completed', as: 'index_completed'
+  get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
+  get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
+  get 'trainings/:id/copy', to: 'trainings#copy', as: 'copy_training'
+  get 'trainings/:id/sevener_billing', to: 'trainings#sevener_billing', as: 'sevener_billing'
+  get 'training/redirect_docusign', to: 'trainings#redirect_docusign', as: 'redirect_docusign'
+  post 'trainings/:id/certificate', to: 'trainings#certificate', as: 'certificate_training'
+  post 'trainings/:id/certificate_rs', to: 'trainings#certificate_rs', as: 'certificate_rs_training'
+  get 'trainings/:id/invoice_form', to: 'trainings#invoice_form', as: 'invoice_form'
 
   # ATTENDEES
-  resources :attendees, only: [:new, :create]
+  resources :attendees, only: [:index, :show, :new, :create]
+  get 'attendees/template_csv', to: 'attendees#template_csv', as: 'template_csv_attendees'
   post 'attendees/import', to: 'attendees#import', as: 'import_attendees'
   get 'training/:training_id/session/:id/attendees/export.csv', to: 'attendees#export', as: 'export_attendees'
   get 'attendee/new_kea_partners', to: 'attendees#new_kea_partners', as: 'new_kea_partners_attendee'
@@ -103,6 +128,10 @@ Rails.application.routes.draw do
   post 'new_session_attendee/kea_partners', to: 'session_attendees#create_kea_partners', as: 'new_kea_partners_session_attendee'
   delete 'delete_session_attendee/kea_partners', to: 'session_attendees#destroy_kea_partners', as: 'destroy_kea_partners_session_attendee'
   get 'test', to: 'session_attendees#test', as: 'test_session_attendee'
+
+  # SESSION ATTENDEES
+  post 'session/:id/session_attendees/link_attendees', to: 'session_attendees#link_attendees', as: 'link_attendees'
+  post 'training/:id/session_attendees/link_attendees', to: 'session_attendees#link_attendees_to_training', as: 'link_attendees_to_training'
 
   # ATTENDEES INTERESTS
   post 'new_attendee_interest', to: 'attendee_interests#create', as: 'new_attendee_interest'

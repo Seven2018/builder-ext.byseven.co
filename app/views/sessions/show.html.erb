@@ -19,6 +19,7 @@
         <li><%= link_to 'Export PDF', training_session_path(@session.training, @session, format: :pdf), target: :_blank %></li>
         <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
           <li><%= link_to 'Participants List', export_attendees_path(@session.training, @session) %></li>
+          <li><a data-toggle='modal' data-target='#addAttendees' data-toggle="tooltip" title="Add Participants">Add participants</a></li>
           <li><%= link_to 'Presence Sheet', training_session_presence_sheet_path(@session.training, @session, format: :pdf), target: :_blank %></li>
         <% end %>
       </ul>
@@ -37,7 +38,7 @@
         <ul id='owner'>
           <% @session.users.each do |user| %>
             <li>
-              <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm'></a>
+              <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
             </li>
           <% end %>
           <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
@@ -237,6 +238,12 @@
 <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
     <%= render 'session_trainers/new', session: @session, session_trainer: @session_trainer %>
+  </div>
+</div>
+
+<div class="modal fade" id="addAttendees" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" style="border-radius: 20px">
+    <%= render 'session_attendees/new', session: @session %>
   </div>
 </div>
 

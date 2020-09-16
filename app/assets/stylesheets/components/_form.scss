@@ -61,8 +61,20 @@ input:focus {
   width: 100%;
 }
 
+.form-check {
+  display: flex !important;
+  align-items:center !important;
+  margin: 0;
+  padding: 0 !important;
+
+  input {
+    margin-right: 1rem !important;
+  }
+}
+
 .form-check-input {
   margin-top: 0 !important;
+  margin-right: 3rem !important;
 }
 
 .form_radio_label {
@@ -146,4 +158,35 @@ input:focus {
   height: 9px;
   border-radius: 50%;
   background: white;
+}
+
+
+form.billing {
+  margin-left: 5rem;
+
+  .form-check {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+#user_remember_me {
+  margin-left: -0.25rem;
+}
+
+#login-div {
+
+  .form-check > label {
+    margin-left: 2rem !important;
+  }
 }

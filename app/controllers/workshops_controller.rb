@@ -8,7 +8,7 @@ class WorkshopsController < ApplicationController
 
   def create
     @session = Session.find(params[:session_id])
-    if params[:content_id]
+    if params[:content_id].present?
       @content = Content.find(params[:content_id])
       @workshop = Workshop.new(@content.attributes.except("id", "created_at", "updated_at"))
     else
@@ -18,7 +18,7 @@ class WorkshopsController < ApplicationController
     @workshop.session = @session
     i = 1
     if @workshop.save
-      if params[:content_id]
+      if params[:content_id].present?
         @content.theories.each do |theory|
           TheoryWorkshop.create(theory_id: theory.id, workshop_id: @workshop.id)
         end
