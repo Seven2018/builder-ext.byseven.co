@@ -109,7 +109,7 @@ class Training < ApplicationRecord
   end
 
   def export_airtable
-    begin
+    # begin
       existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
       existing_contact = OverviewContact.find(existing_card['Partner Contact'].join)
       overview_update = true
@@ -181,8 +181,8 @@ class Training < ApplicationRecord
         overview_update ? card['Overview - TF - updated'] = true : card['Overview - TF - updated'] = nil
         card.save
       end
-    rescue
-    end
+    # rescue
+    # end
   end
 
   def export_trainer_airtable
