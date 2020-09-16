@@ -30,8 +30,6 @@
         <%= link_to import_airtable_path do %>
           <button class="btn btn-edit-green" data-toggle="tooltip" title="Last Update : <%= last_update['Builder Update'].to_time.strftime('%d/%m/%Y at %H:%M') %>">Update from Airtable</button>
         <% end %>
-      <% else %>
-        <%= link_to 'Kit Sevener', sevener_kit_form_path, class: "btn btn-edit-green" %>
       <% end %>
     </div>
   </div>
