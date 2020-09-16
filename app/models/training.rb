@@ -214,18 +214,18 @@ class Training < ApplicationRecord
   end
 
   def export_numbers_activity
-    begin
-      to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == self.refid}
+    # begin
+      to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == [self.id]}
       to_delete.each{|x| x.destroy}
       card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
       self.sessions.each do |session|
         if session.date.present?
-          session.trainers.each do |trainer|
-            OverviewNumbersActivity.create('Training' => [card.id], )
+          session.session_trainers.each do |trainer|
+            OverviewNumbersActivity.create('Training' => [card.id], 'Date' => session.date.strftime('%Y-%m-%d'), 'Trainer' => [OverviewUser.all.select{|x| x['Builder_id'] == trainer.user_id}&.first.id], 'Hours' => session.duration)
           end
         end
       end
-    rescue
-    end
+    # rescue
+    # end
   end
 end

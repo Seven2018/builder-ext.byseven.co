@@ -108,6 +108,7 @@ class TrainingsController < ApplicationController
     @training.update(training_params)
     if @training.save
       @training.export_airtable
+      @training.export_numbers_activity
       redirect_to training_path(@training)
     else
       render :edit
