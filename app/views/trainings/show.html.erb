@@ -32,7 +32,10 @@
       </div>
     <% else %>
       <div class="page-controls-buttons flex-row-between-centered">
-       <!--  <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#reviewSevener' data-toggle="tooltip" title="Review"><i class="fas fa-copy"></i></a> -->
+        <!-- <a class='btn btn-edit-green btn-icon' data-toggle="tooltip" title="Review"><i class="fas fa-file-invoice-dollar"></i></a> -->
+        <%= link_to invoice_form_path(@training), class: 'btn btn-edit-green btn-icon', data: {toggle:'tooltip'}, title: 'Submit an invoice' do %>
+          <i class="fas fa-file-invoice-dollar"></i>
+        <% end %>
       </div>
     <% end %>
   </div>

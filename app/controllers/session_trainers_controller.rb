@@ -27,97 +27,97 @@ class SessionTrainersController < ApplicationController
     # Get the targeted session
     session_ids = Base64.decode64(params[:state]).split('|')[1].split(',')
     training = Session.find(session_ids[0]).training
-      # Calendars ids
-      calendars_ids = { 1 => 'yahya.fallah@byseven.co', 2 => 'brice.chapuis@byseven.co', 3 => 'thomas.fraudet@byseven.co', 4 => 'jorick.roustan@byseven.co', 5 => 'mathilde.meurer@byseven.co', 'other' => 'vum1670hi88jgei65u5uedb988@group.calendar.google.com', 39 => 'julie.falhun@byseven.co'}
+    # Calendars ids
+    calendars_ids = { 1 => 'yahya.fallah@byseven.co', 2 => 'brice.chapuis@byseven.co', 3 => 'thomas.fraudet@byseven.co', 4 => 'jorick.roustan@byseven.co', 5 => 'mathilde.meurer@byseven.co', 'other' => 'vum1670hi88jgei65u5uedb988@group.calendar.google.com', 39 => 'julie.falhun@byseven.co'}
 
-      # Lists the users and the events ids of the events to be deleted
-      to_delete_string = Base64.decode64(params[:state]).split('|').last.split('%').last
+    # Lists the users and the events ids of the events to be deleted
+    to_delete_string = Base64.decode64(params[:state]).split('|').last.split('%').last
 
-      # Deletes the events
-      to_delete_string.split(',').each do |pair|
-        key = pair.split(':')[0]
-        value = pair.split(':')[1]
-        begin
-          if %w(1 2 3 4 5 39).include?(key)
-            service.delete_event(calendars_ids[key], value) if value.present?
-          else
-            service.delete_event(calendars_ids['other'], value) if value.present?
-          end
-        rescue
+    # Deletes the events
+    to_delete_string.split(',').each do |pair|
+      key = pair.split(':')[0]
+      value = pair.split(':')[1]
+      begin
+        if %w(1 2 3 4 5 39).include?(key)
+          service.delete_event(calendars_ids[key.to_i], value) if value.present?
+        else
+          service.delete_event(calendars_ids['other'], value) if value.present?
         end
+      rescue
       end
+    end
 
-      command = Base64.decode64(params[:state]).split('|').first
-      if command[0...-1] == 'purge_session'
-        Session.where(id: session_ids).destroy_all
-        redirect_to training_path(training)
-        return
-      elsif command[0...-1] == 'purge_training'
-        training.destroy
-        redirect_to trainings_path
-        return
-      else
-        # Lists the users for whom an event will be created
-        list = command.split(',')
-        # Creates the event in all the targeted calendars
-        list.each do |ind|
-          Session.where(id: session_ids).each do |session|
-            day = session&.date
-            events = []
-            begin
-              break_position = session.workshops.find_by(title: 'Pause Déjeuner')&.position
-              if break_position.nil?
-                # Creates the event to be added to one or several calendars
+    command = Base64.decode64(params[:state]).split('|').first
+    if command[0...-1] == 'purge_session'
+      Session.where(id: session_ids).destroy_all
+      redirect_to training_path(training)
+      return
+    elsif command[0...-1] == 'purge_training'
+      training.destroy
+      redirect_to trainings_path
+      return
+    else
+      # Lists the users for whom an event will be created
+      list = command.split(',')
+      # Creates the event in all the targeted calendars
+      list.each do |ind|
+        Session.where(id: session_ids).each do |session|
+          day = session&.date
+          events = []
+          begin
+            break_position = session.workshops.find_by(title: 'Pause Déjeuner')&.position
+            if break_position.nil?
+              # Creates the event to be added to one or several calendars
+              events << Google::Apis::CalendarV3::Event.new({
+                start: {
+                  date_time: day.to_s+'T'+session.start_time.strftime('%H:%M:%S'),
+                  time_zone: 'Europe/Paris',
+                },
+                end: {
+                  date_time: day.to_s+'T'+session.end_time.strftime('%H:%M:%S'),
+                  time_zone: 'Europe/Paris',
+                },
+                summary: session.training.title
+              })
+            else
+              morning = [session.start_time]
+              morning_duration = session.workshops.where('position < ?', break_position).map(&:duration).sum
+              morning << session.start_time + morning_duration.minutes
+              afternoon = [session.end_time - session.workshops.where('position > ?', break_position).map(&:duration).sum.minutes, session.end_time]
+              [morning, afternoon].each do |event|
                 events << Google::Apis::CalendarV3::Event.new({
-                  start: {
-                    date_time: day.to_s+'T'+session.start_time.strftime('%H:%M:%S'),
-                    time_zone: 'Europe/Paris',
-                  },
-                  end: {
-                    date_time: day.to_s+'T'+session.end_time.strftime('%H:%M:%S'),
-                    time_zone: 'Europe/Paris',
-                  },
-                  summary: session.training.title
-                })
-              else
-                morning = [session.start_time]
-                morning_duration = session.workshops.where('position < ?', break_position).map(&:duration).sum
-                morning << session.start_time + morning_duration.minutes
-                afternoon = [session.end_time - session.workshops.where('position > ?', break_position).map(&:duration).sum.minutes, session.end_time]
-                [morning, afternoon].each do |event|
-                  events << Google::Apis::CalendarV3::Event.new({
-                  start: {
-                    date_time: day.to_s+'T'+event.first.strftime('%H:%M:%S'),
-                    time_zone: 'Europe/Paris',
-                  },
-                  end: {
-                    date_time: day.to_s+'T'+event.last.strftime('%H:%M:%S'),
-                    time_zone: 'Europe/Paris',
-                  },
-                  summary: session.training.title
-                })
-                end
+                start: {
+                  date_time: day.to_s+'T'+event.first.strftime('%H:%M:%S'),
+                  time_zone: 'Europe/Paris',
+                },
+                end: {
+                  date_time: day.to_s+'T'+event.last.strftime('%H:%M:%S'),
+                  time_zone: 'Europe/Paris',
+                },
+                summary: session.training.title
+              })
               end
-              events.each do |event|
-                if %w(1 2 3 4 5 39).include?(ind)
-                    create_calendar_id(ind, session.id, event, service, calendars_ids)
-                else
-                  sevener = User.find(ind)
-                  initials = sevener.firstname.first.upcase + sevener.lastname.first.upcase
-                  event.summary = session.training.client_company.name.upcase + " - " + session.training.title + " - " + initials
-                  event.id = SecureRandom.hex(32)
-                  session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first
-                  session_trainer.calendar_uuid.nil? ? session_trainer.update(calendar_uuid: event.id) : session_trainer.update(calendar_uuid: session_trainer.calendar_uuid + ' - ' + event.id)
-                  service.insert_event(calendars_ids['other'], event)
-                end
-              end
-            rescue
             end
+            events.each do |event|
+              if %w(1 2 3 4 5 39).include?(ind)
+                create_calendar_id(ind, session.id, event, service, calendars_ids)
+              else
+                sevener = User.find(ind)
+                initials = sevener.firstname.first.upcase + sevener.lastname.first.upcase
+                event.summary = session.training.title + " - " + initials
+                event.id = SecureRandom.hex(32)
+                session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first
+                session_trainer.calendar_uuid.nil? ? session_trainer.update(calendar_uuid: event.id) : session_trainer.update(calendar_uuid: session_trainer.calendar_uuid + ' - ' + event.id)
+                service.insert_event(calendars_ids['other'], event)
+              end
+            end
+          rescue
           end
         end
-        redirect_to training_path(training)
-        return
       end
+      redirect_to training_path(training)
+      return
+    end
   end
 
   # Allows management of SessionTrainers through a checkbox collection
@@ -133,6 +133,7 @@ class SessionTrainersController < ApplicationController
           event_to_delete+=trainer.user_id.to_s+':'+event_id+',' if trainer.calendar_uuid.present?
         end
       end
+      trainer.destroy
     end
     event_to_delete = event_to_delete[0...-1]
     # Select all Users whose checkbox is checked and create a SessionTrainer

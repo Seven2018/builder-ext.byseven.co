@@ -116,6 +116,7 @@ Rails.application.routes.draw do
   get 'training/redirect_docusign', to: 'trainings#redirect_docusign', as: 'redirect_docusign'
   post 'trainings/:id/certificate', to: 'trainings#certificate', as: 'certificate_training'
   post 'trainings/:id/certificate_rs', to: 'trainings#certificate_rs', as: 'certificate_rs_training'
+  get 'trainings/:id/invoice_form', to: 'trainings#invoice_form', as: 'invoice_form'
 
   # ATTENDEES
   resources :attendees, only: [:index, :show, :new, :create]

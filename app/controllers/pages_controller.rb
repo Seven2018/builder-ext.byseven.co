@@ -138,10 +138,6 @@ class PagesController < ApplicationController
     redirect_to trainings_path
   end
 
-  def airtable_partners_form
-
-  end
-
   def numbers_activity
     if params[:numbers_activity].present?
       @starts_at = params[:numbers_activity][:starts_at]

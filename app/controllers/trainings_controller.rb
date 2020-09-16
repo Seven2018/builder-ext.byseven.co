@@ -1,5 +1,5 @@
 class TrainingsController < ApplicationController
-  before_action :set_training, only: [:show, :edit, :update, :update_survey, :destroy, :copy, :sevener_billing, :export_airtable]
+  before_action :set_training, only: [:show, :edit, :update, :update_survey, :destroy, :copy, :sevener_billing, :invoice_form, :export_airtable]
 
   def index
     @sessions = Session.all
@@ -149,6 +149,12 @@ class TrainingsController < ApplicationController
   def sevener_billing
     authorize @training
     params[:filter].present? ? @user = User.find(params[:filter][:user]) : @user = current_user
+  end
+
+  def invoice_form
+    authorize @training
+    @user = OverviewUser.all.select{|x| x['Builder_id'] == current_user.id}&.first
+    @airtable_training = OverviewTraining.all.select{|x| x['Builder_id'] == @training.id}&.first
   end
 
   def certificate
