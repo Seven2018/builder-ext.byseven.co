@@ -137,7 +137,7 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
     # Select all Users whose checkbox is checked and create a SessionTrainer
-    array = params[:session][:user_ids].drop(1).map(&:to_i)
+    array = params[:session][:user_ids].reject(&:empty?.map(&:to_i)
     array.each do |ind|
       if SessionTrainer.where(session_id: @session.id, user_id: ind).empty?
         if @session.training.client_contact.client_company.client_company_type == 'Company'
@@ -156,7 +156,7 @@ class SessionTrainersController < ApplicationController
 
     trainers_list = ''
     @session.users.each do |user|
-      trainers_list += "#{user.id},"
+      trainers_list += "#{user&.id},"
     end
 
     if @session.date.present?
