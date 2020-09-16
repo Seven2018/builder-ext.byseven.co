@@ -41,7 +41,8 @@
   </div>
   <div class="middle-info">
     <div class='middle-info-main'>
-      <h3><%= @training.title %></h3>
+      <h3><strong><%= @training.client_contact.client_company.name %></strong></h3>
+      <h3 style='margin-bottom:1rem;'><%= @training.title %></h3>
       <p><%="From #{@training.sessions.order(date: :asc).first&.date&.strftime('%d/%m/%y')} to #{@training.sessions.order(date: :asc).last&.date&.strftime('%d/%m/%y')}" %></p>
     </div>
     <div class='middle-info-user'>

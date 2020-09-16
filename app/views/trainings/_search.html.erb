@@ -5,6 +5,7 @@
         <div class="card-main">
           <%= link_to training_path(training), class: 'stretched-link' do %>
             <div class='client-logo' style="background-image: url(<%= training.client_contact.client_company.logo %>); background-size: 5rem 5rem; background-repeat: no-repeat;"></div>
+            <h5 style='max-width: 18rem;'><strong><%= training.client_contact.client_company.name %></strong></h5>
             <h5 style='max-width: 18rem;'><%= training.title %></h5>
             <div class="card-infos">
               <% if training.sessions.present? %>

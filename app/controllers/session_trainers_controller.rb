@@ -77,7 +77,7 @@ class SessionTrainersController < ApplicationController
                   date_time: day.to_s+'T'+session.end_time.strftime('%H:%M:%S'),
                   time_zone: 'Europe/Paris',
                 },
-                summary: session.training.title
+                summary: session.training.client_company.name + session.training.title
               })
             else
               morning = [session.start_time]
@@ -94,7 +94,7 @@ class SessionTrainersController < ApplicationController
                   date_time: day.to_s+'T'+event.last.strftime('%H:%M:%S'),
                   time_zone: 'Europe/Paris',
                 },
-                summary: session.training.title
+                summary: session.training.client_company.name + session.training.title
               })
               end
             end
@@ -104,7 +104,7 @@ class SessionTrainersController < ApplicationController
               else
                 sevener = User.find(ind)
                 initials = sevener.firstname.first.upcase + sevener.lastname.first.upcase
-                event.summary = session.training.title + " - " + initials
+                event.summary = session.training.client_company.name + session.training.title + " - " + initials
                 event.id = SecureRandom.hex(32)
                 session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first
                 session_trainer.calendar_uuid.nil? ? session_trainer.update(calendar_uuid: event.id) : session_trainer.update(calendar_uuid: session_trainer.calendar_uuid + ' - ' + event.id)
