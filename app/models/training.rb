@@ -153,7 +153,6 @@ class Training < ApplicationRecord
         else
           existing_card['Status'] = 'En attente réalisation (sans sevener)'
         end
-        existing_card['Seveners to pay'] = seveners_to_pay
         existing_card['Seven Invoices'] = seven_invoices
         existing_card.save
       else
@@ -176,7 +175,6 @@ class Training < ApplicationRecord
             card['Customer Contact'] = [new_contact.id]
           end
         end
-        card['Seveners to pay'] = seveners_to_pay
         card['Seven Invoices'] = seven_invoices
         overview_update ? card['Overview - TF - updated'] = true : card['Overview - TF - updated'] = nil
         card.save
@@ -209,6 +207,8 @@ class Training < ApplicationRecord
         seveners_to_pay += "[ ] Aucun\n"
       end
       OverviewIntervention.all.select{|x| x['Training_refid'] == self.refid && array.exclude?(x['User_id'].to_i)}.each{|y| y.destroy}
+      existing_card['Seveners to pay'] = seveners_to_pay
+      existing_card.save
     rescue
     end
   end
