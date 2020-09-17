@@ -109,7 +109,7 @@ class Training < ApplicationRecord
   end
 
   def export_airtable
-    # begin
+    begin
       existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
       existing_contact = OverviewContact.find(existing_card['Partner Contact']&.join)
       overview_update = false
@@ -134,20 +134,23 @@ class Training < ApplicationRecord
       end
       seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
       if existing_card.present?
-        if self.client_contact.id != existing_contact['Builder_id']
-          new_contact = OverviewContact.all.select{|x| x['Builder_id'] == self.client_contact.id}
-          existing_card['Partner Contact'] = [new_contact.id]
+        begin
+          if self.client_contact.id != existing_contact['Builder_id']
+            new_contact = OverviewContact.all.select{|x| x['Builder_id'] == self.client_contact.id}
+            existing_card['Partner Contact'] = [new_contact.id]
+          end
+        rescue
         end
-        overview_update = true if existing_card['Title'] != self.title
+        # overview_update = true if existing_card['Title'] != self.title
         existing_card['Title'] = self.title
-
-        overview_update = true if existing_contact != OverviewContact.all.select{|x| x['Builder_id'] == self.client_contact.id}&.first
-        overview_update = true if existing_card['Owner'] != OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}
+        # overview_update = true if existing_contact != OverviewContact.all.select{|x| x['Builder_id'] == self.client_contact.id}&.first
+        # overview_update = true if (existing_card['Owner'] != OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}.map{|x| x.id}) && (existing_card['Owner'].present? || OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}.present?)
+        existing_card['Owner'] = OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}.map{|x| x.id}
         # overview_update = true if existing_card['Unit Price'] != self.unit_price
         # existing_card['Unit Price'] = self.unit_price
         # existing_card['VAT'] = self.vat
         existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
-        overview_update = true if existing_card['Builder Sessions Datetime'] != details
+        # overview_update = true if existing_card['Builder Sessions Datetime'] != details
         existing_card['Builder Sessions Datetime'] = details
         if to_date
           existing_card['Status'] = 'En attente (dates) - ALL'
@@ -159,10 +162,10 @@ class Training < ApplicationRecord
           existing_card['Status'] = 'En attente réalisation (sans sevener)'
         end
         existing_card['Seven Invoices'] = seven_invoices
-        overview_update ? existing_card['Overview - TF'] = true : existing_card['Overview - TF'] = nil
+        # overview_update ? existing_card['Overview - TF'] = true : existing_card['Overview - TF'] = nil
         existing_card.save
       else
-        card = OverviewTraining.create("Title" => self.title, "Reference SEVEN" => self.refid, "VAT" => self.vat, "Unit Price" => self.unit_price, "Details" => details, 'Export to Builder' => 'Updated')
+        card = OverviewTraining.create("Title" => self.title, "Reference SEVEN" => self.refid, "VAT" => self.vat, "Unit Price" => self.unit_price, "Details" => details)
         card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
         contact = OverviewContact.all.select{|x| x['Name'] == self.client_contact.name}
         client = OverviewClient.all.select{|x| x['Name'] == self.client_contact.client_company.name}
@@ -182,11 +185,11 @@ class Training < ApplicationRecord
           end
         end
         card['Seven Invoices'] = seven_invoices
-        card['Overview - TF - updated'] = true
+        # card['Overview - TF - updated'] = true
         card.save
       end
-    # rescue
-    # end
+    rescue
+    end
   end
 
   def export_trainer_airtable
