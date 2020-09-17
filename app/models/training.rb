@@ -109,10 +109,10 @@ class Training < ApplicationRecord
   end
 
   def export_airtable
-    begin
+    # begin
       existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
-      existing_contact = OverviewContact.find(existing_card['Partner Contact'].join)
-      overview_update = true
+      existing_contact = OverviewContact.find(existing_card['Partner Contact']&.join)
+      overview_update = false
       details = "Détail des sessions (date, horaires, intervenants):\n\n"
       seven_invoices = "Factures SEVEN :\n"
       self.invoice_items.where(type: 'Invoice').order(:id).each do |invoice|
@@ -138,11 +138,16 @@ class Training < ApplicationRecord
           new_contact = OverviewContact.all.select{|x| x['Builder_id'] == self.client_contact.id}
           existing_card['Partner Contact'] = [new_contact.id]
         end
+        overview_update = true if existing_card['Title'] != self.title
         existing_card['Title'] = self.title
-        existing_card['Unit Price'] = self.unit_price
-        existing_card['VAT'] = self.vat
+
+        overview_update = true if existing_contact != OverviewContact.all.select{|x| x['Builder_id'] == self.client_contact.id}&.first
+        overview_update = true if existing_card['Owner'] != OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}
+        # overview_update = true if existing_card['Unit Price'] != self.unit_price
+        # existing_card['Unit Price'] = self.unit_price
+        # existing_card['VAT'] = self.vat
         existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
-        overview_update = false if existing_card['Builder Sessions Datetime'] != details
+        overview_update = true if existing_card['Builder Sessions Datetime'] != details
         existing_card['Builder Sessions Datetime'] = details
         if to_date
           existing_card['Status'] = 'En attente (dates) - ALL'
@@ -154,6 +159,7 @@ class Training < ApplicationRecord
           existing_card['Status'] = 'En attente réalisation (sans sevener)'
         end
         existing_card['Seven Invoices'] = seven_invoices
+        overview_update ? existing_card['Overview - TF'] = true : existing_card['Overview - TF'] = nil
         existing_card.save
       else
         card = OverviewTraining.create("Title" => self.title, "Reference SEVEN" => self.refid, "VAT" => self.vat, "Unit Price" => self.unit_price, "Details" => details, 'Export to Builder' => 'Updated')
@@ -176,11 +182,11 @@ class Training < ApplicationRecord
           end
         end
         card['Seven Invoices'] = seven_invoices
-        overview_update ? card['Overview - TF - updated'] = true : card['Overview - TF - updated'] = nil
+        card['Overview - TF - updated'] = true
         card.save
       end
-    rescue
-    end
+    # rescue
+    # end
   end
 
   def export_trainer_airtable
@@ -227,5 +233,26 @@ class Training < ApplicationRecord
       end
     rescue
     end
+  end
+
+  def export_numbers_sevener(user)
+    # begin
+      sevener = OverviewUser.all.select{|x| x['Builder_id'] == user.id}&.first
+      card = OverviewNumbersSevener.all.select{|x| x['Reference SEVEN'] == self.refid && x['User'] == [sevener.id]}&.first
+      invoices = OverviewInvoiceSevener.all.select{|x| x['Training Reference'] == self.refid && x['Sevener'] == [sevener.id]}
+      dates = ''
+      unless card.present?
+        card = OverviewNumbersSevener.create('Training' => [OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first.id], 'Sevener' => [sevener.id])
+      end
+      card['Invoices Sevener'] = invoices.map{|x| x.id}
+      card['Total Owed'] = invoices.map{|x| x['Amount']}.sum
+      card['Total Paid'] = invoices.map{|x| x['Amount'] if x['Paid'] == true}.sum
+      self.sessions.each do |session|
+        dates += session.date.strftime('%d/%m/%Y') + "\n" if session.users.include?(user)
+      end
+      card['Dates'] = dates
+      card.save
+    # rescue
+    # end
   end
 end
