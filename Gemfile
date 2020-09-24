@@ -43,6 +43,9 @@ gem 'bootstrap',     '4.3.1'
 gem 'material-sass', git: 'https://github.com/bricechapuis/material-sass'
 gem 'exception_handler', '~> 0.8.0.0'
 gem 'airrecord'
+gem 'sidekiq'
+gem 'redis-rails'
+gem 'sucker_punch', '~> 2.0'
 
 
 gem 'dotenv-rails', groups: [:development, :test]

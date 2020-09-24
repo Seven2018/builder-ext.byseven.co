@@ -160,13 +160,14 @@ class SessionTrainersController < ApplicationController
     end
 
     if @session.date.present?
-      begin
-        @session.training.export_airtable
-        @session.training.export_trainer_airtable
-        @session.training.export_numbers_activity
-        # @session.users.where(access_level: ['sevener', 'sevener+']).each{|x| @session.training.export_numbers_sevener(x)}
-      rescue
-      end
+      # begin
+        UpdateAirtableJob.perform_async(@session.training, true, false)
+        # @session.training.export_airtable
+        # @session.training.export_trainer_airtable
+        # @session.training.export_numbers_activity
+        @session.users.where(access_level: ['sevener', 'sevener+']).each{|x| @session.training.export_numbers_sevener(x)}
+      # rescue
+      # end
       redirect_to redirect_path(list: trainers_list, session_id: "|#{@session.id}|", to_delete: "%#{event_to_delete}%")
     else
       redirect_back(fallback_location: root_path)
@@ -217,9 +218,10 @@ class SessionTrainersController < ApplicationController
       trainers_list += "#{user.id},"
     end
 
-    training.export_airtable
-    training.export_trainer_airtable
-    training.export_numbers_activity
+    UpdateAirtableJob.perform_async(training, true, true)
+    # training.export_airtable
+    # training.export_trainer_airtable
+    # training.export_numbers_activity
     redirect_to redirect_path(list: trainers_list, session_id: "|#{training.sessions.ids.join(',')}|", to_delete: "%#{event_to_delete}%")
   end
 
@@ -233,8 +235,9 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    @session.training.export_airtable
-    @session.training.export_trainer_airtable
+    UpdateAirtableJob.perform_async(@session.training, true)
+    # @session.training.export_airtable
+    # @session.training.export_trainer_airtable
     redirect_to redirect_path(session_id: "|#{@session.id}|", list: 'purge_session', to_delete: "%#{event_to_delete}%")
   end
 
@@ -252,8 +255,9 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    training.export_airtable
-    training.export_trainer_airtable
+    UpdateAirtableJob.perform_async(training, true)
+    # training.export_airtable
+    # training.export_trainer_airtable
     redirect_to redirect_path(session_id: "|#{sessions_ids[0...-1]}|", list: 'purge_training', to_delete: "%#{event_to_delete}%")
   end
 

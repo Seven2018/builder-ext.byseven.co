@@ -105,7 +105,7 @@ class InvoiceItemsController < ApplicationController
       end
       InvoiceLine.create(invoice_item: @invoice, description: @training.title, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id, position: 1)
     end
-    update_price(@invoice)
+    @invoice.update_price
     if @invoice.save
       redirect_to invoice_item_path(@invoice)
     end
@@ -144,7 +144,7 @@ class InvoiceItemsController < ApplicationController
       preparation = Product.find(3)
       InvoiceLine.create(invoice_item: @invoice, description: 'Préparation formation', quantity: 1, net_amount: airtable_training['Preparation'], tax_amount: preparation.tax, product_id: preparation.id, position: 2)
     end
-    update_price(@invoice)
+    @invoice.update_price
     if @invoice.save
       redirect_to invoice_item_path(@invoice)
     end
@@ -180,7 +180,7 @@ class InvoiceItemsController < ApplicationController
       new_line.comments = comments
       new_line.save
       new_invoice.save
-      update_price(new_invoice)
+      new_invoice.update_price
     end
     redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
   end
@@ -212,7 +212,7 @@ class InvoiceItemsController < ApplicationController
         new_line.comments = comments
         new_line.save
         new_invoice.save
-        update_price(new_invoice)
+        new_invoice.update_price
       end
     end
     redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
@@ -220,42 +220,42 @@ class InvoiceItemsController < ApplicationController
   end
 
   # Creates a new InvoiceItem (Sevener PoV), proposing a pre-filled version to be edited if necessary
-  def new_sevener_invoice
-    @training = Training.find(params[:training_id])
-    params[:billing].present? ? sevener = current_user : sevener = User.find(params[:new_order][:user])
-    @sevener_invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @training.client_company.id, user_id: sevener.id, type: 'Order')
-    authorize @sevener_invoice
-    # Attributes a invoice number to the InvoiceItem
-    InvoiceItem.where(type: 'Order').all.count != 0 ? (@sevener_invoice.uuid = "BC#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Order').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@sevener_invoice.uuid = "BC#{Date.today.strftime('%Y')}00001")
-    @sevener_invoice.save
-    if @training.client_contact.client_company.client_company_type == 'Entreprise'
-      product = Product.find(10)
-    else
-      product = Product.find(11)
-    end
-    # Fills the created InvoiceItem with InvoiceLines, according Training data
-    quantity = 0
-    if params[:billing].present?
-      unit_price = 0
-      comments = "<p>D&eacute;tail des s&eacute;ances (date, horaires) :<br />\r\n"
-      SessionTrainer.where(session_id: params[:billing][:sessions_ids][1..-1], user_id: sevener.id).each do |session_trainer|
-        quantity += session_trainer.session.duration
-        session_trainer.update(status: 'Order created', invoice_item_id: @sevener_invoice.id)
-        unit_price = session_trainer.unit_price
-        comments += "- le #{session_trainer.session.date.strftime('%d/%m/%Y')} - durée : #{session_trainer.session.duration}h<br />\r\n"
-      end
-      InvoiceLine.create(invoice_item: @sevener_invoice, description: @training.title, quantity: quantity, net_amount: unit_price, tax_amount: 0, product_id: product.id, position: 1, comments: comments)
-    else
-      SessionTrainer.where(session_id: @training.sessions.map(&:id), user_id: sevener.id).each do |session_trainer|
-        quantity += session_trainer.session.duration
-        session_trainer.update(status: 'Order created', invoice_item_id: @sevener_invoice.id)
-        unit_price = session_trainer.unit_price
-      end
-      InvoiceLine.create(invoice_item: @sevener_invoice, description: @training.title, quantity: quantity, net_amount: product.price, tax_amount: 0, product_id: product.id, position: 1)
-    end
-    update_price(@sevener_invoice)
-    redirect_to invoice_item_path(@sevener_invoice)
-  end
+  # def new_sevener_invoice
+  #   @training = Training.find(params[:training_id])
+  #   params[:billing].present? ? sevener = current_user : sevener = User.find(params[:new_order][:user])
+  #   @sevener_invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @training.client_company.id, user_id: sevener.id, type: 'Order')
+  #   authorize @sevener_invoice
+  #   # Attributes a invoice number to the InvoiceItem
+  #   InvoiceItem.where(type: 'Order').all.count != 0 ? (@sevener_invoice.uuid = "BC#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Order').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@sevener_invoice.uuid = "BC#{Date.today.strftime('%Y')}00001")
+  #   @sevener_invoice.save
+  #   if @training.client_contact.client_company.client_company_type == 'Entreprise'
+  #     product = Product.find(10)
+  #   else
+  #     product = Product.find(11)
+  #   end
+  #   # Fills the created InvoiceItem with InvoiceLines, according Training data
+  #   quantity = 0
+  #   if params[:billing].present?
+  #     unit_price = 0
+  #     comments = "<p>D&eacute;tail des s&eacute;ances (date, horaires) :<br />\r\n"
+  #     SessionTrainer.where(session_id: params[:billing][:sessions_ids][1..-1], user_id: sevener.id).each do |session_trainer|
+  #       quantity += session_trainer.session.duration
+  #       session_trainer.update(status: 'Order created', invoice_item_id: @sevener_invoice.id)
+  #       unit_price = session_trainer.unit_price
+  #       comments += "- le #{session_trainer.session.date.strftime('%d/%m/%Y')} - durée : #{session_trainer.session.duration}h<br />\r\n"
+  #     end
+  #     InvoiceLine.create(invoice_item: @sevener_invoice, description: @training.title, quantity: quantity, net_amount: unit_price, tax_amount: 0, product_id: product.id, position: 1, comments: comments)
+  #   else
+  #     SessionTrainer.where(session_id: @training.sessions.map(&:id), user_id: sevener.id).each do |session_trainer|
+  #       quantity += session_trainer.session.duration
+  #       session_trainer.update(status: 'Order created', invoice_item_id: @sevener_invoice.id)
+  #       unit_price = session_trainer.unit_price
+  #     end
+  #     InvoiceLine.create(invoice_item: @sevener_invoice, description: @training.title, quantity: quantity, net_amount: product.price, tax_amount: 0, product_id: product.id, position: 1)
+  #   end
+  #   @sevener_invoice.update_price
+  #   redirect_to invoice_item_path(@sevener_invoice)
+  # end
 
 
   def new_estimate
@@ -272,7 +272,7 @@ class InvoiceItemsController < ApplicationController
         quantity = 0
         InvoiceLine.create(invoice_item: @estimate, description: product.name, quantity: 0, net_amount: product.price, tax_amount: product.tax, position: 1, product_id: 1)
       end
-      update_price(@estimate)
+      @estimate.update_price
       redirect_to invoice_item_path(@estimate)
     end
   end
@@ -491,18 +491,6 @@ class InvoiceItemsController < ApplicationController
     elsif params[:type] == 'Order'
       @invoice_items = InvoiceItem.where(training_id: params[:training_id], type: 'Order')
     end
-  end
-
-  # Updates InvoiceItem price and tax amount
-  def update_price(invoice)
-    total = 0
-    tax = 0
-    invoice.invoice_lines.each do |line|
-      total += line.quantity * line.net_amount * (1 + line.tax_amount/100)
-      tax += line.quantity * line.net_amount * (line.tax_amount/100)
-    end
-    invoice.update(total_amount: total, tax_amount: tax)
-    invoice.save
   end
 
   def client_options

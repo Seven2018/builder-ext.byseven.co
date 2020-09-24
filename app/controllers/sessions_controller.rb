@@ -37,7 +37,7 @@ class SessionsController < ApplicationController
     authorize @session
     @session.training = @training
     if @session.save
-      @training.export_airtable
+      UpdateAirtableJob.perform_async(@training)
       redirect_to training_path(@training)
     end
   end
@@ -71,7 +71,7 @@ class SessionsController < ApplicationController
       @training.export_airtable
       redirect_to redirect_path(session_id: "|#{@session.id}|", list: trainers_list, to_delete: "%#{event_to_delete}%")
     elsif @session.save
-      @training.export_airtable
+      UpdateAirtableJob.perform_async(@training, true)
       redirect_to training_path(@session.training)
     else
       redirect_to training_path(@session.training)
@@ -83,7 +83,7 @@ class SessionsController < ApplicationController
     @training = Training.find(params[:training_id])
     authorize @session
     @session.destroy
-    @training.export_airtable
+    UpdateAirtableJob.perform_async(@training, true)
     redirect_to training_path(@training)
   end
 
