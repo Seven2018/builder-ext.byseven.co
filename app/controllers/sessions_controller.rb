@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
   def update
     @training = Training.find(params[:training_id])
     authorize @session
-    @session.update(session_params)
+    @session.update(session_params.except(:lunch_duration))
 
     trainers_list = ''
     @session.users.each do |user|
@@ -173,6 +173,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id, :duration, :attendee_number, :description, :teaser, :image, :address, :room, { user_ids: [] }, session_trainers_attributes: [:id, :session_id, :user_id])
+    params.require(:session).permit(:title, :date, :start_time, :end_time, :training_id, :duration, :lunch_duration, :attendee_number, :description, :teaser, :image, :address, :room, { user_ids: [] }, session_trainers_attributes: [:id, :session_id, :user_id])
   end
 end

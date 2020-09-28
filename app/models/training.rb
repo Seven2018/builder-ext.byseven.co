@@ -118,21 +118,27 @@ class Training < ApplicationRecord
       self.invoice_items.where(type: 'Invoice').order(:id).each do |invoice|
         invoice.status == 'Paid' ? seven_invoices += "[x] #{invoice.uuid}" : seven_invoices += "[ ] #{invoice.uuid}"
       end
-      # to_date, to_staff, seveners = false, false, false
       self.sessions.each do |session|
         if session.date.present?
           details += "- #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}"
           if session.session_trainers.present?
-            details += " - #{(session.session_trainers.map{|x| x.initials}).join(', ')}\n"
+            trainers = ""
+            session.session_trainers.each do |trainer|
+              user = OverviewUser.all.select{|x| x['Builder_id'] == trainer.user.id}&.first
+              if user['Tag'].present?
+                trainers += "#{user['Tag']}, "
+              else
+                trainers += trainer.user.fullname + ', '
+              end
+            end
+            trainers = trainers.chomp(', ') + "\n"
+            details += " - " + trainers + "\n"
           else
             details += " - A STAFFER\n"
-            # to_staff = true
+
           end
-        # else
-        #   to_date = true
         end
       end
-      # seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
       if existing_card.present?
         begin
           if self.client_contact.id != existing_contact['Builder_id']
@@ -145,15 +151,7 @@ class Training < ApplicationRecord
         existing_card['Owner'] = OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}.map{|x| x.id}
         existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
         existing_card['Builder Sessions Datetime'] = details
-        # if to_date
-        #   existing_card['Status'] = 'En attente (dates) - ALL'
-        # elsif to_staff
-        #   existing_card['Status'] = 'En attente (staff) - ALL'
-        # elsif seveners
-        #   existing_card['Status'] = 'En attente réalisation (avec sevener)'
-        # else
-        #   existing_card['Status'] = 'En attente réalisation (sans sevener)'
-        # end
+
         existing_card['Seven Invoices'] = seven_invoices
         existing_card.save
       else

@@ -88,7 +88,6 @@ class InvoiceItemsController < ApplicationController
       InvoiceItem.where(type: 'Estimate').count != 0 ? (@invoice.uuid = "DE#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Estimate').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "DE#{Date.today.strftime('%Y')}00001")
     end
     @invoice.status = 'En attente'
-      # @invoice.type == 'Invoice' ? @invoice.status = 'Non payée' : @invoice.status = 'En attente'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
     if @training.client_contact.client_company.client_company_type == 'Company'
       product = Product.find(2)
@@ -107,10 +106,12 @@ class InvoiceItemsController < ApplicationController
     end
     @invoice.update_price
     if @invoice.save
+      @invoice.export_numbers_revenue
       redirect_to invoice_item_path(@invoice)
     end
   end
 
+  # Creates a new InvoiceItem using data from Airtable DB
   def new_airtable_invoice_item
     @training = Training.find(params[:training_id])
     airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
@@ -146,10 +147,12 @@ class InvoiceItemsController < ApplicationController
     end
     @invoice.update_price
     if @invoice.save
+      @invoice.export_numbers_revenue
       redirect_to invoice_item_path(@invoice)
     end
   end
 
+  # Creates new InvoiceItems using data from Airtable DB for each trainer
   def new_airtable_invoice_item_by_trainer
     skip_authorization
     @training = Training.find(params[:training_id])
@@ -181,10 +184,12 @@ class InvoiceItemsController < ApplicationController
       new_line.save
       new_invoice.save
       new_invoice.update_price
+      new_invoice.export_numbers_revenue
     end
     redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
   end
 
+  # Creates new InvoiceItems using data from Airtable DB for each attendee
   def new_airtable_invoice_item_by_attendee
     skip_authorization
     @training = Training.find(params[:training_id])
@@ -213,50 +218,12 @@ class InvoiceItemsController < ApplicationController
         new_line.save
         new_invoice.save
         new_invoice.update_price
+        new_invoice.export_numbers_revenue
       end
     end
     redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
     flash[:alert] = "This training unit type is not defined as 'Participant' in Airtable." unless airtable_training['Unit Type'] == 'Participant'
   end
-
-  # Creates a new InvoiceItem (Sevener PoV), proposing a pre-filled version to be edited if necessary
-  # def new_sevener_invoice
-  #   @training = Training.find(params[:training_id])
-  #   params[:billing].present? ? sevener = current_user : sevener = User.find(params[:new_order][:user])
-  #   @sevener_invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @training.client_company.id, user_id: sevener.id, type: 'Order')
-  #   authorize @sevener_invoice
-  #   # Attributes a invoice number to the InvoiceItem
-  #   InvoiceItem.where(type: 'Order').all.count != 0 ? (@sevener_invoice.uuid = "BC#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Order').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@sevener_invoice.uuid = "BC#{Date.today.strftime('%Y')}00001")
-  #   @sevener_invoice.save
-  #   if @training.client_contact.client_company.client_company_type == 'Entreprise'
-  #     product = Product.find(10)
-  #   else
-  #     product = Product.find(11)
-  #   end
-  #   # Fills the created InvoiceItem with InvoiceLines, according Training data
-  #   quantity = 0
-  #   if params[:billing].present?
-  #     unit_price = 0
-  #     comments = "<p>D&eacute;tail des s&eacute;ances (date, horaires) :<br />\r\n"
-  #     SessionTrainer.where(session_id: params[:billing][:sessions_ids][1..-1], user_id: sevener.id).each do |session_trainer|
-  #       quantity += session_trainer.session.duration
-  #       session_trainer.update(status: 'Order created', invoice_item_id: @sevener_invoice.id)
-  #       unit_price = session_trainer.unit_price
-  #       comments += "- le #{session_trainer.session.date.strftime('%d/%m/%Y')} - durée : #{session_trainer.session.duration}h<br />\r\n"
-  #     end
-  #     InvoiceLine.create(invoice_item: @sevener_invoice, description: @training.title, quantity: quantity, net_amount: unit_price, tax_amount: 0, product_id: product.id, position: 1, comments: comments)
-  #   else
-  #     SessionTrainer.where(session_id: @training.sessions.map(&:id), user_id: sevener.id).each do |session_trainer|
-  #       quantity += session_trainer.session.duration
-  #       session_trainer.update(status: 'Order created', invoice_item_id: @sevener_invoice.id)
-  #       unit_price = session_trainer.unit_price
-  #     end
-  #     InvoiceLine.create(invoice_item: @sevener_invoice, description: @training.title, quantity: quantity, net_amount: product.price, tax_amount: 0, product_id: product.id, position: 1)
-  #   end
-  #   @sevener_invoice.update_price
-  #   redirect_to invoice_item_path(@sevener_invoice)
-  # end
-
 
   def new_estimate
     @client_company = ClientCompany.find(params[:client_company_id])
@@ -301,6 +268,7 @@ class InvoiceItemsController < ApplicationController
     end
   end
 
+  # Allows the duplication of an InvoiceItem within the same Training
   def copy_here
     authorize @invoice_item
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
@@ -373,7 +341,7 @@ class InvoiceItemsController < ApplicationController
     end
   end
 
-    # Marks an InvoiceItem as reminded
+  # Marks an InvoiceItem as reminded
   def marked_as_reminded
     authorize @invoice_item
     index_filtered
@@ -384,97 +352,45 @@ class InvoiceItemsController < ApplicationController
     end
   end
 
-  # Uploads to a GoogleSheet (not used)
-  def upload_to_sheet
-    @invoice_items = InvoiceItem.where({ created_at: Time.current.beginning_of_year..Time.current.end_of_year }).order(:created_at)
-    authorize @invoice_items
-    # session = GoogleDrive::Session.from_service_account_key("client_secret.json")
-    session = GoogleDrive::Session.from_config("client_secret.json")
-    spreadsheet = session.spreadsheet_by_title("Copie de Seven Numbers #{Time.current.year}")
-    worksheet = spreadsheet.worksheets.first
-    row = 2
-      @invoice_items.each do |item|
-        startdate = item.training.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')
-        enddate = item.training.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')
-        client = item.client_company.name
-        training_name = item.training.title
-        trello = ''
-        unit = 0
-        unit_price = 0
-        variable = 0
-        fixed = 0
-        caution = 0
-        expenses = 0
-        expenses_out = 0
-        item.invoice_lines.each do |line|
-          unit += line.quantity if ((line.product = Product.find(1) || line.product == Product.find(2) || line.product == Product.find(7) || line.product == Product.find(9)) && line.quantity.present?)
-          unit_price += line.net_amount if ((line.product = Product.find(1) || line.product == Product.find(2)) && line.quantity.present? )
-          variable += line.quantity * line.net_amount if (line.quantity.present? && line.net_amount.present?)
-          fixe += line.quantity * line.net_amount if (line.quantity.present? && line.net_amount.present? && line.product.product_type == 'Préparation')
-          caution += line.quantity * line.net_amount if (line.quantity.present? && line.net_amount.present? && line.product.product_type == 'Caution')
-          expenses += line.quantity * line.net_amount if (line.quantity.present? && line.net_amount.present? && line.product.product_type == 'Frais')
-        end
-        item.training.client_company.client_company_type == 'Company' ? nature = 'j' : nature = 'h'
-        description = item.description
-        vat = item.tax_amount
-        revenue = item.total_amount
-        num = item.uuid
-        sending = item.sending_date&.strftime('%d/%m/%y') if item.sending_date.present?
-        dunning = item.dunning_date&.strftime('%d/%m/%y') if item.dunning_date.present?
-        payment = item.payment_date&.strftime('%d/%m/%y') if item.payment_date.present?
-        worksheet.insert_rows(row, [[startdate, enddate, client, training_name, trello, unit, nature, unit_price, variable, fixed, caution, vat, expenses, expenses_out, description, revenue, num, sending, dunning, payment]])
-        row += 1
-        item.training.trainers.each do |trainer|
-          if trainer.access_level == 'sevener'
-            worksheet.insert_rows(row, [[startdate, enddate, client, training_name, trello, '0', '', '0', '', '', '', '', '', '', '', '0', '/', '/', '/', '/', '/', '/', "#{trainer.firstname} #{trainer.lastname}", '01/01/20', '','480', '01/01/20']])
-            row += 1
-          end
-        end
-      end
-    # end
-    # worksheet.delete_rows((Invoice.count+1), 1)
-    worksheet.save
-    redirect_back(fallback_location: root_path)
-    flash[:notice] = "Uploadé avec succès"
-  end
-
+  # Destroys an InvoiceItem
   def destroy
     authorize @invoice_item
     @invoice_item.destroy
     redirect_to client_company_path(@invoice_item.client_company)
   end
 
-  def redirect_upload_to_drive
-    skip_authorization
-    client = Signet::OAuth2::Client.new(client_options)
-    # Allows to pass informations through the Google Auth as a complex string
-    client.update!(state: Base64.encode64(params[:invoice_item_id] + '|' + params[:file].tempfile))
-    redirect_to client.authorization_uri.to_s
-  end
+  # Upload to GDrive
+  # def redirect_upload_to_drive
+  #   skip_authorization
+  #   client = Signet::OAuth2::Client.new(client_options)
+  #   # Allows to pass informations through the Google Auth as a complex string
+  #   client.update!(state: Base64.encode64(params[:invoice_item_id] + '|' + params[:file].tempfile))
+  #   redirect_to client.authorization_uri.to_s
+  # end
 
-  def upload_to_drive
-    # @invoice_item = InvoiceItem.find(Base64.decode64(params[:state]).split('|').first)
-    @invoice_item = InvoiceItem.find(params[:invoice_item_id])
-    # file_path = Base64.decode64(params[:state]).split('|').last
-    file_path = params[:file].tempfile
-    authorize @invoice_item
-    require 'google/apis/drive_v3'
+  # def upload_to_drive
+  #   # @invoice_item = InvoiceItem.find(Base64.decode64(params[:state]).split('|').first)
+  #   @invoice_item = InvoiceItem.find(params[:invoice_item_id])
+  #   # file_path = Base64.decode64(params[:state]).split('|').last
+  #   file_path = params[:file].tempfile
+  #   authorize @invoice_item
+  #   require 'google/apis/drive_v3'
 
-    access_token = AccessToken.new 'SECRET_TOKEN'
-    drive_service = Google::Apis::DriveV3::DriveService.new
-    # client = Signet::OAuth2::Client.new(client_options)
-    client = Signet::OAuth2::Client.new(client_options)
-    drive_service.authorization = access_token
+  #   access_token = AccessToken.new 'SECRET_TOKEN'
+  #   drive_service = Google::Apis::DriveV3::DriveService.newc
+  #   # client = Signet::OAuth2::Client.new(client_options)
+  #   client = Signet::OAuth2::Client.new(client_options)
+  #   drive_service.authorization = access_token
 
-    # metadata = Drive::File.new(title: 'My document')
-    # metadata = drive.insert_file(metadata, upload_source: 'test.txt', content_type: 'text/plain')
-    file_metadata = {
-      name: 'my_file_name.pdf',
-      # parents: [folder_id],
-      description: 'This is my file'
-    }
-    file = drive_service.create_file(file_metadata, upload_source: file_path, fields: 'id')
-  end
+  #   # metadata = Drive::File.new(title: 'My document')
+  #   # metadata = drive.insert_file(metadata, upload_source: 'test.txt', content_type: 'text/plain')
+  #   file_metadata = {
+  #     name: 'my_file_name.pdf',
+  #     # parents: [folder_id],
+  #     description: 'This is my file'
+  #   }
+  #   file = drive_service.create_file(file_metadata, upload_source: file_path, fields: 'id')
+  # end
 
   private
 

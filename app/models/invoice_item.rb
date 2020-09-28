@@ -89,6 +89,7 @@ class InvoiceItem < ApplicationRecord
     end
   end
 
+  # Exports the data to Airtable DB
   def export_numbers_revenue
     begin
       return if self.type != 'Invoice'
@@ -99,22 +100,22 @@ class InvoiceItem < ApplicationRecord
       end
       lines = []
       if self.products.include?(Product.find(1))
-        lines = self.invoice_lines.select{|x| x.product = Product.find(1)}
+        lines = self.invoice_lines.select{|x| x.product == Product.find(1)}
       elsif self.products.include?(Product.find(2))
-        lines = self.invoice_lines.select{|x| x.product = Product.find(2)}
+        lines = self.invoice_lines.select{|x| x.product == Product.find(2)}
       elsif self.products.include?(Product.find(7))
-        lines = self.invoice_lines.select{|x| x.product = Product.find(7)}
+        lines = self.invoice_lines.select{|x| x.product == Product.find(7)}
       else
         invoice['Unit Number'] = 0
       end
       invoice['Unit Price'] = (lines.map{|x| x&.net_amount}&.sum / lines&.length).to_f
       invoice['Unit Number'] = lines.map{|x| x&.quantity}&.sum
       if self.products.include?(Product.find(3))
-        lines = self.invoice_lines.select{|x| x.product = Product.find(3)}
+        lines = self.invoice_lines.select{|x| x.product == Product.find(3)}
         invoice['Preparation'] = lines.map{|x| x.net_amount * x.quantity}.sum.to_f
       end
       if self.products.include?(Product.find(8))
-        lines = self.invoice_lines.select{|x| x.product = Product.find(8)}
+        lines = self.invoice_lines.select{|x| x.product == Product.find(8)}
         invoice['Deposit'] = lines.map{|x| x.net_amount * x.quantity}.sum.to_f
       end
       expenses = (self.products & [Product.find(4), Product.find(5), Product.find(6)])
@@ -125,6 +126,7 @@ class InvoiceItem < ApplicationRecord
       self.update_price
       invoice['Former / Credit / New'] = 'Credit' if self.total_amount < 0
       invoice['VAT'] = self.tax_amount.to_f
+      invoice['OPCO'] = self.client_company.name if self.client_company.client_company_type == 'OPCO'
       invoice.save
     rescue
     end

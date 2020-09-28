@@ -12,7 +12,7 @@
       <%= f.input :client_contact_id, :collection => ClientContact.all.joins(:client_company).order('client_companies.name ASC, client_contacts.name ASC'), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name.split.map(&:capitalize).join(' ')}" }, :label => 'Customer contact', :include_blank => false %>
       <div style='display:flex;justify-content:space-between;'>
         <%= f.input :unit_price, input_html: {value: 0} %>
-        <%= f.input :vat, as: :radio_buttons, checked: false,  label: 'VAT' %>
+        <%# f.input :vat, as: :radio_buttons, checked: false,  label: 'VAT' %>
       </div>
       <div class='form-group' style='display:flex;justify-content:space-between;'>
         <%= f.label :mode %>
