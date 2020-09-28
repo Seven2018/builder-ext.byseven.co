@@ -183,7 +183,7 @@ class Training < ApplicationRecord
   end
 
   def export_trainer_airtable
-    # begin
+    begin
       existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
       seveners_to_pay = ""
       seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
@@ -193,7 +193,7 @@ class Training < ApplicationRecord
         self.trainers.each do |user|
           trainer = OverviewUser.all.select{|x| x['Builder_id'] == user.id }&.first
           array_intervention << user.id
-          array_trainers << trainer.id
+          array_trainers << trainer.id if trainer.present?
           if ['sevener+', 'sevener'].include?(user.access_level)
             seveners_to_pay += "[ ] #{user.fullname} : #{user.hours(self)}h x #{unit_price}€ = #{user.hours(self)*unit_price}€\n"
             intervention = OverviewIntervention.all.select{|x| x['Training_refid'] == self.refid && x['User_id'] == "#{user.id}"}&.first
@@ -212,8 +212,8 @@ class Training < ApplicationRecord
       existing_card['Seveners to pay'] = seveners_to_pay
       existing_card['Trainers'] = array_trainers
       existing_card.save
-    # rescue
-    # end
+    rescue
+    end
   end
 
   def export_numbers_activity
