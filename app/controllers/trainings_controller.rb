@@ -108,6 +108,7 @@ class TrainingsController < ApplicationController
     @training.update(training_params)
     if @training.save
       UpdateAirtableJob.perform_async(@training)
+      @training.export_trainer_airtable
       redirect_to training_path(@training)
     else
       render :edit

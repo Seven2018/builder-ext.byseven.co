@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
 
   def create
     @training = Training.find(params[:training_id])
-    @session = Session.new(session_params)
+    @session = Session.new(session_params.except(:lunch_duration))
     authorize @session
     @session.training = @training
     if @session.save

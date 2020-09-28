@@ -24,7 +24,7 @@
       <% end %>
       <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
         <%= link_to new_training_path do %>
-          <button class="btn btn-edit-yellow">New Training</button>
+          <!-- <button class="btn btn-edit-yellow">New Training</button> -->
         <% end %>
         <% last_update = OverviewTraining.all.select{|x| x['Builder Update'].present?}.sort{|x,y| x['Builder Update'].to_date <=> y['Builder Update'].to_date}.first %>
         <%= link_to import_airtable_path do %>

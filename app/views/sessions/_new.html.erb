@@ -15,7 +15,7 @@
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker', style: 'width:11rem;'} %>
         <%= f.input :lunch_duration, as: :integer, label: 'Lunch Duration (hours)', input_html: {value: 1, style: 'width:13rem;', id: 'new_lunch_duration'} %>
-        <%= f.input :duration, label: "Duration (hours)", input_html: {value: 8, min: 0, style: 'width:11rem;', id: 'new_duration'}, allow_blank: false, disabled: true %>
+        <%= f.input :duration, label: "Duration (hours)", input_html: {value: 8, min: 0, style: 'width:11rem;', id: 'new_duration'}, allow_blank: false %>
       </div>
       <div class='mod-date'>
         <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: 'timepicker new_start_time', style: 'width:5rem;'}, default: Time.parse('9:00') %>
