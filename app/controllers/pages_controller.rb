@@ -104,29 +104,27 @@ class PagesController < ApplicationController
   def import_airtable
     skip_authorization
     OverviewTraining.all.each do |card|
-      if card['Status'] != 'Filon - ALL' && !card['Builder_id'].present?
+      if card['Reference SEVEN'].present?
+        training = Training.find_by(refid: card['Reference SEVEN'])
+        training.update(title: card['Title'], vat: vat, unit_price: card['Unit Price'])
+      else
         contact = OverviewContact.find(card['Partner Contact'].join)
         company = OverviewClient.find(contact['Company/School'].join)
-        if card['Reference SEVEN'].present?
-          training = Training.find_by(refid: card['Reference SEVEN'])
-          training.update(title: card['Title'], vat: vat, unit_price: card['Unit Price'])
-        else
-          if contact['Builder_id'].nil?
-            if company['Builder_id'].nil?
-              new_company = ClientCompany.create(name: company['Name'], address: company['Address'], zipcode: company['Zipcode'], city: company['City'], client_company_type: company['Type'], description: '')
-              company['Builder_id'] = new_company.id
-              company.save
-            end
-            new_contact = ClientContact.new(name: contact['Firstname'] + ' ' + contact['Lastname'], email: contact['Email'], client_company_id: company['Builder_id'], title: '', role_description: '')
-            new_contact.save
-            contact['Builder_id'] = new_contact.id
-            contact.save
+        if contact['Builder_id'].nil?
+          if company['Builder_id'].nil?
+            new_company = ClientCompany.create(name: company['Name'], address: company['Address'], zipcode: company['Zipcode'], city: company['City'], client_company_type: company['Type'], description: '')
+            company['Builder_id'] = new_company.id
+            company.save
           end
-          company['Type'] == 'School' ? vat = false : vat = true
-          vat = true if card['VAT'] == true
-          training = Training.new(title: card['Title'], client_contact_id: contact['Builder_id'], refid: "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}", satisfaction_survey: 'https://learn.byseven.co/survey', vat: vat, unit_price: card['Unit Price'].to_f, mode: 'Company')
-          Session.create(title: 'Session 1', duration: 0, training_id: training.id) if training.save
+          new_contact = ClientContact.new(name: contact['Firstname'] + ' ' + contact['Lastname'], email: contact['Email'], client_company_id: company['Builder_id'], title: '', role_description: '')
+          new_contact.save
+          contact['Builder_id'] = new_contact.id
+          contact.save
         end
+        company['Type'] == 'School' ? vat = false : vat = true
+        vat = true if card['VAT'] == true
+        training = Training.new(title: card['Title'], client_contact_id: contact['Builder_id'], refid: "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}", satisfaction_survey: 'https://learn.byseven.co/survey', vat: vat, unit_price: card['Unit Price'].to_f, mode: 'Company')
+        Session.create(title: 'Session 1', duration: 0, training_id: training.id) if training.save
         if training.valid?
           card['Reference SEVEN'] = training.refid
           card['Builder_id'] = training.id

@@ -6,6 +6,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  text-align: left;
 
   @include from-large {
     flex-direction: row;

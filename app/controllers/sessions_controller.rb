@@ -68,10 +68,12 @@ class SessionsController < ApplicationController
     event_to_delete = event_to_delete[0...-1]
 
     if @session.save && (params[:session][:date].present?)
-      @training.export_airtable
+      UpdateAirtableJob.perform_async(@training, true)
+      @session.training.export_numbers_activity
       redirect_to redirect_path(session_id: "|#{@session.id}|", list: trainers_list, to_delete: "%#{event_to_delete}%")
     elsif @session.save
       UpdateAirtableJob.perform_async(@training, true)
+      @session.training.export_numbers_activity
       redirect_to training_path(@session.training)
     else
       redirect_to training_path(@session.training)

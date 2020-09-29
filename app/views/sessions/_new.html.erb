@@ -14,12 +14,12 @@
       </div>
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker', style: 'width:11rem;'} %>
-        <%= f.input :lunch_duration, as: :integer, label: 'Lunch Duration (hours)', input_html: {value: 1, style: 'width:13rem;', id: 'new_lunch_duration'} %>
-        <%= f.input :duration, label: "Duration (hours)", input_html: {value: 8, min: 0, style: 'width:11rem;', id: 'new_duration'}, allow_blank: false %>
-      </div>
-      <div class='mod-date'>
-        <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: 'timepicker new_start_time', style: 'width:5rem;'}, default: Time.parse('9:00') %>
+        <%# f.input :lunch_duration, as: :integer, label: 'Lunch Duration (hours)', input_html: {value: 1, style: 'width:13rem;', id: 'edit_lunch_duration'} %>
+        <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: "timepicker new_start_time", style: 'width:5rem;'}, default: Time.parse('9:00') %>
         <%= f.input :end_time, label: 'End time', as: :time, minute_step: 15, input_html: { class: 'timepicker new_end_time', style: 'width:5rem;'}, default: Time.parse('17:00') %>
+      </div>
+      <div class="mod-date">
+        <%= f.input :duration, label: "Duration (hours)", input_html: {value: 8, min: 0, style: 'width:11rem;', id: 'new_duration'}, allow_blank: false %>
       </div>
       <%= f.input :address %>
       <%= f.input :room %>
@@ -49,17 +49,17 @@
     }
 
     duration = document.getElementById('new_duration');
-    lunch_duration = document.getElementById('new_lunch_duration');
+    // lunch_duration = document.getElementById('new_lunch_duration');
     evaluateTime();
-    lunch_duration.value = end_time_hour_value - start_time_hour_value + (end_time_min_value / 60) - (start_time_min_value / 60) - duration.value;
-    lunch_duration.addEventListener('change', (event) => {
-      lunch_duration = document.getElementById('new_lunch_duration');
-      duration.value = end_time_hour_value - start_time_hour_value + (end_time_min_value / 60) - (start_time_min_value / 60) - lunch_duration.value;
-    });
+    // lunch_duration.value = end_time_hour_value - start_time_hour_value + (end_time_min_value / 60) - (start_time_min_value / 60) - duration.value;
+    // lunch_duration.addEventListener('change', (event) => {
+    //   lunch_duration = document.getElementById('new_lunch_duration');
+    //   duration.value = end_time_hour_value - start_time_hour_value + (end_time_min_value / 60) - (start_time_min_value / 60) - lunch_duration.value;
+    // });
     [start_time_hour, start_time_min, end_time_hour, end_time_min].forEach(function(element) {
       element.addEventListener('change', (event) => {
         evaluateTime();
-        duration.value = end_time_hour_value - start_time_hour_value + (end_time_min_value / 60) - (start_time_min_value / 60) - lunch_duration.value;
+        duration.value = end_time_hour_value - start_time_hour_value + (end_time_min_value / 60) - (start_time_min_value / 60);
       });
     });
   </script>

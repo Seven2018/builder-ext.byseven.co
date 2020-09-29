@@ -14,12 +14,12 @@
       </div>
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker', style: 'width:11rem;'} %>
-        <%= f.input :lunch_duration, as: :integer, label: 'Lunch Duration (hours)', input_html: {value: 1, style: 'width:13rem;', id: 'edit_lunch_duration'} %>
-        <%= f.input :duration, label: "Duration (hours)", input_html: {min: 0, style: 'width:11rem;', id: 'edit_duration'}, allow_blank: false %>
-      </div>
-      <div class='mod-date'>
+        <%# f.input :lunch_duration, as: :integer, label: 'Lunch Duration (hours)', input_html: {value: 1, style: 'width:13rem;', id: 'edit_lunch_duration'} %>
         <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: "timepicker edit_start_time", style: 'width:5rem;'}, default: Time.parse('9:00') %>
         <%= f.input :end_time, label: 'End time', as: :time, minute_step: 15, input_html: { class: 'timepicker edit_end_time', style: 'width:5rem;'}, default: Time.parse('17:00') %>
+      </div>
+      <div class="mod-date">
+        <%= f.input :duration, label: "Duration (hours)", input_html: {min: 0, style: 'width:11rem;', id: 'edit_duration'}, allow_blank: false %>
       </div>
       <%= f.input :address %>
       <%= f.input :room %>

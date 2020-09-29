@@ -300,7 +300,7 @@
       card = button.parentElement.parentElement.querySelector('.editSession');
 
       edit_duration = card.querySelector('#edit_duration');
-      lunch_edit_duration = card.querySelector('#edit_lunch_duration');
+      // lunch_edit_duration = card.querySelector('#edit_lunch_duration');
       edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
       edit_start_time_min = card.querySelectorAll('.edit_start_time').item(1);
       edit_end_time_hour = card.querySelectorAll('.edit_end_time').item(0);
@@ -309,11 +309,11 @@
       edit_start_time_min_value = extractValue(edit_start_time_min);
       edit_end_time_hour_value = extractValue(edit_end_time_hour);
       edit_end_time_min_value = extractValue(edit_end_time_min);
-      edit_lunch_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60) - edit_duration.value;
-      edit_lunch_duration.addEventListener('change', (event) => {
-        edit_lunch_duration = card.querySelector('#edit_lunch_duration');
-        edit_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60) - edit_lunch_duration.value;
-      });
+      // edit_lunch_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60) - edit_duration.value;
+      // edit_lunch_duration.addEventListener('change', (event) => {
+      //   edit_lunch_duration = card.querySelector('#edit_lunch_duration');
+      //   edit_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60) - edit_lunch_duration.value;
+      // });
       [edit_start_time_hour, edit_start_time_min, edit_end_time_hour, edit_end_time_min].forEach(function(element2) {
         element2.addEventListener('change', (event) => {
           edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
@@ -324,7 +324,7 @@
           edit_start_time_min_value = extractValue(edit_start_time_min);
           edit_end_time_hour_value = extractValue(edit_end_time_hour);
           edit_end_time_min_value = extractValue(edit_end_time_min);
-          edit_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60) - edit_lunch_duration.value;
+          edit_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60);
         });
       });
     });
