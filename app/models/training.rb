@@ -182,80 +182,41 @@ class Training < ApplicationRecord
     end
   end
 
-  def export_trainer_airtable
-    begin
-      existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
-      seveners_to_pay = ""
-      seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
-      array_intervention = []
-      array_trainers = []
-      if seveners && existing_card.present?
-        self.trainers.each do |user|
-          trainer = OverviewUser.all.select{|x| x['Builder_id'] == user.id }&.first
-          array_intervention << user.id
-          array_trainers << trainer.id if trainer.present?
-          if ['sevener+', 'sevener'].include?(user.access_level)
-            seveners_to_pay += "[ ] #{user.fullname} : #{user.hours(self)}h x #{unit_price}€ = #{user.hours(self)*unit_price}€\n"
-            intervention = OverviewIntervention.all.select{|x| x['Training_refid'] == self.refid && x['User_id'] == "#{user.id}"}&.first
-            if intervention.nil?
-              intervention = OverviewIntervention.create('Training' => [existing_card.id], 'User' => [trainer.id], 'Billing Type' => 'Hourly', 'Training_refid' => self.refid, 'User_id' => "#{user.id}")
-              self.client_contact.client_company.client_company_type == 'Company' ? intervention['Rate'] = 80 : intervention['Rate'] = 40
-            end
-            intervention['Number of hours'] = user.hours(self)
-            intervention.save
+  def export_numbers_activity
+    to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == [self.id]}
+    to_delete.each{|x| x.destroy}
+    card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
+    self.sessions.each do |session|
+      if session.date.present?
+        session.session_trainers.each do |trainer|
+          new_activity = OverviewNumbersActivity.create('Training' => [card.id], 'Date' => session.date.strftime('%Y-%m-%d'), 'Trainer' => [OverviewUser.all.select{|x| x['Builder_id'] == trainer.user_id}&.first.id], 'Hours' => session.duration)
+          if card['Unit Type'] == 'Hour'
+            new_activity['Revenue'] = new_activity['Hours'] * card['Unit Price']
+          elsif ['Participant', 'Half day', 'Day'].include?(card['Unit Type'])
+            new_activity['Revenue'] = card['Unit Number'] * card['Unit Price'] / (self.sessions.map{|x| x.duration}.sum * session.users.count) * session.duration
           end
+          new_activity.save
         end
-      else
-        seveners_to_pay += "[ ] Aucun\n"
       end
-      OverviewIntervention.all.select{|x| x['Training_refid'] == self.refid && array_intervention.exclude?(x['User_id'].to_i)}.each{|y| y.destroy}
-      existing_card['Seveners to pay'] = seveners_to_pay
-      existing_card['Trainers'] = array_trainers
-      existing_card.save
-    rescue
     end
   end
 
-  def export_numbers_activity
-    # begin
-      to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == [self.id]}
-      to_delete.each{|x| x.destroy}
-      card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
-      self.sessions.each do |session|
-        if session.date.present?
-          session.session_trainers.each do |trainer|
-            new_activity = OverviewNumbersActivity.create('Training' => [card.id], 'Date' => session.date.strftime('%Y-%m-%d'), 'Trainer' => [OverviewUser.all.select{|x| x['Builder_id'] == trainer.user_id}&.first.id], 'Hours' => session.duration)
-            if card['Unit Type'] == 'Hour'
-              new_activity['Revenue'] = new_activity['Hours'] * card['Unit Price']
-            elsif ['Participant', 'Half day', 'Day'].include?(card['Unit Type'])
-              new_activity['Revenue'] = card['Unit Number'] * card['Unit Price'] / (self.sessions.map{|x| x.duration}.sum * session.users.count) * session.duration
-            end
-            new_activity.save
-          end
-        end
-      end
-    # rescue
-    # end
-  end
-
   def export_numbers_sevener(user)
-    # begin
-      sevener = OverviewUser.all.select{|x| x['Builder_id'] == user.id}&.first
-      card = OverviewNumbersSevener.all.select{|x| x['Reference SEVEN'] == [self.refid] && x['Sevener'] == [sevener.id]}&.first
-      invoices = OverviewInvoiceSevener.all.select{|x| x['Training Reference'] == [self.refid] && x['Sevener'] == [sevener.id]}
-      dates = ''
-      unless card.present?
-        card = OverviewNumbersSevener.create('Training' => [OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first.id], 'Sevener' => [sevener.id])
-      end
-      card['Invoices Sevener'] = invoices.map{|x| x.id}
-      card['Total Owed'] = invoices.map{|x| x['Amount']}.sum
-      card['Total Paid'] = invoices.map{|x| x['Amount'] if x['Paid'] == true}.sum
-      self.sessions.each do |session|
-        dates += session.date.strftime('%d/%m/%Y') + "\n" if session.users.include?(user)
-      end
-      card['Dates'] = dates
-      card.save
-    # rescue
-    # end
+    sevener = OverviewUser.all.select{|x| x['Builder_id'] == user.id}&.first
+    card = OverviewNumbersSevener.all.select{|x| x['Reference SEVEN'] == [self.refid] && x['Sevener'] == [sevener.id]}&.first
+    invoices = OverviewInvoiceSevener.all.select{|x| x['Training Reference'] == [self.refid] && x['Sevener'] == [sevener.id]}
+    dates = ''
+    unless card.present?
+      card = OverviewNumbersSevener.create('Training' => [OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first.id], 'Sevener' => [sevener.id], 'Billing Type' => 'Hourly')
+    end
+    self.client_contact.client_company.client_company_type == 'Company' ? card['Rate'] = 80 : card['Rate'] = 40
+    card['Number of hours'] = user.hours(self)
+    card['Invoices Sevener'] = invoices.map{|x| x.id}
+    card['Total Paid'] = invoices.map{|x| x['Amount'] if x['Paid'] == true}.sum
+    self.sessions.each do |session|
+      dates += session.date.strftime('%d/%m/%Y') + "\n" if session.users.include?(user)
+    end
+    card['Dates'] = dates
+    card.save
   end
 end

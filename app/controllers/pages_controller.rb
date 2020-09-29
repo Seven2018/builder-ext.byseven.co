@@ -104,6 +104,8 @@ class PagesController < ApplicationController
   def import_airtable
     skip_authorization
     OverviewTraining.all.each do |card|
+      owners = OverviewUser.all.select{|x| card['Owners'].include?(x.id)}
+      writers = OverviewUser.all.select{|x| card['Writers'].include?(x.id)}
       if card['Reference SEVEN'].present?
         training = Training.find_by(refid: card['Reference SEVEN'])
         training.update(title: card['Title'], vat: vat, unit_price: card['Unit Price'])
@@ -132,6 +134,18 @@ class PagesController < ApplicationController
           card.save
         end
       end
+      owners.each do |owner|
+        unless SessionOwnership.where(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner').present?
+          SessionOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner')
+        end
+      end
+      Session.where(training_id: training.id, user_type: 'Owner').where.not(user_id: owners.map{|x| x['Builder_id']}).destroy_all
+      writers.each do |writer|
+        unless SessionOwnership.where(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Writer').present?
+          SessionOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Writer')
+        end
+      end
+      Session.where(training_id: training.id, user_type: 'Writer').where.not(user_id: owners.map{|x| x['Builder_id']}).destroy_all
     end
     redirect_to trainings_path
   end

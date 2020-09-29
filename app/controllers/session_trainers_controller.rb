@@ -161,7 +161,7 @@ class SessionTrainersController < ApplicationController
 
     if @session.date.present?
       # begin
-        UpdateAirtableJob.perform_async(@session.training, true, false)
+        UpdateAirtableJob.perform_async(@session.training, true)
         # @session.training.export_airtable
         # @session.training.export_trainer_airtable
         # @session.training.export_numbers_activity
@@ -218,7 +218,7 @@ class SessionTrainersController < ApplicationController
       trainers_list += "#{user.id},"
     end
 
-    UpdateAirtableJob.perform_async(training, true, true)
+    UpdateAirtableJob.perform_async(training, true)
     # training.export_airtable
     # training.export_trainer_airtable
     # training.export_numbers_activity
