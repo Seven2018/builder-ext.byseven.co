@@ -186,7 +186,7 @@ class Training < ApplicationRecord
     to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == [self.id]}
     to_delete.each{|x| x.destroy}
     card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
-    unless card['Unit Price'].present? || card['Unit Number'].present?
+    unless card['Unit Price'].nil? || card['Unit Number'].nil? || card['Unit Price'] == 0 || card['Unit Number'] == 0
       self.sessions.each do |session|
         if session.date.present?
           session.session_trainers.each do |trainer|
