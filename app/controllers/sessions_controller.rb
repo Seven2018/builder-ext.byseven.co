@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
 
   def create
     @training = Training.find(params[:training_id])
-    @session = Session.new(session_params.except(:lunch_duration))
+    @session = Session.new(session_params)
     authorize @session
     @session.training = @training
     if @session.save
@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
   def update
     @training = Training.find(params[:training_id])
     authorize @session
-    @session.update(session_params.except(:lunch_duration))
+    @session.update(session_params)
 
     trainers_list = ''
     @session.users.each do |user|
