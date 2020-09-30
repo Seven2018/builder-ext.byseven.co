@@ -109,10 +109,9 @@ class Training < ApplicationRecord
   end
 
   def export_airtable
-    begin
+    # begin
       existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
-      existing_contact = OverviewContact.find(existing_card['Partner Contact']&.join)
-      overview_update = false
+      # existing_contact = OverviewContact.find(existing_card['Partner Contact']&.join)
       details = "Détail des sessions (date, horaires, intervenants):\n\n"
       seven_invoices = "Factures SEVEN :\n"
       self.invoice_items.where(type: 'Invoice').order(:id).each do |invoice|
@@ -135,57 +134,73 @@ class Training < ApplicationRecord
             details += " - " + trainers + "\n"
           else
             details += " - A STAFFER\n"
-
           end
         end
       end
-      if existing_card.present?
-        begin
-          if self.client_contact.id != existing_contact['Builder_id']
-            new_contact = OverviewContact.all.select{|x| x['Builder_id'] == self.client_contact.id}
-            existing_card['Partner Contact'] = [new_contact.id]
+      # if existing_card.present?
+        # begin
+        #   if self.client_contact.id != existing_contact['Builder_id']
+        #     new_contact = OverviewContact.all.select{|x| x['Builder_id'] == self.client_contact.id}
+        #     existing_card['Partner Contact'] = [new_contact.id]
+        #   end
+        # rescue
+        # end
+        self.update(title: existing_card['Title'])
+        owners = existing_card['Owners']&.map{|owner| User.find(OverviewUser.find(owner)['Builder_id'])}
+        if owners.present?
+          owners.each do |owner|
+            unless TrainingOwnership.where(training_id: self.id, user_id: owner.id, user_type: 'Owner').present?
+              TrainingOwnership.create(training_id: self.id, user_id: owner.id, user_type: 'Owner')
+            end
           end
-        rescue
         end
-        existing_card['Title'] = self.title
-        existing_card['Owner'] = OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}.map{|x| x.id}
+        TrainingOwnership.where(training_id: self.id, user_type: 'Owner').where.not(user_id: owners&.map{|x| x.id}).destroy_all
+        writers = existing_card['Writers']&.map{|writer| User.find(OverviewUser.find(writer)['Builder_id'])}
+        if writers.present?
+          writers.each do |writer|
+            unless TrainingOwnership.where(training_id: self.id, user_id: writer.id, user_type: 'Writer').present?
+              TrainingOwnership.create(training_id: self.id, user_id: writer.id, user_type: 'Writer')
+            end
+          end
+        end
+        TrainingOwnership.where(training_id: self.id, user_type: 'Writer').where.not(user_id: writers&.map{|x| x.id}).destroy_all
+
+        # existing_card['Owners'] = OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}.map{|x| x.id}
         existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
         existing_card['Builder Sessions Datetime'] = details
-
-        existing_card['Seven Invoices'] = seven_invoices
+        existing_card['Builder Update'] = Time.now.utc.iso8601(3)
         existing_card.save
-      else
-        card = OverviewTraining.create("Title" => self.title, "Reference SEVEN" => self.refid, "VAT" => self.vat, "Unit Price" => self.unit_price, "Details" => details)
-        card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
-        contact = OverviewContact.all.select{|x| x['Name'] == self.client_contact.name}
-        client = OverviewClient.all.select{|x| x['Name'] == self.client_contact.client_company.name}
-        if contact.present?
-          card['Customer Contact'] = [contact.first.id]
-        else
-          builder_client = @training.client_contact.client_company
-          unless client.present?
-            new_client = OverviewClient.create('Name' => builder_client.name, 'Type' => builder_client.client_company_type, 'Address' => builder_client.address, 'Zipcode' => builder_client.zipcode, 'City' => builder_client.city, 'Builder_id' => builder_client.id)
-            new_client.save
-            new_contact = OverviewContact.create('Name' => @training.client_contact.name, 'Email' => @training.client_contact.email, 'Builder_id' => @training.client_contact.id, 'Company/School' => [new_client.id])
-            new_contact.save
-            card['Customer Contact'] = [new_contact.id]
-          else
-            new_contact = OverviewContact.create('Name' => @training.client_contact.name, 'Email' => @training.client_contact.email, 'Builder_id' => @training.client_contact.id, 'Company/School' => [client.first.id])
-            card['Customer Contact'] = [new_contact.id]
-          end
-        end
-        card['Seven Invoices'] = seven_invoices
-        # card['Overview - TF - updated'] = true
-        card.save
-      end
-    rescue
-    end
+      # else
+      #   card = OverviewTraining.create("Title" => self.title, "Reference SEVEN" => self.refid, "Details" => details)
+      #   card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
+      #   contact = OverviewContact.all.select{|x| x['Name'] == self.client_contact.name}
+      #   client = OverviewClient.all.select{|x| x['Name'] == self.client_contact.client_company.name}
+      #   if contact.present?
+      #     card['Customer Contact'] = [contact.first.id]
+      #   else
+      #     builder_client = @training.client_contact.client_company
+      #     unless client.present?
+      #       new_client = OverviewClient.create('Name' => builder_client.name, 'Type' => builder_client.client_company_type, 'Address' => builder_client.address, 'Zipcode' => builder_client.zipcode, 'City' => builder_client.city, 'Builder_id' => builder_client.id)
+      #       new_client.save
+      #       new_contact = OverviewContact.create('Name' => @training.client_contact.name, 'Email' => @training.client_contact.email, 'Builder_id' => @training.client_contact.id, 'Company/School' => [new_client.id])
+      #       new_contact.save
+      #       card['Customer Contact'] = [new_contact.id]
+      #     else
+      #       new_contact = OverviewContact.create('Name' => @training.client_contact.name, 'Email' => @training.client_contact.email, 'Builder_id' => @training.client_contact.id, 'Company/School' => [client.first.id])
+      #       card['Customer Contact'] = [new_contact.id]
+      #     end
+      #   end
+      #   card['Seven Invoices'] = seven_invoices
+      #   card.save
+      # end
+    # rescue
+    # end
   end
 
   def export_numbers_activity
     to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == [self.id]}
     to_delete.each{|x| x.destroy}
-    card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
+    card = OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first
     self.sessions.each do |session|
       if session.date.present?
         session.session_trainers.each do |trainer|
@@ -212,9 +227,9 @@ class Training < ApplicationRecord
     self.client_contact.client_company.client_company_type == 'Company' ? card['Rate'] = 80 : card['Rate'] = 40
     card['Number of hours'] = user.hours(self)
     card['Invoices Sevener'] = invoices.map{|x| x.id}
-    card['Total Paid'] = invoices.map{|x| x['Amount'] if x['Paid'] == true}.sum
+    card['Total Paid'] = invoices.map{|x| x['Amount'] if x['Status'] == 'Paid'}.sum
     self.sessions.each do |session|
-      dates += session.date.strftime('%d/%m/%Y') + "\n" if session.users.include?(user)
+      dates += session.date.strftime('%d/%m/%Y') + "\n" if session.users.include?(user) if session.date.present?
     end
     card['Dates'] = dates
     card.save

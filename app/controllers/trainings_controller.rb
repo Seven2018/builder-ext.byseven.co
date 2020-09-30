@@ -105,10 +105,10 @@ class TrainingsController < ApplicationController
 
   def update
     authorize @training
-    @training.update(training_params)
+    @training.update(training_params) if params[:training].present?
     if @training.save
-      UpdateAirtableJob.perform_async(@training)
-      @training.export_trainer_airtable
+      # UpdateAirtableJob.perform_async(@training)
+      @training.export_airtable
       redirect_to training_path(@training)
     else
       render :edit
