@@ -186,18 +186,16 @@ class Training < ApplicationRecord
     to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == [self.id]}
     to_delete.each{|x| x.destroy}
     card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
-    unless card['Unit Price'].nil? || card['Unit Number'].nil? || card['Unit Price'] == 0 || card['Unit Number'] == 0
-      self.sessions.each do |session|
-        if session.date.present?
-          session.session_trainers.each do |trainer|
-            new_activity = OverviewNumbersActivity.create('Training' => [card.id], 'Date' => session.date.strftime('%Y-%m-%d'), 'Trainer' => [OverviewUser.all.select{|x| x['Builder_id'] == trainer.user_id}&.first&.id], 'Hours' => session.duration)
-            if card['Unit Type'] == 'Hour'
-              new_activity['Revenue'] = new_activity['Hours'] * card['Unit Price']
-            elsif ['Participant', 'Half day', 'Day'].include?(card['Unit Type'])
-              new_activity['Revenue'] = card['Unit Number'] * card['Unit Price'] / (self.sessions.map{|x| x.duration}.sum * session.users.count) * session.duration
-            end
-            new_activity.save
+    self.sessions.each do |session|
+      if session.date.present?
+        session.session_trainers.each do |trainer|
+          new_activity = OverviewNumbersActivity.create('Training' => [card.id], 'Date' => session.date.strftime('%Y-%m-%d'), 'Trainer' => [OverviewUser.all.select{|x| x['Builder_id'] == trainer.user_id}&.first&.id], 'Hours' => session.duration)
+          if card['Unit Type'] == 'Hour'
+            new_activity['Revenue'] = new_activity['Hours'] * card['Unit Price']
+          elsif ['Participant', 'Half day', 'Day'].include?(card['Unit Type'])
+            new_activity['Revenue'] = card['Unit Number'] * card['Unit Price'] / (self.sessions.map{|x| x.duration}.sum * session.users.count) * session.duration
           end
+          new_activity.save
         end
       end
     end
