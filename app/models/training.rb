@@ -133,16 +133,6 @@ class Training < ApplicationRecord
         end
       end
 
-      seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
-      if seveners
-        self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
-          numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
-          seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n" if numbers_card.present?
-        end
-      else
-        seveners_to_pay += "[ ] Aucun\n"
-      end
-
       # if existing_card.present?
         # begin
         #   if self.client_contact.id != existing_contact['Builder_id']
@@ -175,6 +165,20 @@ class Training < ApplicationRecord
       existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
       existing_card['Builder Sessions Datetime'] = details
       existing_card['Builder Update'] = Time.now.utc.iso8601(3)
+
+      self.trainers.select{|x| ['sevener', 'sevener+'].include?(x.access_level)}.each{|y| training.export_numbers_sevener(y)}
+
+      seveners_to_pay = ""
+      seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
+      if seveners
+        self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
+          numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
+          seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n" if numbers_card.present?
+        end
+      else
+        seveners_to_pay += "[ ] Aucun\n"
+      end
+      existing_card['Seveners to Pay'] = seveners_to_pay
       existing_card.save
       # else
       #   card = OverviewTraining.create("Title" => self.title, "Reference SEVEN" => self.refid, "Details" => details)
@@ -239,5 +243,15 @@ class Training < ApplicationRecord
     end
     card['Dates'] = dates
     card.save
+
+    seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
+    if seveners
+      self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
+        numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
+        seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n" if numbers_card.present?
+      end
+    else
+      seveners_to_pay += "[ ] Aucun\n"
+    end
   end
 end

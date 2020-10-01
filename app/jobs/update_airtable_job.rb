@@ -4,8 +4,8 @@ class UpdateAirtableJob < ApplicationJob
   def perform(training, numbers_sevener = false)
     training.export_airtable
     training.export_numbers_activity
-    if numbers_sevener.present?
-      training.trainers.select{|x| ['sevener', 'sevener+'].include?(x.access_level)}.each{|y| training.export_numbers_sevener(y)}
-    end
+    # if numbers_sevener.present?
+    #   training.trainers.select{|x| ['sevener', 'sevener+'].include?(x.access_level)}.each{|y| training.export_numbers_sevener(y)}
+    # end
   end
 end
