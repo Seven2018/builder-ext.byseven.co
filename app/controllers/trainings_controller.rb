@@ -107,8 +107,7 @@ class TrainingsController < ApplicationController
     authorize @training
     @training.update(training_params) if params[:training].present?
     if @training.save
-      # UpdateAirtableJob.perform_async(@training)
-      @training.export_airtable
+      UpdateAirtableJob.perform_now (@training)
       redirect_to training_path(@training)
     else
       render :edit
@@ -123,15 +122,11 @@ class TrainingsController < ApplicationController
 
   def copy
     authorize @training
-    @client_contact = ClientContact.find(params[:copy][:client_contact_id])
-    @new_training = Training.new(@training.attributes.except("id", "created_at", "updated_at", "client_contact_id"))
-    @new_training.title = params[:copy][:rename] if params[:copy][:rename].present?
-    @new_training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
-    @new_training.client_contact_id = @client_contact.id
-    if @new_training.save
+    target_training = Training.find(params[:copy][:training_id])
+    if target_training.present?
       @training.sessions.each do |session|
         new_session = Session.create(session.attributes.except("id", "created_at", "updated_at", "training_id", "address", "room"))
-        new_session.update(training_id: @new_training.id)
+        new_session.update(training_id: target_training.id)
         session.workshops.each do |workshop|
           new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
           new_workshop.update(session_id: new_session.id)
@@ -141,7 +136,7 @@ class TrainingsController < ApplicationController
           end
         end
       end
-      redirect_to training_path(@new_training)
+      redirect_to training_path(target_training)
     else
       raise
     end

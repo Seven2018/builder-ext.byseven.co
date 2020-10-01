@@ -29,7 +29,7 @@ class User < ApplicationRecord
       existing_user['Lastname'] = self.lastname
       existing_user['Email'] = self.email
     else
-      existing_user = OverviewUser.create('Firstname' => self.firstname, 'Lastname' => self.lastname, 'Email' => self.email)
+      existing_user = OverviewUser.create('Firstname' => self.firstname, 'Lastname' => self.lastname, 'Email' => self.email, 'Builder_id' => self.id)
     end
     ['sevener+', 'sevener'].include?(self.access_level) ? existing_user['Status'] = "Sevener" : existing_user['Status'] = "SEVEN"
     existing_user.save

@@ -30,11 +30,6 @@ class Training < ApplicationRecord
   end
 
   def title_for_copy
-    # if self.sessions.empty?
-    #   self.title + ' : ' + Training.where(title: self.title).count.to_s + '(empty)'
-    # else
-    #   self.title + ' : ' + self.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y') + ' - ' + self.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')
-    # end
     self.title + ' : ' + self.refid
   end
 
@@ -137,6 +132,17 @@ class Training < ApplicationRecord
           end
         end
       end
+
+      seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
+      if seveners
+        self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
+          numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
+          seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n" if numbers_card.present?
+        end
+      else
+        seveners_to_pay += "[ ] Aucun\n"
+      end
+
       # if existing_card.present?
         # begin
         #   if self.client_contact.id != existing_contact['Builder_id']
@@ -145,31 +151,31 @@ class Training < ApplicationRecord
         #   end
         # rescue
         # end
-        self.update(title: existing_card['Title'])
-        owners = existing_card['Owners']&.map{|owner| User.find(OverviewUser.find(owner)['Builder_id'])}
-        if owners.present?
-          owners.each do |owner|
-            unless TrainingOwnership.where(training_id: self.id, user_id: owner.id, user_type: 'Owner').present?
-              TrainingOwnership.create(training_id: self.id, user_id: owner.id, user_type: 'Owner')
-            end
+      self.update(title: existing_card['Title'])
+      owners = existing_card['Owners']&.map{|owner| User.find(OverviewUser.find(owner)['Builder_id'])}
+      if owners.present?
+        owners.each do |owner|
+          unless TrainingOwnership.where(training_id: self.id, user_id: owner.id, user_type: 'Owner').present?
+            TrainingOwnership.create(training_id: self.id, user_id: owner.id, user_type: 'Owner')
           end
         end
-        TrainingOwnership.where(training_id: self.id, user_type: 'Owner').where.not(user_id: owners&.map{|x| x.id}).destroy_all
-        writers = existing_card['Writers']&.map{|writer| User.find(OverviewUser.find(writer)['Builder_id'])}
-        if writers.present?
-          writers.each do |writer|
-            unless TrainingOwnership.where(training_id: self.id, user_id: writer.id, user_type: 'Writer').present?
-              TrainingOwnership.create(training_id: self.id, user_id: writer.id, user_type: 'Writer')
-            end
+      end
+      TrainingOwnership.where(training_id: self.id, user_type: 'Owner').where.not(user_id: owners&.map{|x| x.id}).destroy_all
+      writers = existing_card['Writers']&.map{|writer| User.find(OverviewUser.find(writer)['Builder_id'])}
+      if writers.present?
+        writers.each do |writer|
+          unless TrainingOwnership.where(training_id: self.id, user_id: writer.id, user_type: 'Writer').present?
+            TrainingOwnership.create(training_id: self.id, user_id: writer.id, user_type: 'Writer')
           end
         end
-        TrainingOwnership.where(training_id: self.id, user_type: 'Writer').where.not(user_id: writers&.map{|x| x.id}).destroy_all
+      end
+      TrainingOwnership.where(training_id: self.id, user_type: 'Writer').where.not(user_id: writers&.map{|x| x.id}).destroy_all
 
-        # existing_card['Owners'] = OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}.map{|x| x.id}
-        existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
-        existing_card['Builder Sessions Datetime'] = details
-        existing_card['Builder Update'] = Time.now.utc.iso8601(3)
-        existing_card.save
+      # existing_card['Owners'] = OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}.map{|x| x.id}
+      existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
+      existing_card['Builder Sessions Datetime'] = details
+      existing_card['Builder Update'] = Time.now.utc.iso8601(3)
+      existing_card.save
       # else
       #   card = OverviewTraining.create("Title" => self.title, "Reference SEVEN" => self.refid, "Details" => details)
       #   card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?

@@ -37,7 +37,7 @@ class SessionsController < ApplicationController
     authorize @session
     @session.training = @training
     if @session.save
-      UpdateAirtableJob.perform_async(@training)
+      UpdateAirtableJob.perform_now(@training)
       redirect_to training_path(@training)
     end
   end
@@ -68,11 +68,11 @@ class SessionsController < ApplicationController
     event_to_delete = event_to_delete[0...-1]
 
     if @session.save && (params[:session][:date].present?)
-      UpdateAirtableJob.perform_async(@training, true)
+      UpdateAirtableJob.perform_now(@training, true)
       @session.training.export_numbers_activity
       redirect_to redirect_path(session_id: "|#{@session.id}|", list: trainers_list, to_delete: "%#{event_to_delete}%")
     elsif @session.save
-      UpdateAirtableJob.perform_async(@training, true)
+      UpdateAirtableJob.perform_now(@training, true)
       @session.training.export_numbers_activity
       redirect_to training_path(@session.training)
     else
@@ -85,7 +85,7 @@ class SessionsController < ApplicationController
     @training = Training.find(params[:training_id])
     authorize @session
     @session.destroy
-    UpdateAirtableJob.perform_async(@training, true)
+    UpdateAirtableJob.perform_now(@training, true)
     redirect_to training_path(@training)
   end
 
@@ -113,13 +113,13 @@ class SessionsController < ApplicationController
       # new_session.training.export_airtable
       @session.workshops.each do |workshop|
         new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
-        new_workshop.update(session_id: new_session.id)
+        new_workshop.update(session_id: new_session.id, position: workshop.position)
         workshop.workshop_modules.each do |mod|
           new_mod = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
-          new_mod.update(workshop_id: new_workshop.id)
+          new_mod.update(workshop_id: new_workshop.id, position: mod.position)
         end
       end
-      training.export_airtable
+      UpdateAirtableJob.perform_now(training, true)
       redirect_to training_path(training)
     else
       raise
@@ -140,7 +140,7 @@ class SessionsController < ApplicationController
           new_mod.update(workshop_id: new_workshop.id)
         end
       end
-      @session.training.export_airtable
+      UpdateAirtableJob.perform_now(@session.training, true)
       redirect_to training_path(@session.training)
     else
       raise
