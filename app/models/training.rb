@@ -166,7 +166,7 @@ class Training < ApplicationRecord
       existing_card['Builder Sessions Datetime'] = details
       existing_card['Builder Update'] = Time.now.utc.iso8601(3)
 
-      self.trainers.select{|x| ['sevener', 'sevener+'].include?(x.access_level)}.each{|y| training.export_numbers_sevener(y)}
+      self.trainers.select{|x| ['sevener', 'sevener+'].include?(x.access_level)}.each{|y| self.export_numbers_sevener(y)}
 
       seveners_to_pay = ""
       seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
