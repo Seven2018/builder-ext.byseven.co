@@ -173,10 +173,14 @@ class Training < ApplicationRecord
       if seveners
         self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
           numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
-          seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n" if numbers_card.present?
+          if numbers_card.present? && numbers_card['Total Due'] == numbers_card['Total Paid']
+            seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n"
+          else
+            seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€ (Montant restant du : #{numbers_card['Total Paid'] - numbers_card['Total Due']}€)\n"
+          end
         end
       else
-        seveners_to_pay += "[ ] Aucun\n"
+        seveners_to_pay += "[x] Aucun\n"
       end
       existing_card['Seveners to pay'] = seveners_to_pay
       existing_card.save
@@ -234,8 +238,8 @@ class Training < ApplicationRecord
     unless card.present?
       card = OverviewNumbersSevener.create('Training' => [OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first.id], 'Sevener' => [sevener.id], 'Billing Type' => 'Hourly')
     end
-    self.client_contact.client_company.client_company_type == 'Company' ? card['Rate'] = 80 : card['Rate'] = 40
-    card['Number of hours'] = user.hours(self)
+    self.client_contact.client_company.client_company_type == 'Company' ? card['Unit Price'] = 80 : card['Unit Price'] = 40
+    card['Unit Number'] = user.hours(self)
     card['Invoices Sevener'] = invoices.map{|x| x.id}
     card['Total Paid'] = invoices.map{|x| x['Amount'] if x['Status'] == 'Paid'}.sum
     self.sessions.each do |session|
