@@ -106,11 +106,11 @@ class Training < ApplicationRecord
   def export_airtable
     # begin
       existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
-      # existing_contact = OverviewContact.find(existing_card['Partner Contact']&.join)
       details = "Détail des sessions (date, horaires, intervenants):\n\n"
       seven_invoices = "Factures SEVEN :\n"
-      self.invoice_items.where(type: 'Invoice').order(:id).each do |invoice|
-        invoice.status == 'Paid' ? seven_invoices += "[x] #{invoice.uuid}" : seven_invoices += "[ ] #{invoice.uuid}"
+      OverviewNumbersRevenue.all.select{|x| x['Training_id'] == self.id}.each do |invoice|
+        builder_invoice = InvoiceItem.find(invoice['Invoice_id'])
+        invoice['Paid'] == true ? seven_invoices += "[x] #{builder_invoice.uuid}" : seven_invoices += "[ ] #{builder_invoice.uuid}"
       end
       self.sessions.each do |session|
         if session.date.present?
@@ -133,14 +133,6 @@ class Training < ApplicationRecord
         end
       end
 
-      # if existing_card.present?
-        # begin
-        #   if self.client_contact.id != existing_contact['Builder_id']
-        #     new_contact = OverviewContact.all.select{|x| x['Builder_id'] == self.client_contact.id}
-        #     existing_card['Partner Contact'] = [new_contact.id]
-        #   end
-        # rescue
-        # end
       self.update(title: existing_card['Title'])
       owners = existing_card['Owners']&.map{|owner| User.find(OverviewUser.find(owner)['Builder_id'])}
       if owners.present?
@@ -161,12 +153,9 @@ class Training < ApplicationRecord
       end
       TrainingOwnership.where(training_id: self.id, user_type: 'Writer').where.not(user_id: writers&.map{|x| x.id}).destroy_all
 
-      # existing_card['Owners'] = OverviewUser.all.select{|x| self.owners.map(&:id).include?(x['Builder_id'])}.map{|x| x.id}
       existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
       existing_card['Builder Sessions Datetime'] = details
       existing_card['Builder Update'] = Time.now.utc.iso8601(3)
-
-      self.trainers.select{|x| ['sevener', 'sevener+'].include?(x.access_level)}.each{|y| self.export_numbers_sevener(y)}
 
       seveners_to_pay = ""
       seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
@@ -176,37 +165,15 @@ class Training < ApplicationRecord
           if numbers_card.present? && numbers_card['Total Due'] == numbers_card['Total Paid']
             seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n"
           elsif numbers_card.present?
-            seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€ (Montant restant du : #{numbers_card['Total Paid'] - numbers_card['Total Due']}€)\n"
+            seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€ (Montant restant du : #{numbers_card['Total Due'] - numbers_card['Total Paid']}€)\n"
           end
         end
       else
         seveners_to_pay += "[x] Aucun\n"
       end
       existing_card['Seveners to pay'] = seveners_to_pay
+      existing_card['SEVEN Invoice(s)'] = seven_invoices
       existing_card.save
-      # else
-      #   card = OverviewTraining.create("Title" => self.title, "Reference SEVEN" => self.refid, "Details" => details)
-      #   card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
-      #   contact = OverviewContact.all.select{|x| x['Name'] == self.client_contact.name}
-      #   client = OverviewClient.all.select{|x| x['Name'] == self.client_contact.client_company.name}
-      #   if contact.present?
-      #     card['Customer Contact'] = [contact.first.id]
-      #   else
-      #     builder_client = @training.client_contact.client_company
-      #     unless client.present?
-      #       new_client = OverviewClient.create('Name' => builder_client.name, 'Type' => builder_client.client_company_type, 'Address' => builder_client.address, 'Zipcode' => builder_client.zipcode, 'City' => builder_client.city, 'Builder_id' => builder_client.id)
-      #       new_client.save
-      #       new_contact = OverviewContact.create('Name' => @training.client_contact.name, 'Email' => @training.client_contact.email, 'Builder_id' => @training.client_contact.id, 'Company/School' => [new_client.id])
-      #       new_contact.save
-      #       card['Customer Contact'] = [new_contact.id]
-      #     else
-      #       new_contact = OverviewContact.create('Name' => @training.client_contact.name, 'Email' => @training.client_contact.email, 'Builder_id' => @training.client_contact.id, 'Company/School' => [client.first.id])
-      #       card['Customer Contact'] = [new_contact.id]
-      #     end
-      #   end
-      #   card['Seven Invoices'] = seven_invoices
-      #   card.save
-      # end
     # rescue
     # end
   end
@@ -246,6 +213,8 @@ class Training < ApplicationRecord
       dates += session.date.strftime('%d/%m/%Y') + "\n" if session.users.include?(user) if session.date.present?
     end
     card['Dates'] = dates
+    card['User_id'] = user.id
+    card['Training_id'] = self.id
     card.save
   end
 end

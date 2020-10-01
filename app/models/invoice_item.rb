@@ -91,34 +91,35 @@ class InvoiceItem < ApplicationRecord
 
   # Exports the data to Airtable DB
   def export_numbers_revenue
-    begin
+    # begin
       return if self.type != 'Invoice'
-      training = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.training.refid}&.first
-      invoice = OverviewNumbersRevenue.all.select{|x| x['Builder_id'] == self.id}&.first
+      training = OverviewTraining.all.select{|x| x['Builder_id'] == self.training.id}&.first
+      invoice = OverviewNumbersRevenue.all.select{|x| x['Invoice_id'] == self.id}&.first
       unless invoice.present?
-        invoice = OverviewNumbersRevenue.create('Training' => [training&.id], 'Invoice SEVEN' => self.uuid, 'Issue Date' => Date.today.strftime('%Y-%m-%d'), 'Builder_id' => self.id)
+        invoice = OverviewNumbersRevenue.create('Training' => [training&.id], 'Invoice SEVEN' => self.uuid, 'Issue Date' => Date.today.strftime('%Y-%m-%d'), 'Invoice_id' => self.id)
       end
       lines = []
       if self.products.include?(Product.find(1))
-        lines = self.invoice_lines.select{|x| x.product == Product.find(1)}
+        lines = self.invoice_lines.select{|x| x.product_id == 1}
       elsif self.products.include?(Product.find(2))
-        lines = self.invoice_lines.select{|x| x.product == Product.find(2)}
+        lines = self.invoice_lines.select{|x| x.product_id == 2}
       elsif self.products.include?(Product.find(7))
-        lines = self.invoice_lines.select{|x| x.product == Product.find(7)}
+        lines = self.invoice_lines.select{|x| x.product_id == 7}
       else
         invoice['Unit Number'] = 0
       end
+
       invoice['Unit Price'] = (lines.map{|x| x&.net_amount}&.sum / lines&.length).to_f
       invoice['Unit Number'] = lines.map{|x| x&.quantity}&.sum
       if self.products.include?(Product.find(3))
-        lines = self.invoice_lines.select{|x| x.product == Product.find(3)}
+        lines = self.invoice_lines.select{|x| x.product_id == 3}
         invoice['Preparation'] = lines.map{|x| x.net_amount * x.quantity}.sum.to_f
       end
       if self.products.include?(Product.find(8))
-        lines = self.invoice_lines.select{|x| x.product == Product.find(8)}
+        lines = self.invoice_lines.select{|x| x.product_id == 8}
         invoice['Deposit'] = lines.map{|x| x.net_amount * x.quantity}.sum.to_f
       end
-      expenses = (self.products & [Product.find(4), Product.find(5), Product.find(6)])
+      expenses = self.products.select{|x| [4,5,6].include?(x.id)}
       if expenses.present?
         lines = self.invoice_lines.select{|x| expenses.include?(x.product)}
         invoice['Billed Expenses'] = lines.map{|x| x.net_amount * x.quantity}.sum.to_f
@@ -127,9 +128,12 @@ class InvoiceItem < ApplicationRecord
       invoice['Former / Credit / New'] = 'Credit' if self.total_amount < 0
       invoice['VAT'] = self.tax_amount.to_f
       invoice['OPCO'] = self.client_company.name if self.client_company.client_company_type == 'OPCO'
+      invoice['Training_id'] = self.training.id
+      self.payment_date.present? ? invoice['Paid'] = true : invoice['Paid'] = false
+      self.training.export_airtable
       invoice.save
-    rescue
-    end
+    # rescue
+    # end
   end
 
   # Updates InvoiceItem price and tax amount

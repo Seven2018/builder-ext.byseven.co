@@ -60,6 +60,7 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     @invoice_item.update(invoiceitem_params)
     if @invoice_item.save
+      @invoice_item.export_numbers_revenue
       redirect_to invoice_item_path(@invoice_item)
     end
   end
@@ -106,7 +107,7 @@ class InvoiceItemsController < ApplicationController
     end
     @invoice.update_price
     if @invoice.save
-      @invoice.export_numbers_revenue
+      @invoice_item.export_numbers_revenue if @invoice_item.type = 'Invoice'
       redirect_to invoice_item_path(@invoice)
     end
   end
@@ -147,7 +148,7 @@ class InvoiceItemsController < ApplicationController
     end
     @invoice.update_price
     if @invoice.save
-      @invoice.export_numbers_revenue
+      @invoice_item.export_numbers_revenue if @invoice_item.type = 'Invoice'
       redirect_to invoice_item_path(@invoice)
     end
   end
@@ -184,7 +185,7 @@ class InvoiceItemsController < ApplicationController
       new_line.save
       new_invoice.save
       new_invoice.update_price
-      new_invoice.export_numbers_revenue
+      new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
     end
     redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
   end
@@ -218,7 +219,7 @@ class InvoiceItemsController < ApplicationController
         new_line.save
         new_invoice.save
         new_invoice.update_price
-        new_invoice.export_numbers_revenue
+        new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
       end
     end
     redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
@@ -262,6 +263,8 @@ class InvoiceItemsController < ApplicationController
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
         new_invoice_line.update(invoice_item_id: new_invoice_item.id)
       end
+      new_invoice.update_price
+      new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
       redirect_to invoice_item_path(new_invoice_item)
     else
       raise
@@ -283,6 +286,8 @@ class InvoiceItemsController < ApplicationController
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
         new_invoice_line.update(invoice_item_id: new_invoice_item.id)
       end
+      new_invoice.update_price
+      new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
       redirect_to invoice_item_path(new_invoice_item)
     else
       raise
@@ -335,6 +340,7 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     index_filtered
     @invoice_item.update(payment_date: params[:edit_payment][:payment_date])
+    @invoice_item.export_numbers_revenue if @invoice_item.type = 'Invoice'
     respond_to do |format|
       format.html {redirect_to invoice_items_path(type: @invoice_item.type)}
       format.js

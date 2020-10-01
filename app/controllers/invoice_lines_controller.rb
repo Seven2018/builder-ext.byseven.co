@@ -25,6 +25,7 @@ class InvoiceLinesController < ApplicationController
   def update
     authorize @invoiceline
     @invoiceline.update(invoiceline_params)
+    @invoiceline.invoice_item.update_price
     @invoiceline.invoice_item.export_numbers_revenue
     redirect_to invoice_item_path(@invoiceline.invoice_item) if @invoiceline.save
   end
