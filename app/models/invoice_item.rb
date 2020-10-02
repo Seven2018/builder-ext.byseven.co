@@ -91,7 +91,7 @@ class InvoiceItem < ApplicationRecord
 
   # Exports the data to Airtable DB
   def export_numbers_revenue
-    # begin
+    begin
       return if self.type != 'Invoice'
       training = OverviewTraining.all.select{|x| x['Builder_id'] == self.training.id}&.first
       invoice = OverviewNumbersRevenue.all.select{|x| x['Invoice_id'] == self.id}&.first
@@ -132,8 +132,9 @@ class InvoiceItem < ApplicationRecord
       self.payment_date.present? ? invoice['Paid'] = true : invoice['Paid'] = false
       self.training.export_airtable
       invoice.save
-    # rescue
-    # end
+    rescue
+      flash[:alert] = 'Builder has encountered an issue, please contact your administrator'
+    end
   end
 
   # Updates InvoiceItem price and tax amount
