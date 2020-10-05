@@ -140,14 +140,14 @@ class PagesController < ApplicationController
         end
       end
       owners.each do |owner|
-        unless SessionOwnership.where(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner').present?
-          SessionOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner')
+        unless TrainingOwnership.where(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner').present?
+          TrainingOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner')
         end
       end
       Session.where(training_id: training.id, user_type: 'Owner').where.not(user_id: owners.map{|x| x['Builder_id']}).destroy_all
       writers.each do |writer|
-        unless SessionOwnership.where(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Writer').present?
-          SessionOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Writer')
+        unless TrainingOwnership.where(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Writer').present?
+          TrainingOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Writer')
         end
       end
       Session.where(training_id: training.id, user_type: 'Writer').where.not(user_id: owners.map{|x| x['Builder_id']}).destroy_all
