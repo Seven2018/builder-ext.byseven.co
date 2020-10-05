@@ -4,6 +4,11 @@ class PagesController < ApplicationController
   def home
   end
 
+  def billing
+    @user = User.find(params[:user_id])
+    @trainings = Training.select{|x| x.trainers.include?(@user)}
+  end
+
   def overlord
   end
 
@@ -104,8 +109,8 @@ class PagesController < ApplicationController
   def import_airtable
     skip_authorization
     OverviewTraining.all.each do |card|
-      owners = OverviewUser.all.select{|x| card['Owners'].include?(x.id)}
-      writers = OverviewUser.all.select{|x| card['Writers'].include?(x.id)}
+      owners = OverviewUser.all.select{|x| if card['Owners'].present?; card['Owners'].include?(x.id); end}
+      writers = OverviewUser.all.select{|x| if card['Writers'].present?; card['Writers'].include?(x.id); end}
       if card['Reference SEVEN'].present?
         training = Training.find_by(refid: card['Reference SEVEN'])
         training.update(title: card['Title'], vat: vat, unit_price: card['Unit Price'])

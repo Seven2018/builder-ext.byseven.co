@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'inscriptions_kea_partners_m', to: 'pages#kea_partners_m', as: 'kea_partners_m'
   get 'inscriptions_kea_partners_d', to: 'pages#kea_partners_d', as: 'kea_partners_d'
   get 'inscriptions_kea_partners_thanks', to: 'pages#kea_partners_thanks', as: 'kea_partners_thanks'
+  get 'billing', to: 'pages#billing', as: 'billing'
 
   # AIRTABLE
   get 'airtable_import_users', to: 'pages#airtable_import_users', as: 'airtable_import_users'
