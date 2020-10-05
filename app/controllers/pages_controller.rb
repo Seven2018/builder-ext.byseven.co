@@ -146,11 +146,11 @@ class PagesController < ApplicationController
       end
       TrainingOwnership.where(training_id: training.id, user_type: 'Owner').where.not(user_id: owners.map{|x| x['Builder_id']}).destroy_all
       writers.each do |writer|
-        unless TrainingOwnership.where(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Writer').present?
-          TrainingOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Writer')
+        unless TrainingOwnership.where(training_id: training.id, user_id: writer['Builder_id'], user_type: 'Writer').present?
+          TrainingOwnership.create(training_id: training.id, user_id: writer['Builder_id'], user_type: 'Writer')
         end
       end
-      TrainingOwnership.where(training_id: training.id, user_type: 'Writer').where.not(user_id: owners.map{|x| x['Builder_id']}).destroy_all
+      TrainingOwnership.where(training_id: training.id, user_type: 'Writer').where.not(user_id: writers.map{|x| x['Builder_id']}).destroy_all
     end
     redirect_to trainings_path
   end
