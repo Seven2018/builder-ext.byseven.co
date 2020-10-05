@@ -132,7 +132,7 @@ class PagesController < ApplicationController
         # vat = true if card['VAT'] == true
         training = Training.new(title: card['Title'], client_contact_id: contact['Builder_id'], refid: "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}", satisfaction_survey: 'https://learn.byseven.co/survey', unit_price: card['Unit Price'].to_f, mode: 'Company')
         Session.create(title: 'Session 1', duration: 0, training_id: training.id) if training.save
-        if training.valid?
+        if training.save
           card['Reference SEVEN'] = training.refid
           card['Builder_id'] = training.id
           card['Builder Update'] = Time.now.utc.iso8601(3)
