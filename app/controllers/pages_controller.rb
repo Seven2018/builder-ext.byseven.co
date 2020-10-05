@@ -111,8 +111,8 @@ class PagesController < ApplicationController
     OverviewTraining.all.each do |card|
       owners = OverviewUser.all.select{|x| if card['Owners'].present?; card['Owners'].include?(x.id); end}
       writers = OverviewUser.all.select{|x| if card['Writers'].present?; card['Writers'].include?(x.id); end}
-      if card['Reference SEVEN'].present?
-        training = Training.find_by(refid: card['Reference SEVEN'])
+      if card['Builder_id'].present?
+        training = Training.find(card['Builder_id'])
         training.update(title: card['Title'], unit_price: card['Unit Price'])
       else
         contact = OverviewContact.find(card['Partner Contact'].join)
