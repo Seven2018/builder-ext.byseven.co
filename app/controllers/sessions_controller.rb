@@ -118,7 +118,11 @@ class SessionsController < ApplicationController
           new_mod = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
           new_mod.update(workshop_id: new_workshop.id, position: mod.position)
         end
+        j = 1
+        new_workshop.workshop_modules.order(position: :asc).each{|mod| mod.update(position: j); j += 1}
       end
+      i = 1
+      new_session.workshops.order(position: :asc).each{|workshop| workshop.update(position: i); i += 1}
       UpdateAirtableJob.perform_now(training, true)
       redirect_to training_path(training)
     else
