@@ -165,7 +165,7 @@ class SessionTrainersController < ApplicationController
         # @session.training.export_airtable
         # @session.training.export_trainer_airtable
         # @session.training.export_numbers_activity
-        @session.users.where(access_level: ['sevener', 'sevener+']).each{|x| @session.training.export_numbers_sevener(x)}
+        # @session.users.where(access_level: ['sevener', 'sevener+']).each{|x| @session.training.export_numbers_sevener(x)}
       # rescue
       # end
       redirect_to redirect_path(list: trainers_list, session_id: "|#{@session.id}|", to_delete: "%#{event_to_delete}%")

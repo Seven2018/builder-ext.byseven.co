@@ -1,13 +1,65 @@
 <div class="container-seven-large">
   <div id="page-controls">
-    <h1>Reports</h1>
+    <h1>Billing</h1>
     <div id="page-buttons">
-      <%= link_to 'Invoices', invoice_items_path(type: 'Invoice'), class: 'btn btn-edit-green' %>
-      <%= link_to 'Estimates', invoice_items_path(type: 'Estimate'), class: 'btn btn-edit-red' %>
-      <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
-      <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><%= link_to 'Upload to Drive', upload_to_sheet_path, method: :post %></li>
-      </ul>
+      <% sevener = Sevener.all.select{|x| if x['Builder_id'].present?; x['Builder_id'] == current_user.id; end} %>
+      <% if sevener.present? && [sevener["Attestation sur l'honneur"],sevener['CV (sans coordonnées)'],sevener['CNI'],sevener['Carte vitale'],sevener['RIB']].all?{|x| x.present?} %>
+        <p>Kit Sevener Complete</p>
+      <% else %>
+        <p>Kit Sevener Incomplete</p>
+      <% end %>
     </div>
   </div>
+  <div id='billing-index'>
+    <% Training.select{|x| x.trainers.include?(current_user)}.each do |training| %>
+      <% invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [training.id]} %>
+      <% intervention = OverviewNumbersSevener.find(invoices.first['Numbers : Sevener'].join) %>
+      <div class="billing-card">
+        <div class="billing-card-title flex-row-between-centered">
+          <div class='flex-row-between-centered'>
+            <a class='btn-link'><i class="fas fa-angle-down"></i></a>
+            <p><%= training.title %></p>
+          </div>
+          <div class="flex-row-between-centered">
+            <p>Invoices : <%= invoices.count %></p>
+            <p>Total due : <%= intervention['Total Due'] - intervention['Total Paid'] %>€</p>
+            <%= link_to invoice_form_path(training), class: 'btn btn-edit-green btn-icon', data: {toggle:'tooltip'}, title: 'Submit an invoice' do %>
+              <i class="fas fa-file-invoice-dollar"></i>
+            <% end %>
+          </div>
+        </div>
+        <div class="content-index-nested collapse">
+          <% invoices.each do |invoice| %>
+            <div class="billing-invoice-index flex-row-between-centered">
+              <p class="content-index-card-title"><strong>Invoice n°<%= invoice['Invoice number'] %></strong></p>
+              <p><%= invoice['Amount'] %>€</p>
+              <% if invoice['Status'] == 'To pay' %>
+                <i class="fas fa-hourglass-half" data-toggle='tooltip' title='Pending'></i>
+              <% else %>
+                <i class="far fa-check-circle" data-toggle='tooltip' title='Paid'></i>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
+
+<script>
+  const allCarets = document.querySelectorAll('.caret');
+  allCarets.forEach(element => {
+    element.addEventListener('click', event => {
+      element.classList.toggle('rotated');
+    })
+  })
+</script>
+<script>
+  $('.btn-link').on('click', function(){
+    if($(this).parent().parent().parent().children('.collapse').hasClass('show')) {
+      $(this).parent().parent().parent().children('.collapse').collapse('hide');
+    } else {
+      $(this).parent().parent().parent().children('.collapse').collapse('show');
+    }
+  });
+</script>
