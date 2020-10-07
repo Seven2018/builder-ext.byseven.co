@@ -163,9 +163,17 @@ class Training < ApplicationRecord
         self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
           numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
           if numbers_card.present? && numbers_card['Total Due'] == numbers_card['Total Paid']
-            seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n"
+            if numbers_card['Billing Type'] == 'Hourly'
+              seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n"
+            elsif numbers_card['Billing Type'] == 'Flat rate'
+              seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Price']}€\n"
+            end
           elsif numbers_card.present?
-            seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€ (Montant restant du : #{numbers_card['Total Due'] - numbers_card['Total Paid']}€)\n"
+            if numbers_card['Billing Type'] == 'Hourly'
+              seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€ (Montant restant du : #{numbers_card['Total Due'] - numbers_card['Total Paid']}€)\n"
+            elsif numbers_card['Billing Type'] == 'Flat rate'
+              seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Price']}€\n"
+            end
           end
         end
       else

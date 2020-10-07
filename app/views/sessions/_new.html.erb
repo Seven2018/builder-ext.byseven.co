@@ -18,8 +18,8 @@
         <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: "timepicker new_start_time", style: 'width:5rem;'}, default: Time.parse('9:00') %>
         <%= f.input :end_time, label: 'End time', as: :time, minute_step: 15, input_html: { class: 'timepicker new_end_time', style: 'width:5rem;'}, default: Time.parse('17:00') %>
       </div>
-      <div class="mod-date">
-        <%= f.input :duration, label: "Duration (hours)", input_html: {value: 8, min: 0, style: 'width:11rem;', id: 'new_duration'}, allow_blank: false %>
+      <div class="mod-date flex-row-end-centered">
+        <%= f.input :duration, label: "Billed Duration (hours)", input_html: {value: 8, min: 0, style: 'width:11rem;', id: 'new_duration'}, allow_blank: false %>
       </div>
       <%= f.input :address %>
       <%= f.input :room %>
