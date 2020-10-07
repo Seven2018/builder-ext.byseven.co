@@ -25,9 +25,7 @@
           <li><%= link_to 'New invoice Airtable', new_airtable_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
           <li><%= link_to 'New invoice Airtable by Trainer', new_airtable_invoiceitem_by_trainer_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
           <li><%= link_to 'New invoice Airtable by Participant', new_airtable_invoiceitem_by_attendee_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
-          <!-- <li><a data-toggle='modal' type='button' data-target='#newSevenerInvoice' style='cursor:pointer;'>New Sevener Invoice</a></li> -->
           <li><%= link_to 'Invoices List', invoice_items_path(training_id: @training.id, type: 'Invoice') %></li>
-          <li><%# link_to 'Orders List', invoice_items_path(training_id: @training.id, type: 'Order') %></li>
           <% if @training.forms.empty? %>
             <li><a data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a></li>
           <% else %>
@@ -38,7 +36,6 @@
       </div>
     <% else %>
       <div class="page-controls-buttons flex-row-between-centered">
-        <!-- <a class='btn btn-edit-green btn-icon' data-toggle="tooltip" title="Review"><i class="fas fa-file-invoice-dollar"></i></a> -->
         <%= link_to invoice_form_path(@training), class: 'btn btn-edit-green btn-icon', data: {toggle:'tooltip'}, title: 'Submit an invoice' do %>
           <i class="fas fa-file-invoice-dollar"></i>
         <% end %>
