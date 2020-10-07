@@ -133,7 +133,6 @@ class InvoiceItem < ApplicationRecord
       self.training.export_airtable
       invoice.save
     rescue
-      flash[:alert] = 'Builder has encountered an issue, please contact your administrator'
     end
   end
 
