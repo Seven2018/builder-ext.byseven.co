@@ -107,7 +107,7 @@ class InvoiceItemsController < ApplicationController
     end
     @invoice.update_price
     if @invoice.save
-      @invoice_item.export_numbers_revenue if @invoice_item.type = 'Invoice'
+      @invoice.export_numbers_revenue if @invoice.type = 'Invoice'
       redirect_to invoice_item_path(@invoice)
     end
   end
@@ -148,7 +148,7 @@ class InvoiceItemsController < ApplicationController
     end
     @invoice.update_price
     if @invoice.save
-      @invoice_item.export_numbers_revenue if @invoice_item.type = 'Invoice'
+      @invoice.export_numbers_revenue if @invoice.type = 'Invoice'
       redirect_to invoice_item_path(@invoice)
     end
   end
