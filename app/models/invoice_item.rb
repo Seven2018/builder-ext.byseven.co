@@ -141,8 +141,10 @@ class InvoiceItem < ApplicationRecord
     total = 0
     tax = 0
     self.invoice_lines.each do |line|
-      total += line.quantity * line.net_amount * (1 + line.tax_amount/100)
-      tax += line.quantity * line.net_amount * (line.tax_amount/100)
+      if !line.quantity.nil? && !line.net_amount.nil? && !line.tax_amount.nil?
+        total += line.quantity * line.net_amount * (1 + line.tax_amount/100)
+        tax += line.quantity * line.net_amount * (line.tax_amount/100)
+      end
     end
     self.update(total_amount: total, tax_amount: tax)
     self.save
