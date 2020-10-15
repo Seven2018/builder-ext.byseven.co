@@ -119,7 +119,7 @@ class InvoiceItem < ApplicationRecord
         lines = self.invoice_lines.select{|x| x.product_id == 8}
         invoice['Deposit'] = lines.map{|x| x.net_amount * x.quantity}.sum.to_f
       end
-      expenses = self.products.select{|x| [4,5,6].include?(x.id)}
+      expenses = self.products.compact.select{|x| [4,5,6].include?(x.id)}
       if expenses.present?
         lines = self.invoice_lines.select{|x| expenses.include?(x.product)}
         invoice['Billed Expenses'] = lines.map{|x| x.net_amount * x.quantity}.sum.to_f
