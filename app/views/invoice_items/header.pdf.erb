@@ -41,7 +41,7 @@
             <p><%= airtable_billing_contact['Company/School Service'] %></p>
             <p><%= airtable_billing_contact['Address'] %></p>
             <p><%= airtable_billing_contact['Zipcode'] %> <%= airtable_billing_contact['City'] %></p>
-          <% elsif @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? %>
+          <% elsif @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? && (@invoice_item.training.client_company == @invoice_item.client_company) %>
             <p><%= @invoice_item&.training&.client_contact.billing_contact %></p>
             <p><%= @invoice_item&.training&.client_contact.billing_address %></p>
             <p><%= @invoice_item&.training&.client_contact.billing_zipcode %> <%= @invoice_item&.training&.client_contact.billing_city %></p>
