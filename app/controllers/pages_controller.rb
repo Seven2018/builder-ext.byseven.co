@@ -119,7 +119,8 @@ class PagesController < ApplicationController
         company = OverviewClient.find(contact['Company/School'].join)
         if contact['Builder_id'].nil?
           if company['Builder_id'].nil?
-            new_company = ClientCompany.create(name: company['Name'], address: company['Address'], zipcode: company['Zipcode'], city: company['City'], client_company_type: company['Type'], description: '')
+            reference = (ClientCompany.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) if ClientCompany.all.count != 0
+            new_company = ClientCompany.create(name: company['Name'], address: company['Address'], zipcode: company['Zipcode'], city: company['City'], client_company_type: company['Type'], description: '', reference: reference)
             company['Builder_id'] = new_company.id
             company.save
           end
