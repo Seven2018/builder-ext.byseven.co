@@ -107,7 +107,7 @@ class InvoiceItemsController < ApplicationController
     end
     @invoice.update_price
     if @invoice.save
-      @invoice.export_numbers_revenue if @invoice.type = 'Invoice'
+      @invoice.export_numbers_revenue if @invoice.type == 'Invoice'
       redirect_to invoice_item_path(@invoice)
     end
   end
@@ -286,8 +286,8 @@ class InvoiceItemsController < ApplicationController
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
         new_invoice_line.update(invoice_item_id: new_invoice_item.id)
       end
-      new_invoice.update_price
-      new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
+      new_invoice_item.update_price
+      new_invoice_item.export_numbers_revenue if new_invoice_item.type = 'Invoice'
       redirect_to invoice_item_path(new_invoice_item)
     else
       raise

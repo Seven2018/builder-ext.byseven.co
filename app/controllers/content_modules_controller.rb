@@ -47,7 +47,7 @@ class ContentModulesController < ApplicationController
     @content = Content.find(params[:content_id])
     @content_module.destroy
     position = 1
-    @content.content_moduless.order(position: :asc).each do |mod|
+    @content.content_modules.order(position: :asc).each do |mod|
       mod.update(position: position)
       position += 1
     end
