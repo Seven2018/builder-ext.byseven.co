@@ -8,13 +8,8 @@ Rails.application.routes.draw do
   get 'numbers_activity', to: 'pages#numbers_activity', as: 'numbers_activity'
   get 'numbers_sales', to: 'pages#numbers_sales', as: 'numbers_sales'
   get 'dashboard_sevener', to: 'pages#dashboard_sevener', as: 'dashboard_sevener'
-  get 'overlord', to: 'pages#overlord', as: 'overlord'
   get 'contact_form', to: 'pages#contact_form', as: 'contact_form'
   get 'contact_form_seven_x_bam', to: 'pages#contact_form_seven_x_bam', as: 'contact_form_seven_x_bam'
-  get 'inscriptions_kea_partners_c', to: 'pages#kea_partners_c', as: 'kea_partners_c'
-  get 'inscriptions_kea_partners_m', to: 'pages#kea_partners_m', as: 'kea_partners_m'
-  get 'inscriptions_kea_partners_d', to: 'pages#kea_partners_d', as: 'kea_partners_d'
-  get 'inscriptions_kea_partners_thanks', to: 'pages#kea_partners_thanks', as: 'kea_partners_thanks'
   get 'billing', to: 'pages#billing', as: 'billing'
 
   # AIRTABLE

@@ -9,9 +9,6 @@ class PagesController < ApplicationController
     @trainings = Training.select{|x| x.trainers.include?(@user)}
   end
 
-  def overlord
-  end
-
   def contact_form
     unless params[:email_2].present? || params[:email].empty?
       contact = IncomingContact.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message], 'Training' => params[:training], 'Date' => DateTime.now.strftime('%Y-%m-%d'))
@@ -32,21 +29,6 @@ class PagesController < ApplicationController
       IncomingSpam.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message])
     end
     redirect_to 'https://learn.byseven.co/thank-you.html'
-  end
-
-  def kea_partners_c
-    session[:my_previous_url] = kea_partners_c_path
-  end
-
-  def kea_partners_m
-    session[:my_previous_url] = kea_partners_m_path
-  end
-
-  def kea_partners_d
-    session[:my_previous_url] = kea_partners_d_path
-  end
-
-  def kea_partners_thanks
   end
 
   def survey
@@ -119,7 +101,7 @@ class PagesController < ApplicationController
         company = OverviewClient.find(contact['Company/School'].join)
         if contact['Builder_id'].nil?
           if company['Builder_id'].nil?
-            reference = (ClientCompany.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) if ClientCompany.all.count != 0
+            reference = (ClientCompany.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0') if ClientCompany.all.count != 0
             new_company = ClientCompany.create(name: company['Name'], address: company['Address'], zipcode: company['Zipcode'], city: company['City'], client_company_type: company['Type'], description: '', reference: reference)
             company['Builder_id'] = new_company.id
             company.save
