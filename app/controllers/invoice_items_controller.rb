@@ -303,6 +303,7 @@ class InvoiceItemsController < ApplicationController
     elsif company.client_company_type == 'OPCO'
       @invoice_item.update(client_company_id: @invoice_item.description.to_i, description: nil)
     end
+    @invoice_item.export_numbers_revenue
     redirect_to invoice_item_path(@invoice_item)
   end
 

@@ -23,7 +23,6 @@ gem 'omniauth-linkedin-oauth2'
 gem "linkedin-v2"
 gem 'rest-client', '~> 2.1'
 gem 'autoprefixer-rails'
-# gem 'bootstrap-sass', '~> 3.3'
 gem 'font-awesome-sass', '~> 5.5.0'
 gem 'sassc-rails'
 gem 'simple_form'

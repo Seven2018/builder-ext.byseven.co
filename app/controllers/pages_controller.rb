@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:home, :survey, :kea_partners_c, :kea_partners_m, :kea_partners_d, :kea_partners_thanks, :contact_form, :contact_form_seven_x_bam]
+  skip_before_action :authenticate_user!, only: [:home, :survey, :contact_form, :contact_form_seven_x_bam]
+  skip_authorize_resource only: [:home, :survey, :contact_form, :contact_form_seven_x_bam]
 
   def home
   end
@@ -11,12 +12,12 @@ class PagesController < ApplicationController
 
   def contact_form
     unless params[:email_2].present? || params[:email].empty?
-      contact = IncomingContact.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message], 'Training' => params[:training], 'Date' => DateTime.now.strftime('%Y-%m-%d'))
+      # contact = IncomingContact.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message], 'Training' => params[:training], 'Date' => DateTime.now.strftime('%Y-%m-%d'))
       IncomingContactMailer.with(user: User.find(2)).new_incoming_contact(contact).deliver
       IncomingContactMailer.with(user: User.find(3)).new_incoming_contact(contact).deliver
       IncomingContactMailer.with(user: User.find(4)).new_incoming_contact(contact).deliver
     else
-      IncomingSpam.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message])
+      # IncomingSpam.create('Name' => params[:name], 'Email' => params[:email], 'Message' => params[:message])
     end
     redirect_to 'https://learn.byseven.co/thank-you.html'
   end
