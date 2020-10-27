@@ -1,6 +1,5 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:home, :survey, :contact_form, :contact_form_seven_x_bam]
-  skip_authorize_resource only: [:home, :survey, :contact_form, :contact_form_seven_x_bam]
 
   def home
   end
