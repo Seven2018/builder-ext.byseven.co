@@ -228,11 +228,11 @@
     </div>
   </div>
   <div class="training-info-footer">
-    <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && (@training.mode == 'Company' || @training.mode.nil?) %>
+    <%# if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && (@training.mode == 'Company' || @training.mode.nil?) %>
       <a class='btn btn-edit-yellow' id='add-session-button' data-toggle='modal' data-target='#newSession'>Add a session</a>
-      <% elsif (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.mode == 'School'%>
-      <%= link_to 'Add a session', new_training_session_path(@training), class: 'btn btn-edit-yellow' %>
-    <% end %>
+    <%# elsif (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.mode == 'School'%>
+      <%# link_to 'Add a session', new_training_session_path(@training), class: 'btn btn-edit-yellow' %>
+    <%# end %>
   </div>
 </div>
 
