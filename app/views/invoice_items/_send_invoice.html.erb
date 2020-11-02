@@ -13,6 +13,8 @@
     <%= simple_form_for :invoice_mail, url: send_invoice_mail_path(@invoice_item), method: 'GET' do |f| %>
       <% if @invoice_item.type == 'Estimate' %>
         <%= f.input :to, collection: @invoice_item.client_company.client_contacts, label_method: :name, value_method: :email, include_blank: false %>
+      <% elsif @invoice_item.training.nil? %>
+        <p>Please add a contact for this Partner</p>
       <% else %>
         <%= f.input :to, collection: @invoice_item.training.client_contact.client_company.client_contacts, label_method: :name, value_method: :email, include_blank: false %>
       <% end %>
