@@ -10,7 +10,7 @@ class AccessToken
 end
 
 class InvoiceItemsController < ApplicationController
-  before_action :set_invoice_item, only: [:show, :edit, :copy, :copy_here, :edit_client, :credit, :marked_as_send, :marked_as_paid, :marked_as_reminded, :destroy, :upload_sevener_invoice_to_drive]
+  before_action :set_invoice_item, only: [:show, :edit, :copy, :copy_here, :transform_to_invoice, :edit_client, :credit, :marked_as_send, :marked_as_paid, :marked_as_reminded, :destroy, :upload_sevener_invoice_to_drive]
 
   # Indexes with a filter option (see below)
   def index
@@ -288,6 +288,24 @@ class InvoiceItemsController < ApplicationController
       end
       new_invoice_item.update_price
       new_invoice_item.export_numbers_revenue if new_invoice_item.type = 'Invoice'
+      redirect_to invoice_item_path(new_invoice_item)
+    else
+      raise
+    end
+  end
+
+  def transform_to_invoice
+    authorize @invoice_item
+    new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
+    new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
+    new_invoice_item.status = 'En attente'
+    new_invoice_item.type = 'Invoice'
+    if new_invoice_item.save
+      @invoice_item.invoice_lines.each do |line|
+        new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
+        new_invoice_line.update(invoice_item_id: new_invoice_item.id)
+      end
+      new_invoice_item.update_price
       redirect_to invoice_item_path(new_invoice_item)
     else
       raise

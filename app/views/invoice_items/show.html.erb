@@ -36,6 +36,9 @@
                 <i class="fas fa-trash-alt"></i>
               <% end %>
             <% end %>
+            <%= link_to transform_to_invoice_path(@invoice_item), class: "btn btn-edit-red btn-icon", data: {toggle: 'tooltip'}, title: 'Transform to Invoice' do %>
+                <i class="fas fa-file-invoice-dollar"></i>
+            <% end %>
             <button class='btn btn-edit-green btn-icon invoiceitem_copy' data-toggle='modal' data-toggle='tooltip' data-target='#copyInvoiceItem' title='Copy Invoice'><i class="fas fa-copy"></i></button>
             <a id='show_library' class='btn btn-edit-grey btn-icon' data-toggle="tooltip" title="Show Products"><i class="fas fa-book"></i></i></a>
           </div>
