@@ -142,7 +142,7 @@
           <% @invoice_item.total_amount = total_net.sum %>
           <% @invoice_item.save %>
           <% if @invoice_item.type == 'Order' %>
-            <p>TVA non applicable, article 293b du CGI</p>
+            <p>TVA non applicable, art. 261-4 du CGI</p>
           <% else %>
             <div>
               <p>Echéance(s)</p>
