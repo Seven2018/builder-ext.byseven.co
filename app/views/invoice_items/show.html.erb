@@ -24,9 +24,11 @@
                 <i class="fas fa-file-pdf"></i>
               </button>
             <% end %>
-            <button class='btn btn-edit-orange btn-icon' data-toggle='modal' data-toggle='tooltip' data-target='#sendInvoiceItem' title='Send Invoice'>
-              <i class="fas fa-envelope"></i>
-            </button>
+            <% unless @invoice_item.training.nil? %>
+              <button class='btn btn-edit-orange btn-icon' data-toggle='modal' data-toggle='tooltip' data-target='#sendInvoiceItem' title='Send Invoice'>
+                <i class="fas fa-envelope"></i>
+              </button>
+            <% end %>
             <% if @invoice_item.type == 'Invoice' %>
               <%= link_to credit_invoice_item_path(@invoice_item), class: "btn btn-edit-red btn-icon", data: {toggle: 'tooltip'}, title: 'Credit Note' do %>
                   <i class="fas fa-file-invoice-dollar"></i>
@@ -231,11 +233,13 @@
     </div>
   </div>
 
-  <div class="modal fade" id="sendInvoiceItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
-      <%= render 'invoice_items/send_invoice', invoice_item: @invoice_item %>
+  <% unless @invoice_item.training.nil? %>
+    <div class="modal fade" id="sendInvoiceItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+        <%= render 'invoice_items/send_invoice', invoice_item: @invoice_item %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="modal fade" id="editClient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document" style="border-radius: 2rem">
