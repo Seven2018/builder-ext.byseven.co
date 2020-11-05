@@ -183,7 +183,6 @@ class Training < ApplicationRecord
       existing_card['SEVEN Invoice(s)'] = seven_invoices
       existing_card.save
     rescue
-      flash[:alert] = 'Builder has encountered an issue, please contact your administrator'
     end
   end
 
