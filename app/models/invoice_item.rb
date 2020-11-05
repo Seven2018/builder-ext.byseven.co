@@ -105,6 +105,8 @@ class InvoiceItem < ApplicationRecord
         lines = self.invoice_lines.select{|x| x.product_id == 2}
       elsif self.products.include?(Product.find(7))
         lines = self.invoice_lines.select{|x| x.product_id == 7}
+      elsif self.products.include?(Product.find(9))
+        lines = self.invoice_lines.select{|x| x.product_id == 9}
       else
         invoice['Unit Number'] = 0
       end
