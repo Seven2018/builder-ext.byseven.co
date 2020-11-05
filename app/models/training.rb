@@ -162,24 +162,12 @@ class Training < ApplicationRecord
       if seveners
         self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
           numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
-          if numbers_card.present? && numbers_card['Total Due'] == numbers_card['Total Paid']
-            if numbers_card['Billing Type'] == 'Hourly'
-              seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n"
-            elsif numbers_card['Billing Type'] == 'Flat rate'
-              seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Price']}€\n"
-            end
-          elsif numbers_card.present?
-            if numbers_card['Billing Type'] == 'Hourly'
-              seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€ (Montant restant du : #{numbers_card['Total Due'] - numbers_card['Total Paid']}€)\n"
-            elsif numbers_card['Billing Type'] == 'Flat rate'
-              seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Price']}€\n"
-            end
-          end
+          self.update_seveners_to_pay(user, numbers_card, existing_card)
         end
       else
         seveners_to_pay += "[x] Aucun\n"
       end
-      existing_card['Seveners to pay'] = seveners_to_pay
+      existing_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
       existing_card['SEVEN Invoice(s)'] = seven_invoices
       existing_card.save
     rescue
@@ -205,12 +193,11 @@ class Training < ApplicationRecord
         end
       end
     rescue
-      flash[:alert] = 'Builder has encountered an issue, please contact your administrator'
     end
   end
 
   def export_numbers_sevener(user)
-    begin
+    # begin
       sevener = OverviewUser.all.select{|x| x['Builder_id'] == user.id}&.first
       card = OverviewNumbersSevener.all.select{|x| x['Reference SEVEN'] == [self.refid] && x['Sevener'] == [sevener.id]}&.first
       invoices = OverviewInvoiceSevener.all.select{|x| x['Training Reference'] == [self.refid] && x['Sevener'] == [sevener.id]}
@@ -231,8 +218,32 @@ class Training < ApplicationRecord
       card['User_id'] = user.id
       card['Training_id'] = self.id
       card.save
-    rescue
-      flash[:alert] = 'Builder has encountered an issue, please contact your administrator'
+      self.update_seveners_to_pay(user, card)
+    # rescue
+    # end
+  end
+
+  private
+
+  def update_seveners_to_pay(user, numbers_card, training_card = nil)
+    if training_card.nil?
+      training_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
     end
+    seveners_to_pay = ''
+    if numbers_card['Total Due (incl. VAT)'] == numbers_card['Total Paid']
+      if numbers_card['Billing Type'] == 'Hourly'
+        seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n"
+      elsif numbers_card['Billing Type'] == 'Flat rate'
+        seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Price']}€\n"
+      end
+    else
+      if numbers_card['Billing Type'] == 'Hourly'
+        seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€ (Montant restant du : #{numbers_card['Total Due (incl. VAT)'] - numbers_card['Total Paid']}€)\n"
+      elsif numbers_card['Billing Type'] == 'Flat rate'
+        seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Price']}€\n"
+      end
+    end
+    training_card['Seveners to pay'] = seveners_to_pay
+    training_card.save
   end
 end
