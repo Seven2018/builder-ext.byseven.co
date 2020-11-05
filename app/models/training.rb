@@ -217,9 +217,11 @@ class Training < ApplicationRecord
       dates = ''
       unless card.present?
         card = OverviewNumbersSevener.create('Training' => [OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first.id], 'Sevener' => [sevener.id], 'Billing Type' => 'Hourly')
+        self.client_contact.client_company.client_company_type == 'Company' ? card['Unit Price'] = 80 : card['Unit Price'] = 40
       end
-      self.client_contact.client_company.client_company_type == 'Company' ? card['Unit Price'] = 80 : card['Unit Price'] = 40
-      card['Unit Number'] = user.hours(self)
+      unless card['Billing Type'] == 'Flat rate'
+        card['Unit Number'] = user.hours(self)
+      end
       card['Invoices Sevener'] = invoices.map{|x| x.id}
       card['Total Paid'] = invoices.map{|x| x['Amount'] if x['Status'] == 'Paid'}.sum
       self.sessions.each do |session|
