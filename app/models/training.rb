@@ -220,7 +220,7 @@ class Training < ApplicationRecord
       card.save
       self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
         numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
-        self.update_seveners_to_pay(user, numbers_card, card)
+        self.update_seveners_to_pay(user, numbers_card)
       end
     # rescue
     # end
