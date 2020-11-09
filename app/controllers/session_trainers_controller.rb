@@ -161,7 +161,7 @@ class SessionTrainersController < ApplicationController
 
     if @session.date.present?
       # begin
-        UpdateAirtableJob.perform_now(@session.training, true)
+        UpdateAirtableJob.perform_later(@session.training, true)
         # @session.training.export_airtable
         # @session.training.export_trainer_airtable
         # @session.training.export_numbers_activity
@@ -218,7 +218,7 @@ class SessionTrainersController < ApplicationController
       trainers_list += "#{user.id},"
     end
 
-    UpdateAirtableJob.perform_now(training, true)
+    UpdateAirtableJob.perform_later(training, true)
     # training.export_airtable
     # training.export_trainer_airtable
     # training.export_numbers_activity
@@ -235,7 +235,7 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    UpdateAirtableJob.perform_now(@session.training, true)
+    UpdateAirtableJob.perform_later(@session.training, true)
     # @session.training.export_airtable
     # @session.training.export_trainer_airtable
     redirect_to redirect_path(session_id: "|#{@session.id}|", list: 'purge_session', to_delete: "%#{event_to_delete}%")
@@ -255,7 +255,7 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    UpdateAirtableJob.perform_now(training, true)
+    UpdateAirtableJob.perform_later(training, true)
     # training.export_airtable
     # training.export_trainer_airtable
     redirect_to redirect_path(session_id: "|#{sessions_ids[0...-1]}|", list: 'purge_training', to_delete: "%#{event_to_delete}%")
