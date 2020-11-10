@@ -104,7 +104,7 @@ class Training < ApplicationRecord
   end
 
   def export_airtable
-    begin
+    # begin
       existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
       details = "Détail des sessions (date, horaires, intervenants):\n\n"
       seven_invoices = "Factures SEVEN :\n"
@@ -182,8 +182,8 @@ class Training < ApplicationRecord
       existing_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
       existing_card['SEVEN Invoice(s)'] = seven_invoices
       existing_card.save
-    rescue
-    end
+    # rescue
+    # end
   end
 
   def export_numbers_activity
@@ -231,24 +231,21 @@ class Training < ApplicationRecord
       card['Training_id'] = self.id
       seveners_to_pay = ''
       self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
-        self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
-          card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
-          if card['Total Due (incl. VAT)'] == card['Total Paid']
-            if card['Billing Type'] == 'Hourly'
-              seveners_to_pay += "[x] #{user.fullname} : #{card['Unit Number']}h x #{card['Unit Price']}€ = #{card['Unit Number']*card['Unit Price']}€\n"
-            elsif card['Billing Type'] == 'Flat rate'
-              seveners_to_pay += "[x] #{user.fullname} : #{card['Unit Price']}€\n"
-            end
-          else
-            if card['Billing Type'] == 'Hourly'
-              seveners_to_pay += "[ ] #{user.fullname} : #{card['Unit Number']}h x #{card['Unit Price']}€ = #{card['Unit Number']*card['Unit Price']}€ (Montant restant du : #{card['Total Due (incl. VAT)'] - card['Total Paid']}€)\n"
-            elsif card['Billing Type'] == 'Flat rate'
-              seveners_to_pay += "[ ] #{user.fullname} : #{card['Unit Price']}€\n"
-            end
+        if card['Total Due (incl. VAT)'] == card['Total Paid']
+          if card['Billing Type'] == 'Hourly'
+            seveners_to_pay += "[x] #{user.fullname} : #{card['Unit Number']}h x #{card['Unit Price']}€ = #{card['Unit Number']*card['Unit Price']}€\n"
+          elsif card['Billing Type'] == 'Flat rate'
+            seveners_to_pay += "[x] #{user.fullname} : #{card['Unit Price']}€\n"
+          end
+        else
+          if card['Billing Type'] == 'Hourly'
+            seveners_to_pay += "[ ] #{user.fullname} : #{card['Unit Number']}h x #{card['Unit Price']}€ = #{card['Unit Number']*card['Unit Price']}€ (Montant restant du : #{card['Total Due (incl. VAT)'] - card['Total Paid']}€)\n"
+          elsif card['Billing Type'] == 'Flat rate'
+            seveners_to_pay += "[ ] #{user.fullname} : #{card['Unit Price']}€\n"
           end
         end
       end
-      existing_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
+      card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
       card.save
     # rescue
     # end
