@@ -110,7 +110,7 @@ class Training < ApplicationRecord
       seven_invoices = "Factures SEVEN :\n"
       OverviewNumbersRevenue.all.select{|x| x['Training_id'] == self.id}.sort_by{|x| x['Invoice_id']}.each do |invoice|
         builder_invoice = InvoiceItem.find(invoice['Invoice_id'])
-        invoice['Paid'] == true ? seven_invoices += "[x] #{builder_invoice.uuid}\n" : seven_invoices += "[ ] #{builder_invoice.uuid}\n"
+        invoice['Paid'] == true ? seven_invoices += "[x] #{builder_invoice.uuid} \n" : seven_invoices += "[ ] #{builder_invoice.uuid} \n"
       end
       self.sessions.each do |session|
         if session.date.present?
