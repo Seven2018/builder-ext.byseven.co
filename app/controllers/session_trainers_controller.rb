@@ -125,17 +125,14 @@ class SessionTrainersController < ApplicationController
     @session_trainer = SessionTrainer.new
     authorize @session_trainer
     @session = Session.find(params[:session_id])
-    # Lists all pre-existing SessionTrainers, to be deleted
-    event_to_delete = ''
-    SessionTrainer.where(session_id: @session.id).each do |trainer|
-      if trainer.calendar_uuid.present?
-        trainer.calendar_uuid.split(' - ').each do |event_id|
-          event_to_delete+=trainer.user_id.to_s+':'+event_id+',' if trainer.calendar_uuid.present?
-        end
+    # Select all Users whose checkbox is unchecked and destroy their SessionTrainer, if existing
+    SessionTrainer.where(session_id: @session.id).map{|x| x.user.id}.each do |ind|
+      unless SessionTrainer.where(session_id: @session.id, user_id: ind).empty?
+        to_delete = SessionTrainer.where(session_id: @session.id, user_id: ind).first
+        @session.training.gdrive_link.nil? ? @session.training.update(gdrive_link: ind.to_s + ':' + to_delete.calendar_uuid + ',') : @session.training.update(gdrive_link: @session.training.gdrive_link + ind.to_s + ':' + to_delete.calendar_uuid + ',')
+        to_delete.destroy
       end
-      trainer.destroy
     end
-    event_to_delete = event_to_delete[0...-1]
     # Select all Users whose checkbox is checked and create a SessionTrainer
     array = params[:session][:user_ids].reject(&:empty?).map(&:to_i)
     array.each do |ind|
@@ -147,50 +144,14 @@ class SessionTrainersController < ApplicationController
         end
       end
     end
-    # Select all Users whose checkbox is unchecked and destroy their SessionTrainer, if existing
-    (User.ids - array).each do |ind|
-      unless SessionTrainer.where(session_id: @session.id, user_id: ind).empty?
-        SessionTrainer.where(session_id: @session.id, user_id: ind).first.destroy
-      end
-    end
 
-    trainers_list = ''
-    @session.users.each do |user|
-      trainers_list += "#{user&.id},"
-    end
-
-    if @session.date.present?
-      # begin
-        UpdateAirtableJob.perform_later(@session.training, true)
-        # @session.training.export_airtable
-        # @session.training.export_trainer_airtable
-        # @session.training.export_numbers_activity
-        # @session.users.where(access_level: ['sevener', 'sevener+']).each{|x| @session.training.export_numbers_sevener(x)}
-      # rescue
-      # end
-      redirect_to redirect_path(list: trainers_list, session_id: "|#{@session.id}|", to_delete: "%#{event_to_delete}%")
-    else
-      redirect_back(fallback_location: root_path)
-    end
+    redirect_back(fallback_location: root_path)
   end
 
   def create_all
     @session_trainer = SessionTrainer.new
     authorize @session_trainer
     training = Training.find(params[:training_id])
-    event_to_delete = ''
-    sessions_ids = ''
-    training.sessions.each do |session|
-      SessionTrainer.where(session_id: session.id).each do |trainer|
-        if trainer.calendar_uuid.present?
-          trainer.calendar_uuid.split(' - ').each do |event_id|
-            event_to_delete+=trainer.user_id.to_s+':'+event_id+',' if trainer.calendar_uuid.present?
-          end
-        end
-      end
-      sessions_ids += session.id.to_s + ','
-    end
-    event_to_delete = event_to_delete[0...-1]
     # Select all Users whose checkbox is checked and create a SessionTrainer
     array = params[:training][:user_ids].drop(1).map(&:to_i)
     array.each do |ind|
@@ -208,20 +169,43 @@ class SessionTrainersController < ApplicationController
     (User.ids - array).each do |ind|
       training.sessions.each do |session|
         unless SessionTrainer.where(session_id: session.id, user_id: ind).empty?
-          SessionTrainer.where(session_id: session.id, user_id: ind).first.destroy
+          to_delete = SessionTrainer.where(session_id: @session.id, user_id: ind).first
+          @session.training.gdrive_link.nil? ? @session.training.update(gdrive_link: ind + ':' + to_delete.calendar_uuid + ',') : @session.training.update(gdrive_link: @session.training.gdrive_link + ind + ':' + to_delete.calendar_uuid + ',')
+          to_delete.destroy
         end
       end
     end
+
+    redirect_to training_path(training)
+  end
+
+  def update_calendar
+    @session_trainer = SessionTrainer.new
+    authorize @session_trainer
+    training = Training.find(params[:training_id])
+    event_to_delete = ''
+    sessions_ids = ''
+    training.sessions.each do |session|
+      sessions_ids += session.id.to_s + ','
+      SessionTrainer.where(session_id: session.id).each do |session_trainer|
+        if session_trainer.calendar_uuid.present?
+          session.training.gdrive_link.nil? ? session.training.update(gdrive_link: session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',') : session.training.update(gdrive_link: session.training.gdrive_link + session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',')
+        end
+      end
+    end
+    event_to_delete = training.gdrive_link[0...-1]
+    training.update(gdrive_link: '')
+    training.sessions.each{|x| x.session_trainers.each{|y| y.update(calendar_uuid: nil)}}
+
 
     trainers_list = ''
     training.trainers.each do |user|
       trainers_list += "#{user.id},"
     end
-
-    UpdateAirtableJob.perform_later(training, true)
-    # training.export_airtable
-    # training.export_trainer_airtable
-    # training.export_numbers_activity
+    # UpdateAirtableJob.perform_now(training, true)
+      training.trainers.each{|y| training.export_numbers_sevener(y)}
+    training.export_airtable
+    training.export_numbers_activity
     redirect_to redirect_path(list: trainers_list, session_id: "|#{training.sessions.ids.join(',')}|", to_delete: "%#{event_to_delete}%")
   end
 

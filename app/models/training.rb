@@ -187,7 +187,7 @@ class Training < ApplicationRecord
   end
 
   def export_numbers_activity
-    begin
+    # begin
       to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == [self.id]}
       to_delete.each{|x| x.destroy}
       card = OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first
@@ -204,49 +204,59 @@ class Training < ApplicationRecord
           end
         end
       end
-    rescue
-    end
+    # rescue
+    # end
   end
 
   def export_numbers_sevener(user)
     # begin
-      sevener = OverviewUser.all.select{|x| x['Builder_id'] == user.id}&.first
-      card = OverviewNumbersSevener.all.select{|x| x['Reference SEVEN'] == [self.refid] && x['Sevener'] == [sevener.id]}&.first
-      invoices = OverviewInvoiceSevener.all.select{|x| x['Training Reference'] == [self.refid] && x['Sevener'] == [sevener.id]}
-      dates = ''
-      unless card.present?
-        card = OverviewNumbersSevener.create('Training' => [OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first.id], 'Sevener' => [sevener.id], 'Billing Type' => 'Hourly')
-        self.client_contact.client_company.client_company_type == 'Company' ? card['Unit Price'] = 80 : card['Unit Price'] = 40
-      end
-      unless card['Billing Type'] == 'Flat rate'
-        card['Unit Number'] = user.hours(self)
-      end
-      card['Invoices Sevener'] = invoices.map{|x| x.id}
-      card['Total Paid'] = invoices.map{|x| x['Amount'] if x['Status'] == 'Paid'}.sum
-      self.sessions.each do |session|
-        dates += session.date.strftime('%d/%m/%Y') + "\n" if session.users.include?(user) if session.date.present?
-      end
-      card['Dates'] = dates
-      card['User_id'] = user.id
-      card['Training_id'] = self.id
-      seveners_to_pay = ''
-      self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
-        if card['Total Due (incl. VAT)'] == card['Total Paid']
-          if card['Billing Type'] == 'Hourly'
-            seveners_to_pay += "[x] #{user.fullname} : #{card['Unit Number']}h x #{card['Unit Price']}€ = #{card['Unit Number']*card['Unit Price']}€\n"
-          elsif card['Billing Type'] == 'Flat rate'
-            seveners_to_pay += "[x] #{user.fullname} : #{card['Unit Price']}€\n"
-          end
-        else
-          if card['Billing Type'] == 'Hourly'
-            seveners_to_pay += "[ ] #{user.fullname} : #{card['Unit Number']}h x #{card['Unit Price']}€ = #{card['Unit Number']*card['Unit Price']}€ (Montant restant du : #{card['Total Due (incl. VAT)'] - card['Total Paid']}€)\n"
-          elsif card['Billing Type'] == 'Flat rate'
-            seveners_to_pay += "[ ] #{user.fullname} : #{card['Unit Price']}€\n"
+        cards = OverviewNumbersSevener.all.select{|x| x['Reference SEVEN'] == [self.refid]}
+        cards.each do |trainer|
+          unless self.trainers.include?(OverviewUser.find(trainer['Sevener'].join)['Builder_id'])
+            trainer.destroy
           end
         end
-      end
-      card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
-      card.save
+        if ['sevener', 'sevener+'].include?(user.access_level)
+          sevener = OverviewUser.all.select{|x| x['Builder_id'] == user.id}&.first
+          card = OverviewNumbersSevener.all.select{|x| x['Reference SEVEN'] == [self.refid] && x['Sevener'] == [sevener.id]}&.first
+          invoices = OverviewInvoiceSevener.all.select{|x| x['Training Reference'] == [self.refid] && x['Sevener'] == [sevener.id]}
+          dates = ''
+          unless card.present?
+            card = OverviewNumbersSevener.create('Training' => [OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first.id], 'Sevener' => [sevener.id], 'Billing Type' => 'Hourly')
+            self.client_contact.client_company.client_company_type == 'Company' ? card['Unit Price'] = 80 : card['Unit Price'] = 40
+          end
+          unless card['Billing Type'] == 'Flat rate'
+            card['Unit Number'] = user.hours(self)
+          end
+          card['Invoices Sevener'] = invoices.map{|x| x.id}
+          card['Total Paid'] = invoices.map{|x| x['Amount'] if x['Status'] == 'Paid'}.sum
+          self.sessions.each do |session|
+            dates += session.date.strftime('%d/%m/%Y') + "\n" if session.users.include?(user) if session.date.present?
+          end
+          card['Dates'] = dates
+          card['User_id'] = user.id
+          card['Training_id'] = self.id
+          seveners_to_pay = ''
+          self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
+            if card['Total Due (incl. VAT)'] == card['Total Paid']
+              if card['Billing Type'] == 'Hourly'
+                seveners_to_pay += "[x] #{user.fullname} : #{card['Unit Number']}h x #{card['Unit Price']}€ = #{card['Unit Number']*card['Unit Price']}€\n"
+              elsif card['Billing Type'] == 'Flat rate'
+                seveners_to_pay += "[x] #{user.fullname} : #{card['Unit Price']}€\n"
+              end
+            else
+              if card['Billing Type'] == 'Hourly'
+                seveners_to_pay += "[ ] #{user.fullname} : #{card['Unit Number']}h x #{card['Unit Price']}€ = #{card['Unit Number']*card['Unit Price']}€ (Montant restant du : #{card['Total Due (incl. VAT)'] - card['Total Paid']}€)\n"
+              elsif card['Billing Type'] == 'Flat rate'
+                seveners_to_pay += "[ ] #{user.fullname} : #{card['Unit Price']}€\n"
+              end
+            end
+          end
+          training_card = OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first
+          training_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
+          training_card.save
+          card.save
+        end
     # rescue
     # end
   end

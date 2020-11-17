@@ -114,6 +114,7 @@ Rails.application.routes.draw do
   post 'trainings/:id/certificate', to: 'trainings#certificate', as: 'certificate_training'
   post 'trainings/:id/certificate_rs', to: 'trainings#certificate_rs', as: 'certificate_rs_training'
   get 'trainings/:id/invoice_form', to: 'trainings#invoice_form', as: 'invoice_form'
+  get 'trainings/:id/update_calendar', to: 'session_trainers#update_calendar', as: 'update_calendar'
 
   # ATTENDEES
   resources :attendees, only: [:index, :show, :new, :create]
