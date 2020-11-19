@@ -109,8 +109,8 @@
     </div>
   </div>
   <div class="middle-info2">
-    <p id='survey-link' class='btn btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
     <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+      <p id='survey-link' class='btn btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
       <%= simple_form_for @training, html: { class: "hidden", id: 'survey-form' } do |f| %>
         <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
           <%= f.input :satisfaction_survey, placeholder: 'Add a link to the survey', value: @training.satisfaction_survey, label: false, input_html: { style: 'width: 200px;'} %>
@@ -119,6 +119,8 @@
           <% end %>
         </div>
       <% end %>
+    <% else %>
+      <p id='survey-link' class='btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
     <% end %>
     <div>
       <% trainers = 0 %>
@@ -382,12 +384,14 @@
       form.classList.toggle('hidden');
     })
   </script>
-  <script language="JavaScript">
-    window.onbeforeunload = confirmExit;
-    function confirmExit()
-    {
-      return "some message about leaving";
-    }
+  <script>
+$( window ).unload(function() {
+  return "Bye now!";
+});
   </script>
+
+  <div id="dialog-confirm" title="Empty the recycle bin?">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+  </div>
 <% end %>
 
