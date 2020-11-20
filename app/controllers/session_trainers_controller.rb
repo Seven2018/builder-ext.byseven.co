@@ -193,7 +193,7 @@ class SessionTrainersController < ApplicationController
         end
       end
     end
-    event_to_delete = training.gdrive_link[0...-1]
+    event_to_delete = training.gdrive_link[0...-1] unless training.gdrive_link == ''
     training.update(gdrive_link: '')
     training.sessions.each{|x| x.session_trainers.each{|y| y.update(calendar_uuid: nil)}}
 
