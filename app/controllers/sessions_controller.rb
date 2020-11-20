@@ -68,13 +68,14 @@ class SessionsController < ApplicationController
     event_to_delete = event_to_delete[0...-1]
 
     if @session.save && (params[:session][:date].present?)
-      UpdateAirtableJob.perform_later(@training, true)
-      @session.training.export_numbers_activity
-      redirect_to redirect_path(session_id: "|#{@session.id}|", list: trainers_list, to_delete: "%#{event_to_delete}%")
-    elsif @session.save
-      UpdateAirtableJob.perform_later(@training, true)
-      @session.training.export_numbers_activity
+      #UpdateAirtableJob.perform_later(@training, true)
+      #@session.training.export_numbers_activity
+      #redirect_to redirect_path(session_id: "|#{@session.id}|", list: trainers_list, to_delete: "%#{event_to_delete}%")
       redirect_to training_path(@session.training)
+    #elsif @session.save
+      #UpdateAirtableJob.perform_later(@training, true)
+      #@session.training.export_numbers_activity
+      #redirect_to training_path(@session.training)
     else
       redirect_to training_path(@session.training)
       flash[:alert] = 'Something went wrong, please verify all parameters (ex: is the new session date included in the training period ?)'
@@ -123,7 +124,7 @@ class SessionsController < ApplicationController
       end
       i = 1
       new_session.workshops.order(position: :asc).each{|workshop| workshop.update(position: i); i += 1}
-      UpdateAirtableJob.perform_later(training, true)
+      #UpdateAirtableJob.perform_later(training, true)
       redirect_to training_path(training)
     else
       raise
@@ -144,7 +145,7 @@ class SessionsController < ApplicationController
           new_mod.update(workshop_id: new_workshop.id)
         end
       end
-      UpdateAirtableJob.perform_later(@session.training, true)
+      #UpdateAirtableJob.perform_later(@session.training, true)
       redirect_to training_path(@session.training)
     else
       raise
