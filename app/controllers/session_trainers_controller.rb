@@ -144,7 +144,7 @@ class SessionTrainersController < ApplicationController
         end
       end
     end
-
+    UpdateAirtableJob.perform_later(@session.training, true)
     redirect_back(fallback_location: root_path)
   end
 
@@ -175,7 +175,7 @@ class SessionTrainersController < ApplicationController
         end
       end
     end
-
+    UpdateAirtableJob.perform_later(training, true)
     redirect_to training_path(training)
   end
 
@@ -203,9 +203,9 @@ class SessionTrainersController < ApplicationController
       trainers_list += "#{user.id},"
     end
     # UpdateAirtableJob.perform_now(training, true)
-      training.trainers.each{|y| training.export_numbers_sevener(y)}
-    training.export_airtable
-    training.export_numbers_activity
+    # training.trainers.each{|y| training.export_numbers_sevener(y)}
+    # training.export_airtable
+    # training.export_numbers_activity
     redirect_to redirect_path(list: trainers_list, session_id: "|#{training.sessions.ids.join(',')}|", to_delete: "%#{event_to_delete}%")
   end
 
