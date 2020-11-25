@@ -212,7 +212,7 @@ class Training < ApplicationRecord
     # begin
         cards = OverviewNumbersSevener.all.select{|x| x['Reference SEVEN'] == [self.refid]}
         cards.each do |trainer|
-          unless self.trainers.include?(OverviewUser.find(trainer['Sevener'].join)['Builder_id'])
+          unless self.trainers.map{|x| x.id}.include?(OverviewUser.find(trainer['Sevener'].join)['Builder_id'])
             trainer.destroy
           end
         end
