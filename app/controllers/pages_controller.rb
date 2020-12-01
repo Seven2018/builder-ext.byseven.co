@@ -91,13 +91,13 @@ class PagesController < ApplicationController
   def import_airtable
     skip_authorization
     OverviewTraining.all.each do |card|
-      owners = OverviewUser.all.select{|x| if card['Owners'].present?; card['Owners'].include?(x.id); end}
-      writers = OverviewUser.all.select{|x| if card['Writers'].present?; card['Writers'].include?(x.id); end}
       if card['Builder_id'].present?
         training = Training.find(card['Builder_id'])
         training.update(title: card['Title']) if training.title != card['Title']
         training.update(unit_price: card['Unit Price']) if training.unit_price != card['Unit Price']
       elsif card['Partner Contact'].present?
+        owners = OverviewUser.all.select{|x| if card['Owners'].present?; card['Owners'].include?(x.id); end}
+        writers = OverviewUser.all.select{|x| if card['Writers'].present?; card['Writers'].include?(x.id); end}
         contact = OverviewContact.find(card['Partner Contact'].join)
         company = OverviewClient.find(contact['Company/School'].join)
         if contact['Builder_id'].nil?
