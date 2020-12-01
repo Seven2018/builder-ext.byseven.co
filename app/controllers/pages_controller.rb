@@ -96,7 +96,7 @@ class PagesController < ApplicationController
       if card['Builder_id'].present?
         training = Training.find(card['Builder_id'])
         training.update(title: card['Title']) if training.title != card['Title']
-        training.update(unit_price: card['Unit Price']) if training.unit_price != ard['Unit Price']
+        training.update(unit_price: card['Unit Price']) if training.unit_price != card['Unit Price']
       elsif card['Partner Contact'].present?
         contact = OverviewContact.find(card['Partner Contact'].join)
         company = OverviewClient.find(contact['Company/School'].join)
