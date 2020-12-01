@@ -95,7 +95,8 @@ class PagesController < ApplicationController
       writers = OverviewUser.all.select{|x| if card['Writers'].present?; card['Writers'].include?(x.id); end}
       if card['Builder_id'].present?
         training = Training.find(card['Builder_id'])
-        training.update(title: card['Title'], unit_price: card['Unit Price'])
+        training.update(title: card['Title']) if training.title != card['Title']
+        training.update(unit_price: card['Unit Price']) if training.unit_price != ard['Unit Price']
       elsif card['Partner Contact'].present?
         contact = OverviewContact.find(card['Partner Contact'].join)
         company = OverviewClient.find(contact['Company/School'].join)
@@ -120,20 +121,26 @@ class PagesController < ApplicationController
           card['Builder_id'] = training.id
           card['Builder Update'] = Time.now.utc.iso8601(3)
           card.save
+          owners.each do |owner|
+            TrainingOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner')
+          end
+          writers.each do |writer|
+            TrainingOwnership.create(training_id: training.id, user_id: writer['Builder_id'], user_type: 'Writer')
+          end
         end
       end
-      owners.each do |owner|
-        unless TrainingOwnership.where(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner').present?
-          TrainingOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner')
-        end
-      end
-      TrainingOwnership.where(training_id: training.id, user_type: 'Owner').where.not(user_id: owners.map{|x| x['Builder_id']}).destroy_all
-      writers.each do |writer|
-        unless TrainingOwnership.where(training_id: training.id, user_id: writer['Builder_id'], user_type: 'Writer').present?
-          TrainingOwnership.create(training_id: training.id, user_id: writer['Builder_id'], user_type: 'Writer')
-        end
-      end
-      TrainingOwnership.where(training_id: training.id, user_type: 'Writer').where.not(user_id: writers.map{|x| x['Builder_id']}).destroy_all
+      # owners.each do |owner|
+      #   unless TrainingOwnership.where(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner').present?
+      #     TrainingOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner')
+      #   end
+      # end
+      # TrainingOwnership.where(training_id: training.id, user_type: 'Owner').where.not(user_id: owners.map{|x| x['Builder_id']}).destroy_all
+      # writers.each do |writer|
+      #   unless TrainingOwnership.where(training_id: training.id, user_id: writer['Builder_id'], user_type: 'Writer').present?
+      #     TrainingOwnership.create(training_id: training.id, user_id: writer['Builder_id'], user_type: 'Writer')
+      #   end
+      # end
+      # TrainingOwnership.where(training_id: training.id, user_type: 'Writer').where.not(user_id: writers.map{|x| x['Builder_id']}).destroy_all
     end
     redirect_to trainings_path
   end
