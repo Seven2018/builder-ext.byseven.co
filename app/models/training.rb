@@ -126,9 +126,9 @@ class Training < ApplicationRecord
               end
             end
             trainers = trainers.chomp(', ')
-            details += " - " + trainers + "\n"
+            details += " - " + trainers + ' (' + session.duration + 'h)' + "\n"
           else
-            details += " - A STAFFER\n"
+            details += " - A STAFFER"  + ' (' + session.duration + 'h)' + "\n"
           end
         end
       end
