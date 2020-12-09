@@ -45,6 +45,7 @@ gem 'airrecord'
 gem 'sidekiq'
 gem 'redis-rails'
 gem 'sucker_punch', '~> 2.0'
+gem 'sendgrid-ruby'
 
 
 gem 'dotenv-rails', groups: [:development, :test]
