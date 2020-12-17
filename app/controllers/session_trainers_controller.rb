@@ -18,7 +18,8 @@ class SessionTrainersController < ApplicationController
   def calendars
     session_ids = Base64.decode64(params[:state]).split('|')[1].split(',')
     training = Session.find(session_ids[0]).training
-    UpdateCalendarJob.perform_later(params[:code], params[:state], training)
+    client = Signet::OAuth2::Client.new(client_options)
+    UpdateCalendarJob.perform_later(client, params[:code], params[:state], training)
     # # Gets clearance from OAuth
     # client = Signet::OAuth2::Client.new(client_options)
     # skip_authorization

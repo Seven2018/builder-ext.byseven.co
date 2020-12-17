@@ -229,7 +229,7 @@ class Training < ApplicationRecord
             card['Unit Number'] = user.hours(self)
           end
           card['Invoices Sevener'] = invoices.map{|x| x.id}
-          card['Total Paid'] = invoices.map{|x| x['Amount'] if x['Status'] == 'Paid'}.compact.sum
+          card['Total Paid'] = invoices.select{|x| x['Amount'] if x['Status'] == 'Paid'}.map{|x| x['Amount']}.sum
           self.sessions.each do |session|
             dates += session.date.strftime('%d/%m/%Y') + "\n" if session.users.include?(user) if session.date.present?
           end

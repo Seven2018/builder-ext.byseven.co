@@ -1,9 +1,8 @@
 class UpdateCalendarJob < ApplicationJob
   include SuckerPunch::Job
 
-  def perform(code, state, training)
+  def perform(client, code, state, training)
     # Gets clearance from OAuth
-    client = Signet::OAuth2::Client.new(client_options)
     skip_authorization
     client.code = code
     client.update!(client.fetch_access_token!)
