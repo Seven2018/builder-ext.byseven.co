@@ -134,7 +134,7 @@ class Training < ApplicationRecord
       end
 
       self.update(title: existing_card['Title'])
-      owners = existing_card['Owners']&.map{|owner| User.find(OverviewUser.find(owner)['Builder_id'])}
+      owners = existing_card['Owner']&.map{|owner| User.find(OverviewUser.find(owner)['Builder_id'])}
       if owners.present?
         owners.each do |owner|
           unless TrainingOwnership.where(training_id: self.id, user_id: owner.id, user_type: 'Owner').present?

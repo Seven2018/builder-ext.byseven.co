@@ -96,7 +96,7 @@ class PagesController < ApplicationController
         training.update(title: card['Title']) if training.title != card['Title']
         training.update(unit_price: card['Unit Price']) if training.unit_price != card['Unit Price']
       elsif card['Partner Contact'].present?
-        owners = OverviewUser.all.select{|x| if card['Owners'].present?; card['Owners'].include?(x.id); end}
+        owners = OverviewUser.all.select{|x| if card['Owner'].present?; card['Owner'].include?(x.id); end}
         writers = OverviewUser.all.select{|x| if card['Writers'].present?; card['Writers'].include?(x.id); end}
         contact = OverviewContact.find(card['Partner Contact'].join)
         company = OverviewClient.find(contact['Company/School'].join)

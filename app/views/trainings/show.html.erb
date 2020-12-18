@@ -65,17 +65,9 @@
             </div>
           <% end %>
           <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
-            <% if @training.users.count > 1 %>
-              <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newOwner' disabled>Owners</button></li>
-            <% else %>
-              <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newOwner' disabled>Owner</button></li>
-            <% end %>
+            <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newOwner' disabled>Owner</button></li>
           <% else %>
-            <% if @training.users.count > 1 %>
-              <li><button class='btn btn-add-user btn-add-user-disabled'>Owners</button></li>
-            <% else %>
-              <li><button class='btn btn-add-user btn-add-user-disabled'>Owner</button></li>
-            <% end %>
+            <li><button class='btn btn-add-user btn-add-user-disabled'>Owner</button></li>
           <% end %>
         </ul>
       </div>
@@ -92,13 +84,13 @@
             </div>
           <% end %>
           <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
-            <% if @training.users.count > 1 %>
+            <% if @training.writers.count > 1 %>
               <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newWriter' disabled>Writers</button></li>
             <% else %>
               <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newWriter' disabled>Writer</button></li>
             <% end %>
           <% else %>
-            <% if @training.users.count > 1 %>
+            <% if @training.writers.count > 1 %>
               <li><button class='btn btn-add-user btn-add-user-disabled'>Writers</button></li>
             <% else %>
               <li><button class='btn btn-add-user btn-add-user-disabled'>Writer</button></li>

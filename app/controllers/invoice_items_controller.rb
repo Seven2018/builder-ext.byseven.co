@@ -128,16 +128,16 @@ class InvoiceItemsController < ApplicationController
     @invoice.status = 'En attente'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
     @training.client_contact.client_company.client_company_type == 'Company' ? product = Product.find(2) : product = Product.find(1)
-    line = InvoiceLine.new(invoice_item: @invoice, description: @training.title, quantity: airtable_training['Unit Number'], net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
+    line = InvoiceLine.new(invoice_item: @invoice, description: @training.client_company.name + ' - ' + @training.title, quantity: airtable_training['Unit Number'], net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
     comments = "<br>Détail des séances (date, horaires, intervenant(s)) :<br><br>"
     @training.sessions.each do |session|
       lunch = session.workshops.find_by(title: 'Pause Déjeuner')
       if lunch.present?
         morning = session.workshops.where('position < ?', lunch.position)
         afternoon = session.workshops.where('position > ?', lunch.position)
-        comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} : #{session.users.map{|x|x.fullname}.join(', ')}<br>" if session.date.present?
+        comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} : #{session.users.map{|x|x.fullname}.join(', ')} (#{session.duration} h)<br>" if session.date.present?
       else
-        comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} : #{session.users.map{|x|x.fullname}.join(', ')}<br>" if session.date.present?
+        comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} : #{session.users.map{|x|x.fullname}.join(', ')} (#{session.duration} h)<br>" if session.date.present?
       end
     end
     line.comments = comments
@@ -169,9 +169,9 @@ class InvoiceItemsController < ApplicationController
         if lunch.present?
           morning = session.workshops.where('position < ?', lunch.position)
           afternoon = session.workshops.where('position > ?', lunch.position)
-          comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+          comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} (#{session.duration} h)<br>" if session.date.present?
         else
-          comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+          comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} (#{session.duration} h)<br>" if session.date.present?
         end
         if airtable_training['Unit Type'] == 'Half day'
           session.workshops.find_by(title: 'Pause Déjeuner').present? ? quantity += 1 : quantity += 0.5
@@ -180,7 +180,7 @@ class InvoiceItemsController < ApplicationController
         end
       end
       @training.client_contact.client_company.client_company_type == 'Company' ? product = Product.find(2) : product = Product.find(1)
-      new_line = InvoiceLine.new(invoice_item: new_invoice, description: @training.title, quantity: quantity, net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
+      new_line = InvoiceLine.new(invoice_item: new_invoice, description: @training.client_company.name + ' - ' + @training.title, quantity: quantity, net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
       new_line.comments = comments
       new_line.save
       new_invoice.save
@@ -207,14 +207,14 @@ class InvoiceItemsController < ApplicationController
             if lunch.present?
               morning = session.workshops.where('position < ?', lunch.position)
               afternoon = session.workshops.where('position > ?', lunch.position)
-              comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+              comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} (#{session.duration} h)<br>" if session.date.present?
             else
-              comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+              comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} (#{session.duration} h)<br>" if session.date.present?
             end
           end
         end
         @training.client_contact.client_company.client_company_type == 'Company' ? product = Product.find(2) : product = Product.find(1)
-        new_line = InvoiceLine.new(invoice_item: new_invoice, description: @training.title, quantity: 1, net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
+        new_line = InvoiceLine.new(invoice_item: new_invoice, description: @training.client_company.name + ' - ' + @training.title, quantity: 1, net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
         new_line.comments = comments
         new_line.save
         new_invoice.save
