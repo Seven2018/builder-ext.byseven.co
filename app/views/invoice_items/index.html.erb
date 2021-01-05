@@ -9,7 +9,7 @@
         <i class="fas fa-arrow-left"></i>
       <% end %>
     <% elsif params[:search] %>
-      <%= link_to invoice_items_path(type: params[:type]), class: 'btn return-arrow' do %>
+      <%= link_to invoice_items_path(type: params[:type], page: 1), class: 'btn return-arrow' do %>
         <i class="fas fa-arrow-left"></i>
       <% end %>
     <% else %>
