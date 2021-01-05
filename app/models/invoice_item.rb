@@ -131,7 +131,12 @@ class InvoiceItem < ApplicationRecord
       invoice['VAT'] = self.tax_amount.to_f
       invoice['OPCO'] = self.client_company.name if self.client_company.client_company_type == 'OPCO'
       invoice['Training_id'] = self.training.id
-      self.payment_date.present? ? invoice['Paid'] = true : invoice['Paid'] = false
+      if self.payment_date.present?
+        invoice['Paid'] = true
+        invoice['Payment Date'] = self.payment_date.strftime('%Y-%m-%d')
+      else
+        invoice['Paid'] = false
+      end
       self.training.export_airtable
       invoice.save
     rescue

@@ -8,23 +8,55 @@
       <%= link_to client_company_path(ClientCompany.find(params[:client_company_id])), class: 'btn return-arrow' do %>
         <i class="fas fa-arrow-left"></i>
       <% end %>
+    <% elsif params[:search] %>
+      <%= link_to invoice_items_path(type: params[:type]), class: 'btn return-arrow' do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
+    <% else %>
+      <%= link_to report_path, class: 'btn return-arrow' do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
     <% end %>
     <div class='flex-row-between-centered'>
+      <%= simple_form_for :search, url: invoice_items_path, method: 'GET' do |f| %>
+        <%= f.input :reference, placeholder: 'Search', label: false %>
+        <%= hidden_field_tag :type, params[:type] %>
+      <% end %>
       <% if params[:type] == 'Order' %>
         <a data-toggle='modal' type='button' data-target='#newOrder' style='cursor:pointer;'>
           <button class="btn btn-edit-yellow">Create Order</i></button>
         </a>
+      <% elsif params[:type] == 'Invoice' %>
+        <a data-toggle='modal' type='button' data-target='#exportCSV' style='cursor:pointer;'>
+          <button class="btn btn-edit-red">Export <i class="fas fa-file-csv"></i></button>
+        </a>
       <% end %>
-      <a data-toggle='modal' type='button' data-target='#exportCSV' style='cursor:pointer;'>
-        <button class="btn btn-edit-red">Export <i class="fas fa-file-csv"></i></button>
-      </a>
     </div>
   </div>
-  <% if params[:type] == 'Invoice' %>
-    <h1>Invoices List</h1>
-  <% elsif params[:type] == 'Estimate' %>
-    <h1>Estimates List</h1>
-  <% end %>
+  <div class="flex-row-between-centered">
+    <% if params[:type] == 'Invoice' %>
+      <h1>Invoices List</h1>
+    <% elsif params[:type] == 'Estimate' %>
+      <h1>Estimates List</h1>
+    <% end %>
+    <div class="result-pages-controls">
+      <% if params[:page].to_i > 1 %>
+        <%= link_to url_for(page: params[:page].to_i - 1, type: params[:type]) do %>
+          <i class="fas fa-caret-left"></i>
+        <% end %>
+      <% else %>
+        <i class="fas fa-caret-left" style='color:rgba(0,0,0,0.3)'></i>
+      <% end %>
+      <p><%= "Page #{params[:page]} / #{@invoice_items_total.count / 50 + 1}" %></p>
+      <% if params[:page].to_i < @invoice_items_total.count / 50 + 1 %>
+        <%= link_to url_for(page: params[:page].to_i + 1, type: params[:type]) do %>
+          <i class="fas fa-caret-right"></i>
+        <% end %>
+      <% else %>
+        <i class="fas fa-caret-right" style='color:rgba(0,0,0,0.3'></i>
+      <% end %>
+    </div>
+  </div>
   <div class="invoice-list">
     <%= render 'list', invoice_items: @invoice_items %>
   </div>

@@ -15,8 +15,11 @@ class InvoiceItemsController < ApplicationController
   # Indexes with a filter option (see below)
   def index
     @invoice_items = policy_scope(InvoiceItem)
-    index_filtered
-    @invoice_items = InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date]).order(:uuid) if params[:export].present?
+    index_filtered(params[:page].to_i)
+    if params[:search]
+      @invoice_items = ((InvoiceItem.where(type: params[:type]).where("lower(uuid) LIKE ?", "%#{params[:search][:reference].downcase}%")) + (InvoiceItem.joins(:client_company).where(type: params[:type]).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:reference].downcase}%"))).flatten(1).uniq
+    end
+    @invoice_items = InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date], type: params[:type]).order(:uuid) if (params[:export].present? && params[:type])
     respond_to do |format|
       format.html
       format.csv { send_data @invoice_items.to_csv, filename: "Factures SEVEN #{params[:export][:start_date].split('-').join('')} - #{params[:export][:end_date].split('-').join('')}.csv" }
@@ -420,17 +423,13 @@ class InvoiceItemsController < ApplicationController
   private
 
   # Filter for index method
-  def index_filtered
+  def index_filtered(n = 1)
     if params[:training_id].present?
-      @invoice_items = InvoiceItem.where(training_id: params[:training_id].to_i)
+      @invoice_items_total = InvoiceItem.where(training_id: params[:training_id].to_i, type: params[:type]).order('id DESC')
+      @invoice_items = @invoice_items_total.offset((n-1)*50).first(50)
     elsif params[:client_company_id].nil?
-      @invoice_items = InvoiceItem.all.order('id DESC')
-    elsif params[:type] == 'Invoice' && params[:client_company_id]
-      @invoice_items = Invoice.where(client_company_id: params[:client_company_id].to_i).order('id DESC')
-    elsif params[:type] == 'Estimate' && params[:client_company_id]
-      @invoice_items = Estimate.where(client_company_id: params[:client_company_id].to_i).or(Estimate.where(description: params[:client_company_id])).order('id DESC')
-    elsif params[:type] == 'Order'
-      @invoice_items = InvoiceItem.where(training_id: params[:training_id], type: 'Order')
+      @invoice_items_total = InvoiceItem.where(type: params[:type]).order('id DESC')
+      @invoice_items = @invoice_items_total.offset((n-1)*50).first(50)
     end
   end
 

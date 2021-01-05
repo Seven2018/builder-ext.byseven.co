@@ -1,5 +1,5 @@
 <ul style='list-style: none;'>
-  <% @invoice_items.where(type: params[:type]).each do |item| %>
+  <% @invoice_items.each do |item| %>
     <li>
       <%= link_to invoice_item_path(item), class: 'invoice-card-link' do %>
         <div class="invoice-card">
