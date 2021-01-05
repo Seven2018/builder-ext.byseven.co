@@ -21,6 +21,7 @@
       <%= simple_form_for :search, url: invoice_items_path, method: 'GET' do |f| %>
         <%= f.input :reference, placeholder: 'Search', label: false %>
         <%= hidden_field_tag :type, params[:type] %>
+        <%= hidden_field_tag :page, 1 %>
       <% end %>
       <% if params[:type] == 'Order' %>
         <a data-toggle='modal' type='button' data-target='#newOrder' style='cursor:pointer;'>
