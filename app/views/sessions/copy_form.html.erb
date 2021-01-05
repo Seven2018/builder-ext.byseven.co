@@ -7,9 +7,10 @@
   <div class="container-new-form">
     <h3 id='copy_title' class='<%= @session.training.id %>'>Copy "<%= @session.title %>" to:</h3>
 
-    <%= simple_form_for :copy, url: training_copy_session_path(@session.training, @session), html: {target: '_blank'}, method: 'GET' do |f| %>
+    <%= simple_form_for :copy, url: training_copy_session_path(@session.training, @session), method: 'GET' do |f| %>
       <div class="copy-form-element">
         <%= f.input :training_id, label: 'Please enter the target Training id :' %>
+        <%= f.input :amount, label: 'Number of copies', input_html: { value: 1 } %>
         <%# f.label :client_company_id, 'Client' %>
         <%# f.collection_select :client_company_id, ClientCompany.all.order(:name), :id, :name, options = { include_blank: true }, html_options = { class: "copy_client_company_id" } %>
       </div>
@@ -18,10 +19,10 @@
         <%# f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title,  options = {}, html_options = { class: "copy_training_id"} %>
       </div> -->
       <div class='modal-control'>
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon btn-submit', data: { toggle: 'tooltip' }, title: 'Copy' do %>
+        <%= button_tag type: 'submit', value: 'copy', class: 'btn btn-edit-green btn-icon btn-submit', data: { toggle: 'tooltip' }, title: 'Copy' do %>
           <i class="fas fa-copy"></i>
         <% end %>
-        <%= link_to training_copy_here_session_path(@session.training, @session), data: { toggle: 'tooltip' }, title: 'Copy here', class: 'btn btn-edit-green btn-icon' do %>
+        <%= button_tag type: 'submit', value: 'copy_here', class: 'btn btn-edit-green btn-icon btn-submit', data: { toggle: 'tooltip' }, title: 'Copy' do %>
           <i class="fas fa-angle-double-down"></i>
         <% end %>
       </div>
