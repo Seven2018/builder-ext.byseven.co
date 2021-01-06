@@ -13,7 +13,7 @@
         <% if ['sevener+', 'sevener'].include?(current_user.access_level) %>
           <%= link_to sevener_billing_path(@invoice_item.training), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
         <% elsif @invoice_item.training.present? %>
-          <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+          <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type, page: 1), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
         <% else %>
           <%= link_to client_company_path(@invoice_item.client_company), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
         <% end %>
