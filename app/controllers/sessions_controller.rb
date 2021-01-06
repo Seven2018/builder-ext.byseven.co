@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
   def update
     @training = Training.find(params[:training_id])
     authorize @session
-    if params[:session][:date] != @session.date.strftime('%Y-%m-%d') || params[:session]['start_time(4i)'] != @session.start_time.strftime('%H') || params[:session]['start_time(5i)'] != @session.start_time.strftime('%H') || params[:session]['end_time(4i)'] != @session.end_time.strftime('%H') || params[:session]['end_time(5i)'] != @session.end_time.strftime('%M')
+    if params[:session][:date] != @session&.date&.strftime('%Y-%m-%d') || params[:session]['start_time(4i)'] != @session&.start_time&.strftime('%H') || params[:session]['start_time(5i)'] != @session&.start_time&.strftime('%H') || params[:session]['end_time(4i)'] != @session&.end_time&.strftime('%H') || params[:session]['end_time(5i)'] != @session&.end_time&.strftime('%M')
       SessionTrainer.where(session_id: @session.id).each do |session_trainer|
         if session_trainer.calendar_uuid.present?
           @session.training.gdrive_link.nil? ? @session.training.update(gdrive_link: session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',') : @session.training.update(gdrive_link: @session.training.gdrive_link + session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',')

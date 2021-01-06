@@ -125,6 +125,8 @@ class InvoiceItem < ApplicationRecord
       if expenses.present?
         lines = self.invoice_lines.select{|x| expenses.include?(x.product)}
         invoice['Billed Expenses'] = lines.map{|x| x.net_amount * x.quantity}.sum.to_f
+      else
+        invoice['Billed Expenses'] = nil
       end
       self.update_price
       invoice['Former / Credit / New'] = 'Credit' if self.total_amount < 0
