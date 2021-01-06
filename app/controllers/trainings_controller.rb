@@ -21,7 +21,7 @@ class TrainingsController < ApplicationController
         @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]})).uniq.sort_by{|x| x.end_time}
         @user = User.find(params[:user])
       else
-        @trainings = policy_scope(Training).sort_by{|x| x.end_time}
+        @trainings = policy_scope(Training).sort_by(&:end_time)
       end
     # Index for Sevener Users, with limited visibility
     else
