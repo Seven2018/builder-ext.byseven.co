@@ -178,7 +178,7 @@
             </div>
             <div class="card-main-lg">
               <div class="card-session-header">
-                <h3 class='title-link'><%= session.title %></h3>
+                <%= link_to training_session_path(@training, session) do %><h3 class='title-link'><%= session.title %></h3><% end %>
                 <%= simple_form_for @training, html: { class: "hidden", id: 'title-form' } do |f| %>
                   <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
                     <%= f.input :title, label: false %>
