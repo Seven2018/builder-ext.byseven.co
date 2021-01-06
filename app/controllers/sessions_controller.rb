@@ -50,31 +50,20 @@ class SessionsController < ApplicationController
   def update
     @training = Training.find(params[:training_id])
     authorize @session
-    @session.update(session_params)
-
-    trainers_list = ''
-    @session.users.each do |user|
-      trainers_list += "#{user.id},"
-    end
-
-    event_to_delete = ''
-    SessionTrainer.where(session_id: @session.id).each do |trainer|
-      if trainer.calendar_uuid.present?
-        trainer.calendar_uuid.split(' - ').each do |event_id|
-          event_to_delete+=trainer.user_id.to_s+':'+event_id+',' if trainer.calendar_uuid.present?
+    if params[:session][:date] != @session.date.strftime('%Y-%m-%d') || params[:session]['start_time(4i)'] != @session.start_time.strftime('%H') || params[:session]['start_time(5i)'] != @session.start_time.strftime('%H') || params[:session]['end_time(4i)'] != @session.end_time.strftime('%H') || params[:session]['end_time(5i)'] != @session.end_time.strftime('%M')
+      SessionTrainer.where(session_id: @session.id).each do |session_trainer|
+        if session_trainer.calendar_uuid.present?
+          @session.training.gdrive_link.nil? ? @session.training.update(gdrive_link: session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',') : @session.training.update(gdrive_link: @session.training.gdrive_link + session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',')
+          session_trainer.update(calendar_uuid: nil)
         end
       end
     end
-    event_to_delete = event_to_delete[0...-1]
+    @session.update(session_params)
+
 
     if @session.save && (params[:session][:date].present?)
       UpdateAirtableJob.perform_later(@training, true)
-      #redirect_to redirect_path(session_id: "|#{@session.id}|", list: trainers_list, to_delete: "%#{event_to_delete}%")
       redirect_to training_path(@session.training)
-    #elsif @session.save
-      #UpdateAirtableJob.perform_later(@training, true)
-      #@session.training.export_numbers_activity
-      #redirect_to training_path(@session.training)
     else
       redirect_to training_path(@session.training)
       flash[:alert] = 'Something went wrong, please verify all parameters (ex: is the new session date included in the training period ?)'
@@ -99,36 +88,6 @@ class SessionsController < ApplicationController
   end
 
   def copy
-    # authorize @session
-    # training = Training.find(params[:copy][:training_id])
-    # new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at", "training_id", "address", "room"))
-    # # new_session.title = params[:copy][:rename] unless params[:copy][:rename].empty?
-    # # new_session&.date = params[:copy][:date] unless params[:copy][:date].empty?
-    # training.sessions.empty? ? (new_session&.date = Date.today) : (new_session&.date = @session&.date)
-    # new_session.training_id = training.id
-    # new_session.address = ''
-    # new_session.room = ''
-    # new_session.training_id = training.id
-    # if new_session.save
-    #   # new_session.training.export_airtable
-    #   @session.workshops.each do |workshop|
-    #     new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
-    #     new_workshop.update(session_id: new_session.id, position: workshop.position)
-    #     workshop.workshop_modules.each do |mod|
-    #       new_mod = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
-    #       new_mod.update(workshop_id: new_workshop.id, position: mod.position)
-    #     end
-    #     j = 1
-    #     new_workshop.workshop_modules.order(position: :asc).each{|mod| mod.update(position: j); j += 1}
-    #   end
-    #   i = 1
-    #   new_session.workshops.order(position: :asc).each{|workshop| workshop.update(position: i); i += 1}
-    #   #UpdateAirtableJob.perform_later(training, true)
-    #   redirect_to training_path(training)
-    # else
-    #   raise
-    # end
-
     authorize @session
     new_sessions = []
     if params[:button] == 'copy'
@@ -171,27 +130,6 @@ class SessionsController < ApplicationController
     # new_session.workshops.order(position: :asc).each{|workshop| workshop.update(position: i); i += 1}
     #UpdateAirtableJob.perform_later(training, true)
     redirect_to training_path(training)
-  end
-
-  def copy_here
-    authorize @session
-    new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at"))
-    new_session&.date = @session&.date
-    if new_session.save
-      # new_session.training.export_airtable
-      @session.workshops.each do |workshop|
-        new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
-        new_workshop.update(session_id: new_session.id, position: workshop.position)
-        workshop.workshop_modules.each do |mod|
-          new_mod = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
-          new_mod.update(workshop_id: new_workshop.id, position: mod.position)
-        end
-      end
-      #UpdateAirtableJob.perform_later(@session.training, true)
-      redirect_to training_path(@session.training)
-    else
-      raise
-    end
   end
 
   def presence_sheet

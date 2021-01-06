@@ -177,37 +177,43 @@
               <% end %>
             </div>
             <div class="card-main-lg">
-              <%= link_to training_session_path(session.training, session), class: 'stretched-link' do %>
-                <div class="card-session-header">
-                  <h3><%= session.title %></h3>
-                  <div style='display:flex;align-items:center;position: absolute;right: 160px;top: -48px;'>
-                    <ul id="owner-session-index">
-                      <% session.users.each do |user| %>
-                        <li>
-                          <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
-                        </li>
-                        <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                          <div class="modal-dialog" role="document" style="border-radius: 2rem">
-                            <%= render 'users/consult', user: user %>
-                          </div>
-                        </div>
-                      <% end %>
-                    </ul>
+              <div class="card-session-header">
+                <h3 class='title-link'><%= session.title %></h3>
+                <%= simple_form_for @training, html: { class: "hidden", id: 'title-form' } do |f| %>
+                  <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
+                    <%= f.input :title, label: false %>
+                    <%= button_tag type: 'submit', class: 'btn btn-add-user', input_html: { style: 'height: 3.5rem' } do %>
+                      Update
+                    <% end %>
                   </div>
-                </div>
-                <div class="mods-list">
-                  <ul>
-                    <% list = session.workshops %>
-                    <% list.order(:position).each do |mod| %>
+                <% end %>
+                <div style='display:flex;align-items:center;position: absolute;right: 160px;top: -48px;'>
+                  <ul id="owner-session-index">
+                    <% session.users.each do |user| %>
                       <li>
-                        <%= "#{mod.title} - #{mod.duration} min" %>
+                        <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
                       </li>
+                      <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document" style="border-radius: 2rem">
+                          <%= render 'users/consult', user: user %>
+                        </div>
+                      </div>
                     <% end %>
                   </ul>
-                  <h4 class='card-session-number'><%= session_number %>/<%= @training.sessions.count %> </h4>
                 </div>
-              <% end %>
-            </div>
+              </div>
+              <div class="mods-list">
+                <ul>
+                  <% list = session.workshops %>
+                  <% list.order(:position).each do |mod| %>
+                    <li>
+                      <%= "#{mod.title} - #{mod.duration} min" %>
+                    </li>
+                  <% end %>
+                </ul>
+                <h4 class='card-session-number'><%= session_number %>/<%= @training.sessions.count %> </h4>
+              </div>
+          </div>
             <div class="modal fade editSession" id="editSession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
               <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
                 <%= render '/sessions/edit', session: session %>
@@ -374,6 +380,16 @@
     survey.addEventListener('click', (event) => {
       survey.classList.toggle('hidden');
       form.classList.toggle('hidden');
+    })
+  </script>
+  <script>
+    titles = document.querySelectorAll('title-link');
+    title_form = document.getElementById('survey-form');
+    titles.forEach(title => {
+      title.addEventListener('click', (event) => {
+        title.classList.toggle('hidden');
+        form.classList.toggle('hidden');
+      })
     })
   </script>
 <% end %>

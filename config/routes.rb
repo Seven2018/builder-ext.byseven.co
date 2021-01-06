@@ -76,7 +76,6 @@ Rails.application.routes.draw do
   resources :trainings do
     get 'session_viewer/:id', to: 'sessions#viewer', as: 'session_viewer'
     get 'session/:id/copy', to: 'sessions#copy', as: 'copy_session'
-    get 'session/:id/copy_here', to: 'sessions#copy_here', as: 'copy_here_session'
     get 'session/:id/copy_form', to: 'sessions#copy_form', as: 'copy_form_session'
     get 'session/:id/presence_sheet', to: 'sessions#presence_sheet', as: 'session_presence_sheet'
     resources :sessions, only: [:new, :show, :create, :update, :destroy] do
