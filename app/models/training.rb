@@ -18,7 +18,7 @@ class Training < ApplicationRecord
   end
 
   def end_time
-    self.sessions&.order(date: :asc)&.reject{|x|x.date == nil}&.last&.date
+    self.sessions&.reject{|x|x.date == nil}.sort_by{|x| x.date}.last&.date
   end
 
   def self.numbers_scope(starts_at = Date.today.beginning_of_year, ends_at = Date.today.end_of_year)
