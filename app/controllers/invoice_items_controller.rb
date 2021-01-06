@@ -364,7 +364,7 @@ class InvoiceItemsController < ApplicationController
     @invoice_item.update(payment_date: params[:edit_payment][:payment_date])
     @invoice_item.export_numbers_revenue if @invoice_item.type = 'Invoice'
     respond_to do |format|
-      format.html {redirect_to invoice_items_path(type: @invoice_item.type)}
+      format.html {redirect_back(fallback_location: root_path)}
       format.js
     end
   end
@@ -375,7 +375,7 @@ class InvoiceItemsController < ApplicationController
     index_filtered
     @invoice_item.update(dunning_date: params[:edit_payment][:dunning_date])
     respond_to do |format|
-      format.html {redirect_to invoice_items_path(type: @invoice_item.type)}
+      format.html {redirect_back(fallback_location: root_path)}
       format.js
     end
   end
