@@ -1,5 +1,5 @@
 <div class="row" style="background-color: white; margin-right: 0;">
-  <% (@trainings.select{|x| x.end_time != nil}.sort_by{|x| x.sessions&.order(date: :asc)&.reject{|x|!x.date.present?}&.last&.date} + @trainings.select{|x| x.end_time ==nil}).each do |training| %>
+  <% (@trainings.select{|x| x.end_time != nil}.sort_by{|x| x.sessions&.order(date: :asc)&.reject{|x|!x.date.present?}&.last&.date}.reverse + @trainings.select{|x| x.end_time ==nil}).each do |training| %>
     <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
       <div class="card" id="card-index">
         <div class="card-main">
