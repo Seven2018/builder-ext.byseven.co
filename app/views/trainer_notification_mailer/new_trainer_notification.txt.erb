@@ -1,0 +1,17 @@
+Hello, <%= @user.firstname %>
+=============================
+
+Voici le récapitulatif pour ton intervention dans le cadre de la formation <%= "#{@training.client_company.name} - #{@training.title}"%>
+
+  <% @training.sessions.each do |session| %>
+    <% if session.users.include?(@user) %>
+        - <%= session.date %> : <%= session.title %>
+
+          <%= session.description %>
+
+    <% end %>
+  <% end %>
+
+Pour toute question, merci de contacter <%= @training.owners.first.firstname %> (<%= @training.owners.first.email %>)
+
+Bonne journée à toi !

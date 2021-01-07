@@ -65,20 +65,23 @@
       <div class="mailer-text">
         <h2>Hello, <%= @user.firstname %></h2>
         <br>
-        <p>Dans le cadre de la formation <%= @training.title %> pour <%= @training.client_company.name %>, voici les détails de ton(tes) intervention(s) :</p>
+        <p>Voici le récapitulatif pour ton intervention dans le cadre de la formation <%= "#{@training.client_company.name} - #{@training.title}"%></p>
         <br>
-        <ul>
-          <% @session.each do |session| %>
-            <li><%= session.title %> : le <%= session.date.strftime('%d/%m/%Y') %> de <%= session.start_time.strftime('%Hh%m') %> à <%= session.end_time.strftime('%Hh%m') %></li>
-            <% if session.description.present? %>
-              <p><%= session.description %></p>
+          <% @training.sessions.each do |session| %>
+            <% if session.users.include?(@user) %>
+              <p>
+                - <%= session.date %> : <%= session.title %>
+                <br>
+                  <%= session.description %>
+              </p>
             <% end %>
           <% end %>
-        </ul>
         <br>
-        <a href="https://seven-builder.herokuapp.com/trainings/<%= @training.id %>">Voir dans Builder</a>
+         <a href="https://seven-builder.herokuapp.com/trainings/<%= @training.id %>">Lien Builder</a>
         <br>
-        <p>Bonne journée</p>
+        <p>Pour toute question, merci de contacter <%= @training.owners.first.firstname %> (<%= @training.owners.first.email %>)</p>
+        <br>
+        <p>Bonne journée à toi !</p>
       </div>
     </div>
   </body>

@@ -61,6 +61,10 @@ class TrainingPolicy < ApplicationPolicy
     check_access
   end
 
+  def trainer_notification_email?
+    check_access
+  end
+
   private
 
   def check_access

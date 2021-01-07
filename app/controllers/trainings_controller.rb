@@ -1,5 +1,5 @@
 class TrainingsController < ApplicationController
-  before_action :set_training, only: [:show, :edit, :update, :update_survey, :destroy, :copy, :sevener_billing, :invoice_form, :export_airtable]
+  before_action :set_training, only: [:show, :edit, :update, :update_survey, :destroy, :copy, :sevener_billing, :invoice_form, :trainer_notification_email]
 
   def index
     @sessions = Session.all
@@ -197,6 +197,17 @@ class TrainingsController < ApplicationController
         )
       end
     end
+  end
+
+  def trainer_notification_email
+    authorize @training
+    @training.trainers.each do |user|
+      # if ['sevener+','sevener'].include?(user.access_level)
+      raise
+        TrainerNotificationMailer.with(user: user).new_trainer_notification(@training, user).deliver_now
+      # end
+    end
+    redirect_back(fallback_location: root_path)
   end
 
   def redirect_docusign

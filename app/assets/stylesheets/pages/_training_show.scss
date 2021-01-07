@@ -215,7 +215,7 @@
   font-size: 3rem;
 }
 
-#dropdownMenuButton::after {
+#dropdownMenuButton::after, #dropdownNotification::after {
   content: none !important;
 }
 

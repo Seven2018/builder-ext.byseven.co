@@ -63,16 +63,6 @@ class PagesController < ApplicationController
       end
     end
 
-    # OverviewOpco.all.each do |opco|
-    #   if opco['Builder_id'].nil?
-    #     company = ClientCompany.new(name: client['Name'], client_company_type: 'OPCO', address: client['Address'], zipcode: client['Zipcode'], city: client['City'], auth_token: SecureRandom.hex(5).upcase)
-    #   else
-    #     company = ClientCompany.find(opco['Builder_id'])
-    #     company.update(name: client['Name'], client_company_type: client['Type'], address: client['Address'], zipcode: client['Zipcode'], city: client['City'])
-    #   end
-    #   company.save
-    # end
-
     OverviewContact.all.each do |contact|
       if contact['Builder_id'].nil?
         new_contact = ClientContact.new(name: contact['Firstname']+' '+contact['Lastname'], email: contact['Email'], client_company_id: OverviewClient.find(contact['Company/School'].join)['Builder_id'])
@@ -129,18 +119,6 @@ class PagesController < ApplicationController
           end
         end
       end
-      # owners.each do |owner|
-      #   unless TrainingOwnership.where(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner').present?
-      #     TrainingOwnership.create(training_id: training.id, user_id: owner['Builder_id'], user_type: 'Owner')
-      #   end
-      # end
-      # TrainingOwnership.where(training_id: training.id, user_type: 'Owner').where.not(user_id: owners.map{|x| x['Builder_id']}).destroy_all
-      # writers.each do |writer|
-      #   unless TrainingOwnership.where(training_id: training.id, user_id: writer['Builder_id'], user_type: 'Writer').present?
-      #     TrainingOwnership.create(training_id: training.id, user_id: writer['Builder_id'], user_type: 'Writer')
-      #   end
-      # end
-      # TrainingOwnership.where(training_id: training.id, user_type: 'Writer').where.not(user_id: writers.map{|x| x['Builder_id']}).destroy_all
     end
     redirect_to trainings_path
   end

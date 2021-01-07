@@ -19,23 +19,26 @@
           <% end %>
         <% end %>
         <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#copyTraining' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></a>
-        <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
-        <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a data-toggle='modal' data-target='#addAttendees' data-toggle="tooltip" title="Add Participants">Add participants</a></li>
-          <li><%= link_to 'New estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
-          <li><%= link_to 'Estimates List', invoice_items_path(training_id: @training.id, type: 'Estimate') %></li>
-          <li><%= link_to 'New invoice', new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
-          <li><%= link_to 'New invoice Airtable', new_airtable_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
-          <li><%= link_to 'New invoice Airtable by Trainer', new_airtable_invoiceitem_by_trainer_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
-          <li><%= link_to 'New invoice Airtable by Participant', new_airtable_invoiceitem_by_attendee_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
-          <li><%= link_to 'Invoices List', invoice_items_path(training_id: @training.id, type: 'Invoice') %></li>
-          <% if @training.forms.empty? %>
-            <li><a data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a></li>
-          <% else %>
-            <li><%= link_to 'Forms list', training_forms_path(@training) %></li>
-          <% end %>
-          <li><a data-toggle='modal' data-target='#createCertificate' data-toggle="tooltip" title="Create certificate">Create certificate</a></li>
-        </ul>
+
+        <div class="dropdown">
+          <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+          <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a data-toggle='modal' data-target='#addAttendees' data-toggle="tooltip" title="Add Participants">Add participants</a></li>
+            <li><%= link_to 'New estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
+            <li><%= link_to 'Estimates List', invoice_items_path(training_id: @training.id, type: 'Estimate') %></li>
+            <li><%= link_to 'New invoice', new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
+            <li><%= link_to 'New invoice Airtable', new_airtable_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
+            <li><%= link_to 'New invoice Airtable by Trainer', new_airtable_invoiceitem_by_trainer_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
+            <li><%= link_to 'New invoice Airtable by Participant', new_airtable_invoiceitem_by_attendee_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
+            <li><%= link_to 'Invoices List', invoice_items_path(training_id: @training.id, type: 'Invoice') %></li>
+            <% if @training.forms.empty? %>
+              <li><a data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a></li>
+            <% else %>
+              <li><%= link_to 'Forms list', training_forms_path(@training) %></li>
+            <% end %>
+            <li><a data-toggle='modal' data-target='#createCertificate' data-toggle="tooltip" title="Create certificate">Create certificate</a></li>
+          </ul>
+        </div>
       </div>
     <% else %>
       <div class="page-controls-buttons flex-row-between-centered">
