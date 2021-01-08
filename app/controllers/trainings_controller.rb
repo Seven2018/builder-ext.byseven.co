@@ -201,11 +201,19 @@ class TrainingsController < ApplicationController
 
   def trainer_notification_email
     authorize @training
-    @training.trainers.each do |user|
+    if params[:status] == 'new'
+      @training.trainers.each do |user|
       # if ['sevener+','sevener'].include?(user.access_level)
-      raise
-        TrainerNotificationMailer.with(user: user).new_trainer_notification(@training, user).deliver_now
+          TrainerNotificationMailer.with(user: user).new_trainer_notification(@training, user).deliver
       # end
+      end
+    elsif params[:trainers][:status] == 'edit'
+      user_ids = params[:session][:user_ids][1..-1].map{|x| x.to_i}
+      @training.trainers.select{|x| user_ids.include?(x.id)}.each do |user|
+        # if ['sevener+','sevener'].include?(user.access_level)
+            TrainerNotificationMailer.with(user: user).edit_trainer_notification(@training, user).deliver
+        # end
+      end
     end
     redirect_back(fallback_location: root_path)
   end

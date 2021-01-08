@@ -5,6 +5,13 @@ class TrainerNotificationMailer < ApplicationMailer
     @training = training
     @sessions = training.sessions.select{|x| x.users.include?(user)}
     @user = user
-    mail(to: @user.email, subject: "#{@training.client_company.name} - #{@training.title} : Récapitulatif intervention")
+    mail(to: 'brice.chapuis@byseven.co', subject: "#{@training.client_company.name} - #{@training.title} : Récapitulatif intervention")
+  end
+
+  def edit_trainer_notification(training, user)
+    @training = training
+    @sessions = training.sessions.select{|x| x.users.include?(user)}
+    @user = user
+    mail(to: 'brice.chapuis@byseven.co', subject: "#{@training.client_company.name} - #{@training.title} : Récapitulatif intervention (Mise à jour du #{Date.today.strftime('%d/%m/%Y')})")
   end
 end

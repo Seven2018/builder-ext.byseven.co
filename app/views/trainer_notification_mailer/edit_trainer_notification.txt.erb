@@ -1,7 +1,8 @@
 Hello, <%= @user.firstname %>
 =============================
 
-Voici le récapitulatif pour ton intervention dans le cadre de la formation <%= "#{@training.client_company.name} - #{@training.title}"%>
+Des modifications ont été apportées quant à ton intervention dans le cadre de la formation <%= "#{@training.client_company.name} - #{@training.title}"%>
+Voici le récapitulatifs mis à jour des prochaines sessions :
 
   <% @training.sessions.order(date: :asc).where('date > ?', Date.today).each do |session| %>
     <% if session.users.include?(@user) %>
