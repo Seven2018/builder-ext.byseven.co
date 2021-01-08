@@ -73,7 +73,7 @@ class TrainingsController < ApplicationController
     @session = Session.new
     @users = User.all
     if params[:task] == 'update_airtable'
-      UpdateAirtableJob.perform_later (@training, true)
+      UpdateAirtableJob.perform_later(@training, true)
     end
   end
 
