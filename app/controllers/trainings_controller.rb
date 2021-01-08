@@ -72,6 +72,9 @@ class TrainingsController < ApplicationController
     @training_ownership = TrainingOwnership.new
     @session = Session.new
     @users = User.all
+    if params[:task] == 'update_airtable'
+      UpdateAirtableJob.perform_later (@training)
+    end
   end
 
   def new
