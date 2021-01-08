@@ -363,10 +363,7 @@ class InvoiceItemsController < ApplicationController
     index_filtered
     @invoice_item.update(payment_date: params[:edit_payment][:payment_date])
     @invoice_item.export_numbers_revenue if @invoice_item.type = 'Invoice'
-    respond_to do |format|
-      format.html {redirect_back(fallback_location: root_path)}
-      format.js
-    end
+    redirect_back(fallback_location: invoice_item_path(@invoice_item, page: 1))
   end
 
   # Marks an InvoiceItem as reminded
@@ -374,10 +371,7 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     index_filtered
     @invoice_item.update(dunning_date: params[:edit_payment][:dunning_date])
-    respond_to do |format|
-      format.html {redirect_back(fallback_location: root_path)}
-      format.js
-    end
+    redirect_back(fallback_location: invoice_item_path(@invoice_item, page: 1))
   end
 
   # Destroys an InvoiceItem
@@ -426,6 +420,9 @@ class InvoiceItemsController < ApplicationController
   def index_filtered(n = 1)
     if params[:training_id].present?
       @invoice_items_total = InvoiceItem.where(training_id: params[:training_id].to_i, type: params[:type]).order('id DESC')
+      @invoice_items = @invoice_items_total.offset((n-1)*50).first(50)
+    elsif params[:client_company_id].present?
+      @invoice_items_total = InvoiceItem.where(client_company_id: params[:client_company_id].to_i, type: params[:type]).order('id DESC')
       @invoice_items = @invoice_items_total.offset((n-1)*50).first(50)
     elsif params[:client_company_id].nil?
       @invoice_items_total = InvoiceItem.where(type: params[:type]).order('id DESC')

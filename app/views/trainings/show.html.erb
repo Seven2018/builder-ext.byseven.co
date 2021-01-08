@@ -36,7 +36,7 @@
             <li><%= link_to 'New invoice Airtable', new_airtable_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
             <li><%= link_to 'New invoice Airtable by Trainer', new_airtable_invoiceitem_by_trainer_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
             <li><%= link_to 'New invoice Airtable by Participant', new_airtable_invoiceitem_by_attendee_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
-            <li><%= link_to 'Invoices List', invoice_items_path(training_id: @training.id, type: 'Invoice') %></li>
+            <li><%= link_to 'Invoices List', invoice_items_path(training_id: @training.id, type: 'Invoice', page: 1) %></li>
             <% if @training.forms.empty? %>
               <li><a data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a></li>
             <% else %>
