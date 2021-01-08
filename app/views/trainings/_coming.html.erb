@@ -73,7 +73,9 @@
                 <% ['sevener+', 'sevener'].include?(current_user.access_level) ? sessions = training.sessions.joins(:session_trainers).where(session_trainers: {user_id: current_user.id}) : sessions = training.sessions %>
                 <div class='card-infos-elements'>
                   <% if sessions.count == 1 %>
-                    <i class="far fa-calendar-alt"></i><%= "  On #{sessions.first.date.strftime('%d/%m/%y')}" %>
+                    <% if sessions.first.date.present? %>
+                      <i class="far fa-calendar-alt"></i><%= "  On #{sessions.first.date.strftime('%d/%m/%y')}" %>
+                    <% end %>
                   <% else %>
                     <i class="far fa-calendar-alt"></i><%= "  From #{sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
                   <% end %>
