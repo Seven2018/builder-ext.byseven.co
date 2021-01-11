@@ -38,7 +38,7 @@ class UpdateCalendarJob < ApplicationJob
       return
     elsif command[0...-1] == 'purge_training'
       training.destroy
-      redirect_to trainings_path
+      redirect_to trainings_path(page: 1)
       return
     else
       # Lists the users for whom an event will be created

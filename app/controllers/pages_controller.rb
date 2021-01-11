@@ -120,7 +120,7 @@ class PagesController < ApplicationController
         end
       end
     end
-    redirect_to trainings_path
+    redirect_to trainings_path(page: 1)
   end
 
   def numbers_activity

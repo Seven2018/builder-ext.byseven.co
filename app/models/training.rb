@@ -14,7 +14,7 @@ class Training < ApplicationRecord
   accepts_nested_attributes_for :training_ownerships
 
   def start_time
-    self.sessions&.order(date: :asc)&.reject{|x|x.date == nil}&.first&.date
+    self.sessions&.order(date: :asc)&.reject{|x| !x.date.present?}&.first&.date
   end
 
   def end_time

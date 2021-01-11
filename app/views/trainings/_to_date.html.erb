@@ -1,7 +1,26 @@
+<div class="training_index_controls">
+  <% trainings_to_date = @trainings.select{|x| x.sessions.select{|y| !y.date.present?}}.uniq %>
+  <% if params[:page].to_i > 1 %>
+    <%= link_to url_for(page: params[:page].to_i - 1, type: params[:type]) do %>
+      <i class="fas fa-caret-left"></i>
+    <% end %>
+  <% else %>
+    <i class="fas fa-caret-left" style='color:rgba(0,0,0,0.3)'></i>
+  <% end %>
+  <p><%= "Page #{params[:page]} / #{trainings_to_date.count / 30 + 1}" %></p>
+  <% if params[:page].to_i < trainings_to_date.count / 30 + 1 %>
+    <%= link_to url_for(page: params[:page].to_i + 1, type: params[:type]) do %>
+      <i class="fas fa-caret-right"></i>
+    <% end %>
+  <% else %>
+    <i class="fas fa-caret-right" style='color:rgba(0,0,0,0.3'></i>
+  <% end %>
+</div>
 <div class="row" style="background-color: white; margin-right: 0;">
   <% result_date = [] %>
   <% if params[:user].present? %>
-    <% @trainings.select{|x| x.sessions.map{|y| y.date}.include?(nil)}.each do |training| %>
+    <% user = User.find(params[:user]) %>
+    <% trainings_to_date.each do |training| %>
       <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
         <div class="card" id="card-index">
           <div class="card-main">
@@ -51,8 +70,8 @@
         </div>
       </div>
     <% end %>
-  <% else %>
-    <% @trainings.joins(:sessions).where(sessions: {date: [nil, ""]}).uniq.each do |training| %>
+  <% elsif trainings_to_date.present? %>
+    <% trainings_to_date.each do |training| %>
       <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
         <div class="card" id="card-index">
           <div class="card-main">

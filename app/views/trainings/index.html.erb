@@ -3,20 +3,20 @@
     <h1>Trainings</h1>
     <div id="page-buttons">
       <% if params[:user] %>
-        <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
+        <%= simple_form_for :search, url: trainings_path(page: 1), method: 'GET' do |f| %>
           <%= f.input :title, placeholder: 'Search', label: false %>
           <%= f.input :user, as: :hidden, input_html: { value: params[:user] } %>
           <% if params[:search] %>
-            <%= link_to trainings_path, class: 'training-search-close' do %>
+            <%= link_to trainings_path(page: 1), class: 'training-search-close' do %>
               <i class="far fa-times-circle"></i>
             <% end %>
           <% end %>
         <% end %>
       <% else %>
-        <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
+        <%= simple_form_for :search, url: trainings_path(page: 1), method: 'GET' do |f| %>
           <%= f.input :title, placeholder: 'Search', label: false %>
           <% if params[:search] %>
-            <%= link_to trainings_path, class: 'training-search-close' do %>
+            <%= link_to trainings_path(page: 1), class: 'training-search-close' do %>
               <i class="far fa-times-circle"></i>
             <% end %>
           <% end %>
@@ -39,17 +39,17 @@
   <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
     <div id="trainings_user_filter" class='flex-row-start-centered'>
       <% if params[:user].present? %>
-        <%= link_to 'All', trainings_path, class: 'avatar-sm centered-item avatar_filter_all avatar_filter_all_unselected' %>
+        <%= link_to 'All', trainings_path(page: 1), class: 'avatar-sm centered-item avatar_filter_all avatar_filter_all_unselected' %>
       <% else %>
-        <%= link_to 'All', trainings_path, class: 'avatar-sm centered-item avatar_filter_all' %>
+        <%= link_to 'All', trainings_path(page: 1), class: 'avatar-sm centered-item avatar_filter_all' %>
       <% end %>
       <% User.where.not(access_level: %w[sevener+ sevener]).each do |user| %>
         <% if (params[:user] == user.id&.to_s) || (params[:search] && params[:search][:user] == user.id&.to_s) %>
-          <%= link_to trainings_path(user: user.id) do %>
+          <%= link_to trainings_path(page: 1, user: user.id) do %>
             <img src="<%= user.picture %>" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
           <% end %>
         <% else %>
-           <%= link_to trainings_path(user: user.id) do %>
+           <%= link_to trainings_path(page: 1, user: user.id) do %>
             <img src="<%= user.picture %>" class='avatar-sm' style='opacity: 0.6;' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
           <% end %>
         <% end %>

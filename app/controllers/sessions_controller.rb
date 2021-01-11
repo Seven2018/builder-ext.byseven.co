@@ -37,7 +37,7 @@ class SessionsController < ApplicationController
     authorize @session
     @session.training = @training
     if @session.save
-      UpdateAirtableJob.perform_later(@training)
+      UpdateAirtableJob.perform_async(@training)
       redirect_to training_path(@training)
     end
   end
@@ -62,7 +62,7 @@ class SessionsController < ApplicationController
 
 
     if @session.save && (params[:session][:date].present?)
-      UpdateAirtableJob.perform_later(@training, true)
+      UpdateAirtableJob.perform_async(@training, true)
       redirect_to training_path(@session.training)
     else
       redirect_to training_path(@session.training)
@@ -74,7 +74,7 @@ class SessionsController < ApplicationController
     @training = Training.find(params[:training_id])
     authorize @session
     @session.destroy
-    UpdateAirtableJob.perform_later(@training, true)
+    UpdateAirtableJob.perform_async(@training, true)
     redirect_to training_path(@training)
   end
 
@@ -128,7 +128,7 @@ class SessionsController < ApplicationController
     end
     # i = 1
     # new_session.workshops.order(position: :asc).each{|workshop| workshop.update(position: i); i += 1}
-    #UpdateAirtableJob.perform_later(training, true)
+    #UpdateAirtableJob.perform_async(training, true)
     redirect_to training_path(training)
   end
 

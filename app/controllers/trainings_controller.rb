@@ -6,26 +6,28 @@ class TrainingsController < ApplicationController
     # @session_trainer = SessionTrainer.new
     @form = Form.new
     # Index with 'search' option and global visibility for SEVEN Users
+    n = params[:page].to_i
+    @trainings = policy_scope(Training)
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
       if params[:search]
         if params[:search][:user]
-          @trainings = policy_scope(Training)
-          @trainings = ((Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).where("lower(trainings.title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
+          @trainings = Training
+          @trainings = ((Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).where("lower(trainings.title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.offset((n-1)*30).first(30)
           @user = User.find(params[:search][:user])
         else
-          @trainings = policy_scope(Training)
-          @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
+          @trainings = Training
+          @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.offset((n-1)*30).first(30)
         end
       elsif params[:user]
-        @trainings = policy_scope(Training)
-        @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]})).uniq
+        @trainings = Training
+        @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]})).uniq.offset((n-1)*30).first(30)
         @user = User.find(params[:user])
       else
-        @trainings = policy_scope(Training)
+        @trainings = Training.offset((n-1)*30).first(30)
       end
     # Index for Sevener Users, with limited visibility
     else
-      @trainings = policy_scope(Training).joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}")
+      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}").offset((n-1)*30).first(30)
     end
   end
 
@@ -73,7 +75,7 @@ class TrainingsController < ApplicationController
     @session = Session.new
     @users = User.all
     if params[:task] == 'update_airtable'
-      UpdateAirtableJob.perform_later(@training, true)
+      UpdateAirtableJob.perform_async(@training, true)
     end
   end
 
@@ -110,7 +112,7 @@ class TrainingsController < ApplicationController
     authorize @training
     @training.update(training_params)
     @training.save
-    # UpdateAirtableJob.perform_later (@training)
+    # UpdateAirtableJob.perform_async (@training)
     # @training.export_airtable
     redirect_to training_path(@training)
   end
@@ -118,7 +120,7 @@ class TrainingsController < ApplicationController
   def destroy
     authorize @training
     @training.destroy
-    redirect_to trainings_path
+    redirect_to trainings_path(page: 1)
   end
 
   def copy

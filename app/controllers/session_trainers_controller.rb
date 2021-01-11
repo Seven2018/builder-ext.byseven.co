@@ -19,7 +19,7 @@ class SessionTrainersController < ApplicationController
     # session_ids = Base64.decode64(params[:state]).split('|')[1].split(',')
     # training = Session.find(session_ids[0]).training
     # client = Signet::OAuth2::Client.new(client_options)
-    # UpdateCalendarJob.perform_later(client, params[:code], params[:state], training)
+    # UpdateCalendarJob.perform_async(client, params[:code], params[:state], training)
     # Gets clearance from OAuth
     client = Signet::OAuth2::Client.new(client_options)
     skip_authorization
@@ -42,7 +42,7 @@ class SessionTrainersController < ApplicationController
       key = pair.split(':')[0]
       value = pair.split(':')[1]
       begin
-        if %w(1 2 3 4 5 54 55).include?(key)
+        if User.where(access_level: ['super admin', 'admin']).map{|x| x.id.to_s}.include?(key)
           service.delete_event(calendars_ids[key.to_i], value) if value.present?
         else
           service.delete_event(calendars_ids['other'], value) if value.present?
@@ -58,7 +58,7 @@ class SessionTrainersController < ApplicationController
       return
     elsif command[0...-1] == 'purge_training'
       training.destroy
-      redirect_to trainings_path
+      redirect_to trainings_path(page: 1)
       return
     else
       # Lists the users for whom an event will be created
@@ -104,7 +104,7 @@ class SessionTrainersController < ApplicationController
                 end
               end
               events.each do |event|
-                if %w(1 2 3 4 5 54 55).include?(ind)
+                if User.where(access_level: ['super admin', 'admin']).map{|x| x.id.to_s}.include?(ind)
                   create_calendar_id(ind, session.id, event, service, calendars_ids)
                 else
                   sevener = User.find(ind)
@@ -153,7 +153,7 @@ class SessionTrainersController < ApplicationController
         end
       end
     end
-    UpdateAirtableJob.perform_later(@session.training, true)
+    UpdateAirtableJob.perform_async(@session.training, true)
     redirect_back(fallback_location: root_path)
   end
 
@@ -184,7 +184,7 @@ class SessionTrainersController < ApplicationController
         end
       end
     end
-    UpdateAirtableJob.perform_later(training, true)
+    UpdateAirtableJob.perform_async(training, true)
     redirect_to training_path(training)
   end
 
@@ -228,7 +228,7 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    UpdateAirtableJob.perform_later(@session.training, true)
+    UpdateAirtableJob.perform_async(@session.training, true)
     # @session.training.export_airtable
     # @session.training.export_trainer_airtable
     redirect_to redirect_path(session_id: "|#{@session.id}|", list: 'purge_session', to_delete: "%#{event_to_delete}%")
@@ -248,7 +248,7 @@ class SessionTrainersController < ApplicationController
     end
     event_to_delete = event_to_delete[0...-1]
 
-    UpdateAirtableJob.perform_later(training, true)
+    UpdateAirtableJob.perform_async(training, true)
     # training.export_airtable
     # training.export_trainer_airtable
     redirect_to redirect_path(session_id: "|#{sessions_ids[0...-1]}|", list: 'purge_training', to_delete: "%#{event_to_delete}%")
