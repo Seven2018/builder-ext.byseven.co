@@ -32,8 +32,8 @@ class SessionTrainersController < ApplicationController
     session_ids = Base64.decode64(params[:state]).split('|')[1].split(',')
     training = Session.find(session_ids[0]).training
     # Calendars ids
-    calendars_ids = { 1 => 'yahya.fallah@byseven.co', 2 => 'brice.chapuis@byseven.co', 3 => 'thomas.fraudet@byseven.co', 4 => 'jorick.roustan@byseven.co', 5 => 'mathilde.meurer@byseven.co', 54 => 'julie.lang@byseven.co', 55 => 'virginie.faure@byseven.co', 'other' => 'vum1670hi88jgei65u5uedb988@group.calendar.google.com'}
-
+    calendars_ids = {'other' => 'vum1670hi88jgei65u5uedb988@group.calendar.google.com'}
+    User.where(access_level: ['super admin','admin']).each{|x| calendars_ids[x.id] = x.email}
     # Lists the users and the events ids of the events to be deleted
     to_delete_string = Base64.decode64(params[:state]).split('|').last.split('%').last
 
