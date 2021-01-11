@@ -42,7 +42,7 @@ class TrainingsController < ApplicationController
         @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]}))
         @user = User.find(params[:user])
       else
-        @trainings = Training.all
+        @trainings = Training.all.first(20)
       end
     # Index for Sevener Users, with limited visibility
     else
