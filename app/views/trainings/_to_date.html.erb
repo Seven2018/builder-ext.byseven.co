@@ -81,7 +81,7 @@
               <h5 style='max-width: 18rem;'><%= training.title %></h5>
               <% result_date << training %>
               <div class="card-infos">
-                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
+                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first&.date&.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last&.date&.strftime('%d/%m/%y')}" %>
                 </div>
               </div>
               <% if params[:user] || (params[:search] && params[:search][:user]) %>
