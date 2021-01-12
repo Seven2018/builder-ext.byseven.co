@@ -21,6 +21,14 @@ class Training < ApplicationRecord
     self.sessions&.order(date: :asc)&.reject{|x|!x.date.present?}&.last&.date
   end
 
+  def next_session
+    if self.end_time >= Date.today
+      self.sessions&.order(date: :asc).where('date >= ?', Date.today).first.date
+    else
+      self.end_time
+    end
+  end
+
   def self.numbers_scope(starts_at = Date.today.beginning_of_year, ends_at = Date.today.end_of_year)
     Training.joins(:sessions).where('sessions.date < ?', ends_at).where('sessions.date > ?', starts_at).uniq
   end
