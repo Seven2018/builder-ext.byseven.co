@@ -40,20 +40,20 @@ class TrainingsController < ApplicationController
     if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
       if params[:search]
         if params[:search][:user]
-          @trainings = ((Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).where("lower(trainings.title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.sort_by{|x| x.next_session}[(n-1)*30..n*30]
+          @trainings = ((Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).where("lower(trainings.title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.select{|x| x.next_session.present?}.sort_by{|y| y.next_session}[(n-1)*30..n*30]
           @user = User.find(params[:search][:user])
         else
-          @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.sort_by{|x| x.next_session}[(n-1)*30..n*30]
+          @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.select{|x| x.next_session.present?}.sort_by{|y| y.next_session}[(n-1)*30..n*30]
         end
       elsif params[:user]
-        @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]})).uniq.sort_by{|x| x.next_session}[(n-1)*30..n*30]
+        @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]})).uniq.select{|x| x.next_session.present?}.sort_by{|y| y.next_session}[(n-1)*30..n*30]
         @user = User.find(params[:user])
       else
-        @trainings = Training.all.sort_by{|x| x.next_session}[(n-1)*30..n*30]
+        @trainings = Training.all.select{|x| x.next_session.present?}.sort_by{|y| y.next_session}[(n-1)*30..n*30]
       end
     # Index for Sevener Users, with limited visibility
     else
-      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}").uniq.sort_by{|x| x.next_session}[(n-1)*30..n*30]
+      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}").uniq.select{|x| x.next_session.present?}.sort_by{|y| y.next_session}[(n-1)*30..n*30]
     end
   end
 
