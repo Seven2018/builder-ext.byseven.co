@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.7.1'
+ruby '2.7.2'
 
 gem 'bootsnap', require: false
 gem 'cloudinary', '~> 1.9.1'
@@ -33,16 +33,16 @@ gem 'acts_as_list'
 gem "acts_as_tree"
 gem "simple_calendar", "~> 2.0"
 gem 'google_drive'
-gem 'datagrid'
+# gem 'datagrid'
 gem 'render_async'
 gem 'image_processing'
 gem 'invisible_captcha'
-gem 'docusign_esign'
+# gem 'docusign_esign'
 gem 'bootstrap',     '4.3.1'
 gem 'material-sass', git: 'https://github.com/bricechapuis/material-sass'
 gem 'exception_handler', '~> 0.8.0.0'
 gem 'airrecord'
-gem 'sidekiq'
+# gem 'sidekiq'
 gem 'redis-rails'
 gem 'sucker_punch', '~> 2.0'
 gem 'sendgrid-ruby'
