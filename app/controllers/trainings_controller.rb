@@ -49,9 +49,9 @@ class TrainingsController < ApplicationController
         @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]})).uniq
         @user = User.find(params[:user])
       else
-        trainings = (Training.all.select{|x| x.next_session.present?}.sort_by{|y| y.next_session} + Training.all.select{|z| !z.next_session.present? && z.end_time.present?}.sort_by{|a| a.end_time}.reverse).uniq
-        @trainings_count = trainings.count
-        @trainings = trainings[(n-1)*30..n*30-1]
+        # trainings = (Training.all.select{|x| x.next_session.present?}.sort_by{|y| y.next_session} + Training.all.select{|z| !z.next_session.present? && z.end_time.present?}.sort_by{|a| a.end_time}.reverse).uniq
+        @trainings_count = Training.all.count
+        @trainings = Training.all.sort_by{|x| x.next_session}[(n-1)*30..n*30-1]
       end
     # Index for Sevener Users, with limited visibility
     else
