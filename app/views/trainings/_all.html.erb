@@ -6,8 +6,8 @@
   <% else %>
     <i class="fas fa-caret-left" style='color:rgba(0,0,0,0.3)'></i>
   <% end %>
-  <p><%= "Page #{params[:page]} / #{@trainings.count / 30 + 1}" %></p>
-  <% if params[:page].to_i < @trainings.count / 30 + 1 %>
+  <p><%= "Page #{params[:page]} / #{@trainings_count / 30 + 1}" %></p>
+  <% if params[:page].to_i < @trainings_count / 30 + 1 %>
     <%= link_to url_for(page: params[:page].to_i + 1, type: params[:type]) do %>
       <i class="fas fa-caret-right"></i>
     <% end %>
