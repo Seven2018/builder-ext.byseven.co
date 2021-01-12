@@ -51,7 +51,7 @@ class TrainingsController < ApplicationController
       else
         # trainings = (Training.all.select{|x| x.next_session.present?}.sort_by{|y| y.next_session} + Training.all.select{|z| !z.next_session.present? && z.end_time.present?}.sort_by{|a| a.end_time}.reverse)
         @trainings_count = Training.all.count
-        @trainings = Training.all.offset((n-1)*30).last(30)
+        @trainings = Training.all.order(id: :desc).offset((n-1)*30).last(30)
       end
     # Index for Sevener Users, with limited visibility
     else
