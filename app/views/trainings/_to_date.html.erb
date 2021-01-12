@@ -1,5 +1,5 @@
 <div class="training_index_controls">
-  <% trainings_to_date = @trainings.select{|x| x.sessions.select{|y| !y.date.present?}}.uniq %>
+  <% trainings_to_date = Training.all.select{|x| x.to_date?}.uniq %>
   <% if params[:page].to_i > 1 %>
     <%= link_to url_for(page: params[:page].to_i - 1, type: params[:type]) do %>
       <i class="fas fa-caret-left"></i>
