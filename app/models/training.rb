@@ -87,6 +87,10 @@ class Training < ApplicationRecord
     attendees.uniq
   end
 
+  def hours
+    self.sessions.map{|x| x.duration * x.session_trainers.count}.sum
+  end
+
   def self.numbers_activity_csv(starts_at, ends_at)
     attributes = %w(Title Client Dates Owner Trainers Hours Comments)
     CSV.generate(headers: true) do |csv|

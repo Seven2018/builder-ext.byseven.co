@@ -70,12 +70,55 @@ class InvoiceItemsController < ApplicationController
 
   # Creates a chart (Numbers) of InvoicesItems, for reporting purposes (gem)
   def report
-    params[:date].present? ? @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
+    # params[:date].present? ? @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
+    # authorize @invoice_items
+    # params[:date].present? ? @sessions = Session.where("date > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @sessions = Session.where("date > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
+    # respond_to do |format|
+    #   format.html
+    #   format.csv { send_data @invoice_items_grid.to_csv }
+    # end
+    @invoice_items = InvoiceItem.all
     authorize @invoice_items
-    params[:date].present? ? @sessions = Session.where("date > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @sessions = Session.where("date > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
-    respond_to do |format|
-      format.html
-      format.csv { send_data @invoice_items_grid.to_csv }
+    # if params[:date].present?
+    #   OverviewUser.all.select{|x| x['Status'] == 'SEVEN'}.each do |user|
+    #     ownership_hours_total = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date.today.beginning_of_year && x.end_time <= Date.today.end_of_year}.map{|x| x.hours}.sum
+    #     ownership_hours_ongoing = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date::strptime(params[:date][:start_date],'%Y-%m-%d') && x.end_time <= Date::strptime(params[:date][:end_date],'%Y-%m-%d')}.map{|x| x.hours}.sum
+    #     projects_1 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '1 - Prospect(s) : person or/and company'}.count
+    #     projects_2 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '2 - Identified contact lead'}.count
+    #     projects_3 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '3 - Handshaked contact lead'}.count
+    #     projects_4 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '4 - Strong relationship lead'}.count
+    #     projects_5 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '5 - Needs identified lead'}.count
+    #     projects_6 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '6 - Pre-Signed lead'}.count
+    #     projects_7 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '7 - Signed lead'}.count
+    #     memos_this_week = OverviewMemo.all.select{|x| x['User'].present? && x['User'].join == user.id && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.weeks_ago(1)}.count
+    #     new_record = OverviewBizdev.create('User' => user['Name'], 'Ownership (hours) 2021' => ownership_hours_total, 'Ownership (hours) 2021 ongoing' => ownership_hours_ongoing, 'Projects - Lead Level 1' => projects_1, 'Projects - Lead Level 2' => projects_2, 'Projects - Lead Level 3' => projects_3,'Projects - Lead Level 4' => projects_4,'Projects - Lead Level 5' => projects_5,'Projects - Lead Level 6' => projects_6,'Projects - Lead Level 7' => projects_7, 'Memos (last week)' => memos_this_week)
+    #     new_record.save
+    #   end
+    # end
+    if params[:date].present?
+      week = "Week #{Date.today.weeks_ago(1).strftime("%U").to_i}"
+      OverviewUser.all.select{|x| x['Status'] == 'SEVEN'}.each do |user|
+        ownership_hours_total = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date.today.beginning_of_year && x.end_time <= Date.today.end_of_year}.map{|x| x.hours}.sum
+        ownership_hours_ongoing = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date::strptime(params[:date][:start_date],'%Y-%m-%d') && x.end_time <= Date::strptime(params[:date][:end_date],'%Y-%m-%d')}.map{|x| x.hours}.sum
+        projects_1 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '1 - Prospect(s) : person or/and company'}.count
+        projects_2 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '2 - Identified contact lead'}.count
+        projects_3 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '3 - Handshaked contact lead'}.count
+        projects_4 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '4 - Strong relationship lead'}.count
+        projects_5 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '5 - Needs identified lead'}.count
+        projects_6 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '6 - Pre-Signed lead'}.count
+        projects_7 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '7 - Signed lead'}.count
+        memos_this_week = OverviewMemo.all.select{|x| x['User'].present? && x['User'].join == user.id && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.weeks_ago(1)}.count
+        data_hash = {Ongoing_Ownership:  ownership_hours_ongoing, Projects_Level_1: projects_1, Projects_Level_2: projects_2, Projects_Level_3: projects_3, Projects_Level_4: projects_4, Projects_Level_5: projects_5, Projects_Level_6: projects_6, Projects_Level_7: projects_7, Weekly_Memos: memos_this_week}
+        data_hash.each do |key, value|
+          line = OverviewBizdev.all.select{|x| x['User'] == user['Name'] && x['Data'] == key}.first
+          if !line.present?
+            line = OverviewBizdev.create('User' => user['Name'], 'Data' => key, week => value.to_s)
+          else
+            line[week] = value
+          end
+          line.save
+        end
+      end
     end
   end
 
