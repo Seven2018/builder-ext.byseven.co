@@ -15,7 +15,9 @@ class InvoiceItemsController < ApplicationController
   # Indexes with a filter option (see below)
   def index
     @invoice_items = policy_scope(InvoiceItem)
-    index_filtered(params[:page].to_i)
+    unless params[:export].present?
+      index_filtered(params[:page].to_i)
+    end
     if params[:search]
       @invoice_items = @invoice_items_total = ((InvoiceItem.where(type: params[:type]).where("lower(uuid) LIKE ?", "%#{params[:search][:reference].downcase}%")) + (InvoiceItem.joins(:client_company).where(type: params[:type]).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:reference].downcase}%"))).flatten(1).uniq
     end
