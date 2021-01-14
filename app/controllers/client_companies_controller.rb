@@ -55,6 +55,6 @@ before_action :authenticate_user!, except: [:new_attendees, :create_attendees]
   end
 
   def clientcompany_params
-    params.require(:client_company).permit(:name, :address, :zipcode, :city, :description, :logo, :client_company_type, :opco_id, :unit_price)
+    params.require(:client_company).permit(:name, :address, :zipcode, :city, :description, :logo, :client_company_type, :opco_id, :unit_price, :reference)
   end
 end
