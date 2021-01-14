@@ -14,7 +14,7 @@
           <% end %>
         <% end %>
       <% else %>
-        <%= simple_form_for :search, url: trainings_path(page: 1), method: 'GET' do |f| %>
+        <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
           <%= f.input :title, placeholder: 'Search', label: false %>
           <%= hidden_field_tag :page, 1 %>
           <% if params[:search] %>
