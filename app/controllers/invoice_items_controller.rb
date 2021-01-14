@@ -21,9 +21,10 @@ class InvoiceItemsController < ApplicationController
     if params[:search]
       @invoice_items = @invoice_items_total = ((InvoiceItem.where(type: params[:type]).where("lower(uuid) LIKE ?", "%#{params[:search][:reference].downcase}%")) + (InvoiceItem.joins(:client_company).where(type: params[:type]).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:reference].downcase}%"))).flatten(1).uniq
     end
+    @invoice_items = InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date], type: params[:export][:type]).order(:uuid) if (params[:export].present? && params[:export][:type].present?)
     respond_to do |format|
       format.html
-      format.csv { send_data InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date], type: params[:type]).order(:uuid).to_csv, filename: "Factures SEVEN #{params[:export][:start_date].split('-').join('')} - #{params[:export][:end_date].split('-').join('')}.csv" }
+      format.csv { send_data @invoice_items.to_csv, filename: "Factures SEVEN #{params[:export][:start_date].split('-').join('')} - #{params[:export][:end_date].split('-').join('')}.csv" }
     end
   end
 
