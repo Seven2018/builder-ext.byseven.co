@@ -51,17 +51,12 @@
               <% end %>
             <% end %>
           </div>
-          <% if !training.end_time.present? %>
-            <div class="card-footer">
-          <% elsif training.end_time.present? && training.end_time > Date.today %>
-            <div class="card-footer">
-          <% else %>
-            <div class="card-footer card-footer-completed">
-          <% end %>
-          <div>
-            <% training.users.each do |owner| %>
-              <img class='avatar-xs' src="<%= owner.picture %>"  onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-            <% end %>
+          <div class="card-footer">
+            <div>
+              <% training.users.each do |owner| %>
+                <img class='avatar-xs' src="<%= owner.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>

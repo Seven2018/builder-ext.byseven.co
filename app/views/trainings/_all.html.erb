@@ -118,12 +118,12 @@
           <% else %>
             <div class="card-footer card-footer-completed">
           <% end %>
-              <div>
-                <% training.users.each do |owner| %>
-                  <img class='avatar-xs' src="<%= owner.picture %>"  onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-                <% end %>
-              </div>
+            <div>
+              <% training.users.each do |owner| %>
+                <img class='avatar-xs' src="<%= owner.picture %>"  onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% end %>
             </div>
+          </div>
         </div>
       </div>
     <% end %>

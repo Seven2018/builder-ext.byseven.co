@@ -105,6 +105,7 @@ Rails.application.routes.draw do
     resources :forms, only: [:index, :show, :create, :update, :destroy]
   end
   get 'trainings_completed', to: 'trainings#index_completed', as: 'index_completed'
+  get 'trainings_upcoming', to: 'trainings#index_upcoming', as: 'index_upcoming'
   get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
   get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
   get 'trainings/:id/copy', to: 'trainings#copy', as: 'copy_training'

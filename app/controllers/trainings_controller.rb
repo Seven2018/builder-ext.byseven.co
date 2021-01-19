@@ -50,13 +50,40 @@ class TrainingsController < ApplicationController
         @user = User.find(params[:user])
       else
         # trainings = (Training.all.select{|x| x.next_session.present?}.sort_by{|y| y.next_session} + Training.all.select{|z| !z.next_session.present? && z.end_time.present?}.sort_by{|a| a.end_time}.reverse)
-        @trainings_count = Training.all.count
-        @trainings = Training.all.order(id: :desc).offset((n-1)*30).first(30)
+        trainings = Training.all.select{|x| x.end_time.present? && x.end_time >= Date.today}
+        @trainings_count = trainings.count
+        @trainings = trainings.sort_by{|x| x.end_time}.first(30)
       end
     # Index for Sevener Users, with limited visibility
     else
       @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}").uniq.select{|x| x.next_session.present?}.sort_by{|y| y.next_session}[(n-1)*30..n*30-1]
     end
+  end
+
+  def index_upcoming
+    # Index with 'search' option and global visibility for SEVEN Users
+    if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
+      if params[:search]
+        if params[:search][:user]
+          @trainings = ((Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).where("lower(trainings.title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
+          @user = User.find(params[:search][:user])
+        else
+          @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
+        end
+      elsif params[:user]
+        @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]})).uniq
+        @user = User.find(params[:user])
+      else
+        @trainings = Training.all.select{|x| x.end_time.present? && x.end_time >= Date.today}.sort_by{|y| y.next_session}
+
+      end
+    # Index for Sevener Users, with limited visibility
+    else
+      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}").uniq.select{|x| x.next_session.present?}.sort_by{|y| y.next_session}
+      @trainings_count = @trainings.count
+    end
+    skip_authorization
+    render partial: "index_upcoming"
   end
 
   def index_completed
@@ -69,17 +96,18 @@ class TrainingsController < ApplicationController
           @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
         end
       elsif params[:user]
-        @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]}))
+        @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]})).uniq
         @user = User.find(params[:user])
       else
-        @trainings = Training.all.first(20)
+        # trainings = (Training.all.select{|x| x.next_session.present?}.sort_by{|y| y.next_session} + Training.all.select{|z| !z.next_session.present? && z.end_time.present?}.sort_by{|a| a.end_time}.reverse)
+        @trainings = Training.all.select{|x| x.end_time.present? && x.end_time < Date.today}.sort_by{|y| y.end_time}.reverse
       end
     # Index for Sevener Users, with limited visibility
     else
-      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}")
-      # @trainings = Training.joins(sessions: :session_trainers).where(session_trainers: {user_id: current_user.id})
+      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}").uniq.select{|x| x.next_session.present?}.sort_by{|y| y.next_session}[(n-1)*30..n*30-1]
+      @trainings_count = @trainings.count
     end
-    authorize @trainings
+    skip_authorization
     render partial: "index_completed"
   end
 

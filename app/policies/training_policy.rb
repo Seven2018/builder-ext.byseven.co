@@ -9,6 +9,10 @@ class TrainingPolicy < ApplicationPolicy
     end
   end
 
+  def index_upcoming?
+    true
+  end
+
   def index_completed?
     true
   end
