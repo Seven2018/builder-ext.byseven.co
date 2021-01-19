@@ -93,10 +93,14 @@ class InvoiceItem < ApplicationRecord
   def export_numbers_revenue
     begin
       return if self.type != 'Invoice'
-      training = OverviewTraining.all.select{|x| x['Builder_id'] == self.training.id}&.first
+      training = OverviewTraining.all.select{|x| x['Builder_id'] == self.training.id}&.first if self.training.present?
       invoice = OverviewNumbersRevenue.all.select{|x| x['Invoice_id'] == self.id}&.first
       unless invoice.present?
-        invoice = OverviewNumbersRevenue.create('Training' => [training&.id], 'Invoice SEVEN' => self.uuid, 'Issue Date' => Date.today.strftime('%Y-%m-%d'), 'Invoice_id' => self.id)
+        if training.present?
+          invoice = OverviewNumbersRevenue.create('Training' => [training&.id], 'Invoice SEVEN' => self.uuid, 'Issue Date' => Date.today.strftime('%Y-%m-%d'), 'Invoice_id' => self.id)
+        else
+          invoice = OverviewNumbersRevenue.create('Invoice SEVEN' => self.uuid, 'Issue Date' => Date.today.strftime('%Y-%m-%d'), 'Invoice_id' => self.id)
+        end
       end
       lines = []
       if self.products.include?(Product.find(1))
@@ -132,14 +136,14 @@ class InvoiceItem < ApplicationRecord
       invoice['Former / Credit / New'] = 'Credit' if self.total_amount < 0
       invoice['VAT'] = self.tax_amount.to_f
       invoice['OPCO'] = self.client_company.name if self.client_company.client_company_type == 'OPCO'
-      invoice['Training_id'] = self.training.id
+      invoice['Training_id'] = self.training.id if training.present?
       if self.payment_date.present?
         invoice['Paid'] = true
         invoice['Payment Date'] = self.payment_date.strftime('%Y-%m-%d')
       else
         invoice['Paid'] = false
       end
-      self.training.export_airtable
+      self.training.export_airtable if training.present?
       invoice.save
     rescue
     end

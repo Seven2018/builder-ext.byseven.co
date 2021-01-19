@@ -63,10 +63,9 @@ class SessionsController < ApplicationController
 
     if @session.save && (params[:session][:date].present?)
       UpdateAirtableJob.perform_async(@training, true)
-      redirect_to training_path(@session.training)
+      redirect_to training_path(@session.training, change: true)
     else
       redirect_to training_path(@session.training)
-      flash[:alert] = 'Something went wrong, please verify all parameters (ex: is the new session date included in the training period ?)'
     end
   end
 

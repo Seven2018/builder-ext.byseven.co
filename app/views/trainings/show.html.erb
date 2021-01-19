@@ -9,6 +9,9 @@
         <%# link_to remove_training_trainers_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
           <i class="fas fa-trash-alt"></i>
         <%# end %> -->
+        <% if params[:change].present? %>
+          <p class='calendar_message'>Calendar update required</p>
+        <% end %>
         <%= link_to update_calendar_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip'}, title: 'Update Calendar' do %>
           <span class="iconify" data-icon="dashicons:update" data-inline="false"></span>
         <% end %>
