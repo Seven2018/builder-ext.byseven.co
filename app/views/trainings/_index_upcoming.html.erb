@@ -53,7 +53,7 @@
           </div>
           <div class="card-footer">
             <div>
-              <% training.users.each do |owner| %>
+              <% training.users.uniq.each do |owner| %>
                 <img class='avatar-xs' src="<%= owner.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
               <% end %>
             </div>

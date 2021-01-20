@@ -68,7 +68,7 @@
         <% if params[:tab].nil? || params[:tab] == 'upcoming' %>
           <!-- <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li> -->
           <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li>
-          <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
+          <li role="presentation"><a href="#completed" data-toggle="tab" id='completed_tab'>Completed</a></li>
           <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
             <li role="presentation"><a href="#to_date" data-toggle="tab">To Date</a></li>
             <li role="presentation"><a href="#to_staff" data-toggle="tab">To Staff</a></li>
@@ -105,7 +105,7 @@
         <%= render_async index_upcoming_path(page: params[:page]) %>
       </div>
       <div role="tabpanel" class="tab-pane" id="completed">
-        <%= render_async index_completed_path(page: params[:page]) %>
+        <%= render_async index_completed_path(page: 1), toggle: { selector: '#completed_tab', event: :click } %>
       </div>
       <div role="tabpanel" class="tab-pane" id="to_date">
         <%= render 'to_date', trainings: @trainings %>
