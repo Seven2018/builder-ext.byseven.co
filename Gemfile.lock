@@ -140,6 +140,8 @@ GEM
     google-api-client (0.53.0)
       google-apis-core (~> 0.1)
       google-apis-generator (~> 0.1)
+    google-apis-calendar_v3 (0.1.0)
+      google-apis-core (~> 0.1)
     google-apis-core (0.2.0)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (~> 0.14)
@@ -423,7 +425,7 @@ DEPENDENCIES
   dotenv-rails
   exception_handler (~> 0.8.0.0)
   font-awesome-sass (~> 5.5.0)
-  google-api-client
+  google-apis-calendar_v3
   google-http-actionmailer
   google_drive
   image_processing
