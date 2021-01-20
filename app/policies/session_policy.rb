@@ -33,10 +33,6 @@ class SessionPolicy < ApplicationPolicy
     check_access
   end
 
-  def copy_here?
-    check_access
-  end
-
   def presence_sheet?
     check_access
   end

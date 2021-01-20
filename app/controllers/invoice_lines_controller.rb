@@ -14,6 +14,7 @@ class InvoiceLinesController < ApplicationController
       @invoiceline = InvoiceLine.new(invoice_item_id: @invoice_item.id, description: 'Commentaires', position: @invoice_item.invoice_lines.count + 1)
     end
     authorize @invoiceline
+    @invoice_item.export_numbers_revenue
     redirect_to invoice_item_path(@invoice_item) if @invoiceline.save
   end
 
@@ -24,12 +25,15 @@ class InvoiceLinesController < ApplicationController
   def update
     authorize @invoiceline
     @invoiceline.update(invoiceline_params)
+    @invoiceline.invoice_item.update_price
+    @invoiceline.invoice_item.export_numbers_revenue
     redirect_to invoice_item_path(@invoiceline.invoice_item) if @invoiceline.save
   end
 
   def destroy
     authorize @invoiceline
     @invoiceline.destroy
+    @invoiceline.invoice_item.export_numbers_revenue
     redirect_to invoice_item_path(@invoiceline.invoice_item)
   end
 
@@ -86,12 +90,6 @@ class InvoiceLinesController < ApplicationController
   def set_line
     @invoiceline = InvoiceLine.find(params[:id])
   end
-
-  # def update_price
-  #   price = @product.price * @invoiceline.quantity
-  #   @invoiceline.update(net_amount: price, tax_amount: price * @product.tax / 100)
-  #   @invoiceline.save
-  # end
 
   def invoiceline_params
     params.require(:invoice_line).permit(:description, :quantity, :net_amount, :tax_amount, :comments)

@@ -5,6 +5,7 @@
         <div class="card-main">
           <%= link_to training_path(training), class: 'stretched-link' do %>
             <div class='client-logo' style="background-image: url(<%= training.client_contact.client_company.logo %>); background-size: 5rem 5rem; background-repeat: no-repeat;"></div>
+            <h5 style='max-width: 18rem;'><strong><%= training.client_contact.client_company.name %></strong></h5>
             <h5 style='max-width: 18rem;'><%= training.title %></h5>
             <div class="card-infos">
               <% if training.sessions.present? %>
@@ -25,27 +26,73 @@
             <% end %>
           <% end %>
         </div>
-        <div class="card-footer">
-          <div>
-            <% training.users.each do |owner| %>
-              <img class='avatar-xs' src="<%= owner.picture %>"  onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-            <% end %>
-          </div>
-          <div>
-            <% trainer_array = [] %>
-            <% training.sessions.each do |session| %>
-              <% session.users.each do |trainer| %>
-                <% trainer_array << trainer %>
+        <% if !training.end_time.present? %>
+          <div class="card-footer">
+            <div>
+              <% training.users.each do |owner| %>
+                <img class='avatar-xs' src="<%= owner.picture %>"  onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
               <% end %>
-            <% end %>
-            <% trainer_array.uniq.first(3) do |trainer| %>
-              <img class='avatar-xs' src="<%= trainer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-            <% end %>
-            <% if trainer_array.uniq.count > 3 %>
-              <button class='btn btn-icon btn-edit-round'><i class='fas fa-ellipsis-h'></i></button>
-            <% end %>
+            </div>
+            <div>
+              <% trainer_array = [] %>
+              <% training.sessions.each do |session| %>
+                <% session.users.each do |trainer| %>
+                  <% trainer_array << trainer %>
+                <% end %>
+              <% end %>
+              <% trainer_array.uniq.first(3) do |trainer| %>
+                <img class='avatar-xs' src="<%= trainer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% end %>
+              <% if trainer_array.uniq.count > 3 %>
+                <button class='btn btn-icon btn-edit-round'><i class='fas fa-ellipsis-h'></i></button>
+              <% end %>
+            </div>
           </div>
-        </div>
+        <% elsif training.end_time.present? && training.end_time > Date.today %>
+          <div class="card-footer">
+            <div>
+              <% training.users.each do |owner| %>
+                <img class='avatar-xs' src="<%= owner.picture %>"  onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% end %>
+            </div>
+            <div>
+              <% trainer_array = [] %>
+              <% training.sessions.each do |session| %>
+                <% session.users.each do |trainer| %>
+                  <% trainer_array << trainer %>
+                <% end %>
+              <% end %>
+              <% trainer_array.uniq.first(3) do |trainer| %>
+                <img class='avatar-xs' src="<%= trainer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% end %>
+              <% if trainer_array.uniq.count > 3 %>
+                <button class='btn btn-icon btn-edit-round'><i class='fas fa-ellipsis-h'></i></button>
+              <% end %>
+            </div>
+          </div>
+        <% else %>
+          <div class="card-footer card-footer-completed">
+            <div>
+              <% training.users.each do |owner| %>
+                <img class='avatar-xs' src="<%= owner.picture %>"  onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% end %>
+            </div>
+            <div>
+              <% trainer_array = [] %>
+              <% training.sessions.each do |session| %>
+                <% session.users.each do |trainer| %>
+                  <% trainer_array << trainer %>
+                <% end %>
+              <% end %>
+              <% trainer_array.uniq.first(3) do |trainer| %>
+                <img class='avatar-xs' src="<%= trainer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% end %>
+              <% if trainer_array.uniq.count > 3 %>
+                <button class='btn btn-icon btn-edit-round'><i class='fas fa-ellipsis-h'></i></button>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
   <% end %>

@@ -16,7 +16,6 @@
       <div style='display:flex;justify-content:space-between;'>
         <%= f.input :client_company_type, collection: ["Company", "School", "OPCO"], include_blank: false, input_html: { style: 'width: 15rem;'} %>
         <%= f.input :opco_id, label: "OPCO", collection: ClientCompany.where(client_company_type: 'OPCO'), include_blank: true, input_html: { style: 'width: 15rem;'} %>
-        <%= f.input :unit_price, label: 'Price / unit', input_html: { style: 'width: 15rem;'} %>
       </div>
       <%= f.input :description, :input_html => {:rows => 5, style: 'width:100%;'} %>
       <%= f.input :logo, label: 'Logo URL' %>

@@ -6,18 +6,20 @@
     <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody">
+    <% num_of_session = @training.sessions.count %>
     <%= simple_form_for [@training, Session.new] do |f| %>
       <div class='mod-date'>
-        <%= f.input :title, input_html: { style: 'width:30rem;' } %>
-        <%= f.input :attendee_number, input_html: { min: 0, style: 'width:11rem;' }, label: 'Participants', default: 0 %>
+        <%= f.input :title, input_html: {value: "Session #{num_of_session + 1}", style: 'width:31rem;' } %>
+        <%= f.input :attendee_number, input_html: {value: 0, min: 0, style: 'width:11rem;' }, label: 'Participants' %>
       </div>
       <div class="mod-date">
         <%= f.input :date, as: :string, input_html: { class: 'datepicker', style: 'width:11rem;'} %>
-        <%= f.input :duration, label: "Duration (hours)", input_html: { min: 0, style: 'width:11rem;' }, default: 0, allow_blank: false %>
+        <%# f.input :lunch_duration, as: :integer, label: 'Lunch Duration (hours)', input_html: {value: 1, style: 'width:13rem;', id: 'edit_lunch_duration'} %>
+        <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: "timepicker new_start_time", style: 'width:5rem;'}, default: Time.parse('9:00') %>
+        <%= f.input :end_time, label: 'End time', as: :time, minute_step: 15, input_html: { class: 'timepicker new_end_time', style: 'width:5rem;'}, default: Time.parse('17:00') %>
       </div>
-      <div class='mod-date'>
-        <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: 'timepicker', style: 'width:5rem;'}, default: Time.parse('9:00') %>
-        <%= f.input :end_time, label: 'End time', as: :time, minute_step: 15, input_html: { class: 'timepicker', style: 'width:5rem;'}, default: Time.parse('17:00') %>
+      <div class="mod-date flex-row-start-centered">
+        <%= f.input :duration, label: "Billed Duration (hours)", input_html: {value: 8, min: 0, style: 'width:11rem;', id: 'new_duration'}, allow_blank: false %>
       </div>
       <%= f.input :address %>
       <%= f.input :room %>
@@ -30,4 +32,36 @@
       </div>
     <% end %>
   </div>
+  <script>
+    function extractValue(element) {
+      return parseInt(element.options[element.selectedIndex].value, 10);
+    }
+
+    function evaluateTime() {
+      start_time_hour = document.querySelectorAll('.new_start_time').item(0);
+      start_time_min = document.querySelectorAll('.new_start_time').item(1);
+      end_time_hour = document.querySelectorAll('.new_end_time').item(0);
+      end_time_min = document.querySelectorAll('.new_end_time').item(1);
+      start_time_hour_value = extractValue(start_time_hour);
+      start_time_min_value = extractValue(start_time_min);
+      end_time_hour_value = extractValue(end_time_hour);
+      end_time_min_value = extractValue(end_time_min);
+    }
+
+    duration = document.getElementById('new_duration');
+    // lunch_duration = document.getElementById('new_lunch_duration');
+    evaluateTime();
+    // lunch_duration.value = end_time_hour_value - start_time_hour_value + (end_time_min_value / 60) - (start_time_min_value / 60) - duration.value;
+    // lunch_duration.addEventListener('change', (event) => {
+    //   lunch_duration = document.getElementById('new_lunch_duration');
+    //   duration.value = end_time_hour_value - start_time_hour_value + (end_time_min_value / 60) - (start_time_min_value / 60) - lunch_duration.value;
+    // });
+    [start_time_hour, start_time_min, end_time_hour, end_time_min].forEach(function(element) {
+      element.addEventListener('change', (event) => {
+        evaluateTime();
+        duration.value = end_time_hour_value - start_time_hour_value + (end_time_min_value / 60) - (start_time_min_value / 60);
+      });
+    });
+  </script>
 </div>
+

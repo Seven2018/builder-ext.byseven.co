@@ -11,7 +11,7 @@
     <%= f.association :user, label: 'Speaker', collection: @users, label_method: lambda { |user| "#{user.firstname} #{user.lastname}" }, allow_blank: true %>
     <%= f.label :instructions %>
     <%= f.cktext_area :instructions %>
-    <%= f.input :duration, label: 'Duration (min)' %>
+    <%= f.input :duration, label: 'Duration (min)', input_html: { value: 0 } %>
     <%= f.label :logistics %>
     <%= f.cktext_area :logistics %>
     <%= f.input :action1_id, collection: Action.all, allow_blank: false, label: 'Action 1' %>

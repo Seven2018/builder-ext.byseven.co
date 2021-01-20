@@ -1,0 +1,18 @@
+Hello, <%= @user.firstname %>
+=============================
+
+Des modifications ont été apportées quant à ton intervention dans le cadre de la formation <%= "#{@training.client_company.name} - #{@training.title}"%>
+Voici le récapitulatifs mis à jour des prochaines sessions :
+
+  <% @training.sessions.order(date: :asc).where('date > ?', Date.today).each do |session| %>
+    <% if session.users.include?(@user) %>
+        - <%= session.date %> : <%= session.title %>
+
+          <%= session.description %>
+
+    <% end %>
+  <% end %>
+
+Pour toute question, merci de contacter <%= @training.owners.first.firstname %> (<%= @training.owners.first.email %>)
+
+Bonne journée à toi !

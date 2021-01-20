@@ -1,0 +1,36 @@
+#billing-index {
+  padding-top: 3rem;
+}
+
+.billing-card {
+
+}
+
+.billing-card-title {
+  width: 100%;
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  p {
+    margin: 0 0 0 1rem;
+  }
+}
+
+.billing-invoice-index {
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding: 2rem;
+
+  a {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  p {
+    margin: 0;
+  }
+}

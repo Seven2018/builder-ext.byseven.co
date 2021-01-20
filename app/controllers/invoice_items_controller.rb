@@ -10,13 +10,18 @@ class AccessToken
 end
 
 class InvoiceItemsController < ApplicationController
-  before_action :set_invoice_item, only: [:show, :edit, :copy, :copy_here, :edit_client, :credit, :marked_as_send, :marked_as_paid, :marked_as_reminded, :destroy, :upload_sevener_invoice_to_drive]
+  before_action :set_invoice_item, only: [:show, :edit, :copy, :copy_here, :transform_to_invoice, :edit_client, :credit, :marked_as_send, :marked_as_paid, :marked_as_reminded, :destroy, :upload_sevener_invoice_to_drive]
 
   # Indexes with a filter option (see below)
   def index
     @invoice_items = policy_scope(InvoiceItem)
-    index_filtered
-    @invoice_items = InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date]).order(:uuid) if params[:export].present?
+    unless params[:export].present?
+      index_filtered(params[:page].to_i)
+    end
+    if params[:search]
+      @invoice_items = @invoice_items_total = ((InvoiceItem.where(type: params[:type]).where("lower(uuid) LIKE ?", "%#{params[:search][:reference].downcase}%")) + (InvoiceItem.joins(:client_company).where(type: params[:type]).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:reference].downcase}%"))).flatten(1).uniq
+    end
+    @invoice_items = InvoiceItem.where(created_at: params[:export][:start_date]..params[:export][:end_date], type: params[:export][:type]).order(:uuid) if (params[:export].present? && params[:export][:type].present?)
     respond_to do |format|
       format.html
       format.csv { send_data @invoice_items.to_csv, filename: "Factures SEVEN #{params[:export][:start_date].split('-').join('')} - #{params[:export][:end_date].split('-').join('')}.csv" }
@@ -60,18 +65,66 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     @invoice_item.update(invoiceitem_params)
     if @invoice_item.save
+      @invoice_item.export_numbers_revenue
       redirect_to invoice_item_path(@invoice_item)
     end
   end
 
   # Creates a chart (Numbers) of InvoicesItems, for reporting purposes (gem)
   def report
-    params[:date].present? ? @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
+    # params[:date].present? ? @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
+    # authorize @invoice_items
+    # params[:date].present? ? @sessions = Session.where("date > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @sessions = Session.where("date > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
+    # respond_to do |format|
+    #   format.html
+    #   format.csv { send_data @invoice_items_grid.to_csv }
+    # end
+    @invoice_items = InvoiceItem.all
     authorize @invoice_items
-    params[:date].present? ? @sessions = Session.where("date > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @sessions = Session.where("date > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
-    respond_to do |format|
-      format.html
-      format.csv { send_data @invoice_items_grid.to_csv }
+    # if params[:date].present?
+    #   OverviewUser.all.select{|x| x['Status'] == 'SEVEN'}.each do |user|
+    #     ownership_hours_total = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date.today.beginning_of_year && x.end_time <= Date.today.end_of_year}.map{|x| x.hours}.sum
+    #     ownership_hours_ongoing = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date::strptime(params[:date][:start_date],'%Y-%m-%d') && x.end_time <= Date::strptime(params[:date][:end_date],'%Y-%m-%d')}.map{|x| x.hours}.sum
+    #     projects_1 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '1 - Prospect(s) : person or/and company'}.count
+    #     projects_2 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '2 - Identified contact lead'}.count
+    #     projects_3 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '3 - Handshaked contact lead'}.count
+    #     projects_4 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '4 - Strong relationship lead'}.count
+    #     projects_5 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '5 - Needs identified lead'}.count
+    #     projects_6 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '6 - Pre-Signed lead'}.count
+    #     projects_7 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '7 - Signed lead'}.count
+    #     memos_this_week = OverviewMemo.all.select{|x| x['User'].present? && x['User'].join == user.id && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.weeks_ago(1)}.count
+    #     new_record = OverviewBizdev.create('User' => user['Name'], 'Ownership (hours) 2021' => ownership_hours_total, 'Ownership (hours) 2021 ongoing' => ownership_hours_ongoing, 'Projects - Lead Level 1' => projects_1, 'Projects - Lead Level 2' => projects_2, 'Projects - Lead Level 3' => projects_3,'Projects - Lead Level 4' => projects_4,'Projects - Lead Level 5' => projects_5,'Projects - Lead Level 6' => projects_6,'Projects - Lead Level 7' => projects_7, 'Memos (last week)' => memos_this_week)
+    #     new_record.save
+    #   end
+    # end
+    if params[:date].present?
+      week = "Week #{Date.today.weeks_ago(1).strftime("%U").to_i}"
+      OverviewUser.all.select{|x| x['Status'] == 'SEVEN'}.each do |user|
+        # ownership_hours_total = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date.today.beginning_of_year && x.end_time <= Date.today.end_of_year}.map{|x| x.hours}.sum.to_s
+        # ownership_hours_ongoing = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date::strptime(params[:date][:start_date],'%Y-%m-%d') && x.end_time <= Date::strptime(params[:date][:end_date],'%Y-%m-%d')}.map{|x| x.hours}.sum.to_s
+        # ownership_hours_ongoing = OverviewTraining.all.select{|x| x['Owner'].present? && x['Owner'].join == user.id}.select{|x| x['Due Date'].present? && Date::strptime(x['Due Date'],'%Y-%m-%d') >= Date::strptime(params[:date][:start_date],'%Y-%m-%d') && Date::strptime(x['Due Date'],'%Y-%m-%d') <= Date::strptime(params[:date][:end_date],'%Y-%m-%d')}.map{|x| if x['Hours'].present?; x['Hours']; end}.sum.to_s
+        ownership_hours_ongoing = OverviewTraining.all.select{|x| x['Owner'].present? && x['Owner'].join == user.id}.select{|x| x['Due Date'].present? && Date::strptime(x['Due Date'],'%Y-%m-%d') >= Date.today.weeks_ago(2).beginning_of_week}.map{|x| if x['Hours'].present?; x['Hours']; end}.sum.to_s
+        project_hours_dev = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id}.map{|z| z['Hours'].to_i}.sum.to_s
+        project_hours_codev = OverviewProject.all.select{|x| x['Co-developer'].present? && x['Co-developer'].join == user.id}.map{|z| z['Hours'].to_i}.sum.to_s
+        projects_1 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '1 - Prospect(s) : person or/and company'}.count.to_s
+        projects_2 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '2 - Identified contact lead'}.count.to_s
+        projects_3 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '3 - Handshaked contact lead'}.count.to_s
+        projects_4 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '4 - Strong relationship lead'}.count.to_s
+        projects_5 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '5 - Needs identified lead'}.count.to_s
+        projects_6 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '6 - Pre-Signed lead'}.count.to_s
+        projects_7 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '7 - Signed lead'}.count.to_s
+        memos_this_week = OverviewMemo.all.select{|x| x['User'].present? && x['User'].join == user.id && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.weeks_ago(1)}.count.to_s
+        data_hash = {Ongoing_Ownership:  ownership_hours_ongoing, Project_Hours_Dev: project_hours_dev, Project_Hours_Codev: project_hours_codev, Projects_Level_1: projects_1, Projects_Level_2: projects_2, Projects_Level_3: projects_3, Projects_Level_4: projects_4, Projects_Level_5: projects_5, Projects_Level_6: projects_6, Projects_Level_7: projects_7, Weekly_Memos: memos_this_week}
+        data_hash.each do |key, value|
+          line = OverviewBizdev.all.select{|x| x['User'] == user['Name'] && x['Data'] == key.to_s}.first
+          if !line.present?
+            line = OverviewBizdev.create('User' => user['Name'], 'Data' => key, week => value)
+          else
+            line[week] = value
+          end
+          line.save
+        end
+      end
     end
   end
 
@@ -88,7 +141,6 @@ class InvoiceItemsController < ApplicationController
       InvoiceItem.where(type: 'Estimate').count != 0 ? (@invoice.uuid = "DE#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Estimate').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "DE#{Date.today.strftime('%Y')}00001")
     end
     @invoice.status = 'En attente'
-      # @invoice.type == 'Invoice' ? @invoice.status = 'Non payée' : @invoice.status = 'En attente'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
     if @training.client_contact.client_company.client_company_type == 'Company'
       product = Product.find(2)
@@ -105,12 +157,14 @@ class InvoiceItemsController < ApplicationController
       end
       InvoiceLine.create(invoice_item: @invoice, description: @training.title, quantity: quantity, net_amount: product.price, tax_amount: product.tax, product_id: product.id, position: 1)
     end
-    update_price(@invoice)
+    @invoice.update_price
     if @invoice.save
+      @invoice.export_numbers_revenue if @invoice.type == 'Invoice'
       redirect_to invoice_item_path(@invoice)
     end
   end
 
+  # Creates a new InvoiceItem using data from Airtable DB
   def new_airtable_invoice_item
     @training = Training.find(params[:training_id])
     airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
@@ -126,16 +180,16 @@ class InvoiceItemsController < ApplicationController
     @invoice.status = 'En attente'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
     @training.client_contact.client_company.client_company_type == 'Company' ? product = Product.find(2) : product = Product.find(1)
-    line = InvoiceLine.new(invoice_item: @invoice, description: @training.title, quantity: airtable_training['Unit Number'], net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
+    line = InvoiceLine.new(invoice_item: @invoice, description: @training.client_company.name + ' - ' + @training.title, quantity: airtable_training['Unit Number'], net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
     comments = "<br>Détail des séances (date, horaires, intervenant(s)) :<br><br>"
     @training.sessions.each do |session|
       lunch = session.workshops.find_by(title: 'Pause Déjeuner')
       if lunch.present?
         morning = session.workshops.where('position < ?', lunch.position)
         afternoon = session.workshops.where('position > ?', lunch.position)
-        comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} : #{session.users.map{|x|x.fullname}.join(', ')}<br>" if session.date.present?
+        comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} : #{session.users.map{|x|x.fullname}.join(', ')} (#{session.duration} h)<br>" if session.date.present?
       else
-        comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} : #{session.users.map{|x|x.fullname}.join(', ')}<br>" if session.date.present?
+        comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} : #{session.users.map{|x|x.fullname}.join(', ')} (#{session.duration} h)<br>" if session.date.present?
       end
     end
     line.comments = comments
@@ -144,12 +198,14 @@ class InvoiceItemsController < ApplicationController
       preparation = Product.find(3)
       InvoiceLine.create(invoice_item: @invoice, description: 'Préparation formation', quantity: 1, net_amount: airtable_training['Preparation'], tax_amount: preparation.tax, product_id: preparation.id, position: 2)
     end
-    update_price(@invoice)
+    @invoice.update_price
     if @invoice.save
+      @invoice.export_numbers_revenue if @invoice.type = 'Invoice'
       redirect_to invoice_item_path(@invoice)
     end
   end
 
+  # Creates new InvoiceItems using data from Airtable DB for each trainer
   def new_airtable_invoice_item_by_trainer
     skip_authorization
     @training = Training.find(params[:training_id])
@@ -165,9 +221,9 @@ class InvoiceItemsController < ApplicationController
         if lunch.present?
           morning = session.workshops.where('position < ?', lunch.position)
           afternoon = session.workshops.where('position > ?', lunch.position)
-          comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+          comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} (#{session.duration} h)<br>" if session.date.present?
         else
-          comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+          comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} (#{session.duration} h)<br>" if session.date.present?
         end
         if airtable_training['Unit Type'] == 'Half day'
           session.workshops.find_by(title: 'Pause Déjeuner').present? ? quantity += 1 : quantity += 0.5
@@ -176,15 +232,17 @@ class InvoiceItemsController < ApplicationController
         end
       end
       @training.client_contact.client_company.client_company_type == 'Company' ? product = Product.find(2) : product = Product.find(1)
-      new_line = InvoiceLine.new(invoice_item: new_invoice, description: @training.title, quantity: quantity, net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
+      new_line = InvoiceLine.new(invoice_item: new_invoice, description: @training.client_company.name + ' - ' + @training.title, quantity: quantity, net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
       new_line.comments = comments
       new_line.save
       new_invoice.save
-      update_price(new_invoice)
+      new_invoice.update_price
+      new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
     end
     redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
   end
 
+  # Creates new InvoiceItems using data from Airtable DB for each attendee
   def new_airtable_invoice_item_by_attendee
     skip_authorization
     @training = Training.find(params[:training_id])
@@ -201,62 +259,24 @@ class InvoiceItemsController < ApplicationController
             if lunch.present?
               morning = session.workshops.where('position < ?', lunch.position)
               afternoon = session.workshops.where('position > ?', lunch.position)
-              comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+              comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{(session.start_time+morning.map(&:duration).sum.minutes).strftime('%Hh%M')} et de #{(session.end_time-afternoon.map(&:duration).sum.minutes).strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} (#{session.duration} h)<br>" if session.date.present?
             else
-              comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')}<br>" if session.date.present?
+              comments += "- Le #{session.date.strftime('%d/%m/%Y')} de #{session.start_time.strftime('%Hh%M')} à #{session.end_time.strftime('%Hh%M')} (#{session.duration} h)<br>" if session.date.present?
             end
           end
         end
         @training.client_contact.client_company.client_company_type == 'Company' ? product = Product.find(2) : product = Product.find(1)
-        new_line = InvoiceLine.new(invoice_item: new_invoice, description: @training.title, quantity: 1, net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
+        new_line = InvoiceLine.new(invoice_item: new_invoice, description: @training.client_company.name + ' - ' + @training.title, quantity: 1, net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
         new_line.comments = comments
         new_line.save
         new_invoice.save
-        update_price(new_invoice)
+        new_invoice.update_price
+        new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
       end
     end
     redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
     flash[:alert] = "This training unit type is not defined as 'Participant' in Airtable." unless airtable_training['Unit Type'] == 'Participant'
   end
-
-  # Creates a new InvoiceItem (Sevener PoV), proposing a pre-filled version to be edited if necessary
-  def new_sevener_invoice
-    @training = Training.find(params[:training_id])
-    params[:billing].present? ? sevener = current_user : sevener = User.find(params[:new_order][:user])
-    @sevener_invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @training.client_company.id, user_id: sevener.id, type: 'Order')
-    authorize @sevener_invoice
-    # Attributes a invoice number to the InvoiceItem
-    InvoiceItem.where(type: 'Order').all.count != 0 ? (@sevener_invoice.uuid = "BC#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Order').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@sevener_invoice.uuid = "BC#{Date.today.strftime('%Y')}00001")
-    @sevener_invoice.save
-    if @training.client_contact.client_company.client_company_type == 'Entreprise'
-      product = Product.find(10)
-    else
-      product = Product.find(11)
-    end
-    # Fills the created InvoiceItem with InvoiceLines, according Training data
-    quantity = 0
-    if params[:billing].present?
-      unit_price = 0
-      comments = "<p>D&eacute;tail des s&eacute;ances (date, horaires) :<br />\r\n"
-      SessionTrainer.where(session_id: params[:billing][:sessions_ids][1..-1], user_id: sevener.id).each do |session_trainer|
-        quantity += session_trainer.session.duration
-        session_trainer.update(status: 'Order created', invoice_item_id: @sevener_invoice.id)
-        unit_price = session_trainer.unit_price
-        comments += "- le #{session_trainer.session.date.strftime('%d/%m/%Y')} - durée : #{session_trainer.session.duration}h<br />\r\n"
-      end
-      InvoiceLine.create(invoice_item: @sevener_invoice, description: @training.title, quantity: quantity, net_amount: unit_price, tax_amount: 0, product_id: product.id, position: 1, comments: comments)
-    else
-      SessionTrainer.where(session_id: @training.sessions.map(&:id), user_id: sevener.id).each do |session_trainer|
-        quantity += session_trainer.session.duration
-        session_trainer.update(status: 'Order created', invoice_item_id: @sevener_invoice.id)
-        unit_price = session_trainer.unit_price
-      end
-      InvoiceLine.create(invoice_item: @sevener_invoice, description: @training.title, quantity: quantity, net_amount: product.price, tax_amount: 0, product_id: product.id, position: 1)
-    end
-    update_price(@sevener_invoice)
-    redirect_to invoice_item_path(@sevener_invoice)
-  end
-
 
   def new_estimate
     @client_company = ClientCompany.find(params[:client_company_id])
@@ -272,7 +292,7 @@ class InvoiceItemsController < ApplicationController
         quantity = 0
         InvoiceLine.create(invoice_item: @estimate, description: product.name, quantity: 0, net_amount: product.price, tax_amount: product.tax, position: 1, product_id: 1)
       end
-      update_price(@estimate)
+      @estimate.update_price
       redirect_to invoice_item_path(@estimate)
     end
   end
@@ -295,12 +315,15 @@ class InvoiceItemsController < ApplicationController
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
         new_invoice_line.update(invoice_item_id: new_invoice_item.id)
       end
+      new_invoice.update_price
+      new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
       redirect_to invoice_item_path(new_invoice_item)
     else
       raise
     end
   end
 
+  # Allows the duplication of an InvoiceItem within the same Training
   def copy_here
     authorize @invoice_item
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
@@ -315,6 +338,26 @@ class InvoiceItemsController < ApplicationController
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
         new_invoice_line.update(invoice_item_id: new_invoice_item.id)
       end
+      new_invoice_item.update_price
+      new_invoice_item.export_numbers_revenue if new_invoice_item.type = 'Invoice'
+      redirect_to invoice_item_path(new_invoice_item)
+    else
+      raise
+    end
+  end
+
+  def transform_to_invoice
+    authorize @invoice_item
+    new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
+    new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
+    new_invoice_item.status = 'En attente'
+    new_invoice_item.type = 'Invoice'
+    if new_invoice_item.save
+      @invoice_item.invoice_lines.each do |line|
+        new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
+        new_invoice_line.update(invoice_item_id: new_invoice_item.id)
+      end
+      new_invoice_item.update_price
       redirect_to invoice_item_path(new_invoice_item)
     else
       raise
@@ -330,6 +373,7 @@ class InvoiceItemsController < ApplicationController
     elsif company.client_company_type == 'OPCO'
       @invoice_item.update(client_company_id: @invoice_item.description.to_i, description: nil)
     end
+    @invoice_item.export_numbers_revenue
     redirect_to invoice_item_path(@invoice_item)
   end
 
@@ -367,142 +411,72 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     index_filtered
     @invoice_item.update(payment_date: params[:edit_payment][:payment_date])
-    respond_to do |format|
-      format.html {redirect_to invoice_items_path(type: @invoice_item.type)}
-      format.js
-    end
+    @invoice_item.export_numbers_revenue if @invoice_item.type = 'Invoice'
+    redirect_back(fallback_location: invoice_item_path(@invoice_item, page: 1))
   end
 
-    # Marks an InvoiceItem as reminded
+  # Marks an InvoiceItem as reminded
   def marked_as_reminded
     authorize @invoice_item
     index_filtered
     @invoice_item.update(dunning_date: params[:edit_payment][:dunning_date])
-    respond_to do |format|
-      format.html {redirect_to invoice_items_path(type: @invoice_item.type)}
-      format.js
-    end
+    redirect_back(fallback_location: invoice_item_path(@invoice_item, page: 1))
   end
 
-  # Uploads to a GoogleSheet (not used)
-  def upload_to_sheet
-    @invoice_items = InvoiceItem.where({ created_at: Time.current.beginning_of_year..Time.current.end_of_year }).order(:created_at)
-    authorize @invoice_items
-    # session = GoogleDrive::Session.from_service_account_key("client_secret.json")
-    session = GoogleDrive::Session.from_config("client_secret.json")
-    spreadsheet = session.spreadsheet_by_title("Copie de Seven Numbers #{Time.current.year}")
-    worksheet = spreadsheet.worksheets.first
-    row = 2
-      @invoice_items.each do |item|
-        startdate = item.training.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')
-        enddate = item.training.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')
-        client = item.client_company.name
-        training_name = item.training.title
-        trello = ''
-        unit = 0
-        unit_price = 0
-        variable = 0
-        fixed = 0
-        caution = 0
-        expenses = 0
-        expenses_out = 0
-        item.invoice_lines.each do |line|
-          unit += line.quantity if ((line.product = Product.find(1) || line.product == Product.find(2) || line.product == Product.find(7) || line.product == Product.find(9)) && line.quantity.present?)
-          unit_price += line.net_amount if ((line.product = Product.find(1) || line.product == Product.find(2)) && line.quantity.present? )
-          variable += line.quantity * line.net_amount if (line.quantity.present? && line.net_amount.present?)
-          fixe += line.quantity * line.net_amount if (line.quantity.present? && line.net_amount.present? && line.product.product_type == 'Préparation')
-          caution += line.quantity * line.net_amount if (line.quantity.present? && line.net_amount.present? && line.product.product_type == 'Caution')
-          expenses += line.quantity * line.net_amount if (line.quantity.present? && line.net_amount.present? && line.product.product_type == 'Frais')
-        end
-        item.training.client_company.client_company_type == 'Company' ? nature = 'j' : nature = 'h'
-        description = item.description
-        vat = item.tax_amount
-        revenue = item.total_amount
-        num = item.uuid
-        sending = item.sending_date&.strftime('%d/%m/%y') if item.sending_date.present?
-        dunning = item.dunning_date&.strftime('%d/%m/%y') if item.dunning_date.present?
-        payment = item.payment_date&.strftime('%d/%m/%y') if item.payment_date.present?
-        worksheet.insert_rows(row, [[startdate, enddate, client, training_name, trello, unit, nature, unit_price, variable, fixed, caution, vat, expenses, expenses_out, description, revenue, num, sending, dunning, payment]])
-        row += 1
-        item.training.trainers.each do |trainer|
-          if trainer.access_level == 'sevener'
-            worksheet.insert_rows(row, [[startdate, enddate, client, training_name, trello, '0', '', '0', '', '', '', '', '', '', '', '0', '/', '/', '/', '/', '/', '/', "#{trainer.firstname} #{trainer.lastname}", '01/01/20', '','480', '01/01/20']])
-            row += 1
-          end
-        end
-      end
-    # end
-    # worksheet.delete_rows((Invoice.count+1), 1)
-    worksheet.save
-    redirect_back(fallback_location: root_path)
-    flash[:notice] = "Uploadé avec succès"
-  end
-
+  # Destroys an InvoiceItem
   def destroy
     authorize @invoice_item
     @invoice_item.destroy
     redirect_to client_company_path(@invoice_item.client_company)
   end
 
-  def redirect_upload_to_drive
-    skip_authorization
-    client = Signet::OAuth2::Client.new(client_options)
-    # Allows to pass informations through the Google Auth as a complex string
-    client.update!(state: Base64.encode64(params[:invoice_item_id] + '|' + params[:file].tempfile))
-    redirect_to client.authorization_uri.to_s
-  end
+  # Upload to GDrive
+  # def redirect_upload_to_drive
+  #   skip_authorization
+  #   client = Signet::OAuth2::Client.new(client_options)
+  #   # Allows to pass informations through the Google Auth as a complex string
+  #   client.update!(state: Base64.encode64(params[:invoice_item_id] + '|' + params[:file].tempfile))
+  #   redirect_to client.authorization_uri.to_s
+  # end
 
-  def upload_to_drive
-    # @invoice_item = InvoiceItem.find(Base64.decode64(params[:state]).split('|').first)
-    @invoice_item = InvoiceItem.find(params[:invoice_item_id])
-    # file_path = Base64.decode64(params[:state]).split('|').last
-    file_path = params[:file].tempfile
-    authorize @invoice_item
-    require 'google/apis/drive_v3'
+  # def upload_to_drive
+  #   # @invoice_item = InvoiceItem.find(Base64.decode64(params[:state]).split('|').first)
+  #   @invoice_item = InvoiceItem.find(params[:invoice_item_id])
+  #   # file_path = Base64.decode64(params[:state]).split('|').last
+  #   file_path = params[:file].tempfile
+  #   authorize @invoice_item
+  #   require 'google/apis/drive_v3'
 
-    access_token = AccessToken.new 'SECRET_TOKEN'
-    drive_service = Google::Apis::DriveV3::DriveService.new
-    # client = Signet::OAuth2::Client.new(client_options)
-    client = Signet::OAuth2::Client.new(client_options)
-    drive_service.authorization = access_token
+  #   access_token = AccessToken.new 'SECRET_TOKEN'
+  #   drive_service = Google::Apis::DriveV3::DriveService.newc
+  #   # client = Signet::OAuth2::Client.new(client_options)
+  #   client = Signet::OAuth2::Client.new(client_options)
+  #   drive_service.authorization = access_token
 
-    # metadata = Drive::File.new(title: 'My document')
-    # metadata = drive.insert_file(metadata, upload_source: 'test.txt', content_type: 'text/plain')
-    file_metadata = {
-      name: 'my_file_name.pdf',
-      # parents: [folder_id],
-      description: 'This is my file'
-    }
-    file = drive_service.create_file(file_metadata, upload_source: file_path, fields: 'id')
-  end
+  #   # metadata = Drive::File.new(title: 'My document')
+  #   # metadata = drive.insert_file(metadata, upload_source: 'test.txt', content_type: 'text/plain')
+  #   file_metadata = {
+  #     name: 'my_file_name.pdf',
+  #     # parents: [folder_id],
+  #     description: 'This is my file'
+  #   }
+  #   file = drive_service.create_file(file_metadata, upload_source: file_path, fields: 'id')
+  # end
 
   private
 
   # Filter for index method
-  def index_filtered
+  def index_filtered(n = 1)
     if params[:training_id].present?
-      @invoice_items = InvoiceItem.where(training_id: params[:training_id].to_i)
+      @invoice_items_total = InvoiceItem.where(training_id: params[:training_id].to_i, type: params[:type]).order('id DESC')
+      @invoice_items = @invoice_items_total.offset((n-1)*50).first(50)
+    elsif params[:client_company_id].present?
+      @invoice_items_total = InvoiceItem.where(client_company_id: params[:client_company_id].to_i, type: params[:type]).order('id DESC')
+      @invoice_items = @invoice_items_total.offset((n-1)*50).first(50)
     elsif params[:client_company_id].nil?
-      @invoice_items = InvoiceItem.all.order('id DESC')
-    elsif params[:type] == 'Invoice' && params[:client_company_id]
-      @invoice_items = Invoice.where(client_company_id: params[:client_company_id].to_i).order('id DESC')
-    elsif params[:type] == 'Estimate' && params[:client_company_id]
-      @invoice_items = Estimate.where(client_company_id: params[:client_company_id].to_i).or(Estimate.where(description: params[:client_company_id])).order('id DESC')
-    elsif params[:type] == 'Order'
-      @invoice_items = InvoiceItem.where(training_id: params[:training_id], type: 'Order')
+      @invoice_items_total = InvoiceItem.where(type: params[:type]).order('id DESC')
+      @invoice_items = @invoice_items_total.offset((n-1)*50).first(50)
     end
-  end
-
-  # Updates InvoiceItem price and tax amount
-  def update_price(invoice)
-    total = 0
-    tax = 0
-    invoice.invoice_lines.each do |line|
-      total += line.quantity * line.net_amount * (1 + line.tax_amount/100)
-      tax += line.quantity * line.net_amount * (line.tax_amount/100)
-    end
-    invoice.update(total_amount: total, tax_amount: tax)
-    invoice.save
   end
 
   def client_options

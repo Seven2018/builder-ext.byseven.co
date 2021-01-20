@@ -8,21 +8,24 @@
   <div class="modal-body" id="modalNewBookinBody">
     <%= simple_form_for [session.training, session] do |f| %>
       <div class='mod-date'>
-        <%= f.input :title %>
-        <%= f.input :attendee_number, input_html: { min: 0, style: 'width:12rem;' }, label: 'Participants', default: 0 %>
+        <%= f.input :id_helper, as: :hidden, input_html: {value: session.id} %>
+        <%= f.input :title, input_html: { style: 'width:31rem;' } %>
+        <%= f.input :attendee_number, input_html: { min: 0, style: 'width:12rem;' }, label: 'Participants' %>
       </div>
       <div class="mod-date">
-        <%= f.input :date, as: :string, input_html: { class: 'datepicker'} %>
-        <%= f.input :duration, label: "Duration (hours)", input_html: { min: 0, style: 'width:12rem;' }, default: 0 %>
+        <%= f.input :date, as: :string, input_html: { class: 'datepicker', style: 'width:11rem;'} %>
+        <%# f.input :lunch_duration, as: :integer, label: 'Lunch Duration (hours)', input_html: {value: 1, style: 'width:13rem;', id: 'edit_lunch_duration'} %>
+        <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: "timepicker edit_start_time", style: 'width:5rem;'}, default: Time.parse('9:00') %>
+        <%= f.input :end_time, label: 'End time', as: :time, minute_step: 15, input_html: { class: 'timepicker edit_end_time', style: 'width:5rem;'}, default: Time.parse('17:00') %>
       </div>
-      <div class='mod-date'>
-        <%= f.input :start_time, label: 'Start time', as: :time, minute_step: 15, input_html: { class: 'timepicker'}, default: Time.parse('9:00') %>
-        <%= f.input :end_time, label: 'End time', as: :time, minute_step: 15, input_html: { class: 'timepicker'}, default: Time.parse('17:00') %>
+      <div class="mod-date flex-row-end-centered">
+        <%= f.input :duration, label: "Billed Duration (hours)", input_html: {min: 0, style: 'width:11rem;', id: 'edit_duration'}, allow_blank: false %>
       </div>
-      <%= f.input :address %>
-      <%= f.input :room %>
-      <%= f.input :image, label: 'Image link' %>
+        <%= f.input :description %>
       <% unless params[:controller] == 'trainings' && params[:action] == 'show' %>
+        <%= f.input :address %>
+        <%= f.input :room %>
+        <%= f.input :image, label: 'Image link' %>
         <%= f.label :teaser %>
         <%= f.cktext_area :teaser %>
       <% end %>

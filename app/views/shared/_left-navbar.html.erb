@@ -29,7 +29,7 @@
    <% else %>
     <div class="left-navbar-middle">
       <% if user_signed_in? %>
-        <%= link_to trainings_path, class: 'left-buttons' do %>
+        <%= link_to trainings_path(page: 1), class: 'left-buttons' do %>
           <% if request.original_url&.split('/')[3]&.split('?')&.first == 'trainings' %>
             <div class="left-menu-list active">
               <i class="fas fa-tasks"></i> <div class="left-menu-title"><h4>Trainings</h4></div>
@@ -108,6 +108,19 @@
             <% else %>
               <div class="left-menu-list">
                 <i class="fas fa-chart-bar"></i> <div class="left-menu-title"><h4>Reports</h4></div>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% if ['sevener+', 'sevener'].include? current_user.access_level %>
+          <%= link_to billing_path(user_id: current_user), class: 'left-buttons' do %>
+            <% if request.original_url&.split('/')[3]&.split('?')&.first == 'billing' %>
+              <div class="left-menu-list active">
+                <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Billing</h4></div>
+              </div>
+            <% else %>
+              <div class="left-menu-list">
+                <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Billing</h4></div>
               </div>
             <% end %>
           <% end %>

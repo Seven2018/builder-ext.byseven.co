@@ -58,11 +58,7 @@
     <% end %>
   </div>
   <div id="mods" style="min-height: 50vh;">
-    <% if !@session.description.nil? %>
-      <%= @session.description.html_safe %>
-    <% else %>
-      <%= render 'workshops/index', session: @session %>
-    <% end %>
+    <%= render 'workshops/index', session: @session %>
   </div>
   <div class="session-info-footer">
     <% if ['super admin', 'admin', 'training manager, sevener+'].include? current_user.access_level %>
@@ -111,7 +107,7 @@
       list.classList.toggle('hidden');
     })
   </script>
-  <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @session.description.nil? %>
+  <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
     <div id='library' class="nav-side-menu-container">
       <div class="nav-side-menu">
         <a id="close_library" class='centered-item'><i class="fas fa-times"></i></a>

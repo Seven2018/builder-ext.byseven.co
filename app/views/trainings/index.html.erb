@@ -6,8 +6,9 @@
         <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
           <%= f.input :title, placeholder: 'Search', label: false %>
           <%= f.input :user, as: :hidden, input_html: { value: params[:user] } %>
+          <%= hidden_field_tag :page, 1 %>
           <% if params[:search] %>
-            <%= link_to trainings_path, class: 'training-search-close' do %>
+            <%= link_to trainings_path(page: 1), class: 'training-search-close' do %>
               <i class="far fa-times-circle"></i>
             <% end %>
           <% end %>
@@ -15,8 +16,9 @@
       <% else %>
         <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
           <%= f.input :title, placeholder: 'Search', label: false %>
+          <%= hidden_field_tag :page, 1 %>
           <% if params[:search] %>
-            <%= link_to trainings_path, class: 'training-search-close' do %>
+            <%= link_to trainings_path(page: 1), class: 'training-search-close' do %>
               <i class="far fa-times-circle"></i>
             <% end %>
           <% end %>
@@ -24,31 +26,32 @@
       <% end %>
       <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
         <%= link_to new_training_path do %>
-          <button class="btn btn-edit-yellow">New Training</button>
+          <!-- <button class="btn btn-edit-yellow">New Training</button> -->
         <% end %>
         <% last_update = OverviewTraining.all.select{|x| x['Builder Update'].present?}.sort{|x,y| x['Builder Update'].to_date <=> y['Builder Update'].to_date}.first %>
-        <%= link_to import_airtable_path do %>
-          <button class="btn btn-edit-green" data-toggle="tooltip" title="Last Update : <%= last_update['Builder Update'].to_time.strftime('%d/%m/%Y at %H:%M') %>">Update from Airtable</button>
+        <%= link_to import_airtable_path, class: "btn btn-edit-yellow" do %>
+        <div class='flex-row-between-centered'>
+          <p data-toggle="tooltip" title="Last Update : <%= last_update['Builder Update'].to_time.strftime('%d/%m/%Y at %H:%M') %>" style="margin:0 1rem 0 0;font-size: 1.4rem !important;font-family: 'Arial', sans-serif !important;">Update All</p>
+          <span class="iconify" data-icon="simple-icons:airtable" data-inline="false"></span>
+        </div>
         <% end %>
-      <% else %>
-        <%= link_to 'Kit Sevener', sevener_kit_form_path, class: "btn btn-edit-green" %>
       <% end %>
     </div>
   </div>
   <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
     <div id="trainings_user_filter" class='flex-row-start-centered'>
       <% if params[:user].present? %>
-        <%= link_to 'All', trainings_path, class: 'avatar-sm centered-item avatar_filter_all avatar_filter_all_unselected' %>
+        <%= link_to 'All', trainings_path(page: 1), class: 'avatar-sm centered-item avatar_filter_all avatar_filter_all_unselected' %>
       <% else %>
-        <%= link_to 'All', trainings_path, class: 'avatar-sm centered-item avatar_filter_all' %>
+        <%= link_to 'All', trainings_path(page: 1), class: 'avatar-sm centered-item avatar_filter_all' %>
       <% end %>
       <% User.where.not(access_level: %w[sevener+ sevener]).each do |user| %>
         <% if (params[:user] == user.id&.to_s) || (params[:search] && params[:search][:user] == user.id&.to_s) %>
-          <%= link_to trainings_path(user: user.id) do %>
+          <%= link_to trainings_path(page: 1, user: user.id) do %>
             <img src="<%= user.picture %>" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
           <% end %>
         <% else %>
-           <%= link_to trainings_path(user: user.id) do %>
+           <%= link_to trainings_path(page: 1, user: user.id) do %>
             <img src="<%= user.picture %>" class='avatar-sm' style='opacity: 0.6;' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
           <% end %>
         <% end %>
@@ -63,14 +66,15 @@
     <% else %>
       <ul class="nav nav-tabs">
         <% if params[:tab].nil? || params[:tab] == 'upcoming' %>
+          <!-- <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li> -->
           <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li>
-          <li role="presentation"><a href="#completed" data-toggle="tab">Completed</a></li>
+          <li role="presentation"><a href="#completed" data-toggle="tab" id='completed_tab'>Completed</a></li>
           <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
             <li role="presentation"><a href="#to_date" data-toggle="tab">To Date</a></li>
             <li role="presentation"><a href="#to_staff" data-toggle="tab">To Staff</a></li>
           <% end %>
         <% elsif params[:tab] == 'completed' %>
-          <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
+          <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li>
           <li role="presentation"><a href="#completed" data-toggle="tab" class="active">Completed</a></li>
           <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
             <li role="presentation"><a href="#to_date" data-toggle="tab">To Date</a></li>
@@ -87,7 +91,7 @@
           <li role="presentation"><a href="#to_date" data-toggle="tab">To Date</a></li>
           <li role="presentation"><a href="#to_staff" data-toggle="tab" class="active">To Staff</a></li>
         <% end %>
-        <li><%= link_to "Calendar", index_week_path %></li>
+        <li><%# link_to "Calendar", index_week_path %></li>
       </ul>
     <% end %>
   </div>
@@ -96,57 +100,17 @@
       <div class="tab-pane active">
         <%= render 'search', trainings: @trainings %>
       </div>
-    <% elsif params[:tab].nil? || params[:tab] == 'upcoming' %>
+    <% else params[:tab].nil? || params[:tab] == 'all' %>
       <div role="tabpanel" class="tab-pane active" id="upcoming">
-        <%= render 'coming', trainings: @trainings %>
+        <%= render_async index_upcoming_path(page: params[:page]) %>
       </div>
       <div role="tabpanel" class="tab-pane" id="completed">
-        <% RenderAsync.configuration.jquery = true %>
-        <%= render_async index_completed_path %>
+        <%= render_async index_completed_path(page: 1), toggle: { selector: '#completed_tab', event: :click } %>
       </div>
       <div role="tabpanel" class="tab-pane" id="to_date">
         <%= render 'to_date', trainings: @trainings %>
       </div>
       <div role="tabpanel" class="tab-pane" id="to_staff">
-        <%= render 'to_staff', trainings: @trainings %>
-      </div>
-    <% elsif params[:tab] == 'completed' %>
-      <div role="tabpanel" class="tab-pane" id="upcoming">
-        <%= render 'coming', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane active" id="completed">
-        <%= render 'completed', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="to_date">
-        <%= render 'to_date', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="to_staff">
-        <%= render 'to_staff', trainings: @trainings %>
-      </div>
-    <% elsif params[:tab] == 'to_date' %>
-      <div role="tabpanel" class="tab-pane" id="upcoming">
-        <%= render 'coming', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="completed">
-        <%= render 'completed', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane active" id="to_date">
-        <%= render 'to_date', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="to_staff">
-        <%= render 'to_staff', trainings: @trainings %>
-      </div>
-    <% elsif params[:tab] == 'to_staff' %>
-      <div role="tabpanel" class="tab-pane" id="upcoming">
-        <%= render 'coming', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="completed">
-        <%= render 'completed', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="to_date">
-        <%= render 'to_date', trainings: @trainings %>
-      </div>
-      <div role="tabpanel" class="tab-pane active" id="to_staff">
         <%= render 'to_staff', trainings: @trainings %>
       </div>
     <% end %>
