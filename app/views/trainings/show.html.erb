@@ -161,10 +161,47 @@
       </div>
     </div>
   </div>
+  <div class="training_index_controls">
+    <% if @training.sessions.count / 10 + 1 > 2 %>
+      <% if params[:page].to_i > 1 %>
+        <%= link_to url_for(page: 1) do %>
+          <i class="fas fa-backward"></i>
+        <% end %>
+      <% else %>
+        <i class="fas fa-backward" style='color:rgba(0,0,0,0.3'></i>
+      <% end %>
+    <% end %>
+    <% if @training.sessions.count / 10 + 1 > 1 %>
+      <% if params[:page].to_i > 1 %>
+        <%= link_to url_for(page: params[:page].to_i - 1, type: params[:type]) do %>
+          <i class="fas fa-play fa-rotate-180"></i>
+        <% end %>
+      <% else %>
+        <i class="fas fa-play fa-rotate-180" style='color:rgba(0,0,0,0.3)'></i>
+      <% end %>
+      <p><%= "Page #{params[:page]} / #{@training.sessions.count / 10 + 1}" %></p>
+      <% if params[:page].to_i < @training.sessions.count / 10 + 1 %>
+        <%= link_to url_for(page: params[:page].to_i + 1) do %>
+          <i class="fas fa-play"></i>
+        <% end %>
+      <% else %>
+        <i class="fas fa-play" style='color:rgba(0,0,0,0.3'></i>
+      <% end %>
+    <% end %>
+    <% if @training.sessions.count / 10 + 1 > 2 %>
+      <% if params[:page].to_i < @training.sessions.count / 10 + 1 %>
+        <%= link_to url_for(page: @training.sessions.count / 10 + 1) do %>
+          <i class="fas fa-forward"></i>
+        <% end %>
+      <% else %>
+        <i class="fas fa-forward" style='color:rgba(0,0,0,0.3'></i>
+      <% end %>
+    <% end %>
+  </div>
   <div class="training-info">
     <% session_number = 0 %>
     <div class="sessions-cards">
-      <% @training.sessions.order(:date, :start_time).each do |session| %>
+      <% @training.sessions.order(:date, :start_time).offset((params[:page].to_i-1)*10).first(10).each do |session| %>
         <% session_number +=1 %>
         <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
           <div class="card-lg">
@@ -214,7 +251,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="mods-list hidden">
+              <div class="mods-list">
                 <%= render_async show_session_content_path(session_id: session.id) %>
                 <h4 class='card-session-number'><%= session_number %>/<%= @training.sessions.count %> </h4>
               </div>
@@ -392,12 +429,13 @@
   cards = document.querySelectorAll('.card-lg');
   cards.forEach(element => {
     element.addEventListener('mouseover', (event) => {
-      element.querySelector('.mods-list').classList.remove('hidden');
+      // element.querySelector('.mods-list').classList.remove('hidden');
+      element.querySelector('.mods-list').style.maxHeight = '1000px';
     })
   })
   cards.forEach(element => {
     element.addEventListener('mouseout', (event) => {
-      element.querySelector('.mods-list').classList.add('hidden');
+      element.querySelector('.mods-list').style.maxHeight = '0px';
     })
   })
 </script>

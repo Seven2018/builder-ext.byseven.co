@@ -99,6 +99,10 @@ class TrainingsController < ApplicationController
     @training_ownership = TrainingOwnership.new
     @session = Session.new
     @users = User.all
+    unless params[:page].present?
+      redirect_to training_path(@training, page: 1)
+    end
+    # now any blank params have default values
     if params[:task] == 'update_airtable'
       UpdateAirtableJob.perform_async(@training, true)
     end

@@ -91,7 +91,10 @@
 
   @include from-large {
     display: block;
-    padding: 0 2rem 2rem 2rem;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0;
+    transition: max-height 2s linear;
   }
 }
 

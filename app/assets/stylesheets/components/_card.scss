@@ -151,7 +151,7 @@ $timeline: #115173;
   width: 100%;
   height: auto;
   box-shadow: 1px 1px 1rem rgba(115, 133, 152, 0.6);
-  margin: 0 auto;
+  margin: 0 auto 5rem auto;
   text-decoration: none;
   color: black;
   &:hover {
@@ -171,6 +171,10 @@ $timeline: #115173;
       margin: 0;
     }
   }
+
+  @include from-large {
+    padding: 2rem;
+  }
 }
 
 .card-footer-lg {
@@ -179,12 +183,11 @@ $timeline: #115173;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 5rem;
   position: relative;
 
   @include from-large {
     height: auto;
-    padding: 2rem 0 0 2rem;
+    padding: 0;
     padding-right: 60%;
   }
 
