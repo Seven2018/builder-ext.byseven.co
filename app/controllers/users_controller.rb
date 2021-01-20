@@ -25,6 +25,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     authorize @user
     if @user.save
+      @user.export_airtable_user
       redirect_to user_path(@user)
     else
       render :new
@@ -39,6 +40,7 @@ class UsersController < ApplicationController
     authorize @user
     @user.update(user_params)
     if @user.save
+      @user.export_airtable_user
       redirect_to user_path(@user)
     else
       render "_edit"

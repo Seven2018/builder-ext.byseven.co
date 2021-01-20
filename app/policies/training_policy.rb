@@ -9,6 +9,10 @@ class TrainingPolicy < ApplicationPolicy
     end
   end
 
+  def index_upcoming?
+    true
+  end
+
   def index_completed?
     true
   end
@@ -58,6 +62,10 @@ class TrainingPolicy < ApplicationPolicy
   end
 
   def export_airtable?
+    check_access
+  end
+
+  def trainer_notification_email?
     check_access
   end
 

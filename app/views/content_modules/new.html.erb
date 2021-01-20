@@ -10,7 +10,7 @@
     <%= f.input :title %>
     <%= f.label :instructions %>
     <%= f.cktext_area :instructions %>
-    <%= f.input :duration, label: 'Duration (min)' %>
+    <%= f.input :duration, label: 'Duration (min)', input_html: { value: 0 } %>
     <%= f.label :logistics %>
     <%= f.cktext_area :logistics %>
     <%= f.input :action1_id, collection: Action.all, label: 'Action 1' %>

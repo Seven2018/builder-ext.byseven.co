@@ -8,13 +8,9 @@ Rails.application.routes.draw do
   get 'numbers_activity', to: 'pages#numbers_activity', as: 'numbers_activity'
   get 'numbers_sales', to: 'pages#numbers_sales', as: 'numbers_sales'
   get 'dashboard_sevener', to: 'pages#dashboard_sevener', as: 'dashboard_sevener'
-  get 'overlord', to: 'pages#overlord', as: 'overlord'
   get 'contact_form', to: 'pages#contact_form', as: 'contact_form'
   get 'contact_form_seven_x_bam', to: 'pages#contact_form_seven_x_bam', as: 'contact_form_seven_x_bam'
-  get 'inscriptions_kea_partners_c', to: 'pages#kea_partners_c', as: 'kea_partners_c'
-  get 'inscriptions_kea_partners_m', to: 'pages#kea_partners_m', as: 'kea_partners_m'
-  get 'inscriptions_kea_partners_d', to: 'pages#kea_partners_d', as: 'kea_partners_d'
-  get 'inscriptions_kea_partners_thanks', to: 'pages#kea_partners_thanks', as: 'kea_partners_thanks'
+  get 'billing', to: 'pages#billing', as: 'billing'
 
   # AIRTABLE
   get 'airtable_import_users', to: 'pages#airtable_import_users', as: 'airtable_import_users'
@@ -51,6 +47,7 @@ Rails.application.routes.draw do
   resources :invoice_items, only: [:index, :show, :edit, :update, :destroy]
   get 'invoice_item/:id/copy', to: 'invoice_items#copy', as: 'copy_invoice_item'
   get 'invoice_item/:id/copy_here', to: 'invoice_items#copy_here', as: 'copy_here_invoice_item'
+  get 'invoice_item/:id/transform_to_invoice', to: 'invoice_items#transform_to_invoice', as: 'transform_to_invoice'
   get 'invoice_item/:id/edit_client', to: 'invoice_items#edit_client', as: 'edit_client_invoice_item'
   get 'invoice_item/:id/credit', to: 'invoice_items#credit', as: 'credit_invoice_item'
   get 'invoices', to: 'invoice_items#invoice_index', as: 'invoices'
@@ -79,7 +76,6 @@ Rails.application.routes.draw do
   resources :trainings do
     get 'session_viewer/:id', to: 'sessions#viewer', as: 'session_viewer'
     get 'session/:id/copy', to: 'sessions#copy', as: 'copy_session'
-    get 'session/:id/copy_here', to: 'sessions#copy_here', as: 'copy_here_session'
     get 'session/:id/copy_form', to: 'sessions#copy_form', as: 'copy_form_session'
     get 'session/:id/presence_sheet', to: 'sessions#presence_sheet', as: 'session_presence_sheet'
     resources :sessions, only: [:new, :show, :create, :update, :destroy] do
@@ -109,6 +105,7 @@ Rails.application.routes.draw do
     resources :forms, only: [:index, :show, :create, :update, :destroy]
   end
   get 'trainings_completed', to: 'trainings#index_completed', as: 'index_completed'
+  get 'trainings_upcoming', to: 'trainings#index_upcoming', as: 'index_upcoming'
   get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
   get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
   get 'trainings/:id/copy', to: 'trainings#copy', as: 'copy_training'
@@ -117,6 +114,8 @@ Rails.application.routes.draw do
   post 'trainings/:id/certificate', to: 'trainings#certificate', as: 'certificate_training'
   post 'trainings/:id/certificate_rs', to: 'trainings#certificate_rs', as: 'certificate_rs_training'
   get 'trainings/:id/invoice_form', to: 'trainings#invoice_form', as: 'invoice_form'
+  get 'trainings/:id/update_calendar', to: 'session_trainers#update_calendar', as: 'update_calendar'
+  get 'trainings/:id/trainer_notification_email', to: 'trainings#trainer_notification_email', as: 'trainer_notification_email'
 
   # ATTENDEES
   resources :attendees, only: [:index, :show, :new, :create]

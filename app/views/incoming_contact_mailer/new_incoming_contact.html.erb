@@ -65,30 +65,18 @@
       <div class="mailer-text">
         <h2>Hello, <%= @user.firstname %></h2>
         <br>
-        <p>Nous avons reçu une nouvelle demande entrante via learn.byseven.co</p>
-        <p>Voici les informations collectées :</p>
-        <div style='display:flex;flex-direction:column;justify-content:space-between;align-items:left; max-width:700px;width:50%;'>
-          <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;'>
-            <p>Nom : </p>
-            <p><%= @contact['Name'] %></p>
-          </div>
-          <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;'>
-            <p>Email : </p>
-            <p><%= @contact['Email'] %></p>
-          </div>
-          <% if @contact['Choice'].present? %>
-            <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;'>
-            <p>Choice : </p>
-            <p><%= @contact['Choice'] %></p>
-          </div>
-          <% end %>
-          <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start;'>
-            <p>Message : </p>
-            <p style='max-width: 75%;'><%= @contact['Message'] %></p>
-          </div>
-        </div>
+        <p>Dans le cadre de la formation <%= @training.title %> pour <%= @training.client_company.name %>, voici les détails de ton(tes) intervention(s) :</p>
         <br>
-         <a href="<%= @url %>">Tableau Airtable</a>
+        <ul>
+          <% @session.each do |session| %>
+            <li><%= session.title %> : le <%= session.date.strftime('%d/%m/%Y') %> de <%= session.start_time.strftime('%Hh%m') %> à <%= session.end_time.strftime('%Hh%m') %></li>
+            <% if session.description.present? %>
+              <p><%= session.description %></p>
+            <% end %>
+          <% end %>
+        </ul>
+        <br>
+        <a href="https://seven-builder.herokuapp.com/trainings/<%= @training.id %>">Voir dans Builder</a>
         <br>
         <p>Bonne journée</p>
       </div>

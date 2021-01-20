@@ -145,8 +145,10 @@ class WorkshopsController < ApplicationController
       # Creates a copy of all WorkshopModules from the source
       @workshop.workshop_modules.each do |mod|
         modul = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id"))
-        modul.update(workshop_id: @new_workshop.id)
+        modul.update(workshop_id: @new_workshop.id, position: mod.position)
       end
+      j = 1
+      @new_workshop.workshop_modules.order(position: :asc).each{|mod| mod.update(position: j); j += 1}
       redirect_to training_session_path(@session.training, @session)
     else
       raise

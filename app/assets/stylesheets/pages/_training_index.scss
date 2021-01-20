@@ -74,3 +74,20 @@
     margin-right: 1rem;
   }
 }
+
+.training_index_controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  p {
+    margin: 0 0.5rem;
+  }
+
+  a {
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.428572;
+  }
+}

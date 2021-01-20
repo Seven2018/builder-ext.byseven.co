@@ -41,7 +41,7 @@
       <br>"
        %>
       <% else %>
-        <% if @invoice_item.training.sessions.empty? %>
+        <% if @invoice_item.training.sessions.empty? || @invoice_item.training.start_time.nil?%>
           <%= f.cktext_area :body, style: 'width: 100%; height: 300px;', value:  "<p>Bonjour,<br />\r\n" +
         "<br />\r\n" +
         "Veuillez trouver ci-joint la facture #{@invoice_item.uuid}.<br />\r\n" +

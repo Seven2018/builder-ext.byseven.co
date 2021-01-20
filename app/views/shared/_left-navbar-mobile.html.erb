@@ -16,7 +16,7 @@
       </div>
     </div>
     <% if user_signed_in? %>
-      <%= link_to trainings_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+      <%= link_to trainings_path(page: 1), style: 'color: white', class: 'left-buttons-mobile' do %>
         <div class="left-menu-list-mobile">
           <i class="fas fa-tasks"></i>
         </div>

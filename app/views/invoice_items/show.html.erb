@@ -13,7 +13,7 @@
         <% if ['sevener+', 'sevener'].include?(current_user.access_level) %>
           <%= link_to sevener_billing_path(@invoice_item.training), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
         <% elsif @invoice_item.training.present? %>
-          <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+          <%= link_to invoice_items_path(training_id: @invoice_item.training.id, type: @invoice_item.type, page: 1), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
         <% else %>
           <%= link_to client_company_path(@invoice_item.client_company), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
         <% end %>
@@ -24,9 +24,11 @@
                 <i class="fas fa-file-pdf"></i>
               </button>
             <% end %>
-            <button class='btn btn-edit-orange btn-icon' data-toggle='modal' data-toggle='tooltip' data-target='#sendInvoiceItem' title='Send Invoice'>
-              <i class="fas fa-envelope"></i>
-            </button>
+            <% unless @invoice_item.training.nil? %>
+              <button class='btn btn-edit-orange btn-icon' data-toggle='modal' data-toggle='tooltip' data-target='#sendInvoiceItem' title='Send Invoice'>
+                <i class="fas fa-envelope"></i>
+              </button>
+            <% end %>
             <% if @invoice_item.type == 'Invoice' %>
               <%= link_to credit_invoice_item_path(@invoice_item), class: "btn btn-edit-red btn-icon", data: {toggle: 'tooltip'}, title: 'Credit Note' do %>
                   <i class="fas fa-file-invoice-dollar"></i>
@@ -34,6 +36,9 @@
             <% elsif @invoice_item.type == 'Estimate' %>
               <%= link_to invoice_item_path(@invoice_item), method: :delete, data: {confirm: 'Are you sure ?'}, class: 'btn btn-edit-red btn-icon' do %>
                 <i class="fas fa-trash-alt"></i>
+              <% end %>
+              <%= link_to transform_to_invoice_path(@invoice_item), class: "btn btn-edit-red btn-icon", data: {toggle: 'tooltip'}, title: 'Transform to Invoice' do %>
+                  <i class="fas fa-file-invoice-dollar"></i>
               <% end %>
             <% end %>
             <button class='btn btn-edit-green btn-icon invoiceitem_copy' data-toggle='modal' data-toggle='tooltip' data-target='#copyInvoiceItem' title='Copy Invoice'><i class="fas fa-copy"></i></button>
@@ -86,13 +91,7 @@
           <% end %>
           <div>
             <% airtable_contact = OverviewContact.all.select{|x|x['Builder_id'] == @invoice_item.training&.client_contact&.id}&.first %>
-            <% airtable_billing_contact = OverviewBillingContact.all.select{|x| x.id == airtable_contact['Billing Contact'].join} if airtable_contact.present? %>
-            <% if @invoice_item.training.present? && airtable_billing_contact.present? %>
-              <p><%= airtable_billing_contact['Company/School Service'] %></p>
-              <p><%= airtable_billing_contact['Address'] %></p>
-              <p><%= airtable_billing_contact['Zipcode'] %> <%= airtable_billing_contact['City'] %></p>
-              <p></p>
-            <% elsif @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? %>
+            <% if @invoice_item.training.present? && @invoice_item&.training&.client_contact.billing_contact.present? && (@invoice_item.training.client_company == @invoice_item.client_company) %>
               <p><%= @invoice_item&.training&.client_contact.billing_contact %></p>
               <p><%= @invoice_item&.training&.client_contact.billing_address %></p>
               <p><%= @invoice_item&.training&.client_contact.billing_zipcode %> <%= @invoice_item&.training&.client_contact.billing_city %></p>
@@ -124,7 +123,7 @@
       </div>
       <% if @invoice_item.client_company.client_company_type == 'School' %>
         <br>
-        <p>TVA non applicable, art. 293 B du CGI</p>
+        <p>TVA non applicable, art. 261-4 du CGI</p>
       <% end %>
       <div class="invoice-total">
         <div class=invoice-total-due-date>
@@ -142,7 +141,7 @@
           <% @invoice_item.total_amount = total_net.sum %>
           <% @invoice_item.save %>
           <% if @invoice_item.type == 'Order' %>
-            <p>TVA non applicable, article 293b du CGI</p>
+            <p>TVA non applicable, art. 261-4 du CGI</p>
           <% else %>
             <div>
               <p>Echéance(s)</p>
@@ -192,16 +191,16 @@
             <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id, type: 'Chapter'), method: :post do %>
               <li>Chapter</li>
             <% end %>
-            <% Product.all.each do |product| %>
-              <%= link_to invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post do %>
-                <li><%= product.name %></li>
-              <% end %>
-            <% end %>
             <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id), method: :post do %>
               <li>Commentaires</li>
             <% end %>
             <%= link_to invoice_lines_path(invoice_item_id: @invoice_item.id, description: 'Nom'), method: :post do %>
               <li>Nom du participant</li>
+            <% end %>
+            <% Product.all.each do |product| %>
+              <%= link_to invoice_lines_path(product_id: product.id, invoice_item_id: @invoice_item.id), method: :post do %>
+                <li><%= product.name %></li>
+              <% end %>
             <% end %>
           </ul>
         </div>
@@ -228,11 +227,13 @@
     </div>
   </div>
 
-  <div class="modal fade" id="sendInvoiceItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
-      <%= render 'invoice_items/send_invoice', invoice_item: @invoice_item %>
+  <% unless @invoice_item.training.nil? %>
+    <div class="modal fade" id="sendInvoiceItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+        <%= render 'invoice_items/send_invoice', invoice_item: @invoice_item %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="modal fade" id="editClient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document" style="border-radius: 2rem">
