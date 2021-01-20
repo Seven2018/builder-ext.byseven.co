@@ -1,21 +1,3 @@
-<div class="training_index_controls">
-  <% trainings_ended = @trainings %>
-  <% if params[:page].to_i > 1 %>
-    <%= link_to url_for(page: params[:page].to_i - 1, type: params[:type]) do %>
-      <i class="fas fa-caret-left"></i>
-    <% end %>
-  <% else %>
-    <i class="fas fa-caret-left" style='color:rgba(0,0,0,0.3)'></i>
-  <% end %>
-  <p><%= "Page #{params[:page]} / #{trainings_ended.count / 30 + 1}" %></p>
-  <% if params[:page].to_i < trainings_ended.count / 30 + 1 %>
-    <%= link_to url_for(page: params[:page].to_i + 1, type: params[:type]) do %>
-      <i class="fas fa-caret-right"></i>
-    <% end %>
-  <% else %>
-    <i class="fas fa-caret-right" style='color:rgba(0,0,0,0.3'></i>
-  <% end %>
-</div>
 <div class="row" style="background-color: white; margin-right: 0;">
   <% result_fut = [] %>
   <% if params[:user].present? %>
