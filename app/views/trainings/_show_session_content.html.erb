@@ -1,0 +1,8 @@
+<ul>
+  <% list = @session.workshops %>
+  <% list.order(:position).each do |mod| %>
+    <li>
+      <%= "#{mod.title} - #{mod.duration} min" %>
+    </li>
+  <% end %>
+</ul>

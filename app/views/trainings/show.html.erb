@@ -214,15 +214,8 @@
                   </ul>
                 </div>
               </div>
-              <div class="mods-list">
-                <ul>
-                  <% list = session.workshops %>
-                  <% list.order(:position).each do |mod| %>
-                    <li>
-                      <%= "#{mod.title} - #{mod.duration} min" %>
-                    </li>
-                  <% end %>
-                </ul>
+              <div class="mods-list hidden">
+                <%= render_async show_session_content_path(session_id: session.id) %>
                 <h4 class='card-session-number'><%= session_number %>/<%= @training.sessions.count %> </h4>
               </div>
           </div>
@@ -305,18 +298,6 @@
     return parseInt(element1.options[element1.selectedIndex].value, 10);
   }
 
-  // function evaluateTime(el) {
-  //   edit_start_time_hour = el.querySelectorAll('.edit_start_time').item(0);
-  //   edit_start_time_min = el.querySelectorAll('.edit_start_time').item(1);
-  //   edit_end_time_hour = el.querySelectorAll('.edit_end_time').item(0);
-  //   edit_end_time_min = el.querySelectorAll('.edit_end_time').item(1);
-  //   edit_start_time_hour_value = extractValue(edit_start_time_hour);
-  //   edit_start_time_min_value = extractValue(edit_start_time_min);
-  //   edit_end_time_hour_value = extractValue(edit_end_time_hour);
-  //   edit_end_time_min_value = extractValue(edit_end_time_min);
-  //   return console.log('test');
-  // }
-
   buttons = document.querySelectorAll('.edit_button');
   buttons.forEach(function(button) {
     button.addEventListener('click', (click) => {
@@ -333,11 +314,6 @@
       edit_start_time_min_value = extractValue(edit_start_time_min);
       edit_end_time_hour_value = extractValue(edit_end_time_hour);
       edit_end_time_min_value = extractValue(edit_end_time_min);
-      // edit_lunch_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60) - edit_duration.value;
-      // edit_lunch_duration.addEventListener('change', (event) => {
-      //   edit_lunch_duration = card.querySelector('#edit_lunch_duration');
-      //   edit_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60) - edit_lunch_duration.value;
-      // });
       [edit_start_time_hour, edit_start_time_min, edit_end_time_hour, edit_end_time_min].forEach(function(element2) {
         element2.addEventListener('change', (event) => {
           edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
@@ -411,3 +387,17 @@
     })
   </script>
 <% end %>
+
+<script>
+  cards = document.querySelectorAll('.card-lg');
+  cards.forEach(element => {
+    element.addEventListener('mouseover', (event) => {
+      element.querySelector('.mods-list').classList.remove('hidden');
+    })
+  })
+  cards.forEach(element => {
+    element.addEventListener('mouseout', (event) => {
+      element.querySelector('.mods-list').classList.add('hidden');
+    })
+  })
+</script>

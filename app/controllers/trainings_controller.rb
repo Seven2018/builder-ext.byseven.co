@@ -1,36 +1,6 @@
 class TrainingsController < ApplicationController
   before_action :set_training, only: [:show, :edit, :update, :update_survey, :destroy, :copy, :sevener_billing, :invoice_form, :trainer_notification_email]
 
-  # def index
-  #   @sessions = Session.all
-  #   # @session_trainer = SessionTrainer.new
-  #   @form = Form.new
-  #   # Index with 'search' option and global visibility for SEVEN Users
-  #   n = params[:page].to_i
-  #   @trainings = policy_scope(Training)
-  #   if ['super admin', 'admin', 'project manager'].include?(current_user.access_level)
-  #     if params[:search]
-  #       if params[:search][:user]
-  #         @trainings = Training.all
-  #         @trainings = ((Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).where("lower(trainings.title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:search][:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:search][:user]})).joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq.offset((n-1)*30).first(30)
-  #         @user = User.find(params[:search][:user])
-  #       else
-  #         @trainings = Training.all
-  #         @trainings = ((Training.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%")) + (Training.joins(client_contact: :client_company).where("lower(client_companies.name) LIKE ?", "%#{params[:search][:title].downcase}%"))).flatten(1).uniq
-  #       end
-  #     elsif params[:user]
-  #       @trainings = Training.all
-  #       @trainings = Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(training_ownerships: {user_id: params[:user]}).or(Training.joins(:training_ownerships).joins(sessions: :session_trainers).where(session_trainers: {user_id: params[:user]})).uniq.offset((n-1)*30).first(30)
-  #       @user = User.find(params[:user])
-  #     else
-  #       @trainings = Training.offset((n-1)*30).first(30)
-  #     end
-  #   # Index for Sevener Users, with limited visibility
-  #   else
-  #     @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}").offset((n-1)*30).first(30)
-  #   end
-  # end
-
   def index
     @sessions = Session.all
     @form = Form.new
@@ -132,6 +102,12 @@ class TrainingsController < ApplicationController
     if params[:task] == 'update_airtable'
       UpdateAirtableJob.perform_async(@training, true)
     end
+  end
+
+  def show_session_content
+    skip_authorization
+    @session = Session.find(params[:session_id])
+    render partial: "show_session_content"
   end
 
   def new

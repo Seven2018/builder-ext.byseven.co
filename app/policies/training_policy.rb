@@ -33,6 +33,10 @@ class TrainingPolicy < ApplicationPolicy
     true
   end
 
+  def show_session_content?
+    true
+  end
+
   def edit?
     check_access
   end
