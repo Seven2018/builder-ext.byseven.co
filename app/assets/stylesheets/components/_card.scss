@@ -215,19 +215,19 @@ $timeline: #115173;
     &:first-of-type {
       position: absolute;
       right: 10.6rem;
-      top: 0.5rem;
+      top: -1.5rem;
     }
 
     &:nth-of-type(2) {
       position: absolute;
       right: 5.6rem;
-      top: 0.5rem;
+      top: -1.5rem;
     }
 
     &:last-child {
       position: absolute;
       right: 0.5rem;
-      top: 0.5rem;
+      top: -1.5rem;
     }
   }
 }
