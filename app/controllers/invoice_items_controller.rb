@@ -106,6 +106,7 @@ class InvoiceItemsController < ApplicationController
         ownership_hours_ongoing = OverviewTraining.all.select{|x| x['Owner'].present? && x['Owner'].join == user.id}.select{|x| x['Due Date'].present? && Date::strptime(x['Due Date'],'%Y-%m-%d') >= Date.today.weeks_ago(2).beginning_of_week}.map{|x| if x['Hours'].present?; x['Hours']; end}.sum.to_s
         project_hours_dev = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id}.map{|z| z['Hours'].to_i}.sum.to_s
         project_hours_codev = OverviewProject.all.select{|x| x['Co-developer'].present? && x['Co-developer'].join == user.id}.map{|z| z['Hours'].to_i}.sum.to_s
+        training_hours = User.find(user['Builder_id']).hours_this_week(Date.today.weeks_ago(1)).to_s
         projects_1 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '1 - Prospect(s) : person or/and company'}.count.to_s
         projects_2 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '2 - Identified contact lead'}.count.to_s
         projects_3 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '3 - Handshaked contact lead'}.count.to_s
@@ -113,8 +114,11 @@ class InvoiceItemsController < ApplicationController
         projects_5 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '5 - Needs identified lead'}.count.to_s
         projects_6 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '6 - Pre-Signed lead'}.count.to_s
         projects_7 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '7 - Signed lead'}.count.to_s
-        memos_this_week = OverviewMemo.all.select{|x| x['User'].present? && x['User'].join == user.id && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.weeks_ago(1)}.count.to_s
-        data_hash = {Ongoing_Ownership:  ownership_hours_ongoing, Project_Hours_Dev: project_hours_dev, Project_Hours_Codev: project_hours_codev, Projects_Level_1: projects_1, Projects_Level_2: projects_2, Projects_Level_3: projects_3, Projects_Level_4: projects_4, Projects_Level_5: projects_5, Projects_Level_6: projects_6, Projects_Level_7: projects_7, Weekly_Memos: memos_this_week}
+        memo_count = 0.0
+        memos_this_week = OverviewMemo.all.select{|x| x['Users'].present? && x['Users'].include?(user.id) && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.weeks_ago(1)}.each do |memo|
+          memo_count += (1.0 / memo['Users'].count)
+        end
+        data_hash = {Ongoing_Ownership:  ownership_hours_ongoing, Project_Hours_Dev: project_hours_dev, Project_Hours_Codev: project_hours_codev, Projects_Level_1: projects_1, Projects_Level_2: projects_2, Projects_Level_3: projects_3, Projects_Level_4: projects_4, Projects_Level_5: projects_5, Projects_Level_6: projects_6, Projects_Level_7: projects_7, Weekly_Memos: memos_count.to_s, Trained_Hours: training_hours}
         data_hash.each do |key, value|
           line = OverviewBizdev.all.select{|x| x['User'] == user['Name'] && x['Data'] == key.to_s}.first
           if !line.present?
