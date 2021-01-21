@@ -210,7 +210,7 @@ class Training < ApplicationRecord
   end
 
   def export_numbers_activity
-    # begin
+    begin
       to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == [self.id]}
       to_delete.each{|x| x.destroy}
       card = OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first
@@ -227,8 +227,8 @@ class Training < ApplicationRecord
           end
         end
       end
-    # rescue
-    # end
+    rescue
+    end
   end
 
   def export_numbers_sevener(user)
