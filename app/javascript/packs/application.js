@@ -7,5 +7,5 @@ import {initTree} from "../plugins/tree";
 // global.initSortable = initSortable;
 
 
-require("trix")
+// require("trix")
 require("@rails/actiontext")

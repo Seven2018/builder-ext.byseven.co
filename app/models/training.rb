@@ -126,7 +126,7 @@ class Training < ApplicationRecord
   end
 
   def export_airtable
-    # begin
+    begin
       existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
       details = "Détail des sessions (date, horaires, intervenants):\n\n"
       seven_invoices = "Factures SEVEN :\n"
@@ -174,6 +174,7 @@ class Training < ApplicationRecord
         end
       end
       TrainingOwnership.where(training_id: self.id, user_type: 'Writer').where.not(user_id: writers&.map{|x| x.id}).destroy_all
+      existing_card['Trainers'] = self.trainers.map{|x| OverviewUser.all.select{|y| y['Builder_id'] == x.id}.first.id}
 
       existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
       existing_card['Builder Sessions Datetime'] = details
@@ -204,8 +205,8 @@ class Training < ApplicationRecord
       existing_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
       existing_card['SEVEN Invoice(s)'] = seven_invoices
       existing_card.save
-    # rescue
-    # end
+    rescue
+    end
   end
 
   def export_numbers_activity
