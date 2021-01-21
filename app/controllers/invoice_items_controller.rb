@@ -118,7 +118,7 @@ class InvoiceItemsController < ApplicationController
         memos_this_week = OverviewMemo.all.select{|x| x['Users'].present? && x['Users'].include?(user.id) && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.weeks_ago(1)}.each do |memo|
           memo_count += (1.0 / memo['Users'].count)
         end
-        data_hash = {Ongoing_Ownership:  ownership_hours_ongoing, Project_Hours_Dev: project_hours_dev, Project_Hours_Codev: project_hours_codev, Projects_Level_1: projects_1, Projects_Level_2: projects_2, Projects_Level_3: projects_3, Projects_Level_4: projects_4, Projects_Level_5: projects_5, Projects_Level_6: projects_6, Projects_Level_7: projects_7, Weekly_Memos: memos_count.to_s, Trained_Hours: training_hours}
+        data_hash = {Ongoing_Ownership:  ownership_hours_ongoing, Project_Hours_Dev: project_hours_dev, Project_Hours_Codev: project_hours_codev, Projects_Level_1: projects_1, Projects_Level_2: projects_2, Projects_Level_3: projects_3, Projects_Level_4: projects_4, Projects_Level_5: projects_5, Projects_Level_6: projects_6, Projects_Level_7: projects_7, Weekly_Memos: memo_count.to_s, Trained_Hours: training_hours}
         data_hash.each do |key, value|
           line = OverviewBizdev.all.select{|x| x['User'] == user['Name'] && x['Data'] == key.to_s}.first
           if !line.present?
