@@ -118,7 +118,7 @@
           <%= simple_form_for :search, url: training_session_path(@session.training, @session), html: { class: 'sidebar-search' }, method: 'GET' do |f| %>
             <%= f.input :title, placeholder: 'Search', label: false %>
             <% if params[:search] %>
-              <%= link_to training_session_path(@session.training, @session), class: 'sidebar-search-close' do %>
+              <%= link_to training_session_path(@session.training, @session, end_search: true), class: 'sidebar-search-close' do %>
                 <i class="fas fa-times-circle"></i>
               <% end %>
             <% end %>
@@ -212,7 +212,7 @@
   })
 </script>
 
-<% if params[:search].present? %>
+<% if params[:search].present? || params[:end_search].present?%>
   <script>
     var library = document.getElementById('library');
     library.style.height = '100vh';
