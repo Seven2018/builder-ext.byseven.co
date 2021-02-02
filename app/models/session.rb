@@ -16,4 +16,12 @@ class Session < ApplicationRecord
   def title_date
     "#{self.title} - #{self.date&.strftime('%d/%m/%y')}"
   end
+
+  def self.send_reminders
+    Session.where(date: Date.today + 2.days).each do |session|
+      session.users.each do |user|
+        TrainerNotificationMailer.with(user: user).trainer_session_reminder(session, user).deliver
+      end
+    end
+  end
 end
