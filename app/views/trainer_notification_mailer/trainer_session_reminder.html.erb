@@ -60,19 +60,15 @@
     </div>
     <div class="mailer-container">
       <div class="mailer-text">
-        <h2>Hello, <%= @user.firstname %></h2>
-        <p>Des modifications ont été apportées quant à ton intervention dans le cadre de la formation <%= "#{@training.client_company.name} - #{@training.title}"%></p>
-        <p>Voici le récapitulatifs mis à jour des prochaines sessions :</p>
-          <% @training.sessions.order(date: :asc).where('date > ?', Date.today).each do |session| %>
-            <% if session.users.include?(@user) %>
-              <p style='margin: 5px 0;'>- <%= session.title %> : <strong><%= session.date.strftime('%d/%m/%Y') %></strong> de <%= session.start_time.strftime('%Hh%M') %> à <%= session.end_time.strftime('%Hh%M') %></p>
-              <div style='padding-left: 20px;'>
-                <% session.description.split("\r\n").each do |line| %>
-                  <p style='margin: 5px 0;'><%= line %></p>
-                <% end %>
-              </div>
-            <% end %>
+        <h2>Hello <%= @user.firstname %>,</h2>
+        <p>Pour rappel, ton intervention dans le cadre de la formation <%= "#{@training.client_company.name} - #{@training.title}"%> approche.</p>
+        <p>Tu trouveras tous les informations ci-dessous :</p>
+        <p style='margin: 5px 0;'>- <%= @session.title %> : <strong><%= @session.date.strftime('%d/%m/%Y') %></strong> de <%= @session.start_time.strftime('%Hh%M') %> à <%= @session.end_time.strftime('%Hh%M') %></p>
+        <div style='padding-left: 20px;'>
+          <% @session.description.split("\r\n").each do |line| %>
+            <p style='margin: 5px 0;'><%= line %></p>
           <% end %>
+        </div>
         <br>
         <p><a href="https://seven-builder.herokuapp.com/trainings/<%= @training.id %>">Lien Builder</a></p>
         <br>

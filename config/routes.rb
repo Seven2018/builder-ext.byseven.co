@@ -116,6 +116,7 @@ Rails.application.routes.draw do
   get 'trainings/:id/invoice_form', to: 'trainings#invoice_form', as: 'invoice_form'
   get 'trainings/:id/update_calendar', to: 'session_trainers#update_calendar', as: 'update_calendar'
   get 'trainings/:id/trainer_notification_email', to: 'trainings#trainer_notification_email', as: 'trainer_notification_email'
+  get 'trainings/:id/trainer_session_reminder', to: 'trainings#trainer_reminder_email', as: 'trainer_reminder_email'
   get 'show_session_content', to: 'trainings#show_session_content', as: 'show_session_content'
 
   # ATTENDEES

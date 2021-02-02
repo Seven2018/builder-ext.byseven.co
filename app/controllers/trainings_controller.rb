@@ -58,7 +58,7 @@ class TrainingsController < ApplicationController
       end
     # Index for Sevener Users, with limited visibility
     else
-      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}").uniq.select{|x| x.next_session.present?}.sort_by{|y| y.next_session}
+      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}").uniq.select{|x| x.end_time.present? && x.end_time >= Date.today}.sort_by{|y| y.next_session}
       @trainings_count = @trainings.count
     end
     skip_authorization
@@ -202,6 +202,11 @@ class TrainingsController < ApplicationController
     authorize @training
     @user = OverviewUser.all.select{|x| x['Builder_id'] == current_user.id}&.first
     @airtable_training = OverviewTraining.all.select{|x| x['Builder_id'] == @training.id}&.first
+    invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [@training.id]}
+    intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == @training.id && x['User_id'] == current_user.id}.first
+    amount_due = intervention['Total Due (excl. VAT)'].to_f - intervention['Total Paid'].to_f
+    amount_billed = invoices.map{|x| x['Amount']}.sum if invoices.present?
+    invoices.present? ? @amount_to_bill = amount_due - amount_billed : @amount_to_bill = amount_due
   end
 
   def certificate
@@ -265,6 +270,13 @@ class TrainingsController < ApplicationController
       end
     end
     redirect_back(fallback_location: root_path)
+  end
+
+  def trainer_reminder_email(session, user)
+    skip_authorization
+    # if ['sevener+','sevener'].include?(user.access_level)
+      TrainerNotificationMailer.with(user: user).trainer_session_reminder(session, user).deliver
+    # end
   end
 
   def redirect_docusign
