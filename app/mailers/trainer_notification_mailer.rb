@@ -19,6 +19,6 @@ class TrainerNotificationMailer < ApplicationMailer
     @training = session.training
     @session = session
     @user = user
-    mail(to: user.email, subject: "SEVEN : #{session.training.title} - Session du #{session.date.strftime('%d/%m/%Y')}")
+    mail(to: 'brice.chapuis@byseven.co', subject: "SEVEN : #{session.training.title} - Session du #{session.date.strftime('%d/%m/%Y')}")
   end
 end
