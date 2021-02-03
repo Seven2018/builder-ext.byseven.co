@@ -20,7 +20,7 @@ class Session < ApplicationRecord
   def self.send_reminders
     Session.where(date: Date.today + 2.days).each do |session|
       session.users.each do |user|
-        TrainerNotificationMailer.with(user: user).trainer_session_reminder(session, user).deliver_later
+        TrainerNotificationMailer.with(user: user).trainer_session_reminder(session, user).deliver_now
       end
     end
   end
