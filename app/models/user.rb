@@ -39,6 +39,10 @@ class User < ApplicationRecord
     existing_user.save
   end
 
+  def report
+    UpdateBizdevReportJob.perform_async
+  end
+
   def self.from_omniauth(access_token)
     data = access_token.info
     user = User.where(email: data['email']).first

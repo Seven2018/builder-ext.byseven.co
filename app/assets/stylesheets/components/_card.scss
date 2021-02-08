@@ -129,7 +129,6 @@ $timeline: #115173;
   justify-content: space-between;
   background: rgba(115, 133, 152, 0.15);
   border-top: none;
-  background: linear-gradient(0.25turn, #23282E, #FCC94B);
 
   p {
     margin: 0;
@@ -139,6 +138,14 @@ $timeline: #115173;
     color: $green;
     font-weight: bolder;
   }
+}
+
+.card-footer-company {
+  background: linear-gradient(0.25turn, #23282E, #FCC94B);
+}
+
+.card-footer-school {
+  background: linear-gradient(0.25turn, #23282E, #739DBF);
 }
 
 
