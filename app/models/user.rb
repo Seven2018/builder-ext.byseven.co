@@ -39,7 +39,7 @@ class User < ApplicationRecord
     existing_user.save
   end
 
-  def report
+  def self.report
     UpdateBizdevReportJob.perform_async
   end
 
