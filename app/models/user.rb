@@ -40,7 +40,7 @@ class User < ApplicationRecord
   end
 
   def self.report
-    UpdateBizdevReportJob.perform
+    UpdateBizdevReportJob.perform_now
   end
 
   def self.from_omniauth(access_token)
