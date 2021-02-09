@@ -19,7 +19,7 @@ class UpdateBizdevReportJob < ApplicationJob
       projects_6 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '6 - Pre-Signed lead'}.count.to_s
       projects_7 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '7 - Signed lead'}.count.to_s
       memo_count = 0.0
-      memos_this_week = OverviewMemo.all.select{|x| x['Users'].present? && x['Users'].include?(user.id) && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today}.each do |memo|
+      memos_this_week = OverviewMemo.all.select{|x| x['Users'].present? && x['Users'].include?(user.id) && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.beginning_of_week}.each do |memo|
         memo_count += (1.0 / memo['Users'].count)
       end
       data_hash = {Ongoing_Ownership:  ownership_hours_ongoing, Project_Hours_Dev: project_hours_dev, Project_Hours_Codev: project_hours_codev, '1 - Prospect' => projects_1, '2 - Identified contact' => projects_2, '3 - Handshaked contact' => projects_3, '4  - Strong relationship' => projects_4, '5 - Needs identified' => projects_5, '6 - Pre-signed' => projects_6, '7 - Signed' => projects_7, Weekly_Memos: memo_count.to_s, Trained_Hours: training_hours}
