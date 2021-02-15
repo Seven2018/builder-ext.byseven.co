@@ -233,7 +233,7 @@
 
 <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm" role="document" style="border-radius: 20px">
-    <%= render 'session_trainers/new', session: @session, session_trainer: @session_trainer %>
+    <%= render 'session_trainers/new', session: @session, session_trainer: @session_trainer, session_number: @session.id %>
   </div>
 </div>
 

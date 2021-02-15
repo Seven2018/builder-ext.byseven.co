@@ -4,7 +4,7 @@ ruby '2.7.2'
 gem 'bootsnap', require: false
 gem 'cloudinary', '~> 1.9.1'
 gem 'devise', :git => "https://github.com/heartcombo/devise.git", ref: '8bb358cf80a632d3232c3f548ce7b95fd94b6eb2'
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder'
 gem 'pg', '~> 0.21'
 gem 'pg_search'
 gem 'puma'
@@ -47,7 +47,7 @@ gem 'redis-rails'
 gem 'sucker_punch', '~> 2.0'
 gem 'sendgrid-ruby'
 gem 'whenever', require: false
-
+gem 'ransack'
 
 gem 'dotenv-rails', groups: [:development, :test]
 

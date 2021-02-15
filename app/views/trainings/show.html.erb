@@ -51,6 +51,7 @@
       </div>
     <% else %>
       <div class="page-controls-buttons flex-row-between-centered">
+        <!-- <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#reviewSevener' data-toggle="tooltip" title="Invoice Review"><i class="fas fa-copy"></i></a> -->
         <%= link_to invoice_form_path(@training), class: 'btn btn-edit-green btn-icon', data: {toggle:'tooltip'}, title: 'Submit an invoice' do %>
           <i class="fas fa-file-invoice-dollar"></i>
         <% end %>
@@ -262,9 +263,9 @@
               </div>
             </div>
             <div class="modal fade" id="addTrainer<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-              <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
+              <div class="modal-dialog %>" role="document" style="border-radius: 2rem">
                 <% @session = session %>
-                <%= render '/session_trainers/new', session: @session, session_trainer: SessionTrainer.new %>
+                <%= render '/session_trainers/new', session: @session, session_trainer: SessionTrainer.new, session_number: session_number %>
               </div>
             </div>
           </div>
@@ -307,7 +308,7 @@
 </div>
 
 <div class="modal fade" id="newTrainers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
     <%= render 'session_trainers/new_trainers', training: @training %>
   </div>
 </div>
@@ -438,4 +439,36 @@
       element.querySelector('.mods-list').style.maxHeight = '0px';
     })
   })
+</script>
+
+<script>
+  $input = $("[data-behavior='autocomplete']");
+
+  $input.each(function(index) {
+    console.log(this);
+    var that = this;
+    var options = {
+      listLocation: "users",
+      getValue: 'name',
+      url: function(phrase) {
+        return "/users_search.json?search=" + phrase
+      },
+      list: {
+        onChooseEvent: function() {
+          // test = document.getElementById('users-list');
+          console.log(that);
+          test = $(that).parent().parent().parent().find('.users-list');
+          console.log(test);
+          new_el = document.createElement('p');
+          content = document.createTextNode($(that).value);
+          new_el.appendChild(content);
+          $(test).appendChild(new_el);
+
+        }
+      }
+    }
+
+    $(this).easyAutocomplete(options);
+  })
+
 </script>

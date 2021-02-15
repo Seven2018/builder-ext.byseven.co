@@ -123,7 +123,7 @@ a {
     height: 4rem !important;
   }
 
-  div {
+  & > div {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -136,6 +136,10 @@ a {
 
 #page-buttons {
   position: relative;
+
+  & > form {
+    margin: 0 1rem;
+  }
 }
 
 .index-card-large {

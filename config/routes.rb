@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get 'contact_form', to: 'pages#contact_form', as: 'contact_form'
   get 'contact_form_seven_x_bam', to: 'pages#contact_form_seven_x_bam', as: 'contact_form_seven_x_bam'
   get 'billing', to: 'pages#billing', as: 'billing'
+  get :sandbox, controller: :pages
 
   # AIRTABLE
   get 'airtable_import_users', to: 'pages#airtable_import_users', as: 'airtable_import_users'
@@ -21,6 +22,8 @@ Rails.application.routes.draw do
 
   # USERS
   resources :users
+  # get 'users_search', to: 'users#users_search', as: 'users_search'
+  get :users_search, controller: :users
 
   # ACTIONS
   resources :actions

@@ -43,6 +43,12 @@ class User < ApplicationRecord
     UpdateBizdevReportJob.perform_now
   end
 
+  def to_builder
+    Jbuilder.new do |user|
+      user.(self, :firstname, :id)
+    end
+  end
+
   def self.from_omniauth(access_token)
     data = access_token.info
     user = User.where(email: data['email']).first

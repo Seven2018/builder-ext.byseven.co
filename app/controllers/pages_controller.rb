@@ -4,6 +4,10 @@ class PagesController < ApplicationController
   def home
   end
 
+  def sandbox
+
+  end
+
   def billing
     @user = User.find(params[:user_id])
     @trainings = Training.select{|x| x.trainers.include?(@user)}

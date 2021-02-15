@@ -16,7 +16,7 @@
         </a>
       <% end %>
     </div>
-   <% elsif params[:controller] == 'workshops' && params[:action] == 'viewer' %>
+  <% elsif params[:controller] == 'workshops' && params[:action] == 'viewer' %>
     <div class="left-navbar-middle">
       <% @workshop.workshop_modules.order(position: :asc).each do |mod| %>
         <a href="#<%= mod&.id %>">
@@ -26,7 +26,7 @@
         </a>
       <% end %>
     </div>
-   <% else %>
+  <% else %>
     <div class="left-navbar-middle">
       <% if user_signed_in? %>
         <%= link_to trainings_path(page: 1), class: 'left-buttons' do %>
@@ -127,7 +127,6 @@
         <% end %>
       <% end %>
     </div>
-
   <% end %>
   <div class="left-navbar-bottom">
     <%= link_to root_path, class: "left-navbar-logo" do %>
