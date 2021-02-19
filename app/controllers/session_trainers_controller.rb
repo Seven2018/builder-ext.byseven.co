@@ -179,7 +179,9 @@ class SessionTrainersController < ApplicationController
       training.sessions.each do |session|
         unless SessionTrainer.where(session_id: session.id, user_id: ind).empty?
           to_delete = SessionTrainer.where(session_id: session.id, user_id: ind).first
-          session.training.gdrive_link.nil? ? session.training.update(gdrive_link: ind + ':' + to_delete.calendar_uuid + ',') : session.training.update(gdrive_link: session.training.gdrive_link + ind + ':' + to_delete.calendar_uuid + ',')
+          unless to_delete.calendar_uuid.nil?
+            session.training.gdrive_link.nil? ? session.training.update(gdrive_link: ind.to_s + ':' + to_delete.calendar_uuid + ',') : session.training.update(gdrive_link: session.training.gdrive_link + ind.to_s + ':' + to_delete.calendar_uuid + ',')
+          end
           to_delete.destroy
         end
       end
