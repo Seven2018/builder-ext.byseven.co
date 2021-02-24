@@ -22,7 +22,7 @@
       <% end %>
     <% end %>
     <div class='billing-index-category'>
-      <h4>Pending</h4>
+      <h4>Pending bills</h4>
       <% if to_pay.empty? %>
         <div class="billing-card">
           <div class="billing-card-title">
@@ -36,11 +36,15 @@
         <div class="billing-card">
           <div class="billing-card-title flex-row-between-centered">
             <div class='flex-row-between-centered'>
-              <a class='btn-link'><i class="fas fa-angle-down"></i></a>
-              <% if training.end_time < Date.today %>
-                <p><strong>Completed</strong> - <%= training.title %></p>
+              <% if invoices.count == 0 %>
+                <a class='btn-link'><i class="fas fa-angle-down"></i></a>
               <% else %>
-                <p><strong>Ongoing</strong> - <%= training.title %></p>
+                <a class='btn-link'><i class="fas fa-angle-down" style='color: rgba(0,0,0,0);'></i></a>
+              <% end %>
+              <% if training.end_time < Date.today %>
+                <p><strong>Training : Completed</strong> - <%= training.title %></p>
+              <% else %>
+                <p><strong>Training : Ongoing</strong> - <%= training.title %></p>
               <% end %>
             </div>
             <div class="flex-row-between-centered">
@@ -84,7 +88,7 @@
       <% end %>
     </div>
     <div class='billing-index-category'>
-      <h4>Paid</h4>
+      <h4>Paid bills</h4>
       <% if paid.empty? %>
         <div class="billing-card">
           <div class="billing-card-title">
