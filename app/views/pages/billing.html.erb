@@ -16,9 +16,9 @@
     <% Training.select{|x| x.trainers.include?(current_user)}.each do |training| %>
       <% intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
       <% if intervention['Total Due (excl. VAT)'].to_f - intervention['Total Paid'].to_f <= 0 %>
-        <% paid << training %>
+        <% paid << {'training': training, 'intervention': intervention} %>
       <% else %>
-        <% to_pay << training %>
+        <% to_pay << {'training': training, 'intervention': intervention} %>
       <% end %>
     <% end %>
     <div class='billing-index-category'>
@@ -30,9 +30,14 @@
           </div>
         </div>
       <% end %>
-      <% to_pay.each do |training| %>
-        <% invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [training.id]} %>
-        <% intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
+      <% to_pay.each do |hash| %>
+        <%# intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
+        <%# invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [training.id]} %>
+        <% training, intervention = hash[:training], hash[:intervention] %>
+        <%= invoices = intervention['Invoices Sevener'] %>
+        <% if invoices.nil? %>
+          <% invoices = [] %>
+        <% end %>
         <div class="billing-card">
           <div class="billing-card-title flex-row-between-centered">
             <div class='flex-row-between-centered'>
@@ -97,8 +102,13 @@
         </div>
       <% end %>
       <% paid.each do |training| %>
-        <% invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [training.id]} %>
-        <% intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
+        <%# intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
+        <%# invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [training.id]} %>
+        <% training, intervention = hash[:training], hash[:intervention] %>
+        <%= invoices = intervention['Invoices Sevener'] %>
+        <% if invoices.nil? %>
+          <% invoices = [] %>
+        <% end %>
         <div class="billing-card">
           <div class="billing-card-title flex-row-between-centered">
             <div class='flex-row-between-centered'>
