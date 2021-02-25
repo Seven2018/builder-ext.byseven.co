@@ -34,7 +34,6 @@
         <%# intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
         <%# invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [training.id]} %>
         <% training, intervention = hash[:training], hash[:intervention] %>
-        <% raise %>
         <%= invoices = intervention['Invoices Sevener'] %>
         <% if invoices.nil? %>
           <% invoices = [] %>
