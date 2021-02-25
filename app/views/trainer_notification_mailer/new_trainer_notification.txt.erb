@@ -6,8 +6,9 @@ Voici le récapitulatif pour ton intervention dans le cadre de la formation <%= 
   <% @training.sessions.order(date: :asc).where('date > ?', Date.today).each do |session| %>
     <% if session.users.include?(@user) %>
         - <%= session.date %> : <%= session.title %>
-
-          <%= session.description %>
+          <% if session.description.present? %>
+            <%= session.description %>
+          <% end %>
 
     <% end %>
   <% end %>
