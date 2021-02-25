@@ -13,7 +13,7 @@
   <div id='billing-index'>
     <% to_pay = [] %>
     <% paid = [] %>
-    <% Training.joins(sessions: :session_trainers).where(sessions: {session_trainers: {user_id: current_user.id}}).each do |training| %>
+    <% Training.joins(sessions: :session_trainers).where(sessions: {session_trainers: {user_id: current_user.id}}).uniq.each do |training| %>
       <% intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
       <% if intervention['Total Due (excl. VAT)'].to_f - intervention['Total Paid'].to_f <= 0 %>
         <% paid << {training: training, intervention: intervention} %>
@@ -101,7 +101,7 @@
       <% end %>
       <% paid.each do |hash| %>
         <% training, intervention = hash[:training], hash[:intervention] %>
-        <%= invoices = intervention['Invoices Sevener'] %>
+        <% invoices = intervention['Invoices Sevener'] %>
         <% if invoices.nil? %>
           <% invoices = [] %>
         <% end %>
