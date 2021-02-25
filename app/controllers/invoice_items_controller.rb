@@ -187,7 +187,7 @@ class InvoiceItemsController < ApplicationController
       new_invoice.update_price
       new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
     end
-    redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
+    redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id, page: 1)
   end
 
   # Creates new InvoiceItems using data from Airtable DB for each attendee

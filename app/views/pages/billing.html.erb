@@ -36,7 +36,7 @@
         <div class="billing-card">
           <div class="billing-card-title flex-row-between-centered">
             <div class='flex-row-between-centered'>
-              <% if invoices.count == 0 %>
+              <% if invoices.count != 0 %>
                 <a class='btn-link'><i class="fas fa-angle-down"></i></a>
               <% else %>
                 <a class='btn-link'><i class="fas fa-angle-down" style='color: rgba(0,0,0,0);'></i></a>
@@ -102,7 +102,11 @@
         <div class="billing-card">
           <div class="billing-card-title flex-row-between-centered">
             <div class='flex-row-between-centered'>
-              <a class='btn-link'><i class="fas fa-angle-down"></i></a>
+              <% if invoices.count != 0 %>
+                <a class='btn-link'><i class="fas fa-angle-down"></i></a>
+              <% else %>
+                <a class='btn-link'><i class="fas fa-angle-down" style='color: rgba(0,0,0,0);'></i></a>
+              <% end %>
               <p><%= training.title %></p>
             </div>
             <div class="flex-row-between-centered">
