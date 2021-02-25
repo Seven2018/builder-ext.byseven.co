@@ -332,41 +332,43 @@
 </div>
 
 <script>
-  function extractValue(element1) {
-    return parseInt(element1.options[element1.selectedIndex].value, 10);
-  }
+  window.onload = function() {
+    function extractValue(element1) {
+      return parseInt(element1.options[element1.selectedIndex].value, 10);
+    }
 
-  buttons = document.querySelectorAll('.edit_button');
-  buttons.forEach(function(button) {
-    button.addEventListener('click', (click) => {
-      console.log('hello');
-      card = button.parentElement.parentElement.querySelector('.editSession');
+    buttons = document.querySelectorAll('.edit_button');
+    buttons.forEach(function(button) {
+      button.addEventListener('click', (click) => {
+        console.log('hello');
+        card = button.parentElement.parentElement.querySelector('.editSession');
 
-      edit_duration = card.querySelector('#edit_duration');
-      // lunch_edit_duration = card.querySelector('#edit_lunch_duration');
-      edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
-      edit_start_time_min = card.querySelectorAll('.edit_start_time').item(1);
-      edit_end_time_hour = card.querySelectorAll('.edit_end_time').item(0);
-      edit_end_time_min = card.querySelectorAll('.edit_end_time').item(1);
-      edit_start_time_hour_value = extractValue(edit_start_time_hour);
-      edit_start_time_min_value = extractValue(edit_start_time_min);
-      edit_end_time_hour_value = extractValue(edit_end_time_hour);
-      edit_end_time_min_value = extractValue(edit_end_time_min);
-      [edit_start_time_hour, edit_start_time_min, edit_end_time_hour, edit_end_time_min].forEach(function(element2) {
-        element2.addEventListener('change', (event) => {
-          edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
-          edit_start_time_min = card.querySelectorAll('.edit_start_time').item(1);
-          edit_end_time_hour = card.querySelectorAll('.edit_end_time').item(0);
-          edit_end_time_min = card.querySelectorAll('.edit_end_time').item(1);
-          edit_start_time_hour_value = extractValue(edit_start_time_hour);
-          edit_start_time_min_value = extractValue(edit_start_time_min);
-          edit_end_time_hour_value = extractValue(edit_end_time_hour);
-          edit_end_time_min_value = extractValue(edit_end_time_min);
-          edit_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60);
+        edit_duration = card.querySelector('#edit_duration');
+        // lunch_edit_duration = card.querySelector('#edit_lunch_duration');
+        edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
+        edit_start_time_min = card.querySelectorAll('.edit_start_time').item(1);
+        edit_end_time_hour = card.querySelectorAll('.edit_end_time').item(0);
+        edit_end_time_min = card.querySelectorAll('.edit_end_time').item(1);
+        edit_start_time_hour_value = extractValue(edit_start_time_hour);
+        edit_start_time_min_value = extractValue(edit_start_time_min);
+        edit_end_time_hour_value = extractValue(edit_end_time_hour);
+        edit_end_time_min_value = extractValue(edit_end_time_min);
+        [edit_start_time_hour, edit_start_time_min, edit_end_time_hour, edit_end_time_min].forEach(function(element2) {
+          element2.addEventListener('change', (event) => {
+            edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
+            edit_start_time_min = card.querySelectorAll('.edit_start_time').item(1);
+            edit_end_time_hour = card.querySelectorAll('.edit_end_time').item(0);
+            edit_end_time_min = card.querySelectorAll('.edit_end_time').item(1);
+            edit_start_time_hour_value = extractValue(edit_start_time_hour);
+            edit_start_time_min_value = extractValue(edit_start_time_min);
+            edit_end_time_hour_value = extractValue(edit_end_time_hour);
+            edit_end_time_min_value = extractValue(edit_end_time_min);
+            edit_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60);
+          });
         });
       });
     });
-  });
+  }
 </script>
 
 <div class="modal fade" id="newSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
@@ -407,41 +409,47 @@
 
 <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
   <script>
-    survey = document.getElementById('survey-link');
-    form = document.getElementById('survey-form');
-    survey.addEventListener('click', (event) => {
-      survey.classList.toggle('hidden');
-      form.classList.toggle('hidden');
-    })
-  </script>
-  <script>
-    titles = document.querySelectorAll('title-link');
-    title_form = document.getElementById('survey-form');
-    titles.forEach(title => {
-      title.addEventListener('click', (event) => {
-        title.classList.toggle('hidden');
+    window.onload = function() {
+      survey = document.getElementById('survey-link');
+      form = document.getElementById('survey-form');
+      survey.addEventListener('click', (event) => {
+        survey.classList.toggle('hidden');
         form.classList.toggle('hidden');
       })
-    })
+    }
+  </script>
+  <script>
+    window.onload = function() {
+      titles = document.querySelectorAll('title-link');
+      title_form = document.getElementById('survey-form');
+      titles.forEach(title => {
+        title.addEventListener('click', (event) => {
+          title.classList.toggle('hidden');
+          form.classList.toggle('hidden');
+        })
+      })
+    }
   </script>
 <% end %>
 
 <script>
-  cards = document.querySelectorAll('.card-lg');
-  cards.forEach(element => {
-    element.addEventListener('mouseover', (event) => {
-      // element.querySelector('.mods-list').classList.remove('hidden');
-      element.querySelector('.mods-list').style.maxHeight = '1000px';
+  window.onload = function() {
+    cards = document.querySelectorAll('.card-lg');
+    cards.forEach(element => {
+      element.addEventListener('mouseover', (event) => {
+        // element.querySelector('.mods-list').classList.remove('hidden');
+        element.querySelector('.mods-list').style.maxHeight = '1000px';
+      })
     })
-  })
-  cards.forEach(element => {
-    element.addEventListener('mouseout', (event) => {
-      element.querySelector('.mods-list').style.maxHeight = '0px';
+    cards.forEach(element => {
+      element.addEventListener('mouseout', (event) => {
+        element.querySelector('.mods-list').style.maxHeight = '0px';
+      })
     })
-  })
+  }
 </script>
 
-<script>
+<!-- <script>
   $input = $("[data-behavior='autocomplete']");
 
   $input.each(function(index) {
@@ -470,5 +478,4 @@
 
     $(this).easyAutocomplete(options);
   })
-
-</script>
+</script> -->
