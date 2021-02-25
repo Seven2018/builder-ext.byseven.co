@@ -16,9 +16,9 @@
     <% Training.select{|x| x.trainers.include?(current_user)}.each do |training| %>
       <% intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
       <% if intervention['Total Due (excl. VAT)'].to_f - intervention['Total Paid'].to_f <= 0 %>
-        <% paid << {'training': training, 'intervention': intervention} %>
+        <% paid << {training: training, intervention: intervention} %>
       <% else %>
-        <% to_pay << {'training': training, 'intervention': intervention} %>
+        <% to_pay << {training: training, intervention: intervention} %>
       <% end %>
     <% end %>
     <div class='billing-index-category'>
@@ -34,6 +34,7 @@
         <%# intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
         <%# invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [training.id]} %>
         <% training, intervention = hash[:training], hash[:intervention] %>
+        <% raise %>
         <%= invoices = intervention['Invoices Sevener'] %>
         <% if invoices.nil? %>
           <% invoices = [] %>
@@ -101,7 +102,7 @@
           </div>
         </div>
       <% end %>
-      <% paid.each do |training| %>
+      <% paid.each do |hash| %>
         <%# intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
         <%# invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [training.id]} %>
         <% training, intervention = hash[:training], hash[:intervention] %>
