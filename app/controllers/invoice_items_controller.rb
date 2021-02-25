@@ -264,7 +264,7 @@ class InvoiceItemsController < ApplicationController
         new_invoice_line.update(invoice_item_id: new_invoice_item.id)
       end
       new_invoice_item.update_price
-      new_invoice_item.export_numbers_revenue if new_invoice_item.type = 'Invoice'
+      new_invoice_item.export_numbers_revenue if new_invoice_item.type == 'Invoice'
       redirect_to invoice_item_path(new_invoice_item)
     else
       raise
@@ -287,7 +287,7 @@ class InvoiceItemsController < ApplicationController
         new_invoice_line.update(invoice_item_id: new_invoice_item.id)
       end
       new_invoice_item.update_price
-      new_invoice_item.export_numbers_revenue if new_invoice_item.type = 'Invoice'
+      new_invoice_item.export_numbers_revenue if new_invoice_item.type == 'Invoice'
       redirect_to invoice_item_path(new_invoice_item)
     else
       raise
