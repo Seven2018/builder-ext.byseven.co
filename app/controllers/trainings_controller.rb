@@ -1,5 +1,5 @@
 class TrainingsController < ApplicationController
-  before_action :set_training, only: [:show, :edit, :update, :update_survey, :destroy, :copy, :sevener_billing, :invoice_form, :trainer_notification_email]
+  before_action :set_training, only: [:show, :edit, :update, :update_airtable, :destroy, :copy, :sevener_billing, :invoice_form, :trainer_notification_email]
 
   def index
     @sessions = Session.all
@@ -159,6 +159,11 @@ class TrainingsController < ApplicationController
     # UpdateAirtableJob.perform_async (@training)
     # @training.export_airtable
     redirect_to training_path(@training)
+  end
+
+  def update_airtable
+    authorize @training
+    UpdateAirtableJob.perform_async(@training, true)
   end
 
   def destroy

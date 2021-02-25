@@ -13,7 +13,7 @@
   <div id='billing-index'>
     <% to_pay = [] %>
     <% paid = [] %>
-    <% Training.select{|x| x.trainers.include?(current_user)}.each do |training| %>
+    <% Training.joins(sessions: :session_trainers).where(sessions: {session_trainers: {user_id: current_user.id}}).each do |training| %>
       <% intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
       <% if intervention['Total Due (excl. VAT)'].to_f - intervention['Total Paid'].to_f <= 0 %>
         <% paid << {training: training, intervention: intervention} %>
@@ -31,8 +31,6 @@
         </div>
       <% end %>
       <% to_pay.each do |hash| %>
-        <%# intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
-        <%# invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [training.id]} %>
         <% training, intervention = hash[:training], hash[:intervention] %>
         <%= invoices = intervention['Invoices Sevener'] %>
         <% if invoices.nil? %>
@@ -102,8 +100,6 @@
         </div>
       <% end %>
       <% paid.each do |hash| %>
-        <%# intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
-        <%# invoices = OverviewInvoiceSevener.all.select{|x| x['User_id'] == [current_user.id] && x['Training_id'] == [training.id]} %>
         <% training, intervention = hash[:training], hash[:intervention] %>
         <%= invoices = intervention['Invoices Sevener'] %>
         <% if invoices.nil? %>

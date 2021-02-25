@@ -45,7 +45,7 @@ class TrainingPolicy < ApplicationPolicy
     check_access
   end
 
-  def update_survey?
+  def update_airtable?
     check_access
   end
 

@@ -153,7 +153,7 @@ class SessionTrainersController < ApplicationController
         end
       end
     end
-    UpdateAirtableJob.perform_async(@session.training, true)
+    # UpdateAirtableJob.perform_async(@session.training, true)
     redirect_back(fallback_location: root_path)
   end
 
@@ -186,7 +186,7 @@ class SessionTrainersController < ApplicationController
         end
       end
     end
-    UpdateAirtableJob.perform_async(training, true)
+    # UpdateAirtableJob.perform_async(training, true)
     redirect_to training_path(training)
   end
 
