@@ -77,9 +77,9 @@
                   <p>Amount : <%= invoice['Amount'] %>€</p>
                 <% end %>
                 <% if invoice['Status'] == 'Paid' %>
-                  <i class="far fa-check-circle" data-toggle='tooltip' title='Paid'></i>
+                  <p style='color:#79d70f;'><i class="far fa-check-circle" data-toggle='tooltip' title='Paid'></i> Paid</p>
                 <% else %>
-                  <i class="fas fa-hourglass-half" data-toggle='tooltip' title='Pending'></i>
+                  <p style='color:#007944;'><i class="fas fa-hourglass-half" data-toggle='tooltip' title='Pending'></i> Pending</p>
                 <% end %>
               </div>
             <% end %>
@@ -128,7 +128,7 @@
                 <% if invoice['Status'] == 'Paid' %>
                   <p style='color:#79d70f;'><i class="far fa-check-circle" data-toggle='tooltip' title='Paid'></i> Paid</p>
                 <% else %>
-                  <p style='color:#fb7813;'><i class="fas fa-hourglass-half" data-toggle='tooltip' title='Pending'> Pending</i></p>
+                  <p style='color:#007944;'><i class="fas fa-hourglass-half" data-toggle='tooltip' title='Pending'></i> Pending</p>
                 <% end %>
               </div>
             <% end %>
