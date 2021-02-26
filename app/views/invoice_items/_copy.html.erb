@@ -9,17 +9,17 @@
     <%= simple_form_for :copy, url: copy_invoice_item_path(invoice_item), method: 'GET' do |f| %>
       <div class="copy-form-element">
         <%= f.label :client_company_id, 'Client' %>
-        <%= f.collection_select :client_company_id, ClientCompany.all.order(:name), :id, :name, options = { include_blank: true }, html_options = { class: "copy_client_company_id" } %>
+        <%= f.collection_select :client_company_id, ClientCompany.all.order(:name), :id, :name, options = { include_blank: true }, html_options = { class: "copy_client_company_id copy-input" } %>
       </div>
       <div class="copy-form-element">
         <%= f.label :training_id, 'Training', class: 'copy-form-hidden-label' %>
         <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title, options = {}, html_options = { class: "copy_training_id" } %>
       </div>
       <div class='modal-control'>
-        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Copy' do %>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon copy-button hidden', data: { toggle: 'tooltip' }, title: 'Copy' do %>
           <i class="fas fa-copy"></i>
         <% end %>
-        <%= link_to copy_here_invoice_item_path(invoice_item), method: :get, class: 'btn btn-edit-green btn-icon', data: {toggle: 'tooltip'}, title: 'Copy here' do %>
+        <%= link_to copy_here_invoice_item_path(invoice_item), method: :get, class: 'btn btn-edit-green btn-icon copy-here-button', data: {toggle: 'tooltip'}, title: 'Copy here' do %>
           <i class="fas fa-angle-double-down"></i>
         <% end %>
       </div>
@@ -53,3 +53,5 @@
     </script>
   </div>
 </div>
+
+<%= javascript_pack_tag 'switch_copy_button' %>

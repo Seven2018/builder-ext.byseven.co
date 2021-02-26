@@ -9,6 +9,16 @@
       "js.map": [
         "/packs/js/application-88a1d95120982257c296.js.map"
       ]
+    },
+    "switch_copy_button": {
+      "js": [
+        "/packs/js/switch_copy_button-1bf82f438c0c2092ff07.js"
+      ],
+      "js.map": [
+        "/packs/js/switch_copy_button-1bf82f438c0c2092ff07.js.map"
+      ]
     }
-  }
+  },
+  "switch_copy_button.js": "/packs/js/switch_copy_button-1bf82f438c0c2092ff07.js",
+  "switch_copy_button.js.map": "/packs/js/switch_copy_button-1bf82f438c0c2092ff07.js.map"
 }

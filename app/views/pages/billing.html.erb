@@ -22,7 +22,7 @@
       <% end %>
     <% end %>
     <div class='billing-index-category'>
-      <h4>Pending bills</h4>
+      <h4>To do</h4>
       <% if to_pay.empty? %>
         <div class="billing-card">
           <div class="billing-card-title">
@@ -32,7 +32,7 @@
       <% end %>
       <% to_pay.each do |hash| %>
         <% training, intervention = hash[:training], hash[:intervention] %>
-        <%= invoices = intervention['Invoices Sevener'] %>
+        <% invoices = intervention['Invoices Sevener'] %>
         <% if invoices.nil? %>
           <% invoices = [] %>
         <% end %>
@@ -61,7 +61,7 @@
                     <i class="fas fa-file-invoice-dollar"></i>
                   <% end %>
                 <% else %>
-                  <a class='btn btn-edit-grey btn-icon disabled'>
+                  <a class='btn btn-edit-grey btn-icon disabled' style='opacity: .25;'>
                     <i data-toggle='tooltip' title='You may only send invoices for completed trainings.' class="fas fa-file-invoice-dollar"></i>
                   </a>
                 <% end %>
@@ -91,7 +91,7 @@
       <% end %>
     </div>
     <div class='billing-index-category'>
-      <h4>Paid bills</h4>
+      <h4>Completed</h4>
       <% if paid.empty? %>
         <div class="billing-card">
           <div class="billing-card-title">
@@ -120,7 +120,7 @@
               <% total_due = intervention['Total Due (excl. VAT)'].to_f - intervention['Total Paid'].to_f %>
               <p>Total due : <%= total_due %>€</p>
               <% unless total_due == 0 %>
-                <%= link_to invoice_form_path(training), class: 'btn btn-edit-green btn-icon', data: {toggle:'tooltip'}, title: 'Submit an invoice' do %>
+                <%= link_to invoice_form_path(training), class: 'btn btn-edit-green btn-icon invisible', data: {toggle:'tooltip'}, title: 'Submit an invoice' do %>
                   <i class="fas fa-file-invoice-dollar"></i>
                 <% end %>
               <% end %>
