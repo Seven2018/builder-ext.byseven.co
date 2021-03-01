@@ -1,6 +1,6 @@
 <div class="container-seven-large">
   <div id='page-controls'>
-    <%= link_to trainings_path(page: 1), class: 'btn return-arrow' do %>
+    <%= link_to request.referer.present? ? request.referer : default_path, class: 'btn return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
@@ -18,7 +18,8 @@
         <%= link_to update_calendar_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip'}, title: 'Update Calendar' do %>
           <span class="iconify" data-icon="dashicons:update" data-inline="false"></span>
         <% end %>
-        <% airtable_training = OverviewTraining.all.select{|x| if x['Builder_id'].present?; x['Builder_id'] == @training.id; end}&.first %>
+        <%# airtable_training = OverviewTraining.all.select{|x| if x['Builder_id'].present?; x['Builder_id'] == @training.id; end}&.first %>
+        <% airtable_training = OverviewTraining.all(filter: "{Builder_id} = '#{@training.id}'")&.first %>
         <% if airtable_training.present? %>
           <%= link_to training_path(@training, task: 'update_airtable'), class: "btn btn-edit-yellow btn-icon", data: { toggle: 'tooltip'}, title: "Sync with Airtable - Last sync : #{airtable_training['Builder Update'].to_time.strftime('%d/%m/%Y at %H:%M')}" do %>
             <span class="iconify" data-icon="simple-icons:airtable" data-inline="false"></span>
@@ -131,10 +132,6 @@
       <p id='survey-link' class='btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
     <% end %>
     <div>
-      <% trainers = 0 %>
-      <% @training.sessions.each do |session| %>
-        <% trainers += session.users.count %>
-      <% end %>
       <div class='trainer-div'>
         <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
           <ul id="trainer">
@@ -166,7 +163,7 @@
     </div>
   </div>
   <div class="training_index_controls">
-    <% if @training.sessions.count / 10 + 1 > 2 %>
+    <% if @training.sessions.count.to_f / 10 > 2 %>
       <% if params[:page].to_i > 1 %>
         <%= link_to url_for(page: 1) do %>
           <i class="fas fa-backward"></i>
@@ -175,7 +172,7 @@
         <i class="fas fa-backward" style='color:rgba(0,0,0,0.3'></i>
       <% end %>
     <% end %>
-    <% if @training.sessions.count / 10 + 1 > 1 %>
+    <% if @training.sessions.count.to_f / 10 > 1 %>
       <% if params[:page].to_i > 1 %>
         <%= link_to url_for(page: params[:page].to_i - 1, type: params[:type]) do %>
           <i class="fas fa-play fa-rotate-180"></i>
@@ -184,7 +181,7 @@
         <i class="fas fa-play fa-rotate-180" style='color:rgba(0,0,0,0.3)'></i>
       <% end %>
       <p><%= "Page #{params[:page]} / #{@training.sessions.count / 10 + 1}" %></p>
-      <% if params[:page].to_i < @training.sessions.count / 10 + 1 %>
+      <% if params[:page].to_i < @training.sessions.count.to_f / 10 %>
         <%= link_to url_for(page: params[:page].to_i + 1) do %>
           <i class="fas fa-play"></i>
         <% end %>
@@ -192,9 +189,9 @@
         <i class="fas fa-play" style='color:rgba(0,0,0,0.3'></i>
       <% end %>
     <% end %>
-    <% if @training.sessions.count / 10 + 1 > 2 %>
-      <% if params[:page].to_i < @training.sessions.count / 10 + 1 %>
-        <%= link_to url_for(page: @training.sessions.count / 10 + 1) do %>
+    <% if @training.sessions.count.to_f / 10 > 1 %>
+      <% if params[:page].to_i < @training.sessions.count.to_f / 10 %>
+        <%= link_to url_for(page: @training.sessions.count.to_f / 10) do %>
           <i class="fas fa-forward"></i>
         <% end %>
       <% else %>
@@ -335,43 +332,41 @@
 </div>
 
 <script>
-  window.onload = function() {
-    function extractValue(element1) {
-      return parseInt(element1.options[element1.selectedIndex].value, 10);
-    }
+  function extractValue(element1) {
+    return parseInt(element1.options[element1.selectedIndex].value, 10);
+  }
 
-    buttons = document.querySelectorAll('.edit_button');
-    buttons.forEach(function(button) {
-      button.addEventListener('click', (click) => {
-        console.log('hello');
-        card = button.parentElement.parentElement.querySelector('.editSession');
+  buttons = document.querySelectorAll('.edit_button');
+  buttons.forEach(function(button) {
+    button.addEventListener('click', (click) => {
+      console.log('hello');
+      card = button.parentElement.parentElement.querySelector('.editSession');
 
-        edit_duration = card.querySelector('#edit_duration');
-        // lunch_edit_duration = card.querySelector('#edit_lunch_duration');
-        edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
-        edit_start_time_min = card.querySelectorAll('.edit_start_time').item(1);
-        edit_end_time_hour = card.querySelectorAll('.edit_end_time').item(0);
-        edit_end_time_min = card.querySelectorAll('.edit_end_time').item(1);
-        edit_start_time_hour_value = extractValue(edit_start_time_hour);
-        edit_start_time_min_value = extractValue(edit_start_time_min);
-        edit_end_time_hour_value = extractValue(edit_end_time_hour);
-        edit_end_time_min_value = extractValue(edit_end_time_min);
-        [edit_start_time_hour, edit_start_time_min, edit_end_time_hour, edit_end_time_min].forEach(function(element2) {
-          element2.addEventListener('change', (event) => {
-            edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
-            edit_start_time_min = card.querySelectorAll('.edit_start_time').item(1);
-            edit_end_time_hour = card.querySelectorAll('.edit_end_time').item(0);
-            edit_end_time_min = card.querySelectorAll('.edit_end_time').item(1);
-            edit_start_time_hour_value = extractValue(edit_start_time_hour);
-            edit_start_time_min_value = extractValue(edit_start_time_min);
-            edit_end_time_hour_value = extractValue(edit_end_time_hour);
-            edit_end_time_min_value = extractValue(edit_end_time_min);
-            edit_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60);
-          });
+      edit_duration = card.querySelector('#edit_duration');
+      // lunch_edit_duration = card.querySelector('#edit_lunch_duration');
+      edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
+      edit_start_time_min = card.querySelectorAll('.edit_start_time').item(1);
+      edit_end_time_hour = card.querySelectorAll('.edit_end_time').item(0);
+      edit_end_time_min = card.querySelectorAll('.edit_end_time').item(1);
+      edit_start_time_hour_value = extractValue(edit_start_time_hour);
+      edit_start_time_min_value = extractValue(edit_start_time_min);
+      edit_end_time_hour_value = extractValue(edit_end_time_hour);
+      edit_end_time_min_value = extractValue(edit_end_time_min);
+      [edit_start_time_hour, edit_start_time_min, edit_end_time_hour, edit_end_time_min].forEach(function(element2) {
+        element2.addEventListener('change', (event) => {
+          edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
+          edit_start_time_min = card.querySelectorAll('.edit_start_time').item(1);
+          edit_end_time_hour = card.querySelectorAll('.edit_end_time').item(0);
+          edit_end_time_min = card.querySelectorAll('.edit_end_time').item(1);
+          edit_start_time_hour_value = extractValue(edit_start_time_hour);
+          edit_start_time_min_value = extractValue(edit_start_time_min);
+          edit_end_time_hour_value = extractValue(edit_end_time_hour);
+          edit_end_time_min_value = extractValue(edit_end_time_min);
+          edit_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60);
         });
       });
     });
-  }
+  });
 </script>
 
 <div class="modal fade" id="newSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">

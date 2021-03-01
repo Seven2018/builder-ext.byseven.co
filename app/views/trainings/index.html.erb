@@ -4,7 +4,11 @@
     <div id="page-buttons">
       <% if params[:user] %>
         <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
-          <%= f.input :title, placeholder: 'Search', label: false %>
+          <% if params[:search].present? %>
+            <%= f.input :title, placeholder: 'Search', label: false, input_html: {value: params[:search][:title]} %>
+          <% else %>
+            <%= f.input :title, placeholder: 'Search', label: false %>
+          <% end %>
           <%= f.input :user, as: :hidden, input_html: { value: params[:user] } %>
           <%= hidden_field_tag :page, 1 %>
           <% if params[:search] %>
@@ -15,7 +19,11 @@
         <% end %>
       <% else %>
         <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
-          <%= f.input :title, placeholder: 'Search', label: false %>
+          <% if params[:search].present? %>
+            <%= f.input :title, placeholder: 'Search', label: false, input_html: {value: params[:search][:title]} %>
+          <% else %>
+            <%= f.input :title, placeholder: 'Search', label: false %>
+          <% end %>
           <%= hidden_field_tag :page, 1 %>
           <% if params[:search] %>
             <%= link_to trainings_path(page: 1), class: 'training-search-close' do %>

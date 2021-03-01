@@ -135,8 +135,8 @@ class WorkshopsController < ApplicationController
   def copy
     authorize @workshop
     if params[:copy_here].present?
+      session = Session.find(params[:session_id].to_i)
       new_workshop = Workshop.new(@workshop.attributes.except("id", "created_at", "updated_at"))
-      new_workshop.title = params[:copy][:rename] if params[:copy][:rename].present?
       new_workshop.position = new_workshop.session.workshops.count + 1
     else
       # Targeted Session

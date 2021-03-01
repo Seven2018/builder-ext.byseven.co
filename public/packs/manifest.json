@@ -12,13 +12,13 @@
     },
     "switch_copy_button": {
       "js": [
-        "/packs/js/switch_copy_button-1bf82f438c0c2092ff07.js"
+        "/packs/js/switch_copy_button-696148e25b054e0d5999.js"
       ],
       "js.map": [
-        "/packs/js/switch_copy_button-1bf82f438c0c2092ff07.js.map"
+        "/packs/js/switch_copy_button-696148e25b054e0d5999.js.map"
       ]
     }
   },
-  "switch_copy_button.js": "/packs/js/switch_copy_button-1bf82f438c0c2092ff07.js",
-  "switch_copy_button.js.map": "/packs/js/switch_copy_button-1bf82f438c0c2092ff07.js.map"
+  "switch_copy_button.js": "/packs/js/switch_copy_button-696148e25b054e0d5999.js",
+  "switch_copy_button.js.map": "/packs/js/switch_copy_button-696148e25b054e0d5999.js.map"
 }

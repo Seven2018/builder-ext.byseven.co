@@ -107,11 +107,9 @@ class TrainingsController < ApplicationController
     authorize @training
     @training_ownership = TrainingOwnership.new
     @session = Session.new
-    @users = User.all
     unless params[:page].present?
       redirect_to training_path(@training, page: 1)
     end
-    # now any blank params have default values
     if params[:task] == 'update_airtable'
       UpdateAirtableJob.perform_async(@training, true)
     end
@@ -138,7 +136,6 @@ class TrainingsController < ApplicationController
     rescue
     end
     @training.satisfaction_survey = 'https://learn.byseven.co/survey'
-    # @training.title = ClientContact.find(params[:training][:client_contact_id]).client_company.name + ' - ' + params[:training][:title]
     if @training.save
       Session.create(title: 'Session 1', date: @training.created_at, duration: 0, training_id: @training.id)
       redirect_to training_path(@training)
