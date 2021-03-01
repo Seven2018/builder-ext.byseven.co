@@ -10,7 +10,7 @@ class PagesController < ApplicationController
 
   def billing
     @user = User.find(params[:user_id])
-    @trainings = Training.select{|x| x.trainers.include?(@user)}
+    @trainings = Training.joins(sessions: :session_trainers).where(sessions: {session_trainers: {user_id: @user.id}}).uniq
   end
 
   def contact_form

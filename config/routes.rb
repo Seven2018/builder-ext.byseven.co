@@ -112,7 +112,6 @@ Rails.application.routes.draw do
   get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
   get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
   get 'trainings/:id/copy', to: 'trainings#copy', as: 'copy_training'
-  get 'trainings/:id/sevener_billing', to: 'trainings#sevener_billing', as: 'sevener_billing'
   get 'training/redirect_docusign', to: 'trainings#redirect_docusign', as: 'redirect_docusign'
   post 'trainings/:id/certificate', to: 'trainings#certificate', as: 'certificate_training'
   post 'trainings/:id/certificate_rs', to: 'trainings#certificate_rs', as: 'certificate_rs_training'

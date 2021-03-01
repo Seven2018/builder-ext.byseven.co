@@ -127,10 +127,12 @@ class Training < ApplicationRecord
 
   def export_airtable
     begin
-      existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
+      #existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
+      existing_card = OverviewTraining.all(filter: "{Reference SEVEN} = '#{self.refid}'")&.first
       details = "Détail des sessions (date, horaires, intervenants):\n\n"
       seven_invoices = "Factures SEVEN :\n"
-      OverviewNumbersRevenue.all.select{|x| x['Training_id'] == self.id}.sort_by{|x| x['Invoice_id']}.each do |invoice|
+      #OverviewNumbersRevenue.all.select{|x| x['Training_id'] == self.id}.sort_by{|x| x['Invoice_id']}.each do |invoice|
+      OverviewNumbersRevenue.all(filter: "{Training_id} = '#{self.id}'").sort_by{|x| x['Invoice_id']}.each do |invoice|
         builder_invoice = InvoiceItem.find(invoice['Invoice_id'])
         invoice['Paid'] == true ? seven_invoices += "[x] #{builder_invoice.uuid} \n" : seven_invoices += "[ ] #{builder_invoice.uuid} \n"
       end

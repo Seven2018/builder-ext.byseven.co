@@ -2,8 +2,8 @@ class TrainingsController < ApplicationController
   before_action :set_training, only: [:show, :edit, :update, :destroy, :copy, :sevener_billing, :invoice_form, :trainer_notification_email]
 
   def index
-    @sessions = Session.all
-    @form = Form.new
+    # @sessions = Session.all
+    # @form = Form.new
     # Index with 'search' option and global visibility for SEVEN Users
     n = params[:page].to_i
     @trainings = policy_scope(Training)
@@ -188,11 +188,6 @@ class TrainingsController < ApplicationController
     else
       raise
     end
-  end
-
-  def sevener_billing
-    authorize @training
-    params[:filter].present? ? @user = User.find(params[:filter][:user]) : @user = current_user
   end
 
   def invoice_form

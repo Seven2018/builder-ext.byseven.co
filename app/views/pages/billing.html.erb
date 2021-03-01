@@ -2,7 +2,7 @@
   <div id="page-controls">
     <h1>Billing</h1>
     <div id="page-buttons">
-      <% sevener = Sevener.all.select{|x| if x['Builder_id'].present?; x['Builder_id'] == current_user.id; end} %>
+      <% sevener = Sevener.all(filter: "{Builder_id} = '#{current_user.id}'").first %>
       <% if sevener.present? && [sevener["Attestation sur l'honneur"],sevener['CV (sans coordonnées)'],sevener['CNI'],sevener['Carte vitale'],sevener['RIB']].all?{|x| x.present?} %>
         <p>Kit Sevener Complete</p>
       <% else %>
@@ -14,7 +14,8 @@
     <% to_pay = [] %>
     <% paid = [] %>
     <% Training.joins(sessions: :session_trainers).where(sessions: {session_trainers: {user_id: current_user.id}}).uniq.each do |training| %>
-      <% intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
+      <%# intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
+      <% intervention = OverviewNumbersSevener.all(filter: "Training_id = '#{training.id}'" && "User_id = '#{current_user.id}'").first %>
       <% if intervention['Total Due (excl. VAT)'].to_f - intervention['Total Paid'].to_f <= 0 %>
         <% paid << {training: training, intervention: intervention} %>
       <% else %>

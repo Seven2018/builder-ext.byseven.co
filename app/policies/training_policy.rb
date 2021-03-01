@@ -53,16 +53,8 @@ class TrainingPolicy < ApplicationPolicy
     check_access
   end
 
-  def sevener_billing?
-    true
-  end
-
   def invoice_form?
     true
-  end
-
-  def export_airtable?
-    check_access
   end
 
   def trainer_notification_email?
