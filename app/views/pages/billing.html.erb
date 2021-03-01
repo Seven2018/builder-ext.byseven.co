@@ -15,7 +15,9 @@
     <% paid = [] %>
     <% Training.joins(sessions: :session_trainers).where(sessions: {session_trainers: {user_id: current_user.id}}).uniq.each do |training| %>
       <%# intervention = OverviewNumbersSevener.all.select{|x| x['Training_id'] == training.id && x['User_id'] == current_user.id}.first %>
-      <% intervention = OverviewNumbersSevener.all(filter: "Training_id = '#{training.id}'" && "User_id = '#{current_user.id}'").first %>
+      <%# intervention = OverviewNumbersSevener.all(filter: "Training_id = '#{training.id}'" && "User_id = '#{current_user.id}'").first %>
+      <% intervention = OverviewNumbersSevener.all(filter: "Training_id = '458'") %>
+      <% intervention = intervention.select{|x| x['User_id'] == 15}.first %>
       <% if intervention['Total Due (excl. VAT)'].to_f - intervention['Total Paid'].to_f <= 0 %>
         <% paid << {training: training, intervention: intervention} %>
       <% else %>
