@@ -1,7 +1,13 @@
 <div class="container-seven-large">
   <div id='page-controls'>
-    <%= link_to request.referer.present? ? request.referer : default_path, class: 'btn return-arrow' do %>
-      <i class="fas fa-arrow-left"></i>
+    <% if request.referer.present? && request.referer.include?('search%5Btitle%5D') %>
+      <%= link_to request.referer.present? ? request.referer : default_path, class: 'btn return-arrow' do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
+    <% else %>
+      <%= link_to trainings_path(page: 1), class: 'btn return-arrow' do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <div class="page-controls-buttons flex-row-between-centered">
@@ -180,7 +186,7 @@
       <% else %>
         <i class="fas fa-play fa-rotate-180" style='color:rgba(0,0,0,0.3)'></i>
       <% end %>
-      <p><%= "Page #{params[:page]} / #{@training.sessions.count / 10 + 1}" %></p>
+      <p><%= "Page #{params[:page]} / #{(@training.sessions.count.to_f / 10).ceil}" %></p>
       <% if params[:page].to_i < @training.sessions.count.to_f / 10 %>
         <%= link_to url_for(page: params[:page].to_i + 1) do %>
           <i class="fas fa-play"></i>
@@ -189,9 +195,9 @@
         <i class="fas fa-play" style='color:rgba(0,0,0,0.3'></i>
       <% end %>
     <% end %>
-    <% if @training.sessions.count.to_f / 10 > 1 %>
+    <% if @training.sessions.count.to_f / 10 > 2 %>
       <% if params[:page].to_i < @training.sessions.count.to_f / 10 %>
-        <%= link_to url_for(page: @training.sessions.count.to_f / 10) do %>
+        <%= link_to url_for(page: (@training.sessions.count.to_f / 10).ceil) do %>
           <i class="fas fa-forward"></i>
         <% end %>
       <% else %>
