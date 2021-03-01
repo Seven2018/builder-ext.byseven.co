@@ -75,6 +75,7 @@
             <% total = 0 %>
             <% invoices.each do |invoice| %>
               <div class="billing-invoice-index flex-row-between-centered">
+                <% invoice = OverviewInvoiceSevener.find(invoice) %>
                 <p class="content-index-card-title"><strong>Invoice n°<%= invoice['Invoice number'] %></strong></p>
                 <% total += invoice['Amount'].to_f %>
                 <% if total > total_due %>
