@@ -66,8 +66,10 @@
             <% if session.users.include?(@user) %>
               <p style='margin: 5px 0;'>- <%= session.title %> : <strong><%= session.date.strftime('%d/%m/%Y') %></strong> de <%= session.start_time.strftime('%Hh%M') %> à <%= session.end_time.strftime('%Hh%M') %></p>
               <div style='padding-left: 20px;'>
-                <% session.description.split("\r\n").each do |line| %>
-                  <p style='margin: 5px 0;'><%= line %></p>
+                <% if session.description.present? %>
+                  <% session.description.split("\r\n").each do |line| %>
+                    <p style='margin: 5px 0;'><%= line %></p>
+                  <% end %>
                 <% end %>
                 </div>
             <% end %>

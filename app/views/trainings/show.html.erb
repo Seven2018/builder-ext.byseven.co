@@ -1,7 +1,13 @@
 <div class="container-seven-large">
   <div id='page-controls'>
-    <%= link_to trainings_path(page: 1), class: 'btn return-arrow' do %>
-      <i class="fas fa-arrow-left"></i>
+    <% if request.referer.present? && request.referer.include?('search%5Btitle%5D') %>
+      <%= link_to request.referer.present? ? request.referer : default_path, class: 'btn return-arrow' do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
+    <% else %>
+      <%= link_to trainings_path(page: 1), class: 'btn return-arrow' do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
     <% end %>
     <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
       <div class="page-controls-buttons flex-row-between-centered">
@@ -10,12 +16,16 @@
           <i class="fas fa-trash-alt"></i>
         <%# end %> -->
         <% if params[:change].present? %>
+        <div class="flex-column-between-centered">
           <p class='calendar_message'>Calendar update required</p>
+          <p class='airtable_message'>Airtable update required</p>
+        </div>
         <% end %>
         <%= link_to update_calendar_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip'}, title: 'Update Calendar' do %>
           <span class="iconify" data-icon="dashicons:update" data-inline="false"></span>
         <% end %>
-        <% airtable_training = OverviewTraining.all.select{|x| if x['Builder_id'].present?; x['Builder_id'] == @training.id; end}&.first %>
+        <%# airtable_training = OverviewTraining.all.select{|x| if x['Builder_id'].present?; x['Builder_id'] == @training.id; end}&.first %>
+        <% airtable_training = OverviewTraining.all(filter: "{Builder_id} = '#{@training.id}'")&.first %>
         <% if airtable_training.present? %>
           <%= link_to training_path(@training, task: 'update_airtable'), class: "btn btn-edit-yellow btn-icon", data: { toggle: 'tooltip'}, title: "Sync with Airtable - Last sync : #{airtable_training['Builder Update'].to_time.strftime('%d/%m/%Y at %H:%M')}" do %>
             <span class="iconify" data-icon="simple-icons:airtable" data-inline="false"></span>
@@ -51,6 +61,7 @@
       </div>
     <% else %>
       <div class="page-controls-buttons flex-row-between-centered">
+        <!-- <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#reviewSevener' data-toggle="tooltip" title="Invoice Review"><i class="fas fa-copy"></i></a> -->
         <%= link_to invoice_form_path(@training), class: 'btn btn-edit-green btn-icon', data: {toggle:'tooltip'}, title: 'Submit an invoice' do %>
           <i class="fas fa-file-invoice-dollar"></i>
         <% end %>
@@ -127,10 +138,6 @@
       <p id='survey-link' class='btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
     <% end %>
     <div>
-      <% trainers = 0 %>
-      <% @training.sessions.each do |session| %>
-        <% trainers += session.users.count %>
-      <% end %>
       <div class='trainer-div'>
         <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
           <ul id="trainer">
@@ -161,10 +168,47 @@
       </div>
     </div>
   </div>
+  <div class="training_index_controls">
+    <% if @training.sessions.count.to_f / 10 > 2 %>
+      <% if params[:page].to_i > 1 %>
+        <%= link_to url_for(page: 1) do %>
+          <i class="fas fa-backward"></i>
+        <% end %>
+      <% else %>
+        <i class="fas fa-backward" style='color:rgba(0,0,0,0.3'></i>
+      <% end %>
+    <% end %>
+    <% if @training.sessions.count.to_f / 10 > 1 %>
+      <% if params[:page].to_i > 1 %>
+        <%= link_to url_for(page: params[:page].to_i - 1, type: params[:type]) do %>
+          <i class="fas fa-play fa-rotate-180"></i>
+        <% end %>
+      <% else %>
+        <i class="fas fa-play fa-rotate-180" style='color:rgba(0,0,0,0.3)'></i>
+      <% end %>
+      <p><%= "Page #{params[:page]} / #{(@training.sessions.count.to_f / 10).ceil}" %></p>
+      <% if params[:page].to_i < @training.sessions.count.to_f / 10 %>
+        <%= link_to url_for(page: params[:page].to_i + 1) do %>
+          <i class="fas fa-play"></i>
+        <% end %>
+      <% else %>
+        <i class="fas fa-play" style='color:rgba(0,0,0,0.3'></i>
+      <% end %>
+    <% end %>
+    <% if @training.sessions.count.to_f / 10 > 2 %>
+      <% if params[:page].to_i < @training.sessions.count.to_f / 10 %>
+        <%= link_to url_for(page: (@training.sessions.count.to_f / 10).ceil) do %>
+          <i class="fas fa-forward"></i>
+        <% end %>
+      <% else %>
+        <i class="fas fa-forward" style='color:rgba(0,0,0,0.3'></i>
+      <% end %>
+    <% end %>
+  </div>
   <div class="training-info">
     <% session_number = 0 %>
     <div class="sessions-cards">
-      <% @training.sessions.order(:date, :start_time).each do |session| %>
+      <% @training.sessions.order(:date, :start_time).offset((params[:page].to_i-1)*10).first(10).each do |session| %>
         <% session_number +=1 %>
         <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
           <div class="card-lg">
@@ -215,14 +259,7 @@
                 </div>
               </div>
               <div class="mods-list">
-                <ul>
-                  <% list = session.workshops %>
-                  <% list.order(:position).each do |mod| %>
-                    <li>
-                      <%= "#{mod.title} - #{mod.duration} min" %>
-                    </li>
-                  <% end %>
-                </ul>
+                <%= render_async show_session_content_path(session_id: session.id) %>
                 <h4 class='card-session-number'><%= session_number %>/<%= @training.sessions.count %> </h4>
               </div>
           </div>
@@ -232,9 +269,9 @@
               </div>
             </div>
             <div class="modal fade" id="addTrainer<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-              <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
+              <div class="modal-dialog %>" role="document" style="border-radius: 2rem">
                 <% @session = session %>
-                <%= render '/session_trainers/new', session: @session, session_trainer: SessionTrainer.new %>
+                <%= render '/session_trainers/new', session: @session, session_trainer: SessionTrainer.new, session_number: session_number %>
               </div>
             </div>
           </div>
@@ -277,7 +314,7 @@
 </div>
 
 <div class="modal fade" id="newTrainers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
     <%= render 'session_trainers/new_trainers', training: @training %>
   </div>
 </div>
@@ -305,18 +342,6 @@
     return parseInt(element1.options[element1.selectedIndex].value, 10);
   }
 
-  // function evaluateTime(el) {
-  //   edit_start_time_hour = el.querySelectorAll('.edit_start_time').item(0);
-  //   edit_start_time_min = el.querySelectorAll('.edit_start_time').item(1);
-  //   edit_end_time_hour = el.querySelectorAll('.edit_end_time').item(0);
-  //   edit_end_time_min = el.querySelectorAll('.edit_end_time').item(1);
-  //   edit_start_time_hour_value = extractValue(edit_start_time_hour);
-  //   edit_start_time_min_value = extractValue(edit_start_time_min);
-  //   edit_end_time_hour_value = extractValue(edit_end_time_hour);
-  //   edit_end_time_min_value = extractValue(edit_end_time_min);
-  //   return console.log('test');
-  // }
-
   buttons = document.querySelectorAll('.edit_button');
   buttons.forEach(function(button) {
     button.addEventListener('click', (click) => {
@@ -333,11 +358,6 @@
       edit_start_time_min_value = extractValue(edit_start_time_min);
       edit_end_time_hour_value = extractValue(edit_end_time_hour);
       edit_end_time_min_value = extractValue(edit_end_time_min);
-      // edit_lunch_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60) - edit_duration.value;
-      // edit_lunch_duration.addEventListener('change', (event) => {
-      //   edit_lunch_duration = card.querySelector('#edit_lunch_duration');
-      //   edit_duration.value = edit_end_time_hour_value - edit_start_time_hour_value + (edit_end_time_min_value / 60) - (edit_start_time_min_value / 60) - edit_lunch_duration.value;
-      // });
       [edit_start_time_hour, edit_start_time_min, edit_end_time_hour, edit_end_time_min].forEach(function(element2) {
         element2.addEventListener('change', (event) => {
           edit_start_time_hour = card.querySelectorAll('.edit_start_time').item(0);
@@ -393,21 +413,73 @@
 
 <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
   <script>
-    survey = document.getElementById('survey-link');
-    form = document.getElementById('survey-form');
-    survey.addEventListener('click', (event) => {
-      survey.classList.toggle('hidden');
-      form.classList.toggle('hidden');
-    })
-  </script>
-  <script>
-    titles = document.querySelectorAll('title-link');
-    title_form = document.getElementById('survey-form');
-    titles.forEach(title => {
-      title.addEventListener('click', (event) => {
-        title.classList.toggle('hidden');
+    window.onload = function() {
+      survey = document.getElementById('survey-link');
+      form = document.getElementById('survey-form');
+      survey.addEventListener('click', (event) => {
+        survey.classList.toggle('hidden');
         form.classList.toggle('hidden');
       })
-    })
+    }
+  </script>
+  <script>
+    window.onload = function() {
+      titles = document.querySelectorAll('title-link');
+      title_form = document.getElementById('survey-form');
+      titles.forEach(title => {
+        title.addEventListener('click', (event) => {
+          title.classList.toggle('hidden');
+          form.classList.toggle('hidden');
+        })
+      })
+    }
   </script>
 <% end %>
+
+<script>
+  window.onload = function() {
+    cards = document.querySelectorAll('.card-lg');
+    cards.forEach(element => {
+      element.addEventListener('mouseover', (event) => {
+        // element.querySelector('.mods-list').classList.remove('hidden');
+        element.querySelector('.mods-list').style.maxHeight = '1000px';
+      })
+    })
+    cards.forEach(element => {
+      element.addEventListener('mouseout', (event) => {
+        element.querySelector('.mods-list').style.maxHeight = '0px';
+      })
+    })
+  }
+</script>
+
+<!-- <script>
+  $input = $("[data-behavior='autocomplete']");
+
+  $input.each(function(index) {
+    console.log(this);
+    var that = this;
+    var options = {
+      listLocation: "users",
+      getValue: 'name',
+      url: function(phrase) {
+        return "/users_search.json?search=" + phrase
+      },
+      list: {
+        onChooseEvent: function() {
+          // test = document.getElementById('users-list');
+          console.log(that);
+          test = $(that).parent().parent().parent().find('.users-list');
+          console.log(test);
+          new_el = document.createElement('p');
+          content = document.createTextNode($(that).value);
+          new_el.appendChild(content);
+          $(test).appendChild(new_el);
+
+        }
+      }
+    }
+
+    $(this).easyAutocomplete(options);
+  })
+</script> -->

@@ -102,14 +102,20 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
   # Allows to create a copy of a WorkshopModule into targeted Workshop
   def copy
     authorize @workshop_module
-    # Targeted Workshop
-    @workshop = Workshop.find(params[:copy][:workshop_id])
-    # Creates the copy, and rename it if applicable
-    @new_workshop_module = WorkshopModule.new(@workshop_module.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id", "position"))
-    @new_workshop_module.title = params[:copy][:rename] if params[:copy][:rename].present?
-    @new_workshop_module.position = @workshop.workshop_modules.count + 1
-    @new_workshop_module.workshop_id = @workshop.id
-    if @new_workshop_module.save
+    if params[:copy_here].present?
+      @workshop = Workshop.find(params[:workshop_id])
+      new_workshop_module = WorkshopModule.new(@workshop_module.attributes.except("id", "created_at", "updated_at", "user_id", "position"))
+      new_workshop_module.position = @workshop.workshop_modules.count + 1
+    else
+      # Targeted Workshop
+      @workshop = Workshop.find(params[:copy][:workshop_id])
+      # Creates the copy, and rename it if applicable
+      new_workshop_module = WorkshopModule.new(@workshop_module.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id", "position"))
+      new_workshop_module.title = params[:copy][:rename] if params[:copy][:rename].present?
+      new_workshop_module.position = @workshop.workshop_modules.count + 1
+      new_workshop_module.workshop_id = @workshop.id
+    end
+    if new_workshop_module.save
       update_duration
       redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
     else

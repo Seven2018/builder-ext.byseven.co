@@ -22,6 +22,10 @@ class User < ApplicationRecord
     Session.joins(:session_trainers).where(session_trainers: {session_id: training.sessions.ids, user_id: self.id}).map(&:duration).sum
   end
 
+  def hours_this_week(date)
+    Session.joins(:session_trainers).where(date: date.beginning_of_week..date.end_of_week, session_trainers: {user_id: self.id}).map(&:duration).sum
+  end
+
   def export_airtable_user
     existing_user = OverviewUser.all.select{|x| x['Builder_id'] == self.id}&.first
     if existing_user.present?
@@ -33,6 +37,16 @@ class User < ApplicationRecord
     end
     ['sevener+', 'sevener'].include?(self.access_level) ? existing_user['Status'] = "Sevener" : existing_user['Status'] = "SEVEN"
     existing_user.save
+  end
+
+  def self.report
+    UpdateBizdevReportJob.perform_now
+  end
+
+  def to_builder
+    Jbuilder.new do |user|
+      user.(self, :firstname, :id)
+    end
   end
 
   def self.from_omniauth(access_token)

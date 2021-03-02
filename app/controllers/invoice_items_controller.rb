@@ -70,62 +70,10 @@ class InvoiceItemsController < ApplicationController
     end
   end
 
-  # Creates a chart (Numbers) of InvoicesItems, for reporting purposes (gem)
+  # Access to InvoiceItems
   def report
-    # params[:date].present? ? @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @invoice_items = InvoiceItem.where(type: 'Invoice').where("created_at > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
-    # authorize @invoice_items
-    # params[:date].present? ? @sessions = Session.where("date > ? AND created_at < ?", params[:date][:start_date], params[:date][:end_date]) : @sessions = Session.where("date > ? AND created_at < ?", Date.today.beginning_of_year, Date.today)
-    # respond_to do |format|
-    #   format.html
-    #   format.csv { send_data @invoice_items_grid.to_csv }
-    # end
     @invoice_items = InvoiceItem.all
     authorize @invoice_items
-    # if params[:date].present?
-    #   OverviewUser.all.select{|x| x['Status'] == 'SEVEN'}.each do |user|
-    #     ownership_hours_total = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date.today.beginning_of_year && x.end_time <= Date.today.end_of_year}.map{|x| x.hours}.sum
-    #     ownership_hours_ongoing = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date::strptime(params[:date][:start_date],'%Y-%m-%d') && x.end_time <= Date::strptime(params[:date][:end_date],'%Y-%m-%d')}.map{|x| x.hours}.sum
-    #     projects_1 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '1 - Prospect(s) : person or/and company'}.count
-    #     projects_2 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '2 - Identified contact lead'}.count
-    #     projects_3 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '3 - Handshaked contact lead'}.count
-    #     projects_4 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '4 - Strong relationship lead'}.count
-    #     projects_5 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '5 - Needs identified lead'}.count
-    #     projects_6 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '6 - Pre-Signed lead'}.count
-    #     projects_7 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '7 - Signed lead'}.count
-    #     memos_this_week = OverviewMemo.all.select{|x| x['User'].present? && x['User'].join == user.id && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.weeks_ago(1)}.count
-    #     new_record = OverviewBizdev.create('User' => user['Name'], 'Ownership (hours) 2021' => ownership_hours_total, 'Ownership (hours) 2021 ongoing' => ownership_hours_ongoing, 'Projects - Lead Level 1' => projects_1, 'Projects - Lead Level 2' => projects_2, 'Projects - Lead Level 3' => projects_3,'Projects - Lead Level 4' => projects_4,'Projects - Lead Level 5' => projects_5,'Projects - Lead Level 6' => projects_6,'Projects - Lead Level 7' => projects_7, 'Memos (last week)' => memos_this_week)
-    #     new_record.save
-    #   end
-    # end
-    if params[:date].present?
-      week = "Week #{Date.today.weeks_ago(1).strftime("%U").to_i}"
-      OverviewUser.all.select{|x| x['Status'] == 'SEVEN'}.each do |user|
-        # ownership_hours_total = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date.today.beginning_of_year && x.end_time <= Date.today.end_of_year}.map{|x| x.hours}.sum.to_s
-        # ownership_hours_ongoing = Training.joins(:training_ownerships).where(training_ownerships: {user_type: 'Owner', user_id: user['Builder_id'].to_i}).select{|x| x.end_time.present? && x.end_time >= Date::strptime(params[:date][:start_date],'%Y-%m-%d') && x.end_time <= Date::strptime(params[:date][:end_date],'%Y-%m-%d')}.map{|x| x.hours}.sum.to_s
-        # ownership_hours_ongoing = OverviewTraining.all.select{|x| x['Owner'].present? && x['Owner'].join == user.id}.select{|x| x['Due Date'].present? && Date::strptime(x['Due Date'],'%Y-%m-%d') >= Date::strptime(params[:date][:start_date],'%Y-%m-%d') && Date::strptime(x['Due Date'],'%Y-%m-%d') <= Date::strptime(params[:date][:end_date],'%Y-%m-%d')}.map{|x| if x['Hours'].present?; x['Hours']; end}.sum.to_s
-        ownership_hours_ongoing = OverviewTraining.all.select{|x| x['Owner'].present? && x['Owner'].join == user.id}.select{|x| x['Due Date'].present? && Date::strptime(x['Due Date'],'%Y-%m-%d') >= Date.today.weeks_ago(2).beginning_of_week}.map{|x| if x['Hours'].present?; x['Hours']; end}.sum.to_s
-        project_hours_dev = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id}.map{|z| z['Hours'].to_i}.sum.to_s
-        project_hours_codev = OverviewProject.all.select{|x| x['Co-developer'].present? && x['Co-developer'].join == user.id}.map{|z| z['Hours'].to_i}.sum.to_s
-        projects_1 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '1 - Prospect(s) : person or/and company'}.count.to_s
-        projects_2 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '2 - Identified contact lead'}.count.to_s
-        projects_3 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '3 - Handshaked contact lead'}.count.to_s
-        projects_4 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '4 - Strong relationship lead'}.count.to_s
-        projects_5 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '5 - Needs identified lead'}.count.to_s
-        projects_6 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '6 - Pre-Signed lead'}.count.to_s
-        projects_7 = OverviewProject.all.select{|x| x['Developer'].present? && x['Developer'].join == user.id && x['Lead Qualification Level'] == '7 - Signed lead'}.count.to_s
-        memos_this_week = OverviewMemo.all.select{|x| x['User'].present? && x['User'].join == user.id && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.weeks_ago(1)}.count.to_s
-        data_hash = {Ongoing_Ownership:  ownership_hours_ongoing, Project_Hours_Dev: project_hours_dev, Project_Hours_Codev: project_hours_codev, Projects_Level_1: projects_1, Projects_Level_2: projects_2, Projects_Level_3: projects_3, Projects_Level_4: projects_4, Projects_Level_5: projects_5, Projects_Level_6: projects_6, Projects_Level_7: projects_7, Weekly_Memos: memos_this_week}
-        data_hash.each do |key, value|
-          line = OverviewBizdev.all.select{|x| x['User'] == user['Name'] && x['Data'] == key.to_s}.first
-          if !line.present?
-            line = OverviewBizdev.create('User' => user['Name'], 'Data' => key, week => value)
-          else
-            line[week] = value
-          end
-          line.save
-        end
-      end
-    end
   end
 
   # Creates a new InvoiceItem, proposing a pre-filled version to be edited if necessary
@@ -167,7 +115,8 @@ class InvoiceItemsController < ApplicationController
   # Creates a new InvoiceItem using data from Airtable DB
   def new_airtable_invoice_item
     @training = Training.find(params[:training_id])
-    airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    # airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    airtable_training = OverviewTraining.all(filter: "{Reference SEVEN} = '#{@training.refid}'").first
     @client_company = ClientCompany.find(params[:client_company_id])
     @invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @client_company.id, type: params[:type])
     skip_authorization
@@ -239,7 +188,7 @@ class InvoiceItemsController < ApplicationController
       new_invoice.update_price
       new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
     end
-    redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id)
+    redirect_to invoice_items_path(type: 'Invoice', training_id: @training.id, page: 1)
   end
 
   # Creates new InvoiceItems using data from Airtable DB for each attendee
@@ -278,6 +227,7 @@ class InvoiceItemsController < ApplicationController
     flash[:alert] = "This training unit type is not defined as 'Participant' in Airtable." unless airtable_training['Unit Type'] == 'Participant'
   end
 
+  # Creates a new estimate
   def new_estimate
     @client_company = ClientCompany.find(params[:client_company_id])
     @estimate = InvoiceItem.new(client_company_id: params[:client_company_id].to_i, type: 'Estimate')
@@ -315,8 +265,8 @@ class InvoiceItemsController < ApplicationController
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
         new_invoice_line.update(invoice_item_id: new_invoice_item.id)
       end
-      new_invoice.update_price
-      new_invoice.export_numbers_revenue if new_invoice.type = 'Invoice'
+      new_invoice_item.update_price
+      new_invoice_item.export_numbers_revenue if new_invoice_item.type == 'Invoice'
       redirect_to invoice_item_path(new_invoice_item)
     else
       raise
@@ -339,13 +289,14 @@ class InvoiceItemsController < ApplicationController
         new_invoice_line.update(invoice_item_id: new_invoice_item.id)
       end
       new_invoice_item.update_price
-      new_invoice_item.export_numbers_revenue if new_invoice_item.type = 'Invoice'
+      new_invoice_item.export_numbers_revenue if new_invoice_item.type == 'Invoice'
       redirect_to invoice_item_path(new_invoice_item)
     else
       raise
     end
   end
 
+  #Transforms an estimate into an invoice
   def transform_to_invoice
     authorize @invoice_item
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))

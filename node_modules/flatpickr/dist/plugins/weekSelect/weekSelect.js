@@ -2,25 +2,12 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.weekSelect = factory());
-}(this, (function () { 'use strict';
-
-  function getEventTarget(event) {
-      try {
-          if (typeof event.composedPath === "function") {
-              var path = event.composedPath();
-              return path[0];
-          }
-          return event.target;
-      }
-      catch (error) {
-          return event.target;
-      }
-  }
+}(this, function () { 'use strict';
 
   function weekSelectPlugin() {
       return function (fp) {
           function onDayHover(event) {
-              var day = getEventTarget(event);
+              var day = event.target;
               if (!day.classList.contains("flatpickr-day"))
                   return;
               var days = fp.days.childNodes;
@@ -89,11 +76,11 @@
                       fp.loadedPlugins.push("weekSelect");
                   },
               ],
-              onDestroy: onDestroy,
+              onDestroy: onDestroy
           };
       };
   }
 
   return weekSelectPlugin;
 
-})));
+}));

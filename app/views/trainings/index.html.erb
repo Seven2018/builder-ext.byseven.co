@@ -4,7 +4,11 @@
     <div id="page-buttons">
       <% if params[:user] %>
         <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
-          <%= f.input :title, placeholder: 'Search', label: false %>
+          <% if params[:search].present? %>
+            <%= f.input :title, placeholder: 'Search', label: false, input_html: {value: params[:search][:title]} %>
+          <% else %>
+            <%= f.input :title, placeholder: 'Search', label: false %>
+          <% end %>
           <%= f.input :user, as: :hidden, input_html: { value: params[:user] } %>
           <%= hidden_field_tag :page, 1 %>
           <% if params[:search] %>
@@ -15,7 +19,11 @@
         <% end %>
       <% else %>
         <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
-          <%= f.input :title, placeholder: 'Search', label: false %>
+          <% if params[:search].present? %>
+            <%= f.input :title, placeholder: 'Search', label: false, input_html: {value: params[:search][:title]} %>
+          <% else %>
+            <%= f.input :title, placeholder: 'Search', label: false %>
+          <% end %>
           <%= hidden_field_tag :page, 1 %>
           <% if params[:search] %>
             <%= link_to trainings_path(page: 1), class: 'training-search-close' do %>
@@ -73,8 +81,11 @@
             <li role="presentation"><a href="#to_date" data-toggle="tab">To Date</a></li>
             <li role="presentation"><a href="#to_staff" data-toggle="tab">To Staff</a></li>
           <% end %>
+          <% if ['sevener+', 'sevener'].include?(current_user.access_level) %>
+            <!-- <li role="presentation"><a href="#invoices" data-toggle="tab" id='invoices_tab'>Invoices</a></li> -->
+          <% end %>
         <% elsif params[:tab] == 'completed' %>
-          <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li>
+          <li role="presentation"><a href="#upcoming" data-toggle="tab">Upcoming</a></li>
           <li role="presentation"><a href="#completed" data-toggle="tab" class="active">Completed</a></li>
           <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
             <li role="presentation"><a href="#to_date" data-toggle="tab">To Date</a></li>
@@ -113,6 +124,9 @@
       <div role="tabpanel" class="tab-pane" id="to_staff">
         <%= render 'to_staff', trainings: @trainings %>
       </div>
+      <!-- <div role="tabpanel" class="tab-pane" id="invoices">
+        <h1>test</h1>
+      </div> -->
     <% end %>
   </div>
 </div>

@@ -65,18 +65,14 @@
       <div class="mailer-text">
         <h2>Hello, <%= @user.firstname %></h2>
         <br>
-        <p>Dans le cadre de la formation <%= @training.title %> pour <%= @training.client_company.name %>, voici les détails de ton(tes) intervention(s) :</p>
+        <p>Nous avons reçu une nouvelle demande entrante via learn.byseven.co</p>
+        <p>Voici les informations collectées :</p>
         <br>
         <ul>
-          <% @session.each do |session| %>
-            <li><%= session.title %> : le <%= session.date.strftime('%d/%m/%Y') %> de <%= session.start_time.strftime('%Hh%m') %> à <%= session.end_time.strftime('%Hh%m') %></li>
-            <% if session.description.present? %>
-              <p><%= session.description %></p>
-            <% end %>
-          <% end %>
+          <li><%= @contact['Nom'] %></li>
+          <li><%= @contact['Email'] %></li>
+          <li><%= @contact['Message'] %></li>
         </ul>
-        <br>
-        <a href="https://seven-builder.herokuapp.com/trainings/<%= @training.id %>">Voir dans Builder</a>
         <br>
         <p>Bonne journée</p>
       </div>

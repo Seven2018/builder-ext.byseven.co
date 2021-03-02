@@ -87,3 +87,18 @@
     max-width: 100%;
   }
 }
+
+.modal-autocomplete {
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    min-width: 22.3rem;
+  }
+
+  .easy-autocomplete-container > ul {
+    min-width: 15rem;
+  }
+}

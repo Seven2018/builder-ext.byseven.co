@@ -153,7 +153,7 @@ class SessionTrainersController < ApplicationController
         end
       end
     end
-    UpdateAirtableJob.perform_async(@session.training, true)
+    # UpdateAirtableJob.perform_async(@session.training, true)
     redirect_back(fallback_location: root_path)
   end
 
@@ -178,13 +178,15 @@ class SessionTrainersController < ApplicationController
     (User.ids - array).each do |ind|
       training.sessions.each do |session|
         unless SessionTrainer.where(session_id: session.id, user_id: ind).empty?
-          to_delete = SessionTrainer.where(session_id: @session.id, user_id: ind).first
-          @session.training.gdrive_link.nil? ? @session.training.update(gdrive_link: ind + ':' + to_delete.calendar_uuid + ',') : @session.training.update(gdrive_link: @session.training.gdrive_link + ind + ':' + to_delete.calendar_uuid + ',')
+          to_delete = SessionTrainer.where(session_id: session.id, user_id: ind).first
+          unless to_delete.calendar_uuid.nil?
+            session.training.gdrive_link.nil? ? session.training.update(gdrive_link: ind.to_s + ':' + to_delete.calendar_uuid + ',') : session.training.update(gdrive_link: session.training.gdrive_link + ind.to_s + ':' + to_delete.calendar_uuid + ',')
+          end
           to_delete.destroy
         end
       end
     end
-    UpdateAirtableJob.perform_async(training, true)
+    # UpdateAirtableJob.perform_async(training, true)
     redirect_to training_path(training)
   end
 

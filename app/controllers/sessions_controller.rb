@@ -48,24 +48,35 @@ class SessionsController < ApplicationController
   end
 
   def update
-    @training = Training.find(params[:training_id])
+    # @training = Training.find(params[:training_id])
     authorize @session
-    if params[:session][:date] != @session&.date&.strftime('%Y-%m-%d') || params[:session]['start_time(4i)'] != @session&.start_time&.strftime('%H') || params[:session]['start_time(5i)'] != @session&.start_time&.strftime('%H') || params[:session]['end_time(4i)'] != @session&.end_time&.strftime('%H') || params[:session]['end_time(5i)'] != @session&.end_time&.strftime('%M')
-      SessionTrainer.where(session_id: @session.id).each do |session_trainer|
+    prev_date = @session.date
+    prev_start = @session.start_time
+    prev_end = @session.end_time
+    # if params[:session][:date] != @session&.date&.strftime('%Y-%m-%d') || params[:session]['start_time(4i)'] != @session&.start_time&.strftime('%H') || params[:session]['start_time(5i)'] != @session&.start_time&.strftime('%H') || params[:session]['end_time(4i)'] != @session&.end_time&.strftime('%H') || params[:session]['end_time(5i)'] != @session&.end_time&.strftime('%M')
+    #   @session.session_trainers.each do |session_trainer|
+    #     if session_trainer.calendar_uuid.present?
+    #       @session.training.gdrive_link.nil? ? @session.training.update(gdrive_link: session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',') : @session.training.update(gdrive_link: @session.training.gdrive_link + session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',')
+    #       session_trainer.update(calendar_uuid: nil)
+    #     end
+    #   end
+    # end
+    @session.update(session_params)
+    if prev_date != @session.date || prev_start != @session.start_time || prev_end != @session.end_time
+      @session.session_trainers.each do |session_trainer|
         if session_trainer.calendar_uuid.present?
           @session.training.gdrive_link.nil? ? @session.training.update(gdrive_link: session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',') : @session.training.update(gdrive_link: @session.training.gdrive_link + session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',')
           session_trainer.update(calendar_uuid: nil)
         end
       end
     end
-    @session.update(session_params)
 
 
     if @session.save && (params[:session][:date].present?)
-      UpdateAirtableJob.perform_async(@training, true)
-      redirect_to training_path(@session.training, change: true)
+      # UpdateAirtableJob.perform_async(@session.training, true)
+      redirect_to training_path(@session.training, page: 1, change: true)
     else
-      redirect_to training_path(@session.training)
+      # redirect_to training_path(@session.training)
     end
   end
 

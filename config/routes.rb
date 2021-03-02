@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get 'contact_form', to: 'pages#contact_form', as: 'contact_form'
   get 'contact_form_seven_x_bam', to: 'pages#contact_form_seven_x_bam', as: 'contact_form_seven_x_bam'
   get 'billing', to: 'pages#billing', as: 'billing'
+  get :sandbox, controller: :pages
 
   # AIRTABLE
   get 'airtable_import_users', to: 'pages#airtable_import_users', as: 'airtable_import_users'
@@ -21,6 +22,8 @@ Rails.application.routes.draw do
 
   # USERS
   resources :users
+  # get 'users_search', to: 'users#users_search', as: 'users_search'
+  get :users_search, controller: :users
 
   # ACTIONS
   resources :actions
@@ -109,13 +112,14 @@ Rails.application.routes.draw do
   get 'trainings_week', to: 'trainings#index_week', as: 'index_week'
   get 'trainings_month', to: 'trainings#index_month', as: 'index_month'
   get 'trainings/:id/copy', to: 'trainings#copy', as: 'copy_training'
-  get 'trainings/:id/sevener_billing', to: 'trainings#sevener_billing', as: 'sevener_billing'
   get 'training/redirect_docusign', to: 'trainings#redirect_docusign', as: 'redirect_docusign'
   post 'trainings/:id/certificate', to: 'trainings#certificate', as: 'certificate_training'
   post 'trainings/:id/certificate_rs', to: 'trainings#certificate_rs', as: 'certificate_rs_training'
   get 'trainings/:id/invoice_form', to: 'trainings#invoice_form', as: 'invoice_form'
   get 'trainings/:id/update_calendar', to: 'session_trainers#update_calendar', as: 'update_calendar'
   get 'trainings/:id/trainer_notification_email', to: 'trainings#trainer_notification_email', as: 'trainer_notification_email'
+  get 'trainings/:id/trainer_session_reminder', to: 'trainings#trainer_reminder_email', as: 'trainer_reminder_email'
+  get 'show_session_content', to: 'trainings#show_session_content', as: 'show_session_content'
 
   # ATTENDEES
   resources :attendees, only: [:index, :show, :new, :create]

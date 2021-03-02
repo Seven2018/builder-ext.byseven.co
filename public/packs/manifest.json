@@ -1,14 +1,24 @@
 {
-  "application.js": "/packs/js/application-1d8801d39c7ae794736a.js",
-  "application.js.map": "/packs/js/application-1d8801d39c7ae794736a.js.map",
+  "application.js": "/packs/js/application-88a1d95120982257c296.js",
+  "application.js.map": "/packs/js/application-88a1d95120982257c296.js.map",
   "entrypoints": {
     "application": {
       "js": [
-        "/packs/js/application-1d8801d39c7ae794736a.js"
+        "/packs/js/application-88a1d95120982257c296.js"
       ],
       "js.map": [
-        "/packs/js/application-1d8801d39c7ae794736a.js.map"
+        "/packs/js/application-88a1d95120982257c296.js.map"
+      ]
+    },
+    "switch_copy_button": {
+      "js": [
+        "/packs/js/switch_copy_button-696148e25b054e0d5999.js"
+      ],
+      "js.map": [
+        "/packs/js/switch_copy_button-696148e25b054e0d5999.js.map"
       ]
     }
-  }
+  },
+  "switch_copy_button.js": "/packs/js/switch_copy_button-696148e25b054e0d5999.js",
+  "switch_copy_button.js.map": "/packs/js/switch_copy_button-696148e25b054e0d5999.js.map"
 }

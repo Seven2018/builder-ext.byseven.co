@@ -3,8 +3,8 @@ ruby '2.7.2'
 
 gem 'bootsnap', require: false
 gem 'cloudinary', '~> 1.9.1'
-gem 'devise', git: 'https://github.com/plataformatec/devise'
-gem 'jbuilder', '~> 2.0'
+gem 'devise', :git => "https://github.com/heartcombo/devise.git", ref: '8bb358cf80a632d3232c3f548ce7b95fd94b6eb2'
+gem 'jbuilder'
 gem 'pg', '~> 0.21'
 gem 'pg_search'
 gem 'puma'
@@ -15,10 +15,11 @@ gem 'wicked_pdf', '~> 1.1'
 gem 'wkhtmltopdf-binary'
 gem 'wkhtmltopdf-heroku', '2.12.5.0'
 gem 'ckeditor', git: 'https://github.com/galetahub/ckeditor'
-# gem 'google-api-client', require: 'google/apis/calendar_v3'
-gem 'google-apis-calendar_v3'
+gem 'google-api-client', require: 'google/apis/calendar_v3'
+# gem 'google-apis-calendar_v3'
 gem 'google-http-actionmailer'
 gem 'oauth2'
+gem "omniauth-rails_csrf_protection"
 gem 'omniauth-google-oauth2'
 gem 'omniauth-linkedin-oauth2'
 gem "linkedin-v2"
@@ -38,16 +39,15 @@ gem 'datagrid'
 gem 'render_async'
 gem 'image_processing'
 gem 'invisible_captcha'
-# gem 'docusign_esign'
 gem 'bootstrap',     '4.3.1'
 gem 'material-sass', git: 'https://github.com/bricechapuis/material-sass'
 gem 'exception_handler', '~> 0.8.0.0'
 gem 'airrecord'
-# gem 'sidekiq'
 gem 'redis-rails'
 gem 'sucker_punch', '~> 2.0'
 gem 'sendgrid-ruby'
-
+gem 'whenever', require: false
+gem 'ransack'
 
 gem 'dotenv-rails', groups: [:development, :test]
 

@@ -5,28 +5,7 @@
       <div id="page-buttons">
         <%= link_to 'Invoices', invoice_items_path(type: 'Invoice', page: 1), class: 'btn btn-edit-green' %>
         <%= link_to 'Estimates', invoice_items_path(type: 'Estimate', page: 1), class: 'btn btn-edit-red' %>
-<!--         <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
-          <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><%# link_to 'Upload to Drive', upload_to_sheet_path, method: :post %></li>
-          </ul> -->
       </div>
     </div>
-    <%= simple_form_for :date, url: report_path, method: :get do |f| %>
-      <div class="flex-row-between-centered" style='max-width: 40rem;'>
-        <% if params[:date].present? && params[:date][:start_date].present? && params[:date][:end_date].present? %>
-          <%= f.input :start_date, as: :string, input_html: { class: 'datepicker', value: params[:date][:start_date].to_date, style: 'width:10rem;'} %>
-          <%= f.input :end_date, as: :string, input_html: { class: 'datepicker', value: params[:date][:end_date].to_date, style: 'width:10rem;'} %>
-        <% else %>
-          <%= f.input :start_date, as: :string, input_html: { class: 'datepicker', value: Date.today.beginning_of_year, style: 'width:10rem;'} %>
-          <%= f.input :end_date, as: :string, input_html: { class: 'datepicker', value: Date.today, style: 'width:10rem;'} %>
-        <% end %>
-        <%= button_tag 'Filter', type: 'submit', class: 'btn btn-edit-green', data: { toggle: 'tooltip' }, title: 'Save' %>
-      </div>
-    <% end %>
-    <% if params[:date].present? %>
-
-    <% else %>
-
-    <% end %>
-
+  </div>
 </div>

@@ -24,7 +24,7 @@
 
       <div class="form-actions flex-row-between-centered">
         <%= f.button :submit, "Sign in", class: 'btn-edit-yellow btn-sign-in' %>
-        <%= link_to user_google_oauth2_omniauth_authorize_path do %>
+        <%= link_to user_google_oauth2_omniauth_authorize_path, method: :post do %>
           <div class="google-btn">
             <div class="google-icon-wrapper">
               <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>

@@ -26,6 +26,9 @@
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Copy' do %>
           <i class="fas fa-copy"></i>
         <% end %>
+        <% link_to copy_workshop_path(copy_here: true), class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Copy here' do %>
+          <i class="fas fa-angle-double-down"></i>
+        <% end %>
       </div>
       <script>
         $('.btn-copy').click(function() {

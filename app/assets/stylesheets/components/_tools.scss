@@ -6,6 +6,10 @@
   opacity: 0;
 }
 
+.rotated180 {
+  transform: rotate(180deg);
+}
+
 .centered-item {
   display: flex;
   justify-content: center;
