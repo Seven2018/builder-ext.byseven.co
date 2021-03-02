@@ -11,6 +11,7 @@ class Training < ApplicationRecord
   has_many :attendee_interests, dependent: :destroy
   validates :title, presence: true
   validates :vat, inclusion: { in: [ true, false ] }
+  validates_uniqueness_of :refid
   accepts_nested_attributes_for :training_ownerships
 
   def start_time
@@ -126,13 +127,11 @@ class Training < ApplicationRecord
   end
 
   def export_airtable
-    # begin
+    begin
       existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
-      # existing_card = OverviewTraining.all(filter: "{Reference SEVEN} = '#{self.refid}'")&.first
       details = "Détail des sessions (date, horaires, intervenants):\n\n"
       seven_invoices = "Factures SEVEN :\n"
       OverviewNumbersRevenue.all.select{|x| x['Training_id'] == self.id}.sort_by{|x| x['Invoice_id']}.each do |invoice|
-      # OverviewNumbersRevenue.all(filter: "{Training_id} = '#{self.id}'").sort_by{|x| x['Invoice_id']}.each do |invoice|
         builder_invoice = InvoiceItem.find(invoice['Invoice_id'])
         invoice['Paid'] == true ? seven_invoices += "[x] #{builder_invoice.uuid} \n" : seven_invoices += "[ ] #{builder_invoice.uuid} \n"
       end
@@ -177,8 +176,6 @@ class Training < ApplicationRecord
       end
       TrainingOwnership.where(training_id: self.id, user_type: 'Writer').where.not(user_id: writers&.map{|x| x.id}).destroy_all
       existing_card['Trainers'] = self.trainers.map{|x| OverviewUser.all.select{|y| y['Builder_id'] == x.id}.first.id}
-      # existing_card['Trainers'] = self.trainers.map{|x| OverviewUser.all(filter: "{Builder_id} == '#{x.id}'").first.id}
-
       existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
       existing_card['Builder Sessions Datetime'] = details
       existing_card['Builder Update'] = Time.now.utc.iso8601(3)
@@ -209,8 +206,8 @@ class Training < ApplicationRecord
       existing_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
       existing_card['SEVEN Invoice(s)'] = seven_invoices
       existing_card.save
-    # rescue
-    # end
+    rescue
+    end
   end
 
   def export_numbers_activity

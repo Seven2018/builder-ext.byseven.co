@@ -4,6 +4,7 @@ class InvoiceItem < ApplicationRecord
   belongs_to :user, optional: true
   has_one :session_trainers
   has_many :invoice_lines, dependent: :destroy
+  validates_uniqueness_of :uuid
   self.inheritance_column = :_type_disabled
 
   def self.to_csv
