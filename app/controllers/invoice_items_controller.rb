@@ -115,7 +115,8 @@ class InvoiceItemsController < ApplicationController
   # Creates a new InvoiceItem using data from Airtable DB
   def new_airtable_invoice_item
     @training = Training.find(params[:training_id])
-    airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    # airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    airtable_training = OverviewTraining.all(filter: "{Reference SEVEN} = '#{@training.refid}'").first
     @client_company = ClientCompany.find(params[:client_company_id])
     @invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @client_company.id, type: params[:type])
     skip_authorization
@@ -226,6 +227,7 @@ class InvoiceItemsController < ApplicationController
     flash[:alert] = "This training unit type is not defined as 'Participant' in Airtable." unless airtable_training['Unit Type'] == 'Participant'
   end
 
+  # Creates a new estimate
   def new_estimate
     @client_company = ClientCompany.find(params[:client_company_id])
     @estimate = InvoiceItem.new(client_company_id: params[:client_company_id].to_i, type: 'Estimate')
@@ -294,6 +296,7 @@ class InvoiceItemsController < ApplicationController
     end
   end
 
+  #Transforms an estimate into an invoice
   def transform_to_invoice
     authorize @invoice_item
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
