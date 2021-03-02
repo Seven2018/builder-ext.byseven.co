@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :workshop_modules
   has_many :comments
   belongs_to :client_company, optional: true
+  validates :firstname, :lastname, :email, presence: true
+  validates_uniqueness_of :email
   validates :access_level, inclusion: { in: ['sevener', 'sevener+', 'training manager', 'admin', 'super admin'] }
   require 'uri'
   require 'net/http'

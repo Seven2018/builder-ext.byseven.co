@@ -183,29 +183,29 @@ class Training < ApplicationRecord
       existing_card['Builder Sessions Datetime'] = details
       existing_card['Builder Update'] = Time.now.utc.iso8601(3)
 
-      seveners_to_pay = ""
-      seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
-      if seveners
-        self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
-          numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
-          if numbers_card['Total Due (incl. VAT)'] == numbers_card['Total Paid']
-            if numbers_card['Billing Type'] == 'Hourly'
-              seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n"
-            elsif numbers_card['Billing Type'] == 'Flat rate'
-              seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Price']}€\n"
-            end
-          else
-            if numbers_card['Billing Type'] == 'Hourly'
-              seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€ (Montant restant du : #{numbers_card['Total Due (incl. VAT)'] - numbers_card['Total Paid']}€)\n"
-            elsif numbers_card['Billing Type'] == 'Flat rate'
-              seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Price']}€\n"
-            end
-          end
-        end
-      else
-        seveners_to_pay += "[x] Aucun\n"
-      end
-      existing_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
+      # seveners_to_pay = ""
+      # seveners = true if self.trainers.map{|x|x.access_level}.to_set.intersect?(['sevener+', 'sevener'].to_set)
+      # if seveners
+      #   self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
+      #     numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
+      #     if numbers_card['Total Due (incl. VAT)'] == numbers_card['Total Paid']
+      #       if numbers_card['Billing Type'] == 'Hourly'
+      #         seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n"
+      #       elsif numbers_card['Billing Type'] == 'Flat rate'
+      #         seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Price']}€\n"
+      #       end
+      #     else
+      #       if numbers_card['Billing Type'] == 'Hourly'
+      #         seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€ (Montant restant du : #{numbers_card['Total Due (incl. VAT)'] - numbers_card['Total Paid']}€)\n"
+      #       elsif numbers_card['Billing Type'] == 'Flat rate'
+      #         seveners_to_pay += "[ ] #{user.fullname} : #{numbers_card['Unit Price']}€\n"
+      #       end
+      #     end
+      #   end
+      # else
+      #   seveners_to_pay += "[x] Aucun\n"
+      # end
+      # existing_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
       existing_card['SEVEN Invoice(s)'] = seven_invoices
       existing_card.save
     rescue
@@ -285,6 +285,7 @@ class Training < ApplicationRecord
         end
         training_card = OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first
         training_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
+        seveners_to_pay == '' ? seveners_to_pay += "[x] Aucun\n" : training_card['Seveners to pay'] = seveners_to_pay
         training_card.save
         card.save
       end

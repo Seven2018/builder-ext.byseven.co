@@ -28,8 +28,8 @@ class TrainingsController < ApplicationController
         @trainings = trainings_empty + trainings_with_date
         @user = User.find(params[:user])
       else
-        # trainings = (Training.all.select{|x| x.next_session.present?}.sort_by{|y| y.next_session} + Training.all.select{|z| !z.next_session.present? && z.end_time.present?}.sort_by{|a| a.end_time}.reverse)
-        trainings = Training.all.select{|x| x.end_time.present? && x.end_time >= Date.today}
+        # trainings = Training.all.select{|x| x.end_time.present? && x.end_time >= Date.today}
+        trainings = Training.joins(:sessions).where('sessions.date > ?', Date.today).uniq
         @trainings_count = trainings.count
         @trainings = trainings.sort_by{|x| x.end_time}.first(30)
       end
