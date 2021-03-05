@@ -79,7 +79,7 @@ class InvoiceItemPolicy < ApplicationPolicy
 
   private
 
-  def check_access_seven_seven
+  def check_access_seven
     ['super admin', 'admin', 'training manager'].include? user.access_level
   end
 end
