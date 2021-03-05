@@ -77,7 +77,7 @@ class Training < ApplicationRecord
   end
 
   def export_airtable
-    begin
+    # begin
       existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
       details = "Détail des sessions (date, horaires, intervenants):\n\n"
       seven_invoices = "Factures SEVEN :\n"
@@ -156,14 +156,14 @@ class Training < ApplicationRecord
       existing_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
       existing_card['SEVEN Invoice(s)'] = seven_invoices
       existing_card.save
-    rescue
-    end
+    # rescue
+    # end
   end
 
   def export_numbers_activity
-    begin
+    # begin
       # to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == [self.id]}
-      to_delete = OverviewNumbersActivity.all(filter: "{Builder_id} = '#{[self.id]}'")
+      to_delete = OverviewNumbersActivity.all(filter: "{Builder_id} = #{self.id}")
       to_delete.each{|x| x.destroy}
       # card = OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first
       card = OverviewTraining.all(filter: "{Builder_id} = '#{self.id}'")&.first
@@ -181,8 +181,8 @@ class Training < ApplicationRecord
           end
         end
       end
-    rescue
-    end
+    # rescue
+    # end
   end
 
   def export_numbers_sevener(user)

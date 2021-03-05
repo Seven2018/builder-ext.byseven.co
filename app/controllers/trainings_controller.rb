@@ -111,10 +111,10 @@ class TrainingsController < ApplicationController
       redirect_to training_path(@training, page: 1)
     end
     if params[:task] == 'update_airtable'
-      # UpdateAirtableJob.perform_async(@training, true)
-      @training.trainers.each{|y| @training.export_numbers_sevener(y)}
-      @training.export_airtable
-      @training.export_numbers_activity
+      UpdateAirtableJob.perform_async(@training, true)
+      #@training.trainers.each{|y| @training.export_numbers_sevener(y)}
+      #@training.export_airtable
+      #@training.export_numbers_activity
     end
   end
 
