@@ -5,7 +5,6 @@ class PagesController < ApplicationController
   end
 
   def sandbox
-
   end
 
   def billing

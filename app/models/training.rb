@@ -186,7 +186,7 @@ class Training < ApplicationRecord
   end
 
   def export_numbers_sevener(user)
-    begin
+    # begin
       # cards = OverviewNumbersSevener.all.select{|x| x['Reference SEVEN'] == [self.refid]}
       cards = OverviewNumbersSevener.all(filter: "{Reference SEVEN} = '#{self.refid}'")
       cards.each do |trainer|
@@ -215,10 +215,9 @@ class Training < ApplicationRecord
         card['Dates'] = dates
         card['User_id'] = user.id
         card['Training_id'] = self.id
-        training_card.save
         card.save
       end
-    rescue
-    end
+    # rescue
+    # end
   end
 end

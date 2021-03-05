@@ -22,6 +22,7 @@ class UpdateBizdevReportJob < ApplicationJob
       memos_this_week = OverviewMemo.all.select{|x| x['Users'].present? && x['Users'].include?(user.id) && Date::strptime(x['Date'], "%Y-%m-%d") >= Date.today.beginning_of_week}.each do |memo|
         memo_count += (1.0 / memo['Users'].count)
       end
+      memo_count = (memo_count * 2.0).round / 2.0
       data_hash = {Ongoing_Ownership:  ownership_hours_ongoing, Project_Hours_Dev: project_hours_dev, Project_Hours_Codev: project_hours_codev, '1 - Prospect' => projects_1, '2 - Identified contact' => projects_2, '3 - Handshaked contact' => projects_3, '4  - Strong relationship' => projects_4, '5 - Needs identified' => projects_5, '6 - Pre-signed' => projects_6, '7 - Signed' => projects_7, Weekly_Memos: memo_count.to_s, Trained_Hours: training_hours}
       data_hash.each do |key, value|
         line = OverviewBizdev.all.select{|x| x['User'] == user['Name'] && x['Data'] == key.to_s}.first
