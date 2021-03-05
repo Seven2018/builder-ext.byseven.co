@@ -2,8 +2,6 @@ class TrainingsController < ApplicationController
   before_action :set_training, only: [:show, :edit, :update, :destroy, :copy, :sevener_billing, :invoice_form, :trainer_notification_email]
 
   def index
-    # @sessions = Session.all
-    # @form = Form.new
     # Index with 'search' option and global visibility for SEVEN Users
     n = params[:page].to_i
     @trainings = policy_scope(Training)
@@ -27,15 +25,7 @@ class TrainingsController < ApplicationController
         trainings_with_date = trainings.reject{|y| !y.end_time.present?}.sort_by{|z| z.end_time}.reverse
         @trainings = trainings_empty + trainings_with_date
         @user = User.find(params[:user])
-      else
-        # trainings = Training.all.select{|x| x.end_time.present? && x.end_time >= Date.today}
-        trainings = Training.joins(:sessions).where('sessions.date > ?', Date.today).uniq
-        @trainings_count = trainings.count
-        @trainings = trainings.sort_by{|x| x.end_time}.first(30)
       end
-    # Index for Sevener Users, with limited visibility
-    else
-      @trainings = Training.joins(sessions: :users).where("users.email LIKE ?", "#{current_user.email}").uniq.select{|x| x.next_session.present?}.sort_by{|y| y.next_session}[(n-1)*30..n*30-1]
     end
   end
 
@@ -54,7 +44,6 @@ class TrainingsController < ApplicationController
         @user = User.find(params[:user])
       else
         @trainings = Training.all.select{|x| x.end_time.present? && x.end_time >= Date.today}.sort_by{|y| y.next_session}
-
       end
     # Index for Sevener Users, with limited visibility
     else
@@ -111,10 +100,10 @@ class TrainingsController < ApplicationController
       redirect_to training_path(@training, page: 1)
     end
     if params[:task] == 'update_airtable'
-      UpdateAirtableJob.perform_async(@training, true)
-      #@training.trainers.each{|y| @training.export_numbers_sevener(y)}
-      #@training.export_airtable
-      #@training.export_numbers_activity
+      # UpdateAirtableJob.perform_async(@training, true)
+      @training.trainers.each{|y| @training.export_numbers_sevener(y)}
+      @training.export_airtable
+      @training.export_numbers_activity
     end
   end
 
