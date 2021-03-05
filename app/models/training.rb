@@ -15,11 +15,11 @@ class Training < ApplicationRecord
   accepts_nested_attributes_for :training_ownerships
 
   def start_time
-    Session.where(training_id: self).order(date: :asc).first.date
+    Session.where(training_id: self).order(date: :asc).first&.date
   end
 
   def end_time
-    Session.where(training_id: self).order(date: :asc).last.date
+    Session.where(training_id: self).order(date: :asc).last&.date
   end
 
   def next_session
