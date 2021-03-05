@@ -10,76 +10,76 @@ class InvoiceItemPolicy < ApplicationPolicy
   end
 
   def create?
-    check_access
+    check_access_seven
   end
 
   def show?
-    true
+    check_access_seven
   end
 
   def copy?
-    check_access
+    check_access_seven
   end
 
   def copy_here?
-    check_access
+    check_access_seven
   end
 
   def transform_to_invoice?
-    check_access
+    check_access_seven
   end
 
   def credit?
-    ['super admin', 'admin'].include? user.access_level
+    check_access_seven
   end
 
   def destroy?
-    check_access
+    check_access_seven
   end
 
   def new_invoice_item?
-    true
+    check_access_seven
   end
 
   def new_sevener_invoice?
-    true
+    check_access_seven
   end
 
   def new_estimate?
-    check_access
+    check_access_seven
   end
 
   def marked_as_send?
-    check_access
+    check_access_seven
   end
 
   def marked_as_paid?
-    check_access
+    check_access_seven
   end
 
   def marked_as_reminded?
-    check_access
+    check_access_seven
   end
 
   def upload_to_sheet?
-    check_access
+    check_access_seven
   end
 
   def upload_to_drive?
-    true
+    check_access_seven
   end
 
   def report?
-    ['super admin', 'admin'].include? user.access_level
+    check_access_seven
   end
 
   def edit_client?
-    ['super admin', 'admin'].include? user.access_level
+    check_access_seven
   end
 
   private
 
-  def check_access
+  def check_access_seven_seven
     ['super admin', 'admin', 'training manager'].include? user.access_level
   end
 end

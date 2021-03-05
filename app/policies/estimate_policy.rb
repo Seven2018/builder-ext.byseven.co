@@ -10,24 +10,24 @@ class EstimatePolicy < ApplicationPolicy
   end
 
   def show?
-    check_access
+    check_access_seven
   end
 
   def destroy?
-    check_access
+    check_access_seven
   end
 
   def new_invoice_item?
-    check_access
+    check_access_seven
   end
 
   def marked_as_paid?
-    check_access
+    check_access_seven
   end
 
   private
 
-  def check_access
+  def check_access_seven
     ['super admin', 'admin', 'training manager'].include? user.access_level
   end
 end

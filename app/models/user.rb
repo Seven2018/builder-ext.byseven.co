@@ -20,6 +20,11 @@ class User < ApplicationRecord
     "#{firstname} #{lastname}"
   end
 
+  def initials
+    user = OverviewUser.all(filter: "{Builder_id} = '#{self.id}'").first
+    user['Tag']
+  end
+
   def hours(training)
     Session.joins(:session_trainers).where(session_trainers: {session_id: training.sessions.ids, user_id: self.id}).map(&:duration).sum
   end

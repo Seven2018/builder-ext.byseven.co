@@ -10,32 +10,32 @@ class ClientCompanyPolicy < ApplicationPolicy
   end
 
   def index?
-    check_access
+    check_access_seven
   end
 
   def create?
-    check_access
+    check_access_seven
   end
 
   def show?
-    check_access
+    check_access_seven
   end
 
   def edit?
-    check_access
+    check_access_seven
   end
 
   def update?
-    check_access
+    check_access_seven
   end
 
   def destroy?
-    check_access
+    check_access_seven
   end
 
   private
 
-  def check_access
+  def check_access_seven
     ['super admin', 'admin', 'training manager'].include? user.access_level
   end
 end

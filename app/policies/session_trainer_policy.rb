@@ -6,24 +6,24 @@ class SessionTrainerPolicy < ApplicationPolicy
   end
 
   def create?
-    check_access
+    check_access_seven
   end
 
   def create_all?
-    check_access
+    check_access_seven
   end
 
   def update_calendar?
-    check_access
+    check_access_seven
   end
 
   def destroy?
-    check_access
+    check_access_seven
   end
 
   private
 
-  def check_access
+  def check_access_seven
     ['super admin', 'admin', 'training manager'].include? user.access_level
   end
 end
