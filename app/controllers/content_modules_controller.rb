@@ -1,18 +1,17 @@
 class ContentModulesController < ApplicationController
   before_action :set_content_module, only: [:show, :edit, :update, :destroy, :move_up, :move_down]
+  before_action :set_content, only: [:new, :create]
 
   def show
     authorize @content_module
   end
 
   def new
-    @content = Content.find(params[:content_id])
     @content_module = ContentModule.new
     authorize @content_module
   end
 
   def create
-    @content = Content.find(params[:content_id])
     @content_module = ContentModule.new(content_module_params)
     authorize @content_module
     @content_module.content = @content
@@ -44,7 +43,7 @@ class ContentModulesController < ApplicationController
 
   def destroy
     authorize @content_module
-    @content = Content.find(params[:content_id])
+    @content = @content_module.content
     @content_module.destroy
     position = 1
     @content.content_modules.order(position: :asc).each do |mod|
@@ -88,6 +87,10 @@ class ContentModulesController < ApplicationController
   end
 
   private
+
+  def set_content
+    @content = Content.find(params[:content_id])
+  end
 
   def set_content_module
     @content_module = ContentModule.find(params[:id])

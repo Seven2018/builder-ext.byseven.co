@@ -176,7 +176,7 @@
             </ul>
             <br>
             <ul id='myUL' class='myUL-sidebar'>
-              <% @themes.each do |theme| %>
+              <% Theme.all.each do |theme| %>
                 <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
                   <li><span class="caret sidebar-caret"><%= theme.name %></span>
                     <ul class="nested">

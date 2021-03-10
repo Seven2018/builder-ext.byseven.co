@@ -1,24 +1,24 @@
 {
-  "application.js": "/packs/js/application-2a0d66e5449cedeb33b2.js",
-  "application.js.map": "/packs/js/application-2a0d66e5449cedeb33b2.js.map",
+  "application.js": "/packs/js/application-d9edbd6424d75d73d20e.js",
+  "application.js.map": "/packs/js/application-d9edbd6424d75d73d20e.js.map",
   "entrypoints": {
     "application": {
       "js": [
-        "/packs/js/application-2a0d66e5449cedeb33b2.js"
+        "/packs/js/application-d9edbd6424d75d73d20e.js"
       ],
       "js.map": [
-        "/packs/js/application-2a0d66e5449cedeb33b2.js.map"
+        "/packs/js/application-d9edbd6424d75d73d20e.js.map"
       ]
     },
     "switch_copy_button": {
       "js": [
-        "/packs/js/switch_copy_button-696148e25b054e0d5999.js"
+        "/packs/js/switch_copy_button-83984ab1df680a170a6e.js"
       ],
       "js.map": [
-        "/packs/js/switch_copy_button-696148e25b054e0d5999.js.map"
+        "/packs/js/switch_copy_button-83984ab1df680a170a6e.js.map"
       ]
     }
   },
-  "switch_copy_button.js": "/packs/js/switch_copy_button-696148e25b054e0d5999.js",
-  "switch_copy_button.js.map": "/packs/js/switch_copy_button-696148e25b054e0d5999.js.map"
+  "switch_copy_button.js": "/packs/js/switch_copy_button-83984ab1df680a170a6e.js",
+  "switch_copy_button.js.map": "/packs/js/switch_copy_button-83984ab1df680a170a6e.js.map"
 }

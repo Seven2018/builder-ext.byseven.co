@@ -1,13 +1,11 @@
 class SessionsController < ApplicationController
-  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer, :copy_form, :copy, :copy_here, :presence_sheet]
+  before_action :set_session, only: [:show, :edit, :update, :destroy, :viewer, :copy_form, :copy, :copy_content, :presence_sheet]
 
   # Shows an InvoiceItem in html or pdf version
   def show
     authorize @session
-    @contents = Content.all
     @session_trainer = SessionTrainer.new
     @comment = Comment.new
-    @themes = Theme.all
     respond_to do |format|
       format.html
       format.pdf do
@@ -48,19 +46,10 @@ class SessionsController < ApplicationController
   end
 
   def update
-    # @training = Training.find(params[:training_id])
     authorize @session
     prev_date = @session.date
     prev_start = @session.start_time
     prev_end = @session.end_time
-    # if params[:session][:date] != @session&.date&.strftime('%Y-%m-%d') || params[:session]['start_time(4i)'] != @session&.start_time&.strftime('%H') || params[:session]['start_time(5i)'] != @session&.start_time&.strftime('%H') || params[:session]['end_time(4i)'] != @session&.end_time&.strftime('%H') || params[:session]['end_time(5i)'] != @session&.end_time&.strftime('%M')
-    #   @session.session_trainers.each do |session_trainer|
-    #     if session_trainer.calendar_uuid.present?
-    #       @session.training.gdrive_link.nil? ? @session.training.update(gdrive_link: session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',') : @session.training.update(gdrive_link: @session.training.gdrive_link + session_trainer.user_id.to_s + ':' + session_trainer.calendar_uuid + ',')
-    #       session_trainer.update(calendar_uuid: nil)
-    #     end
-    #   end
-    # end
     @session.update(session_params)
     if prev_date != @session.date || prev_start != @session.start_time || prev_end != @session.end_time
       @session.session_trainers.each do |session_trainer|
@@ -75,8 +64,6 @@ class SessionsController < ApplicationController
     if @session.save && (params[:session][:date].present?)
       # UpdateAirtableJob.perform_async(@session.training, true)
       redirect_to training_path(@session.training, page: 1, change: true)
-    else
-      # redirect_to training_path(@session.training)
     end
   end
 
@@ -104,8 +91,6 @@ class SessionsController < ApplicationController
       training = Training.find(params[:copy][:training_id])
       for i in 1..params[:copy][:amount].to_i
         new_session = Session.new(@session.attributes.except("id", "created_at", "updated_at", "training_id", "address", "room"))
-        # new_session.title = params[:copy][:rename] unless params[:copy][:rename].empty?
-        # new_session&.date = params[:copy][:date] unless params[:copy][:date].empty?
         training.sessions.empty? ? (new_session&.date = Date.today) : (new_session&.date = @session&.date)
         new_session.training_id = training.id
         new_session.address = ''
@@ -123,7 +108,6 @@ class SessionsController < ApplicationController
         new_sessions << new_session
       end
     end
-    # new_session.training.export_airtable
     new_sessions.each do |new_session|
       @session.workshops.each do |workshop|
         new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
@@ -132,14 +116,23 @@ class SessionsController < ApplicationController
           new_mod = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
           new_mod.update(workshop_id: new_workshop.id, position: mod.position)
         end
-        # j = 1
-        # new_workshop.workshop_modules.order(position: :asc).each{|mod| mod.update(position: j); j += 1}
       end
     end
-    # i = 1
-    # new_session.workshops.order(position: :asc).each{|workshop| workshop.update(position: i); i += 1}
-    #UpdateAirtableJob.perform_async(training, true)
     redirect_to training_path(training)
+  end
+
+  def copy_content(source, target)
+    authorize @session
+    target_session = Session.find(params[:copy][:session_id])
+    workshop_count = target_session.workshops.count
+    @session.workshops.each do |workshop|
+      new_workshop = Workshop.create(workshop.attributes.except("id", "created_at", "updated_at", "session_id"))
+      new_workshop.update(session_id: target_session.id, position: workshop_count + workshop.position)
+      workshop.workshop_modules.each do |mod|
+        new_mod = WorkshopModule.create(mod.attributes.except("id", "created_at", "updated_at", "workshop_id", "user_id"))
+        new_mod.update(workshop_id: new_workshop.id, position: mod.position)
+      end
+    end
   end
 
   def presence_sheet
