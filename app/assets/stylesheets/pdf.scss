@@ -13,16 +13,20 @@ h3, p {
     padding-top: 1rem;
     border-bottom: 2px solid black;
     margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700;
   }
 
   p, pre {
     font-size: 16px;
     font-family: 'Montserrat', sans-serif !important;
+    font-weight: 500;
   }
 
   h3 {
     font-size: 24px !important;
     font-family: 'Montserrat', sans-serif !important;
+    font-weight: 500;
   }
 }
 
@@ -35,6 +39,7 @@ h3, p {
 
 .title-pdf, .title-presence-sheet-pdf {
   font-family: 'Montserrat', sans-serif !important;
+  font-weight: 500;
   padding: 3px;
   border-bottom: 2px solid black;
   text-align: center;
@@ -47,10 +52,12 @@ h3, p {
 
 .session-details-pdf {
   font-family: 'Montserrat', sans-serif !important;
+  font-weight: 500;
 }
 
 .training-details-pdf {
   font-family: 'Montserrat', sans-serif !important;
+  font-weight: 500;
   text-align: center;
   font-style: italic;
   margin-top: -1.5rem
@@ -58,6 +65,7 @@ h3, p {
 
 .content-details-pdf {
   font-family: 'Montserrat', sans-serif !important;
+  font-weight: 500;
   border-bottom: 1px solid #000;
   border-bottom-width: 1px;
   em {
@@ -79,6 +87,7 @@ h3, p {
 
 .content-intel-pdf {
   font-family: 'Montserrat', sans-serif !important;
+  font-weight: 500;
   font-style: italic;
   // margin-top: -1.5rem;
 }
