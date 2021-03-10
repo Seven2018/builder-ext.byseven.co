@@ -1,24 +1,28 @@
 {
-  "application.js": "/packs/js/application-2a0d66e5449cedeb33b2.js",
-  "application.js.map": "/packs/js/application-2a0d66e5449cedeb33b2.js.map",
+  "application.css": "/packs/css/application-b001b1c6.css",
+  "application.js": "/packs/js/application-c32cf69b77970cbf0b77.js",
+  "application.js.map": "/packs/js/application-c32cf69b77970cbf0b77.js.map",
   "entrypoints": {
     "application": {
+      "css": [
+        "/packs/css/application-b001b1c6.css"
+      ],
       "js": [
-        "/packs/js/application-2a0d66e5449cedeb33b2.js"
+        "/packs/js/application-c32cf69b77970cbf0b77.js"
       ],
       "js.map": [
-        "/packs/js/application-2a0d66e5449cedeb33b2.js.map"
+        "/packs/js/application-c32cf69b77970cbf0b77.js.map"
       ]
     },
     "switch_copy_button": {
       "js": [
-        "/packs/js/switch_copy_button-696148e25b054e0d5999.js"
+        "/packs/js/switch_copy_button-f46ab8a4f398f37346a8.js"
       ],
       "js.map": [
-        "/packs/js/switch_copy_button-696148e25b054e0d5999.js.map"
+        "/packs/js/switch_copy_button-f46ab8a4f398f37346a8.js.map"
       ]
     }
   },
-  "switch_copy_button.js": "/packs/js/switch_copy_button-696148e25b054e0d5999.js",
-  "switch_copy_button.js.map": "/packs/js/switch_copy_button-696148e25b054e0d5999.js.map"
+  "switch_copy_button.js": "/packs/js/switch_copy_button-f46ab8a4f398f37346a8.js",
+  "switch_copy_button.js.map": "/packs/js/switch_copy_button-f46ab8a4f398f37346a8.js.map"
 }
