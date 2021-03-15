@@ -11,19 +11,20 @@ class Training < ApplicationRecord
   has_many :attendee_interests, dependent: :destroy
   validates :title, presence: true
   validates :vat, inclusion: { in: [ true, false ] }
+  validates_uniqueness_of :refid
   accepts_nested_attributes_for :training_ownerships
 
   def start_time
-    self.sessions&.order(date: :asc)&.reject{|x| !x.date.present?}&.first&.date
+    Session.where(training_id: self).order(date: :asc).first&.date
   end
 
   def end_time
-    self.sessions&.order(date: :asc)&.reject{|x|!x.date.present?}&.last&.date
+    Session.where(training_id: self).order(date: :asc).last&.date
   end
 
   def next_session
     if self.end_time.present? && self.end_time >= Date.today
-      return self.sessions&.order(date: :asc).where('date >= ?', Date.today)&.first&.date
+      return self.sessions&.where('date >= ?', Date.today)&.order(date: :asc).first&.date
     elsif self.end_time.present?
       return self.end_time
     else
@@ -32,15 +33,11 @@ class Training < ApplicationRecord
   end
 
   def to_date?
-    if self.sessions.select{|x| !x.date.present?}.present?
+    if self.sessions.where(date: nil).present?
       return true
     else
       return false
     end
-  end
-
-  def self.numbers_scope(starts_at = Date.today.beginning_of_year, ends_at = Date.today.end_of_year)
-    Training.joins(:sessions).where('sessions.date < ?', ends_at).where('sessions.date > ?', starts_at).uniq
   end
 
   def client_company
@@ -68,71 +65,23 @@ class Training < ApplicationRecord
   end
 
   def trainers
-    trainers = []
-    self.sessions.each do |session|
-      session.session_trainers.each do |trainer|
-        trainers << trainer.user
-      end
-    end
-    trainers.uniq
+    SessionTrainer.where(session_id: [self.sessions.ids]).map{|x| x.user}.uniq
   end
 
   def attendees
-    attendees = []
-    self.sessions.each do |session|
-      session.session_attendees.each do |session_attendee|
-        attendees << session_attendee.attendee
-      end
-    end
-    attendees.uniq
+    SessionAttendee.where(session_id: [self.sessions.ids]).map{|x| x.attendee}.uniq
   end
 
   def hours
     self.sessions.map{|x| x.duration * x.session_trainers.count}.sum
   end
 
-  def self.numbers_activity_csv(starts_at, ends_at)
-    attributes = %w(Title Client Dates Owner Trainers Hours Comments)
-    CSV.generate(headers: true) do |csv|
-      csv << attributes
-      all.each do |item|
-        title = item.title
-        client = item.client_company.name
-        dates = ""
-        owner = ""
-        trainers = ""
-        hours = ""
-        comments = ""
-        item.sessions.where('date >= ?', starts_at.to_date).where('date <= ?', ends_at.to_date).order(date: :asc).each do |session|
-          dates += session&.date&.strftime('%d/%m/%y') + "\n"
-          i = 1
-          session.session_trainers.map(&:user).each do |trainer|
-            trainers += trainer.fullname + "\n"
-            hours += session.duration.to_s + "\n"
-            if i > 1
-              dates += session&.date&.strftime('%d/%m/%y') + "\n"
-            end
-            i += 1
-          end
-        end
-        item.owners.each do |user|
-          owner += user.fullname + "\n"
-        end
-        unless dates.empty?
-          csv << [title, client, dates, owner, trainers, hours, comments]
-        end
-      end
-    end
-  end
-
   def export_airtable
-    begin
-      #existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
-      existing_card = OverviewTraining.all(filter: "{Reference SEVEN} = '#{self.refid}'")&.first
+    # begin
+      existing_card = OverviewTraining.all.select{|x| x['Reference SEVEN'] == self.refid}&.first
       details = "Détail des sessions (date, horaires, intervenants):\n\n"
       seven_invoices = "Factures SEVEN :\n"
-      #OverviewNumbersRevenue.all.select{|x| x['Training_id'] == self.id}.sort_by{|x| x['Invoice_id']}.each do |invoice|
-      OverviewNumbersRevenue.all(filter: "{Training_id} = '#{self.id}'").sort_by{|x| x['Invoice_id']}.each do |invoice|
+      OverviewNumbersRevenue.all.select{|x| x['Training_id'] == self.id}.sort_by{|x| x['Invoice_id']}.each do |invoice|
         builder_invoice = InvoiceItem.find(invoice['Invoice_id'])
         invoice['Paid'] == true ? seven_invoices += "[x] #{builder_invoice.uuid} \n" : seven_invoices += "[ ] #{builder_invoice.uuid} \n"
       end
@@ -176,9 +125,7 @@ class Training < ApplicationRecord
         end
       end
       TrainingOwnership.where(training_id: self.id, user_type: 'Writer').where.not(user_id: writers&.map{|x| x.id}).destroy_all
-      # existing_card['Trainers'] = self.trainers.map{|x| OverviewUser.all.select{|y| y['Builder_id'] == x.id}.first.id}
-      existing_card['Trainers'] = self.trainers.map{|x| OverviewUser.all(filter: "{Builder_id} == '#{x.id}'").first.id}
-
+      existing_card['Trainers'] = self.trainers.map{|x| OverviewUser.all.select{|y| y['Builder_id'] == x.id}.first.id}
       existing_card['Due Date'] = self.end_time.strftime('%Y-%m-%d') if self.end_time.present?
       existing_card['Builder Sessions Datetime'] = details
       existing_card['Builder Update'] = Time.now.utc.iso8601(3)
@@ -188,6 +135,7 @@ class Training < ApplicationRecord
       if seveners
         self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
           numbers_card = OverviewNumbersSevener.all.select{|x| x['User_id'] == user.id && x['Training_id'] == self.id}&.first
+
           if numbers_card['Total Due (incl. VAT)'] == numbers_card['Total Paid']
             if numbers_card['Billing Type'] == 'Hourly'
               seveners_to_pay += "[x] #{user.fullname} : #{numbers_card['Unit Number']}h x #{numbers_card['Unit Price']}€ = #{numbers_card['Unit Number']*numbers_card['Unit Price']}€\n"
@@ -208,14 +156,14 @@ class Training < ApplicationRecord
       existing_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
       existing_card['SEVEN Invoice(s)'] = seven_invoices
       existing_card.save
-    rescue
-    end
+    # rescue
+    # end
   end
 
   def export_numbers_activity
-    begin
+    # begin
       # to_delete = OverviewNumbersActivity.all.select{|x| x['Builder_id'] == [self.id]}
-      to_delete = OverviewNumbersActivity.all(filter: "{Builder_id} = '#{[self.id]}'")
+      to_delete = OverviewNumbersActivity.all(filter: "{Builder_id} = #{self.id}")
       to_delete.each{|x| x.destroy}
       # card = OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first
       card = OverviewTraining.all(filter: "{Builder_id} = '#{self.id}'")&.first
@@ -233,12 +181,12 @@ class Training < ApplicationRecord
           end
         end
       end
-    rescue
-    end
+    # rescue
+    # end
   end
 
   def export_numbers_sevener(user)
-    begin
+    # begin
       # cards = OverviewNumbersSevener.all.select{|x| x['Reference SEVEN'] == [self.refid]}
       cards = OverviewNumbersSevener.all(filter: "{Reference SEVEN} = '#{self.refid}'")
       cards.each do |trainer|
@@ -267,28 +215,9 @@ class Training < ApplicationRecord
         card['Dates'] = dates
         card['User_id'] = user.id
         card['Training_id'] = self.id
-        seveners_to_pay = ''
-        self.trainers.select{|x|['sevener+', 'sevener'].include?(x.access_level)}.each do |user|
-          if card['Total Due (incl. VAT)'] == card['Total Paid']
-            if card['Billing Type'] == 'Hourly'
-              seveners_to_pay += "[x] #{user.fullname} : #{card['Unit Number']}h x #{card['Unit Price']}€ = #{card['Unit Number']*card['Unit Price']}€\n"
-            elsif card['Billing Type'] == 'Flat rate'
-              seveners_to_pay += "[x] #{user.fullname} : #{card['Unit Price']}€\n"
-            end
-          else
-            if card['Billing Type'] == 'Hourly'
-              seveners_to_pay += "[ ] #{user.fullname} : #{card['Unit Number']}h x #{card['Unit Price']}€ = #{card['Unit Number']*card['Unit Price']}€ (Montant restant du : #{card['Total Due (incl. VAT)'] - card['Total Paid']}€)\n"
-            elsif card['Billing Type'] == 'Flat rate'
-              seveners_to_pay += "[ ] #{user.fullname} : #{card['Unit Price']}€\n"
-            end
-          end
-        end
-        training_card = OverviewTraining.all.select{|x| x['Builder_id'] == self.id}&.first
-        training_card['Seveners to pay'] = seveners_to_pay unless seveners_to_pay == ''
-        training_card.save
         card.save
       end
-    rescue
-    end
+    # rescue
+    # end
   end
 end

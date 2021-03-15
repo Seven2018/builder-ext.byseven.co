@@ -16,10 +16,6 @@ class SessionTrainersController < ApplicationController
   end
 
   def calendars
-    # session_ids = Base64.decode64(params[:state]).split('|')[1].split(',')
-    # training = Session.find(session_ids[0]).training
-    # client = Signet::OAuth2::Client.new(client_options)
-    # UpdateCalendarJob.perform_async(client, params[:code], params[:state], training)
     # Gets clearance from OAuth
     client = Signet::OAuth2::Client.new(client_options)
     skip_authorization
@@ -34,7 +30,7 @@ class SessionTrainersController < ApplicationController
     # Calendars ids
     calendars_ids = {'other' => 'vum1670hi88jgei65u5uedb988@group.calendar.google.com'}
     User.where(access_level: ['super admin','admin']).each{|x| calendars_ids[x.id] = x.email}
-    # Lists the users and the events ids of the events to be deleted
+    # Lists the users and the ids of the events to be deleted
     to_delete_string = Base64.decode64(params[:state]).split('|').last.split('%').last
 
     # Deletes the events
@@ -108,7 +104,7 @@ class SessionTrainersController < ApplicationController
                   create_calendar_id(ind, session.id, event, service, calendars_ids)
                 else
                   sevener = User.find(ind)
-                  initials = sevener.firstname.first.upcase + sevener.lastname.first.upcase
+                  initials = sevener.initials
                   event.summary = session.training.client_company.name + " - " + session.training.title + " - " + initials
                   event.id = SecureRandom.hex(32)
                   session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first

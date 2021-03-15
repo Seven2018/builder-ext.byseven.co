@@ -6,7 +6,7 @@ class AttendeesController < ApplicationController
 
   def index
     @client_company = ClientCompany.find(params[:client_company_id]) if params[:client_company_id].present?
-    params[:client_company_id].present? ? @attendees = policy_scope(Attendee).where(client_company_id: @client_company.id) : @attendees = policy_scope(ClientCompany)
+    @client_company.present? ? @attendees = policy_scope(Attendee).where(client_company_id: @client_company.id) : @attendees = policy_scope(ClientCompany)
   end
 
   def show
@@ -21,27 +21,11 @@ class AttendeesController < ApplicationController
   def create
     @attendee = Attendee.new(attendee_params)
     authorize @attendee
-    @attendee.update(client_company_id: Training.find(params[:attendee][:training_id].to_i).client_contact.client_company.id)
+    training = Training.find(params[:attendee][:training_id].to_i)
+    form = Form.find(params[:attendee][:form_id].to_i)
+    @attendee.update(client_company_id: training.client_contact.client_company.id)
     if @attendee.save
-      redirect_to training_form_path(Training.find(params[:attendee][:training_id].to_i), Form.find(params[:attendee][:form_id].to_i), search: {email: @attendee.email}, auth_token: @attendee.client_company.auth_token)
-      flash[:notice] = 'Compte créé avec succès'
-    else
-      flash[:notice] = 'Erreur'
-    end
-  end
-
-  def new_kea_partners
-    skip_authorization
-    @attendee = Attendee.new
-    session[:my_previous_url] = URI(request.referer || '').path
-  end
-
-  def create_kea_partners
-    skip_authorization
-    @attendee = Attendee.new(attendee_params)
-    @attendee.client_company_id = ClientCompany.find_by(name: 'KEA PARTNERS').id
-    if @attendee.save
-      redirect_to "#{params[:redirect]}?search[email]=#{@attendee.email}&auth_token=#{@attendee.client_company.auth_token}"
+      redirect_to training_form_path(training, form, search: {email: @attendee.email}, auth_token: @attendee.client_company.auth_token)
       flash[:notice] = 'Compte créé avec succès'
     else
       flash[:notice] = 'Erreur'

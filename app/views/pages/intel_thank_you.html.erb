@@ -1,0 +1,7 @@
+<% if params[:auth_token] == "846CD88B4B" || (params[:attendee].present? && params[:attendee][:auth_token] == "846CD88B4B") %>
+  <h1>Thank you</h1>
+<% else %>
+  <div id="warning-message">
+    <h1>Access restricted</h1>
+  </div>
+<% end %>

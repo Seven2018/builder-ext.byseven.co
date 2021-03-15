@@ -85,7 +85,7 @@
 .invoice-line-comments {
   color: black;
   padding-left: 4rem;
-  margin-bottom: 2rem;
+  margin: 1rem 0 2rem 0;
 
   &:hover, a:hover {
     text-decoration: none;
@@ -97,7 +97,7 @@
 .invoice-line-comments-disabled {
   color: black;
   padding-left: 4rem;
-  margin-bottom: 2rem;
+  margin: 1rem 0 2rem 0;
 
   &:hover, a:hover {
     text-decoration: none;

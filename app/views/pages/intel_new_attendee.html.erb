@@ -1,0 +1,57 @@
+<div class="container-seven-large-form">
+  <% if params[:auth_token] == "846CD88B4B" || (params[:attendee].present? && params[:attendee][:auth_token] == "846CD88B4B") %>
+    <div id='attendee-form-logo'>
+      <%= image_tag "SEVENLOGO_SQUARE2.png" %>
+      <img src="https://media.glassdoor.com/companyupdate/w600/1519/intel-corporation-companyupdate-1599247060524.jpg" alt="" >
+    </div>
+    <div id="attendee-form-title">
+      <h3>Première formation SEVEN ?</h3>
+      <h3>Merci d'entrer les informations suivantes</h3>
+    </div>
+      <%= simple_form_for :attendee, url: intel_create_attendee_path, method: 'POST' do |f| %>
+        <div class="form-div">
+          <span class='form-label'>Prénom</span>
+          <%= f.input :firstname, label: false %>
+        </div>
+        <div class="form-div">
+          <span class='form-label'>Nom</span>
+          <%= f.input :lastname, label: false %>
+        </div>
+        <div class="form-div" id='form-div-mail'>
+          <span class='form-label'>Adresse email</span>
+          <%= f.input :email, label: false, input_html: { value: params[:email] ? params[:email].downcase : '' } %>
+          <%= f.hidden_field :auth_token, :value => params[:auth_token] %>
+        </div>
+        <div class="center-button">
+          <%= f.button :submit, "S'enregistrer", class: 'btn btn-edit-yellow' %>
+        </div>
+      <% end %>
+    <script>
+      const field = document.querySelectorAll('.form-div');
+      field.forEach(function(div){
+        let span = div.querySelector('.form-label');
+        let input = div.getElementsByTagName('input')[0];
+         if (input.value !== '') {
+          span.classList.add('form-label-active')
+        }
+        div.addEventListener('focusin', (event) => {
+          input.focus();
+          span.classList.add('form-label-active')
+        })
+        span.addEventListener('click', (event) => {
+          input.focus();
+          span.classList.add('form-label-active')
+        });
+        div.addEventListener('focusout', (event) => {
+          if (input.value === '') {
+            span.classList.remove('form-label-active')
+          }
+        });
+      })
+    </script>
+  <% else %>
+    <div id="warning-message">
+      <h1>Access restricted</h1>
+    </div>
+  <% end %>
+</div>

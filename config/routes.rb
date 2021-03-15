@@ -9,13 +9,16 @@ Rails.application.routes.draw do
   get 'numbers_sales', to: 'pages#numbers_sales', as: 'numbers_sales'
   get 'dashboard_sevener', to: 'pages#dashboard_sevener', as: 'dashboard_sevener'
   get 'contact_form', to: 'pages#contact_form', as: 'contact_form'
-  get 'contact_form_seven_x_bam', to: 'pages#contact_form_seven_x_bam', as: 'contact_form_seven_x_bam'
   get 'billing', to: 'pages#billing', as: 'billing'
   get :sandbox, controller: :pages
+  get 'intel_form', to: 'pages#intel_form', as: 'intel_form'
+  get 'intel_subscription', to: 'pages#intel_subscription', as: 'intel_subscription'
+  get 'intel_thank_you', to: 'pages#intel_thank_you', as: 'intel_thank_you'
+  get 'intel_new_attendee', to: 'pages#intel_new_attendee', as: 'intel_new_attendee'
+  post 'intel_create_attendee', to: 'pages#intel_create_attendee', as: 'intel_create_attendee'
 
   # AIRTABLE
   get 'airtable_import_users', to: 'pages#airtable_import_users', as: 'airtable_import_users'
-  get 'airtable_import_clients', to: 'pages#airtable_import_clients', as: 'airtable_import_clients'
   get 'import_airtable', to: 'pages#import_airtable', as: 'import_airtable'
   get 'trainings/:id/export_airtable', to: 'pages#export_airtable', as: 'export_airtable'
   get 'airtable_partners_form', to:'pages#airtable_partners_form', as: 'airtable_partners_form'
@@ -49,7 +52,6 @@ Rails.application.routes.draw do
   # INVOICE ITEMS
   resources :invoice_items, only: [:index, :show, :edit, :update, :destroy]
   get 'invoice_item/:id/copy', to: 'invoice_items#copy', as: 'copy_invoice_item'
-  get 'invoice_item/:id/copy_here', to: 'invoice_items#copy_here', as: 'copy_here_invoice_item'
   get 'invoice_item/:id/transform_to_invoice', to: 'invoice_items#transform_to_invoice', as: 'transform_to_invoice'
   get 'invoice_item/:id/edit_client', to: 'invoice_items#edit_client', as: 'edit_client_invoice_item'
   get 'invoice_item/:id/credit', to: 'invoice_items#credit', as: 'credit_invoice_item'

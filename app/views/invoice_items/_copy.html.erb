@@ -19,7 +19,7 @@
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon copy-button hidden', data: { toggle: 'tooltip' }, title: 'Copy' do %>
           <i class="fas fa-copy"></i>
         <% end %>
-        <%= link_to copy_here_invoice_item_path(invoice_item), method: :get, class: 'btn btn-edit-green btn-icon copy-here-button', data: {toggle: 'tooltip'}, title: 'Copy here' do %>
+        <%= link_to copy_invoice_item_path(invoice_item, copy_here: true), method: :get, class: 'btn btn-edit-green btn-icon copy-here-button', data: {toggle: 'tooltip'}, title: 'Copy here' do %>
           <i class="fas fa-angle-double-down"></i>
         <% end %>
       </div>

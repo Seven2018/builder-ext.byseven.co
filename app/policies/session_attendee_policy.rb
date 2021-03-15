@@ -12,12 +12,4 @@ class SessionAttendeePolicy < ApplicationPolicy
   def destroy?
     true
   end
-
-  def create_kea_partners?
-    true
-  end
-
-  def destroy_kea_partners?
-    true
-  end
 end

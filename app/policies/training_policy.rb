@@ -10,60 +10,64 @@ class TrainingPolicy < ApplicationPolicy
   end
 
   def index_upcoming?
-    true
+    check_access
   end
 
   def index_completed?
-    true
+    check_access
   end
 
   def index_week?
-    true
+    check_access
   end
 
   def index_month?
-    true
+    check_access
   end
 
   def create?
-    check_access
+    check_access_seven
   end
 
   def show?
-    true
+    check_access
   end
 
   def show_session_content?
-    true
+    check_access
   end
 
   def edit?
-    check_access
+    check_access_seven
   end
 
   def update?
-    check_access
+    check_access_seven
   end
 
   def destroy?
-    check_access
+    check_access_seven
   end
 
   def copy?
-    check_access
+    check_access_seven
   end
 
   def invoice_form?
-    true
+    check_access
   end
 
   def trainer_notification_email?
-    check_access
+    check_access_seven
   end
 
   private
 
-  def check_access
+  def check_access_seven
     ['super admin', 'admin', 'training manager'].include? user.access_level
+  end
+
+  def check_access
+    ['super admin', 'admin', 'training manager', 'sevener+', 'sevener'].include? user.access_level
   end
 end

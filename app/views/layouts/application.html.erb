@@ -16,7 +16,7 @@
     <!-- <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script> -->
     <script src="https://cdn.ckeditor.com/4.13.0/full/ckeditor.js"></script>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
-    <%= javascript_pack_tag 'application' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
     <!-- <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet"> -->
 
     <%= javascript_pack_tag 'application' %>
@@ -28,7 +28,6 @@
         <% elsif params[:controller] == 'attendees' && params[:action] == !'index'%>
         <% elsif params[:controller] == 'forms' && params[:action] == 'show' %>
         <% elsif params[:action] == 'export' %>
-        <% elsif params[:action] == 'overlord' %>
         <% elsif !user_signed_in? %>
         <% else %>
           <%= render 'shared/navbar' %>

@@ -1,0 +1,42 @@
+<%# if params[:auth_token] != @client_company.auth_token %>
+<% if params[:auth_token] == "846CD88B4B" || (params[:attendee].present? && params[:attendee][:auth_token] == "846CD88B4B") %>
+  <% if !user_signed_in? %>
+    <%= simple_form_for :attendee, url: intel_form_path, method: 'GET' do |f| %>
+      <%# attendee = IntelAttendee.all.filter("{Email} = '#{params[:attendee][:email]}'") %>
+      <% if @attendee.present? %>
+        <div class='flex-column-between-centered'>
+          <%= f.input :email, input_html: { value: @attendee['Email'], style: 'width:30rem;' }, disabled: true, required: false %>
+        </div>
+      <% elsif params[:attendee].present? && !@attendee.present? %>
+        <% controller.redirect_to intel_new_attendee_path(email: params[:attendee][:email], auth_token: params[:attendee][:auth_token]) %>
+      <% else %>
+        <%= f.input :email, label: 'Adresse email' %>
+        <%= f.hidden_field :auth_token, :value => params[:auth_token] %>
+        <p class="center-button"> <%= f.submit 'Connexion', class: 'btn btn-edit-yellow' %> </p>
+      <% end %>
+    <% end %>
+    <div class="centered-item">
+      <%= simple_form_for :subscription, url: intel_subscription_path, method: 'GET' do |f| %>
+        <%= f.label 'Conférence' %>
+        <% if @attendee['Events']&.include?('recx4QlAxuGX1oKSv') %>
+          <%= f.input :event1, as: :boolean, input_html:{checked: true} %>
+        <% else %>
+          <%= f.input :event1, as: :boolean %>
+        <% end %>
+        <%= f.label 'Formation' %>
+        <% if @attendee['Events']&.include?('recTtCEak1ME1Nd8j') %>
+          <%= f.input :event2, as: :boolean, input_html:{checked: true} %>
+        <% else %>
+          <%= f.input :event2, as: :boolean %>
+        <% end %>
+        <%= f.hidden_field :attendee, :value => @attendee.id %>
+        <%= f.hidden_field :auth_token, :value => params[:auth_token] %>
+        <p class="center-button"> <%= f.submit 'Soumettre', class: 'btn btn-edit-yellow' %> </p>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <div id="warning-message">
+    <h1>Access restricted</h1>
+  </div>
+<% end %>

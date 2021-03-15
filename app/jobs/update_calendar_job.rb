@@ -87,7 +87,7 @@ class UpdateCalendarJob < ApplicationJob
                 create_calendar_id(ind, session.id, event, service, calendars_ids)
               else
                 sevener = User.find(ind)
-                initials = sevener.firstname.first.upcase + sevener.lastname.first.upcase
+                initials = sevener.initials
                 event.summary = session.training.client_company.name + " - " + session.training.title + " - " + initials
                 event.id = SecureRandom.hex(32)
                 session_trainer = SessionTrainer.where(user_id: sevener.id, session_id: session.id).first

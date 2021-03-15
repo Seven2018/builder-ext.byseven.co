@@ -82,13 +82,15 @@ class InvoiceItemsController < ApplicationController
     @client_company = ClientCompany.find(params[:client_company_id])
     @invoice = InvoiceItem.new(training_id: params[:training_id].to_i, client_company_id: params[:client_company_id].to_i, type: params[:type])
     authorize @invoice
+    invoices = InvoiceItem.where(type: 'Invoice')
+    estimates = InvoiceItem.where(type: 'Estimate')
     # attributes a invoice number to the InvoiceItem
     if params[:type] == 'Invoice'
-      InvoiceItem.where(type: 'Invoice').count != 0 ? (@invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
+      invoices.count != 0 ? (@invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (invoices.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
     elsif params[:type] == 'Estimate'
-      InvoiceItem.where(type: 'Estimate').count != 0 ? (@invoice.uuid = "DE#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Estimate').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "DE#{Date.today.strftime('%Y')}00001")
+      estimates.count != 0 ? (@invoice.uuid = "DE#{Date.today.strftime('%Y')}" + (estimates.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "DE#{Date.today.strftime('%Y')}00001")
     end
-    @invoice.status = 'En attente'
+    @invoice.status = 'Pending'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
     if @training.client_contact.client_company.client_company_type == 'Company'
       product = Product.find(2)
@@ -120,13 +122,15 @@ class InvoiceItemsController < ApplicationController
     @client_company = ClientCompany.find(params[:client_company_id])
     @invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @client_company.id, type: params[:type])
     skip_authorization
+    invoices = InvoiceItem.where(type: 'Invoice')
+    estimates = InvoiceItem.where(type: 'Estimate')
     # attributes a invoice number to the InvoiceItem
     if params[:type] == 'Invoice'
-      InvoiceItem.where(type: 'Invoice').count != 0 ? (@invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
+      invoices.count != 0 ? (@invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (invoices.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
     elsif params[:type] == 'Estimate'
-      InvoiceItem.where(type: 'Estimate').count != 0 ? (@invoice.uuid = "DE#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Estimate').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "DE#{Date.today.strftime('%Y')}00001")
+      estimates.count != 0 ? (@invoice.uuid = "DE#{Date.today.strftime('%Y')}" + (estimates.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@invoice.uuid = "DE#{Date.today.strftime('%Y')}00001")
     end
-    @invoice.status = 'En attente'
+    @invoice.status = 'Pending'
     # Fills the created InvoiceItem with InvoiceLines, according Training data
     @training.client_contact.client_company.client_company_type == 'Company' ? product = Product.find(2) : product = Product.find(1)
     line = InvoiceLine.new(invoice_item: @invoice, description: @training.client_company.name + ' - ' + @training.title, quantity: airtable_training['Unit Number'], net_amount: airtable_training['Unit Price'], tax_amount: product.tax, product_id: product.id, position: 1)
@@ -160,9 +164,10 @@ class InvoiceItemsController < ApplicationController
     @training = Training.find(params[:training_id])
     airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
     @client_company = ClientCompany.find(params[:client_company_id])
+    invoices = InvoiceItem.where(type: 'Invoice')
     @training.trainers.each do |trainer|
       new_invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @client_company.id, type: 'Invoice')
-      InvoiceItem.where(type: 'Invoice').count != 0 ? (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
+      invoices.count != 0 ? (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (invoices.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
       comments = "<br>Intervenant(e) : #{trainer.fullname}<br><br>Détail des séances (date, horaires) :<br>"
       quantity = 0
       @training.sessions.joins(:session_trainers).where(session_trainers: {user_id: trainer.id}).each do |session|
@@ -196,11 +201,12 @@ class InvoiceItemsController < ApplicationController
     skip_authorization
     @training = Training.find(params[:training_id])
     airtable_training = OverviewTraining.all.select{|x|x['Reference SEVEN'] == @training.refid}.first
+    invoices = InvoiceItem.where(type: 'Invoice')
     if airtable_training['Unit Type'] == 'Participant'
       @client_company = ClientCompany.find(params[:client_company_id])
       @training.attendees.each do |attendee|
         new_invoice = InvoiceItem.new(training_id: @training.id, client_company_id: @client_company.id, type: 'Invoice')
-        InvoiceItem.where(type: 'Invoice').count != 0 ? (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
+        invoices.count != 0 ? (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}" + (invoices.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (new_invoice.uuid = "FA#{Date.today.strftime('%Y')}00001")
         comments = "<br>Participant(e) : #{attendee.fullname}<br><br>Détail des séances (date, horaires) :<br>"
         @training.sessions.each do |session|
           if session.session_attendees.where(attendee_id: attendee.id).present?
@@ -232,7 +238,8 @@ class InvoiceItemsController < ApplicationController
     @client_company = ClientCompany.find(params[:client_company_id])
     @estimate = InvoiceItem.new(client_company_id: params[:client_company_id].to_i, type: 'Estimate')
     authorize @estimate
-    Estimate.all.count != 0 ? (@estimate.uuid = "DE#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Estimate').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@estimate.uuid = "DE#{Date.today.strftime('%Y')}00001")
+    estimates = InvoiceItem.where(type: 'Estimate')
+    estimates.count != 0 ? (@estimate.uuid = "DE#{Date.today.strftime('%Y')}" + (estimates.last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')) : (@estimate.uuid = "DE#{Date.today.strftime('%Y')}00001")
     if @estimate.save
       if @client_company.client_company_type == 'Company'
         product = Product.find(2)
@@ -247,42 +254,22 @@ class InvoiceItemsController < ApplicationController
     end
   end
 
-  # Allows the duplication of an InvoiceItem
   def copy
     authorize @invoice_item
-    @training = Training.find(params[:copy][:training_id]) if params[:copy][:training_id].present?
-    new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "training_id", "client_company_id", "status", "sending_date", "payment_date", "dunning_date"))
+    if params[:copy_here].present?
+      new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
+    else
+      @training = Training.find(params[:copy][:training_id]) if params[:copy][:training_id].present?
+      new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "training_id", "client_company_id", "status", "sending_date", "payment_date", "dunning_date"))
+      new_invoice_item.training_id = @training.id if @training.present?
+      new_invoice_item.client_company_id = params[:copy][:client_company_id]
+    end
     if @invoice_item.type == 'Invoice'
       new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     else
       new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Estimate').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
     end
-    new_invoice_item.training_id = @training.id if @training.present?
-    new_invoice_item.client_company_id = params[:copy][:client_company_id]
-    new_invoice_item.status = 'En attente'
-    if new_invoice_item.save
-      @invoice_item.invoice_lines.each do |line|
-        new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
-        new_invoice_line.update(invoice_item_id: new_invoice_item.id)
-      end
-      new_invoice_item.update_price
-      new_invoice_item.export_numbers_revenue if new_invoice_item.type == 'Invoice'
-      redirect_to invoice_item_path(new_invoice_item)
-    else
-      raise
-    end
-  end
-
-  # Allows the duplication of an InvoiceItem within the same Training
-  def copy_here
-    authorize @invoice_item
-    new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
-    if @invoice_item.type == 'Invoice'
-      new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
-    else
-      new_invoice_item.uuid = "DE#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Estimate').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
-    end
-    new_invoice_item.status = 'En attente'
+    new_invoice_item.status = 'Pending'
     if new_invoice_item.save
       @invoice_item.invoice_lines.each do |line|
         new_invoice_line = InvoiceLine.create(line.attributes.except("id", "created_at", "updated_at", "invoice_item_id"))
@@ -301,7 +288,7 @@ class InvoiceItemsController < ApplicationController
     authorize @invoice_item
     new_invoice_item = InvoiceItem.new(@invoice_item.attributes.except("id", "created_at", "updated_at", "sending_date", "payment_date", "dunning_date"))
     new_invoice_item.uuid = "FA#{Date.today.strftime('%Y')}" + (InvoiceItem.where(type: 'Invoice').last.uuid[-5..-1].to_i + 1).to_s.rjust(5, '0')
-    new_invoice_item.status = 'En attente'
+    new_invoice_item.status = 'Pending'
     new_invoice_item.type = 'Invoice'
     if new_invoice_item.save
       @invoice_item.invoice_lines.each do |line|

@@ -10,28 +10,32 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    check_access
+    check_access_seven
   end
 
   def show?
-    true
+    check_access
   end
 
   def edit?
-    true
+    check_access
   end
 
   def update?
-    true
+    check_access
   end
 
   def destroy?
-    check_access
+    check_access_seven
   end
 
   private
 
-  def check_access
+  def check_access_seven
     ['super admin', 'admin', 'training manager'].include? user.access_level
+  end
+
+  def check_access
+    ['super admin', 'admin', 'training manager', 'sevener+', 'sevener'].include? user.access_level
   end
 end

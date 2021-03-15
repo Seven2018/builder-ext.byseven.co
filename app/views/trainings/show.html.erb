@@ -125,7 +125,7 @@
   </div>
   <div class="middle-info2">
     <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-      <p id='survey-link' class='btn btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
+      <p id='survey-link' class='btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
       <%= simple_form_for @training, html: { class: "hidden", id: 'survey-form' } do |f| %>
         <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
           <%= f.input :satisfaction_survey, placeholder: 'Add a link to the survey', value: @training.satisfaction_survey, label: false, input_html: { style: 'width: 200px;'} %>
@@ -206,10 +206,8 @@
     <% end %>
   </div>
   <div class="training-info">
-    <% session_number = 0 %>
     <div class="sessions-cards">
       <% @training.sessions.order(:date, :start_time).offset((params[:page].to_i-1)*10).first(10).each do |session| %>
-        <% session_number +=1 %>
         <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
           <div class="card-lg">
             <div class="card-footer-lg">
@@ -260,6 +258,9 @@
               </div>
               <div class="mods-list">
                 <%= render_async show_session_content_path(session_id: session.id) %>
+                <% session_number = @training.sessions.order(date: :asc).find_index(session) + 1 %>
+              </div>
+              <div class='flex-row-end-centered'>
                 <h4 class='card-session-number'><%= session_number %>/<%= @training.sessions.count %> </h4>
               </div>
           </div>
@@ -345,7 +346,6 @@
   buttons = document.querySelectorAll('.edit_button');
   buttons.forEach(function(button) {
     button.addEventListener('click', (click) => {
-      console.log('hello');
       card = button.parentElement.parentElement.querySelector('.editSession');
 
       edit_duration = card.querySelector('#edit_duration');

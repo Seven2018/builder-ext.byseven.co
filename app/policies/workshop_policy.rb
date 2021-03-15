@@ -10,7 +10,7 @@ class WorkshopPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    check_access
   end
 
   def update?
@@ -38,7 +38,7 @@ class WorkshopPolicy < ApplicationPolicy
   end
 
   def viewer?
-    true
+    check_access
   end
 
   def copy_form?
@@ -50,6 +50,10 @@ class WorkshopPolicy < ApplicationPolicy
   end
 
   private
+
+  def check_access_seven
+    ['super admin', 'admin', 'training manager'].include? user.access_level
+  end
 
   def check_access
     ['super admin', 'admin', 'training manager', 'sevener+', 'sevener'].include? user.access_level

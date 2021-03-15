@@ -45,10 +45,6 @@ class Attendee < ApplicationRecord
   end
 
   def trainings
-    trainings = []
-    self.session_attendees.each do |session_attendee|
-      trainings << session_attendee.session.training
-    end
-    trainings.uniq
+    Training.joins(sessions: :session_attendees).where(sessions: {session_attendees: {attendee_id: self.id}})
   end
 end
