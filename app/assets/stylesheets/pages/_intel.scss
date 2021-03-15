@@ -1,10 +1,13 @@
 .conference {
-  margin: 100px;
+  margin: 0 10rem;
+
+  padding: 5rem 0;
 
   @include from-xlarge {
-    padding: 100px;
+    padding: 5rem;
   }
-h3 {
+
+  h3 {
     font-weight: 700px;
   }
   h4 {
@@ -91,7 +94,7 @@ h3 {
   transition: all 0.5s ease-in-out;
 }
 
-#toggle {
+.toggle {
   display: none;
 }
 
@@ -123,18 +126,18 @@ h3 {
   }
 }
 
-#toggle:checked ~ .nav {
+.toggle:checked ~ .nav {
   opacity: 1;
   transform: translateY(10%);
 }
 
-#toggle:checked ~ .button {
+.toggle:checked ~ .button {
   transform: rotate(135deg);
   box-shadow: 0 0 0 0 transparent;
   border-radius: 100%;
 }
 
-#toggle:checked ~ .subbed {
+.toggle:checked ~ .subbed {
   opacity: 1;
 }
 

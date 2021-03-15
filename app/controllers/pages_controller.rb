@@ -78,7 +78,7 @@ class PagesController < ApplicationController
         attendee['Events'] = [event1_id]
       end
     else
-      if attendee['Events'].include?('recx4QlAxuGX1oKSv')
+      if attendee['Events'].present? && attendee['Events'].include?('recx4QlAxuGX1oKSv')
         attendee['Events'].delete('recx4QlAxuGX1oKSv')
       end
     end
@@ -89,7 +89,7 @@ class PagesController < ApplicationController
         attendee['Events'] = [event2_id]
       end
     else
-      if attendee['Events'].include?('recTtCEak1ME1Nd8j')
+      if attendee['Events'].present? && attendee['Events'].include?('recTtCEak1ME1Nd8j')
         attendee['Events'].delete('recTtCEak1ME1Nd8j')
       end
     end
