@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   get 'contact_form', to: 'pages#contact_form', as: 'contact_form'
   get 'billing', to: 'pages#billing', as: 'billing'
   get :sandbox, controller: :pages
+  get 'intel_form', to: 'pages#intel_form', as: 'intel_form'
+  get 'intel_subscription', to: 'pages#intel_subscription', as: 'intel_subscription'
+  get 'intel_thank_you', to: 'pages#intel_thank_you', as: 'intel_thank_you'
+  get 'intel_new_attendee', to: 'pages#intel_new_attendee', as: 'intel_new_attendee'
+  post 'intel_create_attendee', to: 'pages#intel_create_attendee', as: 'intel_create_attendee'
 
   # AIRTABLE
   get 'airtable_import_users', to: 'pages#airtable_import_users', as: 'airtable_import_users'
