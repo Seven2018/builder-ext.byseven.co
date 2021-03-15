@@ -55,13 +55,17 @@
           <div class="centered-item">
             <div class="wrap">
               <div>
-                <input type="checkbox" id='toggle1' class='toggle button-event1' />
-                <label class="button"  for="toggle1" >
-                </label>
+                <label class="toggleButton toggleButton1" id='toggle1'>
+                  <input type="checkbox" class='checkbox1'>
+                  <div>
+                      <svg viewBox="0 0 44 44">
+                          <path d="M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758" transform="translate(-2.000000, -2.000000)"></path>
+                      </svg>
+                  </div>
+              </label>
               </div>
               <div class="parent">
-                <div class="text sub sub1">S’INSCRIRE A LA CONFERENCE</div>
-                <div class="text thanks thanks1">INSCRIVEZ-MOI !</div>
+                <div class="text">JE SOUHAITE M'INSCRIRE</div>
               </div>
             </div>
           </div>
@@ -91,13 +95,17 @@
           <div class="centered-item">
             <div class="wrap">
               <div>
-                <input type="checkbox" id='toggle2' class='toggle button-event2' />
-                <label class="button"  for="toggle2" >
-                </label>
+                <label class="toggleButton toggleButton2" id='toggle2'>
+                  <input type="checkbox" class='checkbox2'>
+                  <div>
+                      <svg viewBox="0 0 44 44">
+                          <path d="M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758" transform="translate(-2.000000, -2.000000)"></path>
+                      </svg>
+                  </div>
+              </label>
               </div>
               <div class="parent">
-                <div class="text sub sub2">S’INSCRIRE A LA FORMATION</div>
-                <div class="text thanks thanks2">INSRIVEZ-MOI !</div>
+                <div class="text">JE SOUHAITE M'INSCRIRE</div>
               </div>
             </div>
           </div>
@@ -132,52 +140,38 @@
 <script>
   if ($("#subscription_event1").is(":checked")) {
     $('#toggle1').click();
-    $('.sub1').css("opacity", 0);
-    $('.thanks1').css("opacity", 1);
-    $('#toggle1').parent().parent().css("background", '#12BBD4');
   }
   if ($("#subscription_event2").is(":checked")) {
     $('#toggle2').click();
-    $('.sub2').css("opacity", 0);
-    $('.thanks2').css("opacity", 1);
-    $('#toggle2').parent().parent().css("background", '#12BBD4');
   }
-
-  $('.toggle').click(function() {
-    if ($(this).is(":checked")) {
-      $(".sub").css("opacity", 0);
-      $(".thanks").css("opacity", 1);
-      $(this).parent().parent().css("background", '#12BBD4');
-    }
-    else if ($(this).is(":not(:checked)")) {
-      $(".sub").css("opacity", 1);
-      $(".thanks").css("opacity", 0);
-      $(this).parent().parent().css("background", '#FFC65A');
-    }
-  });
 </script>
 
 <script>
-  button1 = document.querySelector('.button-event1');
+  button1 = document.querySelector('#toggle1');
   event1 = document.getElementById('subscription_event1');
-  button2 = document.querySelector('.button-event2');
+  button2 = document.querySelector('#toggle2');
   event2 = document.getElementById('subscription_event2');
+  isClicked = false;
 
   button1.addEventListener('click', event => {
-    console.log('1');
-    if (event1.checked) {
-      event1.checked = false;
-    } else {
-      event1.checked = true;
+    if(!isClicked){
+      isClicked = true;
+      event1.click();
+      setTimeout(function(){
+        isClicked = false;
+      },10);
     }
+
+
   })
 
   button2.addEventListener('click', event => {
-    console.log('1');
-    if (event2.checked) {
-      event2.checked = false;
-    } else {
-      event2.checked = true;
+    if(!isClicked){
+      isClicked = true;
+      event2.click();
+      setTimeout(function(){
+        isClicked = false;
+      },10);
     }
   })
 </script>
