@@ -8,65 +8,13 @@ class User < ApplicationRecord
   has_many :session_trainers, dependent: :destroy
   has_many :sessions, through: :session_trainers
   has_many :workshop_modules
-  has_many :comments
-  belongs_to :client_company, optional: true
   validates :firstname, :lastname, :email, presence: true
   validates_uniqueness_of :email
-  validates :access_level, inclusion: { in: ['sevener', 'sevener+', 'training manager', 'admin', 'super admin'] }
+  validates :access_level, inclusion: { in: ['user', 'super admin'] }
   require 'uri'
   require 'net/http'
 
   def fullname
     "#{firstname} #{lastname}"
-  end
-
-  def initials
-    user = OverviewUser.all(filter: "{Builder_id} = '#{self.id}'").first
-    user['Tag']
-  end
-
-  def hours(training)
-    Session.joins(:session_trainers).where(session_trainers: {session_id: training.sessions.ids, user_id: self.id}).map(&:duration).sum
-  end
-
-  def hours_this_week(date)
-    Session.joins(:session_trainers).where(date: date.beginning_of_week..date.end_of_week, session_trainers: {user_id: self.id}).map(&:duration).sum
-  end
-
-  def export_airtable_user
-    existing_user = OverviewUser.all.select{|x| x['Builder_id'] == self.id}&.first
-    if existing_user.present?
-      existing_user['Firstname'] = self.firstname
-      existing_user['Lastname'] = self.lastname
-      existing_user['Email'] = self.email
-    else
-      existing_user = OverviewUser.create('Firstname' => self.firstname, 'Lastname' => self.lastname, 'Email' => self.email, 'Builder_id' => self.id)
-    end
-    ['sevener+', 'sevener'].include?(self.access_level) ? existing_user['Status'] = "Sevener" : existing_user['Status'] = "SEVEN"
-    existing_user.save
-  end
-
-  def self.report
-    UpdateBizdevReportJob.perform_now
-  end
-
-  def to_builder
-    Jbuilder.new do |user|
-      user.(self, :firstname, :id)
-    end
-  end
-
-  def self.from_omniauth(access_token)
-    data = access_token.info
-    user = User.where(email: data['email']).first
-
-    # Uncomment the section below if you want users to be created if they don't exist
-    # unless user
-    #     user = User.create(name: data['name'],
-    #        email: data['email'],
-    #        password: Devise.friendly_token[0,20]
-    #     )
-    # end
-    user
   end
 end

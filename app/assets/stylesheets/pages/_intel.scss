@@ -181,6 +181,8 @@
 }
 
 
+// CHECKBOX BUTTON //
+
 $color: #fff;
 
 .toggleButton {
@@ -221,7 +223,7 @@ $color: #fff;
             }
             &:before,
             &:after {
-                content: '';
+                // content: '';
                 width: 3px;
                 height: 16px;
                 background: $color;
@@ -335,23 +337,23 @@ html {
 }
 
 // Center & dribbble
-body {
-    min-height: 100vh;
-    font-family: Roboto, Arial;
-    color: #ADAFB6;
-    background: #5628EE;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .dribbble {
-        position: fixed;
-        display: block;
-        right: 24px;
-        bottom: 24px;
-        img {
-            display: block;
-            width: 76px;
-        }
-    }
-}
+// body {
+//     min-height: 100vh;
+//     font-family: Roboto, Arial;
+//     color: #ADAFB6;
+//     background: #5628EE;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     .dribbble {
+//         position: fixed;
+//         display: block;
+//         right: 24px;
+//         bottom: 24px;
+//         img {
+//             display: block;
+//             width: 76px;
+//         }
+//     }
+// }
 

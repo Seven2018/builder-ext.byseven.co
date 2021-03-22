@@ -40,89 +40,48 @@
             </div>
           <% end %>
         <% end %>
-        <% if ['super admin', 'admin', 'training manager', 'sevener+'].include? current_user.access_level %>
-          <%= link_to contents_path, class: 'left-buttons' do %>
-            <% if request.original_url&.split('/')[3]&.split('?')&.first == 'contents' %>
-              <div class="left-menu-list active">
-                <i class="fas fa-toolbox"></i> <div class="left-menu-title"><h4>Workshops</h4></div>
-              </div>
-            <% else %>
-              <div class="left-menu-list">
-                <i class="fas fa-toolbox"></i> <div class="left-menu-title"><h4>Workshops</h4></div>
-              </div>
-            <% end %>
+        <%= link_to contents_path, class: 'left-buttons' do %>
+          <% if request.original_url&.split('/')[3]&.split('?')&.first == 'contents' %>
+            <div class="left-menu-list active">
+              <i class="fas fa-toolbox"></i> <div class="left-menu-title"><h4>Workshops</h4></div>
+            </div>
+          <% else %>
+            <div class="left-menu-list">
+              <i class="fas fa-toolbox"></i> <div class="left-menu-title"><h4>Workshops</h4></div>
+            </div>
           <% end %>
         <% end %>
-        <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-          <%= link_to client_companies_path, class: 'left-buttons' do %>
-            <% if request.original_url&.split('/')[3]&.split('?')&.first == 'companies' %>
-              <div class="left-menu-list active">
-                <i class="far fa-copyright"></i> <div class="left-menu-title"><h4>Customers</h4></div>
-              </div>
-            <% else %>
-              <div class="left-menu-list">
-                <i class="far fa-copyright"></i> <div class="left-menu-title"><h4>Customers</h4></div>
-              </div>
-            <% end %>
-          <% end %>
-          <%= link_to users_path, class: 'left-buttons' do %>
-            <% if request.original_url&.split('/')[3]&.split('?')&.first == 'users' %>
-              <div class="left-menu-list active">
-                <i class="fas fa-user-tie"></i> <div class="left-menu-title"><h4>Users</h4></div>
-              </div>
-            <% else %>
-              <div class="left-menu-list">
-                <i class="fas fa-user-tie"></i> <div class="left-menu-title"><h4>Users</h4></div>
-              </div>
-            <% end %>
+        <%= link_to users_path, class: 'left-buttons' do %>
+          <% if request.original_url&.split('/')[3]&.split('?')&.first == 'users' %>
+            <div class="left-menu-list active">
+              <i class="fas fa-user-tie"></i> <div class="left-menu-title"><h4>Users</h4></div>
+            </div>
+          <% else %>
+            <div class="left-menu-list">
+              <i class="fas fa-user-tie"></i> <div class="left-menu-title"><h4>Users</h4></div>
+            </div>
           <% end %>
         <% end %>
-        <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-          <%= link_to actions_path, class: 'left-buttons' do %>
-            <% if request.original_url&.split('/')[3]&.split('?')&.first == 'actions' %>
-              <div class="left-menu-list active">
-                <i class="fas fa-running"></i> <div class="left-menu-title"><h4>Actions</h4></div>
-              </div>
-            <% else %>
-              <div class="left-menu-list">
-                <i class="fas fa-running"></i> <div class="left-menu-title"><h4>Actions</h4></div>
-              </div>
-            <% end %>
-          <% end %>
-          <%= link_to theories_path, class: 'left-buttons' do %>
-            <% if request.original_url&.split('/')[3]&.split('?')&.first == 'theories' %>
-              <div class="left-menu-list active">
-                <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Library</h4></div>
-              </div>
-            <% else %>
-              <div class="left-menu-list">
-                <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Library</h4></div>
-              </div>
-            <% end %>
-          <% end %>
-          <%= link_to report_path, class: 'left-buttons' do %>
-            <% if request.original_url&.split('/')[3]&.split('?')&.first == 'report' %>
-              <div class="left-menu-list active">
-                <i class="fas fa-chart-bar"></i> <div class="left-menu-title"><h4>Reports</h4></div>
-              </div>
-            <% else %>
-              <div class="left-menu-list">
-                <i class="fas fa-chart-bar"></i> <div class="left-menu-title"><h4>Reports</h4></div>
-              </div>
-            <% end %>
+        <%= link_to actions_path, class: 'left-buttons' do %>
+          <% if request.original_url&.split('/')[3]&.split('?')&.first == 'actions' %>
+            <div class="left-menu-list active">
+              <i class="fas fa-running"></i> <div class="left-menu-title"><h4>Actions</h4></div>
+            </div>
+          <% else %>
+            <div class="left-menu-list">
+              <i class="fas fa-running"></i> <div class="left-menu-title"><h4>Actions</h4></div>
+            </div>
           <% end %>
         <% end %>
-        <% if ['sevener+', 'sevener'].include? current_user.access_level %>
-          <%= link_to billing_path(user_id: current_user), class: 'left-buttons' do %>
-            <% if request.original_url&.split('/')[3]&.split('?')&.first == 'billing' %>
-              <div class="left-menu-list active">
-                <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Billing</h4></div>
-              </div>
-            <% else %>
-              <div class="left-menu-list">
-                <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Billing</h4></div>
-              </div>
-            <% end %>
+        <%= link_to theories_path, class: 'left-buttons' do %>
+          <% if request.original_url&.split('/')[3]&.split('?')&.first == 'theories' %>
+            <div class="left-menu-list active">
+              <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Library</h4></div>
+            </div>
+          <% else %>
+            <div class="left-menu-list">
+              <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Library</h4></div>
+            </div>
           <% end %>
         <% end %>
       <% end %>

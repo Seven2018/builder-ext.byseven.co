@@ -10,15 +10,7 @@
       <%= f.input :firstname %>
       <%= f.input :lastname %>
       <%= f.input :email %>
-      <% if ['super admin', 'admin'].include?(current_user.access_level) %>
-        <%= f.input :access_level, collection: ['super admin', 'admin', 'training manager', 'sevener+', 'sevener'], include_blank: false %>
-      <% end %>
-      <%= f.input :linkedin %>
       <%= f.input :picture, label: 'Photo URL' %>
-      <% if ['super admin', 'admin'].include?(current_user.access_level) %>
-        <%= f.input :description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
-        <%= f.input :rating, input_html: { min: '0', max: '5' }  %>
-      <% end %>
       <div style=" display: flex; justify-content: space-between;">
         <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
           <i class="fas fa-save"></i>

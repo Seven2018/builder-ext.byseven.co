@@ -51,11 +51,7 @@ class WorkshopPolicy < ApplicationPolicy
 
   private
 
-  def check_access_seven
-    ['super admin', 'admin', 'training manager'].include? user.access_level
-  end
-
   def check_access
-    ['super admin', 'admin', 'training manager', 'sevener+', 'sevener'].include? user.access_level
+    ['super admin', 'user'].include? user.access_level
   end
 end

@@ -1,2 +1,0 @@
-class Estimate < InvoiceItem
-end

@@ -1,50 +1,18 @@
 {
-  "name": "builder_byseven_co",
+  "name": "builder_ext_byseven_co",
   "private": true,
-  "scripts": {
-    "yarn test": "jest",
-    "yarn install": "yarn install --check-files",
-    "rails assets:precompile": "yarn install --check-files; rails assets:precompile",
-    "rails server": "rails server",
-    "webpack-dev-server": "./bin/webpack-dev-server"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "vue"
-    ],
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/app/javascript/parts/$1"
-    },
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
-      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!(vueonrails)/)"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/config/webpack/"
-    ],
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/jest-serializer-vue"
-    ]
-  },
   "dependencies": {
-    "@rails/actiontext": "^6.1.3",
-    "@rails/webpacker": "5.2.1",
-    "babel-preset-es2015": "^6.24.1",
+    "@rails/actioncable": "^6.0.0-alpha",
+    "@rails/activestorage": "^6.0.0-alpha",
+    "@rails/ujs": "^6.0.0-alpha",
+    "@rails/webpacker": "4.3.0",
     "bootstrap": "^4.6.0",
-    "core-js": "3",
-    "easy-autocomplete": "^1.3.5",
-    "flatpickr": "^4.6.9",
-    "jquery": "^3.5.1",
+    "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
-    "sortablejs": "^1.13.0",
-    "trix": "^1.3.1"
+    "turbolinks": "^5.2.0"
   },
+  "version": "0.1.0",
   "devDependencies": {
-    "babel-preset-env": "^1.7.0",
     "webpack-dev-server": "^3.11.2"
   }
 }

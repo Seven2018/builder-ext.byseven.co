@@ -1,2 +1,0 @@
-class InvoiceSevener < InvoiceItem
-end

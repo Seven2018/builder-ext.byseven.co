@@ -16,38 +16,31 @@
       </div>
     </div>
     <% if user_signed_in? %>
-      <%= link_to trainings_path(page: 1), style: 'color: white', class: 'left-buttons-mobile' do %>
-        <div class="left-menu-list-mobile">
-          <i class="fas fa-tasks"></i>
-        </div>
-      <% end %>
-      <% if user_signed_in? && (['super admin', 'admin'].include? current_user.access_level) %>
-        <%= link_to contents_path, style: 'color: white', class: 'left-buttons-mobile' do %>
-          <div class="left-menu-list-mobile">
-            <i class="fas fa-toolbox"></i>
-          </div>
-        <% end %>
-        <%= link_to client_companies_path, style: 'color: white', class: 'left-buttons-mobile' do %>
-          <div class="left-menu-list-mobile">
-            <i class="far fa-copyright"></i>
-          </div>
-        <% end %>
-        <%= link_to users_path, style: 'color: white', class: 'left-buttons-mobile' do %>
-          <div class="left-menu-list-mobile">
-            <i class="fas fa-user-tie"></i>
-          </div>
-        <% end %>
-        <%= link_to actions_path, style: 'color: white', class: 'left-buttons-mobile' do %>
-          <div class="left-menu-list-mobile">
-            <i class="fas fa-running"></i>
-          </div>
-        <% end %>
-        <%= link_to theories_path, style: 'color: white', class: 'left-buttons-mobile' do %>
-          <div class="left-menu-list-mobile">
-            <i class="fas fa-book"></i>
-          </div>
-        <% end %>
-      <% end %>
+    <%= link_to trainings_path(page: 1), style: 'color: white', class: 'left-buttons-mobile' do %>
+      <div class="left-menu-list-mobile">
+        <i class="fas fa-tasks"></i>
+      </div>
+    <% end %>
+    <%= link_to contents_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+      <div class="left-menu-list-mobile">
+        <i class="fas fa-toolbox"></i>
+      </div>
+    <% end %>
+    <%= link_to users_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+      <div class="left-menu-list-mobile">
+        <i class="fas fa-user-tie"></i>
+      </div>
+    <% end %>
+    <%= link_to actions_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+      <div class="left-menu-list-mobile">
+        <i class="fas fa-running"></i>
+      </div>
+    <% end %>
+    <%= link_to theories_path, style: 'color: white', class: 'left-buttons-mobile' do %>
+      <div class="left-menu-list-mobile">
+        <i class="fas fa-book"></i>
+      </div>
+    <% end %>
     <% end %>
   </div>
 </div>

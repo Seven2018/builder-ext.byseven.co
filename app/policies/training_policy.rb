@@ -1,7 +1,7 @@
 class TrainingPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if ['super admin', 'admin', 'training manager', 'sevener+', 'sevener'].include? user.access_level
+      if ['super admin', 'user'].include? user.access_level
         scope.all
       else
         raise Pundit::NotAuthorizedError, 'not allowed to view this action'
@@ -26,7 +26,7 @@ class TrainingPolicy < ApplicationPolicy
   end
 
   def create?
-    check_access_seven
+    check_access
   end
 
   def show?
@@ -38,19 +38,19 @@ class TrainingPolicy < ApplicationPolicy
   end
 
   def edit?
-    check_access_seven
+    check_access
   end
 
   def update?
-    check_access_seven
+    check_access
   end
 
   def destroy?
-    check_access_seven
+    check_access
   end
 
   def copy?
-    check_access_seven
+    check_access
   end
 
   def invoice_form?
@@ -58,16 +58,12 @@ class TrainingPolicy < ApplicationPolicy
   end
 
   def trainer_notification_email?
-    check_access_seven
+    check_access
   end
 
   private
 
-  def check_access_seven
-    ['super admin', 'admin', 'training manager'].include? user.access_level
-  end
-
   def check_access
-    ['super admin', 'admin', 'training manager', 'sevener+', 'sevener'].include? user.access_level
+    ['super admin', 'user'].include? user.access_level
   end
 end

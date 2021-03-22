@@ -13,10 +13,6 @@ class Session < ApplicationRecord
   accepts_nested_attributes_for :session_trainers
   default_scope { order(:date, :start_time) }
 
-  def title_date
-    "#{self.title} - #{self.date&.strftime('%d/%m/%y')}"
-  end
-
   def self.send_reminders
     Session.where(date: Date.today + 2.days).each do |session|
       session.users.each do |user|

@@ -6,7 +6,7 @@ class SessionPolicy < ApplicationPolicy
   end
 
   def create?
-    check_access_seven
+    check_access
   end
 
   def show?
@@ -14,11 +14,11 @@ class SessionPolicy < ApplicationPolicy
   end
 
   def update?
-    check_access_seven
+    check_access
   end
 
   def destroy?
-    check_access_seven
+    check_access
   end
 
   def viewer?
@@ -26,24 +26,20 @@ class SessionPolicy < ApplicationPolicy
   end
 
   def copy_form?
-    check_access_seven
+    check_access
   end
 
   def copy?
-    check_access_seven
+    check_access
   end
 
   def presence_sheet?
-    check_access_seven
+    check_access
   end
 
   private
 
-  def check_access_seven
-    ['super admin', 'admin', 'training manager'].include? user.access_level
-  end
-
   def check_access
-    ['super admin', 'admin', 'training manager', 'sevener+', 'sevener'].include? user.access_level
+    ['super admin', 'user'].include? user.access_level
   end
 end

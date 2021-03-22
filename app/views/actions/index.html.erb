@@ -11,10 +11,8 @@
             <% end %>
           <% end %>
         <% end %>
-        <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-          <%= link_to new_action_path do %>
-            <button class="btn btn-edit-yellow">New Action</button>
-          <% end %>
+        <%= link_to new_action_path do %>
+          <button class="btn btn-edit-yellow">New Action</button>
         <% end %>
       </div>
     </div>
