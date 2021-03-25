@@ -27,12 +27,6 @@
 
 
 .trainings-title {
-  margin-top: 37px;
-  height: 5.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   h3 {
     margin: 0;
   }
@@ -40,6 +34,18 @@
   @include from-large {
     flex-direction: row;
   }
+}
+
+.trainings-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    padding-left: 0px;
+    a {
+    font-family: 'Montserrat';
+    font-size: 20px;
+    }
 }
 
 #training-buttons {

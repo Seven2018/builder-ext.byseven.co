@@ -39,11 +39,11 @@
   </div>
   <div class="trainings-title">
     <% if params[:search] %>
-      <ul class="nav nav-tabs">
+      <ul class="trainings-list">
         <li><p class="active">Search</p></li>
       </ul>
     <% else %>
-      <ul class="nav nav-tabs">
+      <ul class="trainings-list">
         <% if params[:tab].nil? || params[:tab] == 'upcoming' %>
           <!-- <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li> -->
           <li role="presentation"><a href="#upcoming" data-toggle="tab" class="active">Upcoming</a></li>
