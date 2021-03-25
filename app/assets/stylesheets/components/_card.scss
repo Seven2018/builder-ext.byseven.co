@@ -1,9 +1,38 @@
 
 $timeline: #115173;
 
-.card {
+.training-card {
+    margin: 20px;
+    width: 250px;
+    height: 180px;
+    box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.2);
+}
 
-  height: 25rem;
+.training-card-main {
+  height: 100%;
+  h4 {
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+}
+
+.training-card-infos {
+  position: relative;
+  background-color: #FFF1D5;
+  display: flex;
+  justify-items: flex-end;
+  margin-top: 35px;
+  padding: 12px 12px;
+}
+
+.training-card-infos-elements {
+  line-height: 28px;
+}
+
+
+
+.card {
+  height: 20rem;
   width: 35rem;
   margin: 1rem;
   position: relative;
@@ -18,7 +47,7 @@ $timeline: #115173;
     height: 100%;
   }
   .card-main {
-    height: 75%;
+    height: 100%;
     width: 100%;
     text-align: left;
     padding: 1.5rem;
