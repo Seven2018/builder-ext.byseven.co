@@ -5,54 +5,45 @@
   <% result_term = [] %>
   <% ongoing_trainings.each do |training| %>
     <% if training.sessions.where(date: nil).empty? %>
-      <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
-        <div class="card" id="card-index">
-          <div class="card-main">
+
+        <div class="training-card" id="card-index">
+          <div class="training-card-main">
             <%= link_to training_path(training), class: 'stretched-link' do %>
-              <h5 style='max-width: 18rem;'><%= training.title %></h5>
+              <h4 style='max-width: 18rem;'><%= training.title %></h4>
               <% result_term << training %>
-              <div class="card-infos">
-                <% ['sevener+', 'sevener'].include?(current_user.access_level) ? sessions = training.sessions.joins(:session_trainers).where(session_trainers: {user_id: current_user.id}) : sessions = training.sessions %>
-                <div class='card-infos-elements'>
+              <div class="training-card-infos">
+                <% sessions = training.sessions %>
+                <div class='training-card-infos-elements'>
                   <% if sessions.count == 1 %>
                     <i class="far fa-calendar-alt"></i><%= "  On #{sessions.first.date.strftime('%d/%m/%y')}" %>
                   <% else %>
                     <i class="far fa-calendar-alt"></i><%= "  From #{sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
                   <% end %>
-                </div>
-              </div>
-              <% if params[:user] || (params[:search] && params[:search][:user]) %>
-                <% if training.owners.include?(@user) %>
-                  <span style='color:#CA3A4E;margin-right:1rem;'><strong>Owner</strong></span>
-                <% end %>
-                <% if training.writers.include?(@user) %>
-                  <span style='color:#FBC84B;margin-right:1rem;'><strong>Writer</strong></span>
-                <% end %>
-                <% if training.trainers.include?(@user) %>
-                  <span style='color:#41AAAE;margin-right:1rem;'><strong>Trainer</strong></span>
-                <% end %>
-              <% end %>
-            <% end %>
-          </div>
-            <div class="card-footer card-footer-school">
-              <div>
-                <% training.users.uniq.each do |owner| %>
+                  <br>
+                  <i class="far fa-calendar-check"></i>
+                  <%= training.sessions.count.to_s + " " + "Sessions" %>
+                  <% training.users.uniq.each do |owner| %>
                   <img class='avatar-xs' src="<%= owner.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
                 <% end %>
+                <% training.users.uniq.each do |writer| %>
+                  <img class='avatar-xs' src="<%= writer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+                <% end %>
+                <% training.trainers.each do |trainer| %>
+                  <img class='avatar-xs' src="<%= trainer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+                <% end %>
+                </div>
               </div>
-            </div>
+            <% end %>
+          </div>
         </div>
-      </div>
+
     <% end %>
   <% end %>
   <% if result_term.empty? %>
-    <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
-      <div class="card">
-        <div class="card-main">
+      <div class="training-card">
+        <div class="training-card-main">
           <h5><%= "Empty" %></h5>
         </div>
-        <div class="card-footer"></div>
       </div>
-    </div>
   <% end %>
 </div>

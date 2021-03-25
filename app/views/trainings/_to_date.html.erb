@@ -7,14 +7,13 @@
   <% if params[:user].present? %>
     <% user = User.find(params[:user]) %>
     <% trainings_to_date.each do |training| %>
-      <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
         <div class="card" id="card-index">
           <div class="card-main">
             <%= link_to training_path(training), class: 'stretched-link' do %>
-              <h5 style='max-width: 18rem;'><%= training.title %></h5>
+              <h4 style='max-width: 18rem;'><%= training.title %></h4>
               <% result_date << training %>
-              <div class="card-infos">
-                <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
+              <div class="training-card-infos">
+                <div class='training-card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
                 </div>
               </div>
               <% if params[:user] || (params[:search] && params[:search][:user]) %>
@@ -52,11 +51,9 @@
             </div>
           </div>
         </div>
-      </div>
     <% end %>
   <% elsif trainings_to_date.present? %>
     <% trainings_to_date.each do |training| %>
-      <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
         <div class="card" id="card-index">
           <div class="card-main">
             <%= link_to training_path(training), class: 'stretched-link' do %>
@@ -66,17 +63,6 @@
                 <div class='card-infos-elements'><i class="far fa-calendar-alt"></i><%= "  From #{training.sessions.order(date: :asc).first&.date&.strftime('%d/%m/%y')} to #{training.sessions.order(date: :asc).last&.date&.strftime('%d/%m/%y')}" %>
                 </div>
               </div>
-              <% if params[:user] || (params[:search] && params[:search][:user]) %>
-                <% if training.owners.include?(@user) %>
-                  <span style='color:#CA3A4E;margin-right:1rem;'><strong>Owner</strong></span>
-                <% end %>
-                <% if training.writers.include?(@user) %>
-                  <span style='color:#FBC84B;margin-right:1rem;'><strong>Writer</strong></span>
-                <% end %>
-                <% if training.trainers.include?(@user) %>
-                  <span style='color:#41AAAE;margin-right:1rem;'><strong>Trainer</strong></span>
-                <% end %>
-              <% end %>
             <% end %>
           </div>
           <div class="card-footer">
@@ -101,17 +87,13 @@
             </div>
           </div>
         </div>
-      </div>
     <% end %>
   <% end %>
   <% if result_date.empty? %>
-    <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
-      <div class="card">
-        <div class="card-main">
+      <div class="training-card">
+        <div class="training-card-main">
           <h5><%= "Empty" %></h5>
         </div>
-        <div class="card-footer"></div>
       </div>
-    </div>
   <% end %>
 </div>

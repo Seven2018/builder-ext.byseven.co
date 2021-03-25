@@ -34,7 +34,6 @@ class SessionsController < ApplicationController
     authorize @session
     @session.training = @training
     if @session.save
-      UpdateAirtableJob.perform_async(@training)
       redirect_to training_path(@training)
     end
   end
