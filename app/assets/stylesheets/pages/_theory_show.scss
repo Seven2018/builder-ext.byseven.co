@@ -1,0 +1,112 @@
+.theory-description {
+  img {
+    width: 100%;
+  }
+}
+
+.theory-show-references {
+
+  a:hover {
+    font-weight: bolder;
+  }
+
+  li {
+
+  }
+}
+
+.theory-list-title {
+  min-height: 4rem;
+  margin: 3rem 0 60px 0;
+  padding: 0 0.5rem;
+  background-color: #606060;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  p {
+    margin: 0;
+  }
+
+  button:first-child {
+    margin: 0 0.5rem 0 1rem !important;
+    color: white !important;
+  }
+
+  button:last-child {
+    margin: 0 1rem 0 0.5rem !important;
+    color: white !important;
+  }
+}
+
+.theory-list {
+  width: 50%;
+
+  a {
+    color: white;
+  }
+}
+
+ul.theory-list {
+  width: 100%;
+  list-style: none;
+
+  a {
+    color: black;
+  }
+}
+
+#theory-index {
+  width: 100%;
+
+  @include from-large {
+    width: 700px;
+  }
+}
+
+.index-card-large-infos {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  & > p:first-child {
+    word-wrap: break-word;
+    max-width: 45%;
+
+    @include from-large {
+      width: 25rem;
+    }
+  }
+}
+
+.theory-contents {
+  width: 45%;
+
+  p {
+    color: rgba(0,0,0,0.6);
+  }
+}
+
+.theory-description-modal {
+  padding: 1rem;
+}
+
+.theory-references-modal {
+  background-color: #E5E5E5;
+  padding: 1rem;
+
+  a {
+    color: black;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.theory-search-close {
+  position: absolute;
+  right: 150.5rem;
+  top: 0.5rem;
+}

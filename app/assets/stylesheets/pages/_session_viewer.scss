@@ -1,0 +1,41 @@
+.container-session-viewer {
+  position: relative;
+  width: 100vw;
+  display: flex;
+}
+
+.card-right-viewer {
+  width: 100% !important;
+}
+
+.container-seven-large-viewer {
+  margin-left: 0 !important;
+}
+
+#workshops-viewer {
+  margin-top: 5rem;
+  position: absolute;
+  top: 8rem;
+  left: 0;
+  right: 0;
+}
+
+#modules-viewer {
+  margin-top: 5rem;
+}
+
+.module-card-viewer {
+  padding: 3rem;
+}
+
+.session-view-mode-anchor {
+  position: absolute;
+  top: -15rem;
+  left: 0;
+}
+
+.workshop-view-mode-anchor {
+  position: absolute;
+  top: -16rem;
+  left: 0;
+}

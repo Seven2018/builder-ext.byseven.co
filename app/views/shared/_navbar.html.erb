@@ -1,0 +1,40 @@
+<div class="navbar navbar-light">
+  <div class="navbar-controls-right flex-row-between-centered">
+    <div class="dropdown show">
+      <a class="navbar-user-card flex-row-between-centered" href="#" role="button" id="dropdownMenuLogout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div>
+          <h6><%= current_user.fullname %></h6>
+        </div>
+        <img src="<%= current_user.picture %>" alt="<%= current_user.fullname %>" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" id='dropdown-user-menu' aria-labelledby="dropdownMenuLogout">
+        <div class="dropdown-card dropdown-item flex-row-between-centered">
+          <p>Account</p>
+        </div>
+        <%= link_to user_path(current_user) do %>
+          <div class="dropdown-card dropdown-item flex-row-between-centered">
+            <i class="fas fa-user"></i>
+            <div class='dropdown-card-text'>
+              <h6>Profile</h6>
+            </div>
+          </div>
+        <% end %>
+        <%= link_to destroy_user_session_path, method: :delete do %>
+          <div class="dropdown-card dropdown-item flex-row-between-centered">
+            <i class="fas fa-sign-out-alt"></i>
+            <div class='dropdown-card-text'>
+              <h6>Log out</h6>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <script>
+  $('.dropdown-menu').on('click', function(event){
+    // The event won't be propagated up to the document NODE and
+    // therefore delegated events won't be fired
+    event.stopPropagation();
+});
+</script> -->

@@ -1,0 +1,75 @@
+h1, h2, h3, h4, h4, h6, p, a, ul, ol, li, span {
+  font-family: 'Montserrat';
+}
+
+h2, h3 {
+  @include from-large {
+    font-size: 2.4rem !important;
+  }
+}
+
+h4 {
+  @include from-large {
+    font-size: 2rem !important;
+  }
+}
+
+h5 {
+  @include from-large {
+    font-size: 1.6rem !important;
+  }
+}
+
+h6, label {
+  font-size: 1.2rem !important;
+}
+
+p, i {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+a {
+  text-decoration: none;
+  color: #23282E;
+  font-size: 1.6rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+button {
+    @include from-large {
+    font-size: 1.6rem;
+  }
+}
+
+*:focus {
+    outline: 0 !important;
+}
+
+ul {
+  list-style-type: none;
+}
+
+input, select {
+  font-size: 1.6rem !important;
+}
+
+.search-bar {
+
+  input {
+    height: 4rem !important;
+  }
+}
+
+input[type='checkbox']:checked + label {
+  color: black !important;
+}
+
+textarea {
+  font-size: 1.6rem !important;
+}

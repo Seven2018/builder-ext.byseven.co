@@ -1,0 +1,26 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= action.name %></h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for action, as: :act do |f| %>
+      <%= f.input :name %>
+      <%= f.input :description, :input_html => {:rows => 2, style: 'width:100%;', maxlength: 140}, label: 'Description (max 140 characters)' %>
+      <%= f.association :intelligence1, collection: Intelligence.all, include_blank: false %>
+      <%= f.association :intelligence2, collection: Intelligence.all, include_blank: true %>
+      <div class='modal-control'>
+        <%= button_tag type: 'submit', data: { toggle: 'tooltip' }, title: 'Save', class: 'btn btn-edit-green btn-icon' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+        <%= link_to action_path(action), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
+          <button class="btn btn-edit-red btn-icon">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

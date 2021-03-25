@@ -1,0 +1,29 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to actions_path, class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Add an Action</h3>
+  <%= simple_form_for @action, as: :act do |f| %>
+    <%= f.input :name %>
+    <%= f.input :description, :input_html => {:rows => 2, style: 'width:100%;', maxlength: 140}, label: 'Description (max 140 characters)' %>
+    <%= f.association :intelligence1, collection: Intelligence.all, include_blank: false %>
+    <%= f.association :intelligence2, collection: Intelligence.all, include_blank: true %>
+    <div class="center-button">
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
+        <i class="fas fa-save"></i>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% Intelligence.all.each do |intel| %>
+    <div>
+      <br>
+      <p><%= intel.name %></p>
+      <br>
+      <p><%= intel.description %></p>
+      <br>
+    </div>
+  <% end %>
+</div>

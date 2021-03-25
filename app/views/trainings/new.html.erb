@@ -1,0 +1,16 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to trainings_path(page: 1), class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <div class="container-new-form">
+    <h3>New Training</h3>
+
+    <%= simple_form_for @training do |f| %>
+      <%= f.input :title, placeholder: 'ex : Intelligence Economique - Mai 2020' %>
+      <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow' %> </p>
+    <% end %>
+  </div>
+</div>
+

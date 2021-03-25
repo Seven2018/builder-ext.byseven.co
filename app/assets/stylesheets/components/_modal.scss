@@ -1,0 +1,104 @@
+.modal-header {
+  align-items: center !important;
+}
+
+.mod-date {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  text-align: left;
+
+  @include from-large {
+    flex-direction: row;
+  }
+}
+
+#modal-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+#modal-title-consult {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+#modal-title button {
+  border: none;
+  font-size: 2.4rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: row-reverse;
+
+  .btn {
+    max-width: none !important;
+  }
+}
+
+.modal-control {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 3rem;
+}
+
+.fa-user-plus {
+  color: black;
+  margin: 0;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.modal-body {
+
+  p {
+    font-size: 1.6rem !important;
+    font-weight: 300;
+  }
+}
+
+.modal-lg {
+  z-index: 9500 !important;
+}
+
+.modal {
+ overflow-y: auto !important;
+ padding: 0 !important;
+}
+
+.modal-open {
+ overflow: auto !important;
+}
+
+.modal-seven {
+  width: auto !important;
+}
+
+.modal-image {
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.modal-autocomplete {
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    min-width: 22.3rem;
+  }
+
+  .easy-autocomplete-container > ul {
+    min-width: 15rem;
+  }
+}

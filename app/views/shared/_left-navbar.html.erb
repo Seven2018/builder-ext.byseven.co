@@ -1,0 +1,95 @@
+<div class="left-navbar left-navbar-builder">
+  <div class="left-navbar-top">
+    <% if params[:controller] == 'sessions' && params[:action] == 'viewer' %>
+      <%= link_to 'Exit View Mode', training_session_path(@session.training, @session), class: 'btn btn-edit-red' %>
+    <% elsif params[:controller] == 'workshops' && params[:action] == 'viewer' %>
+      <%= link_to 'Exit View Mode', training_session_path(@workshop.session.training, @workshop.session), class: 'btn btn-edit-red' %>
+    <% end %>
+  </div>
+  <% if params[:controller] == 'sessions' && params[:action] == 'viewer' %>
+    <div class="left-navbar-middle">
+      <% @session.workshops.order(position: :asc).each do |workshop| %>
+        <a href="#<%= workshop&.id %>">
+          <div class="left-menu-list">
+            <p><%= workshop&.title %></p>
+          </div>
+        </a>
+      <% end %>
+    </div>
+  <% elsif params[:controller] == 'workshops' && params[:action] == 'viewer' %>
+    <div class="left-navbar-middle">
+      <% @workshop.workshop_modules.order(position: :asc).each do |mod| %>
+        <a href="#<%= mod&.id %>">
+          <div class="left-menu-list">
+            <p><%= mod&.title %></p>
+          </div>
+        </a>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="left-navbar-middle">
+      <% if user_signed_in? %>
+        <%= link_to trainings_path(page: 1), class: 'left-buttons' do %>
+          <% if request.original_url&.split('/')[3]&.split('?')&.first == 'trainings' %>
+            <div class="left-menu-list active">
+              <i class="fas fa-tasks"></i> <div class="left-menu-title"><h4>Trainings</h4></div>
+            </div>
+          <% else %>
+            <div class="left-menu-list">
+              <i class="fas fa-tasks"></i> <div class="left-menu-title"><h4>Trainings</h4></div>
+            </div>
+          <% end %>
+        <% end %>
+        <%= link_to contents_path, class: 'left-buttons' do %>
+          <% if request.original_url&.split('/')[3]&.split('?')&.first == 'contents' %>
+            <div class="left-menu-list active">
+              <i class="fas fa-toolbox"></i> <div class="left-menu-title"><h4>Workshops</h4></div>
+            </div>
+          <% else %>
+            <div class="left-menu-list">
+              <i class="fas fa-toolbox"></i> <div class="left-menu-title"><h4>Workshops</h4></div>
+            </div>
+          <% end %>
+        <% end %>
+        <%= link_to users_path, class: 'left-buttons' do %>
+          <% if request.original_url&.split('/')[3]&.split('?')&.first == 'users' %>
+            <div class="left-menu-list active">
+              <i class="fas fa-user-tie"></i> <div class="left-menu-title"><h4>Users</h4></div>
+            </div>
+          <% else %>
+            <div class="left-menu-list">
+              <i class="fas fa-user-tie"></i> <div class="left-menu-title"><h4>Users</h4></div>
+            </div>
+          <% end %>
+        <% end %>
+        <%= link_to actions_path, class: 'left-buttons' do %>
+          <% if request.original_url&.split('/')[3]&.split('?')&.first == 'actions' %>
+            <div class="left-menu-list active">
+              <i class="fas fa-running"></i> <div class="left-menu-title"><h4>Actions</h4></div>
+            </div>
+          <% else %>
+            <div class="left-menu-list">
+              <i class="fas fa-running"></i> <div class="left-menu-title"><h4>Actions</h4></div>
+            </div>
+          <% end %>
+        <% end %>
+        <%= link_to theories_path, class: 'left-buttons' do %>
+          <% if request.original_url&.split('/')[3]&.split('?')&.first == 'theories' %>
+            <div class="left-menu-list active">
+              <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Library</h4></div>
+            </div>
+          <% else %>
+            <div class="left-menu-list">
+              <i class="fas fa-book"></i> <div class="left-menu-title"><h4>Library</h4></div>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="left-navbar-bottom">
+    <%= link_to root_path, class: "left-navbar-logo" do %>
+      <%= image_tag "SEVENLOGO_SQUARE2.png" %>
+    <% end %>
+  </div>
+</div>

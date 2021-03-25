@@ -1,0 +1,258 @@
+html {
+  display: flex;
+  justify-content: center;
+  overflow: -moz-scrollbars-vertical;
+  overflow-y: scroll !important;
+  font-size: 62.5%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  max-width: 144rem !important;
+  width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+a {
+  color: black;
+
+  &:hover {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.container-seven-large {
+  margin-top: 8rem;
+  width: 100%;
+  min-height: calc(100vh-5rem);
+  padding: 0 3rem;
+  position: relative;
+
+  @include from-large {
+    padding-top: 3rem;
+    margin-left: 22rem;
+    min-height: calc(100vh - 13rem);
+    max-width: 122rem;
+    width: calc(100vw - 22rem);
+  }
+}
+
+.container-seven-large-monthly-calendar {
+
+  @include from-large {
+    margin: 0 0 0 22rem !important;
+  }
+}
+
+.container-new-form {
+  margin-top: 3rem;
+  width: 100%;
+  min-height: 100vh;
+  background-color: white;
+  padding: 5rem;
+
+  @include from-large {
+    margin-top: 0;
+    min-width: 108rem;
+    min-height: 50vh;
+    padding: 5rem 40rem;
+  }
+
+  h3, div.form-group {
+    margin-bottom: 3rem;
+  }
+}
+
+.container-new-form-large {
+  margin-top: 3rem;
+  width: 100%;
+  min-height: 100vh;
+  background-color: white;
+  padding: 5rem;
+
+  @include from-large {
+    margin-top: 0;
+    min-width: 108rem;
+    min-height: 50vh;
+    padding: 0 5rem;
+  }
+
+  h3, div.form-group {
+    margin-bottom: 3rem;
+  }
+}
+
+#page-index {
+  width: 100%;
+
+  @include from-large {
+    width: auto;
+  }
+}
+
+#page-controls {
+  position: fixed;
+  top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid #DADCE0;
+  height: 8rem;
+  background-color: white;
+  z-index: 10;
+
+  @include from-large {
+    max-width: 116rem;
+    width: calc(100vw - 28rem);
+    flex-direction: row;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+  }
+
+  form, input, button {
+    height: 4rem !important;
+  }
+
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  div > a {
+    // margin-left: 2rem;
+  }
+}
+
+#page-buttons {
+  position: relative;
+
+  & > form {
+    margin: 0 1rem;
+  }
+}
+
+.index-card-large {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 2rem 0;
+  transition: all 0.1s ease;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
+
+  p {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include from-large {
+    padding: 2rem;
+  }
+}
+
+.index-card-small > div {
+  width: 70%;
+
+  div {
+    width: 60%;
+  }
+}
+
+.tab-pane .row {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+#left-side {
+  width: 22rem;
+  display: none;
+
+  @include from-large {
+    display: block;
+  }
+}
+
+#right-side {
+  // width: calc(100vw - 22rem);
+  min-width: 90rem;
+}
+
+.flex-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+
+  a {
+    margin-left: 1rem;
+  }
+}
+
+ul {
+  list-style-type: disc;
+}
+
+#container-login {
+  width: 100%;
+  padding: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #login-div {
+    width: 30rem;
+
+    .login-title {
+      padding: 0 4rem;
+      margin-bottom: 3rem;
+    }
+
+    .form-check {
+      height: 3rem;
+      display: flex;
+      align-items: center;
+
+      label {
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  .form-sign-in-options {
+
+    fieldset {
+      margin: 0 !important;
+    }
+
+    a {
+      font-size: 10px;
+    }
+  }
+
+  .form-actions {
+    margin-top: 2rem;
+  }
+
+  .form-check {
+    margin: 0;
+  }
+}

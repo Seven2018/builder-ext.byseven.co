@@ -1,0 +1,134 @@
+ /* Remove default bullets */
+#myUL {
+  list-style-type: none;
+}
+
+/* Remove margins and padding from the parent ul */
+#myUL {
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  li {
+    border: none;
+  }
+}
+
+.myUL-li-theme {
+  width: 100%;
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  &:last-child {
+    border-bottom-width: 1px;
+  }
+
+  .caret {
+    background-color: white;
+    transition: color 0.5s 0.5s;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.05) !important;
+    }
+  }
+}
+
+.myUL-sidebar .theme-active{
+
+  &:hover {
+    background-color: #2E353D !important;
+  }
+}
+
+.theme-active {
+
+  .caret-down {
+    color: #FDC553;
+    transition: color 0.5s;
+  }
+
+  .sidebar-caret {
+    background-color: rgba(0,0,0,0) !important;
+  }
+}
+
+.myUL-li-content {
+
+  a {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.05);
+    }
+  }
+
+  &:last-child {
+    border-bottom: none !important;
+  }
+
+  .myUL-li-content-second {
+    width: 60%;
+    display: flex;
+    justify-content: flex-start;
+
+    span {
+      width: 30%;
+      margin: 0 1rem;
+    }
+  }
+}
+
+
+/* Style the caret/arrow */
+.caret {
+  cursor: pointer;
+  user-select: none; /* Prevent text selection */
+  padding: 1rem 7.0.5rem;
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caret-down::before {
+  transform: rotate(90deg);
+}
+
+/* Hide the nested list */
+.nested {
+  overflow: hidden;
+  list-style: none !important;
+  border-width: 1px 0 0 0;
+  margin-top: 1.5rem;
+  max-height: 0px;
+  -webkit-transition: max-height 0.66s;
+  -moz-transition: max-height 0.66s;
+  -ms-transition: max-height 0.66s;
+  -o-transition: max-height 0.66s;
+  transition: max-height 0.66s;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.nested-active {
+  width: 100%;
+  padding: 0;
+  max-height: 100vh;
+  -webkit-transition: max-height 2s ease 0.2s;
+  -moz-transition: max-height 2s ease 0.2s;
+  -ms-transition: max-height 2s ease 0.2s;
+  -o-transition: max-height 2s ease 0.2s;
+  transition: max-height 2s ease 0.2s;
+}

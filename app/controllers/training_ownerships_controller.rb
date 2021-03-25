@@ -1,0 +1,2 @@
+class TrainingOwnershipsController < ApplicationController
+end

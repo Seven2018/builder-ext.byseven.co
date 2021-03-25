@@ -1,0 +1,36 @@
+#content-index {
+  padding-top: 3rem;
+}
+
+.content-index-theme-title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-weight: 700;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  p {
+    margin: 0 0 0 1rem;
+  }
+}
+
+.content-index-nested {
+  margin: 0 2rem;
+}
+
+.content-index-card {
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  a {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 300;
+  }
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
+}

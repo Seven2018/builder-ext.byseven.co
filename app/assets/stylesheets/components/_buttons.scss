@@ -1,0 +1,450 @@
+.user-controls {
+  // width: 280px;
+  // position: relative;
+}
+
+.control-button {
+  border-radius: 50%;
+  height: 4.8rem;
+  width: 4.8rem;
+  font-size: 1.6rem; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  opacity: 0.6;
+  transition: all 0.8s ease;
+  color: white;
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  &:hover {
+    opacity: 1;
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.control-button-warning {
+  background-color: $orange;
+}
+
+.warning-training {
+  position: absolute;
+  top: 1.5rem;
+  left: 4.2rem;
+}
+
+.warning-client {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.7rem;
+}
+
+.control-button-danger {
+  background-color: $red;
+}
+
+.control-button-add {
+  background-color: $green;
+}
+
+.client-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h3 {
+    margin: 0;
+  }
+  .btn {
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+.text {
+  border-radius: 1rem;
+  width: auto;
+}
+
+.edit-fafa {
+  display: none;
+  border: none;
+  font-size: 2rem;
+  outline: none;
+  color: black;
+  background-color: rgba(0,0,0,0);
+  &:hover {
+    color: black;
+    cursor: pointer;
+  }
+
+  @include from-large {
+    display: inline;
+  }
+}
+
+.add-user {
+  border-radius: 50%;
+  height: 3.5rem;
+  width: 3.5rem;
+  border: 1px solid rgba(0,0,0,0.6);
+  padding: 0;
+  background-color: rgba(0,0,0,0);
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  padding: 6.0.5rem 8.0.5rem !important;
+  box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
+}
+
+.return-arrow {
+  height: 4rem;
+  width: 4rem;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  min-width: 4rem !important;
+  min-height: 4rem !important;
+
+  &::after {
+    z-index: 100;
+  }
+
+  i {
+    font-size: 1.6rem;
+  }
+}
+
+.btn-edit-yellow, .btn-edit-red, .btn-edit-green, .btn-edit-grey, .btn-edit-blue, .btn-edit-orange, .btn-submit-disabled {
+  font-family: 'Arial', sans-serif !important;
+  opacity: 0.8;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  color: white !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+
+  i {
+    color: white;
+  }
+
+
+  &:hover{
+    opacity: 1;
+    text-decoration: none !important;
+  }
+}
+
+.btn-edit-checkbox {
+  font-family: 'Arial', sans-serif !important;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+
+  i {
+    color: white;
+  }
+
+
+  &:hover{
+    background-image: none !important;
+    text-decoration: none !important;
+
+    i {
+    color: #4AC2C7;
+    }
+  }
+}
+
+.btn-edit-checkbox-checked {
+  font-family: 'Arial', sans-serif !important;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+
+  i {
+    color: #4AC2C7;
+  }
+
+
+  &:hover{
+    background-image: none !important;
+    text-decoration: none !important;
+
+    i {
+    color: white;
+    }
+  }
+}
+
+.btn-edit-checkbox-disabled {
+  font-family: 'Arial', sans-serif !important;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  opacity: 1 !important;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    opacity: 1 !important;
+  }
+}
+
+.btn-edit, .btn-edit-yellow, .btn-edit-yellow-large {
+  background-color: $yellow !important;
+}
+
+.btn-edit-red {
+  background-color: #E64259 !important;
+}
+
+.btn-edit-green {
+  background-color: #4AC2C7 !important;
+}
+
+.btn-edit-blue {
+  background-color: #739DBF !important;
+}
+
+.btn-edit-grey {
+    background-color: #23282E !important;
+}
+
+.btn-edit-orange {
+    background-color: #FF8E66 !important;
+}
+
+.btn-icon, .btn-icon-close {
+  height: 4rem;
+  width: 4rem;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0 !important;
+  min-width: 4rem !important;
+  min-height: 4rem !important;
+
+  &::after {
+    z-index: 100;
+  }
+}
+
+.btn-icon {
+  color: white;
+}
+
+.btn-icon-close {
+  color: black !important;
+  box-shadow: none !important;
+}
+
+.btn-edit-round {
+  min-width: 0 !important;
+  padding: 0.45rem !important;
+  border-radius: 50% !important;
+  background-color: #23282E !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #23282E !important;
+  }
+}
+
+.btn-edit-yellow-large {
+  font-family: 'Arial', sans-serif !important;
+  opacity: 0.8;
+  width: auto;
+  max-width: none;
+  padding: 1.1rem 1.6rem !important;
+  border-radius: 0.22em;
+  box-sizing: border-box;
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  color: white !important;
+  text-align: center;
+  transition: all 0.1s;
+  outline: none !important;
+  margin-left: 0.5rem !important;
+
+  i {
+    color: white;
+  }
+
+
+  &:hover{
+    opacity: 1;
+    text-decoration: none !important;
+  }
+}
+
+.btn-add-user {
+  font-family: 'Arial', sans-serif !important;
+  box-shadow: none !important;
+  border-radius: 5.2rem !important;
+  background-color: rgba(0,0,0,0.05) !important;
+  font-size: 1.4rem !important;
+  padding: 1.05rem 1.6rem !important;
+}
+
+.btn-add-user-disabled {
+  font-family: 'Arial', sans-serif !important;
+  box-shadow: none !important;
+  cursor: default !important;
+  background-color: white !important;
+  background-image: none !important;
+  font-size: 1.4rem !important;
+  padding: 1.05rem 1.6rem !important;
+
+  &:hover {
+    background-color: white !important;
+    background-image: none !important;
+  }
+}
+
+.btn-sign-in {
+  height: 42px;
+  background-color: $yellow !important;
+  border-radius: 2px;
+  box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+}
+
+.disabled {
+  cursor: default !important;
+
+  &:hover {
+    background-color: rgba(0,0,0,0) !important;
+  }
+}
+
+.btn-submit-disabled {
+  cursor: default !important;
+  background-color: rgba(0,0,0,0.3) !important;
+}
+
+#search_title, #search_name {
+  margin-right: 1rem;
+  background-color: #F1F3F4;
+  border-radius: 5px;
+  border: none;
+   &:focus, &:hover, &:active {
+    border:none;
+   }
+}
+
+//// button on workshop add ////
+#content_module_duration_05_mins, #content_module_duration_10_mins, #content_module_duration_15_mins, #content_module_duration_20_mins,
+#content_module_duration_25_mins, #content_module_duration_30_mins, #content_module_duration_35_mins, #content_module_duration_40_mins,
+#content_module_duration_45_mins, #content_module_duration_50_mins, #content_module_duration_55_mins, #content_module_duration_60_mins {
+    position: absolute;
+    transform: scale(0);
+}
+
+#content_module_duration_05_mins + label , #content_module_duration_10_mins + label , #content_module_duration_15_mins + label, #content_module_duration_20_mins + label,
+#content_module_duration_25_mins + label, #content_module_duration_30_mins + label, #content_module_duration_35_mins + label, #content_module_duration_40_mins + label,
+#content_module_duration_45_mins + label, #content_module_duration_50_mins + label, #content_module_duration_55_mins + label, #content_module_duration_60_mins + label {
+    color: grey;
+    border: 3px solid grey;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-weight: 700;
+    width: 80px;
+    text-align: center;
+    margin: 10px 0px !important;
+}
+
+#content_module_duration_05_mins:checked + label , #content_module_duration_10_mins:checked + label , #content_module_duration_15_mins:checked + label, #content_module_duration_20_mins:checked + label,
+#content_module_duration_25_mins:checked + label, #content_module_duration_30_mins:checked + label, #content_module_duration_35_mins:checked + label, #content_module_duration_40_mins:checked + label,
+#content_module_duration_45_mins:checked + label, #content_module_duration_50_mins:checked + label, #content_module_duration_55_mins:checked + label, #content_module_duration_60_mins:checked + label {
+  border: 3px solid #FDC553;
+}
+
+.form-group {
+  .content_module_duration{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+
+.duration-buttons {
+  fieldset {
+    margin: 5px 0px !important;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+
+.col-form-label {
+  font-size: 1.5rem !important;
+  font-family: 'Montserrat'
+}
+
+// Checkboxes Module New
+
+.action-checkboxes {
+  fieldset {
+    margin: 5px 0px !important;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .form-check-label {
+    font-size: 15px !important;
+  }
+}
+
+.form-check-label {
+  font-family: "Montserrat";
+  margin-left: 25px;
+}
+
+input[type='checkbox'] {
+  margin-left: 10px;
+}

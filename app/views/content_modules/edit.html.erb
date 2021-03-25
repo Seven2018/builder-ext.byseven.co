@@ -1,0 +1,25 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to content_path(@content), class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Edit a module</h3>
+
+  <%= simple_form_for [@content, @content_module] do |f| %>
+    <%= f.input :title %>
+    <%= f.label :instructions %>
+    <%= f.cktext_area :instructions %>
+    <%= f.input :duration, label: 'Duration (min)' %>
+    <%= f.label :logistics %>
+    <%= f.cktext_area :logistics %>
+    <%= f.input :action1_id, collection: Action.all, label: 'Action 1' %>
+    <%= f.input :action2_id, collection: Action.all, label: 'Action 2' %>
+    <%= f.input :comments, input_html: { style: 'width:100%;' } %>
+    <p class="center-button" style='margin-bottom: 3rem;'>
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
+        <i class="fas fa-save"></i>
+      <% end %>
+    </p>
+  <% end %>
+</div>

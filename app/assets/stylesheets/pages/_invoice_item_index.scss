@@ -1,0 +1,69 @@
+.invoice-list {
+  margin-top: 3rem;
+}
+
+.result-pages-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  p {
+    margin: 0 0.5rem;
+  }
+
+  a {
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.428572;
+  }
+}
+
+.invoice-card {
+  width: 100%;
+  min-width: 94rem;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .invoice-card-link {
+    width: 20%;
+  }
+}
+
+.item-id, .item-status {
+  color: black !important;
+}
+
+.item-id {
+
+  p {
+    overflow-x: hidden;
+    width: 15rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+#product-list {
+
+  li > a {
+    color: white;
+  }
+
+  li:hover {
+      border: none !important;
+  }
+}

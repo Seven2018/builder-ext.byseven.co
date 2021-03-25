@@ -1,0 +1,103 @@
+#dashboard-title {
+  text-align: center;
+
+  @include from-large {
+    text-align: left;
+  }
+}
+
+.training-cat {
+  margin: 3rem 0 3rem 0;
+  font-size: 2rem;
+  margin-left: 83px;
+  font-size: 28px;
+
+}
+
+.row {
+  background-color: white;
+  background-color: white;
+  padding-top: 2.5rem;
+  padding-left: 2.5rem;
+  padding-right: 0px;
+  margin-left: 80.5rem;
+  margin-right: 60.5rem;
+  margin-top: 2.5rem;
+}
+
+
+.trainings-title {
+  h3 {
+    margin: 0;
+  }
+
+  @include from-large {
+    flex-direction: row;
+  }
+}
+
+.trainings-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    padding-left: 0px;
+    a {
+    font-family: 'Montserrat';
+    font-size: 20px;
+    }
+}
+
+#training-buttons {
+  display: flex;
+  position: relative;
+
+  @include from-large {
+    display: flex;
+  }
+
+  a {
+    margin-left: 2rem;
+  }
+}
+
+.training-search-close {
+  position: absolute;
+  right: 37rem;
+  top: 0.8rem;
+}
+
+#trainings_user_filter {
+
+  .avatar-sm {
+
+    &:hover {
+      opacity: 1 !important;
+    }
+  }
+
+  a {
+    margin-right: 1rem;
+  }
+}
+
+.training_index_controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  p {
+    margin: 0 0 0 5px;
+  }
+
+  a {
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.428572;
+  }
+
+  i {
+    margin-left: 5px;
+  }
+}

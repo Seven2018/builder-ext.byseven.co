@@ -1,0 +1,42 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style="display:flex;justify-content:center;text-align:center;">
+      <h3 class="modal-title" id="myModalLabel"><%= "Owner (max : 2)" %></h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
+    <%= simple_form_for [@training, @training_ownership] do |f| %>
+      <div id='checkbox' style=" display:flex;justify-content:space-between;flex-direction:column;">
+        <%= collection_check_boxes(:training, :owner_ids, User.where.not(access_level: %w[sevener+ sevener]).order('firstname ASC'), :id, :fullname) do |b| %>
+          <%= b.label class: 'label-checkbox', style: 'color:black;' do %>
+            <%= b.check_box + b.text %>
+          <% end %>
+        <% end %>
+      </div>
+      <script>
+        var $cs=$('#checkbox input:checkbox:checked');
+          if ($cs.length > 1) {
+            $('#checkbox input:checkbox:not(:checked)').attr("disabled", true);
+            $('#checkbox input:checkbox:not(:checked)').parent().css("color", "gray");
+          }
+        $('#checkbox input:checkbox').change(function () {
+          var $cs=$('#checkbox input:checkbox:checked');
+          if ($cs.length > 1) {
+            $('#checkbox input:checkbox:not(:checked)').attr("disabled", true);
+            $('#checkbox input:checkbox:not(:checked)').parent().css("color", "gray");
+          }
+          else{
+            $('#checkbox input:checkbox').attr("disabled", false);
+            $('#checkbox input:checkbox').parent().css("color", "black");
+          }
+        });
+      </script>
+      <div style="display:flex;justify-content:center;margin-top:3rem;">
+        <%= button_tag :submit, class: 'btn btn-edit-green btn-icon' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

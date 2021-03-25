@@ -1,0 +1,83 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel">Copy <%= mod.title %> to :</h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for :copy, url: training_session_copy_workshop_path(mod.session.training, mod.session, mod), method: 'GET' do |f| %>
+      <div class="copy-form-element">
+        <%= f.label :client_company_id, 'Client' %>
+        <%= f.collection_select :client_company_id, ClientCompany.all.order(:name), :id, :name, options = { include_blank: true }, html_options = { class: "copy_client_company_id#{mod.id}" } %>
+      </div>
+      <div class="copy-form-element">
+        <%= f.label :training_id, 'Training', class: 'copy-form-hidden-label' %>
+        <%= f.grouped_collection_select :training_id, ClientCompany.all, :trainings_for_copy, :name, :id, :title,  options = {}, html_options = { class: "copy_training_id#{mod.id}"} %>
+      </div>
+      <div class="copy-form-element">
+        <%= f.label :session_id, 'Session', class: 'copy-form-hidden-label' %>
+        <%= f.grouped_collection_select :session_id, Training.all.order(title: :asc), :sessions, :title_for_copy, :id, :title_date, options = {}, html_options = { class: "copy_session_id#{mod.id}" } %>
+      </div>
+      <div style='display:flex;justify-content:center;margin-top:2rem;'>
+        <%= f.input :rename, placeholder: mod.title, label: 'Rename' %>
+      </div>
+      <div class='modal-control'>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Copy' do %>
+          <i class="fas fa-copy"></i>
+        <% end %>
+        <% link_to copy_workshop_path(copy_here: true), class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Copy here' do %>
+          <i class="fas fa-angle-double-down"></i>
+        <% end %>
+      </div>
+      <script>
+        $('.btn-copy').click(function() {
+          id = $(this).attr('id');
+          $('.copy-form-hidden-label').hide()
+          $('.copy_training_id'+id).hide()
+          $('.copy_session_id'+id).hide()
+          trainings = $('.copy_training_id'+id).html()
+          sessions = $('.copy_session_id'+id).html()
+          reset = $('.copy_training_id'+id).html()
+          reset1 = $('.copy_session_id'+id).html()
+          $('.copy_client_company_id'+id).change(function() {
+            client_company = $('.copy_client_company_id'+id+' :selected').text()
+            options = $(trainings).filter(`optgroup[label='${client_company}']`).html()
+            $('.copy-form-hidden-label').show()
+            if (options) {
+              $('.copy_training_id'+id).html(options)
+              $('.copy_training_id'+id).show()
+              // training = $('.copy_training_id'+id+' :selected').text()
+              // options1 = $(sessions).filter(`optgroup[label='${training}']`).html()
+              // $('.copy_session_id'+id).html(options1)
+              // $('.copy_session_id'+id).show()
+            } else {
+              $('.copy_training_id'+id).empty()
+              $('.copy_training_id'+id).hide()
+            }
+          });
+          $('.copy_training_id'+id).change(function() {
+            training = $('.copy_training_id'+id+' :selected').text()
+            options1 = $(sessions).filter(`optgroup[label='${training}']`).html()
+            if (options1) {
+              $('.copy_session_id'+id).html(options1)
+              $('.copy_session_id'+id).show()
+            } else {
+              $('.copy_session_id'+id).empty()
+              $('.copy_session_id'+id).hide()
+            }
+          });
+          $('.btn-icon').click(function() {
+            $(".copy").each(function() {
+              this.reset();
+            });
+            $('.copy_training_id'+id).html(reset)
+            $('.copy_session_id'+id).html(reset1)
+            $('.copy_training_id'+id).hide()
+            $('.copy_session_id'+id).hide()
+          })
+        });
+      </script>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+#billing-index {
+  padding-top: 3rem;
+}
+
+.billing-index-category {
+  margin-bottom: 5rem;
+}
+
+.billing-card {
+
+}
+
+.billing-card-title {
+  width: 100%;
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  padding: 2rem 0;
+  border-bottom: 1px solid black;
+
+  p {
+    margin: 0 2rem;
+
+    &:first-of-type {
+      max-width: 40rem;
+    }
+  }
+}
+
+.billing-invoice-index {
+  background-color: rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+  padding: 2rem;
+
+  a {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  p {
+    margin: 0;
+  }
+}

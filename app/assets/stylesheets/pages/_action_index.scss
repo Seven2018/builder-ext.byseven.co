@@ -1,0 +1,36 @@
+.action-infos {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 2.5rem;
+
+  @include from-large {
+    margin-right: 0 !important;
+  }
+
+  div {
+    width: 30%;
+
+    p {
+      width: 100%;
+    }
+  }
+
+  p {
+    width: 30%;
+    color: rgba(0,0,0,0.6);
+  }
+
+  > p:first-child {
+    color: black;
+    width: 30%;
+  }
+
+  > p:last-child {
+    width: 30%;
+  }
+}
+
+.action-search-close {
+  position: absolute;
+}

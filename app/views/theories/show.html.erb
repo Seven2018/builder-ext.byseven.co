@@ -1,0 +1,22 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to theories_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+    <div class="show-control-links">
+      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
+        <%= link_to edit_theory_path, data: { toggle: 'tooltip' }, title: 'Edit', class: 'btn btn-edit-yellow btn-icon' do %>
+          <i class="fas fa-pen"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <h3><%= @theory.name %></h3>
+  <div class='theory-description'><%= @theory.description.html_safe %></div>
+  <p class='theory-show-references'><%= @theory.references.html_safe unless @theory.references.nil? %></p>
+  <br>
+  <h4>Workshops</h4>
+  <div style='display: flex;flex-direction:column;'>
+    <% @theory.contents.order(:title).each do |content| %>
+      <%= link_to content.title, content_path(content) %>
+    <% end %>
+  </div>
+</div>

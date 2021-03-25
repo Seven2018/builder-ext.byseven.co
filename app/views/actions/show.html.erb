@@ -1,0 +1,22 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to actions_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+    <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' data-target='#editAction' title='Edit'><i class="fas fa-pen"></i></a>
+  </div>
+  <h3><%= @action.name %></h3>
+  <br>
+  <p>Description : <%= @action.description %></p>
+  <% if @action.intelligence1 %>
+    <p><%= @action.intelligence1.name %></p>
+  <% end %>
+  <% if @action.intelligence2 %>
+    <p><%= @action.intelligence2.name %></p>
+  <% end %>
+</div>
+
+<!-- Modal -->
+  <div class="modal fade" id="editAction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="border-radius: 2rem">
+      <%= render 'edit', action: @action %>
+    </div>
+  </div>

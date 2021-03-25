@@ -1,0 +1,27 @@
+.middle-info-workshop {
+  text-align: center;
+
+  @include from-large {
+    text-align: left;
+  }
+
+  p > button > i {
+    font-size: 1.6rem;
+    cursor: pointer;
+
+    &:hover {
+      color: black;
+    }
+  }
+
+  .edit-fafa > img {
+    margin: 4rem 0;
+  }
+}
+
+.workshop-image-mobile {
+
+  @include from-large {
+    display: none;
+  }
+}
