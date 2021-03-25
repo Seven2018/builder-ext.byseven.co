@@ -41,7 +41,7 @@ gem 'wkhtmltopdf-binary'
 gem 'wkhtmltopdf-heroku', '2.12.5.0'
 gem 'ckeditor', git: 'https://github.com/galetahub/ckeditor'
 gem 'google-api-client', require: 'google/apis/calendar_v3'
-# gem 'google-apis-calendar_v3'
+gem 'google-apis-calendar_v3'
 gem 'google-http-actionmailer'
 gem 'oauth2'
 gem "omniauth-rails_csrf_protection"

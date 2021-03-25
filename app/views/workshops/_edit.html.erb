@@ -1,0 +1,35 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= mod.title %></h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for [mod.session.training, mod.session, mod] do |f| %>
+      <% unless mod.title.start_with?('Pause') %>
+        <%= f.input :title %>
+      <% end %>
+      <div class="mod-date">
+        <% if mod.title.start_with?('Pause') %>
+          <%= f.input :duration, label: 'Duration (min)' %>
+        <% else %>
+          <%= f.association :theme, :collection => Theme.all, selected: mod.theme_id %>
+        <% end %>
+      </div>
+      <%= f.label :description %>
+      <%= f.text_area :description, style: 'width: 100%; height: 300px;' %>
+      <div class='modal-control'>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+        <%= link_to training_session_workshop_path(mod.session.training, mod.session, mod), method: :delete, data: { confirm: 'Are you sure ?', toggle: 'tooltip' }, title: 'Save' do %>
+          <button class="btn btn-edit-red btn-icon">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        <% end %>
+      </div>
+      <% end %>
+  </div>
+</div>
+

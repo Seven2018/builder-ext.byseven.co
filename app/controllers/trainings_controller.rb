@@ -65,7 +65,6 @@ class TrainingsController < ApplicationController
   def new
     @training = Training.new
     @training_ownership = TrainingOwnership.new
-    @clients = ClientContact.all
     authorize @training
   end
 
@@ -76,7 +75,6 @@ class TrainingsController < ApplicationController
       @training.refid = "#{Time.current.strftime('%y')}-#{(Training.last.refid[-4..-1].to_i + 1).to_s.rjust(4, '0')}"
     rescue
     end
-    @training.satisfaction_survey = 'https://learn.byseven.co/survey'
     if @training.save
       Session.create(title: 'Session 1', date: @training.created_at, duration: 0, training_id: @training.id)
       redirect_to training_path(@training)
@@ -94,8 +92,6 @@ class TrainingsController < ApplicationController
     authorize @training
     @training.update(training_params)
     @training.save
-    # UpdateAirtableJob.perform_async (@training)
-    # @training.export_airtable
     redirect_to training_path(@training)
   end
 

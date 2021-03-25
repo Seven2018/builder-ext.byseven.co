@@ -18,10 +18,10 @@ ActiveRecord::Schema.define(version: 2021_03_22_094637) do
   create_table "actions", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.bigint "intelligence_id"
+    t.integer "intelligence1_id"
+    t.integer "intelligence2_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["intelligence_id"], name: "index_actions_on_intelligence_id"
   end
 
   create_table "content_modules", force: :cascade do |t|
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2021_03_22_094637) do
   end
 
   create_table "session_trainers", force: :cascade do |t|
+    t.string "calendar_uuid"
     t.bigint "user_id"
     t.bigint "session_id"
     t.datetime "created_at", precision: 6, null: false
@@ -72,6 +73,7 @@ ActiveRecord::Schema.define(version: 2021_03_22_094637) do
     t.float "duration"
     t.time "start_time"
     t.time "end_time"
+    t.integer "attendee_number"
     t.bigint "training_id"
     t.string "log"
     t.string "comments"
@@ -115,6 +117,7 @@ ActiveRecord::Schema.define(version: 2021_03_22_094637) do
   end
 
   create_table "training_ownerships", force: :cascade do |t|
+    t.string "user_type"
     t.bigint "user_id"
     t.bigint "training_id"
     t.datetime "created_at", precision: 6, null: false
@@ -180,7 +183,6 @@ ActiveRecord::Schema.define(version: 2021_03_22_094637) do
     t.index ["theme_id"], name: "index_workshops_on_theme_id"
   end
 
-  add_foreign_key "actions", "intelligences"
   add_foreign_key "content_modules", "contents"
   add_foreign_key "contents", "themes"
   add_foreign_key "session_trainers", "sessions"

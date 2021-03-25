@@ -9,13 +9,9 @@
   <%= simple_form_for @user do |f| %>
     <%= f.input :firstname %>
     <%= f.input :lastname %>
-    <%= f.input :email %>
-    <%= f.input :access_level, collection: ['super admin', 'admin', 'training manager', 'sevener+', 'sevener'], include_blank: false %>
-    <%= f.input :password %>
-    <%= f.input :linkedin %>
+    <%= f.input :email, placeholder: '' %>
+    <%= f.input :password, placeholder: '' %>
     <%= f.input :picture, label: 'Photo URL' %>
-    <%= f.input :description, :input_html => { :rows => 5 , :style => 'width: 100%'} %>
-    <%= f.input :rating, input_html: { min: '0', max: '5' }  %>
     <div class="center-button">
       <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
         <i class="fas fa-save"></i>

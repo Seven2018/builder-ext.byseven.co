@@ -1,6 +1,7 @@
 class CreateTrainingOwnerships < ActiveRecord::Migration[6.0]
   def change
     create_table :training_ownerships do |t|
+      t.string :user_type
       t.references :user, foreign_key: true
       t.references :training, foreign_key: true
 

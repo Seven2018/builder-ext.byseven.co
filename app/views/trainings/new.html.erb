@@ -9,13 +9,6 @@
 
     <%= simple_form_for @training do |f| %>
       <%= f.input :title, placeholder: 'ex : Intelligence Economique - Mai 2020' %>
-      <%= f.input :client_contact_id, :collection => ClientContact.all.joins(:client_company).order('client_companies.name ASC, client_contacts.name ASC'), :label_method => lambda { |client| "#{client.client_company.name} | #{client.name.split.map(&:capitalize).join(' ')}" }, :label => 'Customer contact', :include_blank => false %>
-      <div class='form-group' style='display:flex;justify-content:space-between;'>
-        <%= f.label :mode %>
-        <div style='width:75%;display:flex;justify-content: space-around;align-items:center;'>
-          <%= f.collection_radio_buttons :mode, [['Company', 'Company'], ['School', 'School']], :first, :last, checked: ['Company', 'Company'] %>
-        </div>
-      </div>
       <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow' %> </p>
     <% end %>
   </div>

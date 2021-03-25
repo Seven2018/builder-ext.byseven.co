@@ -1,0 +1,28 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to training_session_viewer_path(@workshop.session.training, @workshop.session), class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+    <h4><%= @workshop.title %></h4>
+  </div>
+  <% @workshop.workshop_modules.order(position: :asc).each do |mod| %>
+    <div class='module-card'>
+      <div class="module-card-viewer-title">
+        <p><%= mod.title %> - (<%= mod.duration %> min)</p>
+      </div>
+      <div class="module-card-viewer-blocks flex-column-start-centered">
+        <div>Riri</div>
+        <div>Fifi</div>
+        <div>Loulou</div>
+      </div>
+      <a name="<%= mod&.id %>" class="workshop-view-mode-anchor"></a>
+      <%= mod.instructions.html_safe %>
+      <% if mod.action1 %>
+        <p>Action 1 (participant) : <%= mod.action1.name %></p>
+      <% end %>
+      <% if mod.action2 %>
+        <p>Action 2 (participant) : <%= mod.action2.name %></p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

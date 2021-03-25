@@ -9,68 +9,24 @@
         <i class="fas fa-arrow-left"></i>
       <% end %>
     <% end %>
-    <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
-      <div class="page-controls-buttons flex-row-between-centered">
-        <!-- <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editTraining' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
-        <%# link_to remove_training_trainers_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
-          <i class="fas fa-trash-alt"></i>
-        <%# end %> -->
-        <% if params[:change].present? %>
-        <div class="flex-column-between-centered">
-          <p class='calendar_message'>Calendar update required</p>
-          <p class='airtable_message'>Airtable update required</p>
-        </div>
-        <% end %>
-        <%= link_to update_calendar_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip'}, title: 'Update Calendar' do %>
-          <span class="iconify" data-icon="dashicons:update" data-inline="false"></span>
-        <% end %>
-        <%# airtable_training = OverviewTraining.all.select{|x| if x['Builder_id'].present?; x['Builder_id'] == @training.id; end}&.first %>
-        <% airtable_training = OverviewTraining.all(filter: "{Builder_id} = '#{@training.id}'")&.first %>
-        <% if airtable_training.present? %>
-          <%= link_to training_path(@training, task: 'update_airtable'), class: "btn btn-edit-yellow btn-icon", data: { toggle: 'tooltip'}, title: "Sync with Airtable - Last sync : #{airtable_training['Builder Update'].to_time.strftime('%d/%m/%Y at %H:%M')}" do %>
-            <span class="iconify" data-icon="simple-icons:airtable" data-inline="false"></span>
-          <% end %>
-        <% end %>
-        <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#copyTraining' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></a>
-        <div class="dropdown">
-          <button class='btn btn-edit-orange btn-icon dropdown-toggle' id="dropdownNotificationButton" data-toggle="dropdown"><i class="fas fa-envelope"></i></button>
-          <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownNotificationButton">
-            <li><%= link_to 'Send summary', trainer_notification_email_path(@training, status: 'new') %></li>
-            <li><a data-toggle='modal' type='button' data-target='#updateNotificationSelect' style='cursor:pointer;'>Send updated summary</a></li>
-          </ul>
-        </div>
-        <div class="dropdown">
-          <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
-          <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a data-toggle='modal' data-target='#addAttendees' data-toggle="tooltip" title="Add Participants">Add participants</a></li>
-            <li><%= link_to 'New estimate',new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Estimate'), method: :post %></li>
-            <li><%= link_to 'Estimates List', invoice_items_path(training_id: @training.id, type: 'Estimate') %></li>
-            <li><%= link_to 'New invoice', new_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
-            <li><%= link_to 'New invoice Airtable', new_airtable_invoiceitem_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id, type: 'Invoice'), method: :post %></li>
-            <li><%= link_to 'New invoice Airtable by Trainer', new_airtable_invoiceitem_by_trainer_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
-            <li><%= link_to 'New invoice Airtable by Participant', new_airtable_invoiceitem_by_attendee_path(training_id: @training.id, client_company_id: @training.client_contact.client_company.id), method: :post %></li>
-            <li><%= link_to 'Invoices List', invoice_items_path(training_id: @training.id, type: 'Invoice', page: 1) %></li>
-            <% if @training.forms.empty? %>
-              <li><a data-toggle='modal' type='button' data-target='#newForm' style='cursor:pointer;'>New form</a></li>
-            <% else %>
-              <li><%= link_to 'Forms list', training_forms_path(@training) %></li>
-            <% end %>
-            <li><a data-toggle='modal' data-target='#createCertificate' data-toggle="tooltip" title="Create certificate">Create certificate</a></li>
-          </ul>
-        </div>
+    <div class="page-controls-buttons flex-row-between-centered">
+      <!-- <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editTraining' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
+      <%# link_to remove_training_trainers_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
+        <i class="fas fa-trash-alt"></i>
+      <%# end %> -->
+      <% if params[:change].present? %>
+      <div class="flex-column-between-centered">
+        <p class='calendar_message'>Calendar update required</p>
       </div>
-    <% else %>
-      <div class="page-controls-buttons flex-row-between-centered">
-        <!-- <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#reviewSevener' data-toggle="tooltip" title="Invoice Review"><i class="fas fa-copy"></i></a> -->
-        <%= link_to invoice_form_path(@training), class: 'btn btn-edit-green btn-icon', data: {toggle:'tooltip'}, title: 'Submit an invoice' do %>
-          <i class="fas fa-file-invoice-dollar"></i>
-        <% end %>
-      </div>
-    <% end %>
+      <% end %>
+      <%= link_to update_calendar_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip'}, title: 'Update Calendar' do %>
+        <span class="iconify" data-icon="dashicons:update" data-inline="false"></span>
+      <% end %>
+      <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#copyTraining' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></a>
+    </div>
   </div>
   <div class="middle-info">
     <div class='middle-info-main'>
-      <h3><strong><%= @training.client_contact.client_company.name %></strong></h3>
       <h3 style='margin-bottom:1rem;'><%= @training.title %></h3>
       <p><%="From #{@training.sessions.order(date: :asc).first&.date&.strftime('%d/%m/%y')} to #{@training.sessions.order(date: :asc).last&.date&.strftime('%d/%m/%y')}" %></p>
     </div>
@@ -124,19 +80,6 @@
     </div>
   </div>
   <div class="middle-info2">
-    <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-      <p id='survey-link' class='btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
-      <%= simple_form_for @training, html: { class: "hidden", id: 'survey-form' } do |f| %>
-        <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
-          <%= f.input :satisfaction_survey, placeholder: 'Add a link to the survey', value: @training.satisfaction_survey, label: false, input_html: { style: 'width: 200px;'} %>
-          <%= button_tag type: 'submit', class: 'btn btn-add-user', input_html: { style: 'height: 3.5rem' } do %>
-            Update
-          <% end %>
-        </div>
-      <% end %>
-    <% else %>
-      <p id='survey-link' class='btn-add-user'>Link to survey : <%= @training.satisfaction_survey %></p>
-    <% end %>
     <div>
       <div class='trainer-div'>
         <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
@@ -214,7 +157,7 @@
               <% if session.start_time && session.end_time %>
                 <div><p> <%="#{session&.date&.strftime('%d/%m/%y')}"%> </p></div>
                 <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
-                <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendees.count %>/<%= session.attendee_number %></p></div>
+                <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendee_number %></p></div>
               <% end %>
               <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) %>
                 <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>' data-toggle="tooltip" title="Add Trainer"><i class="fas fa-user-astronaut"></i></button>
@@ -320,18 +263,6 @@
   </div>
 </div>
 
-<div class="modal fade" id="newForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
-    <%= render 'forms/new', form: @form %>
-  </div>
-</div>
-
-<div class="modal fade" id="newSevenerInvoice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
-    <%# render 'invoice_items/new_sevener_invoice', form: @form %>
-  </div>
-</div>
-
 <div class="modal fade" id="updateNotificationSelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm" role="document" style="border-radius: 2rem">
     <%= render 'session_trainers/notification_select', training: @training %>
@@ -381,18 +312,6 @@
   </div>
 </div>
 
-<div class="modal fade" id="addAttendees" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-lg" role="document" style="border-radius: 20px">
-    <%= render 'session_attendees/new_all', training: @training %>
-  </div>
-</div>
-
-<div class="modal fade" id="createCertificate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document" style="border-radius: 20px">
-    <%= render 'trainings/new_certificate', training: @training %>
-  </div>
-</div>
-
 <% @training.sessions.each do |session| %>
   <% session.users.each do |trainer| %>
     <div class="modal fade" id="consultUser<%= trainer.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
@@ -401,14 +320,6 @@
       </div>
     </div>
   <% end %>
-<% end %>
-
-<% if ['sevener+', 'sevener'].include?(current_user.access_level) %>
-  <div class="modal fade" id="reviewSevener" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" role="document" style="border-radius: 20px">
-      <%= render 'invoice_items/review_sevener', training: @training, sevener: current_user %>
-    </div>
-  </div>
 <% end %>
 
 <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
@@ -452,34 +363,3 @@
     })
   }
 </script>
-
-<!-- <script>
-  $input = $("[data-behavior='autocomplete']");
-
-  $input.each(function(index) {
-    console.log(this);
-    var that = this;
-    var options = {
-      listLocation: "users",
-      getValue: 'name',
-      url: function(phrase) {
-        return "/users_search.json?search=" + phrase
-      },
-      list: {
-        onChooseEvent: function() {
-          // test = document.getElementById('users-list');
-          console.log(that);
-          test = $(that).parent().parent().parent().find('.users-list');
-          console.log(test);
-          new_el = document.createElement('p');
-          content = document.createTextNode($(that).value);
-          new_el.appendChild(content);
-          $(test).appendChild(new_el);
-
-        }
-      }
-    }
-
-    $(this).easyAutocomplete(options);
-  })
-</script> -->

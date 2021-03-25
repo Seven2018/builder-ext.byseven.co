@@ -32,6 +32,6 @@ class TheoryPolicy < ApplicationPolicy
   private
 
   def check_access
-    ['super admin', 'user'].include?(current_user)
+    ['super admin', 'user'].include? user.access_level
   end
 end

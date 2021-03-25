@@ -1,0 +1,25 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style="display:flex;justify-content:center;text-align:center;">
+      <h3 class="modal-title" id="myModalLabel"><%= "Trainers" %></h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
+    <%= simple_form_for :trainers, url: trainer_notification_email_path(training), method: 'GET' do |f| %>
+        <div style=" display:flex;justify-content:space-between;flex-direction:column;">
+          <%= collection_check_boxes(:session, :user_ids, User.select{|x| Training.last.trainers.select{|x| ['sevener+','sevener'].include?(x.access_level)}.include?(x)}, :id, :fullname) do |b| %>
+            <%= b.label class: 'label-checkbox' do %>
+              <%= b.check_box + b.text %>
+            <% end %>
+          <% end %>
+        </div>
+        <%= f.hidden_field :status, value: 'edit' %>
+        <div class='modal-control'>
+          <%= button_tag :submit, class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip', confirm: 'Are you sure you wish to send and updated summary to the selected seveners ?'}, title: 'Save' do %>
+            <i class="fas fa-save"></i>
+          <% end %>
+        </div>
+      <% end %>
+  </div>
+</div>

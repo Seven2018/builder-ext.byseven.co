@@ -4,8 +4,6 @@ class Training < ApplicationRecord
   has_many :users, through: :training_ownerships
   has_many :session_trainers, through: :sessions
   validates :title, presence: true
-  validates :vat, inclusion: { in: [ true, false ] }
-  validates_uniqueness_of :refid
   accepts_nested_attributes_for :training_ownerships
 
   def start_time
