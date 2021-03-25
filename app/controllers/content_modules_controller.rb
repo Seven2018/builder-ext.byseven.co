@@ -16,6 +16,9 @@ class ContentModulesController < ApplicationController
     authorize @content_module
     @content_module.content = @content
     @content_module.position = @content.content_modules.count + 1
+    @content_module.duration = params[:content_module][:duration][1].split(' ')[0].to_i
+    @content_module.action1_id = params[:content_module][:action1_id][1].to_i
+    @content_module.action2_id = params[:content_module][:action1_id][2].to_i
     if @content_module.save
       update_duration
       redirect_to content_path(@content)
@@ -107,6 +110,6 @@ class ContentModulesController < ApplicationController
   end
 
   def content_module_params
-    params.require(:content_module).permit(:title, :instructions, :duration, :logistics, :action1_id, :action2_id, :comments, :content_id)
+    params.require(:content_module).permit(:title, :instructions, :logistics, :comments, :content_id)
   end
 end

@@ -1,0 +1,35 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to training_session_workshop_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop), class: 'return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+    <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+      <div class="page-controls-buttons flex-row-between-centered">
+        <%= link_to edit_training_session_workshop_workshop_module_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop, @workshop_module), data: { toggle: 'tooltip' }, title: 'Edit', class: 'btn btn-edit-yellow btn-icon' do %>
+          <i class="fas fa-pen"></i>
+        <% end %>
+        <%= link_to training_session_workshop_workshop_module_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop, @workshop_module), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete', class: 'btn btn-edit-red btn-icon' do %>
+          <i class="fas fa-trash-alt"></i>
+        <% end %>
+        <%= link_to training_session_workshop_copy_form_workshop_module_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop, @workshop_module), class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Copy' do %>
+          <i class="fas fa-copy"></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="middle-info-workshop">
+    <h3><%= @workshop_module.title %> - <%= @workshop_module.duration %> minutes</h3>
+    <br>
+    <p><%= @workshop_module.instructions.html_safe %></p>
+    <% if @workshop_module.comments && @workshop_module.comments != "" %>
+      <p>Comments : <%= @workshop_module.comments %></p>
+    <% end %>
+    <div class='content-logistics'><p class='logistics-label'>Logistics : </p><div><%= @workshop_module.logistics.html_safe %></div></div>
+    <% if @workshop_module.action1 %>
+      <p class='content-actions'>Participant Action 1 : <%= @workshop_module.action1.name %></p>
+    <% end %>
+    <% if @workshop_module.action2 %>
+      <p class='content-actions'>Participant Action 2 : <%= @workshop_module.action2.name %></p>
+    <% end %>
+  </div>
+</div>

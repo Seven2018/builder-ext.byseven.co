@@ -132,6 +132,7 @@ GEM
       ruby2_keywords
     faraday-net_http (1.0.1)
     ffi (1.15.0)
+    flatpickr (4.6.6.0)
     font-awesome-sass (5.15.1)
       sassc (>= 1.11)
     gems (1.2.0)
@@ -440,6 +441,7 @@ DEPENDENCIES
   devise!
   dotenv-rails
   exception_handler (~> 0.8.0.0)
+  flatpickr
   font-awesome-sass
   google-api-client
   google-apis-calendar_v3
