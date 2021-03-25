@@ -10,6 +10,7 @@ $timeline: #115173;
 
 .training-card-main {
   height: 100%;
+  position: relative;
   h4 {
     margin-left: 10px;
     margin-top: 10px;
@@ -17,19 +18,25 @@ $timeline: #115173;
 }
 
 .training-card-infos {
-  position: relative;
+  width: 250px;
+  position: absolute;
   background-color: #FFF1D5;
   display: flex;
   justify-items: flex-end;
   margin-top: 35px;
   padding: 12px 12px;
+  bottom: 10px;
 }
 
 .training-card-infos-elements {
   line-height: 28px;
+  position: relative;
 }
 
-
+.empty-card-info {
+  font-family: 'Montserrat';
+  font-size: 14px;
+}
 
 .card {
   height: 20rem;

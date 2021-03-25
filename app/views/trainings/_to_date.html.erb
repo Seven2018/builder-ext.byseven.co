@@ -92,7 +92,17 @@
   <% if result_date.empty? %>
       <div class="training-card">
         <div class="training-card-main">
-          <h5><%= "Empty" %></h5>
+          <h4><%= "Name of the Training" %></h4>
+          <div class="training-card-infos">
+            <div class='training-card-infos-elements'>
+              <div class="empty-card-info">
+              <i class="far fa-calendar-alt"></i> <%= 'From dd/mm/yy to dd/mm/yy' %>
+              </div>
+              <div class="empty-card-info">
+                <i class="far fa-calendar-check"></i> <%= '3 Sessions' %>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
   <% end %>
