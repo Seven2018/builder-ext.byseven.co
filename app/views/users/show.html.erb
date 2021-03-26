@@ -44,17 +44,14 @@
                   <br>
                   <i class="far fa-calendar-check"></i>
                   <%= training.sessions.count.to_s + " " + "Sessions" %>
-                  <% training.users.uniq.each do |owner| %>
-                  <img class='avatar-xs' src="<%= owner.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-                <% end %>
-                <% training.users.uniq.each do |writer| %>
-                  <img class='avatar-xs' src="<%= writer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-                <% end %>
-                <% training.trainers.each do |trainer| %>
-                  <img class='avatar-xs' src="<%= trainer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-                <% end %>
                 </div>
               </div>
+              <% users_list = [training.owners + training.writers + training.trainers].flatten.uniq.first(3) %>
+              <% u = 1 %>
+              <% users_list.each do |user| %>
+              <img class="avatar-sm training-card-user training-card-user-<%= u %>" src="<%= user.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% u += 1 %>
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -99,17 +96,14 @@
                   <br>
                   <i class="far fa-calendar-check"></i>
                   <%= training.sessions.count.to_s + " " + "Sessions" %>
-                  <% training.users.uniq.each do |owner| %>
-                  <img class='avatar-xs' src="<%= owner.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-                <% end %>
-                <% training.users.uniq.each do |writer| %>
-                  <img class='avatar-xs' src="<%= writer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-                <% end %>
-                <% training.trainers.each do |trainer| %>
-                  <img class='avatar-xs' src="<%= trainer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-                <% end %>
                 </div>
               </div>
+              <% users_list = [training.owners + training.writers + training.trainers].flatten.uniq.first(3) %>
+              <% u = 1 %>
+              <% users_list.each do |user| %>
+              <img class="avatar-sm training-card-user training-card-user-<%= u %>" src="<%= user.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% u += 1 %>
+              <% end %>
             <% end %>
           </div>
         </div>
