@@ -134,13 +134,14 @@
   padding: 1.1rem 1.6rem !important;
   border-radius: 0.22em;
   box-sizing: border-box;
-  font-size: 1.4rem !important;
+  font-size: 16px !important;
   font-weight: 800 !important;
   color: white !important;
   text-align: center;
   transition: all 0.1s;
   outline: none !important;
   margin-left: 0.5rem !important;
+  letter-spacing: 1.5px;
 
   i {
     color: white;
@@ -243,6 +244,9 @@
 
 .btn-edit-green {
   background-color: #4AC2C7 !important;
+  .fas .fa-pen {
+  margin-left: 5px;
+}
 }
 
 .btn-edit-blue {
@@ -275,6 +279,8 @@
 .btn-icon {
   color: white;
 }
+
+
 
 .btn-icon-close {
   color: black !important;
