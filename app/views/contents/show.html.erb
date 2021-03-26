@@ -16,10 +16,12 @@
 
     <!-- <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:15rem;'></a> -->
     <div class="show-control-links">
-      <% if ['super admin', 'admin', 'training manager', 'sevener+'].include? current_user.access_level %>
-        <a class="btn btn-edit-green" data-toggle='modal' data-target='#editContent' title='Copy'><i class="fas fa-pen"></i>EDIT</a>
-      <% end %>
+      <div class="module-buttons">
+        <a class="btn btn-edit-green" data-toggle='modal' data-target='#editContent' title='Copy'><i class="fas fa-pen"></i></a>
+        <a class="btn btn-edit-orange" data-toggle='modal' data-target='#theories' data-toggle='tooltip' title='Theories'>Theories</a>
+      </div>
     </div>
+
       <%= render 'content_modules/index', mod: @content %>
 
   </div>

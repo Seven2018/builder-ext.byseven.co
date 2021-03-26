@@ -43,13 +43,13 @@
       <%= render 'search', trainings: @trainings %>
     <% else %>
       <div class="trainings-list">
-        <h3>Upcoming</h3>
+        <h3 class="trainings-title-word">Upcoming</h3>
         <%= render_async index_upcoming_path(page: params[:page]) %>
-        <h3>Completed</h3>
+        <h3 class="trainings-title-word">Completed</h3>
         <%= render_async index_completed_path(page: 1)%>
-        <h3>To Schedule</h3>
+        <h3 class="trainings-title-word">To Schedule</h3>
         <%= render 'to_date', trainings: @trainings %>
-        <h3>To Staff</h3>
+        <h3 class="trainings-title-word">To Staff</h3>
         <%= render 'to_staff', trainings: @trainings %>
       </div>
     <% end %>

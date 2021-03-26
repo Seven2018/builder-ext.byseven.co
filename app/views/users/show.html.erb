@@ -2,24 +2,21 @@
   <div id="page-controls">
     <%= link_to users_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
   </div>
-  <div class='centered-card-show'>
+  <div class='user-card'>
     <div class="index-card-small-show">
-      <div style='display:flex;flex-direction:row;'>
-        <div class='user-picture-show'>
-          <img src='<%= @user.picture %>' alt="" class='client-company-logo-show' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+        <div class='user-picture-logo-show'>
+          <img src='<%= @user.picture %>' alt="" class='user-logo-show' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
         </div>
-        <div class="show-control-links" style='display:flex;flex-direction:row;'>
-          <% if current_user.access_level == 'super admin' || @user == current_user || (current_user.access_level == 'admin' && (@user.access_level == 'sevener' || @user.access_level == 'sevener+')) %>
-            <a class="button edit-fafa" data-toggle='modal' data-target='#editUser'><button class='btn btn-edit-yellow'>Edit Profile</button></a>
-            <a class="button edit-fafa" data-toggle='modal' data-target='#editPassword'><button class='btn btn-edit-yellow'>Change Password</button></a>
-          <% end %>
+        <div class="user-info">
+          <h4><strong><%=  @user.firstname %> <%=  @user.lastname %></strong></h4>
+          <p><%= @user.email %></p>
+          <div class="user-show-control-links">
+            <% if current_user.access_level == 'super admin' || @user == current_user || (current_user.access_level == 'admin' && (@user.access_level == 'sevener' || @user.access_level == 'sevener+')) %>
+              <a class="button edit-fafa" data-toggle='modal' data-target='#editUser'><button class='btn btn-edit-yellow'>Edit Profile</button></a>
+              <a class="button edit-fafa" data-toggle='modal' data-target='#editPassword'><button class='btn btn-edit-yellow'>Change Password</button></a>
+            <% end %>
         </div>
-      </div>
-      <div class="user-info">
-        <p>Lastname: <strong><%=  @user.lastname %></strong></p>
-        <p>Firstname: <strong><%=  @user.firstname %></strong></p>
-        <p>Email: <%= @user.email %></p>
-      </div>
+        </div>
     </div>
   </div>
 </div>

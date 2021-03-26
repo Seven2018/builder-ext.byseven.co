@@ -34,3 +34,13 @@
     background-color: rgba(0,0,0,0.05);
   }
 }
+
+.theories-list {
+  display:flex;
+  flex-direction: column;
+}
+
+.module-buttons {
+  display: flex;
+  flex-direction: space-between;
+}
