@@ -61,6 +61,7 @@ gem 'exception_handler', '~> 0.8.0.0'
 gem 'redis-rails'
 gem 'sucker_punch', '~> 2.0'
 gem 'ransack'
+gem 'flatpickr'
 
 group :development, :test do  gem 'pry-byebug'
   gem 'pry-rails'
