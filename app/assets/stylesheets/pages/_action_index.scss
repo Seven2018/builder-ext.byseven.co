@@ -34,3 +34,31 @@
 .action-search-close {
   position: absolute;
 }
+
+.intelligence-types {
+  margin-top: 50px;
+  h4 {
+    font-weight: 700;
+  }
+  h5 {
+    color: #D69D29;
+  }
+}
+
+.action-checkboxes {
+  fieldset {
+    margin: 10px 0px !important;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .form-check-label {
+    font-size: 15px !important;
+    width: 300px;
+  }
+}
+
+.description {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

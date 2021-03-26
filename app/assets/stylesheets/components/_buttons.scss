@@ -132,7 +132,7 @@
   width: auto;
   max-width: none;
   padding: 1.1rem 1.6rem !important;
-  border-radius: 0.22em;
+  border-radius: 5px !important;
   box-sizing: border-box;
   font-size: 16px !important;
   font-weight: 800 !important;
@@ -145,6 +145,7 @@
 
   i {
     color: white;
+    margin-left: 2px;
   }
 
 
@@ -305,7 +306,7 @@
   width: auto;
   max-width: none;
   padding: 1.1rem 1.6rem !important;
-  border-radius: 0.22em;
+  border-radius: 5px;
   box-sizing: border-box;
   font-size: 2rem !important;
   font-weight: 800 !important;
@@ -380,6 +381,17 @@
    }
 }
 
+#search {
+  padding-right: 35px !important;
+  margin-right: 1rem;
+  background-color: #F1F3F4;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  font-family: 'Montserrat';
+  font-weight: 300;
+}
+
 //// button on workshop add ////
 #content_module_duration_05_mins, #content_module_duration_10_mins, #content_module_duration_15_mins, #content_module_duration_20_mins,
 #content_module_duration_25_mins, #content_module_duration_30_mins, #content_module_duration_35_mins, #content_module_duration_40_mins,
@@ -436,9 +448,9 @@
 
 .action-checkboxes {
   fieldset {
-    margin: 5px 0px !important;
+    margin: 10px 0px !important;
     display: flex;
-    justify-content: space-between;
+
     flex-wrap: wrap;
   }
   .form-check-label {
@@ -446,9 +458,19 @@
   }
 }
 
+.save-button {
+  p {
+    margin-bottom: 0;
+  }
+  i {
+    margin-left: 5px;
+  }
+}
+
 .form-check-label {
   font-family: "Montserrat";
   margin-left: 25px;
+  margin-right: 10px;
 }
 
 input[type='checkbox'] {

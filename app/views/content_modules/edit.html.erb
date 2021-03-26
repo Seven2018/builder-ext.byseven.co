@@ -1,25 +1,60 @@
 <div class="container-seven-large">
   <div id='page-controls'>
-    <%= link_to content_path(@content), class: 'btn return-arrow' do %>
-      <i class="fas fa-arrow-left"></i>
-    <% end %>
+    <div class="workshop-title">
+      <%= link_to contents_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+       <div class="workshop-title-details">
+        <h4><%= @content.title %> - <i class="fas fa-stopwatch fa-1x"></i> <%= @content.duration %> min</h4>
+          <% if @content.theme %>
+            <p><%= @content.theme.name %></p>
+          <% end %>
+      </div>
+    </div>
   </div>
   <h3>Edit a module</h3>
 
   <%= simple_form_for [@content, @content_module] do |f| %>
     <%= f.input :title %>
+    <div class="text-box" style="margin: 20px 0px">
     <%= f.label :instructions %>
     <%= f.cktext_area :instructions %>
-    <%= f.input :duration, label: 'Duration (min)' %>
-    <%= f.label :logistics %>
-    <%= f.cktext_area :logistics %>
-    <%= f.input :action1_id, collection: Action.all, label: 'Action 1' %>
-    <%= f.input :action2_id, collection: Action.all, label: 'Action 2' %>
-    <%= f.input :comments, input_html: { style: 'width:100%;' } %>
-    <p class="center-button" style='margin-bottom: 3rem;'>
-      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
-        <i class="fas fa-save"></i>
-      <% end %>
-    </p>
+    </div>
+    <%= f.input :logistics, input_html: { style: 'width:100%;' }, placeholder: 'Bring printed out sheet of instructions. Hand out to each individual.' %>
+    <div class="duration-buttons">
+    <%= f.input :duration, label: 'Duration (min)', collection: ["05 Mins", "10 Mins", "15 Mins", "20 Mins", "25 Mins", "30 Mins", "35 Mins", "40 Mins", "45 Mins", "50 Mins", "55 Mins", "60 Mins" ], as: :check_boxes %>
+    </div>
+    <div class="action-checkboxes">
+      <%= f.input :action1_id, collection: Action.all, label:'Actions (Max 2)', as: :check_boxes %>
+    </div>
+    <div class="center-button" style='margin-bottom: 3rem;'>
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>
+      <div class= "save-button">
+        <p>SAVE<i class="fas fa-save"></i></p>
+      </div>
+    <% end %>
+    </div>
   <% end %>
 </div>
+
+<script>
+  $('input[name="content_module[duration][]"]').on('change', function() {
+    $('input[name="content_module[duration][]"]').not(this).prop('checked', false);
+  });
+
+  var $cs=$('input[name="content_module[action1_id][]"]');
+    if ($cs.length > 1) {
+      $('input[name="content_module[action1_id][]"] input:checkbox:not(:checked)').attr("disabled", true);
+      $('input[name="content_module[action1_id][]"] input:checkbox:not(:checked)').parent().css("color", "gray");
+    }
+  $('input[name="content_module[action1_id][]"]').change(function () {
+    console.log('test2');
+    var $cs=$('input[name="content_module[action1_id][]"]:checked');
+    if ($cs.length > 1) {
+      $('input[name="content_module[action1_id][]"]:not(:checked)').attr("disabled", true);
+      $('input[name="content_module[action1_id][]"]:not(:checked)').parent().css("color", "gray");
+    }
+    else{
+      $('input[name="content_module[action1_id][]"]').attr("disabled", false);
+      $('input[name="content_module[action1_id][]"]').parent().css("color", "black");
+    }
+  });
+</script>
