@@ -105,9 +105,9 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   border-bottom: 1px solid #DADCE0;
-  height: 8rem;
+  height: 9rem;
   background-color: white;
   z-index: 10;
 
@@ -115,8 +115,6 @@ a {
     max-width: 116rem;
     width: calc(100vw - 28rem);
     flex-direction: row;
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
   }
 
   form, input, button {
