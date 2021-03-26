@@ -28,6 +28,17 @@ $timeline: #115173;
   bottom: 10px;
 }
 
+.completed-training-card-infos {
+  width: 250px;
+  position: absolute;
+  background-color: #C4C4C4;
+  display: flex;
+  justify-items: flex-end;
+  margin-top: 35px;
+  padding: 12px 12px;
+  bottom: 10px;
+}
+
 .training-card-infos-elements {
   line-height: 28px;
   position: relative;
