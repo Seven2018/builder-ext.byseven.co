@@ -1,3 +1,4 @@
+
 <% result_fut = [] %>
 <% @trainings.each do |training| %>
   <div class="training-card" id="card-index">
@@ -12,6 +13,7 @@
               <i class="far fa-calendar-alt"></i><%= "  On #{sessions.first.date.strftime('%d/%m/%y')}" %>
             <% else %>
               <i class="far fa-calendar-alt"></i><%= "  From #{sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
+
             <% end %>
             <br>
             <i class="far fa-calendar-check"></i>
@@ -40,6 +42,7 @@
             </div>
             <div class="empty-card-info">
               <i class="far fa-calendar-check"></i> <%= '3 Sessions' %>
+
             </div>
           </div>
         </div>

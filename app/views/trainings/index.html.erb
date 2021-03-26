@@ -43,6 +43,7 @@
       <%= render 'search', trainings: @trainings %>
     <% else %>
       <div class="trainings-list">
+
         <h3>Upcoming</h3>
         <div class="trainings-row">
           <%= render_async index_upcoming_path(page: params[:page]) %>
@@ -59,6 +60,7 @@
         <div class="trainings-row">
           <%= render 'to_staff', trainings: @trainings %>
         </div>
+
       </div>
     <% end %>
   </div>
