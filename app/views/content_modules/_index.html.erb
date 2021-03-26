@@ -1,13 +1,13 @@
 <div class="workshop-middle-info-main">
   <h4>Modules</h4>
-  <%= @theory.name %>
 </div>
-<% if @content.content_modules.present? %>
-  <div class="no-workshop">
-   <h5>Sorry, there are no modules for this workshop.</h5>
-   <h5>Create a module <%= link_to new_content_content_module_path(@content) do %> <u>here.</u><% end %>
-  </h5>
-  </div>
+
+  <% unless @content.content_modules.present? %>
+    <div class="no-workshop">
+     <h5>Sorry, there are no modules for this workshop.</h5>
+     <h5>Create a module <%= link_to new_content_content_module_path(@content) do %> <u>here.</u><% end %>
+    </h5>
+    </div>
   <% else %>
     <% @content.content_modules.order('position ASC').each do |mod| %>
       <div class='module-card'>
@@ -67,5 +67,43 @@
         </div>
       </div>
     <% end %>
-  <% end %>
+<% end %>
+
+<!-- Modal -->
+
+
+<div class="modal fade" id="theories" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+    <%= @content.theories.map(&:name).join(",")%>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div id="modal-title" style=" display: flex; justify-content: space-between;">
+          <h3 class="modal-title" id="myModalLabel"><%= mod.title %></h3>
+        </div>
+        <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="modalNewBookinBody">
+        <div class="theories-list">
+          <% @content.theories.each do |theory|%>
+              <%= link_to theory.name, theory_path(theory) %>
+          <% end %>
+        </div>
+        <button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></button><button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="theories-buttons">
+  <div class="modal fade" id="newTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+      <%= render 'theory_contents/new', theory_content: @theory_content %>
+    </div>
+  </div>
+
+  <div class="modal fade" id="destroyTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+      <%= render 'theory_contents/destroy', theory_content: @theory_content %>
+    </div>
+  </div>
+</div>
 
