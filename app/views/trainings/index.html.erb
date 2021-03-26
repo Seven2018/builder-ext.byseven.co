@@ -46,7 +46,7 @@
         <h3>Upcoming</h3>
         <%= render_async index_upcoming_path(page: params[:page]) %>
         <h3>Completed</h3>
-        <%= render_async index_completed_path(page: 1), toggle: { selector: '#completed_tab', event: :click } %>
+        <%= render_async index_completed_path(page: 1)%>
         <h3>To Schedule</h3>
         <%= render 'to_date', trainings: @trainings %>
         <h3>To Staff</h3>

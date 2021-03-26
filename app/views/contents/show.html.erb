@@ -20,23 +20,7 @@
         <a class="btn btn-edit-green" data-toggle='modal' data-target='#editContent' title='Copy'><i class="fas fa-pen"></i>EDIT</a>
       <% end %>
     </div>
-    <!-- <div class='theory-list-title'>
-      <p>Theories<button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></button><button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></button></p>
-      <div class="theory-list">
-        <% i = 0 %>
-        <% @content.theories.each do |theory| %>
-          <% if i == 0 %>
-            <%= link_to theory.name, theory_path(theory) %>
-          <% else %>
-            <%= link_to " | #{theory.name}", theory_path(theory) %>
-          <% end %>
-          <% i += 1 %>
-        <% end %>
-      </div> -->
-    </div>
-    <div id='content-mods'>
       <%= render 'content_modules/index', mod: @content %>
-    </div>
 
   </div>
 </div>

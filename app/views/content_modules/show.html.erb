@@ -5,18 +5,26 @@
     <% end %>
   </div>
   <div class="middle-info-workshop">
-    <h3><%= @content_module.title %> - <%= @content_module.duration %> minutes</h3>
+    <h4><%= @content_module.title %> - <i class="fas fa-stopwatch fa-1x"></i> <%= @content_module.duration %> min</h4>
     <br>
     <p><%= @content_module.instructions.html_safe %></p>
     <% if @content_module.comments && @content_module.comments != "" %>
       <p>Comments : <%= @content_module.comments %></p>
     <% end %>
-    <div class='content-logistics'><p class='logistics-label'>Logistics : </p><div><%= @content_module.logistics.html_safe %></div></div>
-    <% if @content_module.action1 %>
-      <p class='content-actions'>Action 1 (participant): <%= @content_module.action1.name %></p>
-    <% end %>
-    <% if @content_module.action2 %>
-      <p class='content-actions'>Action 2 (participant) : <%= @content_module.action2.name %></p>
-    <% end %>
+    <div class='content-logistics'>
+      <p class='logistics-label'>Logistics: </p>
+     <ul><li><%= @content_module.logistics.html_safe %></ul></li>
+    </div>
+    <div class="content-actions">
+      <% if @content_module.action1 %>
+        <p class='logistics-label'>Actions:</p>
+        <ul><li> <%= @content_module.action1.name %> </ul></li>
+      <% end %>
+     </div>
+      <% if @content_module.action2 %>
+        <p class='logistics-label'>
+         <ul><li> <%= @content_module.action2.name %> </ul></li>
+      <% end %>
+
   </div>
 </div>
