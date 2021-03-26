@@ -1,59 +1,55 @@
-<div class="training_index_controls">
-  <% ongoing_trainings = @trainings %>
-</div>
-<div class="row" style="background-color: white; margin-right: 0;">
-  <% result_term = [] %>
-  <% ongoing_trainings.each do |training| %>
-    <% if training.sessions.where(date: nil).empty? %>
+<% ongoing_trainings = @trainings %>
+<% result_term = [] %>
+<% ongoing_trainings.each do |training| %>
+  <% if training.sessions.where(date: nil).empty? %>
 
-        <div class="training-card" id="card-index">
-          <div class="training-card-main">
-            <%= link_to training_path(training), class: 'stretched-link' do %>
-              <h4 style='max-width: 18rem;'><%= training.title %></h4>
-              <% result_term << training %>
-              <div class="training-card-infos">
-                <% sessions = training.sessions %>
-                <div class='training-card-infos-elements'>
-                  <% if sessions.count == 1 %>
-                    <i class="far fa-calendar-alt"></i><%= "  On #{sessions.first.date.strftime('%d/%m/%y')}" %>
-                  <% else %>
-                    <i class="far fa-calendar-alt"></i><%= "  From #{sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
-                  <% end %>
-                  <br>
-                  <i class="far fa-calendar-check"></i>
-                  <%= training.sessions.count.to_s + " " + "Sessions" %>
-                  <% training.users.uniq.each do |owner| %>
-                  <img class='avatar-xs' src="<%= owner.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-                <% end %>
-                <% training.users.uniq.each do |writer| %>
-                  <img class='avatar-xs' src="<%= writer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-                <% end %>
-                <% training.trainers.each do |trainer| %>
-                  <img class='avatar-xs' src="<%= trainer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
-                <% end %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
-
-    <% end %>
-  <% end %>
-  <% if result_term.empty? %>
-      <div class="training-card">
+      <div class="training-card" id="card-index">
         <div class="training-card-main">
-          <h4><%= "Name of the Training" %></h4>
-          <div class="training-card-infos">
-            <div class='training-card-infos-elements'>
-              <div class="empty-card-info">
-              <i class="far fa-calendar-alt"></i> <%= 'From dd/mm/yy to dd/mm/yy' %>
+          <%= link_to training_path(training), class: 'stretched-link' do %>
+            <h4 style='max-width: 18rem;'><%= training.title %></h4>
+            <% result_term << training %>
+            <div class="training-card-infos">
+              <% sessions = training.sessions %>
+              <div class='training-card-infos-elements'>
+                <% if sessions.count == 1 %>
+                  <i class="far fa-calendar-alt"></i><%= "  On #{sessions.first.date.strftime('%d/%m/%y')}" %>
+                <% else %>
+                  <i class="far fa-calendar-alt"></i><%= "  From #{sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
+                <% end %>
+                <br>
+                <i class="far fa-calendar-check"></i>
+                <%= training.sessions.count.to_s + " " + "Sessions" %>
+                <% training.users.uniq.each do |owner| %>
+                <img class='avatar-xs' src="<%= owner.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% end %>
+              <% training.users.uniq.each do |writer| %>
+                <img class='avatar-xs' src="<%= writer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% end %>
+              <% training.trainers.each do |trainer| %>
+                <img class='avatar-xs' src="<%= trainer.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% end %>
               </div>
-              <div class="empty-card-info">
-                <i class="far fa-calendar-check"></i> <%= '3 Sessions' %>
-              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+  <% end %>
+<% end %>
+<% if result_term.empty? %>
+    <div class="training-card">
+      <div class="training-card-main">
+        <h4><%= "Name of the Training" %></h4>
+        <div class="training-card-infos">
+          <div class='training-card-infos-elements'>
+            <div class="empty-card-info">
+            <i class="far fa-calendar-alt"></i> <%= 'From dd/mm/yy to dd/mm/yy' %>
+            </div>
+            <div class="empty-card-info">
+              <i class="far fa-calendar-check"></i> <%= '3 Sessions' %>
             </div>
           </div>
         </div>
       </div>
-  <% end %>
-</div>
+    </div>
+<% end %>

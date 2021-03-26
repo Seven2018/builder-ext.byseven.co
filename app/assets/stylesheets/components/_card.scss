@@ -11,9 +11,33 @@ $timeline: #115173;
 .training-card-main {
   height: 100%;
   position: relative;
+  width: 250px;
   h4 {
     margin-left: 10px;
     margin-top: 10px;
+  }
+
+  .training-card-user {
+    border: 3px white solid;
+  }
+
+  .training-card-user-1 {
+    position: absolute;
+    bottom: 3rem;
+    right: 2rem;
+    z-index: 30;
+  }
+  .training-card-user-2 {
+    position: absolute;
+    bottom: 3rem;
+    right: 4rem;
+    z-index: 20;
+  }
+  .training-card-user-3 {
+    position: absolute;
+    bottom: 3rem;
+    right: 6rem;
+    z-index: 10;
   }
 }
 

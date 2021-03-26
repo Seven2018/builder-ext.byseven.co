@@ -44,14 +44,54 @@
     <% else %>
       <div class="trainings-list">
         <h3>Upcoming</h3>
-        <%= render_async index_upcoming_path(page: params[:page]) %>
+        <div class="trainings-row">
+          <%= render_async index_upcoming_path(page: params[:page]) %>
+        </div>
         <h3>Completed</h3>
-        <%= render_async index_completed_path(page: 1)%>
+        <div class="trainings-row">
+          <%= render_async index_completed_path(page: 1)%>
+        </div>
         <h3>To Schedule</h3>
-        <%= render 'to_date', trainings: @trainings %>
+        <div class="trainings-row">
+          <%= render 'to_date', trainings: @trainings %>
+        </div>
         <h3>To Staff</h3>
-        <%= render 'to_staff', trainings: @trainings %>
+        <div class="trainings-row">
+          <%= render 'to_staff', trainings: @trainings %>
+        </div>
       </div>
     <% end %>
   </div>
 </div>
+
+<script>
+  sliders = document.querySelectorAll('.trainings-row');
+  sliders.forEach((slider) => {
+    isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+      isDown = true;
+      slider.classList.add('active');
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+    slider.addEventListener('mouseleave', () => {
+      isDown = false;
+      slider.classList.remove('active');
+    });
+    slider.addEventListener('mouseup', () => {
+      isDown = false;
+      slider.classList.remove('active');
+    });
+    slider.addEventListener('mousemove', (e) => {
+      if(!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 3; //scroll-fast
+      slider.scrollLeft = scrollLeft - walk;
+      console.log(walk);
+    });
+  })
+</script>
