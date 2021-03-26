@@ -1,21 +1,26 @@
 <div class="container-seven-large">
   <div id='page-controls'>
-    <%= link_to contents_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+    <div class="workshop-title">
+      <%= link_to contents_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+       <div class="workshop-title-details">
+        <h4><%= @content.title %> - <i class="fas fa-stopwatch fa-1x"></i> <%= @content.duration %> min</h4>
+          <% if @content.theme %>
+            <p><%= @content.theme.name %></p>
+          <% end %>
+      </div>
+    </div>
+  <%= link_to new_content_content_module_path(@content) do %>
+    <button class="btn btn-edit-yellow">New Module</button>
+  <% end %>
+  </div>
+
+    <!-- <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:15rem;'></a> -->
     <div class="show-control-links">
       <% if ['super admin', 'admin', 'training manager', 'sevener+'].include? current_user.access_level %>
-        <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' data-target='#editContent' title='Copy'><i class="fas fa-pen"></i></a>
+        <a class="btn btn-edit-green" data-toggle='modal' data-target='#editContent' title='Copy'><i class="fas fa-pen"></i>EDIT</a>
       <% end %>
     </div>
-  </div>
-  <div class="middle-info-workshop">
-    <div class="middle-info-main">
-      <h4><%= @content.title %> - (<%= @content.duration %> min)</h4>
-      <% if @content.theme %>
-        <p><%= @content.theme.name %></p>
-      <% end %>
-    </div>
-    <!-- <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:15rem;'></a> -->
-    <div class='theory-list-title'>
+    <!-- <div class='theory-list-title'>
       <p>Theories<button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></button><button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></button></p>
       <div class="theory-list">
         <% i = 0 %>
@@ -27,11 +32,12 @@
           <% end %>
           <% i += 1 %>
         <% end %>
-      </div>
+      </div> -->
     </div>
     <div id='content-mods'>
       <%= render 'content_modules/index', mod: @content %>
     </div>
+
   </div>
 </div>
 

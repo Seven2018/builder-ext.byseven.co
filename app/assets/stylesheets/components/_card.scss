@@ -1,9 +1,45 @@
 
 $timeline: #115173;
 
-.card {
+.training-card {
+    margin: 20px;
+    width: 250px;
+    height: 180px;
+    box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.2);
+}
 
-  height: 25rem;
+.training-card-main {
+  height: 100%;
+  position: relative;
+  h4 {
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+}
+
+.training-card-infos {
+  width: 250px;
+  position: absolute;
+  background-color: #FFF1D5;
+  display: flex;
+  justify-items: flex-end;
+  margin-top: 35px;
+  padding: 12px 12px;
+  bottom: 10px;
+}
+
+.training-card-infos-elements {
+  line-height: 28px;
+  position: relative;
+}
+
+.empty-card-info {
+  font-family: 'Montserrat';
+  font-size: 14px;
+}
+
+.card {
+  height: 20rem;
   width: 35rem;
   margin: 1rem;
   position: relative;
@@ -18,7 +54,7 @@ $timeline: #115173;
     height: 100%;
   }
   .card-main {
-    height: 75%;
+    height: 100%;
     width: 100%;
     text-align: left;
     padding: 1.5rem;
