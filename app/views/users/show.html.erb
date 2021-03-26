@@ -19,6 +19,112 @@
         </div>
     </div>
   </div>
+  <% trainings = Training.joins(sessions: :session_trainers).where(session_trainers: {user_id: @user.id}).uniq %>
+  <h3>Upcoming</h3>
+  <div class="trainings-row">
+    <% result_term = [] %>
+    <% trainings.each do |training| %>
+      <% if training.end_time.present? && training.end_time >= Date.today %>
+        <div class="training-card" id="card-index">
+          <div class="training-card-main">
+            <%= link_to training_path(training), class: 'stretched-link' do %>
+              <h4 style='max-width: 18rem;'><%= training.title %></h4>
+              <% result_term << training %>
+              <div class="training-card-infos">
+                <% sessions = training.sessions %>
+                <div class='training-card-infos-elements'>
+                  <% if sessions.count == 1 %>
+                    <i class="far fa-calendar-alt"></i><%= "  On #{sessions.first.date.strftime('%d/%m/%y')}" %>
+                  <% else %>
+                    <i class="far fa-calendar-alt"></i><%= "  From #{sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
+                  <% end %>
+                  <br>
+                  <i class="far fa-calendar-check"></i>
+                  <%= training.sessions.count.to_s + " " + "Sessions" %>
+                </div>
+              </div>
+              <% users_list = [training.owners + training.writers + training.trainers].flatten.uniq.first(3) %>
+              <% u = 1 %>
+              <% users_list.each do |user| %>
+              <img class="avatar-sm training-card-user training-card-user-<%= u %>" src="<%= user.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% u += 1 %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    <% if result_term.empty? %>
+        <div class="training-card">
+          <div class="training-card-main">
+            <h4><%= "Name of the Training" %></h4>
+            <div class="training-card-infos">
+              <div class='training-card-infos-elements'>
+                <div class="empty-card-info">
+                <i class="far fa-calendar-alt"></i> <%= 'From dd/mm/yy to dd/mm/yy' %>
+                </div>
+                <div class="empty-card-info">
+                  <i class="far fa-calendar-check"></i> <%= '3 Sessions' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+  <h3>Completed</h3>
+  <div class="trainings-row">
+    <% result_fut = [] %>
+    <% trainings.uniq.each do |training| %>
+      <% if training.end_time.present? && training.end_time < Date.today %>
+        <div class="training-card" id="card-index">
+          <div class="training-card-main">
+            <%= link_to training_path(training), class: 'stretched-link' do %>
+              <h4 style='max-width: 18rem;'><%= training.title %></h4>
+              <% result_fut << training %>
+              <div class="training-card-infos">
+                <% sessions = training.sessions %>
+                <div class='training-card-infos-elements'>
+                  <% if sessions.count == 1 %>
+                    <i class="far fa-calendar-alt"></i><%= "  On #{sessions.first.date.strftime('%d/%m/%y')}" %>
+                  <% else %>
+                    <i class="far fa-calendar-alt"></i><%= "  From #{sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
+                  <% end %>
+                  <br>
+                  <i class="far fa-calendar-check"></i>
+                  <%= training.sessions.count.to_s + " " + "Sessions" %>
+                </div>
+              </div>
+              <% users_list = [training.owners + training.writers + training.trainers].flatten.uniq.first(3) %>
+              <% u = 1 %>
+              <% users_list.each do |user| %>
+              <img class="avatar-sm training-card-user training-card-user-<%= u %>" src="<%= user.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+              <% u += 1 %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if result_fut.empty? %>
+        <div class="training-card">
+          <div class="training-card-main">
+            <h4><%= "Name of the Training" %></h4>
+            <div class="training-card-infos">
+              <div class='training-card-infos-elements'>
+                <div class="empty-card-info">
+                <i class="far fa-calendar-alt"></i> <%= 'From dd/mm/yy to dd/mm/yy' %>
+                </div>
+                <div class="empty-card-info">
+                  <i class="far fa-calendar-check"></i> <%= '3 Sessions' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
 </div>
 
 <!-- Modal -->
