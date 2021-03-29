@@ -103,6 +103,13 @@
   width: 131%;
 }
 
+.card-session-number {
+  padding: 10px;
+  @include from-large {
+    padding: 0px;
+  }
+}
+
 .session-header {
   display: flex;
   justify-content: space-between;

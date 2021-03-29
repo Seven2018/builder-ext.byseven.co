@@ -29,14 +29,14 @@
       <ul><li><%= @workshop_module.logistics.html_safe %></ul></li>
     </div>
     <div class="content-actions">
-      <% if @content_module.action1 %>
+      <% if @workshop_module.action1 %>
         <p class='logistics-label'>Actions:</p>
         <ul><li> <%= @workshop_module.action1.name %> </ul></li>
       <% end %>
     </div>
-      <% if @content_module.action2 %>
+      <% if @workshop_module.action2 %>
       <p class='logistics-label'>
-       <ul><li> <%= @workshop_module.action2.name %> </ul></li>
+       <ul><li> <%= @workshop_module.action2.name %></li></ul>
        <% end %>
 </div>
 
