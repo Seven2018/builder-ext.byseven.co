@@ -37,7 +37,6 @@ class WorkshopsController < ApplicationController
     else
       raise
     end
-    Comment.create(object: 'Log', content: "Module #{@workshop.title} added |", user_id: current_user.id, session_id: @workshop.session.id)
   end
 
   def edit
@@ -58,7 +57,6 @@ class WorkshopsController < ApplicationController
   end
 
   def destroy
-    Comment.create(object: 'Log', content: "Module #{@workshop.title} removed |", user_id: current_user.id, session_id: @workshop.session.id)
     authorize @workshop
     @session = @workshop.session
     @workshop.destroy

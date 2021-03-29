@@ -63,13 +63,6 @@
       <% end %>
     <% end %>
   </div>
-  <script>
-    button = document.getElementById('logs-title');
-    list = document.getElementById('logs-list');
-    button.addEventListener('click', (event) => {
-      list.classList.toggle('hidden');
-    })
-  </script>
   <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
     <div id='library' class="nav-side-menu-container">
       <div class="nav-side-menu">

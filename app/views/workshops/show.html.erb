@@ -34,7 +34,9 @@
       </div>
     <% end %>
   </div>
-  <%= render 'workshop_modules/index' %>
+  <div id="content-mods">
+    <%= render 'workshop_modules/index', mod: @workshop %>
+  </div>
 </div>
 
 
