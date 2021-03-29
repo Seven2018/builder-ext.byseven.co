@@ -4,11 +4,13 @@
       <h1>Theories List</h1>
       <div id="page-buttons">
         <%= simple_form_for :search, url: theories_path, method: 'GET' do |f| %>
-          <%= f.input :name, placeholder: 'Search', label: false %>
+          <%= f.input :name, placeholder: params[:search][:name], label: false %>
           <% if params[:search] %>
-            <%= link_to theories_path, class: 'theory-search-close' do %>
+            <%= link_to theories_path, class: 'search-close' do %>
               <i class="far fa-times-circle"></i>
             <% end %>
+          <% else %>
+            <%= f.input :name, placeholder: 'Search', label: false %>
           <% end %>
         <% end %>
         <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>

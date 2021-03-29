@@ -4,11 +4,13 @@
       <h1>Workshops List</h1>
       <div id="page-buttons">
         <%= simple_form_for :search, url: contents_path, method: 'GET' do |f| %>
-          <%= f.input :title, placeholder: 'Search', label: false %>
           <% if params[:search] %>
-            <%= link_to contents_path, class: 'training-search-close' do %>
+            <%= f.input :title, placeholder: params[:search][:title], label: false %>
+            <%= link_to contents_path, class: 'search-close' do %>
               <i class="far fa-times-circle"></i>
             <% end %>
+          <% else %>
+            <%= f.input :title, placeholder: 'Search', label: false %>
           <% end %>
         <% end %>
         <% if ['super admin', 'admin', 'training manager', 'sevener+'].include? current_user.access_level %>
