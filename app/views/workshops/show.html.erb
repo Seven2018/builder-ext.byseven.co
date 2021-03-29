@@ -19,18 +19,18 @@
   <div class= "show-control-links">
     <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
       <div class="page-controls-buttons">
-        <button class="btn btn-edit-green btn-icon" data-toggle='modal' data-target='#editMod' data-toggle='tooltip' title='Edit'><i class="fas fa-pen"></i></button>
-        <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: "btn btn-edit-red btn-icon", method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
-          <i class="fas fa-trash-alt"></i>
-        <% end %>
-        <%= link_to training_session_copy_form_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: 'btn btn-edit-orange btn-icon', data: {toggle: 'tooltip'}, title: 'Copy Workshop' do %>
-          <i class="fas fa-copy"></i>
-        <% end %>
         <% unless @workshop.title.split(' ').first == 'Pause' %>
           <%= link_to training_session_save_workshop_path(@workshop.session.training, @workshop.session), data: { toggle: 'tooltip', confirm: 'Do you want to save this workshop in the Database ?' }, title: 'Save to DB', class: 'btn btn-edit-blue btn-icon' do %>
             <i class="fas fa-cloud-upload-alt"></i>
           <% end %>
         <% end %>
+        <%= link_to training_session_copy_form_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: 'btn btn-edit-orange btn-icon', data: {toggle: 'tooltip'}, title: 'Copy Workshop' do %>
+          <i class="fas fa-copy"></i>
+        <% end %>
+        <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: "btn btn-edit-red btn-icon", method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
+          <i class="fas fa-trash-alt"></i>
+        <% end %>
+        <button class="btn btn-edit-green btn-icon" data-toggle='modal' data-target='#editMod' data-toggle='tooltip' title='Edit'><i class="fas fa-pen"></i></button>
       </div>
     <% end %>
   </div>
