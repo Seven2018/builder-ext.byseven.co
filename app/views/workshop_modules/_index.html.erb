@@ -56,18 +56,32 @@
           <p>Comments : <%= mod.comments %></p>
         <% end %>
         <% if mod.logistics %>
-          <div class='content-logistics'><p class='logistics-label'>Logistics : </p><div><%= mod.logistics.html_safe %></div></div>
+          <div class='content-logistics'>
+            <p class='logistics-label'>Logistics: </p>
+            <ul><li><%= mod.logistics.html_safe %></ul></li>
+          </div>
         <% end %>
         <% if !mod.action1.nil? && !mod.action2.nil? %>
-          <p class='content-actions'>Participant Action : <%= mod.action1.name %></p>
-          <p class='content-actions'>Participant Action : <%= mod.action2.name %></p>
+          <div class="content-actions">
+            <p class='logistics-label'> Action:</p>
+             <ul>
+              <li><%= mod.action1.name %></li>
+              <li><%= mod.action2.name %></li>
+            </ul>
         <% elsif !mod.action1.nil? %>
-          <p class='content-actions'>Participant Action 1 : <%= mod.action1.name %></p>
-        <% elsif !mod.action2.nil? %>
-          <p class='content-actions'>Participant Action 2 : <%= mod.action2.name %></p>
+            <p class='content-actions'>Action:</p>
+            <%= mod.action1.name %>
+        <% elsif !mod.action2.nil? %></ul></li>
+            <p class='content-actions'></p>
+            <ul><li> <%= mod.action2.name %></ul></li>
         <% end %>
-      </div>
+        </div>
     </div>
+
+
+
+
+
     <!-- Modals -->
     <% unless mod.user.nil? %>
       <div class="modal fade" id="consultUser<%= mod.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
