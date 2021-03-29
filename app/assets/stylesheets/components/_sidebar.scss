@@ -1,6 +1,6 @@
 .nav-side-menu-container {
   height: 100vh;
-  min-width: 22rem;
+  min-width: 25rem;
   display: none;
 
   @include from-large {
@@ -8,7 +8,7 @@
     position: fixed;
     bottom: 0px;
     right: 0px;
-    width: 22rem;
+    width: 25rem;
     height: 0;
     z-index: 20;
   }
@@ -17,18 +17,18 @@
 .nav-side-menu {
   position: fixed;
   font-family: verdana;
-  font-size: 1.2rem;
+  font-size: 15px;
   font-weight: 200;
   background-color: #2e353d;
   color: white;
   box-shadow: -3px 3px 0.5rem rgba(0,0,0,0.7);
   height: 100%;
-  width: 22rem;
+  width: 25rem;
   overflow-y: scroll;
   overflow-x: hidden;
 
   div {
-    width: 22rem;
+    width: 25rem;
   }
 }
 
@@ -58,6 +58,7 @@
 .nav-side-menu li {
   list-style: none;
   padding: 0;
+  font-size: 15px;
   margin: 0;
   line-height: 2.5rem;
   cursor: pointer;
@@ -121,7 +122,7 @@
 .nav-side-menu a li {
   text-decoration: none;
   color: white;
-  font-size: 1.2rem;
+  font-size: 13px;
 }
 .nav-side-menu li a i {
   padding-left: 1rem;
