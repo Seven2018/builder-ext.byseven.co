@@ -127,7 +127,7 @@
 }
 
 .btn-edit-yellow, .btn-edit-red, .btn-edit-green, .btn-edit-grey, .btn-edit-blue, .btn-edit-orange, .btn-submit-disabled {
-  font-family: 'Arial', sans-serif !important;
+  font-family: 'Montserrat' !important;
   opacity: 0.8;
   width: auto;
   max-width: none;
@@ -156,7 +156,7 @@
 }
 
 .btn-edit-checkbox {
-  font-family: 'Arial', sans-serif !important;
+  font-family: 'Montserrat' !important;
   width: auto;
   max-width: none;
   padding: 1.1rem 1.6rem !important;
@@ -185,7 +185,7 @@
 }
 
 .btn-edit-checkbox-checked {
-  font-family: 'Arial', sans-serif !important;
+  font-family: 'Montserrat' !important;
   width: auto;
   max-width: none;
   padding: 1.1rem 1.6rem !important;
@@ -214,7 +214,7 @@
 }
 
 .btn-edit-checkbox-disabled {
-  font-family: 'Arial', sans-serif !important;
+  font-family: 'Montserrat' !important;
   width: auto;
   max-width: none;
   padding: 1.1rem 1.6rem !important;
@@ -301,7 +301,7 @@
 }
 
 .btn-edit-yellow-large {
-  font-family: 'Arial', sans-serif !important;
+  font-family: 'Montserrat' !important;
   opacity: 0.8;
   width: auto;
   max-width: none;
@@ -328,16 +328,17 @@
 }
 
 .btn-add-user {
-  font-family: 'Arial', sans-serif !important;
+  font-family: 'Montserrat', sans-serif !important;
   box-shadow: none !important;
   border-radius: 5.2rem !important;
   background-color: rgba(0,0,0,0.05) !important;
   font-size: 1.4rem !important;
   padding: 1.05rem 1.6rem !important;
+  border: 2px solid rgba(0,0,0,.2) !important;
 }
 
 .btn-add-user-disabled {
-  font-family: 'Arial', sans-serif !important;
+  font-family: 'Montserrat', sans-serif !important;
   box-shadow: none !important;
   cursor: default !important;
   background-color: white !important;
@@ -381,6 +382,11 @@
    }
 }
 
+.side-search {
+  background-color: transparent !important;
+  border: none !important;
+}
+
 #search {
   padding-right: 35px !important;
   margin-right: 1rem;
@@ -416,9 +422,9 @@
     margin: 10px 0px !important;
 }
 
-#workshop_module_duration_05_mins:checked + label , #workshop_module_duration_10_mins:checked + label , #workshop_module_duration_15_mins:checked + label, #workshop_module_duration_20_mins:checked + label,
-#workshop_module_duration_25_mins:checked + label, #workshop_module_duration_30_mins:checked + label, #workshop_module_duration_35_mins:checked + label, #workshop_module_duration_40_mins:checked + label,
-#workshop_module_duration_45_mins:checked + label, #workshop_module_duration_50_mins:checked + label, #workshop_module_duration_55_mins:checked + label, #workshop_module_duration_60_mins:checked + label {
+#content_module_duration_05_mins:checked + label , #content_module_duration_10_mins:checked + label , #content_module_duration_15_mins:checked + label, #content_module_duration_20_mins:checked + label,
+#content_module_duration_25_mins:checked + label, #content_module_duration_30_mins:checked + label, #content_module_duration_35_mins:checked + label, #content_module_duration_40_mins:checked + label,
+#content_module_duration_45_mins:checked + label, #content_module_duration_50_mins:checked + label, #content_module_duration_55_mins:checked + label, #content_module_duration_60_mins:checked + label {
   border: 3px solid #FDC553;
 }
 

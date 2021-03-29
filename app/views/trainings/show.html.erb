@@ -184,7 +184,11 @@
                 </div>
               </div>
               <div class="mods-list">
+                <% if session.workshops.present? %>
                 <%= render_async show_session_content_path(session_id: session.id) %>
+                <% else %>
+                  <p>Sorry, there is no content in this session.</p>
+                <% end %>
                 <% session_number = @training.sessions.order(date: :asc).find_index(session) + 1 %>
               </div>
               <div class='flex-row-end-centered'>

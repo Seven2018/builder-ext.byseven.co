@@ -1,12 +1,11 @@
 <% ongoing_trainings = @trainings %>
-<% result_term = [] %>
+
 <% ongoing_trainings.each do |training| %>
   <% if training.sessions.where(date: nil).empty? %>
       <div class="training-card" id="card-index">
         <div class="training-card-main">
           <%= link_to training_path(training), class: 'stretched-link' do %>
             <h4 style='max-width: 18rem;'><%= training.title %></h4>
-            <% result_term << training %>
             <div class="training-card-infos">
               <% sessions = training.sessions %>
               <div class='training-card-infos-elements'>
@@ -30,21 +29,4 @@
         </div>
       </div>
   <% end %>
-<% end %>
-<% if result_term.empty? %>
-    <div class="training-card">
-      <div class="training-card-main">
-        <h4><%= "Name of the Training" %></h4>
-        <div class="training-card-infos">
-          <div class='training-card-infos-elements'>
-            <div class="empty-card-info">
-            <i class="far fa-calendar-alt"></i> <%= 'From dd/mm/yy to dd/mm/yy' %>
-            </div>
-            <div class="empty-card-info">
-              <i class="far fa-calendar-check"></i> <%= '3 Sessions' %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 <% end %>
