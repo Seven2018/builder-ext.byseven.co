@@ -6,7 +6,7 @@
     <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
   </div>
   <div class="modal-body" id="modalNewBookinBody">
-    <%= simple_form_for [@content, @theory_content] do |f| %>
+    <%= simple_form_for [@content, theory_content] do |f| %>
         <%= f.input :theory, :collection => Theory.all, :label_method => :name, include_blank: false %>
   </div>
   <div class="modal-footer" id="modalNewBookingFooter">

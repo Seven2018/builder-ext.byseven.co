@@ -5,7 +5,6 @@ function addMod(modHTML) {
   }
   const mods = document.getElementById('items');
   items.insertAdjacentHTML('beforeend', modHTML);
-  document.querySelector('.log-box').innerHTML = '<%= j render "sessions/comments", session: @session %>';
 };
 
 <% @session.workshops.each do |mod| %>

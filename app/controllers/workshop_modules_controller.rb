@@ -18,6 +18,9 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     authorize @workshop_module
     @workshop_module.workshop = @workshop
     @workshop_module.position = @workshop.workshop_modules.count + 1
+    @workshop_module.duration = params[:workshop_module][:duration][1].split(' ')[0].to_i
+    @workshop_module.action1_id = params[:workshop_module][:action1_id][0].to_i
+    @workshop_module.action2_id = params[:workshop_module][:action1_id][1].to_i
     if @workshop_module.save
       update_duration
       redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)
@@ -36,6 +39,7 @@ before_action :set_workshop_module, only: [:show, :edit, :update, :destroy, :mov
     authorize @workshop_module
     @workshop = @workshop_module.workshop
     @workshop_module.update(workshop_module_params)
+    @workshop_module.update(duration: params[:workshop_module][:duration][1].split(' ')[0].to_i, action1_id: params[:workshop_module][:action1_id][0].to_i, action2_id: params[:workshop_module][:action1_id][1].to_i)
     if @workshop_module.save
       update_duration
       redirect_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop)

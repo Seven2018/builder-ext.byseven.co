@@ -21,9 +21,9 @@
         <a class="btn btn-edit-orange" data-toggle='modal' data-target='#theories' data-toggle='tooltip' title='Theories'>Theories</a>
       </div>
     </div>
-
-      <%= render 'content_modules/index', mod: @content %>
-
+    <div id="content-mods">
+      <%= render 'content_modules/index', content: @content %>
+    </div>
   </div>
 </div>
 
