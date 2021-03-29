@@ -1,26 +1,62 @@
 <div class="container-seven-large">
   <div id='page-controls'>
-    <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: 'btn return-arrow' do %>
-      <i class="fas fa-arrow-left"></i>
+    <div class="workshop-title">
+      <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+       <div class="workshop-title-details">
+        <h4><%= @workshop.title %> - <i class="fas fa-stopwatch fa-1x"></i> <%= @workshop.duration %> min</h4>
+          <% if @workshop.theme %>
+            <p><%= @workshop.theme.name %></p>
+          <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="add-module">
+    <h3>Add a module</h3>
+
+    <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @workshop_module] do |f| %>
+      <%= f.input :title, placeholder:'Title', label: false %>
+      <div class="text-box" style="margin: 20px 0px">
+      <%= f.label :instructions %>
+      <%= f.cktext_area :instructions %>
+      </div>
+      <%= f.input :logistics, input_html: { style: 'width:100%;' }, placeholder: 'Bring printed out sheet of instructions. Hand out to each individual.' %>
+      <div class="duration-buttons">
+      <%= f.input :duration, label: 'Duration (min)', collection: ["05 Mins", "10 Mins", "15 Mins", "20 Mins", "25 Mins", "30 Mins", "35 Mins", "40 Mins", "45 Mins", "50 Mins", "55 Mins", "60 Mins" ], as: :check_boxes %>
+      </div>
+      <div class="action-checkboxes">
+        <%= f.input :action1_id, collection: Action.all, label:'Actions (Max 2)', as: :check_boxes %>
+      </div>
+      <div class="center-button" style='margin-bottom: 3rem;'>
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>
+        <div class= "save-button">
+          <p>SAVE<i class="fas fa-save"></i></p>
+        </div>
+      <% end %>
+      </div>
     <% end %>
   </div>
-  <h3>Add a new module</h3>
-
-  <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @workshop_module] do |f| %>
-    <%= f.input :title %>
-    <%= f.association :user, label: 'Speaker', collection: @users, label_method: lambda { |user| "#{user.firstname} #{user.lastname}" }, allow_blank: true %>
-    <%= f.label :instructions %>
-    <%= f.cktext_area :instructions %>
-    <%= f.input :duration, label: 'Duration (min)', input_html: { value: 0 } %>
-    <%= f.label :logistics %>
-    <%= f.cktext_area :logistics %>
-    <%= f.input :action1_id, collection: Action.all, allow_blank: false, label: 'Action 1' %>
-    <%= f.input :action2_id, collection: Action.all, allow_blank: true, label: 'Action 2' %>
-    <%= f.input :comments, input_html: { style: 'width:100%;' } %>
-    <div class="center-button" style='margin-bottom: 3rem;'>
-      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
-        <i class="fas fa-save"></i>
-      <% end %>
-    </div>
-  <% end %>
 </div>
+
+<script>
+  $('input[name="workshop_module[duration][]"]').on('change', function() {
+    $('input[name="workshop_module[duration][]"]').not(this).prop('checked', false);
+  });
+
+  var $cs=$('input[name="workshop_module[action1_id][]"]');
+    if ($cs.length > 1) {
+      $('input[name="workshop_module[action1_id][]"] input:checkbox:not(:checked)').attr("disabled", true);
+      $('input[name="workshop_module[action1_id][]"] input:checkbox:not(:checked)').parent().css("color", "gray");
+    }
+  $('input[name="workshop_module[action1_id][]"]').change(function () {
+    console.log('test2');
+    var $cs=$('input[name="workshop_module[action1_id][]"]:checked');
+    if ($cs.length > 1) {
+      $('input[name="workshop_module[action1_id][]"]:not(:checked)').attr("disabled", true);
+      $('input[name="workshop_module[action1_id][]"]:not(:checked)').parent().css("color", "gray");
+    }
+    else{
+      $('input[name="workshop_module[action1_id][]"]').attr("disabled", false);
+      $('input[name="workshop_module[action1_id][]"]').parent().css("color", "black");
+    }
+  });
+</script>

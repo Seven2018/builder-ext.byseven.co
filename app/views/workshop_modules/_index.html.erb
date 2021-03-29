@@ -1,9 +1,13 @@
 <div class="workshop-middle-info-main">
   <h2>Modules</h2>
-  <%= link_to new_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop) do %>
-    <button class="btn btn-edit-yellow">New Module</button>
-  <% end %>
 </div>
+  <% unless @workshop.workshop_modules.present? %>
+    <div class="no-workshop">
+     <h5>Sorry, there are no modules for this workshop.</h5>
+     <h5>Create a module  <%= link_to new_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop)do %> <u>here.</u><% end %>
+    </h5>
+    </div>
+  <% else %>
 <% @workshop.workshop_modules.order('position ASC').each do |mod| %>
   <div class='module-card'>
     <div class="module-card-main">
@@ -64,6 +68,7 @@
       <% end %>
     </div>
   </div>
+  <% end %>
   <!-- Modals -->
   <% unless mod.user.nil? %>
     <div class="modal fade" id="consultUser<%= mod.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
