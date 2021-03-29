@@ -84,11 +84,17 @@
       </div>
       <div class="modal-body" id="modalNewBookinBody">
         <div class="theories-list">
-          <% @content.theories.each do |theory|%>
-              <%= link_to theory.name, theory_path(theory) %>
-          <% end %>
+          <div class="theories-listed">
+            <p><b>Theories linked to workshop:</b></p>
+            <% @content.theories.each do |theory|%>
+                <%= link_to theory.name, theory_path(theory) %>
+            <% end %>
+          </div>
+          <div class="theory-buttons">
+            <button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent' id="add-theory"><i class="fas fa-plus"></i><p>Theory</p></button>
+            <button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent' id="minus-theory"><i class="fas fa-minus"></i><p>Theory</p></button>
+          </div>
         </div>
-        <button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></button><button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></button>
       </div>
     </div>
   </div>

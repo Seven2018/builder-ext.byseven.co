@@ -321,8 +321,6 @@ $timeline: #115173;
   width: 100%;
   padding: 2rem;
   position: relative;
-  padding-left: 0px;
-
   a {
     max-width: 70%;
   }
@@ -333,6 +331,7 @@ $timeline: #115173;
 
     @include from-large {
       font-size: 2.4rem;
+      padding-left: 0px;
     }
   }
 }
