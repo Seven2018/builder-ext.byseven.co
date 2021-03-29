@@ -4,8 +4,8 @@
       <h1>Actions List</h1>
       <div id="page-buttons">
         <%= simple_form_for :search, url: actions_path, method: 'GET' do |f| %>
-          <%= f.input :name, placeholder: params[:search][:name], label: false %>
           <% if params[:search] %>
+            <%= f.input :name, placeholder: params[:search][:name], label: false %>
             <%= link_to actions_path, class: 'search-close' do %>
               <i class="far fa-times-circle"></i>
             <% end %>

@@ -6,16 +6,14 @@
         <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
           <% if params[:search].present? %>
             <%= f.input :title, placeholder: 'Search', label: false, input_html: {value: params[:search][:title]} %>
+            <%= link_to trainings_path(page: 1), class: 'search-close' do %>
+              <i class="far fa-times-circle"></i>
+            <% end %>
           <% else %>
             <%= f.input :title, placeholder: 'Search', label: false %>
           <% end %>
           <%= f.input :user, as: :hidden, input_html: { value: params[:user] } %>
           <%= hidden_field_tag :page, 1 %>
-          <% if params[:search] %>
-            <%= link_to trainings_path(page: 1), class: 'search-close' do %>
-              <i class="far fa-times-circle"></i>
-            <% end %>
-          <% end %>
         <% end %>
       <% else %>
         <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
