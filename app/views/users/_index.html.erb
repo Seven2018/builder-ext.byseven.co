@@ -3,12 +3,14 @@
     <div id="page-controls">
       <h1>Users list</h1>
       <div id="page-buttons">
-        <%= form_with url: users_path, local: true, method: 'GET' do |f| %>
-          <%= f.text_field :search, placeholder: 'Search', label: false, data: {behavior: 'autocomplete'} %>
+        <%= simple_form_for :search, url: users_path, method: 'GET' do |f| %>
           <% if params[:search] %>
-            <%= link_to users_path, class: 'user-search-close' do %>
+            <%= f.input :name, placeholder: params[:search][:name], label: false %>
+            <%= link_to users_path, class: 'search-close' do %>
               <i class="far fa-times-circle"></i>
             <% end %>
+          <% else %>
+            <%= f.input :name, placeholder: 'Search', label: false %>
           <% end %>
         <% end %>
         <%= link_to new_user_path do %>

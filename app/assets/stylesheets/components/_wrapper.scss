@@ -138,8 +138,9 @@ a {
 #page-buttons {
   position: relative;
 
-  & > form {
+  form {
     margin: 0 1rem;
+    position: relative;
   }
 }
 
