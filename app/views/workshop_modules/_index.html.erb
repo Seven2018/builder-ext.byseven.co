@@ -68,16 +68,16 @@
               <li><%= mod.action1.name %></li>
               <li><%= mod.action2.name %></li>
             </ul>
+          </div>
         <% elsif !mod.action1.nil? %>
             <p class='content-actions'>Action:</p>
             <%= mod.action1.name %>
-        <% elsif !mod.action2.nil? %></ul></li>
+        <% elsif !mod.action2.nil? %>
             <p class='content-actions'></p>
-            <ul><li> <%= mod.action2.name %></ul></li>
+            <ul><li> <%= mod.action2.name %></li></ul>
         <% end %>
-        </div>
-    </div>
-
+     </div>
+</div>
 
 
 

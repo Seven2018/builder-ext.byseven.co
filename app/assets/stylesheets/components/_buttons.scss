@@ -131,10 +131,10 @@
   opacity: 0.8;
   width: auto;
   max-width: none;
-  padding: 1.1rem 1.6rem !important;
+  padding: .5rem 1rem !important;
   border-radius: 5px !important;
   box-sizing: border-box;
-  font-size: 16px !important;
+  font-size: 12px !important;
   font-weight: 800 !important;
   color: white !important;
   text-align: center;
@@ -148,10 +148,14 @@
     margin-left: 2px;
   }
 
-
   &:hover{
     opacity: 1;
     text-decoration: none !important;
+  }
+  @include from-large {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  padding: 1.1rem 1.6rem !important;
   }
 }
 

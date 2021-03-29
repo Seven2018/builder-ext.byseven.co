@@ -10,19 +10,19 @@
       <% end %>
     <% end %>
     <div class="page-controls-buttons flex-row-between-centered">
-      <!-- <a class="btn btn-edit-yellow btn-icon" data-toggle='modal' type='button' data-target='#editTraining' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
-      <%# link_to remove_training_trainers_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
+    <a class="btn btn-edit-green btn-icon" data-toggle='modal' type='button' data-target='#editTraining' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
+      <%= link_to remove_training_trainers_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
         <i class="fas fa-trash-alt"></i>
-      <%# end %> -->
+      <% end %>
       <% if params[:change].present? %>
       <div class="flex-column-between-centered">
         <p class='calendar_message'>Calendar update required</p>
       </div>
       <% end %>
-      <%= link_to update_calendar_path(training_id: @training.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip'}, title: 'Update Calendar' do %>
-        <span class="iconify" data-icon="dashicons:update" data-inline="false"></span>
-      <% end %>
-      <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#copyTraining' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></a>
+      <%= link_to update_calendar_path(training_id: @training.id), class: "btn btn-edit-yellow btn-icon", data: { toggle: 'tooltip'}, title: 'Update Calendar' do %>
+        <i class="fas fa-calendar-check"></i>
+        <% end %>
+      <a class='btn btn-edit-orange btn-icon' data-toggle='modal' data-target='#copyTraining' data-toggle="tooltip" title="Copy"><i class="fas fa-copy"></i></a>
     </div>
   </div>
   <div class="middle-info">

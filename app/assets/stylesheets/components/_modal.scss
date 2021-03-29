@@ -37,7 +37,7 @@
   justify-content: space-between;
   align-items: center;
   flex-flow: row-reverse;
-
+  margin-bottom: 50px;
   .btn {
     max-width: none !important;
   }
@@ -57,10 +57,57 @@
 }
 
 .modal-body {
-
+  padding: 20px;
+  margin-top: 30px;
   p {
     font-size: 1.6rem !important;
-    font-weight: 300;
+    font-weight: 700;
+  }
+
+  a {
+    padding: 5px;
+  }
+
+  .theory-buttons {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  #add-theory{
+    border: 2px solid #FDC553;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #FDC553;
+    color: white;
+    cursor: pointer;
+    font-family: 'Montserrat';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+      margin-bottom: 0px;
+      margin-left: 3px;
+    }
+  }
+
+  #minus-theory {
+    border: 2px solid #E64259;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #E64259;
+    color: white;
+    cursor: pointer;
+    font-family: 'Montserrat';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+      margin-bottom: 0px;
+      margin-left: 3px;
+    }
+}
+  .user-fafa {
+    margin-top: 20px;
   }
 }
 
