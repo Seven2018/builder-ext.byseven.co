@@ -44,23 +44,22 @@
     <% else %>
       <div class="trainings-list">
 
-        <h3>Upcoming</h3>
+        <h3 class="training-update-text">Upcoming</h3>
         <div class="trainings-row">
           <%= render_async index_upcoming_path(page: params[:page]) %>
         </div>
-        <h3>Completed</h3>
+        <h3 class="training-update-text">Completed</h3>
         <div class="trainings-row">
           <%= render_async index_completed_path(page: 1)%>
         </div>
-        <h3>To Schedule</h3>
+        <h3 class="training-update-text">To Schedule</h3>
         <div class="trainings-row">
           <%= render 'to_date', trainings: @trainings %>
         </div>
-        <h3>To Staff</h3>
+        <h3 class="training-update-text">To Staff</h3>
         <div class="trainings-row">
           <%= render 'to_staff', trainings: @trainings %>
         </div>
-
       </div>
     <% end %>
   </div>
