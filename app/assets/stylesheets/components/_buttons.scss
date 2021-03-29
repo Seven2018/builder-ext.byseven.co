@@ -416,11 +416,42 @@
     margin: 10px 0px !important;
 }
 
-#content_module_duration_05_mins:checked + label , #content_module_duration_10_mins:checked + label , #content_module_duration_15_mins:checked + label, #content_module_duration_20_mins:checked + label,
-#content_module_duration_25_mins:checked + label, #content_module_duration_30_mins:checked + label, #content_module_duration_35_mins:checked + label, #content_module_duration_40_mins:checked + label,
-#content_module_duration_45_mins:checked + label, #content_module_duration_50_mins:checked + label, #content_module_duration_55_mins:checked + label, #content_module_duration_60_mins:checked + label {
+#workshop_module_duration_05_mins:checked + label , #workshop_module_duration_10_mins:checked + label , #workshop_module_duration_15_mins:checked + label, #workshop_module_duration_20_mins:checked + label,
+#workshop_module_duration_25_mins:checked + label, #workshop_module_duration_30_mins:checked + label, #workshop_module_duration_35_mins:checked + label, #workshop_module_duration_40_mins:checked + label,
+#workshop_module_duration_45_mins:checked + label, #workshop_module_duration_50_mins:checked + label, #workshop_module_duration_55_mins:checked + label, #workshop_module_duration_60_mins:checked + label {
   border: 3px solid #FDC553;
 }
+
+
+#workshop_module_duration_05_mins, #workshop_module_duration_10_mins, #workshop_module_duration_15_mins, #workshop_module_duration_20_mins,
+#workshop_module_duration_25_mins, #workshop_module_duration_30_mins, #workshop_module_duration_35_mins, #workshop_module_duration_40_mins,
+#workshop_module_duration_45_mins, #workshop_module_duration_50_mins, #workshop_module_duration_55_mins, #workshop_module_duration_60_mins {
+    position: absolute;
+    transform: scale(0);
+}
+
+#workshop_module_duration_05_mins + label , #workshop_module_duration_10_mins + label , #workshop_module_duration_15_mins + label, #workshop_module_duration_20_mins + label,
+#workshop_module_duration_25_mins + label, #workshop_module_duration_30_mins + label, #workshop_module_duration_35_mins + label, #workshop_module_duration_40_mins + label,
+#workshop_module_duration_45_mins + label, #workshop_module_duration_50_mins + label, #workshop_module_duration_55_mins + label, #workshop_module_duration_60_mins + label {
+    color: grey;
+    border: 3px solid grey;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-weight: 700;
+    width: 80px;
+    text-align: center;
+    margin: 10px 0px !important;
+}
+
+#workshop_module_duration_05_mins:checked + label , #workshop_module_duration_10_mins:checked + label , #workshop_module_duration_15_mins:checked + label, #workshop_module_duration_20_mins:checked + label,
+#workshop_module_duration_25_mins:checked + label, #workshop_module_duration_30_mins:checked + label, #workshop_module_duration_35_mins:checked + label, #workshop_module_duration_40_mins:checked + label,
+#workshop_module_duration_45_mins:checked + label, #workshop_module_duration_50_mins:checked + label, #workshop_module_duration_55_mins:checked + label, #workshop_module_duration_60_mins:checked + label {
+  border: 3px solid #FDC553;
+}
+
 
 .form-group {
   .content_module_duration{

@@ -82,7 +82,7 @@
             <%= link_to training_path(training), class: 'stretched-link' do %>
               <h4 style='max-width: 18rem;'><%= training.title %></h4>
               <% result_fut << training %>
-              <div class="training-card-infos">
+              <div class="completed-training-card-infos">
                 <% sessions = training.sessions %>
                 <div class='training-card-infos-elements'>
                   <% if sessions.count == 1 %>
@@ -111,7 +111,7 @@
         <div class="training-card">
           <div class="training-card-main">
             <h4><%= "Name of the Training" %></h4>
-            <div class="training-card-infos">
+            <div class="completed-training-card-infos">
               <div class='training-card-infos-elements'>
                 <div class="empty-card-info">
                 <i class="far fa-calendar-alt"></i> <%= 'From dd/mm/yy to dd/mm/yy' %>
