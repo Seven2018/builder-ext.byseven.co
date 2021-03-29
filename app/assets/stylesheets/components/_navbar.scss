@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   height: 50px;
-  display: flex;
+  display: none;
   justify-content: flex-end !important;
   background-color: white;
   z-index: 20;
@@ -11,6 +11,10 @@
   padding: 0 !important;
   width: 100vw;
   max-width: 144rem;
+
+  @include from-large {
+    display: flex;
+  }
 }
 
 .navbar .navbar-collapse {
