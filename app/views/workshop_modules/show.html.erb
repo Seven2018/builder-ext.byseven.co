@@ -20,13 +20,13 @@
   <div class="middle-info-workshop">
     <h3><%= @workshop_module.title %> - <%= @workshop_module.duration %> minutes</h3>
     <br>
-    <p><%= @workshop_module.instructions.html_safe %></p>
+    <p><%= @workshop_module.instructions %></p>
     <% if @workshop_module.comments && @workshop_module.comments != "" %>
       <p>Comments : <%= @workshop_module.comments %></p>
     <% end %>
     <div class='content-logistics'>
       <p class='logistics-label'>Logistics: </p>
-      <ul><li><%= @workshop_module.logistics.html_safe %></ul></li>
+      <ul><li><%= @workshop_module.logistics %></ul></li>
     </div>
     <div class="content-actions">
       <% if @workshop_module.action1 %>

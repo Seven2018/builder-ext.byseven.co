@@ -16,8 +16,9 @@
   <%= simple_form_for [@workshop.session.training, @workshop.session, @workshop, @workshop_module] do |f| %>
     <%= f.input :title %>
     <div class="text-box" style="margin: 20px 0px">
-    <%= f.label :instructions %>
-    <%= f.cktext_area :instructions %>
+    <label class="string" style='margin: 1rem 0;'>Instructions</label>
+    <%# f.cktext_area :instructions %>
+    <%= f.trix_editor :instructions %>
     </div>
     <%= f.input :logistics, input_html: { style: 'width:100%;' }, placeholder: 'Bring printed out sheet of instructions. Hand out to each individual.' %>
     <div class="duration-buttons">

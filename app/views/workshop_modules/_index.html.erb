@@ -14,7 +14,7 @@
         <div class="module-card-infos">
           <h4><%= link_to mod.title, training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod) %></h4>
           <% if mod.instructions != ''  %>
-            <div class='module-card-instructions'><%= mod.instructions.html_safe %></div>
+            <div class='module-card-instructions'><%= mod.instructions %></div>
           <% end %>
         </div>
           <div class='module-card-controls'>
@@ -52,31 +52,30 @@
           </div>
       </div>
       <div class="module-card-footer">
-        <% if mod.comments && mod.comments != "" %>
-          <p>Comments : <%= mod.comments %></p>
-        <% end %>
-        <% if mod.logistics %>
+        <% if mod.logistics.present? %>
           <div class='content-logistics'>
-            <p class='logistics-label'>Logistics: </p>
-            <ul><li><%= mod.logistics.html_safe %></ul></li>
+            <p class='logistics-label'>Logistics:</p><br>
+            <ul><li><%= mod.logistics %></li></ul>
           </div>
         <% end %>
         <% if !mod.action1.nil? && !mod.action2.nil? %>
-          <div class="content-actions">
-            <p class='logistics-label'> Action:</p>
-             <ul>
-              <li><%= mod.action1.name %></li>
-              <li><%= mod.action2.name %></li>
-            </ul>
-          </div>
+          <div class='content-actions'>
+          <p class='logistics-label'>Actions:</p>
+           <ul><li><%= mod.action1.name %></li></ul>
+           <ul><li><%= mod.action2.name %></li></ul>
+         </div>
         <% elsif !mod.action1.nil? %>
-            <p class='content-actions'>Action:</p>
-            <%= mod.action1.name %>
+          <div class='content-actions'>
+          <p class='logistics-label'>Actions:</p>
+           <ul><li><%= mod.action1.name %></li></ul>
+         </div>
         <% elsif !mod.action2.nil? %>
-            <p class='content-actions'></p>
-            <ul><li> <%= mod.action2.name %></li></ul>
+          <div class='content-actions'>
+          <p class='logistics-label'>Actions:</p>
+           <ul><li><%= mod.action2.name %></li></ul>
+         </div>
         <% end %>
-     </div>
+      </div>
 </div>
 
 
