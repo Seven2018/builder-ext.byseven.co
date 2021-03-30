@@ -17,7 +17,6 @@
   </div>
 
   <div class= "show-control-links">
-    <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
       <div class="page-controls-buttons">
         <% unless @workshop.title.split(' ').first == 'Pause' %>
           <%= link_to training_session_save_workshop_path(@workshop.session.training, @workshop.session), data: { toggle: 'tooltip', confirm: 'Do you want to save this workshop in the Database ?' }, title: 'Save to DB', class: 'btn btn-edit-blue btn-icon' do %>
@@ -32,7 +31,7 @@
         <% end %>
         <button class="btn btn-edit-green btn-icon" data-toggle='modal' data-target='#editMod' data-toggle='tooltip' title='Edit'><i class="fas fa-pen"></i></button>
       </div>
-    <% end %>
+
   </div>
   <div id="content-mods">
     <%= render 'workshop_modules/index', mod: @workshop %>
