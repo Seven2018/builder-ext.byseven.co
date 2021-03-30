@@ -3,7 +3,6 @@
     <%= link_to training_session_workshop_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop), class: 'return-arrow' do %>
       <i class="fas fa-arrow-left"></i>
     <% end %>
-    <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
       <div class="page-controls-buttons flex-row-between-centered">
         <%= link_to edit_training_session_workshop_workshop_module_path(@workshop_module.workshop.session.training, @workshop_module.workshop.session, @workshop_module.workshop, @workshop_module), data: { toggle: 'tooltip' }, title: 'Edit', class: 'btn btn-edit-yellow btn-icon' do %>
           <i class="fas fa-pen"></i>
@@ -15,7 +14,6 @@
           <i class="fas fa-copy"></i>
         <% end %>
       </div>
-    <% end %>
   </div>
   <div class="middle-info-workshop">
     <h3><%= @workshop_module.title %> - <%= @workshop_module.duration %> minutes</h3>

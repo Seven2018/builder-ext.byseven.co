@@ -6,13 +6,11 @@
     <% end %>
   <% if @session.workshops.empty? %>
     <div class="empty-mod">
-      <% if ['super admin', 'admin', 'training manager'].include? current_user.access_level %>
         <br>
         <p> <%= "Ajouter du contenu" %> </p>
       <% else %>
         <i class="fas fa-wrench"></i>
         <p> <%= "Session à construire" %> </p>
-      <% end %>
     </div>
   <% else %>
     <% @session.workshops.order('position ASC').each do |mod| %>
