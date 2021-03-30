@@ -4,4 +4,5 @@ class ContentModule < ApplicationRecord
   belongs_to :action2, class_name: "Action", foreign_key: 'action2_id', optional: true
   validates :title, :duration, presence: true
   acts_as_list scope: :content
+  has_rich_text :instructions
 end

@@ -14,17 +14,21 @@
     <h3>Add a module</h3>
 
     <%= simple_form_for [@content, @content_module] do |f| %>
-      <%= f.input :title, placeholder:'Title', label: false %>
+      <%= f.input :title %>
       <div class="text-box" style="margin: 20px 0px">
-      <%= f.label :instructions %>
-      <%= f.cktext_area :instructions %>
+        <label class="string" style='margin: 1rem 0;'>Instructions</label>
+        <%# f.cktext_area :instructions %>
+        <%= f.trix_editor :instructions %>
       </div>
-      <%= f.input :logistics, input_html: { style: 'width:100%;' }, placeholder: 'Bring printed out sheet of instructions. Hand out to each individual.' %>
+      <label class="string" style='margin: 1rem 0;'>Logistics</label>
+      <%= f.input :logistics, label: false, input_html: { style: 'width:100%;' }, placeholder: 'Bring printed out sheet of instructions. Hand out to each individual.' %>
       <div class="duration-buttons">
-      <%= f.input :duration, label: 'Duration (min)', collection: ["05 Mins", "10 Mins", "15 Mins", "20 Mins", "25 Mins", "30 Mins", "35 Mins", "40 Mins", "45 Mins", "50 Mins", "55 Mins", "60 Mins" ], as: :check_boxes %>
+        <label class="string">Duration<abbr title="required">*</abbr></label>
+        <%= f.input :duration, label: false, legend_tag: false, collection: ["05 Mins", "10 Mins", "15 Mins", "20 Mins", "25 Mins", "30 Mins", "35 Mins", "40 Mins", "45 Mins", "50 Mins", "55 Mins", "60 Mins" ], as: :check_boxes %>
       </div>
       <div class="action-checkboxes">
-        <%= f.input :action1_id, collection: Action.all, label:'Actions (Max 2)', as: :check_boxes %>
+        <label class="string">Actions (max 2)</label>
+        <%= f.input :action1_id, label: false, legend_tag: false, collection: Action.all, label:'Actions (Max 2)', as: :check_boxes %>
       </div>
       <div class="center-button" style='margin-bottom: 3rem;'>
         <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>

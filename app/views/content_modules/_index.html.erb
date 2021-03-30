@@ -14,7 +14,7 @@
       <div class="module-card-main">
         <div class="module-card-infos">
           <h4><%= link_to mod.title, content_content_module_path(@content, mod) %></h4>
-          <div class='module-card-instructions'><%= mod.instructions.html_safe %></div>
+          <div class='module-card-instructions'><%= mod.instructions %></div>
         </div>
         <div class='module-card-controls'>
           <p><%= mod.duration %> min</p>
@@ -41,27 +41,27 @@
         </div>
       </div>
       <div class="module-card-footer">
-        <% if mod.logistics %>
+        <% if mod.logistics.present? %>
           <div class='content-logistics'>
             <p class='logistics-label'>Logistics:</p><br>
-            <ul><li><%= mod.logistics.html_safe %></ul></li>
+            <ul><li><%= mod.logistics %></li></ul>
           </div>
         <% end %>
         <% if !mod.action1.nil? && !mod.action2.nil? %>
           <div class='content-actions'>
           <p class='logistics-label'>Actions:</p>
-           <ul><li><%= mod.action1.name %></ul></li>
-           <ul><li><%= mod.action2.name %></ul></li>
+           <ul><li><%= mod.action1.name %></li></ul>
+           <ul><li><%= mod.action2.name %></li></ul>
          </div>
         <% elsif !mod.action1.nil? %>
           <div class='content-actions'>
           <p class='logistics-label'>Actions:</p>
-           <ul><li><%= mod.action1.name %></ul></li>
+           <ul><li><%= mod.action1.name %></li></ul>
          </div>
         <% elsif !mod.action2.nil? %>
           <div class='content-actions'>
           <p class='logistics-label'>Actions:</p>
-           <ul><li><%= mod.action2.name %></ul></li>
+           <ul><li><%= mod.action2.name %></li></ul>
          </div>
         <% end %>
       </div>

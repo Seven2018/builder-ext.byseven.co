@@ -62,6 +62,7 @@ gem 'redis-rails'
 gem 'sucker_punch', '~> 2.0'
 gem 'ransack'
 gem 'flatpickr'
+gem 'trix-rails', require: 'trix'
 
 group :development, :test do  gem 'pry-byebug'
   gem 'pry-rails'

@@ -7,7 +7,7 @@
   <div class="middle-info-workshop">
     <h4><%= @content_module.title %> - <i class="fas fa-stopwatch fa-1x"></i> <%= @content_module.duration %> min</h4>
     <br>
-    <p><%= @content_module.instructions.html_safe %></p>
+    <p><%= @content_module.instructions %></p>
     <% if @content_module.comments && @content_module.comments != "" %>
       <p>Comments : <%= @content_module.comments %></p>
     <% end %>
