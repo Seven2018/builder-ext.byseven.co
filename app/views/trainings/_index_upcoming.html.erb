@@ -1,5 +1,4 @@
 <% ongoing_trainings = @trainings %>
-
 <% ongoing_trainings.each do |training| %>
   <% if training.sessions.where(date: nil).empty? %>
       <div class="training-card" id="card-index">

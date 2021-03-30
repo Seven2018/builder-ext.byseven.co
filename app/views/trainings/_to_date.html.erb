@@ -1,5 +1,4 @@
 <% trainings_to_date = Training.joins(:sessions).where(sessions: {date: nil}).uniq %>
-
 <% trainings_to_date.each do |training| %>
   <div class="training-card" id="card-index">
     <div class="training-card-main">

@@ -32,9 +32,7 @@
               <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
             </li>
           <% end %>
-            <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
-          <% else %>
-            <li><button class='btn btn-add-user btn-add-user-disabled'>Trainers</button></li>
+          <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
         </ul>
       </div>
     </div>
