@@ -4,29 +4,34 @@
       <%= link_to contents_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
        <div class="workshop-title-details">
         <h4><%= @content.title %> - <i class="fas fa-stopwatch fa-1x"></i> <%= @content.duration %> min</h4>
-          <% if @content.theme %>
-            <p><%= @content.theme.name %></p>
-          <% end %>
+        <% if @content.theme %>
+          <p><%= @content.theme.name %></p>
+        <% end %>
       </div>
     </div>
     <div>
       <%= link_to new_content_content_module_path(@content) do %>
         <button class="btn btn-edit-yellow">New Module</button>
       <% end %>
-      <a class="btn btn-edit-green" data-toggle='modal' data-target='#editContent' title='Copy'><i class="fas fa-pen"></i></a>
     </div>
   </div>
 
     <!-- <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:15rem;'></a> -->
   <div class="show-control-links">
+    <div class="page-controls-buttons">
+      <a class="btn btn-edit-green" data-toggle='modal' data-target='#editContent' title='Copy'><i class="fas fa-pen"></i></a>
+    </div>
     <div class="theory-buttons">
-       <% @content.theories.each do |theory|%>
-          <div class="theories-hover">
-            <a data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></a>
-            <a data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></a>
-            <%= link_to theory.name, theory_path(theory) %>
-          <% end %>
-          </div>
+      <div class="theories-hover">
+        <% @content.theories.each do |theory|%>
+          <%= link_to theory.name, theory_path(theory) %>
+        <% end %>
+        <% unless @content.theories.present? %>
+          <p>Add a Theory</p>
+        <% end %>
+        <a data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></a>
+        <a data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></a>
+      </div>
     </div>
   </div>
   <div id="content-mods">

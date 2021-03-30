@@ -17,28 +17,49 @@
   </div>
 
   <div class= "show-control-links">
-    <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-      <div class="page-controls-buttons">
-        <% unless @workshop.title.split(' ').first == 'Pause' %>
-          <%= link_to training_session_save_workshop_path(@workshop.session.training, @workshop.session), data: { toggle: 'tooltip', confirm: 'Do you want to save this workshop in the Database ?' }, title: 'Save to DB', class: 'btn btn-edit-blue btn-icon' do %>
-            <i class="fas fa-cloud-upload-alt"></i>
-          <% end %>
+    <div class="page-controls-buttons">
+      <% unless @workshop.title.split(' ').first == 'Pause' %>
+        <%= link_to training_session_save_workshop_path(@workshop.session.training, @workshop.session), data: { toggle: 'tooltip', confirm: 'Do you want to save this workshop in the Database ?' }, title: 'Save to DB', class: 'btn btn-edit-blue btn-icon' do %>
+          <i class="fas fa-cloud-upload-alt"></i>
         <% end %>
-        <%= link_to training_session_copy_form_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: 'btn btn-edit-orange btn-icon', data: {toggle: 'tooltip'}, title: 'Copy Workshop' do %>
-          <i class="fas fa-copy"></i>
+      <% end %>
+      <%= link_to training_session_copy_form_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: 'btn btn-edit-orange btn-icon', data: {toggle: 'tooltip'}, title: 'Copy Workshop' do %>
+        <i class="fas fa-copy"></i>
+      <% end %>
+      <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: "btn btn-edit-red btn-icon", method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
+        <i class="fas fa-trash-alt"></i>
+      <% end %>
+      <button class="btn btn-edit-green btn-icon" data-toggle='modal' data-target='#editMod' data-toggle='tooltip' title='Edit'><i class="fas fa-pen"></i></button>
+    </div>
+    <div class="theory-buttons">
+      <div class="theories-hover">
+        <% @workshop.theories.each do |theory|%>
+          <%= link_to theory.name, theory_path(theory) %>
         <% end %>
-        <%= link_to training_session_workshop_path(@workshop.session.training, @workshop.session, @workshop), class: "btn btn-edit-red btn-icon", method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
-          <i class="fas fa-trash-alt"></i>
+        <% unless @workshop.theories.present? %>
+          <p>Add a Theory</p>
         <% end %>
-        <button class="btn btn-edit-green btn-icon" data-toggle='modal' data-target='#editMod' data-toggle='tooltip' title='Edit'><i class="fas fa-pen"></i></button>
+        <a data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></a>
+        <a data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></a>
       </div>
-    <% end %>
+    </div>
   </div>
   <div id="content-mods">
     <%= render 'workshop_modules/index', mod: @workshop %>
   </div>
 </div>
 
+<div class="modal fade" id="destroyTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+    <%= render 'theory_workshops/destroy', theory_workshop: @theory_workshop %>
+  </div>
+</div>
+
+<div class="modal fade" id="newTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+    <%= render 'theory_workshops/new', theory_workshop: @theory_workshop %>
+  </div>
+</div>
 
 
 

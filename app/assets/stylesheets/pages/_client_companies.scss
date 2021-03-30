@@ -119,7 +119,9 @@
 
 }
   .show-control-links {
-    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   }
 
  .user-picture-show {
