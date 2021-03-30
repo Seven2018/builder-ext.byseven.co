@@ -297,7 +297,7 @@
   font-size: 17px;
   }
   ul {
-    list-style-type: circle;
+    list-style-type: disc;
     font-size: 15px;
     color: black;
     font-weight: 300;
@@ -314,6 +314,10 @@
     margin: 0 !important;
   }
 
+}
+
+#content_module_logistics {
+  margin-bottom: 25px;
 }
 
 .content-actions, .content-actions > div > div {
@@ -335,4 +339,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  h4 {
+    font-weight: 800;
+  }
 }

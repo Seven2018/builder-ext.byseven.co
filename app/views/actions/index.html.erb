@@ -19,6 +19,15 @@
       </div>
     </div>
     <ul class='action-list'>
+      <div class="index-card-large">
+            <div class="action-infos">
+              <p><b>Action Name:</b></p>
+              <div>
+                <p><b>Intelligence linked:</b></p>
+              </div>
+              <p><b>Description:</b></p>
+            </div>
+          </div>
     <% @actions.each do |action| %>
       <li>
         <%= link_to action_path(action) do %>

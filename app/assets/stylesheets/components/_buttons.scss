@@ -67,6 +67,7 @@
 .text {
   border-radius: 1rem;
   width: auto;
+  font-size: 1.5rem !important;
 }
 
 .edit-fafa {
@@ -130,6 +131,7 @@
   font-family: 'Montserrat' !important;
   opacity: 0.8;
   width: auto;
+  height: 4rem !important;
   max-width: none;
   padding: 1rem 1.5rem !important;
   border-radius: 5px !important;
@@ -158,6 +160,10 @@
   padding: 1.1rem 1.6rem !important;
   }
 }
+
+
+
+
 
 .btn-edit-checkbox {
   font-family: 'Montserrat' !important;
@@ -240,7 +246,7 @@
 }
 
 .btn-edit, .btn-edit-yellow, .btn-edit-yellow-large {
-  background-color: $yellow !important;
+  background-color: #FFC447 !important;
 }
 
 .btn-edit-red {
@@ -248,10 +254,7 @@
 }
 
 .btn-edit-green {
-  background-color: #4AC2C7 !important;
-  .fas .fa-pen {
-  margin-left: 5px;
-}
+  background-color: rgba(74, 194, 199, 80%) !important;
 }
 
 .btn-edit-blue {
@@ -516,4 +519,18 @@
 
 input[type='checkbox'] {
   margin-left: 10px;
+}
+
+
+.theories-hover {
+  border: 2px solid #929292;
+  background-color: #F7F7F8;
+  color: #929292;
+  font-weight: 500;
+  border-radius: 25px;
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 5px;
 }

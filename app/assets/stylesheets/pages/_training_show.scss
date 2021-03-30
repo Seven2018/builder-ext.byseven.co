@@ -181,7 +181,6 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
   text-align: center;
   min-height: 63px;
 
@@ -193,6 +192,9 @@
   h3, p {
     padding-right: 2rem;
     margin: 0;
+  }
+  @include from-medium {
+
   }
 }
 
