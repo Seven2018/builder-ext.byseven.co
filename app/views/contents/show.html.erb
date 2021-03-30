@@ -9,36 +9,31 @@
           <% end %>
       </div>
     </div>
-  <%= link_to new_content_content_module_path(@content) do %>
-    <button class="btn btn-edit-yellow">New Module</button>
-  <% end %>
+    <div>
+      <%= link_to new_content_content_module_path(@content) do %>
+        <button class="btn btn-edit-yellow">New Module</button>
+      <% end %>
+      <a class="btn btn-edit-green" data-toggle='modal' data-target='#editContent' title='Copy'><i class="fas fa-pen"></i></a>
+    </div>
   </div>
 
     <!-- <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:15rem;'></a> -->
-    <div class="show-control-links">
-      <div class="module-buttons">
-        <a class="btn btn-edit-green" data-toggle='modal' data-target='#editContent' title='Copy'><i class="fas fa-pen"></i></a>
-        <a class="btn btn-edit-orange" data-toggle='modal' data-target='#theories' data-toggle='tooltip' title='Theories'>Theories</a>
-      </div>
+  <div class="show-control-links">
+    <div class="theory-buttons">
+       <% @content.theories.each do |theory|%>
+          <div class="theories-hover">
+            <a data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></a>
+            <a data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></a>
+            <%= link_to theory.name, theory_path(theory) %>
+          <% end %>
+          </div>
     </div>
-    <div id="content-mods">
-      <%= render 'content_modules/index', content: @content %>
-    </div>
+  </div>
+  <div id="content-mods">
+    <%= render 'content_modules/index', content: @content %>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="viewImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg modal-seven" role="document" style="border-radius: 2rem">
-    <img src="<%= @content.description %>" alt="">
-  </div>
-</div>
-
-<div class="modal fade" id="newTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
-    <%= render 'theory_contents/new', theory_content: @theory_content %>
-  </div>
-</div>
 
 <div class="modal fade" id="destroyTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
@@ -46,8 +41,8 @@
   </div>
 </div>
 
-<div class="modal fade" id="editContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="newTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
-    <%= render 'edit', theory_content: @theory_content %>
+    <%= render 'theory_contents/new', theory_content: @theory_content %>
   </div>
 </div>

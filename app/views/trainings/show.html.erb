@@ -61,12 +61,7 @@
           <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newWriter'>Writer</button></li>
         </ul>
       </div>
-    </div>
-  </div>
-  <div class="middle-info2">
-    <div>
-      <div class='trainer-div'>
-        <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
+      <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
           <ul id="trainer">
             <% trainer_array = [] %>
             <% @training.sessions.each do |session| %>
@@ -92,7 +87,6 @@
             <% end %>
           </ul>
         <% end %>
-      </div>
     </div>
   </div>
   <div class="training_index_controls">
