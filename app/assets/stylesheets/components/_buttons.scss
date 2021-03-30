@@ -528,9 +528,17 @@ input[type='checkbox'] {
   color: #929292;
   font-weight: 500;
   border-radius: 25px;
-  max-width: 200px;
   display: flex;
+  width: auto;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   padding: 5px;
+
+  a {
+    margin-right: 1rem;
+
+    &:first-of-type {
+      margin-left: 1rem;
+    }
+  }
 }
