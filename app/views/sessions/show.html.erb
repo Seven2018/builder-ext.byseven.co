@@ -4,7 +4,6 @@
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <div class='flex-row-between-centered'>
-      <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
         <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#editSession' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
         <%= link_to remove_session_trainers_path(session_id: @session.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
           <i class="fas fa-trash-alt"></i>
@@ -12,10 +11,7 @@
         <%= link_to training_copy_form_session_path(@session.training, @session), class: 'btn btn-edit-orange btn-icon', data: {toggle: 'tooltip'}, title: 'Copy Session' do %>
           <i class="fas fa-copy"></i>
         <% end %>
-      <% end %>
-      <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
         <button class='show_library btn btn-edit-blue btn-icon' data-toggle="tooltip" title="Library"><i class="fas fa-book"></i></button>
-      <% end %>
       <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
       <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li><%= link_to 'View mode', training_session_viewer_path(@session.training, @session) %></li>
@@ -36,11 +32,9 @@
               <a data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
             </li>
           <% end %>
-          <% if ['super admin', 'admin', 'project manager', 'HR'].include?(current_user.access_level) %>
             <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newUser'>Trainers</button></li>
           <% else %>
             <li><button class='btn btn-add-user btn-add-user-disabled'>Trainers</button></li>
-          <% end %>
         </ul>
       </div>
     </div>
@@ -55,15 +49,11 @@
     <%= render 'workshops/index', session: @session %>
   </div>
   <div class="session-info-footer">
-    <% if ['super admin', 'admin', 'training manager, sevener+'].include? current_user.access_level %>
       <button class='show_library btn btn-edit-yellow'>Add a Workshop</button>
-    <% else %>
       <%= link_to training_session_workshops_path(@session.training, @session), method: :post, remote: true do %>
         <button class='btn btn-edit-yellow'>Add a Workshop</button>
       <% end %>
-    <% end %>
   </div>
-  <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
     <div id='library' class="nav-side-menu-container">
       <div class="nav-side-menu">
         <a id="close_library" class='centered-item'><i class="fas fa-times"></i></a>
@@ -150,7 +140,6 @@
         </div>
       </div>
     </div>
-  <% end %>
 </div>
 
 <script>

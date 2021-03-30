@@ -25,12 +25,9 @@
             <%= link_to edit_training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), data: { toggle: 'tooltip' }, title: 'Edit', class: 'btn return-arrow' do %>
               <i class="fas fa-pen"></i>
             <% end %>
-            <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
               <%= link_to training_session_workshop_copy_form_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), class: 'btn return-arrow', data: { toggle: 'tooltip' }, title: 'Copy' do %>
                 <i class="fas fa-copy"></i>
               <% end %>
-            <% end %>
-            <% if ['super admin', 'admin', 'training manager', 'sevener+', 'sevener'].include?(current_user.access_level) %>
               <%= link_to training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete', class: 'btn return-arrow' do %>
                 <i class="fas fa-trash-alt"></i>
               <% end %>
@@ -48,7 +45,7 @@
                   <i class="fas fa-arrow-down"></i>
                 <% end %>
               <% end %>
-            <% end %>
+
           </div>
       </div>
       <div class="module-card-footer">
