@@ -4,14 +4,14 @@
       <i class="fas fa-arrow-left"></i>
     <% end %>
     <div class='flex-row-between-centered'>
-        <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#editSession' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
-        <%= link_to remove_session_trainers_path(session_id: @session.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
-          <i class="fas fa-trash-alt"></i>
-        <% end %>
-        <%= link_to training_copy_form_session_path(@session.training, @session), class: 'btn btn-edit-orange btn-icon', data: {toggle: 'tooltip'}, title: 'Copy Session' do %>
-          <i class="fas fa-copy"></i>
-        <% end %>
-        <button class='show_library btn btn-edit-blue btn-icon' data-toggle="tooltip" title="Library"><i class="fas fa-book"></i></button>
+      <a class='btn btn-edit-green btn-icon' data-toggle='modal' data-target='#editSession' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
+      <%= link_to remove_session_trainers_path(session_id: @session.id), class: "btn btn-edit-red btn-icon", data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete' do %>
+        <i class="fas fa-trash-alt"></i>
+      <% end %>
+      <%= link_to training_copy_form_session_path(@session.training, @session), class: 'btn btn-edit-orange btn-icon', data: {toggle: 'tooltip'}, title: 'Copy Session' do %>
+        <i class="fas fa-copy"></i>
+      <% end %>
+      <button class='show_library btn btn-edit-blue btn-icon' data-toggle="tooltip" title="Library"><i class="fas fa-book"></i></button>
       <button class='btn btn-edit-grey btn-icon dropdown-toggle' id="dropdownMenuButton" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
       <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li><%= link_to 'View mode', training_session_viewer_path(@session.training, @session) %></li>
@@ -46,98 +46,92 @@
   <div id="mods" style="min-height: 50vh;">
     <%= render 'workshops/index', session: @session %>
   </div>
-  <div class="session-info-footer">
-      <button class='show_library btn btn-edit-yellow'>Add a Workshop</button>
-      <%= link_to training_session_workshops_path(@session.training, @session), method: :post, remote: true do %>
-        <button class='btn btn-edit-yellow'>Add a Workshop</button>
-      <% end %>
-  </div>
-    <div id='library' class="nav-side-menu-container">
-      <div class="nav-side-menu">
-        <a id="close_library" class='centered-item'><i class="fas fa-times"></i></a>
-        <div class="brand">Workshops</div>
-        <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-        <div class="menu-list">
-          <% status = !params[:search].nil? %>
-          <%= simple_form_for :search, url: training_session_path(@session.training, @session), html: { class: 'sidebar-search' }, method: 'GET' do |f| %>
-            <%= f.input :title, placeholder: 'Search', label: false, class:"side-search"%>
-            <% if params[:search] %>
-              <%= link_to training_session_path(@session.training, @session, end_search: true), class: 'sidebar-search-close' do %>
-                <i class="fas fa-times-circle"></i>
-              <% end %>
+  <div id='library' class="nav-side-menu-container">
+    <div class="nav-side-menu">
+      <a id="close_library" class='centered-item'><i class="fas fa-times"></i></a>
+      <div class="brand">Workshops</div>
+      <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+      <div class="menu-list">
+        <% status = !params[:search].nil? %>
+        <%= simple_form_for :search, url: training_session_path(@session.training, @session), html: { class: 'sidebar-search' }, method: 'GET' do |f| %>
+          <%= f.input :title, placeholder: 'Search', label: false, class:"side-search"%>
+          <% if params[:search] %>
+            <%= link_to training_session_path(@session.training, @session, end_search: true), class: 'sidebar-search-close' do %>
+              <i class="fas fa-times-circle"></i>
             <% end %>
           <% end %>
-          <% if status %>
-            <ul id='myUL'>
-              <% (Content.where("lower(title) LIKE :query", query:"%#{params[:search][:title].downcase}%") + Content.joins(:content_modules).where("lower(content_modules.title) LIKE :query", query:"%#{params[:search][:title].downcase}%") + Content.joins(:theories).where("lower(theories.description) LIKE :query", query:"%#{params[:search][:title].downcase}%") + Content.joins(:theories).where("lower(theories.name) LIKE :query", query:"%#{params[:search][:title].downcase}%")).uniq.each do |content| %>
-                <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
-                  <li class='myUL-li-theme-sidebar'>+ <%= content.title %></li>
-                <% end %>
+        <% end %>
+        <% if status %>
+          <ul id='myUL'>
+            <% (Content.where("lower(title) LIKE :query", query:"%#{params[:search][:title].downcase}%") + Content.joins(:content_modules).where("lower(content_modules.title) LIKE :query", query:"%#{params[:search][:title].downcase}%") + Content.joins(:theories).where("lower(theories.description) LIKE :query", query:"%#{params[:search][:title].downcase}%") + Content.joins(:theories).where("lower(theories.name) LIKE :query", query:"%#{params[:search][:title].downcase}%")).uniq.each do |content| %>
+              <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
+                <li class='myUL-li-theme-sidebar'>+ <%= content.title %></li>
               <% end %>
-            </ul>
-          <% else %>
-            <ul id='myUL' class='myUL-sidebar'>
-              <% Theme.walk_tree do |theme, level| %>
-                <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
-                  <li><span class="caret sidebar-caret"><%= theme.name %></span>
-                    <ul class="nested">
-                      <% theme.contents.each do |content| %>
-                        <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
-                          <li>+ <%= content.title %></li>
-                        <% end %>
+            <% end %>
+          </ul>
+        <% else %>
+          <ul id='myUL' class='myUL-sidebar'>
+            <% Theme.walk_tree do |theme, level| %>
+              <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
+                <li><span class="caret sidebar-caret"><%= theme.name %></span>
+                  <ul class="nested">
+                    <% theme.contents.each do |content| %>
+                      <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
+                        <li>+ <%= content.title %></li>
                       <% end %>
-                    </ul>
-                  </li>
-                <% elsif theme.level == 0 && theme.children != [] %>
-                  <li><span class="caret sidebar-caret"><%= theme.name %></span>
-                    <ul class="nested">
-                      <% theme.children.each do |subtheme| %>
-                        <li><span class="caret"><%= subtheme.name %></span>
-                          <ul class="nested">
-                            <% subtheme.contents.each do |content| %>
-                              <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
-                                <li>+ <%= content.title %></li>
-                              <% end %>
+                    <% end %>
+                  </ul>
+                </li>
+              <% elsif theme.level == 0 && theme.children != [] %>
+                <li><span class="caret sidebar-caret"><%= theme.name %></span>
+                  <ul class="nested">
+                    <% theme.children.each do |subtheme| %>
+                      <li><span class="caret"><%= subtheme.name %></span>
+                        <ul class="nested">
+                          <% subtheme.contents.each do |content| %>
+                            <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
+                              <li>+ <%= content.title %></li>
                             <% end %>
-                          </ul>
-                        </li>
+                          <% end %>
+                        </ul>
+                      </li>
+                    <% end %>
+                  </ul>
+                </li>
+              <% end %>
+            <% end %>
+            <%= link_to training_session_workshops_path(@session.training, @session), method: :post, remote: true do %>
+              <li>Vide - à personnaliser</li>
+            <% end %>
+            <% pause = Content.where(title: 'Pause') %>
+            <% pausedej = Content.where(title: 'Pause Déjeuner') %>
+            <%= link_to training_session_workshops_path(@session.training, @session, content_id: pause.first.id), method: :post, remote: true do %>
+              <li>Pause</li>
+            <% end %>
+            <%= link_to training_session_workshops_path(@session.training, @session, content_id: pausedej.first.id), method: :post, remote: true do %>
+              <li>Pause Déjeuner</li>
+            <% end %>
+          </ul>
+          <br>
+          <ul id='myUL' class='myUL-sidebar'>
+            <% Theme.all.each do |theme| %>
+              <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
+                <li><span class="caret sidebar-caret"><%= theme.name %></span>
+                  <ul class="nested">
+                    <% theme.contents.each do |content| %>
+                      <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
+                        <li>+ <%= content.title %></li>
                       <% end %>
-                    </ul>
-                  </li>
-                <% end %>
+                    <% end %>
+                  </ul>
+                </li>
               <% end %>
-              <%= link_to training_session_workshops_path(@session.training, @session), method: :post, remote: true do %>
-                <li>Vide - à personnaliser</li>
-              <% end %>
-              <% pause = Content.where(title: 'Pause') %>
-              <% pausedej = Content.where(title: 'Pause Déjeuner') %>
-              <%= link_to training_session_workshops_path(@session.training, @session, content_id: pause.first.id), method: :post, remote: true do %>
-                <li>Pause</li>
-              <% end %>
-              <%= link_to training_session_workshops_path(@session.training, @session, content_id: pausedej.first.id), method: :post, remote: true do %>
-                <li>Pause Déjeuner</li>
-              <% end %>
-            </ul>
-            <br>
-            <ul id='myUL' class='myUL-sidebar'>
-              <% Theme.all.each do |theme| %>
-                <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
-                  <li><span class="caret sidebar-caret"><%= theme.name %></span>
-                    <ul class="nested">
-                      <% theme.contents.each do |content| %>
-                        <%= link_to training_session_workshops_path(@session.training, @session, content_id: content.id), method: :post, remote: true do %>
-                          <li>+ <%= content.title %></li>
-                        <% end %>
-                      <% end %>
-                    </ul>
-                  </li>
-                <% end %>
-              <% end %>
-            </ul>
-          <% end %>
-        </div>
+            <% end %>
+          </ul>
+        <% end %>
       </div>
     </div>
+  </div>
 </div>
 
 <script>

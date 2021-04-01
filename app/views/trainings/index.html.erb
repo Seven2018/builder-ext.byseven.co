@@ -2,31 +2,16 @@
   <div id="page-controls">
     <h1>Trainings</h1>
     <div id="page-buttons">
-      <% if params[:user] %>
-        <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
-          <% if params[:search].present? %>
-            <%= f.input :title, placeholder: 'Search', label: false, input_html: {value: params[:search][:title]} %>
-            <%= link_to trainings_path(page: 1), class: 'search-close' do %>
-              <i class="far fa-times-circle"></i>
-            <% end %>
-          <% else %>
-            <%= f.input :title, placeholder: 'Search', label: false %>
-          <% end %>
-          <%= f.input :user, as: :hidden, input_html: { value: params[:user] } %>
-          <%= hidden_field_tag :page, 1 %>
+      <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
+        <% if params[:search].present? %>
+          <%= f.input :title, placeholder: 'Search', label: false, input_html: {value: params[:search][:title]} %>
+        <% else %>
+          <%= f.input :title, placeholder: 'Search', label: false %>
         <% end %>
-      <% else %>
-        <%= simple_form_for :search, url: trainings_path, method: 'GET' do |f| %>
-          <% if params[:search].present? %>
-            <%= f.input :title, placeholder: 'Search', label: false, input_html: {value: params[:search][:title]} %>
-          <% else %>
-            <%= f.input :title, placeholder: 'Search', label: false %>
-          <% end %>
-          <%= hidden_field_tag :page, 1 %>
-          <% if params[:search] %>
-            <%= link_to trainings_path(page: 1), class: 'search-close' do %>
-              <i class="far fa-times-circle"></i>
-            <% end %>
+        <%= hidden_field_tag :page, 1 %>
+        <% if params[:search] %>
+          <%= link_to trainings_path(page: 1), class: 'search-close' do %>
+            <i class="far fa-times-circle"></i>
           <% end %>
         <% end %>
       <% end %>
@@ -37,11 +22,10 @@
   </div>
   <div class="trainings-title">
     <% if params[:search] %>
-      <h3>Search</h3>
+      <h3 class="training-update-text">Search</h3>
       <%= render 'search', trainings: @trainings %>
     <% else %>
       <div class="trainings-list">
-
         <h3 class="training-update-text">Upcoming</h3>
         <div class="trainings-row">
           <%= render_async index_upcoming_path(page: params[:page]) %>

@@ -84,5 +84,6 @@ puts "Generating Users..."
 User.create(firstname: "Yahya", lastname: "Fallah", email: "yahya.fallah@byseven.co", password: "Seven2021", access_level: "super admin")
 User.create(firstname: "Brice", lastname: "Chapuis", email: "brice.chapuis@byseven.co", password: "Seven2021", access_level: "super admin")
 User.create(firstname: "Marie", lastname: "Leleu", email: "marie.leleu@byseven.co", password: "Seven2021", access_level: "super admin")
+User.create(firstname: "User", lastname: "Test", email: "test@byseven.co", password: "Seven2021", access_level: "user")
 
 puts "Done!"

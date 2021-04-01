@@ -8,12 +8,9 @@
   <div class="modal-body" id="modalNewBookinBody" style='display:flex;flex-direction:column;align-items:center;'>
     <%= simple_form_for :training, url: training_create_all_session_trainers_path(@training), method: 'GET' do |f| %>
       <div style=" display:flex;justify-content:space-between;flex-direction:column;">
-        <p>Seven</p>
         <% checked = [] %>
         <% training.trainers.each {|x| checked << x.id } %>
-        <%= f.input_field :user_ids, as: :check_boxes, collection: User.where(access_level: ['super admin', 'admin', 'training manager']).order('firstname ASC').map{|x|["#{x.firstname} #{x.lastname}", x.id]}, checked: checked %>
-        <p style='margin-top: 1rem;'>Seveners</p>
-        <%= f.input_field :user_ids, as: :check_boxes, collection: User.where(access_level: ['sevener+', 'sevener']).order('firstname ASC').map{|x|["#{x.firstname} #{x.lastname}", x.id]}, checked: checked %>
+        <%= f.input_field :user_ids, as: :check_boxes, collection: User.where(access_level: 'user').order('firstname ASC').map{|x|["#{x.firstname} #{x.lastname}", x.id]}, checked: checked %>
       </div>
       <div class='modal-control'>
         <%= button_tag :submit, class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip', confirm: 'The selected users will be set as trainers for the whole training. Proceed ?' }, title: 'Save' do %>

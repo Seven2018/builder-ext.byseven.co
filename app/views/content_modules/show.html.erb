@@ -13,17 +13,17 @@
     <% end %>
     <div class='content-logistics'>
       <p class='logistics-label'>Logistics: </p>
-     <ul><li><%= @content_module.logistics.html_safe %></ul></li>
+     <ul><li><%= @content_module.logistics.html_safe %></li></ul>
     </div>
     <div class="content-actions">
       <% if @content_module.action1 %>
         <p class='logistics-label'>Actions:</p>
-        <ul><li> <%= @content_module.action1.name %> </ul></li>
+        <ul><li> <%= @content_module.action1.name %></li></ul>
       <% end %>
-     </div>
-      <% if @content_module.action2 %>
-        <p class='logistics-label'>
-         <ul><li> <%= @content_module.action2.name %> </ul></li>
-      <% end %>
+    </div>
+    <% if @content_module.action2 %>
+      <p class='logistics-label'></p>
+      <ul><li> <%= @content_module.action2.name %></li></ul>
+    <% end %>
   </div>
 </div>

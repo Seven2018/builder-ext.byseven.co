@@ -61,32 +61,22 @@
           <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newWriter'>Writer</button></li>
         </ul>
       </div>
-      <% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-          <ul id="trainer">
-            <% trainer_array = [] %>
-            <% @training.sessions.each do |session| %>
-              <% session.users.each do |trainer| %>
-                <% trainer_array << trainer %>
-                <% unless trainer_array.count(trainer) > 1 %>
-                  <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>' data-toggle="tooltip" title="User Infos"><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a></li>
-                <% end %>
-              <% end %>
+      <ul id="trainer">
+        <% trainer_array = [] %>
+        <% @training.sessions.each do |session| %>
+          <% session.users.each do |trainer| %>
+            <% trainer_array << trainer %>
+            <% unless trainer_array.count(trainer) > 1 %>
+              <li><a data-toggle='modal' data-target='#consultUser<%= trainer.id %>' data-toggle="tooltip" title="User Infos"><img src='<%= "#{trainer.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a></li>
             <% end %>
-            <% if (['super admin', 'admin', 'training manager'].include? current_user.access_level) %>
-              <% if trainer_array.uniq.count > 1 %>
-                <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newTrainers'>Trainers</button></li>
-              <% else %>
-                <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newTrainers'>Trainer</button></li>
-              <% end %>
-            <% else %>
-              <% if trainer_array.uniq.count > 1 %>
-                <li><button class='btn btn-add-user btn-add-user-disabled'>Trainers</button></li>
-              <% else %>
-                <li><button class='btn btn-add-user btn-add-user-disabled'>Trainer</button></li>
-              <% end %>
-            <% end %>
-          </ul>
+          <% end %>
         <% end %>
+        <% if trainer_array.uniq.count > 1 %>
+          <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newTrainers'>Trainers</button></li>
+        <% else %>
+          <li><button class='btn btn-add-user' data-toggle='modal' data-target='#newTrainers'>Trainer</button></li>
+        <% end %>
+      </ul>
     </div>
   </div>
   <div class="training_index_controls">
@@ -129,88 +119,74 @@
   <div class="training-info">
     <div class="sessions-cards">
       <% @training.sessions.order(:date, :start_time).offset((params[:page].to_i-1)*10).first(10).each do |session| %>
-        <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
-          <div class="card-lg">
-            <div class="card-footer-lg">
-              <% if session.start_time && session.end_time %>
-                <div><p> <%="#{session&.date&.strftime('%d/%m/%y')}"%> </p></div>
-                <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
-                <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendee_number %></p></div>
-              <% end %>
-              <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) %>
-                <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>' data-toggle="tooltip" title="Add Trainer"><i class="fas fa-user-astronaut"></i></button>
-                <button class="edit-fafa edit_button" data-toggle='modal' data-target='#editSession<%= session.id %>' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></button>
-                <%= link_to training_copy_form_session_path(session.training, session), data: { toggle: 'tooltip'}, title: 'Copy Session' do %>
-                  <button class='edit-fafa session_copy'><i class="fas fa-copy"></i></button>
-                <% end %>
-              <% else %>
-                <button class="edit-fafa disabled" data-toggle="tooltip" title="Disabled"><i class="fas fa-user-astronaut"></i></button>
-                <button class="edit-fafa disabled" data-toggle="tooltip" title="Disabled"><i class="fas fa-pen"></i></button>
-                <a class='disabled' data-toggle="tooltip" title="Disabled">
-                  <button class='edit-fafa session_copy disabled'><i class="fas fa-copy"></i></button>
-                </a>
-              <% end %>
-            </div>
-            <div class="card-main-lg">
-              <div class="card-session-header">
-                <%= link_to training_session_path(@training, session) do %><h3 class='title-link'><%= session.title %></h3><% end %>
-                <%= simple_form_for @training, html: { class: "hidden", id: 'title-form' } do |f| %>
-                  <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
-                    <%= f.input :title, label: false %>
-                    <%= button_tag type: 'submit', class: 'btn btn-add-user', input_html: { style: 'height: 3.5rem' } do %>
-                      Update
-                    <% end %>
-                  </div>
-                <% end %>
-                <div style='display:flex;align-items:center;position: absolute;right: 160px;top: -48px;'>
-                  <ul id="owner-session-index">
-                    <% session.users.each do |user| %>
-                      <li>
-                        <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
-                      </li>
-                      <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document" style="border-radius: 2rem">
-                          <%= render 'users/consult', user: user %>
-                        </div>
-                      </div>
-                    <% end %>
-                  </ul>
+        <div class="card-lg">
+          <div class="card-footer-lg">
+            <% if session.start_time && session.end_time %>
+              <div><p> <%="#{session&.date&.strftime('%d/%m/%y')}"%> </p></div>
+              <div><p><%= " #{session.start_time.strftime("%k:%M")} to #{session.end_time.strftime("%k:%M")}" %></p></div>
+              <div><i class="fas fa-users"></i><p style='margin-left: 0.5rem;'><%= session.attendee_number %></p></div>
+            <% end %>
+            <button class="edit-fafa" data-toggle='modal' data-target='#addTrainer<%= session.id %>' data-toggle="tooltip" title="Add Trainer"><i class="fas fa-user-astronaut"></i></button>
+            <button class="edit-fafa edit_button" data-toggle='modal' data-target='#editSession<%= session.id %>' data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></button>
+            <%= link_to training_copy_form_session_path(session.training, session), data: { toggle: 'tooltip'}, title: 'Copy Session' do %>
+              <button class='edit-fafa session_copy'><i class="fas fa-copy"></i></button>
+            <% end %>
+          </div>
+          <div class="card-main-lg">
+            <div class="card-session-header">
+              <%= link_to training_session_path(@training, session) do %><h3 class='title-link'><%= session.title %></h3><% end %>
+              <%= simple_form_for @training, html: { class: "hidden", id: 'title-form' } do |f| %>
+                <div style="display:flex;flex-direction:row;justify-content:space-between;align-items: center; height:100%;">
+                  <%= f.input :title, label: false %>
+                  <%= button_tag type: 'submit', class: 'btn btn-add-user', input_html: { style: 'height: 3.5rem' } do %>
+                    Update
+                  <% end %>
                 </div>
-              </div>
-              <div class="mods-list">
-                <% if session.workshops.present? %>
-                <%= render_async show_session_content_path(session_id: session.id) %>
-                <% else %>
-                  <p>Sorry, there is no content in this session.</p>
-                <% end %>
-                <% session_number = @training.sessions.order(date: :asc).find_index(session) + 1 %>
-              </div>
-              <div class='flex-row-end-centered'>
-                <h4 class='card-session-number'><%= session_number %>/<%= @training.sessions.count %> </h4>
-              </div>
-          </div>
-            <div class="modal fade editSession" id="editSession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-              <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
-                <%= render '/sessions/edit', session: session %>
+              <% end %>
+              <div style='display:flex;align-items:center;position: absolute;right: 160px;top: -48px;'>
+                <ul id="owner-session-index">
+                  <% session.users.each do |user| %>
+                    <li>
+                      <a class="edit-fafa" data-toggle='modal' data-target='#consultUser<%= user.id %>'><img src='<%= "#{user.picture}" %>' alt="" class='avatar-sm' onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'></a>
+                    </li>
+                    <div class="modal fade" id="consultUser<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document" style="border-radius: 2rem">
+                        <%= render 'users/consult', user: user %>
+                      </div>
+                    </div>
+                  <% end %>
+                </ul>
               </div>
             </div>
-            <div class="modal fade" id="addTrainer<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-              <div class="modal-dialog %>" role="document" style="border-radius: 2rem">
-                <% @session = session %>
-                <%= render '/session_trainers/new', session: @session, session_trainer: SessionTrainer.new, session_number: session_number %>
-              </div>
+            <div class="mods-list">
+              <% if session.workshops.present? %>
+              <%= render_async show_session_content_path(session_id: session.id) %>
+              <% else %>
+                <p>Sorry, there is no content in this session.</p>
+              <% end %>
+              <% session_number = @training.sessions.order(date: :asc).find_index(session) + 1 %>
+            </div>
+            <div class='flex-row-end-centered'>
+              <h4 class='card-session-number'><%= session_number %>/<%= @training.sessions.count %> </h4>
+            </div>
+        </div>
+          <div class="modal fade editSession" id="editSession<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+              <%= render '/sessions/edit', session: session %>
             </div>
           </div>
-        <% end %>
+          <div class="modal fade" id="addTrainer<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog %>" role="document" style="border-radius: 2rem">
+              <% @session = session %>
+              <%= render '/session_trainers/new', session: @session, session_trainer: SessionTrainer.new, session_number: session_number %>
+            </div>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>
   <div class="training-info-footer">
-    <%# if (['super admin', 'admin', 'training manager'].include? current_user.access_level) && (@training.mode == 'Company' || @training.mode.nil?) %>
-      <a class='btn btn-edit-yellow' id='add-session-button' data-toggle='modal' data-target='#newSession'>Add a session</a>
-    <%# elsif (['super admin', 'admin', 'training manager'].include? current_user.access_level) && @training.mode == 'School'%>
-      <%# link_to 'Add a session', new_training_session_path(@training), class: 'btn btn-edit-yellow' %>
-    <%# end %>
+    <a class='btn btn-edit-yellow' id='add-session-button' data-toggle='modal' data-target='#newSession'>Add a session</a>
   </div>
 </div>
 
@@ -302,31 +278,6 @@
       </div>
     </div>
   <% end %>
-<% end %>
-
-<% if ['super admin', 'admin', 'training manager'].include?(current_user.access_level) %>
-  <script>
-    window.onload = function() {
-      survey = document.getElementById('survey-link');
-      form = document.getElementById('survey-form');
-      survey.addEventListener('click', (event) => {
-        survey.classList.toggle('hidden');
-        form.classList.toggle('hidden');
-      })
-    }
-  </script>
-  <script>
-    window.onload = function() {
-      titles = document.querySelectorAll('title-link');
-      title_form = document.getElementById('survey-form');
-      titles.forEach(title => {
-        title.addEventListener('click', (event) => {
-          title.classList.toggle('hidden');
-          form.classList.toggle('hidden');
-        })
-      })
-    }
-  </script>
 <% end %>
 
 <script>

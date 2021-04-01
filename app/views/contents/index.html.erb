@@ -13,10 +13,8 @@
             <%= f.input :title, placeholder: 'Search', label: false %>
           <% end %>
         <% end %>
-        <% if ['super admin', 'admin', 'training manager', 'sevener+'].include? current_user.access_level %>
-          <%= link_to new_content_path do %>
-            <button class="btn btn-edit-yellow">New workshop</button>
-          <% end %>
+        <%= link_to new_content_path do %>
+          <button class="btn btn-edit-yellow">New workshop</button>
         <% end %>
       </div>
     </div>
@@ -146,20 +144,7 @@
 
 
 <%= javascript_pack_tag 'tree' %>
-<!-- <script>
-  active = document.querySelector('.theme-active');
-  themes = document.getElementsByClassName('myUL-li-theme');
-  for (let i = 0; i < themes.length; i++) {
-    themes[i].addEventListener('click', (event) => {
-      console.log("test");
-      for (let j = 0; j < themes.length; j++) {
-        if (themes[j] != themes[i]) {
-          themes[j].classList.toggle('hidden');
-        }
-      }
-    })
-  }
-</script> -->
+
 <script>
   const allCarets = document.querySelectorAll('.caret');
   allCarets.forEach(element => {

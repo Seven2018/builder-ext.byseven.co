@@ -3,28 +3,26 @@
   <% trainings.each do |training| %>
     <% if training.sessions.where(date: date).first %>
       <% session = training.sessions.where(date: date).first %>
-      <% if ['super admin', 'admin', 'project manager'].include?(current_user.access_level) || session.users.include?(current_user) %>
-        <div style="display: flex; justify-content: center;">
-          <%= link_to training_session_path(session.training, session) do %>
-            <div class="card-sm" id="card-index">
-              <div class="card-main-sm">
-                <div class='client-logo' style="background-image: url(<%= session.training.client_contact.client_company.logo %>); background-size: 5rem 5rem; background-repeat: no-repeat;"></div>
-                <p style='max-width: 7rem;'><strong><%= session.training.title %></strong></p>
-                <div class="card-infos">
-                  <div class='card-infos-elements'><p><%= "#{session.start_time.strftime('%H:%M')} - #{session.end_time.strftime('%H:%M')}" %></p>
-                  </div>
-                </div>
-                <div class="card-trainers">
-                  <% session.session_trainers.each do |trainer| %>
-                    <%= "#{trainer.user.firstname.first}#{trainer.user.lastname.first}" %>
-                  <% end %>
+      <div style="display: flex; justify-content: center;">
+        <%= link_to training_session_path(session.training, session) do %>
+          <div class="card-sm" id="card-index">
+            <div class="card-main-sm">
+              <div class='client-logo' style="background-image: url(<%= session.training.client_contact.client_company.logo %>); background-size: 5rem 5rem; background-repeat: no-repeat;"></div>
+              <p style='max-width: 7rem;'><strong><%= session.training.title %></strong></p>
+              <div class="card-infos">
+                <div class='card-infos-elements'><p><%= "#{session.start_time.strftime('%H:%M')} - #{session.end_time.strftime('%H:%M')}" %></p>
                 </div>
               </div>
+              <div class="card-trainers">
+                <% session.session_trainers.each do |trainer| %>
+                  <%= "#{trainer.user.firstname.first}#{trainer.user.lastname.first}" %>
+                <% end %>
+              </div>
             </div>
-          <% end %>
-          <%= link_to "#{session.training.title} | #{session.title}", training_session_path(session.training, session), class: 'card-sm-mobile' %>
-        </div>
-      <% end %>
+          </div>
+        <% end %>
+        <%= link_to "#{session.training.title} | #{session.title}", training_session_path(session.training, session), class: 'card-sm-mobile' %>
+      </div>
     <% end %>
   <% end %>
 <% end %>

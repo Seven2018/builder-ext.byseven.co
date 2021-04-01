@@ -16,7 +16,7 @@
       </div>
   </div>
   <div class="middle-info-workshop">
-    <h3><%= @workshop_module.title %> - <%= @workshop_module.duration %> minutes</h3>
+    <h4><%= @workshop_module.title %> - <i class="fas fa-stopwatch fa-1x"></i> <%= @workshop_module.duration %> min</h4>
     <br>
     <p><%= @workshop_module.instructions %></p>
     <% if @workshop_module.comments && @workshop_module.comments != "" %>
@@ -24,18 +24,18 @@
     <% end %>
     <div class='content-logistics'>
       <p class='logistics-label'>Logistics: </p>
-      <ul><li><%= @workshop_module.logistics %></ul></li>
+     <ul><li><%= @workshop_module.logistics.html_safe %></li></ul>
     </div>
     <div class="content-actions">
       <% if @workshop_module.action1 %>
         <p class='logistics-label'>Actions:</p>
-        <ul><li> <%= @workshop_module.action1.name %> </ul></li>
+        <ul><li> <%= @workshop_module.action1.name %></li></ul>
       <% end %>
-    </div>
+     </div>
       <% if @workshop_module.action2 %>
-      <p class='logistics-label'>
-       <ul><li> <%= @workshop_module.action2.name %></li></ul>
-       <% end %>
+        <p class='logistics-label'></p>
+        <ul><li> <%= @workshop_module.action2.name %></li></ul>
+      <% end %>
+  </div>
 </div>
-
 
