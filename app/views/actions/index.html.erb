@@ -1,0 +1,53 @@
+<div class="container-seven-large container-seven-large-centered">
+  <div id='page-index'>
+    <div id='page-controls'>
+      <h1>Actions List</h1>
+      <div id="page-buttons">
+        <%= simple_form_for :search, url: actions_path, method: 'GET' do |f| %>
+          <% if params[:search] %>
+            <%= f.input :name, placeholder: params[:search][:name], label: false %>
+            <%= link_to actions_path, class: 'search-close' do %>
+              <i class="far fa-times-circle"></i>
+            <% end %>
+          <% else %>
+            <%= f.input :name, placeholder: 'Search', label: false %>
+          <% end %>
+        <% end %>
+        <%= link_to new_action_path do %>
+          <button class="btn btn-edit-yellow">New Action</button>
+        <% end %>
+      </div>
+    </div>
+    <ul class='action-list'>
+      <div class="index-card-large">
+            <div class="action-infos">
+              <p><b>Action Name:</b></p>
+              <div>
+                <p><b>Intelligence linked:</b></p>
+              </div>
+              <p><b>Description:</b></p>
+            </div>
+          </div>
+    <% @actions.each do |action| %>
+      <li>
+        <%= link_to action_path(action) do %>
+          <div class="index-card-large">
+            <div class="action-infos">
+              <p><%= action.name %></p>
+              <div>
+                <% if action.intelligence1 %>
+                  <p><%= action.intelligence1.name %></p>
+                <% end %>
+                <% if action.intelligence2 %>
+                  <p><%= action.intelligence2.name %></p>
+                <% end %>
+              </div>
+              <p><%= action.description %></p>
+            </div>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,147 @@
+.modal-header {
+  align-items: center !important;
+}
+
+.mod-date {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  text-align: left;
+
+  @include from-large {
+    flex-direction: row;
+  }
+}
+
+#modal-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+#modal-title-consult {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+#modal-title button {
+  border: none;
+  font-size: 2.4rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: row-reverse;
+  margin-bottom: 50px;
+  .btn {
+    max-width: none !important;
+  }
+}
+
+.modal-control {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 3rem;
+}
+
+.fa-user-plus {
+  color: black;
+  margin: 0;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 20px;
+  margin-top: 30px;
+  p {
+    font-size: 1.6rem !important;
+    font-weight: 700;
+  }
+
+  a {
+    padding: 5px;
+  }
+
+  #add-theory{
+    border: 2px solid #FDC553;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #FDC553;
+    color: white;
+    cursor: pointer;
+    font-family: 'Montserrat';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+      margin-bottom: 0px;
+      margin-left: 3px;
+    }
+  }
+
+  #minus-theory {
+    border: 2px solid #E64259;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #E64259;
+    color: white;
+    cursor: pointer;
+    font-family: 'Montserrat';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+      margin-bottom: 0px;
+      margin-left: 3px;
+    }
+}
+  .user-fafa {
+    margin-top: 20px;
+  }
+}
+
+.modal-lg {
+  z-index: 9500 !important;
+}
+
+.modal {
+ overflow-y: auto !important;
+ padding: 0 !important;
+}
+
+.modal-open {
+ overflow: auto !important;
+}
+
+.modal-seven {
+  width: auto !important;
+}
+
+.modal-image {
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.modal-autocomplete {
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    min-width: 22.3rem;
+  }
+
+  .easy-autocomplete-container > ul {
+    min-width: 15rem;
+  }
+}

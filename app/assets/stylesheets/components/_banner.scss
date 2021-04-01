@@ -1,0 +1,36 @@
+.banner {
+  height: 100vh;
+  max-height: 1080px;
+  width: 100vw;
+  max-width: 144rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), image-url('background-home.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index : 100000;
+  h1 {
+    color: $light-gray;
+    font-weight: bold;
+  }
+  p {
+    color: $light-gray;
+    opacity: .8;
+    font-size: 2.5rem;
+    font-weight: lighter;
+    margin-bottom: 3rem;
+  }
+  .btn {
+    padding: 1.5rem 5rem;
+    background-color: $green;
+    color: $light-gray;
+  }
+}
+.logo-home {
+  position: relative;
+  bottom: 80px;
+  max-width: 100%;
+  height: auto;
+}

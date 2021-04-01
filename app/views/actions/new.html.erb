@@ -1,0 +1,62 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to actions_path, class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Add an Action</h3>
+  <%= simple_form_for @action, as: :act do |f| %>
+    <%= f.input :name, placeholder:'Name of Action', label: false %>
+    <div class="description">
+    <%= f.input :description, :input_html => {:rows => 2, style: 'width:100%;', maxlength: 140}, label: 'Description (max 140 characters)', placeholder:"Le participant doit réaliser une action / tâche impliquant directement son corps" %>
+    </div>
+    <div class="action-checkboxes">
+      <%= f.input :intelligence1, collection: Intelligence.all, label:'Intelligences (Max 2):', as: :check_boxes %>
+    </div>
+
+    <div class="center-button">
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green' do %>
+      <div class="save-button">
+        <p>SAVE<i class="fas fa-save"></i></p>
+      </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="intelligence-types">
+    <h4> Type of Intelligences:</h4>
+    <% Intelligence.all.each do |intel| %>
+      <div>
+        <br>
+        <h5><%= intel.name %></h5>
+        <br>
+        <p><%= intel.description %></p>
+        <br>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    $('input[name="content_module[duration][]"]').on('change', function() {
+    $('input[name="content_module[duration][]"]').not(this).prop('checked', false);
+  });
+
+  var $cs=$('input[name="act[intelligence1][]"]');
+    if ($cs.length > 1) {
+      $('input[name="act[intelligence1][]"] input:checkbox:not(:checked)').attr("disabled", true);
+      $('input[name="act[intelligence1][]"] input:checkbox:not(:checked)').parent().css("color", "gray");
+    }
+  $('input[name="act[intelligence1][]"]').change(function () {
+    console.log('test2');
+    var $cs=$('input[name="act[intelligence1][]"]:checked');
+    if ($cs.length > 1) {
+      $('input[name="act[intelligence1][]"]:not(:checked)').attr("disabled", true);
+      $('input[name="act[intelligence1][]"]:not(:checked)').parent().css("color", "gray");
+    }
+    else{
+      $('input[name="act[intelligence1][]"]').attr("disabled", false);
+      $('input[name="act[intelligence1][]"]').parent().css("color", "black");
+    }
+  });
+</script>

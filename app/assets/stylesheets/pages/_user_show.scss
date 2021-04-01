@@ -1,0 +1,39 @@
+.user-show-control-links {
+    display: flex;
+    flex-direction: column;
+    a {
+      margin-top: 20px;
+    }
+}
+
+.user-info {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.index-card-small-show {
+  width: 100%;
+  margin: 5rem 0;
+  padding: 2rem;
+  background-color: #FDF1D5;
+  box-shadow: 2px 2px 1rem rgba(0,0,0,0.2);
+  display: flex;
+}
+
+
+.user-logo-show {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+}
+.user-picture-logo-show {
+  justify-content: center;
+  height: 200px;
+  width: 200px;
+
+  @include from-large {
+    justify-content: space-between;
+  }
+}

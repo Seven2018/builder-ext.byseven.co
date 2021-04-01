@@ -1,0 +1,15 @@
+<div class="banner">
+  <div class="banner-content">
+    <%= image_tag("logo-home.png", class: "logo-home") %>
+    <h1>Welcome to your Sevener's training builder</h1>
+    <p>Please log in to enter the Seven's dimension</p>
+    <% if user_signed_in? %>
+      <%= link_to "Log in", trainings_path(page: 1), class: "btn-lg btn-edit-yellow" %>
+    <% else %>
+      <%= link_to "Log in", new_user_session_path, class: "btn-lg btn-edit-yellow" %>
+    <% end %>
+    <br>
+    <br>
+    <a href="mailto:brice.chapuis@byseven.co" style="color: white">ASK FOR ACCESS</a>
+  </div>
+</div>

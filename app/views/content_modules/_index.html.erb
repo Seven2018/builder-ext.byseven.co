@@ -1,0 +1,102 @@
+<div class="workshop-middle-info-main">
+  <h4>Modules</h4>
+</div>
+
+<% unless @content.content_modules.present? %>
+  <div class="no-workshop">
+   <h5>Sorry, there are no modules for this workshop.</h5>
+   <h5>Create a module <%= link_to new_content_content_module_path(@content) do %> <u>here.</u><% end %>
+  </h5>
+  </div>
+<% else %>
+  <% @content.content_modules.order('position ASC').each do |mod| %>
+    <div class='module-card'>
+      <div class="module-card-main">
+        <div class="module-card-infos">
+          <h4><%= link_to mod.title, content_content_module_path(@content, mod) %></h4>
+          <div class='module-card-instructions'><%= mod.instructions %></div>
+        </div>
+        <div class='module-card-controls'>
+          <p><%= mod.duration %> min</p>
+          <%= link_to edit_content_content_module_path(mod.content, mod), data: { toggle: 'tooltip' }, title: 'Edit', class: 'btn return-arrow' do %>
+            <i class="fas fa-pen"></i>
+          <% end %>
+          <%= link_to content_content_module_path(mod.content, mod), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete', class: 'btn return-arrow' do %>
+            <i class="fas fa-trash-alt"></i>
+          <% end %>
+          <% if mod.position == 1 %>
+            <a class='btn return-arrow'><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
+          <% else %>
+            <%= link_to content_move_up_content_module_path(mod.content, mod), data: { toggle: 'tooltip' }, title: 'Move up', remote: true, class: 'btn return-arrow' do %>
+              <i class="fas fa-arrow-up"></i>
+            <% end %>
+          <% end %>
+          <% if mod.position ==  @content.content_modules.count %>
+            <a class='btn return-arrow'><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
+          <% else %>
+            <%= link_to content_move_down_content_module_path(mod.content, mod), data: { toggle: 'tooltip' }, title: 'Move down', remote: true, class: 'btn return-arrow' do %>
+              <i class="fas fa-arrow-down"></i>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="module-card-footer">
+        <% if mod.logistics.present? %>
+          <div class='content-logistics'>
+            <p class='logistics-label'>Logistics:</p><br>
+            <ul><li><%= mod.logistics %></li></ul>
+          </div>
+        <% end %>
+        <% if !mod.action1.nil? && !mod.action2.nil? %>
+          <div class='content-actions'>
+          <p class='logistics-label'>Actions:</p>
+           <ul><li><%= mod.action1.name %></li></ul>
+           <ul><li><%= mod.action2.name %></li></ul>
+         </div>
+        <% elsif !mod.action1.nil? %>
+          <div class='content-actions'>
+          <p class='logistics-label'>Actions:</p>
+           <ul><li><%= mod.action1.name %></li></ul>
+         </div>
+        <% elsif !mod.action2.nil? %>
+          <div class='content-actions'>
+          <p class='logistics-label'>Actions:</p>
+           <ul><li><%= mod.action2.name %></li></ul>
+         </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<!-- Modal -->
+
+
+<div class="modal fade" id="theories" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+    <%= @content.theories.map(&:name).join(",")%>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div id="modal-title" style=" display: flex; justify-content: space-between;">
+          <h3 class="modal-title" id="myModalLabel"><%= @content.title %></h3>
+        </div>
+        <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="modalNewBookinBody">
+        <div class="theories-list">
+          <div class="theories-listed">
+            <p><b>Theories linked to workshop:</b></p>
+            <% @content.theories.each do |theory|%>
+                <%= link_to theory.name, theory_path(theory) %>
+            <% end %>
+          </div>
+          <div class="theory-buttons">
+            <button class='user-fafa' data-toggle='modal' data-target='#newTheoryContent' id="add-theory"><i class="fas fa-plus"></i><p>Theory</p></button>
+            <button class='user-fafa' data-toggle='modal' data-target='#destroyTheoryContent' id="minus-theory"><i class="fas fa-minus"></i><p>Theory</p></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

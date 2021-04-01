@@ -1,0 +1,21 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to users_path, class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Add a user</h3>
+
+  <%= simple_form_for @user do |f| %>
+    <%= f.input :firstname %>
+    <%= f.input :lastname %>
+    <%= f.input :email, placeholder: '' %>
+    <%= f.input :password, placeholder: '' %>
+    <%= f.input :picture, label: 'Photo URL' %>
+    <div class="center-button">
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
+        <i class="fas fa-save"></i>
+      <% end %>
+    </div>
+  <% end %>
+</div>

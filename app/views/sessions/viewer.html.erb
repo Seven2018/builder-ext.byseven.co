@@ -1,0 +1,61 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <h3><%= @session.title %></h3>
+    <h4 style='font-weight: 300;'><%= @session&.date&.strftime("%A, %e %B %Y") %>
+      <%= "from #{@session.start_time.hour}:#{@session.start_time.min}0 to" if @session.start_time.min.to_s.length == 1 %>
+      <%= "from #{@session.start_time.hour}:#{@session.start_time.min} to" if @session.start_time.min.to_s.length == 2 %>
+      <%= "#{@session.end_time.hour}:#{@session.end_time.min}0" if @session.start_time.min.to_s.length == 1 %>
+      <%= "#{@session.end_time.hour}:#{@session.end_time.min}" if @session.start_time.min.to_s.length == 2 %>
+    </h4>
+  </div>
+  <div id="workshops-viewer">
+    <div id="items-viewer">
+      <% if @session.workshops.empty? %>
+        <div class="empty-mod">
+          <p> <i class="fas fa-plus-circle"></i> </p>
+          <p> <%= "Please add content" %> </p>
+        </div>
+      <% else %>
+        <% @session.workshops.each do |mod| %>
+        <% if mod.position == 1 %>
+          <% @start = @session.start_time %>
+        <% else %>
+          <% @duration = @session.workshops.find_by(position: (mod.position - 1 )).duration.minutes %>
+          <% @start += @duration %>
+        <% end %>
+        <div class="card card-mods" data-item-id="<%= mod.id %>">
+          <a id='<%= mod&.id %>' class="session-view-mode-anchor"></a>
+          <div class="card-left align-elements-in-flexbox">
+            <div class="mod-time">
+              <%= @start.strftime("%H:%M") %>
+              <div class="circle"></div>
+            </div>
+          </div>
+          <div class="card-right card-right-viewer">
+            <div class="card-category">
+              <%= link_to training_session_workshop_viewer_path(mod.session.training, mod.session, mod), class: 'stretched-link' do %>
+                <div>
+                  <h4><%= mod.title %></h4>
+                  <div class="card-description grabbable">
+                    <ul>
+                      <% mod.workshop_modules.order('position ASC').compact.each do |workmod| %>
+                        <li>
+                          <%= workmod.title %>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+              <% end %>
+              <% if @error %>
+                <p class='error'>Attention au rythme</p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+

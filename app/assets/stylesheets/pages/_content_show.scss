@@ -1,0 +1,341 @@
+.workshop-title-details {
+  margin-left: 20px;
+}
+
+
+#content-mods {
+  margin: 3rem 0;
+}
+
+.module-card {
+  box-shadow: 1px 1px 1.5rem rgba(0, 0, 0, 0.3);
+  margin: 5rem 5rem;
+  padding: 2rem;
+  position: relative;
+  overflow: visible;
+
+  &:hover {
+    box-shadow: 1px 0px 2rem 1rem rgba(0, 0, 0, 0.2);
+  }
+}
+
+.module-card-main {
+  background-color: white;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.module-card-footer {
+  background-color: #F1F3F4;
+  padding: 2rem;
+}
+
+.module-card-infos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  h4 {
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .module-card-instructions {
+    // color: gray;
+    // margin: 1rem 0;
+    // padding: 0 1rem;
+
+    // p, ul {
+    //   margin: 0;
+    // }
+
+    // img {
+    //   max-width: 100%;
+    // }
+    all: initial;
+    max-width: 100%;
+    /* Font */
+    /* Emoji fonts are added to visualise them nicely in Internet Explorer. */
+    font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+    font-size: 14px;
+
+    /* Text color */
+    color: #333;
+
+    /* Remove the background color to make it transparent. */
+    background-color: #fff;
+
+    margin: 20px;
+
+
+    h1 {
+      margin: 17.4167px 0;
+    }
+
+    h2 {
+      margin: 16.1833px 0;
+    }
+
+    p, a, ul, ol, li, span {
+      margin: 13px 0;
+      font-size: 14px;
+    }
+
+    .cke_editable {
+      font-size: 16px;
+      line-height: 1.6;
+
+      /* Fix for missing scrollbars with RTL texts. (#10488) */
+      word-wrap: break-word;
+    }
+
+    blockquote {
+      font-style: italic;
+      font-family: Georgia, Times, "Times New Roman", serif;
+      padding: 2px 0;
+      border-style: solid;
+      border-color: #ccc;
+      border-width: 0;
+    }
+
+    .cke_contents_ltr blockquote {
+      padding-left: 20px;
+      padding-right: 8px;
+      border-left-width: 5px;
+    }
+
+    .cke_contents_rtl blockquote {
+      padding-left: 8px;
+      padding-right: 20px;
+      border-right-width: 5px;
+    }
+
+    a {
+      color: #0782C1;
+    }
+
+    ol,ul,dl {
+      /* IE7: reset rtl list margin. (#7334) */
+      *margin-right: 0px;
+      /* Preserved spaces for list items with text direction different than the list. (#6249,#8049)*/
+      padding: 0 40px;
+    }
+
+    ul {
+      list-style-type: disc;
+    }
+
+    h1,h2,h3,h4,h5,h6 {
+      font-weight: normal;
+      line-height: 1.2;
+    }
+
+    hr {
+      border: 0px;
+      border-top: 1px solid #ccc;
+    }
+
+    img.right {
+      border: 1px solid #ccc;
+      float: right;
+      margin-left: 15px;
+      padding: 5px;
+    }
+
+    img.left {
+      border: 1px solid #ccc;
+      float: left;
+      margin-right: 15px;
+      padding: 5px;
+    }
+
+    pre {
+      white-space: pre-wrap; /* CSS 2.1 */
+      word-wrap: break-word; /* IE7 */
+      -moz-tab-size: 4;
+      tab-size: 4;
+    }
+
+    .marker {
+      background-color: Yellow;
+    }
+
+    span[lang] {
+      font-style: italic;
+    }
+
+    figure {
+      text-align: center;
+      outline: solid 1px #ccc;
+      background: rgba(0,0,0,0.05);
+      padding: 10px;
+      margin: 10px 20px;
+      display: inline-block;
+    }
+
+    figure > figcaption {
+      text-align: center;
+      display: block; /* For IE8 */
+    }
+
+    a > img {
+      padding: 1px;
+      margin: 1px;
+      border: none;
+      outline: 1px solid #0782C1;
+    }
+
+    /* Widget Styles */
+    .code-featured {
+      border: 5px solid red;
+    }
+
+    .math-featured {
+      padding: 20px;
+      box-shadow: 0 0 2px rgba(200, 0, 0, 1);
+      background-color: rgba(255, 0, 0, 0.05);
+      margin: 10px;
+    }
+
+    .image-clean {
+      border: 0;
+      background: none;
+      padding: 0;
+    }
+
+    .image-clean > figcaption {
+      font-size: .9em;
+      text-align: right;
+    }
+
+    .image-grayscale {
+      background-color: white;
+      color: #666;
+    }
+
+    .image-grayscale img, img.image-grayscale {
+      filter: grayscale(100%);
+    }
+
+    .embed-240p {
+      max-width: 426px;
+      max-height: 240px;
+      margin:0 auto;
+    }
+
+    .embed-360p {
+      max-width: 640px;
+      max-height: 360px;
+      margin:0 auto;
+    }
+
+    .embed-480p {
+      max-width: 854px;
+      max-height: 480px;
+      margin:0 auto;
+    }
+
+    .embed-720p {
+      max-width: 1280px;
+      max-height: 720px;
+      margin:0 auto;
+    }
+
+    .embed-1080p {
+      max-width: 1920px;
+      max-height: 1080px;
+      margin:0 auto;
+    }
+
+  }
+}
+
+
+.module-card-controls {
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  display: none;
+  position: relative;
+
+  @include from-large {
+    display: flex;
+    flex-direction: column;
+  }
+
+ div {
+  margin: 2rem 0;
+ }
+}
+
+.module-card-viewer-title {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: blue;
+}
+
+
+.content-logistics {
+  height: auto;
+  display: block;
+  margin-bottom: 1rem;
+
+  .logistics-label {
+    min-width: 7.5rem;
+    margin: 0 !important;
+  }
+
+}
+
+.content-logistics, .content-logistics > div > div {
+  p {
+  color: #D69D29;
+  font-weight: 700;
+  font-size: 17px;
+  }
+  ul {
+    list-style-type: disc;
+    font-size: 15px;
+    color: black;
+    font-weight: 300;
+  }
+}
+
+#content_module_logistics {
+  margin-bottom: 25px;
+}
+
+.content-actions, .content-actions > div > div {
+  p {
+  color: $orange;
+  font-weight: 700;
+  font-size: 17px;
+  }
+  ul {
+    list-style-type: decimal;
+    font-size: 15px;
+    color: black;
+    font-weight: 300;
+  }
+}
+
+.workshop-middle-info-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  h4 {
+    font-weight: 800;
+  }
+}
+
+.theory-buttons {
+  margin-top: 2rem;
+
+  p {
+    margin: 0 0 0 1rem;
+  }
+}

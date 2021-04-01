@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>BuilderX</title>
+    <!-- <script src="/assets/jquery.js" type="text/javascript"></script> -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Asap+Condensed&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <%= favicon_link_tag asset_path('favicon.ico') %>
+    <%= csrf_meta_tags %>
+    <%= action_cable_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script> -->
+    <script src="https://cdn.ckeditor.com/4.13.0/full/ckeditor.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="trix.css"> -->
+    <!-- <script type="text/javascript" src="trix.js"></script> -->
+    <%= stylesheet_pack_tag 'application' %>
+  </head>
+    <body>
+     <div class='<%= "wrapper" unless params[:controller] == "pages" && params[:action] == "home" %>'>
+        <% if params[:controller] == "pages" && params[:action] == "home" %>
+        <% elsif params[:controller] == 'attendees' && params[:action] == !'index'%>
+        <% elsif params[:controller] == 'forms' && params[:action] == 'show' %>
+        <% elsif params[:action] == 'export' %>
+        <% elsif !user_signed_in? %>
+        <% else %>
+          <%= render 'shared/navbar' %>
+          <%= render 'shared/left-navbar' %>
+          <%= render 'shared/left-navbar-mobile' %>
+        <% end %>
+        <%= render 'shared/flashes' %>
+        <%= yield %>
+        <%= javascript_include_tag 'application' %>
+        <%= javascript_pack_tag 'application' %>
+      </div>
+      <%= content_for :render_async %>
+    </body>
+</html>
+
+<!-- Modal -->
+<div class="modal fade" id="contactUs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    {% include contact-modal.html %}
+  </div>
+</div>
+

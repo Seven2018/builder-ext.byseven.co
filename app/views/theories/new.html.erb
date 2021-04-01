@@ -1,0 +1,26 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to theories_path, class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <h3>Add a Theory</h3>
+
+  <%= simple_form_for @theory do |f| %>
+    <%= f.input :name %>
+    <%# f.label :description %>
+    <%# f.cktext_area :description %>
+    <label class="string" style='margin: 1rem 0;'>Description</label>
+    <%= f.rich_text_area :description %>
+    <%# f.label :references %>
+    <%# f.cktext_area :references %>
+    <label class="string" style='margin: 1rem 0;'>References</label>
+    <%# f.cktext_area :instructions %>
+    <%= f.rich_text_area :references %>
+    <div class="center-button">
+      <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon', data: { toggle: 'tooltip' }, title: 'Save' do %>
+        <i class="fas fa-save"></i>
+      <% end %>
+    </div>
+  <% end %>
+</div>

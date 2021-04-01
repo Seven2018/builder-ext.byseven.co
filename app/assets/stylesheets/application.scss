@@ -1,0 +1,22 @@
+// Graphical variables
+@import "config/fonts";
+@import "config/colors";
+// @import "config/bootstrap_variables";
+@import "config/mediaqueries";
+
+// External libraries
+// @import "bootstrap/scss/bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+// Your CSS partials
+@import "components/index";
+@import "pages/index";
+@import "layouts/index";
+@import "pdf";
+@import "material";
+// @import 'easy-autocomplete/dist/easy-autocomplete';
+// @import 'easy-autocomplete/dist/easy-autocomplete.themes';
+// @import '../node_modules/flatpickr/dist/flatpickr.min.css';
+@import "actiontext";
+@import "trix";

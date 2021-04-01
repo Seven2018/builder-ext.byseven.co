@@ -1,0 +1,207 @@
+.form-control {
+  background-image: none !important;
+  padding: 10px !important;
+  font-family: 'Montserrat';
+  input, select {
+    padding: 10px !important;
+  }
+ &:focus, &:hover, &:active &:focus-within {
+  box-shadow: none !important;
+  }
+}
+
+label {
+  font-family: 'Montserrat';
+}
+
+.text {
+  margin-bottom: 5px;
+  font-family: "Montserrat";
+  color: black;
+}
+
+.form-div {
+  position: relative;
+  margin: 5rem 0;
+}
+
+.form-check-input.is-valid + .form-check-label {
+  color: black !important;
+}
+
+.form-label {
+  border: none !important;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  padding-left: 5rem;
+  padding-top: 0.7rem;
+  color: #9DABBA;
+  transition: all 0.4s ease;
+}
+
+.form-label-active {
+  transform: translateY(-3.7rem);
+  color: black;
+  transition: all 0.4s ease;
+}
+
+.label-checkbox {
+  display: flex;
+
+  input {
+    margin-right: 1rem;
+  }
+}
+
+.form-group {
+
+  span {
+    display: flex;
+
+    label {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.copy-form-element {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.copy_rename {
+  width: 100%;
+}
+
+.form-check {
+  display: flex !important;
+  align-items:center !important;
+  margin: 0;
+  padding: 0 !important;
+
+  input {
+    margin-right: 1rem !important;
+  }
+}
+
+.form-check-input {
+  margin-top: 0 !important;
+  margin-right: 3rem !important;
+}
+
+.form_radio_label {
+  width: 100%;
+  label {
+    font-size: 1.6rem !important;
+  }
+}
+
+ /* Customize the label (the container) */
+.radio_container {
+  text-align: left;
+  width: auto;
+  display: block;
+  position: relative;
+  margin-bottom: 12px;
+  cursor: pointer;
+  padding-left: 4rem;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  // @include from-large {
+  //   width: 83rem;
+  // }
+}
+
+.radio_container {
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
+/* Hide the browser's default radio button */
+.radio_container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radio_container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio_container input:checked ~ .checkmark {
+  background-color: $yellow;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio_container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio_container .checkmark:after {
+  top: 8px;
+  left: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: white;
+}
+
+
+form.billing {
+  margin-left: 5rem;
+
+  .form-check {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+#user_remember_me {
+  margin-left: -0.25rem;
+}
+
+#login-div {
+
+  .form-check > label {
+    margin-left: 2rem !important;
+  }
+}

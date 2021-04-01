@@ -1,0 +1,130 @@
+#dashboard-title {
+  text-align: center;
+
+  @include from-large {
+    text-align: left;
+  }
+}
+
+
+.training-cat {
+  margin: 3rem 0 3rem 0;
+  font-size: 2rem;
+  margin-left: 83px;
+  font-size: 28px;
+}
+
+.row {
+  background-color: white;
+}
+
+
+.training-update-text {
+  text-decoration: underline;
+  text-decoration-color: #F9C553;
+}
+
+
+.trainings-title {
+  h3 {
+    margin: 0;
+  }
+
+  @include from-large {
+    flex-direction: row;
+  }
+}
+
+.trainings-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    padding-left: 0px;
+    a {
+    font-family: 'Montserrat';
+    font-size: 15px;
+    }
+}
+
+#training-buttons {
+  display: flex;
+  position: relative;
+
+  @include from-large {
+    display: flex;
+  }
+
+  a {
+    margin-left: 2rem;
+  }
+}
+
+.search-close {
+  position: absolute;
+  right: 1rem;
+  top: 0.9rem;
+}
+
+#trainings_user_filter {
+
+  .avatar-sm {
+
+    &:hover {
+      opacity: 1 !important;
+    }
+  }
+
+  a {
+    margin-right: 1rem;
+  }
+}
+
+.training_index_controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  p {
+    margin: 0 0 0 5px;
+  }
+
+  a {
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.428572;
+  }
+
+  i {
+    margin-left: 5px;
+  }
+}
+
+.trainings-row {
+  min-height: 25rem;
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  background-color: white;
+  margin-right: 0;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+.trainings-row::-webkit-scrollbar {
+  display: none;
+}
+
+.trainings-row.active {
+  background: rgba(255,255,255,0.3);
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  transform: scale(1);
+}

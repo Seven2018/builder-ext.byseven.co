@@ -1,0 +1,15 @@
+.invoice_items_grid {
+  width: 2000px;
+
+  th, td {
+    border: solid 1px black;
+    text-align: center;
+  }
+}
+
+.invoice_items_grid > thead > tr {
+
+  th {
+    width: 100px;
+  }
+}

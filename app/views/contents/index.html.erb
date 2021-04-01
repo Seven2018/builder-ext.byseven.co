@@ -1,0 +1,164 @@
+<div class="container-seven-large container-seven-large-centered">
+  <div id='page-index'>
+    <div id="page-controls">
+      <h1>Workshops List</h1>
+      <div id="page-buttons">
+        <%= simple_form_for :search, url: contents_path, method: 'GET' do |f| %>
+          <% if params[:search] %>
+            <%= f.input :title, placeholder: params[:search][:title], label: false %>
+            <%= link_to contents_path, class: 'search-close' do %>
+              <i class="far fa-times-circle"></i>
+            <% end %>
+          <% else %>
+            <%= f.input :title, placeholder: 'Search', label: false %>
+          <% end %>
+        <% end %>
+        <%= link_to new_content_path do %>
+          <button class="btn btn-edit-yellow">New workshop</button>
+        <% end %>
+      </div>
+    </div>
+    <% if params[:search].present? %>
+      <div id='content-index'>
+        <% Theme.walk_tree do |theme, level| %>
+          <% if theme.contents.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%").present? %>
+            <div class="content-index-theme">
+              <div class="content-index-theme-title">
+                <a class='btn-link'><i class="fas fa-angle-down"></i></a>
+                <p><%= theme.name %></p>
+              </div>
+              <div class="content-index-nested collapse">
+                <% theme.contents.where("lower(title) LIKE ?", "%#{params[:search][:title].downcase}%").order(title: :asc).each do |content| %>
+                  <div class="content-index-card">
+                    <%= link_to content_path(content) do %>
+                      <span class="content-index-card-title"><strong><%= content.title %></strong></span>
+                      <% if !content.theories.nil? %>
+                        <div class="content-index-card-theories">
+                          <% if content.theories.count <= 1 %>
+                            <p><%= content.theories.first&.name %></p>
+                          <% else %>
+                            <p data-toggle="tooltip" title="<%= content.theories&.map(&:name).join(', ') %>"><%= content.theories.first.name %> +</p>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% elsif theme.level == 0 && theme.children != [] %>
+            <div><p><%= theme.name %></p>
+              <div class="content-index-nested">
+                <% theme.children.each do |subtheme| %>
+                  <div><%= subtheme.name %>
+                    <div class="content-index-nested">
+
+                      <% subtheme.contents.each do |content| %>
+                        <div><%= link_to content.title, content_path(content) %></div>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div id='content-index'>
+        <% Theme.walk_tree do |theme, level| %>
+          <% if theme.children.empty? && theme.level == 0 && !['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
+            <div class="content-index-theme">
+              <div class="content-index-theme-title">
+                <a class='btn-link'><i class="fas fa-angle-down"></i></a>
+                <p><%= theme.name %></p>
+              </div>
+              <div class="content-index-nested collapse">
+                <% theme.contents.order(title: :asc).each do |content| %>
+                  <div class="content-index-card">
+                    <%= link_to content_path(content) do %>
+                      <span class="content-index-card-title"><strong><%= content.title %></strong></span>
+                      <% if !content.theories.nil? %>
+                        <div class="content-index-card-theories">
+                          <% if content.theories.count <= 1 %>
+                            <p><%= content.theories.first&.name %></p>
+                          <% else %>
+                            <p data-toggle="tooltip" title="<%= content.theories&.map(&:name).join(', ') %>"><%= content.theories.first.name %> +</p>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% elsif theme.level == 0 && theme.children != [] %>
+            <div><p><%= theme.name %></p>
+              <div class="content-index-nested">
+                <% theme.children.each do |subtheme| %>
+                  <div><%= subtheme.name %>
+                    <div class="content-index-nested">
+
+                      <% subtheme.contents.each do |content| %>
+                        <div><%= link_to content.title, content_path(content) %></div>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <div id='myUL'>
+        <% @themes.each do |theme| %>
+          <% if ['Ice breaker', 'Présentation', 'Conclusion'].include?(theme.name) %>
+            <div class="content-index-theme">
+              <div class="content-index-theme-title">
+                <a class='btn-link'><i class="fas fa-angle-down"></i></a>
+                <p><%= theme.name %></p>
+              </div>
+              <div class="content-index-nested collapse" id="collapse<%= theme.id %>">
+                <% theme.contents.order(title: :asc).each do |content| %>
+                  <div class="content-index-card">
+                    <%= link_to content_path(content) do %>
+                      <span class="content-index-card-title"><strong><%= content.title %></strong></span>
+                      <% if !content.theories.nil? %>
+                        <span class="content-index-card-theories">
+                          <% content.theories.order('name ASC').each do |theory| %>
+                            <%= theory.name %>
+                          <% end %>
+                        </span>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<%= javascript_pack_tag 'tree' %>
+
+<script>
+  const allCarets = document.querySelectorAll('.caret');
+  allCarets.forEach(element => {
+    element.addEventListener('click', event => {
+      element.classList.toggle('rotated180');
+    })
+  })
+</script>
+<script>
+  $('.content-index-theme-title').on('click', function(){
+    if($(this).parent().children('.collapse').hasClass('show')) {
+      $(this).parent().children('.collapse').collapse('hide');
+    } else {
+      $(this).parent().children('.collapse').collapse('show');
+    }
+  });
+</script>

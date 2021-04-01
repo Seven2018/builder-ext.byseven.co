@@ -1,0 +1,29 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to content_path(@content_module.content), class: 'return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <div class="middle-info-workshop">
+    <h4><%= @content_module.title %> - <i class="fas fa-stopwatch fa-1x"></i> <%= @content_module.duration %> min</h4>
+    <br>
+    <p><%= @content_module.instructions %></p>
+    <% if @content_module.comments && @content_module.comments != "" %>
+      <p>Comments : <%= @content_module.comments %></p>
+    <% end %>
+    <div class='content-logistics'>
+      <p class='logistics-label'>Logistics: </p>
+     <ul><li><%= @content_module.logistics.html_safe %></li></ul>
+    </div>
+    <div class="content-actions">
+      <% if @content_module.action1 %>
+        <p class='logistics-label'>Actions:</p>
+        <ul><li> <%= @content_module.action1.name %></li></ul>
+      <% end %>
+    </div>
+    <% if @content_module.action2 %>
+      <p class='logistics-label'></p>
+      <ul><li> <%= @content_module.action2.name %></li></ul>
+    <% end %>
+  </div>
+</div>

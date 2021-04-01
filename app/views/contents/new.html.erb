@@ -1,0 +1,16 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <%= link_to contents_path, class: 'btn return-arrow' do %>
+      <i class="fas fa-arrow-left"></i>
+    <% end %>
+  </div>
+  <div class="container-new-form">
+    <h3>Add a new Workshop</h3>
+
+    <%= simple_form_for @content do |f| %>
+      <%= f.input :title %>
+      <%= f.association :theme, collection: Theme.order('name ASC'), include_blank: false, allow_blank: false %>
+      <p class="center-button"> <%= f.button :submit, 'Save', class: 'btn btn-edit-yellow' %> </p>
+    <% end %>
+  </div>
+</div>

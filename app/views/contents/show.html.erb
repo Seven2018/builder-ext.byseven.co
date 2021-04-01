@@ -1,0 +1,53 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <div class="workshop-title">
+      <%= link_to contents_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+       <div class="workshop-title-details">
+        <h4><%= @content.title %> - <i class="fas fa-stopwatch fa-1x"></i> <%= @content.duration %> min</h4>
+        <% if @content.theme %>
+          <p><%= @content.theme.name %></p>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <%= link_to new_content_content_module_path(@content) do %>
+        <button class="btn btn-edit-yellow">New Module</button>
+      <% end %>
+    </div>
+  </div>
+
+    <!-- <a class="edit-fafa" data-toggle='modal' data-target='#viewImage'><img src="<%= @content.description %>" alt="" style='height:15rem;'></a> -->
+  <div class="show-control-links">
+    <div class="page-controls-buttons">
+      <a class="btn btn-edit-green btn-icon" data-toggle='modal' data-target='#editContent' title='Copy'><i class="fas fa-pen"></i></a>
+    </div>
+    <div class="theory-buttons">
+      <div class="theories-hover">
+        <% @content.theories.each do |theory|%>
+          <%= link_to theory.name, theory_path(theory) %>
+        <% end %>
+        <% unless @content.theories.present? %>
+          <p>Add a Theory</p>
+        <% end %>
+        <a data-toggle='modal' data-target='#newTheoryContent'><i class="fas fa-plus"></i></a>
+        <a data-toggle='modal' data-target='#destroyTheoryContent'><i class="fas fa-minus"></i></a>
+      </div>
+    </div>
+  </div>
+  <div id="content-mods">
+    <%= render 'content_modules/index', content: @content %>
+  </div>
+</div>
+
+
+<div class="modal fade" id="destroyTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+    <%= render 'theory_contents/destroy', theory_content: @theory_content %>
+  </div>
+</div>
+
+<div class="modal fade" id="newTheoryContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="border-radius: 2rem">
+    <%= render 'theory_contents/new', theory_content: @theory_content %>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="container-seven-large">
+  <div id='page-controls'>
+    <% if request.referer.present? && (request.referer.include?('contents') || request.referer.include?('workshops')) %>
+      <%= link_to request.referer.present? ? request.referer : default_path, class: 'btn return-arrow' do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
+    <% else %>
+      <%= link_to theories_path, class: 'btn return-arrow' do %><i class="fas fa-arrow-left"></i><% end %>
+    <% end %>
+    <div class="show-control-links">
+      <%= link_to edit_theory_path, data: { toggle: 'tooltip' }, title: 'Edit', class: 'btn btn-edit-green btn-icon' do %>
+        <i class="fas fa-pen"></i>
+      <% end %>
+    </div>
+  </div>
+  <h3><%= @theory.name %></h3>
+  <div class='theory-description'><%= @theory.description.html_safe unless @theory.description.nil?%></div>
+  <p class='theory-show-references'><%= @theory.references.html_safe unless @theory.references.nil? %></p>
+  <br>
+  <h4>Workshops</h4>
+  <div style='display: flex;flex-direction:column;'>
+    <% @theory.contents.order(:title).each do |content| %>
+      <%= link_to content.title, content_path(content) %>
+    <% end %>
+  </div>
+</div>

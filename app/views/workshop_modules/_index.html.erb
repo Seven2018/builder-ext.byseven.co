@@ -1,0 +1,90 @@
+<div class="workshop-middle-info-main">
+  <h2>Modules</h2>
+</div>
+<% unless @workshop.workshop_modules.present? %>
+  <div class="no-workshop">
+   <h5>Sorry, there are no modules for this workshop.</h5>
+   <h5>Create a module  <%= link_to new_training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop)do %> <u>here.</u><% end %>
+  </h5>
+  </div>
+<% else %>
+  <% @workshop.workshop_modules.order('position ASC').each do |mod| %>
+    <div class='module-card'>
+      <div class="module-card-main">
+        <div class="module-card-infos">
+          <h4><%= link_to mod.title, training_session_workshop_workshop_module_path(@workshop.session.training, @workshop.session, @workshop, mod) %></h4>
+          <% if mod.instructions != ''  %>
+            <div class='module-card-instructions'><%= mod.instructions %></div>
+          <% end %>
+        </div>
+          <div class='module-card-controls'>
+            <% if mod.user %>
+              <a data-toggle='modal' data-target='#consultUser<%= mod.user.id %>'><img src='<%= "#{mod.user.picture}" %>' alt="" class='avatar-sm avatar-workshop-module-card'></a>
+            <% end %>
+            <p><%= mod.duration %> min</p>
+            <%= link_to edit_training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), data: { toggle: 'tooltip' }, title: 'Edit', class: 'btn return-arrow' do %>
+              <i class="fas fa-pen"></i>
+            <% end %>
+              <%= link_to training_session_workshop_copy_form_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), class: 'btn return-arrow', data: { toggle: 'tooltip' }, title: 'Copy' do %>
+                <i class="fas fa-copy"></i>
+              <% end %>
+              <%= link_to training_session_workshop_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), method: :delete, data: { toggle: 'tooltip', confirm: 'Are you sure ?'}, title: 'Delete', class: 'btn return-arrow' do %>
+                <i class="fas fa-trash-alt"></i>
+              <% end %>
+              <% if mod.position == 1 %>
+                <a class='btn return-arrow'><i class="fas fa-arrow-up" style='color:grey;cursor:default;'></i></a>
+              <% else %>
+                <%= link_to training_session_workshop_move_up_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), remote: true, data: { toggle: 'tooltip' }, title: 'Move up', class: 'btn return-arrow' do %>
+                  <i class="fas fa-arrow-up"></i>
+                <% end %>
+              <% end %>
+              <% if mod.position ==  @workshop.workshop_modules.count %>
+                <a class='btn return-arrow'><i class="fas fa-arrow-down" style='color:grey;cursor:default;'></i></a>
+              <% else %>
+                <%= link_to training_session_workshop_move_down_workshop_module_path(mod.workshop.session.training, mod.workshop.session, mod.workshop, mod), remote: true, data: { toggle: 'tooltip' }, title: 'Move down', class: 'btn return-arrow' do %>
+                  <i class="fas fa-arrow-down"></i>
+                <% end %>
+              <% end %>
+
+          </div>
+      </div>
+      <div class="module-card-footer">
+        <% if mod.logistics.present? %>
+          <div class='content-logistics'>
+            <p class='logistics-label'>Logistics:</p><br>
+            <ul><li><%= mod.logistics %></li></ul>
+          </div>
+        <% end %>
+        <% if !mod.action1.nil? && !mod.action2.nil? %>
+          <div class='content-actions'>
+          <p class='logistics-label'>Actions:</p>
+           <ul><li><%= mod.action1.name %></li></ul>
+           <ul><li><%= mod.action2.name %></li></ul>
+         </div>
+        <% elsif !mod.action1.nil? %>
+          <div class='content-actions'>
+          <p class='logistics-label'>Actions:</p>
+           <ul><li><%= mod.action1.name %></li></ul>
+         </div>
+        <% elsif !mod.action2.nil? %>
+          <div class='content-actions'>
+          <p class='logistics-label'>Actions:</p>
+           <ul><li><%= mod.action2.name %></li></ul>
+         </div>
+        <% end %>
+      </div>
+    </div>
+
+
+
+
+    <!-- Modals -->
+    <% unless mod.user.nil? %>
+      <div class="modal fade" id="consultUser<%= mod.user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document" style="border-radius: 2rem">
+          <%= render 'users/consult', user: mod.user %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,26 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= @user.firstname %></h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <%= simple_form_for @user do |f| %>
+      <%= f.input :firstname %>
+      <%= f.input :lastname %>
+      <%= f.input :email %>
+      <%= f.input :picture, label: 'Photo URL' %>
+      <div style=" display: flex; justify-content: space-between;">
+        <%= button_tag type: 'submit', class: 'btn btn-edit-green btn-icon' do %>
+          <i class="fas fa-save"></i>
+        <% end %>
+        <%= link_to user_path(@user), method: :delete, data: { confirm: 'Are you sure ?'} do %>
+          <button class="btn btn-edit-red btn-icon">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

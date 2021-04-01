@@ -1,0 +1,18 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div id="modal-title" style=" display: flex; justify-content: space-between;">
+      <h3 class="modal-title" id="myModalLabel"><%= "Remove a theory" %></h3>
+    </div>
+    <button type="button" class="btn btn-icon-close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="modalNewBookinBody">
+    <%= simple_form_for [@content, @theory_content], url: content_theory_content_path(@content), method: :delete do |f| %>
+        <%= f.input :theory, :collection => @content.theories, :label_method => :name, include_blank: false %>
+  </div>
+  <div class="modal-footer" id="modalNewBookingFooter">
+    <div>
+      <%= f.button :submit, "Remove", class: 'btn btn-edit-yellow' %>
+      <% end %>
+    </div>
+  </div>
+</div>

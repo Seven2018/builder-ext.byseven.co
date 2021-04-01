@@ -1,0 +1,240 @@
+.training-show-title {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-top: 2rem;
+  h1 {
+    margin: 0;
+  }
+  h1, .control-buttons {
+    height: 5rem;
+  }
+  .control-buttons {
+    display: flex;
+    align-items: center;
+    width: auto;
+    a {
+      margin: 0 0.5rem;
+    }
+  }
+}
+
+.training-info {
+  background-color: white;
+  text-align: center;
+  margin-bottom: 5rem;
+
+  @include from-large {
+    text-align: left;
+  }
+}
+
+.page-controls-buttons {
+  display: none;
+
+  @include from-large {
+    position: relative;
+    display: flex;
+    vertical-align: middle;
+  }
+
+  .dropdown-menu {
+    width: 17rem;
+    position: absolute;
+    right: -5rem;
+    padding: 0;
+  }
+
+  .calendar_message {
+    color: #E64259;
+    margin: 0 10px 0 0;
+  }
+
+  .airtable_message {
+    color: #FDC553;
+    margin: 0 10px 0 0;
+  }
+}
+
+.training-info-footer {
+  display: flex;
+  justify-content: center;
+  z-index: 1001;
+  margin-bottom: 5rem;
+
+  @include from-large {
+    justify-content: flex-end;
+  }
+}
+
+.sessions-cards {
+  text-align: center;
+
+  a {
+    text-decoration: none;
+  }
+
+  @include from-large {
+    margin: 4rem 0px;
+  }
+}
+
+.invalid-feedback {
+  color: red;
+}
+
+.user-manager {
+  margin: 0 0.5rem;
+}
+
+#update-modal {
+  background-color: white;
+}
+
+.middle-info {
+  display: flex;
+  margin-bottom: 1rem;
+  justify-content: space-between;
+  flex-direction: column;
+
+
+  div > h4 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 0 0 1rem 0;
+
+    @include from-large {
+      margin: 0;
+      text-align: left;
+    }
+  }
+
+  h3 {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+  }
+  li {
+    font-size: 2rem;
+  }
+
+  @include from-large {
+    flex-direction: row;
+    width: 100%;
+
+    h3 {
+      margin: 0;
+    }
+  }
+}
+
+.middle-info-user {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+
+  div {
+    margin-bottom: 1rem;
+  }
+}
+
+.middle-info2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5.2rem;
+
+  div > h4 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 0;
+    margin-top: 3.0.5rem !important;
+    margin-bottom: 0.5rem !important;
+
+    @include from-large {
+      text-align: right;
+    }
+  }
+
+  p{
+    margin: 0;
+  }
+
+  form {
+    width: 33%;
+  }
+
+  .trainer-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include from-large {
+      justify-content: flex-end;
+    }
+  }
+}
+
+.middle-info-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: center;
+  min-height: 63px;
+
+  @include from-large {
+    text-align: left;
+    width: 60%;
+  }
+
+  h3, p {
+    padding-right: 2rem;
+    margin: 0;
+  }
+  @include from-medium {
+
+  }
+}
+
+#owner, #writer, #trainer {
+  font-size: 2rem;
+  font-weight: 300;
+  margin: 0;
+  padding: 0 !important;
+  list-style: none;
+  margin-bottom: 1rem;
+
+  li {
+    float:left;
+    margin: 0 0.5rem;
+
+  }
+}
+
+#owner-session-index {
+  font-size: 2rem;
+  font-weight: 300;
+
+  li {
+    display: inline-block;
+    margin: 0 0.5rem;
+  }
+}
+
+.fa-arrow-left {
+  font-size: 3rem;
+}
+
+#dropdownMenuButton::after, #dropdownNotificationButton::after {
+  content: none !important;
+}
+
+#add-session-button {}
+
+// SURVEY FORM
+#survey-link {
+  text-transform: none !important;
+  background-color: white !important;
+}

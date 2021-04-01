@@ -1,0 +1,33 @@
+<div class="row" style="background-color: white; margin-right: 0;">
+  <% @trainings.each do |training| %>
+    <div class="col-xs-12 col-sm-6 col-md-4" style="display: flex; justify-content: center;">
+      <div class="training-card" id="card-index">
+        <div class="training-card-main">
+          <%= link_to training_path(training), class: 'stretched-link' do %>
+            <h4 style='max-width: 18rem;'><%= training.title %></h4>
+            <div class="training-card-infos">
+              <% sessions = training.sessions %>
+              <div class='training-card-infos-elements'>
+                <% if sessions.count == 1 %>
+                  <i class="far fa-calendar-alt"></i><%= "  On #{sessions.first.date.strftime('%d/%m/%y')}" %>
+                <% else %>
+                  <i class="far fa-calendar-alt"></i><%= "  From #{sessions.order(date: :asc).first.date&.strftime('%d/%m/%y')} to #{sessions.order(date: :asc).last.date&.strftime('%d/%m/%y')}" %>
+                <% end %>
+                <br>
+                <i class="far fa-calendar-check"></i>
+                <%= training.sessions.count.to_s + " " + "Sessions" %>
+              </div>
+            </div>
+            <% users_list = [training.owners + training.writers + training.trainers].flatten.uniq.first(3) %>
+            <% u = 1 %>
+            <% users_list.each do |user| %>
+            <img class="avatar-sm training-card-user training-card-user-<%= u %>" src="<%= user.picture %>" onerror='this.onerror=null;this.src="<%= asset_url('empty-avatar.png', type: :image) %>";'>
+            <% u += 1 %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
